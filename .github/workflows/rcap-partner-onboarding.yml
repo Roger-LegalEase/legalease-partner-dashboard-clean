@@ -36,6 +36,13 @@ jobs:
       fail-fast: false
       matrix:
         group: [a, b, c, d, e, f, g]
+        # GA-17 DC/FL grows with every route R1 adds (31 cases now, about 198 at the end: GA1217,
+        # 2026-10-21), past what one 120-minute leg holds, so it runs as its own --shard=i/n legs.
+        include:
+          - { group: ga17-0, shard: 0/4 }
+          - { group: ga17-1, shard: 1/4 }
+          - { group: ga17-2, shard: 2/4 }
+          - { group: ga17-3, shard: 3/4 }
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -207,7 +214,6 @@ jobs:
           node scripts/test-ny-16059-owned-completion.mjs
           node scripts/test-ny-16059-current-document-review.mjs --inputs-only
           node scripts/test-ny-16059-transaction-associations.mjs
-          node scripts/test-ga17-dc-fl-record-history.mjs --shard=1/2
 
       - name: Verify nationwide correction boundaries (group c)
         if: matrix.group == 'c'
@@ -324,7 +330,6 @@ jobs:
           node scripts/test-ga17-ca-tool4-record-history.mjs
           node scripts/test-ga17-co-record-history.mjs
           node scripts/test-ga17-dc-felony-record-history.mjs
-          node scripts/test-ga17-dc-fl-record-history.mjs --shard=0/2
 
       - name: Verify nationwide correction boundaries (group g)
         if: matrix.group == 'g'
@@ -344,6 +349,14 @@ jobs:
           node scripts/verify-va-regime-1-caption-and-dead-end.mjs
           node scripts/test-va-victim-memo-tamper-control.mjs
 
+      # The test asserts that the n legs run every case exactly once between them. Without
+      # GA17_SHARD (a local sweep of this file) the line runs every case.
+      - name: Verify GA-17 DC/FL record history (shard ${{ matrix.shard }})
+        if: matrix.shard
+        env:
+          GA17_SHARD: ${{ matrix.shard }}
+        run: |
+          node scripts/test-ga17-dc-fl-record-history.mjs --shard="${GA17_SHARD:-0/1}"
 
       # Every deterministic onboarding verifier, through the one entry point that also
       # fails when a verifier exists that no group owns.
