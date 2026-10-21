@@ -4,7 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {validateMdFavorable, BASIS_FIELDS} from '../rcap-packet-recovery/chat5/md-favorable.mjs';
-import {prepareMdNativeFixture, MD_NATIVE_FAMILY, MD_NATIVE_DIRECTORY} from '../rcap-packet-completeness/md-favorable-native-candidate.mjs';
+import {prepareMdNativeFixture, assertMdA46Review, MD_NATIVE_FAMILY, MD_NATIVE_DIRECTORY} from '../rcap-packet-completeness/md-favorable-native-candidate.mjs';
 
 export const MD_FAVORABLE_FAMILY = MD_NATIVE_FAMILY;
 export const MD_FAVORABLE_DIRECTORY = MD_NATIVE_DIRECTORY;
@@ -18,15 +18,15 @@ export const MD_FAVORABLE_FIXTURES = Object.freeze([
 const FAMILY = MD_FAVORABLE_FAMILY, OUT = MD_FAVORABLE_DIRECTORY, ROUTE = MD_FAVORABLE_ROUTE;
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const FORM = 'CC-DC-CR-072A';
-const SOURCE = 'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf';
-const SOURCE_SHA = '8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2';
+const SOURCE = 'reference/md-law-2026-10-21/CC-DC-CR-072A.pdf';
+const SOURCE_SHA = '04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90';
+const EDITION = '10/01/2026';
 const HELPER = 'scripts/rcap-packet-recovery/chat5/md-favorable.mjs';
-const HELPER_BLOB = '4f7f87558c98691b1ff77825ede2f13dbf7ebd7c';
+const HELPER_BLOB = '869fea456c66740974eb99468f2d26b53e7536ae';
 const BINDING = 'scripts/rcap-packet-completeness/md-reviewed-candidate-inputs.json';
-const BINDING_SHA = 'b5006d7fd203571627af2dbc4cd4bf68a0086b5ba89b045738655f36a9ba0ca9';
+const BINDING_SHA = 'bffbda050c8ad74186613748d376851ef987090473ac55427a0f9a59cbb00c86';
 const ADAPTER = 'scripts/rcap-packet-completeness/md-favorable-native-candidate.mjs';
-const ADAPTER_SHA = '2c0cb8fb3e2d754184b32289ceba64509ede75e704fe65386188e8a78267a4f3';
-const REVIEW = 'data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/';
+const ADAPTER_SHA = '39bbf89909dde5ea29973f76df8f886c29fc142e300d1f84c72045e29ba9f6d5';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const blob = bytes => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 const serialize = value => `${JSON.stringify(value, null, 2)}\n`;
@@ -68,7 +68,7 @@ export function bindDeclaredMdFavorableDelivery(record, family, options = {}) {
   assert.equal(sha(bindingBytes), BINDING_SHA, 'MD reviewed manifest mismatch');
   const manifest = JSON.parse(bindingBytes);
   assert.equal(manifest.familyId, FAMILY);
-  assert.equal(manifest.files.length, 56, 'Incomplete MD reviewed member inventory');
+  assert.equal(manifest.files.length, 53, 'Incomplete MD reviewed member inventory');
   const bytes = new Map();
   for (const member of manifest.files) {
     assert.ok(!bytes.has(member.path), 'Duplicate MD reviewed member');
@@ -80,17 +80,11 @@ export function bindDeclaredMdFavorableDelivery(record, family, options = {}) {
   assert.equal(sha(read(ADAPTER)), ADAPTER_SHA, 'Reviewed MD source-role adapter changed');
   assert.equal(blob(bytes.get(HELPER)), HELPER_BLOB, 'Accepted MD chronology helper changed');
   const get = file => { assert.ok(bytes.has(file), `Unbound MD candidate input: ${file}`); return JSON.parse(bytes.get(file)); };
-  const original = get(REVIEW + 'md-independent-review.json').rows.find(row => row.familyId === FAMILY);
-  const delta = get(REVIEW + 'md-guard-delta-03.json').rows.find(row => row.familyId === FAMILY);
-  assert.equal(original.suppliedPdfVerdict, 'PASS_REVIEWED_FIXTURES');
-  assert.equal(delta.verdict, 'PASS');
-  assert.deepEqual(delta.failedObligations, []);
-  assert.equal(delta.measuredIdentities.newHelperGitBlob, HELPER_BLOB);
   const receipt = get(`${OUT}/source-receipt.json`);
   assert.equal(receipt.officialFormId, FORM);
   assert.equal(receipt.sourcePath, SOURCE);
   assert.equal(receipt.sha256, SOURCE_SHA);
-  assert.equal(receipt.edition, '09/2025');
+  assert.equal(receipt.edition, EDITION);
   assert.equal(receipt.sourcePageCount, 1);
   assert.equal(sha(bytes.get(SOURCE)), SOURCE_SHA);
   const reportPath = `${OUT}/reports/rendered-artifacts.json`, report = get(reportPath);
@@ -100,8 +94,11 @@ export function bindDeclaredMdFavorableDelivery(record, family, options = {}) {
   assert.equal(report.pdfs.length, MD_FAVORABLE_FIXTURES.length);
   assert.equal(new Set(report.pdfs.map(d => d.fixture)).size, MD_FAVORABLE_FIXTURES.length);
   assert.deepEqual(report.pdfs.map(d => d.fixture).sort(), [...MD_FAVORABLE_FIXTURES].sort(), 'Incomplete MD fixture inventory');
+  const a46Review = assertMdA46Review({files: manifest.files, read: file => { assert.ok(bytes.has(file), `Unbound MD candidate input: ${file}`); return bytes.get(file); },
+    familyId: FAMILY, helperPath: HELPER, helperBlob: HELPER_BLOB, source: {documentId: FORM, path: SOURCE, sha256: SOURCE_SHA, edition: EDITION},
+    pdfs: report.pdfs.map(d => ({file: d.file, sha256: d.sha256, bytes: d.byteLength, pages: d.pageCount}))});
   const census = get(`${OUT}/official-field-census.json`), fieldMap = get(`${OUT}/production-field-map.json`);
-  assert.equal(census.length, 47);
+  assert.equal(census.length, 48);
   const fixtureBindings = [];
   for (const artifact of report.pdfs) {
     const inputPath = `${OUT}/fixtures/${artifact.fixture}.facts.json`;
@@ -110,7 +107,7 @@ export function bindDeclaredMdFavorableDelivery(record, family, options = {}) {
     assert.equal(facts.isSyntheticFixture, true, 'MD candidate is synthetic evidence');
     const checked = validated(facts);
     const prepared = prepareMdNativeFixture({fixture: artifact.fixture, census, fieldMap, report: native, checked, basisFields: BASIS_FIELDS});
-    assert.equal(prepared.ledger.length, 47);
+    assert.equal(prepared.ledger.length, 48);
     assert.equal(native.inputPath, `fixtures/${artifact.fixture}.facts.json`);
     assert.equal(native.inputSha256, sha(bytes.get(inputPath)), 'MD facts/report mismatch');
     assert.equal(native.sourcePath, SOURCE);
@@ -144,7 +141,7 @@ export function bindDeclaredMdFavorableDelivery(record, family, options = {}) {
       syntheticFixture: true, participantExecutionCompleted: false, filingPermitted: false, grantsDeliveryAuthority: false});
   }
   assert.equal(fixtureBindings.reduce((n, f) => n + f.pageCount, 0), 60);
-  assert.equal(fixtureBindings.reduce((n, f) => n + f.sourceFieldAccounting.total, 0), 705);
+  assert.equal(fixtureBindings.reduce((n, f) => n + f.sourceFieldAccounting.total, 0), 720);
   const result = structuredClone(record);
   result.runtimeInstalled = false;
   result.currentState.runtimeSelectable = false;
@@ -159,9 +156,9 @@ export function bindDeclaredMdFavorableDelivery(record, family, options = {}) {
     explicitSelectionRequired: true, defaultBranch: null, runtimeInstalled: false,
     reviewInputBinding: {file: BINDING, sha256: BINDING_SHA, filesMeasured: bytes.size},
     sourceRoleAdapter: {file: ADAPTER, sha256: ADAPTER_SHA}, acceptedHelperGitBlob: HELPER_BLOB,
-    independentCandidateReview: structuredClone(manifest.review),
+    independentCandidateReview: {...structuredClone(manifest.review), a46Review},
     outputInventory: {file: reportPath, sha256: sha(bytes.get(reportPath)), documents: 15, pages: 60},
-    sourceBinding: {documentId: FORM, file: SOURCE, sha256: SOURCE_SHA, edition: '09/2025', pageCount: 1, fieldCount: 47},
+    sourceBinding: {documentId: FORM, file: SOURCE, sha256: SOURCE_SHA, edition: EDITION, pageCount: 1, fieldCount: 48},
     fixtureBindings,
     note: 'Exact synthetic ordinary 072A validation outputs only. Real participant facts require current verification, a new matter-bound render and authorized private delivery. Personal signing and disclosed missing agency facts remain unresolved; no attorney, service or execution act is invented. Conviction, cannabis, early release and fee-waiver components are separate treatments.'
   };
