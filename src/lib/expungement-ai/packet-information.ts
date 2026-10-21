@@ -1,3 +1,4 @@
+import { IL_PROGRAM_SOURCE, IL_PROGRAM_FACT_IDS, illinoisProgramFactIds, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { vaPardonLocationApplies, vaPardonLocationScopeEntry, vaPardonLocationQuestion } from "@/lib/expungement-ai/va-pardon-location-context";
 import { VA_RECORD_CONTEXT_IDS, VA_RECORD_CONTEXT_QUESTIONS, virginiaRecordContextApplies } from "@/lib/expungement-ai/virginia-record-context";
 import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
@@ -1272,6 +1273,24 @@ export function wyoming1502HeldDraftSuccessor(snapshot: ProtectedPacketAuthority
 }
 
 /** Source-reproduced unverified predecessor; withdrawing readiness never rewrites its raw answers. */
+// IL1: only the measured old CXP plan may become this held, correctable draft.
+function illinoisProgramHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
+  const profile = getProfileByJurisdiction("IL"), evaluation = authoritative.evaluation;
+  if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || !profile || !illinoisProgramContext(profile, snapshot.pathwayId) || snapshot.jurisdiction !== "IL"
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || snapshot.resultCode !== "needs_review" || snapshot.paymentAllowed || evaluation.paymentAllowed
+    || evaluation.resultCode !== "needs_more_info" || evaluation.reasons.length !== 1
+    || evaluation.reasons[0].code !== "il.program_missing" || evaluation.reasons[0].sourceRef !== IL_PROGRAM_SOURCE
+    || !evaluation.missingQuestionIds.length || !evaluation.missingQuestionIds.every(id => [...IL_PROGRAM_FACT_IDS, "case_outcome", "age_at_offense"].includes(id))) return null;
+  const successor = reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan);
+  if (!successor) return null;
+  const projected = { ...successor, resultCode: evaluation.resultCode,
+    packetFamilyIdentifiers: { mode: evaluation.packetPlan!.mode, sourceFormIds: [...evaluation.packetPlan!.sourceFormIds] } };
+  return protectedRouteAuthorityMatches(projected, authoritative) ? projected : null;
+}
+
 export function illinoisProstitutionHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketDraftSnapshot | null {
   const profile = getProfileByJurisdiction("IL"), evaluation = authoritative.evaluation;
@@ -2696,7 +2715,7 @@ export function protectedPacketInformationModelFor(
     && protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode }, authoritative)) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  const factualSuccessor = wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
+  const factualSuccessor = illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
@@ -3439,6 +3458,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       || ilIdentityCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || msAdditionalCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))) extra.push("offense_category");
 
+  if (profile && illinoisProgramContext(profile, pathway)) return [...extra, "case_outcome", "il_record_help", ...(includeInactive ? IL_PROGRAM_FACT_IDS : illinoisProgramFactIds(answers))];
   if (profile && texasNondisclosureTimingContract(profile,pathway)) extra.push(...texasNondisclosureFactIds(profile, pathway, answers, includeInactive), "case_outcome", "offense_level");
   if (profile && wy1501Context(profile,pathway,answers)) return [...extra,...wy1501FactIds(answers,includeInactive),"case_outcome","offense_level",...(includeInactive?["financial_obligations","sentence_completion_date","court_requirements_completed","resolved_timing_bucket"].filter(id=>Object.hasOwn(answers,id)):[])];
   if (profile && wy1401Context(profile,pathway,answers)) return [...extra,"case_outcome","possible_pathway_context",
@@ -4488,7 +4508,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = wyoming1502HeldDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(base, currentAuthority, verification.status) ?? ohioDiversionDraftSuccessor(base, currentAuthority) ?? mnTwoCountyDraftSuccessor(base, currentAuthority, verification.status) ?? marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = illinoisProgramHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1502HeldDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(base, currentAuthority, verification.status) ?? ohioDiversionDraftSuccessor(base, currentAuthority) ?? mnTwoCountyDraftSuccessor(base, currentAuthority, verification.status) ?? marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   base = legalAuthorityMetadataDraftSuccessor(base, currentAuthority, verification.status) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base), ...ohioDiversionCorrectionIds(base, currentAuthority)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);

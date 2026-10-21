@@ -1,3 +1,4 @@
+import { IL_PROGRAM_ROUTE, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { mnTwoCountyFactIds, mnTwoCountySourceContract } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { isMontanaDeferredWithoutMmrtaForm } from "@/lib/rcap-engine/montana-deferred-facts";
 import { isMissouriClosureGuidanceWithoutIdentityForm } from "@/lib/rcap-engine/missouri-closed-record-facts";
@@ -60,11 +61,13 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
   const missouriClosureWithoutIdentityForm = isMissouriClosureGuidanceWithoutIdentityForm(profile, pathwayId);
   const maineNonconvictionWithoutCr218 = isMaineNonconvictionGuidanceWithoutCr218(profile, pathwayId);
 
+  // IL1: the positional CXP cannabis candidate is not the EXP-AD program packet.
+  const illinoisProgramUnmapped = illinoisProgramContext(profile, pathwayId);
   return {
     pathwayId,
     mode: plan.mode,
-    formMappingStatus: maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? "not_required" : plan.formMappingStatus,
-    sourceFormIds: (maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? [] : plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
+    formMappingStatus: illinoisProgramUnmapped ? "custom_or_manual_mapping_required" : maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? "not_required" : plan.formMappingStatus,
+    sourceFormIds: (illinoisProgramUnmapped || maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? [] : plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
     requiredInputIds: [...new Set([
       ...scopedBaseRequiredInputIds,
       ...routedExactPacketFactIds,
@@ -82,6 +85,7 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
 
 export function isPacketPlanFulfillmentReady(plan: ScreeningPacketPlan | undefined) {
   if (!plan) return false;
+  if (plan.pathwayId === IL_PROGRAM_ROUTE && plan.formMappingStatus === "custom_or_manual_mapping_required") return false;
   if (plan.mode === "automatic_relief_verification_and_guidance") return false;
   return plan.requiredInputIds.length > 0 && plan.sourceRuleRefs.length > 0 && plan.sourceFormIds.every((id) => id.includes(":"));
 }

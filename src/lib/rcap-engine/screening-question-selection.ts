@@ -1,3 +1,4 @@
+import { illinoisProgramQuestionApplies } from "@/lib/rcap-engine/illinois-program-facts";
 import { VA_RECORD_ORIGIN_ID, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { wy1502QuestionApplies } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisQuestionApplies } from "@/lib/rcap-engine/south-dakota-sis-facts";
@@ -205,6 +206,7 @@ export function selectScreeningQuestionIds(
     .filter(question => wy1502QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => southDakotaSisQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => illinoisProstitutionQuestionApplies(profile, selectedPathway?.id, question.id))
+    .filter(question => illinoisProgramQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctPetitionQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => georgiaSb288QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => georgiaPardonQuestionApplies(profile.jurisdiction.code, answers, question.id, selectedPathway?.id))
