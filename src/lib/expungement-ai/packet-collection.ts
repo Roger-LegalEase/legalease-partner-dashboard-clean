@@ -1381,6 +1381,38 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "tool-5-proposition-64-marijuana-relief", // GA17 Q-dff7fe80e1b6d9984b6d
     ],
   },
+  MS: {
+    profileHash: "da85c0c5994978a437454ef5d4d4f039c317ce619742d842751446d39e79178f",
+    categoryReason: "Earlier Mississippi categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "additional-justice-or-municipal-court-misdemeanor-relief", // GA12 Q-33ae0812c5ec6c16f49c
+      "dui-nonadjudication", // GA12 Q-04dfd5b6ef826ed1a603
+      "first-offense-controlled-substance-conditional-discharge-relief", // GA12 Q-b316dba4450967677ce5
+      "first-offense-dui-expungement", // GA12 Q-55d34e1c5bf66f373eea
+      "human-trafficking-survivor-vacatur-and-expungement", // GA12 Q-b339f88dfd6a60eb1946
+      "intervention-court-completion-expungement", // GA12 Q-61ce8e2a0e7ac1e9af03
+      "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA12 Q-0908882129a5103c8624
+      "minor-in-possession-underage-alcohol-expungement", // GA12 Q-c71795ecb6433a778af5
+      "nonadjudication-under-99-15-26", // GA12 Q-d1b6782102264f056e0e
+      "pretrial-intervention-or-diversion-expungement", // GA12 Q-ffccdb66a7bf8daecb9a
+      "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA12 Q-a58282187741a588b8f5
+      "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA12 Q-268c53a6d752b6229799
+    ],
+    record: [
+      "additional-justice-or-municipal-court-misdemeanor-relief", // GA17 Q-bb58e587444d3b3eaca9
+      "dui-nonadjudication", // GA17 Q-fac1c7a7430c180c73d6
+      "first-offense-controlled-substance-conditional-discharge-relief", // GA17 Q-9c32d5c83873cc9406a3
+      "first-offense-dui-expungement", // GA17 Q-266d588ee2741e693ed6
+      "human-trafficking-survivor-vacatur-and-expungement", // GA17 Q-5a7ef6fee530f4f68b0e
+      "intervention-court-completion-expungement", // GA17 Q-f015750c794542860c6f
+      "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA17 Q-c2ea75ba90409cc97e66
+      "minor-in-possession-underage-alcohol-expungement", // GA17 Q-378ac879953f15b31706
+      "nonadjudication-under-99-15-26", // GA17 Q-738fb87bc728b78e3d29
+      "pretrial-intervention-or-diversion-expungement", // GA17 Q-df263245a80fca378453
+      "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA17 Q-a0ac1097b055462afdac
+      "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA17 Q-46e4cfdf892f39dac9b3
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
