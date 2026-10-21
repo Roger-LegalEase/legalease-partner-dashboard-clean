@@ -28,6 +28,32 @@ const pairs = [
   ['Decision received', 'Decisión recibida'],
   ['Matter details unavailable', 'Los detalles del asunto no están disponibles']
 ];
+const productNamePairs = [
+  [
+    "Back to Briefcase",
+    "Volver al Maletín"
+  ],
+  [
+    "This matter is not in your Briefcase.",
+    "Este asunto no está en su Maletín."
+  ],
+  [
+    "We saved this result and its state-specific next steps in your free Briefcase. You can return anytime as you gather information or follow the guidance below.",
+    "Guardamos este resultado y los próximos pasos correspondientes a su estado en su Maletín gratuito. Puede volver cuando quiera mientras reúne información o sigue las indicaciones que aparecen a continuación."
+  ],
+  [
+    "This packet belongs to your private Briefcase matter.",
+    "Este paquete pertenece a su asunto privado en su Maletín."
+  ],
+  [
+    "Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet.",
+    "Su Maletín es gratuito. Complete la información de su paquete y pague solo cuando esté listo para prepararlo."
+  ],
+  [
+    "Open your Briefcase to review packet availability and the next steps for this result.",
+    "Abra su Maletín para revisar la disponibilidad del paquete y los próximos pasos para este resultado."
+  ]
+];
 const base = {
   authorityStatus: 'available', resultCode: 'packet_ready', packetType: 'filing_packet',
   artifact: { status: 'unavailable' }, packetDraft: { status: 'available' },
@@ -60,7 +86,7 @@ for (const [label] of pairs) assert.ok(vocabulary.includes(`| "${label}"`));
 const rows = [];
 for (const locale of ['en', 'es']) {
   const value = { locale, setLocale() {}, t: (key, fallback, vars) => t(locale, key, fallback, vars), text: (text, options) => resolveRuntimeText(locale, text, options) };
-  for (const [en, es] of pairs) {
+  for (const [en, es] of [...pairs, ...productNamePairs]) {
     const markup = renderToStaticMarkup(React.createElement(LocalizationContext.Provider, { value }, React.createElement(LocalizedRuntimeText, { text: en })));
     rows.push({ locale, en, expected: locale === 'es' ? es : en, markup });
   }
@@ -68,6 +94,6 @@ for (const locale of ['en', 'es']) {
 assert.equal(resolveRuntimeText('es', 'Packet facts complete'), 'Datos del paquete completos');
 assert.equal(resolveRuntimeText('es', 'Packet ready'), 'Paquete listo');
 assert.equal(resolveRuntimeText('es', 'Unmapped synthetic label'), 'Unmapped synthetic label');
-const failures = rows.filter(row => row.markup !== row.expected);
+const failures = rows.filter(row => row.markup !== renderToStaticMarkup(React.createElement(React.Fragment, null, row.expected)));
 console.log(JSON.stringify({ status: failures.length ? 'FAIL' : 'PASS', mappedStates: cases.length, nativeRenders: rows.length, failures, rows }, null, 2));
-assert.equal(failures.length, 0, 'All nine status labels must render exact reviewed ES; EN remains unchanged');
+assert.equal(failures.length, 0, 'All status labels and product names must render exact reviewed ES; EN remains unchanged');
