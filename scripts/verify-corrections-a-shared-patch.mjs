@@ -1,72 +1,39 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
-import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// The Corrections A shared handoff (9c0e1fdb4) was delivered as a one-shot evaluator patch. The evaluator's route
+// sets are now derived from the ratification registry (evaluator.ts ROUTE_RATIFICATION_REGISTRY), so the patch can no
+// longer be regenerated. This verifies the handoff's realized state instead (Roger item 31: replace, not retire).
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PATCH_PATH = path.join(
-  ROOT,
-  "data/expungement-ai/corrections-a/shared-integration.patch"
-);
-const BUILDER_PATH = path.join(
-  ROOT,
-  "scripts/corrections-a/build-shared-integration-patch.mjs"
-);
-const CLOSURE_PATH = path.join(
-  ROOT,
-  "data/expungement-ai/corrections-a/closure.json"
-);
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+const read = (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8");
 
-const patch = fs.readFileSync(PATCH_PATH, "utf8");
-const regenerated = execFileSync(process.execPath, [BUILDER_PATH], {
-  cwd: ROOT,
-  encoding: "utf8",
-  maxBuffer: 30 * 1024 * 1024
-});
-assert.equal(patch, regenerated, "shared integration patch is stale");
-execFileSync("git", ["apply", "--unidiff-zero", "--check", PATCH_PATH], {
-  cwd: ROOT,
-  encoding: "utf8"
-});
+const handoff = readJson("data/expungement-ai/corrections-a/closure.json").sharedHandoff;
+const registry = new Map(readJson("data/record-clearing/legal-decisions/route-ratification-registry.json")
+  .routes.map((entry) => [entry.routeKey, entry.status]));
+const metadata = new Map(Object.entries(readJson("data/expungement-ai/route-product-metadata.json").routes));
+const evaluator = read("src/lib/rcap-engine/evaluator.ts");
+const projection = read("src/lib/rcap-engine/public-profile-projection.ts");
 
-const closure = JSON.parse(fs.readFileSync(CLOSURE_PATH, "utf8"));
-const fileLabels = [...patch.matchAll(/^--- a\/(.+)$/gm)].map((entry) => entry[1]);
-assert.deepEqual(fileLabels, [
-  "src/lib/rcap-engine/evaluator.ts",
-  "src/lib/rcap-engine/public-profile-projection.ts",
-  "data/expungement-ai/route-product-metadata.json"
-], "shared patch changes an unexpected file");
-
-for (const routeKey of closure.sharedHandoff.removeFromRatifiedDeployable) {
-  assert.ok(
-    patch.includes(`-  "${routeKey}",`),
-    `${routeKey}: exact ratified-removal hunk missing`
-  );
+assert.ok(evaluator.includes('.filter((entry) => entry.status === "ratified_deployable")'),
+  "ratified-deployable routes must be derived from the ratification registry");
+for (const routeKey of new Set([...handoff.removeFromRatifiedDeployable, ...handoff.addToIntentionalUnsupported])) {
+  assert.equal(registry.get(routeKey), "intentional_unsupported", `${routeKey}: handoff route must stay intentional_unsupported`);
 }
-for (const routeKey of closure.sharedHandoff.addToCorrectedAwaitingReconfirm) {
-  assert.ok(
-    patch.includes(`+  "${routeKey}",`),
-    `${routeKey}: corrected-awaiting-reconfirm hunk missing`
-  );
+// evaluatorTier is a generated label whose taxonomy has since changed; the participant-facing fields are the handoff.
+for (const [routeKey, expected] of Object.entries(handoff.routeProductMetadata)) {
+  const current = metadata.get(routeKey);
+  assert.ok(current, `${routeKey}: route product metadata missing`);
+  for (const field of ["serviceBehavior", "paymentProductEligible", "checkoutEligibility"]) {
+    assert.equal(current[field], expected[field], `${routeKey}: ${field} differs from the Corrections A handoff`);
+  }
 }
-for (const routeKey of closure.sharedHandoff.addToHeldGuidance) {
-  assert.ok(
-    patch.includes(`+  "${routeKey}",`),
-    `${routeKey}: held-guidance hunk missing`
-  );
-}
-assert.match(
-  patch,
-  /timingFromExactAnchor\(profile, answers, rule, pathway, "conviction_date", \{ value: 90/,
-  "Louisiana Art. 998 exact conviction-date hunk missing"
-);
-assert.match(
-  patch,
-  /timingFromExactAnchor\(profile, answers, rule, pathway, "disposition_date", \{ value: 60/,
-  "Alaska TF-810 exact disposition-date hunk missing"
-);
+assert.match(evaluator, /timingFromExactAnchor\(profile, answers, rule, pathway, "conviction_date", \{ value: 90/,
+  "Louisiana Art. 998 exact conviction-date anchor missing");
+assert.match(evaluator, /timingFromExactAnchor\(profile, answers, rule, pathway, "disposition_date", \{ value: 60/,
+  "Alaska TF-810 exact disposition-date anchor missing");
 for (const questionId of [
   "ms_last_conviction_date_any_court",
   "ms_successful_sentence_completion_date",
@@ -75,15 +42,11 @@ for (const questionId of [
   "ms_mip_fine_imposed",
   "ms_mip_fine_payment_date"
 ]) {
-  assert.ok(patch.includes(questionId), `${questionId}: Mississippi public timing fact hunk missing`);
+  assert.ok(projection.includes(questionId), `${questionId}: Mississippi public timing fact missing from the public projection`);
 }
 
-const sha256 = crypto.createHash("sha256").update(patch).digest("hex");
 console.log("verify-corrections-a-shared-patch: GREEN");
 console.log(JSON.stringify({
-  sha256,
-  files: fileLabels,
-  ratifiedRemovals: closure.sharedHandoff.removeFromRatifiedDeployable.length,
-  correctedAdditions: closure.sharedHandoff.addToCorrectedAwaitingReconfirm.length,
-  heldGuidanceAdditions: closure.sharedHandoff.addToHeldGuidance.length
+  intentionalUnsupported: new Set([...handoff.removeFromRatifiedDeployable, ...handoff.addToIntentionalUnsupported]).size,
+  routeProductMetadata: Object.keys(handoff.routeProductMetadata).length
 }, null, 2));

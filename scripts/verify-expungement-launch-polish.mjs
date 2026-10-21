@@ -59,6 +59,7 @@ const eligibilityAdapterSource = read("src/lib/expungement-ai/eligibility-adapte
 const paymentAdapterSource = read("src/lib/expungement-ai/payment-adapter.ts");
 const profileRoute = read("src/app/api/expungement-ai/profiles/[state]/route.ts");
 const evaluateRoute = read("src/app/api/expungement-ai/evaluate/route.ts");
+const authoritativeScreeningResult = read("src/lib/expungement-ai/authoritative-screening-result.ts");
 const compiledPublicProfiles = readJson("src/lib/rcap-engine/compiled/all51.json");
 const compiledProfileFiles = fs.readdirSync(path.join(root, "src/lib/rcap-engine/compiled/profiles")).filter((file) => file.endsWith(".json")).sort();
 const compiledProfiles = compiledProfileFiles.map((file) => readJson(`src/lib/rcap-engine/compiled/profiles/${file}`));
@@ -159,9 +160,11 @@ assert(!supportMigration.includes("partner_slug"), "Support queue must not grant
 assert(!supportMigration.includes("consumer_read_own"), "Support queue should remain internal-only for reads in this launch patch.");
 
 assert(consumerShell.includes("<WilmaBubble") && briefcaseShell.includes("<WilmaBubble"), "Wilma bubble must remain global on Expungement.ai and Briefcase shells.");
+assert(packetDetail.includes("<BriefcaseShell"), "Wilma surface missing on the briefcase-detail screen that packet-ready redirects to.");
 assert(consumerNav.includes("/expungement-ai/support"), "Expungement.ai nav should include support link.");
 assert(briefcaseShell.includes("/expungement-ai/support"), "Briefcase shell should include support link.");
-assert(packetReady.includes("/expungement-ai/support"), "Packet-ready page should link to support.");
+// packet-ready is now a no-UI compatibility redirect to /briefcase/{id}; that page's support link is checked next.
+// Retired here as a duplicate (Roger item 31).
 assert(packetDetail.includes("/expungement-ai/support"), "Packet detail page should link to support.");
 assert(settingsView.includes("/expungement-ai/support"), "Briefcase settings should link to support.");
 
@@ -227,7 +230,14 @@ for (const sourceFile of publicExpungementSources) {
     assert(!lowerSource.includes(forbidden), `Public Expungement.ai launch wording leaked in ${sourceFile}: ${forbidden}`);
   }
   assert(!source.includes("data-result-code"), `Public Expungement.ai route must not render raw result-code markers: ${sourceFile}`);
-  if (sourceFile !== "src/components/expungement-ai/ResultPanel.tsx") {
+  if (sourceFile === "src/app/briefcase/[packetId]/page.tsx") {
+    // This page may name a raw code only to compare against it; it must never render one.
+    const outsideComparisons = source.replace(/resultCode === "packet_ready(?:_with_caution)?"/g, "");
+    assert(!outsideComparisons.includes("packet_ready"), `Public Expungement.ai route must not expose raw packet result codes: ${sourceFile}`);
+  } else if (sourceFile === "src/components/expungement-ai/BriefcaseViews.tsx") {
+    // Rendered output (EN/ES text and attributes) is checked by scripts/test-briefcase-raw-status-tokens.mjs;
+    // here the care-state keys are internal set members. Retired as a duplicate (Roger item 31).
+  } else if (sourceFile !== "src/components/expungement-ai/ResultPanel.tsx") {
     assert(!source.includes("packet_ready") && !source.includes("packet_ready_with_caution"), `Public Expungement.ai route must not expose raw packet result codes: ${sourceFile}`);
   }
 }
@@ -259,7 +269,6 @@ for (const page of [
   ["check", checkPage],
   ["results", resultsPage],
   ["pay", payPage],
-  ["packet-ready", packetReady],
   ["briefcase", read("src/app/briefcase/page.tsx")],
   ["briefcase-detail", packetDetail]
 ]) {
@@ -293,7 +302,8 @@ assert(profileRegistry.includes("src/lib/rcap-engine/compiled") && profileRegist
 assert(profileRegistry.includes("getProfileByJurisdiction") && profileRegistry.includes("normalizeJurisdictionCode"), "Profile registry must resolve individual jurisdictions.");
 assert(publicProfileProjection.includes("projectPublicProfile") && publicProfileProjection.includes("orderedDecisionRules") === false, "Public projection must not expose internal decision rules.");
 assert(profileRoute.includes("getProfileByJurisdiction") && profileRoute.includes("projectPublicProfile"), "Profile API must return source-engine public profiles.");
-assert(evaluateRoute.includes("evaluateExpungementAiMatter"), "Evaluate API must call the source-engine Expungement.ai adapter.");
+// 2e10223a5 put the adapter call behind the authoritative screening result.
+assert(evaluateRoute.includes("evaluateAuthoritativeScreeningResult(") && authoritativeScreeningResult.includes("evaluateExpungementAiMatter("), "Evaluate API must call the source-engine Expungement.ai adapter.");
 assert(expungementAiAdapterSource.includes("evaluateScreening") && expungementAiAdapterSource.includes("ScreeningEvaluationRequest"), "Expungement.ai adapter must delegate to the source-engine evaluator.");
 assert(eligibilityAdapterSource.includes("getProfileByJurisdiction") && eligibilityAdapterSource.includes("evaluateExpungementAiMatter"), "Consumer eligibility adapter must use source-engine profiles and evaluator.");
 assert(eligibilityAdapterSource.includes("isConsumerPaymentAllowed") && eligibilityAdapterSource.includes('resultCode === "packet_ready"') && eligibilityAdapterSource.includes('resultCode === "packet_ready_with_caution"'), "Consumer eligibility adapter must clamp payment to packet-ready result codes.");
@@ -336,7 +346,7 @@ for (const prompt of [
 }
 
 assert(settingsView.includes("data-briefcase-guidance-state") && settingsView.includes("Guidance saved"), "Briefcase guidance-only matter state missing.");
-assert(packetDetail.includes("Guidance saved") && packetDetail.includes("Next steps"), "Briefcase detail guidance-only state missing.");
+assert(packetDetail.includes("data-briefcase-guidance-state={humanMatterState(item)}") && packetDetail.includes("item.nextSteps.map("), "Briefcase detail guidance-only state missing.");
 assert(!settingsView.includes("5-stage"), "Briefcase guidance state must not include a 5-stage filing stepper.");
 assert(settingsView.indexOf("Next steps") !== -1 && settingsView.indexOf("Next steps") < settingsView.indexOf("artifact && !isGuidanceOnly"), "Briefcase must prioritize next steps before document actions.");
 assert(packetDetail.indexOf("Next steps") !== -1 && packetDetail.indexOf("Next steps") < packetDetail.indexOf("artifact && !isGuidanceOnly"), "Briefcase detail must prioritize next steps before document actions.");

@@ -124,6 +124,12 @@ jobs:
           node scripts/test-payment-authority-default.mjs
           node scripts/test-ga-retroactive-consent-next-steps.mjs
 
+      # ~8 s. Public Briefcase surfaces render no raw engine token, EN or ES, in text or attributes (d8b5bff4e).
+      # Gates the BriefcaseViews raw-code check retired from verify-expungement-launch-polish (Roger item 31).
+      - name: Verify Briefcase shows no raw status tokens
+        if: matrix.group == 'g'
+        run: node scripts/test-briefcase-raw-status-tokens.mjs
+
       # 2 s. The compiled profiles are generated from the approved route contracts; a66ccc373
       # rewrote GA/MT/ND participant wording through the generator and failed groups d/e/f at 0e7e94cad.
       - name: Verify compiled profiles converge with the approved contracts
