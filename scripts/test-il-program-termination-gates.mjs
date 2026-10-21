@@ -6,6 +6,9 @@ process.env.RCAP_EVALUATOR_TODAY = '2026-10-21';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mode = process.argv[2] ?? 'candidate';
 const mutations = {
+  other_type: ['illinois-program-facts.ts', 'type === "ordinary" || type === "other"', 'type === "ordinary"'],
+  future_date: ['illinois-program-facts.ts', 'if (date.toISOString().slice(0, 10) > today)', 'if (false)'],
+  future_successor: ['packet-information.ts', 'const date = scalarAnswerText(answers?.il_program_termination_date)?.trim();', 'return null;'],
   q09: ['illinois-program-facts.ts', 'return missing("il_program_termination");', 'return { status: "satisfied" };'],
   q10: ['illinois-program-facts.ts', 'return review("ordinary");', 'return { status: "satisfied" };'],
   two_years: ['illinois-program-facts.ts', '? 5 : 2;', '? 5 : 0;'],
@@ -47,7 +50,8 @@ for (const row of rows) {
 }
 const cases = [
   ['two-years-exact', {}, 'satisfied'], ['two-years-short', { il_program_termination_date: '2024-10-22' }, 'not_yet'],
-  ['date-future', { il_program_termination_date: '2027-01-01' }, 'not_yet'], ['date-invalid', { il_program_termination_date: '2024-02-30' }, 'missing'],
+  // IL1b declared successor: future dates need correction, not a calculated wait.
+  ['date-future', { il_program_termination_date: '2027-01-01' }, 'missing', 'future_date'], ['date-invalid', { il_program_termination_date: '2024-02-30' }, 'missing'],
   ['date-unknown', { il_program_termination_date: { unknown: true } }, 'missing'], ['date-omitted', { il_program_termination_date: undefined }, 'missing'],
   ['date-retained-unknown', { il_program_termination_date: { value: '2024-10-21', unknown: true } }, 'missing'],
   ['date-invalid-wrapper', { il_program_termination_date: { value: '2024-10-21', unknown: 'yes' } }, 'missing'],
@@ -56,6 +60,7 @@ const cases = [
   ['termination-omitted', { il_program_termination: undefined }, 'missing'], ['termination-unknown', { il_program_termination: 'unknown' }, 'missing'],
   ['termination-ongoing', { il_program_termination: 'ongoing' }, 'not_yet'],
   ['ordinary', { il_program_type: 'ordinary' }, 'review', 'ordinary'], ['type-unknown', { il_program_type: 'unknown' }, 'missing'],
+  ['type-other', { il_program_type: 'other' }, 'review', 'ordinary'],
   ['type-malformed', { il_program_type: ['cannabis_10'] }, 'missing'],
   ['qualified-five-years-short', { il_program_type: 'controlled_410', il_program_termination_date: '2021-10-22' }, 'not_yet'],
   ['qualified-five-years-exact', { il_program_type: 'controlled_410', il_program_termination_date: '2021-10-21' }, 'satisfied'],
@@ -80,6 +85,24 @@ for (const [name, extra, expected, code] of cases) {
   check(name, () => { assert.equal(d.status, expected); if (code) assert.equal(d.code, code); });
   check(`${name}:raw`, () => assert.deepEqual(a, before));
 }
+for (const [value, en, es] of [['other', 'Another type', 'Otro tipo'], ['unknown', 'I am not sure', 'No estoy seguro']]) {
+  const option = pub.questions.find(q => q.id === 'il_program_type').optionDisplay[value];
+  check(`type-label-${value}`, () => { assert.equal(option?.label, en); assert.equal(option?.translations?.es?.label, es); });
+}
+for (const [name, value] of [['scalar','2027-01-01'], ['wrapper',{value:'2027-01-01',unknown:false}]]) {
+  const answers = {...base, il_program_termination_date:value}, before = structuredClone(answers);
+  const e = evaluate(request(answers)).evaluation;
+  check(`future-${name}-consumer`, () => {
+    assert.equal(e.resultCode, 'needs_more_info'); assert.equal(e.paymentAllowed, false);
+    assert.equal(e.reasons[0].code, 'il.program_missing');
+    assert.deepEqual(e.missingQuestionIds, ['il_program_termination_date']);
+    assert.deepEqual(e.nextSteps, [G.IL_PROGRAM_COPY.future_date[0]]);
+    assert.equal(resolveRuntimeText('es', e.nextSteps[0]), G.IL_PROGRAM_COPY.future_date[1]);
+    assert.deepEqual(answers, before);
+  });
+}
+const other = evaluate(request({...base, il_program_type:'other'})).evaluation;
+check('other-consumer-review', () => { assert.equal(other.resultCode,'needs_review'); assert.equal(other.reasons[0].code,'il.program_ordinary'); assert.equal(other.paymentAllowed,false); });
 const reckless = { ...base, il_supervision_offense: 'reckless_misdemeanor', age_at_offense: '24', il_reckless_age_25: 'yes', il_other_dui_reckless: 'no', il_program_termination_date: '2026-10-20' };
 for (const [name, patch, expected] of [['reached25', {}, 'satisfied'],['under25-now',{il_reckless_age_25:'no'},'not_yet'],['age25-at-offense',{age_at_offense:'25'},'review'],['other-DUI',{il_other_dui_reckless:'yes'},'review'],['age-unknown',{age_at_offense:'I am not sure'},'missing']]) check(name, () => assert.equal(G.illinoisProgramFacts({ ...reckless, ...patch }, '2026-10-21').status, expected));
 const positive = evaluate(request(base)).evaluation;
@@ -87,6 +110,11 @@ check('native-positive-held-for-form', () => assert(positive.pathwayId === route
 const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(request(base)) }));
 const body = await response.json();
 check('public-positive-held', () => assert(response.status === 200 && body.paymentAllowed === false && body.consumerPacketAvailable === false && body.sponsoredPacketAvailable === false && body.reasons[0].code === 'il.program_form_mapping_unavailable'));
+for (const [name, delta, resultCode, copy] of [['other',{il_program_type:'other'},'needs_review','ordinary'],['future',{il_program_termination_date:'2027-01-01'},'needs_more_info','future_date']]) {
+  const http = await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(request({...base,...delta}))}));
+  const body = await http.json();
+  check(`public-${name}-held`, () => { assert.equal(http.status,200); assert.equal(body.resultCode,resultCode); assert.equal(body.paymentAllowed,false); assert.equal(body.consumerPacketAvailable,false); assert.equal(body.sponsoredPacketAvailable,false); assert.deepEqual(body.nextSteps,[G.IL_PROGRAM_COPY[copy][0]]); });
+}
 check('native-positive-nextSteps', () => assert.deepEqual(positive.nextSteps, [G.IL_PROGRAM_COPY.form[0]]));
 check('native-missing-nextSteps', () => assert.deepEqual(evaluate(request(rows[1].answers)).evaluation.nextSteps, [G.IL_PROGRAM_COPY.missing[0]]));
 check('native-ordinary-refused', () => assert.equal(evaluate(request({ ...base, il_program_type: 'ordinary' })).evaluation.reasons[0].code, 'il.program_ordinary'));
@@ -123,5 +151,37 @@ check('predecessor-correction-held', () => assert(oldUpdate && oldUpdate.readyTo
 if (oldUpdate) for (const map of ['screeningAnswers','prefilledAnswers','packetAnswers']) check(`predecessor-${map}-preserved`, () => {
   for (const [id,value] of Object.entries(predecessor.draftSnapshot[map])) assert.deepEqual(oldUpdate.protectedTransition.nextVerification.draftSnapshot[map][id], value);
 });
+// Native B records retain their exact historical hashes; no post-fix reconstruction.
+const nativeB = JSON.parse(fs.readFileSync(new URL('./fixtures/il1b-native-predecessors.json', import.meta.url)));
+for (const row of nativeB.rows) {
+  const v = structuredClone(row.verification), before = structuredClone(v), future = row.name.startsWith('future');
+  check(`${row.name}:native-hash`, () => assert.equal(P.protectedPacketDraftHash(v.draftSnapshot), v.draftHash));
+  const a = P.evaluateProtectedPacketFacts(v.draftSnapshot), model = P.protectedPacketInformationModelFor(v);
+  check(`${row.name}:native-readable`, () => assert(model));
+  check(`${row.name}:native-disposition`, () => { assert.equal(a.evaluation.resultCode, future ? 'needs_more_info' : v.draftSnapshot.resultCode); assert.equal(a.evaluation.paymentAllowed,false); });
+  const noop = P.packetInformationPatch({existingItem:{id:'synthetic-il1b-'+row.name,jurisdiction:'IL',artifactRefs:{}},protectedVerification:v,answers:{}});
+  check(`${row.name}:native-noop`, () => { assert(noop); assert.equal(noop.readyToGenerate,false); for (const map of ['screeningAnswers','prefilledAnswers','packetAnswers']) assert.deepEqual(noop.protectedTransition.nextVerification.draftSnapshot[map],v.draftSnapshot[map]); });
+  check(`${row.name}:native-original-unchanged`, () => assert.deepEqual(v,before));
+  if (future) {
+    const change = P.packetInformationPatch({existingItem:{id:'synthetic-il1b-'+row.name,jurisdiction:'IL',artifactRefs:{}},protectedVerification:v,answers:{il_program_termination_date:'2024-10-22'}});
+    check(`${row.name}:correctable`, () => { assert(change); assert.equal(change.readyToGenerate,false); assert.equal(change.protectedTransition.nextVerification.draftSnapshot.packetAnswers.il_program_termination_date,'2024-10-22'); });
+    for (const variant of ['reason','source','verified','paid','plan']) check(`${row.name}:reject-${variant}`, () => {
+      const snapshot = structuredClone(v.draftSnapshot), authority = structuredClone(a);
+      if (variant === 'reason') authority.evaluation.reasons[0].code = 'il.other';
+      if (variant === 'source') authority.evaluation.reasons[0].sourceRef = 'unreviewed';
+      if (variant === 'paid') snapshot.paymentAllowed = true;
+      if (variant === 'plan') snapshot.packetPlan.sourceFormIds = ['wrong-form'];
+      assert.equal(P.illinoisProgramFutureDateDraftSuccessor(snapshot, authority, variant === 'verified' ? 'verified' : 'unverified'), null);
+    });
+  } else check(`${row.name}:no-future-successor`, () => assert.equal(P.illinoisProgramFutureDateDraftSuccessor(v.draftSnapshot,a,'unverified'),null));
+}
+const pastSaved = nativeB.rows.find(r => r.name === 'past-unmet-wait').verification.draftSnapshot;
+const futureAuthority = P.evaluateProtectedPacketFacts(nativeB.rows.find(r => r.name === 'future-date').verification.draftSnapshot);
+check('past-date-cannot-borrow-future-authority', () => assert.equal(P.illinoisProgramFutureDateDraftSuccessor(pastSaved,futureAuthority,'unverified'),null));
+// A date that has passed must use today's disposition, never the future-date bridge.
+process.env.RCAP_EVALUATOR_TODAY = '2027-01-02';
+const aged = nativeB.rows.find(r => r.name === 'future-date').verification;
+check('future-now-past-no-successor', () => assert.equal(P.illinoisProgramFutureDateDraftSuccessor(aged.draftSnapshot,P.evaluateProtectedPacketFacts(aged.draftSnapshot),'unverified'),null));
+process.env.RCAP_EVALUATOR_TODAY = '2026-10-21';
 console.log(JSON.stringify({ mode, checks, passed:checks-failures.length, failures, positive },null,2));
 process.exitCode = failures.length ? 1 : 0;
