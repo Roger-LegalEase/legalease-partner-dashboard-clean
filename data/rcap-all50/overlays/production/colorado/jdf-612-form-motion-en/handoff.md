@@ -1,3 +1,11 @@
+## 2026-10-21 current-source successor
+
+Current source: `reference/co-jdf-2025-07-01/JDF612.pdf`, SHA256 `4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b`, 64 fields. The source record retains the exact superseded record and names historical evidence by source hash and commit. Current fixtures, protection, refusal and byte-readback evidence are in `reports/current-fixtures.json` and `specification/reports/`. The 2024 contact sheet and unchanged legacy reports named by `source-record.json.historicalEvidence` apply only to the retained 2024 identities, not the current PDFs.
+
+Independent review remains pending. No commercial, counsel or filing approval is asserted.
+
+## Historical 2024 handoff (verbatim below)
+
 # CO — JDF-612 — Motion to Seal Conviction Records - District or County Court Conviction
 
 Family `jdf-612-form-motion-en` in `colorado`, built by lane D3A on factory `d0-remediated-v1`.

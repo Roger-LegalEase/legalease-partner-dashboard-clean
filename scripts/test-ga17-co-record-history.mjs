@@ -7,7 +7,7 @@ register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
  unknown_marker:['coPetitionRecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))','false'],
- context:['contactRepresentationHash(profile) === "1e74ae18e3815426ae28001f741a954826a985d08164d8ab77820cda0d90d909"','true'],
+ context:['contactRepresentationHash(profile) === "ae0087c37912d4d989406b7410cc5e59c16f92119129e985b53791bf5a30d481"','true'],
  ownership:['coPetitionRecordHistory && !overrideClass && !needsHuman.has(factId)','coPetitionRecordHistory'],
  collection:['if (factId === "record_type" && coPetitionRecordHistory','if (factId === "record_type" && false'],
  loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.record_type;'],
