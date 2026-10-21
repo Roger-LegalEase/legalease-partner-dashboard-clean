@@ -33,6 +33,16 @@ function withoutA27(delta) {
   assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), A27_REPIN_SHA256, 'exactly the reviewed A27 re-pin');
   return {...delta, supersededSha256: delta.supersededSha256.slice(0, -1)};
 }
+// A35 (owner-authorized 2026-10-21): one further md-pardon evaluator re-pin, appended after the A27 one.
+const A35_REPIN = {"path":"src/lib/rcap-engine/evaluator.ts","sha256":"492e957b951885184d70ee8b6d12950a2e2a3e51d11b015e2ca3bbf893f67c25","repinnedTo":"3cdff25f7b38ec9c367e5284ca0c153a83e9f449675455be11ab2c5991fa6e7c","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"};
+const A35_REPIN_SHA256 = '27fc122cb9f7cc5084ad59f832156f79ee4057f7cf9a18d2953929893cc8815e'; // the appended entry, reason included
+function withoutA35(delta) {
+  const tail = delta.supersededSha256.at(-1);
+  assert.deepEqual({path:tail.path,sha256:tail.sha256,repinnedTo:tail.repinnedTo,behaviouralProof:tail.behaviouralProof},
+    A35_REPIN, `${delta.id}: the reviewed A35 re-pin is its last supersession`);
+  assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), A35_REPIN_SHA256, 'exactly the reviewed A35 re-pin');
+  return {...delta, supersededSha256: delta.supersededSha256.slice(0, -1)};
+}
 const a17Appended = [];
 function withoutA17(delta) {
   const expected = A17_REPINS[delta.id];
@@ -44,7 +54,7 @@ function withoutA17(delta) {
   const {supersededSha256, ...rest} = delta;
   return supersededSha256.length > 1 ? {...rest, supersededSha256: supersededSha256.slice(0, -1)} : rest;
 }
-assert.deepEqual(withoutA17(withoutA27(history)), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
+assert.deepEqual(withoutA17(withoutA27(withoutA35(history))), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
 assert.deepEqual(record.deltas.filter(d => d !== md).map(withoutA17), previous.deltas.filter(d => d.id !== md.id), 'other approvals unchanged');
 assert.equal(a17Appended.length, Object.keys(A17_REPINS).length, 'every reviewed A17 re-pin present');
 assert.equal(createHash('sha256').update(JSON.stringify(a17Appended)).digest('hex'), A17_REPINS_SHA256, 'exactly the reviewed A17 re-pins');
@@ -114,7 +124,9 @@ try {
     ['post-binding re-pin recorded twice',r=>a17Hop(r,(hops,i)=>hops.push(structuredClone(hops[i]))),/superseded twice at the same hash/],
     ['post-binding re-pin without a real reason',r=>a17Hop(r,(hops,i)=>{hops[i].reason='updated'}),/reason is missing or too short/],
     ['post-binding re-pin cites a missing proof',r=>a17Hop(r,(hops,i)=>{hops[i].behaviouralProof='scripts/verify-nothing-at-all.mjs'}),/as proof, and it does not exist/],
-    ['A27 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256;assert.equal(hops.at(-1).repinnedTo,A27_REPIN.repinnedTo);hops.pop()},/approval does not cover these bytes/]
+    // With A35 appended after it, losing the A27 hop leaves A35's starting hash unreachable.
+    ['A27 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===A27_REPIN.repinnedTo);assert.ok(i>=0,'the A27 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
+    ['A35 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256;assert.equal(hops.at(-1).repinnedTo,A35_REPIN.repinnedTo);hops.pop()},/approval does not cover these bytes/]
   ];
   for (const [name, mutate, marker] of mutants) {
     for(const [file,bytes] of originals)fs.writeFileSync(path.join(dir,file),bytes);
