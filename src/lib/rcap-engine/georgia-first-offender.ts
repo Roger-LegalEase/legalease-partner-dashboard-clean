@@ -1,6 +1,12 @@
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 
 export const GA_ORIGINAL_FIRST_OFFENDER_PATHWAY = "youthful-first-offender-restriction-route";
+// GA21-CONVICTION-REQUEST-01: adopted ga-rfo consent-stage handoff; Spanish review entry 76.
+export const GA_RETROACTIVE_CONSENT_GUIDANCE = [
+  "Work with an attorney or legal-aid expungement desk at the consent stage. LegalEase does not request or negotiate consent for you. The prosecutor's silence is not consent.",
+  "Trabaje con un abogado o un servicio de ayuda legal para la eliminación de antecedentes durante la etapa de consentimiento. LegalEase no solicita ni negocia el consentimiento en su nombre. El silencio de la fiscalía no equivale a consentimiento."
+] as const;
+
 // HB 162 §§ 3–4, effective July 1, 2026. Draft EN/ES guidance only;
 // qualified legal/language review and packet-contract correction remain open.
 export const GA_FIRST_OFFENDER_GUIDANCE = {
