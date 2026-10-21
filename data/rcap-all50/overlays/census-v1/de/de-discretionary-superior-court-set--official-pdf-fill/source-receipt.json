@@ -374,11 +374,64 @@
       ],
       "recordId": "track-registry:de_discretionary_superior_court",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
-      "byteLength": 16781025,
+      "sha256": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+      "byteLength": 16782785,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed legal-design track registry entry for this track. It settles the venue rule this packet states, the manifest-injustice standard, the instruction that LegalEase must not represent that it confirmed charge-level eligibility, the counsel classification of the history-dependent fields as items the participant completes, the notice and service positions, the Title 21 exclusion, and the open question about which proposed order the petitioner is expected to lodge",
-      "anchorStatementsVerified": 11
+      "anchorStatementsVerified": 11,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-21",
+        "was": {
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025
+        },
+        "why": "The record was rewritten around this receipt's anchors. 6 named entries moved between the blob carrying the previous pin and the bytes on disk (al-misd-conviction, co_motion_seal_conviction, tn_eligible_conviction, tn_judicial_diversion, tn_pretrial_diversion, tn_two_offense), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "registryGlobalMetadata: identical",
+          "track:de_discretionary_superior_court: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:de_discretionary_superior_court": "ab1d16d8db1b28793fd0d2fcbe71d94a8d46a6ea4273d7e6efe2808b7aa6a4b8"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "de_discretionary_superior_court"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "de_discretionary_superior_court"
+            ],
+            "fromReceiptRouteKeys": [
+              "de_discretionary_superior_court"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "al-misd-conviction",
+          "co_motion_seal_conviction",
+          "tn_eligible_conviction",
+          "tn_judicial_diversion",
+          "tn_pretrial_diversion",
+          "tn_two_offense"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "98c89f71a96ba4869d4ea8c71a7702b5dc3a95c2",
+          "commit": "fe7fd55f3acd5eab0bdba5084e7a0390ad1f4359",
+          "commitsWithThisPath": 104,
+          "distinctBlobs": 87,
+          "blobsHashed": 6
+        },
+        "appliedUnder": "31e factory re-pin range (lead 16:26:14Z, ND excluded 16:35:43Z): registry d0ba0e7d, specifications 1dec458b; CI",
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
     },
     {
       "sourceIds": [

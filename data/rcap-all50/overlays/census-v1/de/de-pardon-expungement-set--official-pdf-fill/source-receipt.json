@@ -432,31 +432,83 @@
       ],
       "recordId": "track-registry:de_pardon_expungement",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
-      "byteLength": 16781025,
+      "sha256": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+      "byteLength": 16782785,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed legal-design track registry entry for this track. It settles the mechanism this route runs on, the venue and destination this packet states, the manifest-injustice standard, the instruction that the packet is generated without collecting or reviewing the certified SBI history, the classification of the manifest-injustice explanation as untemplatable participant content, and the DE-5 build blocker about the form's statutory caption",
       "anchorStatementsVerified": 6,
       "identityRefresh": {
-        "refreshedOn": "2026-09-11",
+        "refreshedOn": "2026-10-21",
         "was": {
-          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
-          "byteLength": 16778727
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025
         },
-        "recoveredFromCommit": "a45cb2767f70febb451503d7e4da2bb92676982d",
-        "why": "Full parsed Delaware pardon track entry and every global authority metadata field are identical to the original pinned source. Only unrelated registry entries changed. Independent VF02 custody-and-reuse proof already measures these unchanged anchors.",
+        "why": "The record was rewritten around this receipt's anchors. 6 named entries moved between the blob carrying the previous pin and the bytes on disk (al-misd-conviction, co_motion_seal_conviction, tn_eligible_conviction, tn_judicial_diversion, tn_pretrial_diversion, tn_two_offense), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
         "anchorsCompared": 2,
-        "anchorsIdentical": 2,
         "anchorDetail": [
-          "recordGlobalMetadata: identical",
+          "registryGlobalMetadata: identical",
           "track:de_pardon_expungement: identical"
         ],
+        "anchorsIdentical": 2,
         "identicalAnchorSha256": {
-          "recordGlobalMetadata": "ace7ccc95e4f1a507983b728b2e55c2f5682fb37c5049191e951de6988ad7b22",
-          "track:de_pardon_expungement": "48a8bf69615212ac915c79cf04e8854d28932e834322d0a4538f5b6dea966ff6"
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:de_pardon_expungement": "a98db8274e4f5f21da7d02a25fa586c58a2cca0aeb3eba5f736cb970e01aa7bd"
         },
-        "canonicalisation": "keys sorted recursively, compact JSON, ensure_ascii=false, UTF-8",
-        "whatThisDoesNotEstablish": "No new approval, legal/source review or raster; existing unchanged evidence remains controlling."
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "de_pardon_expungement"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "de_pardon_expungement"
+            ],
+            "fromReceiptRouteKeys": [
+              "de_pardon_expungement"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "al-misd-conviction",
+          "co_motion_seal_conviction",
+          "tn_eligible_conviction",
+          "tn_judicial_diversion",
+          "tn_pretrial_diversion",
+          "tn_two_offense"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "98c89f71a96ba4869d4ea8c71a7702b5dc3a95c2",
+          "commit": "fe7fd55f3acd5eab0bdba5084e7a0390ad1f4359",
+          "commitsWithThisPath": 104,
+          "distinctBlobs": 87,
+          "blobsHashed": 6
+        },
+        "appliedUnder": "31e factory re-pin range (lead 16:26:14Z, ND excluded 16:35:43Z): registry d0ba0e7d, specifications 1dec458b; CI",
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-11",
+          "was": {
+            "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+            "byteLength": 16778727
+          },
+          "recoveredFromCommit": "a45cb2767f70febb451503d7e4da2bb92676982d",
+          "why": "Full parsed Delaware pardon track entry and every global authority metadata field are identical to the original pinned source. Only unrelated registry entries changed. Independent VF02 custody-and-reuse proof already measures these unchanged anchors.",
+          "anchorsCompared": 2,
+          "anchorsIdentical": 2,
+          "anchorDetail": [
+            "recordGlobalMetadata: identical",
+            "track:de_pardon_expungement: identical"
+          ],
+          "identicalAnchorSha256": {
+            "recordGlobalMetadata": "ace7ccc95e4f1a507983b728b2e55c2f5682fb37c5049191e951de6988ad7b22",
+            "track:de_pardon_expungement": "48a8bf69615212ac915c79cf04e8854d28932e834322d0a4538f5b6dea966ff6"
+          },
+          "canonicalisation": "keys sorted recursively, compact JSON, ensure_ascii=false, UTF-8",
+          "whatThisDoesNotEstablish": "No new approval, legal/source review or raster; existing unchanged evidence remains controlling."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     }
   ],
