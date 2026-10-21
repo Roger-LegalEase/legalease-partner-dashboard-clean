@@ -1690,8 +1690,14 @@ export function montanaRecordFinancialDraftSuccessor(snapshot: ProtectedPacketAu
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
-// Owner Item 11: exact metadata-only predecessor pairs; no future profile change is covered.
+// Declared predecessor pairs only; no future profile change is covered.
 const LEGAL_AUTHORITY_METADATA_SUCCESSORS = [
+  {
+    "jurisdiction": "CA",
+    "pathwayId": "tool-3-petition-based-felony-sealing",
+    "priorSha256": "2a0513fecfcfb1d7a966675be76468b00c5ea22df87b7223e4c2c8995da301f7",
+    "newSha256": "c322680a1f7f176bf7c921a9904e6b7f7ac56b5f5c6c547d9ff8345e502fabd2"
+  },
   {
     "jurisdiction": "CO",
     "pathwayId": null,
@@ -1766,8 +1772,8 @@ function matchesDeclaredMetadataPredecessor(profile: NonNullable<ReturnType<type
     && row.pathwayId === pathwayId && row.priorSha256 === fingerprint && row.newSha256 === current);
 }
 
-/** Only a draft's declared metadata fingerprint moves. Raw maps/history and all
- * downstream route checks remain intact; final verification cannot carry over. */
+/** Exact metadata successors preserve raw facts/history and downstream checks.
+ * The declared CA containment also projects its held result; final verification never carries over. */
 export function legalAuthorityMetadataDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
   status: ProtectedPacketVerificationRecord["status"]): ProtectedPacketDraftSnapshot | null {
@@ -1776,10 +1782,25 @@ export function legalAuthorityMetadataDraftSuccessor(snapshot: ProtectedPacketAu
     || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
     || snapshot.jurisdiction !== profile.jurisdiction.code || snapshot.profileVersion !== profile.profileVersion
     || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
-    || snapshot.pathwayId !== (evaluation.pathwayId ?? null) || snapshot.paymentAllowed || evaluation.paymentAllowed) return null;
+    || snapshot.pathwayId !== (evaluation.pathwayId ?? null) || evaluation.paymentAllowed) return null;
   const pair = LEGAL_AUTHORITY_METADATA_SUCCESSORS.find(row => row.jurisdiction === snapshot.jurisdiction
     && row.pathwayId === snapshot.pathwayId && row.priorSha256 === snapshot.profileAuthorityFingerprint);
   if (!pair || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== pair.newSha256) return null;
+  // Approved tool-3 containment only closes payment; saved facts and the packet plan stay exact.
+  if (pair.jurisdiction === "CA" && pair.pathwayId === "tool-3-petition-based-felony-sealing"
+    && (snapshot.paymentAllowed ? ["packet_ready", "packet_ready_with_caution"].includes(snapshot.resultCode ?? "")
+      : ["not_yet", "needs_review", "needs_more_info"].includes(snapshot.resultCode ?? ""))
+    && snapshot.packetType === "custom_pleading" && evaluation.resultCode === "guidance_only"
+    && authoritative.packetType === "guidance_packet" && evaluation.missingQuestionIds.length === 0
+    && evaluation.reasons.length === 1 && evaluation.reasons[0].code === "ca.lawrence_hold_guidance_only"
+    && canonicalEqual(snapshot.serverFacts, canonicalServerFacts("CA", snapshot.pathwayId))
+    && canonicalEqual(snapshot.requiredInputIds, snapshot.packetPlan?.requiredInputIds ?? [])
+    && canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] })) {
+    const held = { ...snapshot, profileAuthorityFingerprint: pair.newSha256,
+      resultCode: evaluation.resultCode, paymentAllowed: false, packetType: authoritative.packetType } as ProtectedPacketDraftSnapshot;
+    return protectedRouteAuthorityMatches(held, authoritative) ? held : null;
+  }
+  if (snapshot.paymentAllowed) return null;
   return { ...snapshot, profileAuthorityFingerprint: pair.newSha256 } as ProtectedPacketDraftSnapshot;
 }
 
