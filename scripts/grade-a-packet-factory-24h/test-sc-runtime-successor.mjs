@@ -6,6 +6,8 @@ import { loadScReviewedGuidance } from './sc-reviewed-guidance.mjs';
 
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const json = x => Buffer.from(JSON.stringify(x));
+const registryPath = 'data/record-clearing/legal-design-track-registry.json';
+const tnTracks = ['tn_pretrial_diversion', 'tn_judicial_diversion', 'tn_eligible_conviction', 'tn_two_offense'];
 const admissionPath = 'data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json';
 function fixture() {
   const files = new Map(), historical = new Map();
@@ -19,7 +21,19 @@ function fixture() {
     paymentPlaceholderDisabled: true, checkoutRefused: true, route: {sellable: false, creditConsumable: false, rendererKind: 'none'}}));
   const originalRuntimeBinding = pin('data/original-runtime.json', json({consumerBindings: baselineBindings, rows}));
   historical.set(originalRuntimeBinding.path, files.get(originalRuntimeBinding.path));
-  const originalAdmission = pin(admissionPath, json({runtimeBindingEvidence: originalRuntimeBinding}));
+  const registry = {schemaVersion: 'fixture', tracks: [
+    {jurisdiction: 'SC', trackId: 'sc_preserved', guidance: 'unchanged'},
+    ...tnTracks.map(trackId => ({jurisdiction: 'TN', trackId, source: 'before'})),
+  ]};
+  const from = pin(registryPath, json(registry)); historical.set(registryPath, files.get(registryPath));
+  const measurements = pin('data/measurements.json', json({bindings: [from]}));
+  registry.tracks.filter(row => row.jurisdiction === 'TN').forEach(row => row.source = 'after');
+  const to = pin(registryPath, json(registry));
+  const registryReview = {schemaVersion: 'rcap-sc-guidance-registry-successor-review/v1', familyId: 'rcap-sc-custom-pleading',
+    status: 'PASS', runtimeBehaviorUnchanged: true, authorSession: '/root', reviewerSession: '/root/independent-fixture',
+    commercialRoutesOpened: 0, failures: [], baselineCommit: 'a91c6b41deaafd1d6f5a93c69869fb0e965f21e2',
+    from, to, changedTrackIds: tnTracks, trackCount: 5, preservedScTrackIds: ['sc_preserved']};
+  const originalAdmission = pin(admissionPath, json({runtimeBindingEvidence: originalRuntimeBinding, measurements}));
   historical.set(admissionPath, files.get(admissionPath));
   const review = {schemaVersion: 'rcap-sc-guidance-runtime-successor-review/v1', familyId: 'rcap-sc-custom-pleading', status: 'PASS', verdict: 'PASS_COMPLETE_INDEPENDENT',
     acceptanceGranted: true, runtimeBehaviorUnchanged: true,
@@ -33,25 +47,52 @@ function fixture() {
   })));
   const manifest = {schemaVersion: 'rcap-sc-guidance-runtime-successor/v1', familyId: review.familyId,
     baselineCommit: review.baselineCommit, commercialRoutesOpened: 0, originalAdmission, originalRuntimeBinding};
-  return {files, historical, manifest, review, pin};
+  return {files, historical, manifest, review, registryReview, pin};
 }
 let checks = 0;
 function run(f) {
   f.manifest.independentReview = f.pin('data/independent-review.json', json(f.review));
+  f.manifest.registrySuccessor = f.pin('data/registry-independent-review.json', json(f.registryReview));
   f.files.set(SC_RUNTIME_SUCCESSOR, json(f.manifest));
   return loadScRuntimeSuccessor('/fixture', {readBytes: p => {
     assert(f.files.has(p), `missing ${p}`); return f.files.get(p);
   }, readHistorical: (commit, p) => {
-    assert.equal(commit, f.review.baselineCommit); assert(f.historical.has(p)); return f.historical.get(p);
+    assert.equal(commit, p === registryPath ? f.registryReview.baselineCommit : f.review.baselineCommit);
+    assert(f.historical.has(p)); return f.historical.get(p);
   }});
 }
 const good = fixture(), accepted = run(good);
 for (const ref of good.review.baselineBindings) {
   assert.deepEqual(accepted.historicalConsumer(ref), good.historical.get(ref.path)); checks++;
 }
+assert.deepEqual(accepted.historicalConsumer(good.registryReview.from), good.historical.get(registryPath), 'the reviewed registry predecessor must be carried'); checks++;
+assert.throws(() => accepted.historicalConsumer({...good.registryReview.from, sha256: '0'.repeat(64)}), /unknown predecessor pin/); checks++;
 assert.equal(accepted.historicalConsumer({path: 'private/source.pdf'}), null); checks++;
 assert.throws(() => accepted.historicalConsumer({...good.review.baselineBindings[0], sha256: '0'.repeat(64)})); checks++;
 const mutations = [
+  f => { const bytes = Buffer.from(f.files.get(registryPath)); bytes[0] ^= 1; f.files.set(registryPath, bytes); },
+  f => f.registryReview.from.sha256 = '0'.repeat(64),
+  f => f.registryReview.from.byteLength++,
+  f => f.registryReview.to.sha256 = '0'.repeat(64),
+  f => f.registryReview.from.path = 'data/unreviewed.json',
+  f => f.registryReview.baselineCommit = 'main',
+  f => f.registryReview.status = 'PENDING',
+  f => f.registryReview.reviewerSession = f.registryReview.authorSession,
+  f => f.registryReview.runtimeBehaviorUnchanged = false,
+  f => f.registryReview.commercialRoutesOpened = 1,
+  f => f.registryReview.failures.push('unreviewed change'),
+  f => f.registryReview.changedTrackIds = f.registryReview.changedTrackIds.slice(1),
+  f => f.registryReview.trackCount++,
+  f => f.registryReview.preservedScTrackIds = ['unmeasured-sc-track'],
+  ...[
+    registry => registry.tracks[0].guidance = 'changed SC',
+    registry => registry.schemaVersion = 'changed metadata',
+    registry => registry.tracks.push({jurisdiction: 'TN', trackId: 'unreviewed'}),
+    registry => registry.tracks[1].jurisdiction = 'SC',
+  ].map(mutate => f => {
+    const registry = JSON.parse(f.files.get(registryPath)); mutate(registry);
+    f.registryReview.to = f.pin(registryPath, json(registry));
+  }),
   f => f.review.schemaVersion = 'wrong',
   f => f.review.acceptanceGranted = false,
   f => f.review.runtimeBehaviorUnchanged = false,
@@ -84,8 +125,11 @@ const mutations = [
     'paymentPlaceholderDisabled', 'checkoutRefused'].map(key => f => { f.review.rows[0][key] = false; }),
   f => f.review.reviewedFiles = [...f.review.reviewedFiles, {path: '../escape', sha256: sha(Buffer.from('x')), byteLength: 1}],
 ];
-for (const mutate of mutations) {
-  const f = fixture(); mutate(f); assert.throws(() => run(f), `mutation ${checks}`); checks++;
+for (const [index, mutate] of mutations.entries()) {
+  const f = fixture(); mutate(f);
+  const expected = index === 0 ? /SC successor: stale data\/record-clearing\/legal-design-track-registry.json/
+    : index === 1 ? /SC successor: wrong registry predecessor/ : undefined;
+  assert.throws(() => run(f), expected, `mutation ${checks}`); checks++;
 }
 if (process.argv.includes('--current')) {
   assert(loadScRuntimeSuccessor(process.cwd())); checks++;

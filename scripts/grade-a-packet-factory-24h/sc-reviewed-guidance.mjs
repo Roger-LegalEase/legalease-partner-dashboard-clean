@@ -18,8 +18,8 @@ export function loadScReviewedGuidance(root, refusals) {
     assert.ok(ref && typeof ref.path === "string" && !path.isAbsolute(ref.path)
       && !ref.path.split("/").includes(".."), "SC: invalid evidence path");
     // The predecessor approval keeps its exact historical bytes. A successor
-    // independently binds current consumers before these four historical pins
-    // may be read; all remaining evidence still binds the current checkout.
+    // independently binds current consumers and the exact registry successor
+    // before their historical pins may be read; other evidence stays current-bound.
     const bytes = successor?.historicalConsumer(ref) ?? fs.readFileSync(path.join(root, ref.path));
     assert.equal(crypto.createHash("sha256").update(bytes).digest("hex"), ref.sha256, `SC: stale ${ref.path}`);
     assert.equal(bytes.length, ref.byteLength, `SC: byte length ${ref.path}`);

@@ -300,7 +300,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C7 - citizenship or clearance | Are you asking about this because of immigration, federal employment or a security clearance? Tennessee expunction does not reach federal records. |
 | Item C8 - diversion kind | Was it pretrial diversion, where you did not plead guilty and prosecution was suspended, or judicial diversion, where you entered a plea but no judgment of conviction was entered? |
 | Item C9 - successfully completed | Did you successfully complete everything the diversion required, and were the charges then dismissed? |
-| Item C10 - sexual offence | Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. |
+| Item C10 - sexual offence | Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing. |
 | Item C11 - petition filed before | Have you already filed a petition to expunge this case? |
 | Item C12 - mou with da | Did you sign a memorandum of understanding with the district attorney general suspending prosecution, without pleading guilty? |
 
@@ -415,7 +415,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C7 - citizenship or clearance | Are you asking about this because of immigration, federal employment or a security clearance? Tennessee expunction does not reach federal records. |
 | Item C8 - diversion kind | Was it pretrial diversion, where you did not plead guilty and prosecution was suspended, or judicial diversion, where you entered a plea but no judgment of conviction was entered? |
 | Item C9 - successfully completed | Did you successfully complete everything the diversion required, and were the charges then dismissed? |
-| Item C10 - sexual offence | Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. |
+| Item C10 - sexual offence | Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing. |
 | Item C11 - petition filed before | Have you already filed a petition to expunge this case? |
 | Item C12 - conditional plea | Did you enter a guilty plea that the court held without entering a judgment of conviction, and then complete probation? |
 

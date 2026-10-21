@@ -258,7 +258,7 @@ const SPEC = {
         "T.C.A. § 40-39-202",
         "Was it pretrial diversion, where you did not plead guilty and prosecution was suspended, or judicial diversion, where you entered a plea but no judgment of conviction was entered?",
         "Did you successfully complete everything the diversion required, and were the charges then dismissed?",
-        "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+        "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
         "Have you already filed a petition to expunge this case?",
         "Did you sign a memorandum of understanding with the district attorney general suspending prosecution, without pleading guilty?",
         "A clerk's fee applies. Section 40-32-106(d)(3) requires the appropriate clerk's fee pursuant to T.C.A. § 8-21-401 for de",
@@ -1953,7 +1953,7 @@ const SPEC = {
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -2073,7 +2073,7 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_sexualOffence",
           "label": "Item C10 - sexual offence",
-          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
           "why": "the committed track registry records this as a required generation input for tn_pretrial_diversion, and the platform holds no value for it"
         },
         {
@@ -3351,7 +3351,7 @@ const SPEC = {
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -3471,7 +3471,7 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_sexualOffence",
           "label": "Item C10 - sexual offence",
-          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
           "why": "the committed track registry records this as a required generation input for tn_judicial_diversion, and the platform holds no value for it"
         },
         {

@@ -17,6 +17,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
@@ -201,7 +202,7 @@ function resolveSources() {
 }
 
 const RECORDS = [
-  { recordId: "ks-arrest-legal-design-track-registry", path: "data/record-clearing/legal-design-track-registry.json", sha256: "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0", mustContain: ["ks-22-2410-arrest-set", "K.S.A. 22-2410(a)(1)", "Docket fee $176", "The court causes notice to be given."] },
+  { recordId: "ks-arrest-legal-design-track-registry", path: "data/record-clearing/legal-design-track-registry.json", sha256: "5e200d1520e15c36a9d0b70b982cefbdb42848704e318445940c599b1818649e", mustContain: ["ks-22-2410-arrest-set", "K.S.A. 22-2410(a)(1)", "Docket fee $176", "The court causes notice to be given."] },
   { recordId: "ks-arrest-master-queue", path: "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json", sha256: "e8c1acb7e4d0b3510834be83b888f25496e6de06a4d80e2dfa73fb874be3e243", mustContain: ["ks-22-2410-arrest-set", "SOURCE_BOUND_BY_HELD_BYTES", "OWNER_ATTESTATION_RELEASE"] },
   { recordId: "owner-kjc-permission-attestation", path: OWNER_RECORD, sha256: "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6", mustContain: ["ks-22-2410-arrest-set", "LEGAL_CLEAR", "productionTerminalGranted"] },
   { recordId: "ks-source-acquisition-receipt", path: "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json", sha256: "2825c6af0f25168a0a3e0e31700ee167490f5bc27d1b18a84ea3218792d78551", mustContain: ["6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60", "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d", "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5"] }
@@ -634,7 +635,7 @@ async function build() {
     const drift = []; for (const [rel, bytes] of output) { const abs = rel === "__PF20_RETURN__" ? path.join(ROOT, returnRel) : path.join(ROOT, OUT, rel); if (!fs.existsSync(abs)) { drift.push({ file: rel, why: "absent" }); continue; } const saved = fs.readFileSync(abs); if (sha(saved) !== sha(bytes) || saved.length !== bytes.length) drift.push({ file: rel, savedSha256: sha(saved), rebuiltSha256: sha(bytes) }); }
     return { familyId: FAMILY_ID, status: drift.length ? "DRIFT" : "DETERMINISTIC", drift, counters: counted.counters };
   }
-  for (const [rel, bytes] of output) { if (rel === "__PF20_RETURN__") { fs.writeFileSync(path.join(ROOT, returnRel), Buffer.from(`${JSON.stringify(returnValue, null, 2)}\n`)); continue; } const abs = path.join(ROOT, OUT, rel); fs.mkdirSync(path.dirname(abs), { recursive: true }); fs.writeFileSync(abs, bytes); }
+  for (const [rel, bytes] of output) { if (rel === "__PF20_RETURN__") { fs.writeFileSync(path.join(ROOT, returnRel), Buffer.from(`${JSON.stringify(returnValue, null, 2)}\n`)); continue; } const abs = path.join(ROOT, OUT, rel); fs.mkdirSync(path.dirname(abs), { recursive: true }); fs.writeFileSync(abs, rel.endsWith(".json") ? `${JSON.stringify(preserveIdentityRefresh(fs, abs, JSON.parse(bytes.toString("utf8"))), null, 2)}\n` : bytes); }
   const allZero = PASS_COUNTERS.every((c) => counted.counters[c] === 0);
   return { familyId: FAMILY_ID, status: allZero ? "COMPLETED" : "STOPPED", counters: counted.counters, counterFindings: counted.findings, directory: OUT, outputs: artifacts.map((a) => ({ fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount })), documents: SOURCE_DOCS.map((d) => `${d.documentId} (${d.strategy})`), writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0), requiredBeforeFiling: rbf.length, rasterState: "BUILT_RASTER_PENDING", independentReview: "PENDING", commercialRoutesOpened: 0 };
 }

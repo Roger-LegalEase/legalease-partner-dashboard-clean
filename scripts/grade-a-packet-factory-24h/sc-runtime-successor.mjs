@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { isDeepStrictEqual } from 'node:util';
 
 export const SC_RUNTIME_SUCCESSOR = 'data/rcap-grade-a/legal-decisions/SC_GUIDANCE_RUNTIME_SUCCESSOR_2026-10-13.json';
 export const SC_RUNTIME_CONSUMERS = [
@@ -11,6 +12,8 @@ export const SC_RUNTIME_CONSUMERS = [
   'src/lib/rcap/render/job-contract.ts',
   'src/lib/expungement-ai/payment-adapter.ts',
 ];
+const REGISTRY = 'data/record-clearing/legal-design-track-registry.json';
+const TN_TRACKS = ['tn_pretrial_diversion', 'tn_judicial_diversion', 'tn_eligible_conviction', 'tn_two_offense'];
 const FAMILY = 'rcap-sc-custom-pleading';
 const BASELINE = '20d26d6a3bd74521f7f400ca27d98f307fb8d7b6';
 const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -18,14 +21,14 @@ const safe = relative => assert(typeof relative === 'string' && !path.isAbsolute
   && !relative.includes('\\') && !relative.split('/').some(p => ['', '.', '..'].includes(p)), 'SC successor: unsafe path');
 const identity = ref => ({ path: ref.path, sha256: ref.sha256, byteLength: ref.byteLength });
 
-/** Existing SC guidance acceptance remains immutable. Only an independently
- * measured, exact four-consumer successor may carry its runtime proof forward.
- * Every other source, guide, review and owner-decision pin is still current-bound.
+/** Existing SC guidance acceptance remains immutable. Independently
+ * measured successors carry the four consumer pins and one registry pin.
+ * Every other source, guide, review and owner-decision pin stays current-bound.
  */
 export function loadScRuntimeSuccessor(root, overrides = {}) {
   const read = overrides.readBytes ?? (relative => fs.readFileSync(path.join(root, relative)));
   const historical = overrides.readHistorical ?? ((commit, relative) => execFileSync('git', ['show', `${commit}:${relative}`],
-    { cwd: root, maxBuffer: 2 ** 24, stdio: ['ignore', 'pipe', 'ignore'] }));
+    { cwd: root, maxBuffer: 2 ** 25, stdio: ['ignore', 'pipe', 'ignore'] }));
   if (!overrides.readBytes && !fs.existsSync(path.join(root, SC_RUNTIME_SUCCESSOR))) return null;
   const exact = (ref, bytes) => {
     safe(ref.path); assert.match(ref.sha256, /^[a-f0-9]{64}$/);
@@ -90,15 +93,52 @@ export function loadScRuntimeSuccessor(root, overrides = {}) {
     assert.equal(row.route.creditConsumable, false);
     assert.equal(row.route.rendererKind, 'none');
   }
+  const predecessorPins = new Map(original.consumerBindings.map(ref => [ref.path, ref]));
   const oldBytes = new Map();
   for (const ref of original.consumerBindings) {
     safe(ref.path); oldBytes.set(ref.path, exact(ref, historical(BASELINE, ref.path)));
   }
+  if (manifest.registrySuccessor) {
+    const registryReview = JSON.parse(current(manifest.registrySuccessor));
+    assert.equal(registryReview.schemaVersion, 'rcap-sc-guidance-registry-successor-review/v1');
+    assert.equal(registryReview.familyId, FAMILY);
+    assert.equal(registryReview.status, 'PASS');
+    assert.equal(registryReview.runtimeBehaviorUnchanged, true);
+    assert.equal(registryReview.authorSession, '/root');
+    assert(registryReview.reviewerSession && registryReview.reviewerSession !== registryReview.authorSession);
+    assert.equal(registryReview.commercialRoutesOpened, 0);
+    assert.deepEqual(registryReview.failures, []);
+    assert.match(registryReview.baselineCommit, /^[a-f0-9]{40}$/);
+    assert.equal(registryReview.from.path, REGISTRY);
+    assert.equal(registryReview.to.path, REGISTRY);
+    const measurements = JSON.parse(current(admission.measurements));
+    const measured = measurements.bindings.filter(ref => ref.path === REGISTRY);
+    assert.equal(measured.length, 1);
+    assert.deepEqual(identity(registryReview.from), identity(measured[0]), 'SC successor: wrong registry predecessor');
+    const beforeBytes = exact(registryReview.from, historical(registryReview.baselineCommit, REGISTRY));
+    const { tracks: before, ...beforeMetadata } = JSON.parse(beforeBytes);
+    const { tracks: after, ...afterMetadata } = JSON.parse(current(registryReview.to));
+    assert.deepEqual(afterMetadata, beforeMetadata, 'SC successor: changed registry metadata');
+    assert.equal(after.length, before.length);
+    assert.equal(registryReview.trackCount, before.length);
+    assert.deepEqual(registryReview.preservedScTrackIds, before.filter(row => row.jurisdiction === 'SC').map(row => row.trackId));
+    assert.deepEqual(registryReview.changedTrackIds, TN_TRACKS);
+    assert.deepEqual(before.filter((row, i) => !isDeepStrictEqual(row, after[i])).map(row => row.trackId), TN_TRACKS);
+    for (let i = 0; i < before.length; i++) {
+      assert.equal(after[i].trackId, before[i].trackId);
+      if (TN_TRACKS.includes(before[i].trackId)) {
+        assert.equal(before[i].jurisdiction, 'TN'); assert.equal(after[i].jurisdiction, 'TN');
+      } else assert.deepEqual(after[i], before[i], 'SC successor: changed unrelated track');
+    }
+    assert.deepEqual(before.filter(row => TN_TRACKS.includes(row.trackId)).map(row => row.trackId), TN_TRACKS);
+    predecessorPins.set(REGISTRY, registryReview.from);
+    oldBytes.set(REGISTRY, beforeBytes);
+  }
   return {
     reviewReference: manifest.independentReview,
     historicalConsumer(ref) {
-      if (!SC_RUNTIME_CONSUMERS.includes(ref.path)) return null;
-      assert.deepEqual(identity(ref), identity(original.consumerBindings.find(r => r.path === ref.path)), 'SC successor: unknown predecessor pin');
+      if (!predecessorPins.has(ref.path)) return null;
+      assert.deepEqual(identity(ref), identity(predecessorPins.get(ref.path)), 'SC successor: unknown predecessor pin');
       return oldBytes.get(ref.path);
     },
   };
