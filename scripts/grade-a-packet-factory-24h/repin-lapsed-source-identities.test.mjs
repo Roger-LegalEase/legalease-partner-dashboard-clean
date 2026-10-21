@@ -388,6 +388,81 @@ test("REFUSE: a drifted record with no adapter is never guessed at", () => {
 });
 
 /* ------------------------------------------------------------------ *
+ * The specifications adapter, on two fixed changes from history:
+ * 56cea6685 moved only co_motion_seal_conviction (officialFormAssignments),
+ * c58b91551 moved only tn_pretrial_diversion + tn_judicial_diversion
+ * (customPleadingSpecs). Neither touched the WI track.
+ * ------------------------------------------------------------------ */
+
+const SPECS = "data/record-clearing/legal-design-specifications.json";
+const specsAdapter = ADAPTERS.get(SPECS);
+const specsAt = (rev) => JSON.parse(execFileSync("git", ["show", `${rev}:${SPECS}`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
+const SPECS_CHANGES = {
+  co: [specsAt("ec715deaecd3ad4e4b3d890050aaf2723f0b4a73"), specsAt("56cea6685a094aa86f5e6bccc52bbb255297889d")],
+  tn: [specsAt("1310ab5d9551fd29839e8ef39b7c5895d468523b"), specsAt("c58b915511d080536e93f93deb615329177a9143")]
+};
+const specsPinAt = (rev, dir) => {
+  const receipt = JSON.parse(execFileSync("git", ["show", `${rev}:${dir}/source-receipt.json`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
+  return { receipt, pin: receipt.committedRecords.find((r) => r.pathInRepository === SPECS) };
+};
+const WI_SPECS = specsPinAt("2f6985f6478247d71de78447bc16680a29136427", "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading");
+const TN_SPECS = specsPinAt("2f6985f6478247d71de78447bc16680a29136427", "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading");
+const CO_SPECS = { receipt: {}, pin: { recordId: "legal-design-specifications:co_motion_seal_conviction", pathInRepository: SPECS } };
+
+/* The three properties, as functions of an adapter, so each mutant below is
+ * run through exactly the checks the real adapter passes. */
+const specsCompare = (a, { receipt, pin }, [oldDoc, currentDoc]) =>
+  compareAnchors({ adapter: a, oldDoc, currentDoc, scope: a.scopeFrom({ receipt, pin, currentDoc }) });
+const specsAcceptsWi = (a) => Object.values(SPECS_CHANGES).every((pair) => {
+  const c = specsCompare(a, WI_SPECS, pair);
+  return c.anchorsCompared === c.anchorsIdentical && c.anchorNames.includes("specs:wi_exp_certificate_of_discharge_followup");
+});
+const specsRefusesTn = (a) => canonical(specsCompare(a, TN_SPECS, SPECS_CHANGES.tn).differing) === canonical(["specs:tn_judicial_diversion", "specs:tn_pretrial_diversion"]);
+const specsRefusesCo = (a) => canonical(specsCompare(a, CO_SPECS, SPECS_CHANGES.co).differing) === canonical(["specs:co_motion_seal_conviction"]);
+
+test("specifications ACCEPT: the WI family's own track is identical across both changes, so it compares clean", () => {
+  assert.ok(specsAdapter, "the specifications record must have an adapter");
+  assert.deepEqual(specsAdapter.scopeFrom({ ...WI_SPECS, currentDoc: SPECS_CHANGES.co[1] }).anchorIds, ["wi_exp_certificate_of_discharge_followup"]);
+  assert.ok(specsAcceptsWi(specsAdapter));
+});
+
+test("specifications REFUSE: the real TN family is refused over the TN change, naming exactly the two changed tracks", () => {
+  assert.ok(specsRefusesTn(specsAdapter));
+  const c = specsCompare(specsAdapter, TN_SPECS, SPECS_CHANGES.tn);
+  const scope = specsAdapter.scopeFrom({ ...TN_SPECS, currentDoc: SPECS_CHANGES.tn[1] });
+  const detail = describeDifference({ adapter: specsAdapter, oldDoc: SPECS_CHANGES.tn[0], currentDoc: SPECS_CHANGES.tn[1], scope, differing: c.differing });
+  assert.ok(detail.every((d) => canonical(d.changedFields) === canonical(["customPleadingSpecs"])));
+});
+
+test("specifications REFUSE: a family binding co_motion_seal_conviction is refused over the CO change", () => {
+  assert.ok(specsRefusesCo(specsAdapter));
+});
+
+test("specifications REFUSE: a recordId naming no track, or not in the specifications shape, is refused", () => {
+  const currentDoc = SPECS_CHANGES.co[1];
+  for (const recordId of ["legal-design-specifications:no-such-track", "legal-design-specifications:processGuidance#ga-rfo", "committed-record", undefined]) {
+    assert.throws(() => specsAdapter.scopeFrom({ receipt: {}, pin: { recordId, pathInRepository: SPECS }, currentDoc }),
+      (e) => e instanceof Refusal, `recordId ${recordId} must refuse`);
+  }
+  assert.throws(() => specsAdapter.anchorsOf({ ...currentDoc, extra: 1 }, { anchorIds: [] }, "current"), (e) => e instanceof Refusal);
+});
+
+test("specifications MUTANTS: a widened or narrowed scope is caught", () => {
+  const everyTrack = (doc) => [...specsAdapter.index(doc, "current").keys()].sort();
+  const widened = { ...specsAdapter, scopeFrom: ({ currentDoc }) => ({ anchorIds: everyTrack(currentDoc) }) };
+  const narrowedToCustomPleading = { ...specsAdapter, anchorsOf(doc, scope, side) {
+    const out = specsAdapter.anchorsOf(doc, scope, side);
+    for (const [k, v] of out) if (k.startsWith("specs:")) out.set(k, { customPleadingSpecs: v.customPleadingSpecs });
+    return out;
+  } };
+  const narrowedToNothing = { ...specsAdapter, scopeFrom: () => ({ anchorIds: [] }) };
+  assert.equal(specsAcceptsWi(widened), false, "widened scope: the WI ACCEPT must fail because the CO and TN tracks enter it");
+  assert.equal(specsRefusesCo(narrowedToCustomPleading), false, "narrowed to one array: the CO change must stop being seen");
+  assert.equal(specsAcceptsWi(narrowedToNothing), false, "narrowed to no track: the WI ACCEPT must fail because its own track is not compared");
+  assert.equal(specsRefusesTn(narrowedToNothing), false);
+});
+
+/* ------------------------------------------------------------------ *
  * The block it writes, and the doctrine that reads it
  * ------------------------------------------------------------------ */
 

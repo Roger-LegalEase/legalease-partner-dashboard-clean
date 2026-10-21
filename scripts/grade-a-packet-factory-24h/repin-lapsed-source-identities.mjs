@@ -403,6 +403,55 @@ const packetManifestAdapter = {
   }
 };
 
+const SPECIFICATIONS = "data/record-clearing/legal-design-specifications.json";
+const SPECIFICATION_ARRAYS = ["customPleadingSpecs", "officialFormAssignments", "processGuidanceSpecs", "participantFilingRequirements"];
+
+/* Legal-design specifications: four arrays whose every entry carries a trackId,
+ * plus schemaVersion. Scope is the pin's recordId only,
+ * `legal-design-specifications:<trackId>[+<trackId>...]`; each named track is
+ * one anchor holding its entries from all four arrays. Everything outside the
+ * arrays is compared whole, and an unknown top-level key refuses. */
+const specificationsAdapter = {
+  recordPath: SPECIFICATIONS,
+  describe: "legal-design specifications (per-track entries of the four spec arrays + schemaVersion)",
+  index(doc, side) {
+    if (!doc || doc.schemaVersion !== 1 || !SPECIFICATION_ARRAYS.every((k) => Array.isArray(doc[k]))) {
+      throw new Refusal(`the ${side} specifications record has an unsupported schema`);
+    }
+    const unknown = Object.keys(doc).filter((k) => k !== "schemaVersion" && !SPECIFICATION_ARRAYS.includes(k));
+    if (unknown.length) throw new Refusal(`the ${side} specifications record has fields this adapter does not describe: ${unknown.join(", ")}`);
+    const byTrack = new Map();
+    for (const array of SPECIFICATION_ARRAYS) {
+      for (const entry of doc[array]) {
+        if (typeof entry?.trackId !== "string" || !entry.trackId) throw new Refusal(`the ${side} specifications record holds a ${array} entry with no trackId`);
+        if (!byTrack.has(entry.trackId)) byTrack.set(entry.trackId, Object.fromEntries(SPECIFICATION_ARRAYS.map((k) => [k, []])));
+        byTrack.get(entry.trackId)[array].push(entry);
+      }
+    }
+    return byTrack;
+  },
+  scopeFrom({ receipt, pin, currentDoc }) {
+    const byTrack = this.index(currentDoc, "current");
+    const match = /^legal-design-specifications:(.+)$/.exec(pin.recordId ?? "");
+    if (!match) throw new Refusal(`ambiguous specifications recordId ${JSON.stringify(pin.recordId)}`, { recordId: pin.recordId ?? null });
+    const anchors = match[1].split("+");
+    for (const id of anchors) {
+      if (!byTrack.has(id)) throw new Refusal(`the receipt's recordId names ${JSON.stringify(id)}, which is no track in the current specifications`, { recordId: pin.recordId, component: id });
+    }
+    return { anchorIds: [...new Set(anchors)].sort(), derivation: { fromPinRecordId: anchors, globalMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
+  },
+  anchorsOf(doc, scope, side) {
+    const byTrack = this.index(doc, side);
+    const shared = Object.fromEntries(Object.entries(doc).filter(([k]) => !SPECIFICATION_ARRAYS.includes(k)));
+    const out = new Map([["specificationsGlobalMetadata", shared]]);
+    for (const id of scope.anchorIds) {
+      if (!byTrack.has(id)) throw new Refusal(`anchor track ${id} is absent from the ${side} specifications; the entries this family binds left the record and it owes a fresh read`, { anchor: `specs:${id}`, side });
+      out.set(`specs:${id}`, byTrack.get(id));
+    }
+    return out;
+  }
+};
+
 const SOURCE_DETERMINATIONS = "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json";
 export function acceptedAcquisitionIdentity(evidence) {
   return ["ACQUIRED_CURRENT_OFFICIAL_BINARY", "OFFICIAL_SOURCE_ALREADY_HELD", "PASS"].includes(evidence?.result)
@@ -1585,6 +1634,7 @@ const worklistAdapter = {
 export const ADAPTERS = new Map([
   [REGISTRY, registryAdapter],
   [PACKET_MANIFESTS, packetManifestAdapter],
+  [SPECIFICATIONS, specificationsAdapter],
   [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
   [WV_COMPILED_PROFILE, compiledProfileAdapter],
   [NY_COMPILED_PROFILE, nyCompiledProfileAdapter],
