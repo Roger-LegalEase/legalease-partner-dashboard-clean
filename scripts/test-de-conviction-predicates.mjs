@@ -145,7 +145,13 @@ for (const [id, patch] of [['invalid-choice', { de_common_exclusions: ['forged']
   check(response.status === 400, `${id}: actual public request validation refuses malformed facts`);
   rows.push({ id: `http-${id}`, http: response.status, result: body, expectedHttp: 400 });
 }
-const renderCases = ['court-a1-12-conviction_date', 'mandatory-misdemeanor-12-conviction_date', 'court-a2-13-conviction_date', 'listed-sbi-child', 'court-waiver-request-not-order', 'invalid-release_date-undefined', 'contradiction-class'].map(id => rows.find(r => r.id === id));
+// GA-20 Q-2d2f30305ce851b6d00f / Q-90d4c888e6c6a44246bf: preserve each procedure's exclusions and exceptions in both languages.
+const renderCases = ['court-a1-12-conviction_date', 'mandatory-misdemeanor-12-conviction_date', 'court-a2-13-conviction_date', 'listed-sbi-child', 'court-waiver-request-not-order', 'invalid-release_date-undefined', 'contradiction-class',
+  'common-11_766-court', 'court-bar-violent_felony', 'listed-court-child', 'listed-multi-child',
+  'title21-exception-court', 'title21-exception-sbi', 'title21-other-court',
+  'history-safe-marijuana-court', 'history-other-court', 'prior-felony-court'].map(id => {
+  const row = rows.find(r => r.id === id);assert(row, id);return row;
+});
 for (const row of renderCases) for (const locale of ['en', 'es']) {
   const value = { locale, setLocale: () => {}, t: (key, fallback, vars) => t(locale, key, fallback, vars), text: (text, options) => resolveRuntimeText(locale, text, options) };
   const markup = renderToStaticMarkup(React.createElement(LocalizationContext.Provider, { value }, React.createElement(ScreeningResult, { evaluation: row.result, stateName: 'Delaware', questionPromptById: Object.fromEntries(pub.questions.map(q => [q.id, q.prompt])), hasScreeningSession: false, onEditAnswers: () => {}, onPacketAction: () => {} })));
@@ -153,6 +159,11 @@ for (const row of renderCases) for (const locale of ['en', 'es']) {
     const text = resolveRuntimeText(locale, reason.text), escaped = renderToStaticMarkup(React.createElement('span', null, text)).slice(6, -7);
     check(markup.includes(escaped), `${row.id}/${locale}: actual localized reason rendered`);
     if (locale === 'es') check(text !== reason.text && !markup.includes(reason.text), `${row.id}: no English reason fallback`);
+  }
+  for (const text of Object.values(DE_REASON_TEXT).filter(text => !row.result.reasons.some(reason => reason.text === text))) {
+    const translated = resolveRuntimeText(locale, text);
+    const escaped = renderToStaticMarkup(React.createElement('span', null, translated)).slice(6, -7);
+    check(!markup.includes(escaped), `${row.id}/${locale}: unrelated Delaware reason is not shown: ${text}`);
   }
   for (const id of row.result.missingQuestionIds.filter(id => DE_CONVICTION_FACT_IDS.includes(id))) {
     const q = DE_CONVICTION_QUESTIONS.find(q => q.id === id), prompt = locale === 'es' ? q.translations.es.prompt : q.prompt;
