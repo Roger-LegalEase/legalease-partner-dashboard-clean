@@ -130,6 +130,12 @@ jobs:
         if: matrix.group == 'g'
         run: node scripts/test-briefcase-raw-status-tokens.mjs
 
+      # ~7 s. The packet collection audit and its summary must match the compiled profiles and packet
+      # specs; three merges left them stale before Y4 (lead 2026-10-21T20:07:22Z). Committed files only.
+      - name: Verify packet collection audit is current
+        if: matrix.group == 'g'
+        run: node scripts/generate-packet-collection-audit.mjs --check
+
       # 2 s. The compiled profiles are generated from the approved route contracts; a66ccc373
       # rewrote GA/MT/ND participant wording through the generator and failed groups d/e/f at 0e7e94cad.
       - name: Verify compiled profiles converge with the approved contracts
