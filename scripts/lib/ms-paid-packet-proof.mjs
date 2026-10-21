@@ -92,7 +92,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current batch31d CA-L06 source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31d-ca-l06-20261021-v1.json',
   // Mandatory current batch31d GA-20 CO and AL source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31d-ga20-co-al-20261021-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31d-ga20-co-al-20261021-v1.json',
+  // Mandatory current batch31d GA-20 R3 AK, GA, NY and MD source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31d-ga20-r3-20261021-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[

@@ -23,6 +23,7 @@ import {assertB31cCaL01L02SourceSuccession,B31C_CA_L01_L02_SOURCE_PATH} from '..
 import {assertB31cGa21CaL03SourceSuccession,B31C_GA21_CA_L03_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31dCaL06SourceSuccession,B31D_CA_L06_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31dGa20CoAlSourceSuccession,B31D_GA20_CO_AL_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertB31dGa20R3SourceSuccession,B31D_GA20_R3_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1074,6 +1075,13 @@ check('batch31d GA-20 CO and AL hop preserves prior chain and refuses missing/ta
  const c=assertB31dGa20CoAlSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,35);assert.equal(c.currentUnchangedSourceCount,163);
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31D_GA20_CO_AL_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31d GA-20 CO and AL source succession record bytes changed/);
  assert.throws(()=>assertB31dCaL06SourceSuccession(file=>{if(file===B31D_GA20_CO_AL_SOURCE_PATH)throw Error('missing batch31d GA-20 CO and AL record');return readBytes(file);}),/missing batch31d GA-20 CO and AL record/);
+ for(const input of ["src/lib/expungement-ai/frontend/reviewed-source-question-copy.json"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('batch31d GA-20 R3 AK, GA, NY and MD hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertB31dGa20R3SourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,35);assert.equal(c.currentUnchangedSourceCount,163);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31D_GA20_R3_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31d GA-20 R3 AK, GA, NY and MD source succession record bytes changed/);
+ assert.throws(()=>assertB31dGa20CoAlSourceSuccession(file=>{if(file===B31D_GA20_R3_SOURCE_PATH)throw Error('missing batch31d GA-20 R3 AK, GA, NY and MD record');return readBytes(file);}),/missing batch31d GA-20 R3 AK, GA, NY and MD record/);
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-source-question-copy.json"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
