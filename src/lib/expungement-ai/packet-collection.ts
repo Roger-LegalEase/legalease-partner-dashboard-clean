@@ -1113,6 +1113,21 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", // GA17 Q-5eade38bbd184e137187
     ],
   },
+  GA: {
+    profileHash: "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef",
+    categoryReason: "Earlier Georgia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions", // GA12 Q-6bdd80f723dafb6905e9
+      "non-conviction-record-restriction-through-the-agency-prosecutor-process", // GA12 Q-e8573d34e2f642eadbfc
+      "retroactive-first-offender-treatment-under-42-8-66", // GA12 Q-bd2e702c83d3b1c90cdc
+      "youthful-first-offender-restriction-route", // GA12 Q-0a405fcc19ade62c2b36
+    ],
+    record: [
+      "non-conviction-record-restriction-through-the-agency-prosecutor-process", // GA17 Q-38c9b3d2a65f7b3cf0cf
+      "retroactive-first-offender-treatment-under-42-8-66", // GA17 Q-7c543453ac4a3b2df3c2
+      "youthful-first-offender-restriction-route", // GA17 Q-b16fc9a9eaf374ee138e
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
