@@ -22,6 +22,13 @@ const NC = new Set([
   'MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8 GA12 Q-72d0f90f14e83e9055cf',
   'MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8 GA17 Q-7afb75fc02c80d21fe6e',
   'MO:marijuana-expungement-under-missouri-constitution-article-xiv GA12 Q-a39167ba4722efe9f48a',
+  // MS active-case members: GA1217_TO_LEAD 2026-10-21T08:09:56Z, assigned by the lead 08:14:05Z.
+  'MS:controlled-substance-conditional-discharge-active-case-admission GA12 Q-e5aae0617a5b7c0b4e69',
+  'MS:controlled-substance-conditional-discharge-active-case-admission GA17 Q-1c87028cbb0245b356ec',
+  'MS:nonadjudication-99-15-26-active-case-admission GA12 Q-ff587f6aaeb542414c0d',
+  'MS:nonadjudication-99-15-26-active-case-admission GA17 Q-4b3c8bc1491c65d69d4e',
+  'MS:pretrial-intervention-active-case-admission GA12 Q-140ce429d095361ecb54',
+  'MS:pretrial-intervention-active-case-admission GA17 Q-68b05fc2444ab78b80a9',
   'MT:deferred-sentence-dismissal-or-confidentiality-route GA12 Q-36f94b32930c7fc0e916',
   'MT:deferred-sentence-dismissal-or-confidentiality-route GA17 Q-da2839e57717001e88c0',
   'NY:conditional-treatment-sealing-under-cpl-160-58 GA12 Q-f89138cbd1584a2640c1',
@@ -178,4 +185,4 @@ console.log(JSON.stringify({ status: 'PASS_GA12_GA17_NO_CONSUMER_COLLECTION', ch
   measuredAt: Object.fromEntries(files.map((f, i) => [f, specs[i].measuredAt])), mutations: Object.keys(mutations),
   originalIds: spec.members.map(m => m.questionRecordId),
   limits: ['Collection, evaluation and saved-item surface only; no measured answer set reaches a protected packet, payment or render.',
-    'No output rendering, hosted authorization, commercial delivery or legal decision; MD GA17 render_required is named for Acceptance.'] }));
+    'No output rendering, hosted authorization, commercial delivery or legal decision; the GA17 members whose base bucket is render_required (MD, MS) are named for Acceptance.'] }));

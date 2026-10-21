@@ -973,7 +973,7 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
   if (completionConflict || completionUnknown) {
     const completion = allPublicQuestions(projectPublicProfile(profile)).find((question) => question.id === "sentence_completion_date");
     if (!completion) return null;
-    const question = { ...toProfileQuestion(completion), required: true };
+    const question = { ...caProp64CompletionQuestion(toProfileQuestion(completion)), required: true };
     if (questionAnswerState(question, allAnswers.sentence_completion_date) === "invalid") {
       question.legacyAnswerText = JSON.stringify(allAnswers.sentence_completion_date);
     }
@@ -3322,7 +3322,9 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   const profile = getProfileByJurisdiction(state);
   if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS,
     ...(includeInactive && Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
-  if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return ohJuvenileStageFactIds(answers, includeInactive);
+  // The OH juvenile R1 route returns before the generic offense_category history branch below, so it keeps that entry here.
+  if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...ohJuvenileStageFactIds(answers, includeInactive),
+    ...(includeInactive && Object.hasOwn(answers, "offense_category") && r1CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
   if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
     MN_TARGET_ORIGIN_ID, "case_outcome", ...mnProtectedStageFactIds(profile, pathway!, answers, includeInactive), ...mnTwoCountyFactIds(pathway!).filter(id => includeInactive || id !== "mn_prosecuting_city" || answers.mn_prosecuted_by === "city_attorney"),
@@ -5688,6 +5690,13 @@ function fallbackPacketQuestion(id: string): ProfileQuestion {
     ?? packetQuestion(id, answerLabel(id), "text_or_unknown", "Enter the wording from your court or agency record when possible.");
 }
 
+// CA-L06 gap 2 (lead decision 2026-10-21T02:10Z): once a Prop 64 route is selected, the completion helper is that route's approved
+// copy (the first three sentences of the approved ca_prop64_branch helper), not the generic "anything still owed". Screening is unchanged.
+const CA_PROP64_COMPLETION_HELPER: [string, string] = ["Use this case's current sentence status, including custody, probation, parole, PRCS or mandatory supervision. Release from custody alone does not mean the sentence is complete. A remaining balance alone does not decide sentence status; check whether an order makes payment an ongoing sentence condition.", "Use el estado actual de la sentencia de este caso, incluidas la custodia, la libertad a prueba (probation), la libertad condicional (parole), la supervisión comunitaria posterior a la liberación (PRCS) o la supervisión obligatoria. Salir de custodia no significa por sí solo que la sentencia esté cumplida. Un saldo pendiente no determina por sí solo el estado de la sentencia; revise si una orden exige el pago como condición aún vigente de la sentencia."];
+function caProp64CompletionQuestion(question: ProfileQuestion): ProfileQuestion {
+  return { ...question, helperText: CA_PROP64_COMPLETION_HELPER[0], translations: { ...question.translations, es: { ...question.translations?.es, helperText: CA_PROP64_COMPLETION_HELPER[1] } } };
+}
+
 function installPacketSpecificationQuestions(
   questions: Map<string, ProfileQuestion>,
   jurisdiction: string,
@@ -5697,6 +5706,8 @@ function installPacketSpecificationQuestions(
   unresolvedSavedFactIds: readonly string[] = []
 ) {
   const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
+  const caCompletion = isCaProp64Pathway(jurisdiction, pathwayId) ? questions.get("sentence_completion_date") : undefined;
+  if (caCompletion) questions.set(caCompletion.id, caProp64CompletionQuestion(caCompletion));
   const vaPardonQuestion = vaPardonTypeQuestion(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey), answers, unresolvedSavedFactIds);
   if (vaPardonQuestion) questions.set(vaPardonQuestion.id, vaPardonQuestion);
   if (msFirstOffenderSourceContract(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey))) {
