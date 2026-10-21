@@ -835,6 +835,28 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "young-adult-sealing-for-offenses-committed-at-ages-18-21", // GA17 Q-552b6abf121201bf126a
     ],
   },
+  IL: {
+    profileHash: "b16978a1748ee80363763340a864f5ea8a2a5160bb8f76093440c02beda70afd",
+    categoryReason: "Earlier Illinois categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-sealing", // GA12 Q-5694f465c734a658c0e0
+      "adult-non-conviction-expungement", // GA12 Q-1dd94e9fab0cba0e0454
+      "cannabis-specific-automatic-or-petition-expungement", // GA12 Q-59face7f29c93d412462
+      "clean-slate-automatic-sealing", // GA12 Q-59f40e6c5a862593cb34
+      "expungement-after-eligible-supervision-or-qualified-probation", // GA12 Q-e875b077b30fe51dbdf1
+      "human-trafficking-survivor-vacatur-and-expungement", // GA12 Q-c7f7280000e453756a1d
+      "juvenile-automatic-or-petition-expungement", // GA12 Q-bd7baa2e2c96bc9547a0
+    ],
+    record: [
+      "adult-conviction-sealing", // GA17 Q-905b302c690c688a50ef
+      "adult-non-conviction-expungement", // GA17 Q-a1b55e7d832957cab52a
+      "cannabis-specific-automatic-or-petition-expungement", // GA17 Q-39fc9cec1bf95bfe925e
+      "clean-slate-automatic-sealing", // GA17 Q-37b8f5e80e350bcca952
+      "expungement-after-eligible-supervision-or-qualified-probation", // GA17 Q-5a68c2f8e2d58b0f5222
+      "human-trafficking-survivor-vacatur-and-expungement", // GA17 Q-4093022f362ef2861280
+      "juvenile-automatic-or-petition-expungement", // GA17 Q-4e2e79db0f82f00c9d5a
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
