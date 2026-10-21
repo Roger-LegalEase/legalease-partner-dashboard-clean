@@ -13,7 +13,15 @@ export const SC_RUNTIME_CONSUMERS = [
   'src/lib/expungement-ai/payment-adapter.ts',
 ];
 const REGISTRY = 'data/record-clearing/legal-design-track-registry.json';
-const TN_TRACKS = ['tn_pretrial_diversion', 'tn_judicial_diversion', 'tn_eligible_conviction', 'tn_two_offense'];
+const CHANGED_TRACK_JURISDICTIONS = {
+  'al-misd-conviction': 'AL',
+  co_motion_seal_conviction: 'CO',
+  tn_pretrial_diversion: 'TN',
+  tn_judicial_diversion: 'TN',
+  tn_eligible_conviction: 'TN',
+  tn_two_offense: 'TN',
+};
+const CHANGED_TRACKS = Object.keys(CHANGED_TRACK_JURISDICTIONS);
 const FAMILY = 'rcap-sc-custom-pleading';
 const BASELINE = '20d26d6a3bd74521f7f400ca27d98f307fb8d7b6';
 const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -122,15 +130,16 @@ export function loadScRuntimeSuccessor(root, overrides = {}) {
     assert.equal(after.length, before.length);
     assert.equal(registryReview.trackCount, before.length);
     assert.deepEqual(registryReview.preservedScTrackIds, before.filter(row => row.jurisdiction === 'SC').map(row => row.trackId));
-    assert.deepEqual(registryReview.changedTrackIds, TN_TRACKS);
-    assert.deepEqual(before.filter((row, i) => !isDeepStrictEqual(row, after[i])).map(row => row.trackId), TN_TRACKS);
+    assert.deepEqual(registryReview.changedTrackIds, CHANGED_TRACKS);
+    assert.deepEqual(before.filter((row, i) => !isDeepStrictEqual(row, after[i])).map(row => row.trackId), CHANGED_TRACKS);
     for (let i = 0; i < before.length; i++) {
       assert.equal(after[i].trackId, before[i].trackId);
-      if (TN_TRACKS.includes(before[i].trackId)) {
-        assert.equal(before[i].jurisdiction, 'TN'); assert.equal(after[i].jurisdiction, 'TN');
+      if (CHANGED_TRACKS.includes(before[i].trackId)) {
+        assert.equal(before[i].jurisdiction, CHANGED_TRACK_JURISDICTIONS[before[i].trackId]);
+        assert.equal(after[i].jurisdiction, before[i].jurisdiction);
       } else assert.deepEqual(after[i], before[i], 'SC successor: changed unrelated track');
     }
-    assert.deepEqual(before.filter(row => TN_TRACKS.includes(row.trackId)).map(row => row.trackId), TN_TRACKS);
+    assert.deepEqual(before.filter(row => CHANGED_TRACKS.includes(row.trackId)).map(row => row.trackId), CHANGED_TRACKS);
     predecessorPins.set(REGISTRY, registryReview.from);
     oldBytes.set(REGISTRY, beforeBytes);
   }
