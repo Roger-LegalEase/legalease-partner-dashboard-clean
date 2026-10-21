@@ -684,7 +684,8 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
  assert.equal(seed.hash,r1Row?r1Row.seedHash:predecessorHashes[route],"actual captured predecessor draft hash unchanged");
  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
- records.set('synthetic-'+route+'-'+label,original);
+ // Route ids repeat across states (SC and MD juvenile-expungement); the matterId above stays as captured, the store key adds the state.
+ const id='synthetic-'+state+'-'+route+'-'+label;assert(!records.has(id),id);records.set(id,original);
  check(key+'/'+label+': public packet surface retains optional overlapping history',()=>{
   for(const raw of [undefined,['Arrest or charge','Court case','Conviction'],{unknown:true,value:'Court case'}]){
    const item={state,paymentAllowed:payment,resultCode:result,artifactRefs:{commercialFlow:{
@@ -767,7 +768,7 @@ const post = (id, answers, extra = {}) => API.POST(new Request(`http://isolated.
   { method: 'POST', body: JSON.stringify({ expectedRevision: records.get(id).revision, answers, ...extra }) }),
 { params: Promise.resolve({ itemId: id }) });
 for(const [id,original] of [...records]){
- const {payment,reason}=cases.find(c=>c.route===original.draftSnapshot.pathwayId);
+ const {payment,reason}=cases.find(c=>caseKey(c)===original.draftSnapshot.jurisdiction+':'+original.draftSnapshot.pathwayId);
  const stored=structuredClone(original);
  stored.draftSnapshot.screeningAnswers.record_type=['Arrest or charge','Court case','Conviction'];
  stored.draftSnapshot.prefilledAnswers.record_type={unknown:true,value:'Court case'};
