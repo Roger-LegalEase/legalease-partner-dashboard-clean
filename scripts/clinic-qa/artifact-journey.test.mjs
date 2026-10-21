@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {CANONICAL_WORKER_INPUTS,FIXED_FILE_INPUTS,createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
-import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases,shouldAwaitArtifactStatus} from './artifact-journey.mjs';
+import {keepDeliveredPdf,artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases,shouldAwaitArtifactStatus} from './artifact-journey.mjs';
 import {assertApplicationBindingsEqual,assertArtifactWorkerBinding,artifactWorkerBinding} from './source-bindings.mjs';
 import {loadTsWithMocks} from '../test-expungement-checkout-guards.mjs';
 
@@ -330,5 +330,17 @@ test('actual Git input comparison permits receipt successors and refuses committ
     assert.throws(()=>artifactWorkerBinding(job,root),/Untracked worker inputs/);
     git('add','--','src/addition.txt');commit();
     assert.throws(()=>artifactWorkerBinding(job,root),/Published worker inputs differ/);
+  } finally { fs.rmSync(root,{recursive:true,force:true}); }
+});
+
+test('keepDeliveredPdf keeps verified bytes privately, once, only under an absolute directory', () => {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-delivered-'));
+  try {
+    const bytes=Buffer.from('%PDF-1.7 probe'),sha=createHash('sha256').update(bytes).digest('hex'),dir=path.join(root,'delivered');
+    const file=keepDeliveredPdf(dir,sha,bytes);
+    assert.deepEqual(fs.readFileSync(file),bytes);assert.equal(fs.statSync(file).mode&0o777,0o600);assert.equal(fs.statSync(dir).mode&0o777,0o700);
+    assert.throws(()=>keepDeliveredPdf(dir,sha,bytes),/EEXIST/);
+    assert.throws(()=>keepDeliveredPdf('relative/dir',sha,bytes),/absolute/);
+    assert.throws(()=>keepDeliveredPdf(dir,'../escape',bytes));
   } finally { fs.rmSync(root,{recursive:true,force:true}); }
 });
