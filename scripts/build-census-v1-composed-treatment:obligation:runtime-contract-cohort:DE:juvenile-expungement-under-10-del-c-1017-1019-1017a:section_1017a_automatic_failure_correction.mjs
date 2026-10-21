@@ -261,7 +261,7 @@ const SPEC = {
       "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "statute": "10 Del. C. § 1017A",
       "instrument": "a correction inquiry to the confirmed office, with process-confirmation guidance",
-      "statedOn": "both composed pages, in their titles, bodies and footers"
+      "statedOn": "both composed pages, in their titles and bodies; no page prints a route footer"
     }
   ],
   "obligationTable": [
