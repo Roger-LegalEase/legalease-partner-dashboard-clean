@@ -1043,6 +1043,22 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "out-of-state-federal-or-military-record-guidance", // GA17 Q-cb9e54430db70d1e9208
     ],
   },
+  MT: {
+    profileHash: "29fe1b28e59f36a8ecdba6457b518b1d8e01a795042be695ed015b59e5254326",
+    categoryReason: "Earlier Montana categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "doj-record-removal-update-request", // GA12 Q-c3d85e5a096e9c1c35d6
+      "marijuana-related-redesignation-expungement-under-mmrta", // GA12 Q-7766060fdc5de774fcb8
+      "misdemeanor-conviction-expungement-under-mont-code-46-18-1104", // GA12 Q-aa23f3177f750603d156
+      "non-conviction-criminal-history-removal-through-criss", // GA12 Q-844547836228a5b71b3b
+    ],
+    record: [
+      "doj-record-removal-update-request", // GA17 Q-219950124033a90a3eec
+      "marijuana-related-redesignation-expungement-under-mmrta", // GA17 Q-22874003e3f9b4e789ff
+      "misdemeanor-conviction-expungement-under-mont-code-46-18-1104", // GA17 Q-2f14507f0aba274692a5
+      "non-conviction-criminal-history-removal-through-criss", // GA17 Q-95a3a1762360ab9abf6e
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
