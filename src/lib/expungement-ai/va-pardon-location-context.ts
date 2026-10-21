@@ -30,9 +30,9 @@ export function vaPardonLocationQuestion<T extends ProfileQuestion>(question: T,
     || question.lifecyclePhase !== "postpay_packet_field") return question;
   return { ...question, required: false,
     prompt: "Would you like to correct the earlier location answer? (Optional saved context)",
-    helperText: "This earlier answer is kept as context. It does not identify the receiving court or show that a court form has been prepared. The pardon document and case records are needed to confirm the receiving court and case. Use the separate mailing-address question for correspondence.",
+    helperText: "This earlier answer is kept as context. It does not identify the receiving court or show that a court form has been prepared. The pardon document and case records are needed to confirm the receiving court and case. Use the separate contact-information question for your mailing address.",
     translations: { ...question.translations, es: { ...question.translations?.es,
       prompt: "¿Desea corregir la respuesta anterior sobre el lugar? (Contexto guardado opcional)",
-      helperText: "La respuesta anterior se conserva como contexto. No identifica el tribunal receptor ni demuestra que se haya preparado un formulario judicial. Se necesitan el documento de indulto y los expedientes del caso para confirmar el tribunal receptor y el caso. Use la pregunta separada sobre la dirección postal para la correspondencia."
+      helperText: "La respuesta anterior se conserva como contexto. No identifica el tribunal receptor ni demuestra que se haya preparado un formulario judicial. Se necesitan el documento de indulto y los expedientes del caso para confirmar el tribunal receptor y el caso. Use la pregunta separada sobre los datos de contacto para indicar su dirección postal."
     } } };
 }
