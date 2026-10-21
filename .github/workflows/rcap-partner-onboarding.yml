@@ -68,6 +68,10 @@ jobs:
       - name: Fetch pinned Georgia pre-correction specification witness
         run: git fetch --no-tags --depth=1 origin 75dcf56df74b2f3b00829a32bb90d99516bedafa
 
+      - name: Fetch pinned item-13b approval baseline (group g)
+        if: matrix.group == 'g'
+        run: git fetch --no-tags --depth=1 origin ed7356a733b5f47976e012c9ba386f0a021057ca
+
       # test-md-scope-restatement replays every first-parent evaluator transition the MD
       # approved-delta record restates (99d647bd5..ee40c239a, 93 transitions) from the actual
       # historical bytes. 699 = the first-parent distance from ee40c239a back to 99d647bd5^, so
@@ -268,6 +272,7 @@ jobs:
           node scripts/test-nd-first-offense-participant-family.mjs
           node scripts/test-nd-first-offense-contract-successor.mjs
           node scripts/test-ks-registration-guidance.mjs
+          node scripts/test-va-record-origin.mjs
 
       - name: Verify nationwide correction boundaries (group e)
         if: matrix.group == 'e'
@@ -327,6 +332,7 @@ jobs:
           node scripts/test-ga12-ct-petition-review-counterexamples.mjs
           node scripts/test-ga12-ga-ct-review-convergence.mjs
           node scripts/test-ga12-nv-program-category-history.mjs
+          node scripts/test-nv-program-location-history.mjs
           node scripts/test-ga17-ca-tool4-record-history.mjs
           node scripts/test-ga17-co-record-history.mjs
           node scripts/test-ga17-dc-felony-record-history.mjs
@@ -348,6 +354,13 @@ jobs:
           node scripts/verify-va-cc1472-two-branch-treatment.mjs
           node scripts/verify-va-regime-1-caption-and-dead-end.mjs
           node scripts/test-va-victim-memo-tamper-control.mjs
+          node scripts/test-consumer-checkout-stored-session.mjs
+          node scripts/test-item-13b-approval-preconditions.mjs
+          node scripts/test-explained-artifact-move-is-not-approval.mjs
+          node scripts/test-ms-section-branch-is-route-derived.mjs
+          node scripts/test-rcap-il-participant-renderer.mjs
+          node scripts/test-worker-image-copy-context-agreement.mjs
+          node scripts/test-ga12-ga17-no-consumer-collection.mjs
 
       # The test asserts that the n legs run every case exactly once between them. Without
       # GA17_SHARD (a local sweep of this file) the line runs every case.
