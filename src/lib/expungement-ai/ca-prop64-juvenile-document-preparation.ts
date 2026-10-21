@@ -88,7 +88,10 @@ export function caProp64JuvenileDocumentPreparation(record: ProtectedPacketVerif
     const years = Number(offense.slice(0, 4)) - Number(birth.slice(0, 4)) - (offense.slice(5) < birth.slice(5) ? 1 : 0);
     if (birth > offense || years !== age || years >= 18) review.add("birth_offense_age_conflict");
   }
-  if (answer("ca_prop64_existing_relief") !== "none") review.add("prior_relief_requires_count_specific_order_comparison");
+  // CA-L03 Obs 1: a denial needs procedural-remedy review, not a count-by-count order comparison.
+  const priorRelief = answer("ca_prop64_existing_relief");
+  if (priorRelief === "denied") review.add("prior_relief_denied_requires_procedural_review");
+  else if (priorRelief !== "none") review.add("prior_relief_requires_count_specific_order_comparison");
   const disposition = pick("ca_prop64_juvenile_disposition", ["probation", "completed", "other"]);
   if (disposition === "other") review.add("actual_disposition_requires_source_review");
   const branch = answer("ca_prop64_branch");
