@@ -1059,6 +1059,24 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "non-conviction-criminal-history-removal-through-criss", // GA17 Q-95a3a1762360ab9abf6e
     ],
   },
+  NM: {
+    profileHash: "568a77e849af1c0f77b6c7cf241e4cbbfabf84935a7842991bcdd2b45e0b5574",
+    categoryReason: "Earlier New Mexico categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "cannabis-expungement", // GA12 Q-6c78059e8c67886152fc
+      "cannabis-sentence-dismissal-incarcerated-person-pathway", // GA12 Q-f87eb843a48c8089d84a
+      "conviction", // GA12 Q-eaa848b04cf6df34c042
+      "dna-sample-profile-expungement", // GA12 Q-df5dcb4a980a8c1c18c2
+      "no-conviction-released-without-conviction", // GA12 Q-3c6e09d127f9c6c1e013
+    ],
+    record: [
+      "cannabis-expungement", // GA17 Q-e67dc0c4b23494d95b29
+      "cannabis-sentence-dismissal-incarcerated-person-pathway", // GA17 Q-d062bdab12a7d79d248a
+      "conviction", // GA17 Q-18feadfb9d64e38eb940
+      "dna-sample-profile-expungement", // GA17 Q-9469d5272b630c1e42f2
+      "no-conviction-released-without-conviction", // GA17 Q-396bbe202b3656e21e7c
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
