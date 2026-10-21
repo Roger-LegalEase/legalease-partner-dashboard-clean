@@ -218,5 +218,31 @@ for(const [name,patch,status,classification]of [
  const answers=wrapped?Object.fromEntries(Object.entries(raw).map(([id,value])=>[id,{value,unknown:false}])):raw;
  decision('CA-02 '+name+' saved='+wrapped,answers,status,classification);
 }
+// GA-19 / CA-L03 / O44: adopted DR13 CA-03 and v3 §5 distinctions replace the blanket prior-relief review; none opens payment.
+const additional='prior_relief_additional_request',correction='prior_relief_record_correction';
+for(const [prior,expected]of [
+ ['reduced',{sealing:additional,dismissal:additional,record_update:correction,other:'prior_relief'}],
+ ['dismissed',{sealing:additional,dismissal:correction,record_update:correction,other:'prior_relief'}],
+ ['dismissed_sealed',{sealing:correction,dismissal:correction,record_update:correction,other:'prior_relief'}]
+])for(const [benefit,code]of Object.entries(expected))for(const [conduct,answers]of [['lawful',base],['still-unlawful',sale]]){
+ const r=decision(`CA-L03 ${prior}+${benefit} ${conduct}`,{...answers,ca_prop64_existing_relief:prior,ca_prop64_additional_benefit:benefit},'review');
+ check(`CA-L03 ${prior}+${benefit} ${conduct} code`,r.code,code===additional&&conduct==='still-unlawful'?'remedy_conflict':code);
+}
+decision('CA-L03 omitted sealing saved wrapper',Object.fromEntries(Object.entries({...base,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'}).map(([id,value])=>[id,{value,unknown:false}])),'review');
+for(const answers of [{...base,ca_prop64_existing_relief:'denied'},{...base,ca_prop64_existing_relief:'denied',ca_prop64_additional_benefit:'sealing'}]){
+ check('CA-L03 denial is procedural-remedy review '+JSON.stringify(answers.ca_prop64_additional_benefit),[decision('CA-L03 denied',answers,'review').code],['prior_relief_denied']);
+ check('CA-L03 denial asks no additional result',F.caProp64ActiveFactIds(answers).includes('ca_prop64_additional_benefit'),false);
+}
+check('CA-L03 granted relief still asks the additional result',F.caProp64ActiveFactIds({...base,ca_prop64_existing_relief:'dismissed'}).includes('ca_prop64_additional_benefit'),true);
+check('CA-L03 unsure additional result stays missing',decision('CA-L03 unsure benefit',{...base,ca_prop64_existing_relief:'reduced',ca_prop64_additional_benefit:'unknown'},'missing').ids,['ca_prop64_additional_benefit']);
+decision('CA-L03 unsure existing relief stays missing',{...base,ca_prop64_existing_relief:'unknown'},'missing');
+for(const relief of ['unknown',undefined,{unknown:true}])check('CA-L03 unresolved existing relief asks no additional result '+JSON.stringify(relief),F.caProp64ActiveFactIds({...base,ca_prop64_existing_relief:relief}).includes('ca_prop64_additional_benefit'),false);
+const deniedChoice=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_existing_relief').optionDisplay.denied;
+check('CA-L03 denied choice EN/ES',[deniedChoice.label,deniedChoice.translations.es.label],['The court denied the request','El tribunal denegó la solicitud']);
+check('CA-L03 reason copy EN/ES',['prior_relief_denied',correction,additional].map(code=>F.CA_PROP64_REASON_COPY[code]),[
+ ['The court denied an earlier Proposition 64 request for this conviction. Review the denial and the procedural remedy available before asking again; this is different from a request the court has not yet decided.','El tribunal denegó una solicitud anterior bajo la Proposición 64 para esta condena. Revise la denegación y el recurso procesal disponible antes de volver a solicitarla; esto es distinto de una solicitud que el tribunal aún no ha decidido.'],
+ ['The court has already ordered the result you are asking for. The next step is usually to have the court or Department of Justice record corrected to match that order, not a new Proposition 64 request. The correction form and steps for the office that holds the record have not been verified, so they are not provided here.','El tribunal ya ordenó el resultado que usted solicita. Normalmente, el siguiente paso es pedir que se corrija el registro del tribunal o del Departamento de Justicia para que coincida con esa orden, no presentar una nueva solicitud bajo la Proposición 64. El formulario y los pasos de corrección de la oficina que conserva el registro no se han verificado, por lo que no se incluyen aquí.'],
+ ["Your answers about the conduct support asking for a result that the existing order did not include. That additional request must be compared with the court's order, count by count, before it is filed; this tool does not yet prepare that comparison. The court decides whether to grant it.",'Sus respuestas sobre la conducta respaldan pedir un resultado que la orden existente no incluyó. Esa solicitud adicional debe compararse con la orden del tribunal, cargo por cargo, antes de presentarla; esta herramienta todavía no prepara esa comparación. El tribunal decide si la concede.']
+]);
 console.log(JSON.stringify({status:rows.every(r=>r.pass)?'PASS':'FAIL',checks:rows.length,failures:rows.filter(r=>!r.pass),rows},null,2));
 assert.ok(rows.every(r=>r.pass),'California conduct expectations failed');
