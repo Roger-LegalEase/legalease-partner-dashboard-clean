@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "8e21757aea004a597096d9c42118b164d9a1c67d",
+  "minimumCaptainSha": "0149ee262402285b1bb488d3a4e77417e6b24852",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
@@ -82,16 +82,16 @@
     "sourceBlocked": 0,
     "legalBlocked": 1,
     "verifyPending": 9,
-    "repairRequired": 5,
+    "repairRequired": 4,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 299,
-    "BUILT_RASTER_PENDING": 9,
+    "BUILT_RASTER_PENDING": 10,
     "GUIDANCE_READY": 14,
     "OUT_OF_SCOPE": 5,
     "VERIFY_PENDING": 9,
-    "FAIL_REPAIR_REQUIRED": 5,
+    "FAIL_REPAIR_REQUIRED": 4,
     "SOURCE_READY": 1,
     "HANDOFF_READY": 2,
     "PRODUCT_PATH_PENDING": 1,
@@ -10709,15 +10709,13 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261020-reverify-de-1017a-92ff5d436.json"
+        "verifiedAtBase": "9400b1919a0467e844c97645cd5bc7c88c770928",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261021-reverify-de-1017a-9400b1919.json"
       },
       "currentLegalResolution": null,
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -10746,20 +10744,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_OPTIONS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "production-field-map.json routeSelectionsMade[0].statedOn says the route selection is stated on \"both composed pages, in their titles, bodies and footers\". The titles and bodies do state it (p1 \"REQUEST ABOUT A DELAWARE Sec. 1017A AUTOMATIC JUVENILE EXPUNGEMENT THAT DID NOT HAPPEN\", p3 \"DELAWARE Sec. 1017A AUTOMATIC-FAILURE CORRECTION: CONFIRM THE PROCESS BEFORE SENDING\", and the bodies name § 1017A). No page prints a footer: on all 8 pages (4 per fixture) 0 lines start with \"route\" in any case or form and 0 words sit in the bottom 72 pt band; the lowest text on each page is body text (p1 y<=712.4, p3 y<=697.9, p2 and p4 end mid-page; measure-route-statements.json). Under the lead's 21:32Z ruling (consistent with GA YFO, OK juvenile and OK custom-pleading) a record that promises a page statement the bytes do not carry is a defect even as generated metadata, scored here. selectionControls 0 and requiredOptionsMissing 0: no election is left unmade; the failure is the record's claim only.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs",
