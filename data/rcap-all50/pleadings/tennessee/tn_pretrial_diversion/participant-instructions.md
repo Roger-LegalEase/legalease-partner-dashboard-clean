@@ -25,7 +25,7 @@ There is also no fee-waiver provision in these sections for the clerk's fee. The
 ## Before you file
 
 1. **Confirm your diversion was successfully completed.** If the diversionary period was not completed, the sentence goes into effect and the offence is not cleared.
-2. **Check the offence type.** A sexual offence or violent sexual offence as defined by the registration statute **can be diverted but cannot be cleared.** If that is your offence, this petition will not help you, and you should know that now rather than after you pay.
+2. **Check the offence type.** A sexual offence or violent sexual offence as defined by the registration statute **can be diverted but cannot be cleared.** If that is your offence, this petition will not help you, and you should know that now rather than after you pay. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (2025 Public Chapter 474, §§ 10–11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (2026 Public Chapter 1021, §§ 2–3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.
 3. **Get your state control number early.** It comes from your own criminal history, and the order cannot be completed without it. Fill it into the bracket before you file.
 4. **Ask the clerk what the fee is** before you file.
 
