@@ -65,7 +65,22 @@ export function leadSpanishLayer2PredecessorView(current){
  return predecessor;
 }
 
+// batch31c: N1 b2b9f3354 (adopted MS route label, index 171) and CA-L03 da734e429 (adopted CA-02 transfer
+// sentence, index 515) change exactly these two entries. Undo only them before the older layers.
+export const B31C_ADOPTED_COPY_SUCCESSORS=[{"index":171,"before":{"id":"MS-RESULT-LABEL-minor-in-possession-underage-alcohol-expungement-v1","kind":"route_display_label","jurisdiction":"MS","pathwayId":"minor-in-possession-underage-alcohol-expungement","originalEnglish":"Minor-in-possession / underage-alcohol expungement","en":"Minor-in-possession / underage-alcohol expungement","es":"Eliminación de antecedentes por posesión de alcohol o infracción de alcohol siendo menor de edad"},"after":{"id":"MS-RESULT-LABEL-minor-in-possession-underage-alcohol-expungement-v1","kind":"route_display_label","jurisdiction":"MS","pathwayId":"minor-in-possession-underage-alcohol-expungement","originalEnglish":"Minor-in-possession / underage-alcohol expungement","en":"Minor-in-possession / underage-alcohol expungement","es":"Eliminación de antecedentes por posesión de alcohol o una infracción relacionada con alcohol de una persona menor de 21 años"}},{"index":515,"before":{"id":"CA-ca_prop64_transfer_conduct","kind":"missing_fact_prompt","originalEnglish":"What did the sale or transportation conviction involve?","en":"What did the sale or transportation conviction involve?","es":"¿Qué involucró la condena por venta o transporte?","reviewStatus":"SOURCE_BACKED_DRAFT_INDEPENDENT_LANGUAGE_REVIEW_PENDING"},"after":{"id":"CA-ca_prop64_transfer_conduct","kind":"missing_fact_prompt","originalEnglish":"What did the sale or transportation conviction involve?","en":"Was the cannabis being transported for sale, transferred without payment, or sold? These are different legal situations.","es":"¿El cannabis se transportaba para la venta, se transfirió sin pago o se vendió? Son situaciones legales distintas.","reviewStatus":"SOURCE_BACKED_DRAFT_INDEPENDENT_LANGUAGE_REVIEW_PENDING"}}];
+
+export function b31cAdoptedCopyPredecessorView(current){
+ const predecessor=structuredClone(current);
+ for(const change of B31C_ADOPTED_COPY_SUCCESSORS){
+  assert.equal(current.entries.filter(entry=>entry.id===change.after.id).length,1,'Unique batch31c successor '+change.after.id);
+  assert.deepEqual(current.entries[change.index],change.after,'Exact batch31c successor '+change.after.id);
+  predecessor.entries[change.index]=structuredClone(change.before);
+ }
+ return predecessor;
+}
+
 export function msAdoptedCopyPredecessorView(current){
+ current=b31cAdoptedCopyPredecessorView(current);
  current=leadSpanishLayer2PredecessorView(current);
  current=leadSpanishCopyPredecessorView(current);
  current=msFinalSpanishCopyPredecessorView(current);
