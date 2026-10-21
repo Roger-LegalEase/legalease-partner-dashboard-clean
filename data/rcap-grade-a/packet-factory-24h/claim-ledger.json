@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9400b1919a0467e844c97645cd5bc7c88c770928",
+  "generatedAtCommit": "cdf4f7030641fd567c78e84d79da28bd488cb893",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2483,8 +2483,9 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-10-21T14:32:14.334Z",
+      "releaseReason": "31d freeze G3 at cdf4f7030: family COMPLETE_PACKET_PROVEN; stale F34 grant released (CI 14:31:27Z claim ops)"
     },
     {
       "subjectType": "packet-family",
@@ -8807,7 +8808,9 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-10-21T14:32:15.305Z",
+      "releaseReason": "31d freeze G3 at cdf4f7030: family COMPLETE_PACKET_PROVEN; stale F34 grant released (CI 14:31:27Z claim ops)"
     },
     {
       "subjectType": "packet-family",
@@ -9002,8 +9005,9 @@
       "operation": "independent-verification",
       "lane": "VF12",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-10-21T14:32:13.219Z",
+      "releaseReason": "31d freeze G3 at cdf4f7030: family COMPLETE_PACKET_PROVEN; stale F34 grant released (CI 14:31:27Z claim ops)"
     },
     {
       "subjectType": "packet-family",
@@ -9398,7 +9402,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T18:29:59.166Z",
@@ -16040,7 +16044,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "3ecf473325edec8b2f53946e2861e9fc2857fca9d70b1ff9cd67a50758ff26c4",
+  "claimsDigest": "4447244c3d9510ed446c704c083302cf085209d29c7e975fc1051dbd8d3fcd7f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44445,6 +44449,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-10-21T01:24:50.772Z",
       "reason": "CA Prop 64 FIX01 return (Codex f36d22c10, Reviewer3 ACCEPT 2026-10-21T00:57Z, C1 holds on f4fa52d67) merged into batch31b at a5d23a7a4; next: raster at the a83d7327 family tree, VF06 fresh read (Reviewer, staged read febd78bd)"
+    },
+    {
+      "lane": "VF12",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nv-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-10-21T14:32:13.219Z",
+      "reason": "31d freeze G3 at cdf4f7030: family COMPLETE_PACKET_PROVEN; stale F34 grant released (CI 14:31:27Z claim ops)"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-10-21T14:32:14.334Z",
+      "reason": "31d freeze G3 at cdf4f7030: family COMPLETE_PACKET_PROVEN; stale F34 grant released (CI 14:31:27Z claim ops)"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-hi-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-10-21T14:32:15.305Z",
+      "reason": "31d freeze G3 at cdf4f7030: family COMPLETE_PACKET_PROVEN; stale F34 grant released (CI 14:31:27Z claim ops)"
     }
   ],
   "reissues": [
