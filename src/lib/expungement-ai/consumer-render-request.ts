@@ -121,7 +121,7 @@ function consumerPacketRow(input: {
     status: "ready_for_review",
     petitioner_first_name: splitName.firstName,
     petitioner_last_name: splitName.lastName,
-    petitioner_city: packetText(input.packetFields, "residency_or_location", "city"),
+    petitioner_city: packetText(input.packetFields, "city"),
     petitioner_county: county,
     court_county: county,
     court_name: court,
