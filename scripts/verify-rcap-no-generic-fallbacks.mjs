@@ -545,7 +545,7 @@ function offenseFor(pathway) {
 
 // Find any qualifying case that opens payment (tries several eligible outcomes); `counts` narrows
 // which paid results qualify.
-function findQualifying(profile, pathway, counts = () => true, offTarget = []) {
+function findQualifying(profile, pathway, counts = () => true, offTarget = [], foreignRule = []) {
   const offense = offenseFor(pathway);
   for (const outcome of OUTCOME_CANDIDATES) {
     const ev = evaluate(profile, pathway, outcome, offense, "2000-01-01");
@@ -557,7 +557,8 @@ function findQualifying(profile, pathway, counts = () => true, offTarget = []) {
       behavioral.nonRatifiedThatPaid.add(`${profile.jurisdiction.code}:${ev.pathwayId}${ev.pathwayId === pathway.id ? "" : ` (probed as ${profile.jurisdiction.code}:${pathway.id})`} (tier ${tierNameOf(`${profile.jurisdiction.code}:${ev.pathwayId}`)} -> ${ev.resultCode})`);
     }
     if (packetOpen(ev) && counts(ev)) return { ev, outcome, offense };
-    if (packetOpen(ev)) offTarget.push(`${profile.jurisdiction.code}:${ev.pathwayId}`);
+    if (packetOpen(ev) && ev.pathwayId !== pathway.id) offTarget.push(`${profile.jurisdiction.code}:${ev.pathwayId}`);
+    else if (packetOpen(ev)) foreignRule.push(decidingRuleId(ev) ?? ev.reasons.map((r) => r.code).join("+"));
   }
   return null;
 }
@@ -568,6 +569,27 @@ function findQualifying(profile, pathway, counts = () => true, offTarget = []) {
 // route was probed, and a #9 qualifying case counts only when it resolves to the ratified route under test.
 const paidOnUnratifiedRoute = (code) => (ev) => !RATIFIED_DEPLOYABLE.has(`${code}:${ev.pathwayId}`);
 const resolvesTo = (pathway) => (ev) => ev.pathwayId === pathway.id;
+// [#9] The deciding compiled rule must be the route's own (Reviewer3 G1): the route rule, a rule whose
+// backendPathwayId or sourceRef names the route, or one of the own-content pairs below. A screening rule
+// written for a sibling route (non-conviction arrest paying a conviction route) is not a qualifying witness.
+// OWN_CONTENT: rules whose text is the route's own remedy but whose sourceRef is a page range. Oracle:
+// VERIFY3 review-evidence/verify3/hi-dui-borrowed-rule/RESULT.md section 3 ("own content").
+const OWN_CONTENT_RULES = new Set([
+  "AR:situation-b-misdemeanor-convictions rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale",
+  "AR:situation-c-felony-convictions rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove",
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to"
+]);
+function decidingRuleId(ev) {
+  return ev.reasons.map((r) => r.code.split("compiled_rule_match.")[1]).find(Boolean) ?? null;
+}
+function decidedByOwnRule(profile, pathway, ev) {
+  const id = decidingRuleId(ev);
+  const rule = id && (profile.orderedDecisionRules ?? []).find((r) => r.id === id);
+  if (!rule) return false;
+  return rule.id === `route-${pathway.id}` || rule.when?.backendPathwayId === pathway.id
+    || String(rule.sourceRef ?? "").endsWith(`:${pathway.id}`)
+    || OWN_CONTENT_RULES.has(`${profile.jurisdiction.code}:${pathway.id} ${rule.id}`);
+}
 {
   const ratifiedMs = [...RATIFIED_DEPLOYABLE].find((key) => key.startsWith("MS:"));
   const paid = (pathwayId) => ({ pathwayId, paymentAllowed: true, resultCode: "packet_ready" });
@@ -575,6 +597,14 @@ const resolvesTo = (pathway) => (ev) => ev.pathwayId === pathway.id;
   ok(paidOnUnratifiedRoute("MS")(paid("uncharged-misdemeanor-immediate-dismissal-branch-99-15-59")), "#11", "Attribution self-check: a paid result on a non-ratified route must count.");
   ok(paidOnUnratifiedRoute("MS")(paid(undefined)), "#11", "Attribution self-check: a paid result without a pathwayId must count.");
   ok(ratifiedMs && !resolvesTo({ id: "another-route" })(paid(ratifiedMs.slice(3))), "#9", "Attribution self-check: a paid sibling must not qualify the route under test.");
+  // Deciding-rule self-check on the real HI profile: HI rule-02 (sourceRef HI:nonconviction-arrest-expungement)
+  // is that route's own rule and a foreign rule for the first-time drug conviction route.
+  const hi = profiles.find((p) => p.jurisdiction.code === "HI");
+  const rule02 = (hi?.orderedDecisionRules ?? []).find((r) => r.id.startsWith("rule-02-"));
+  const decidedBy = (ruleId) => ({ reasons: [{ code: `hi.compiled_rule_match.${ruleId}` }] });
+  ok(rule02 && decidedByOwnRule(hi, { id: "nonconviction-arrest-expungement" }, decidedBy(rule02.id)), "#9", "Deciding-rule self-check: HI rule-02 must count as the non-conviction route's own rule.");
+  ok(rule02 && !decidedByOwnRule(hi, { id: "first-time-drug-conviction" }, decidedBy(rule02.id)), "#9", "Deciding-rule self-check: HI rule-02 must not count as the drug-conviction route's own rule.");
+  ok(!decidedByOwnRule(hi, { id: "dui-under-21-conviction" }, { reasons: [{ code: "hi.dui_pathway_context" }] }), "#9", "Deciding-rule self-check: a result naming no compiled rule must not count.");
 }
 
 const behavioral = { ratifiedQualified: 0, ratifiedMissingQualifying: [], ratifiedMissingBlock: [], nonRatifiedThatPaid: new Set(), failClosedPaid: [] };
@@ -585,12 +615,21 @@ for (const profile of profiles) {
     const isRatified = RATIFIED_DEPLOYABLE.has(key);
     // A non-ratified probe never qualifies; findQualifying records any paid result it meets on a non-ratified route.
     const paidOffTarget = [];
-    const qualifying = findQualifying(profile, pathway, isRatified ? resolvesTo(pathway) : () => false, paidOffTarget);
+    const paidOnForeignRule = [];
+    const qualifying = findQualifying(profile, pathway,
+      isRatified ? (ev) => resolvesTo(pathway)(ev) && decidedByOwnRule(profile, pathway, ev) : () => false, paidOffTarget, paidOnForeignRule);
 
     if (isRatified) {
       // [#9] qualifying direction: every ratified route must have a case that opens payment.
+      // A paid result on the route under test that a non-own rule decided is a finding in its own right,
+      // even when another outcome qualifies on the route's own rule.
+      for (const rule of new Set(paidOnForeignRule)) fail("#9", `${key}: paid result decided by a rule that is not the route's own (${rule}).`);
       if (!qualifying) {
-        behavioral.ratifiedMissingQualifying.push(paidOffTarget.length ? `${key} (paid only off-target: ${[...new Set(paidOffTarget)].join(", ")})` : key);
+        const notes = [
+          ...(paidOffTarget.length ? [`paid only off-target: ${[...new Set(paidOffTarget)].join(", ")}`] : []),
+          ...(paidOnForeignRule.length ? [`paid on-target only by a rule that is not the route's own: ${[...new Set(paidOnForeignRule)].join(", ")}`] : [])
+        ];
+        behavioral.ratifiedMissingQualifying.push(notes.length ? `${key} (${notes.join("; ")})` : key);
         continue;
       }
       behavioral.ratifiedQualified++;
