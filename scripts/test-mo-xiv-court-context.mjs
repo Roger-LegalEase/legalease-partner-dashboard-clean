@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {a9e4ContactPredecessor,a9e4DiagnosticDriftRefusals} from './lib/a9e4-contact-diagnostic.mjs';
+import {moR1CategoryPredecessor,moR1CategoryDriftRefusals} from './lib/mo-r1-category-history.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {register,createRequire} from 'node:module';
@@ -127,7 +128,8 @@ for(const [variant,court]of [['known','Earlier case court or agency'],['absent',
 // Freeze full prechange sibling collections and current plan from the retained
 // natural diagnostic. These are predecessor values, not current substitutions.
 const expectedSiblingHashes={"general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140":"17c8a9b8ac48c77826923625144cf29ae273e4e07e5c2728f5e7d9239ebcaeca","closed-record-outcome-under-rsmo-610-105":"f91a9ebe189e0fdbb3acde5139f6c4fa73d8563125f567500860d76c4236913f","false-information-or-qualifying-arrest-record-expungement-under-610-122-123":"9fab6e940d078b94a39be5a124db05f3f75f10f30b3c702d4788dd6c645fd763","first-intoxication-related-traffic-or-boating-expungement-under-610-130":"bcf20c3a3437a4957f71c9a5c93c1f35c6216852956c05e96b824a952341db9e","stolen-or-mistaken-identity-expungement-under-610-145":"bcaee4ce2c19980507d92df211a3e19e00e5b9c755cdb3f2999cb6c1fc70b73d","first-minor-in-possession-alcohol-expungement-under-311-326":"40a29e63a0ec04e26c8d52cc239b9a73efc62bd0a1e530609c863de094a13bcf","state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141":"3ae309838b1579e609fd950ec2a7049bb83b4e06da8a6ef6ec3baba475369503"};
-for(const [id,expected]of Object.entries(expectedSiblingHashes))check('unrelated-full-sibling/'+id,hashJSON(a9e4ContactPredecessor(siblings[id],id)),expected);
+for(const [id,expected]of Object.entries(expectedSiblingHashes))check('unrelated-full-sibling/'+id,hashJSON(moR1CategoryPredecessor(a9e4ContactPredecessor(siblings[id],id),id)),expected);
+{const id='closed-record-outcome-under-rsmo-610-105';for(const [key,refused]of moR1CategoryDriftRefusals(siblings[id],id))check('r1-category-history-refuses-'+key,refused,true);}
 {const carrier=Object.values(siblings).find(c=>c.facts.some(f=>f.factId==='contact_information'));for(const [key,refused]of a9e4DiagnosticDriftRefusals(carrier))check('a9e4-contact-diagnostic-refuses-'+key,refused,true);}
 check('unchanged-plan',hashJSON(plan),'9b4fd0668c728dcf72608ec2d14bf3ba4d71cf8b2fa19d9557db4fa1c474cc00');
 const H=await load('src/lib/expungement-ai/mo-xiv-court-context.ts');
