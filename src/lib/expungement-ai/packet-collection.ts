@@ -633,6 +633,7 @@ export function okCategoryAndRecordAreHistory(profile: EngineProfile | undefined
   return profile?.jurisdiction.code === "OK" && [
     "acquittal-dismissal-or-other-no-conviction-expungement", // GA12 Q-7c344b62b8005b8c0856 / GA17 Q-1af92bac0be9e8f1d3c1
     "arrest-with-no-charges-filed", // GA12 Q-64ac71408f9198d6c6bb / GA17 Q-c2eae6c2aea996936af8
+    "clean-slate-automatic-expungement", // GA12 Q-f96c5ed3f036716c4879 / GA17 Q-ecd8c474ef5fd2388e5e
     "conviction-reversed-and-case-dismissed", // GA12 Q-44758205328791de54b2 / GA17 Q-b2307423d9b47d9a1af7
     "deferred-sentence-court-record-expungement-under-991-c", // GA12 Q-c7f7c05e9424141d43d5 / GA17 Q-bd410275cf3de6c271db
     "dna-factual-innocence-expungement", // GA12 Q-3e40c600977518a9ad95 / GA17 Q-694560c7c95fb47ca5ac
@@ -748,7 +749,10 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier Texas categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA12 Q-97bc2a5f998b912adda8
+      "expunction-after-acquittal-not-guilty-disposition-chapter-55a", // GA12 Q-24ea2697ada09a8abedd
       "expunction-after-pardon-or-actual-innocence-relief", // GA12 Q-ece677b818ab583b0a14
+      "expunction-after-qualifying-class-c-deferred-disposition", // GA12 Q-5f780cd6ffe0b6439b4c
+      "expunction-after-qualifying-dismissal-or-quash", // GA12 Q-223607467c30551b5c2b
       "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA12 Q-b8b91c5dff89cb0adb64
       "first-offense-dwi-nondisclosure", // GA12 Q-7b044f8b2d70a8798aca
       "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA12 Q-ecdc2323b7eb7e9089ba
@@ -756,7 +760,10 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     ],
     record: [
       "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA17 Q-824a1ba5bd22b494dfa1
+      "expunction-after-acquittal-not-guilty-disposition-chapter-55a", // GA17 Q-79eaa1fccb7aaba781a1
       "expunction-after-pardon-or-actual-innocence-relief", // GA17 Q-c51c4a1d5b7aa734511a
+      "expunction-after-qualifying-class-c-deferred-disposition", // GA17 Q-225bd1a97176e98a7d2e
+      "expunction-after-qualifying-dismissal-or-quash", // GA17 Q-ef3fc93d77fc46a36bf1
       "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA17 Q-8d122cfbc96cf12d60cb
       "first-offense-dwi-nondisclosure", // GA17 Q-35df6f53ee29fa1c90ec
       "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA17 Q-714293c4107f4534661e
@@ -1386,6 +1393,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier Mississippi categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "additional-justice-or-municipal-court-misdemeanor-relief", // GA12 Q-33ae0812c5ec6c16f49c
+      "controlled-substance-conditional-discharge-active-case-admission", // GA12 Q-e5aae0617a5b7c0b4e69
       "dui-nonadjudication", // GA12 Q-04dfd5b6ef826ed1a603
       "first-offense-controlled-substance-conditional-discharge-relief", // GA12 Q-b316dba4450967677ce5
       "first-offense-dui-expungement", // GA12 Q-55d34e1c5bf66f373eea
@@ -1393,13 +1401,16 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "intervention-court-completion-expungement", // GA12 Q-61ce8e2a0e7ac1e9af03
       "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA12 Q-0908882129a5103c8624
       "minor-in-possession-underage-alcohol-expungement", // GA12 Q-c71795ecb6433a778af5
+      "nonadjudication-99-15-26-active-case-admission", // GA12 Q-ff587f6aaeb542414c0d
       "nonadjudication-under-99-15-26", // GA12 Q-d1b6782102264f056e0e
+      "pretrial-intervention-active-case-admission", // GA12 Q-140ce429d095361ecb54
       "pretrial-intervention-or-diversion-expungement", // GA12 Q-ffccdb66a7bf8daecb9a
       "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA12 Q-a58282187741a588b8f5
       "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA12 Q-268c53a6d752b6229799
     ],
     record: [
       "additional-justice-or-municipal-court-misdemeanor-relief", // GA17 Q-bb58e587444d3b3eaca9
+      "controlled-substance-conditional-discharge-active-case-admission", // GA17 Q-1c87028cbb0245b356ec
       "dui-nonadjudication", // GA17 Q-fac1c7a7430c180c73d6
       "first-offense-controlled-substance-conditional-discharge-relief", // GA17 Q-9c32d5c83873cc9406a3
       "first-offense-dui-expungement", // GA17 Q-266d588ee2741e693ed6
@@ -1407,7 +1418,9 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "intervention-court-completion-expungement", // GA17 Q-f015750c794542860c6f
       "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA17 Q-c2ea75ba90409cc97e66
       "minor-in-possession-underage-alcohol-expungement", // GA17 Q-378ac879953f15b31706
+      "nonadjudication-99-15-26-active-case-admission", // GA17 Q-4b3c8bc1491c65d69d4e
       "nonadjudication-under-99-15-26", // GA17 Q-738fb87bc728b78e3d29
+      "pretrial-intervention-active-case-admission", // GA17 Q-68b05fc2444ab78b80a9
       "pretrial-intervention-or-diversion-expungement", // GA17 Q-df263245a80fca378453
       "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA17 Q-a0ac1097b055462afdac
       "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA17 Q-46e4cfdf892f39dac9b3
