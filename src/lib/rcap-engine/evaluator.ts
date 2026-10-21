@@ -87,6 +87,19 @@ import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 import routeRatificationRegistry from "@/../data/record-clearing/legal-decisions/route-ratification-registry.json";
 
+// OD-BR-1 D1-double-prime proposal: only the nine independently identified own-content pairs.
+const REVIEWED_OWN_CONTENT_PAYMENT_RULES: Readonly<Record<string, string>> = {
+  "AR:situation-b-misdemeanor-convictions": "rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale",
+  "AR:situation-c-felony-convictions": "rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove",
+  "DC:dc_actual_innocence_expungement_16_803": "rule-07-expungement-by-motion-d-c-code-16-803-actual-innocence",
+  "HI:nonconviction-arrest-expungement": "rule-02-the-source-says-the-arrest-record-is-removed-from-the-a",
+  "IA:nonconviction-901c2": "rule-02-all-court-costs-fees-and-other-financial-obligations-fo",
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e": "rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to",
+  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104": "rule-01-for-montana-s-misdemeanor-expungement-statute",
+  "VA:petition-based-sealing": "rule-13-petition-based-sealing-19-2-392-12-12-1",
+  "WI:adult-conviction-expungement-under-wis-stat-973-015": "rule-03-adult-misdemeanor-or-class-h-i-felony-under-25-sentenci"
+};
+
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
   "likely_not_eligible",
@@ -1115,6 +1128,8 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     pathwayId: pathway.id,
     packetPlan: plan,
     paymentAllowed: paymentAllowed && legallyAuthorizedPayment
+      && (compiledRouteRuleMatchesPathway(route.rule, pathway)
+        || REVIEWED_OWN_CONTENT_PAYMENT_RULES[`${jurisdiction}:${pathway.id}`] === route.rule.id)
   });
 }
 
