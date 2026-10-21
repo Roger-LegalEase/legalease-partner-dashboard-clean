@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {CANONICAL_WORKER_INPUTS,FIXED_FILE_INPUTS,createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
-import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases,shouldAwaitArtifactStatus} from './artifact-journey.mjs';
+import {keepDeliveredPdf,artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases,shouldAwaitArtifactStatus} from './artifact-journey.mjs';
 import {assertApplicationBindingsEqual,assertArtifactWorkerBinding,artifactWorkerBinding} from './source-bindings.mjs';
 import {loadTsWithMocks} from '../test-expungement-checkout-guards.mjs';
 
@@ -331,4 +331,43 @@ test('actual Git input comparison permits receipt successors and refuses committ
     git('add','--','src/addition.txt');commit();
     assert.throws(()=>artifactWorkerBinding(job,root),/Published worker inputs differ/);
   } finally { fs.rmSync(root,{recursive:true,force:true}); }
+});
+
+test('keepDeliveredPdf keeps verified bytes privately, once, only under an absolute directory', () => {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-delivered-'));
+  try {
+    const bytes=Buffer.from('%PDF-1.7 probe'),sha=createHash('sha256').update(bytes).digest('hex'),dir=path.join(root,'delivered');
+    const file=keepDeliveredPdf(dir,sha,bytes);
+    assert.deepEqual(fs.readFileSync(file),bytes);assert.equal(fs.statSync(file).mode&0o777,0o600);assert.equal(fs.statSync(dir).mode&0o777,0o700);
+    assert.throws(()=>keepDeliveredPdf(dir,sha,bytes),/EEXIST/);
+    assert.throws(()=>keepDeliveredPdf('relative/dir',sha,bytes),/absolute/);
+    assert.throws(()=>keepDeliveredPdf(dir,'../escape',bytes));
+    const repo=path.join(root,'repo');execFileSync('git',['init','-q',repo]);fs.symlinkSync(repo,path.join(root,'link'));
+    // Reviewer2 P1: a '..' through a missing directory must not let the ancestor walk climb outside the worktree.
+    for(const inside of [path.join(repo,'private','delivered'),path.join(root,'link','not-yet','delivered'),`${root}/missing/../repo/kept`])
+      assert.throws(()=>keepDeliveredPdf(inside,sha,bytes),/outside every git worktree/);
+    assert.equal(fs.existsSync(path.join(root,'missing')),false);
+    // Reviewer2 P4: when git itself cannot answer, the keep is refused rather than treated as outside.
+    const previousPath=process.env.PATH;process.env.PATH=path.join(root,'no-git-here');
+    try { assert.throws(()=>keepDeliveredPdf(path.join(repo,'private','kept'),sha,bytes),/ENOENT/); }
+    finally { process.env.PATH=previousPath; }
+    assert.deepEqual(fs.readdirSync(repo),['.git']);
+  } finally { fs.rmSync(root,{recursive:true,force:true}); }
+});
+test('a delivered body that fails verification is never kept, even with CLINIC_QA_DELIVERED_PDF_DIR set',async()=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-unverified-')),dir=path.join(root,'delivered'),previous=process.env.CLINIC_QA_DELIVERED_PDF_DIR;
+  const fixture={actors:[{id:owner}],known:new Set([item]),partnerId,origin:'http://127.0.0.1:3139',program:'qa-synthetic',
+    checked:result=>result.data,admin:{from:table=>({select(){return this;},eq(){return this;},single:async()=>({data:table==='packet_render_jobs'?sponsoredJob:sponsoredProvenance})})}};
+  const wrong=Buffer.from(bytes);wrong[wrong.length-1]^=1;
+  const context={request:{get:async()=>({status:()=>200,headers:()=>headers,body:async()=>wrong})}};
+  process.env.CLINIC_QA_DELIVERED_PDF_DIR=dir;
+  try {
+    await assert.rejects(acceptRealArtifact({fixture,context,matterId:item,ownerId:owner,downloadPath:sponsoredPath,
+      session:{screening_session_id:sessionId,event_id:eventId},evidence:startArtifactEvidence({},'en'),check:()=>{},
+      readWorkerBinding:actual=>assertArtifactWorkerBinding({...workerFixture(),job:actual})}),/Actual owner PDF must match/);
+    assert.equal(fs.existsSync(dir),false);
+  } finally {
+    if(previous===undefined)delete process.env.CLINIC_QA_DELIVERED_PDF_DIR;else process.env.CLINIC_QA_DELIVERED_PDF_DIR=previous;
+    fs.rmSync(root,{recursive:true,force:true});
+  }
 });

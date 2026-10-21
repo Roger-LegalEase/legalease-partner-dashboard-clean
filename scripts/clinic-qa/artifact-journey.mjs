@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import path from 'node:path';
 import {artifactWorkerBinding} from './source-bindings.mjs';
 
 // These are measured against an artifact created by the real owner generation
@@ -48,6 +51,26 @@ export function exactArtifactResponse(status, headers, bytes, expected) {
   return status===200 && privateHeaders(headers) && /^application\/pdf(?:;|$)/i.test(headers['content-type']??'')
     && bytes.subarray(0,5).toString()==='%PDF-' && bytes.length===expected.byteLength
     && digest(bytes)===expected.sha256;
+}
+// A33: the route-footer probe must read the pages actually delivered, and run-owned cleanup removes the stored object,
+// so an opt-in run keeps the owner's verified bytes in its private output (never committed).
+// A participant PDF must never sit where `git add` can see it: refuse any directory whose nearest existing
+// ancestor resolves (realpath) inside a git worktree, ignored or not.
+function insideGitWorktree(dir) {
+  let probe=dir;while(!fs.existsSync(probe))probe=path.dirname(probe);
+  try {execFileSync('git',['-C',fs.realpathSync(probe),'rev-parse','--is-inside-work-tree'],{stdio:'pipe',env:{...process.env,LC_ALL:'C'}});return true;}
+  catch (error) {
+    // Only git's own answer means "outside"; git missing, dubious ownership or any other failure refuses the keep.
+    if(/not a git repository/.test(String(error.stderr??'')))return false;
+    throw error;
+  }
+}
+export function keepDeliveredPdf(dir, sha256, bytes) {
+  assert(path.isAbsolute(dir),'CLINIC_QA_DELIVERED_PDF_DIR must be absolute');assert.match(sha256,/^[a-f0-9]{64}$/);
+  dir=path.resolve(dir); // one normalized path for the check, the mkdir and the file: a '..' must not climb past the ancestor walk
+  assert(!insideGitWorktree(dir),'CLINIC_QA_DELIVERED_PDF_DIR must be outside every git worktree');
+  fs.mkdirSync(dir,{recursive:true,mode:0o700});
+  const file=path.join(dir,`${sha256}.pdf`);fs.writeFileSync(file,bytes,{flag:'wx',mode:0o600});return file;
 }
 export function privateDenialResponse(status, headers, bytes) {
   if(![401,403,404,409].includes(status)||!privateHeaders(headers)||bytes.subarray(0,5).toString()==='%PDF-')return false;
@@ -140,7 +163,9 @@ export async function acceptRealArtifact({fixture,context,matterId,ownerId,downl
   }
   const expected={sha256:job.output_sha256,byteLength:job.output_byte_count};
   const bytesResponse=await context.request.get(target,{maxRedirects:0});
-  const pass=exactArtifactResponse(bytesResponse.status(),bytesResponse.headers(),await bytesResponse.body(),expected);
+  const ownerBytes=await bytesResponse.body();
+  const pass=exactArtifactResponse(bytesResponse.status(),bytesResponse.headers(),ownerBytes,expected);
+  if(pass&&process.env.CLINIC_QA_DELIVERED_PDF_DIR)keepDeliveredPdf(process.env.CLINIC_QA_DELIVERED_PDF_DIR,expected.sha256,ownerBytes);
   record(evidence,check,'owner-provenance-and-exact-bytes',pass);
   assert(pass,'Actual owner PDF must match independently read finalized job/provenance');
   applyArtifactMode(evidence,mode);
