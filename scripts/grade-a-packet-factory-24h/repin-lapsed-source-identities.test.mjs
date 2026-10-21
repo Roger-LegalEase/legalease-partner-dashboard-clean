@@ -483,6 +483,22 @@ test("specifications MUTANT: without the <array>#<trackId> rule GA is refused", 
   assert.throws(() => specsCompare(asTrackId, GA_SPECS, SPECS_CHANGES.co), (e) => e instanceof Refusal);
 });
 
+/* Reviewer (16:30:51Z): 0be1fee76 changed a NON-last officialFormAssignments entry of mt_mmrta_completed and
+ * mt_mmrta_serving. An index that kept only the last entry per track and array would report both unchanged. */
+const MT_CHANGE = [specsAt("ad64ed58780f0757fa71bc693c2e72264f214380"), specsAt("0be1fee769162cf337ad79daaa3d5a94d88b4f5e")];
+const MT_SPECS = { receipt: {}, pin: { recordId: "legal-design-specifications:mt_mmrta_completed+mt_mmrta_serving", pathInRepository: SPECS } };
+const specsRefusesMt = (a) => canonical(specsCompare(a, MT_SPECS, MT_CHANGE).differing) === canonical(["specs:mt_mmrta_completed", "specs:mt_mmrta_serving"]);
+
+test("specifications REFUSE: a change to a non-last entry of a track is seen (0be1fee76, both MT tracks)", () => {
+  assert.ok(specsRefusesMt(specsAdapter));
+  const lastOnly = { ...specsAdapter, index(doc, side) {
+    const byTrack = specsAdapter.index(doc, side);
+    for (const entries of byTrack.values()) for (const k of Object.keys(entries)) entries[k] = entries[k].slice(-1);
+    return byTrack;
+  } };
+  assert.equal(specsRefusesMt(lastOnly), false, "an index keeping only the last entry per track and array must lose this change");
+});
+
 test("specifications MUTANTS: a widened or narrowed scope is caught", () => {
   const everyTrack = (doc) => [...specsAdapter.index(doc, "current").keys()].sort();
   const widened = { ...specsAdapter, scopeFrom: ({ currentDoc }) => ({ anchorIds: everyTrack(currentDoc) }) };
