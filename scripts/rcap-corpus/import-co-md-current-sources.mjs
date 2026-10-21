@@ -1,4 +1,4 @@
-// CO F1 / MD A46: index current held publications without rewriting prior custody.
+// CO F1 / MD A46: index current held publications without replacing prior source entries.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -13,6 +13,7 @@ export const SOURCES = [
   ['CO', 'JDF-615', '2025-07-01', 'JDF615.pdf', 1054204, '184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26', 3, 21],
   ['MD', 'CC-DC-CR-072A', '10/01/2026', 'ccdccr072A.pdf', 218004, '04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90', 1, 48],
   ['MD', 'CC-DC-CR-072D', '10/2025', 'ccdccr072d.pdf', 167894, '87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703', 1, 39],
+  ['MD', 'CC-DC-CR-072B', '10/01/2025-2', 'ccdccr072B.pdf', 776895, '47bc720acea515896943e94e1d228b3e8cc380b0ae1d4762dd1928f60f903667', 1, 48],
 ].map(([state, formNumber, revision, fileName, byteLength, sha256, pageCount, acroFieldCount]) => ({
   state, formNumber, revision, fileName, byteLength, sha256, pageCount, acroFieldCount,
   custody: `${state.toLowerCase()}_official_20261021`,
@@ -57,12 +58,21 @@ export async function importSources(root = ROOT) {
     const custody = { id, root: path.dirname(sources[0].path), pathsRelativeTo: 'repositoryRoot',
       describes: `Current ${sources.map(source => source.formNumber).join(' / ')} publications; Storage retrieval provenance in SOURCES.tsv. Prior sources retained; no legal, visual, delivery or payment approval.`,
       custodyType: 'NEWLY_ACQUIRED_OFFICIAL_PUBLICATION', completeOperationalCorpus: false,
-      binariesIndexed: 2, pdfsIndexed: 2 };
+      binariesIndexed: sources.length, pdfsIndexed: sources.length };
     const existing = index.custodies.filter(row => row.id === id);
-    if (existing.length) { assert.equal(existing.length, 1); assert.deepEqual(existing[0], custody); }
+    if (existing.length) {
+      assert.equal(existing.length, 1);
+      if (state === 'MD' && existing[0].binariesIndexed === 2) {
+        // Extend only the exact reviewed A/D custody; never normalize unrelated custody drift.
+        const prior = { ...custody, binariesIndexed: 2, pdfsIndexed: 2,
+          describes: custody.describes.replace(' / CC-DC-CR-072B', '') };
+        assert.deepEqual(existing[0], prior, 'prior Maryland custody drift');
+        Object.assign(existing[0], custody);
+      } else assert.deepEqual(existing[0], custody);
+    }
     else index.custodies.push(custody);
-    assert.equal(index.entries.filter(row => row.custody === id).length, 2);
-    assert.equal(index.totals.byCustody[id], 2);
+    assert.equal(index.entries.filter(row => row.custody === id).length, sources.length);
+    assert.equal(index.totals.byCustody[id], sources.length);
   }
   const after = JSON.stringify(index, null, 2) + '\n';
   assert.equal(fs.readFileSync(indexPath, 'utf8'), before, 'corpus index changed during intake');
