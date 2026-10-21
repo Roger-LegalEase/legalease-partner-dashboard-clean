@@ -180,7 +180,7 @@ for (const [state, name, election] of [
     const resumed = sanitizeResumedAnswersForQuestionIds(pub, input, selectScreeningQuestionIds(profile, pub, input));
     check(prefix + "/literal-optional-context", same(resumed.possible_pathway_context, input.possible_pathway_context)
       && Object.hasOwn(resumed, "possible_pathway_context") === Object.hasOwn(input, "possible_pathway_context"));
-    check(prefix + "/election-preserved", Object.entries(election).every(([id, value]) => same(resumed[id], value)));
+    check(prefix + "/election-preserved", Object.entries(premise).every(([id, value]) => same(resumed[id], value)));
     const response = await POST(new Request("http://localhost/api/expungement-ai/evaluate", { method: "POST",
       headers: { "content-type": "application/json" }, body: JSON.stringify({ jurisdiction: state,
         profileVersion: profile.profileVersion, matterId: "synthetic-ga21-same-election", answers: input }) }));
@@ -190,6 +190,76 @@ for (const [state, name, election] of [
       && same(body.missingQuestionIds, expected.missingQuestionIds) && body.paymentAllowed === false);
     check(prefix + "/raw-preserved", same(input, before));
     rows.push({ state, name, hint: hint ?? null, sameElection: true, result: expected });
+  }
+}
+
+// DEF-GA21-RETRO-HINT-PRECONDITION: a hint keeps the actual original-treatment prerequisite.
+{
+  const profile = getProfileByJurisdiction('GA'), pub = projectPublicProfile(profile);
+  const fixture = fixtures.rows.find(row => row.id.startsWith('GA') && row.id.endsWith('/omitted'));
+  const hint = 'Petition for retroactive First Offender treatment, exoneration and discharge';
+  check('GA21/retro-hint/offered-choice', pub.questions.find(q => q.id === 'possible_pathway_context').options.includes(hint));
+  for (const fact of [undefined, 'no', 'unknown', 'yes']) {
+    const answers = { ...fixture.answers, possible_pathway_context: hint };
+    delete answers.ga_record_help;
+    if (fact === undefined) delete answers.ga_original_first_offender;
+    else answers.ga_original_first_offender = fact;
+    const before = structuredClone(answers), prefix = 'GA21/retro-hint/' + String(fact);
+    const result = evaluateScreening({ jurisdiction: 'GA', profileVersion: profile.profileVersion, matterId: 'synthetic-retro-hint', answers });
+    const expectedMissing = fact === 'no' ? [] : [fact === 'yes' ? 'ga_first_offender_status' : 'ga_original_first_offender'];
+    check(prefix + '/exact-prerequisite', same(result.missingQuestionIds, expectedMissing));
+    check(prefix + '/identified-only-when-no', (result.pathwayId ?? null) === (fact === 'no' ? 'retroactive-first-offender-treatment-under-42-8-66' : null));
+    check(prefix + '/held-without-payment', result.resultCode === 'needs_more_info' && result.paymentAllowed === false
+      && (fact === 'no' ? result.reasons.some(reason => reason.code === 'ga.route_identified_packet_not_yet_available') : !result.packetPlan));
+    const selected = selectScreeningQuestionIds(profile, pub, answers);
+    check(prefix + '/correction-visible', expectedMissing.every(id => selected.includes(id)));
+    const resumed = sanitizeResumedAnswersForQuestionIds(pub, answers, selected);
+    check(prefix + '/retained-answers', Object.entries(answers).every(([id, value]) => same(resumed[id], value)));
+    const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jurisdiction: 'GA', profileVersion: profile.profileVersion, matterId: 'synthetic-retro-hint', answers }) }));
+    const body = await response.json();
+    check(prefix + '/handler', response.status === 200 && same(body.missingQuestionIds, expectedMissing) && (body.pathwayId ?? null) === (result.pathwayId ?? null) && body.paymentAllowed === false);
+    check(prefix + '/source-immutable', same(answers, before));
+    rows.push({ state: 'GA', defect: 'DEF-GA21-RETRO-HINT-PRECONDITION', fact: fact ?? null, result });
+  }
+}
+
+// GA21 review T1: hints neither override an explicit election nor borrow another route's prerequisite.
+{
+  const profile = getProfileByJurisdiction('GA'), pub = projectPublicProfile(profile);
+  const fixture = fixtures.rows.find(row => row.id === 'GA-no-original-treatment/omitted');
+  const sb288 = 'sb-288-misdemeanor-conviction-restriction-and-sealing';
+  const evaluate = answers => evaluateScreening({ jurisdiction: 'GA', profileVersion: profile.profileVersion,
+    matterId: 'synthetic-ga21-negative-boundary', answers });
+  for (const [name, election, hint] of [
+    ['N1-explicit-election-retro-hint', 'conviction_record', 'Petition for retroactive First Offender treatment, exoneration and discharge'],
+    ['N2-nonretro-hint-no-election', undefined, profile.pathways.find(path => path.id === sb288).label],
+  ]) {
+    const premise = { ...fixture.answers };
+    delete premise.ga_original_first_offender;
+    delete premise.ga_record_help;
+    delete premise.possible_pathway_context;
+    if (election !== undefined) premise.ga_record_help = election;
+    const input = { ...premise, possible_pathway_context: hint }, before = structuredClone(input);
+    const expected = evaluate(premise), result = evaluate(input), prefix = 'GA21/negative-boundary/' + name;
+    check(prefix + '/offered-hint', pub.questions.find(q => q.id === 'possible_pathway_context').options.includes(hint));
+    check(prefix + '/no-hint-control', expected.paymentAllowed === false && (election === undefined
+      ? !expected.pathwayId && !expected.packetPlan && same(expected.missingQuestionIds, ['ga_record_help'])
+      : expected.pathwayId === sb288 && !!expected.packetPlan));
+    check(prefix + '/hint-result', election === undefined
+      ? result.resultCode === 'needs_more_info' && result.pathwayId === sb288 && result.packetPlan?.pathwayId === sb288
+        && result.paymentAllowed === false && same(result.missingQuestionIds, ['ga_sb288_conviction_count', 'ga_sb288_final_citations', 'ga_sb288_convictions_before_filing'])
+      : same(result, expected));
+    check(prefix + '/no-borrowed-prerequisite', !result.missingQuestionIds.includes('ga_original_first_offender'));
+    const resumed = sanitizeResumedAnswersForQuestionIds(pub, input, selectScreeningQuestionIds(profile, pub, input));
+    check(prefix + '/retained-answers', Object.entries(input).every(([id, value]) => same(resumed[id], value))
+      && !Object.hasOwn(resumed, 'ga_original_first_offender'));
+    check(prefix + '/resumed-result', same(evaluate(resumed), result));
+    const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jurisdiction: 'GA', profileVersion: profile.profileVersion, matterId: 'synthetic-ga21-negative-boundary', answers: input }) }));
+    const body = await response.json();
+    check(prefix + '/handler', response.status === 200 && body.pathwayId === result.pathwayId
+      && same(body.packetPlan, result.packetPlan) && same(body.missingQuestionIds, result.missingQuestionIds) && body.paymentAllowed === false);
+    check(prefix + '/raw-preserved', same(input, before) && same(fixture.answers.ga_original_first_offender, 'no'));
+    rows.push({ state: 'GA', defect: 'GA21-T1', name, result });
   }
 }
 
