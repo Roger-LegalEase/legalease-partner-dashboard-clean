@@ -1,6 +1,6 @@
 import { VA_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/virginia-record-origin";
 import { msTimingDisplayContext, reviewedResultText, type MsTimingGeneratedSummary } from "@/lib/expungement-ai/reviewed-result-copy";
-import { legalAuthorityMetadataDraftSuccessor, evaluateProtectedPacketFacts, wyoming1502HeldDraftSuccessor, illinoisProstitutionHeldDraftSuccessor, mnTwoCountyDraftSuccessor, marylandPoliceHeldDraftSuccessor, virginiaVictimHeldDraftSuccessor } from "@/lib/expungement-ai/packet-information";
+import { californiaTool3VerifiedHeldSuccessor, legalAuthorityMetadataDraftSuccessor, evaluateProtectedPacketFacts, wyoming1502HeldDraftSuccessor, illinoisProstitutionHeldDraftSuccessor, mnTwoCountyDraftSuccessor, marylandPoliceHeldDraftSuccessor, virginiaVictimHeldDraftSuccessor } from "@/lib/expungement-ai/packet-information";
 import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { ND_FIRST_OFFENSE_ROUTE, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -437,6 +437,7 @@ function legalAuthorityFromProtectedVerification(
   verification: ProtectedPacketVerificationRecord,
   evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"]
 ): BriefcaseLegalPresentationAuthority {
+  verification = californiaTool3VerifiedHeldSuccessor(verification) ?? verification;
   const model = protectedPacketInformationModelFor(verification);
   if (!model) return { status: "unavailable", reason: "protected_packet_draft_invalid" };
   let snapshot = verification.status === "verified"
