@@ -120,7 +120,7 @@ export function QuestionField({
     </p> : null}
   </>;
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
-  const helperClass = `text-[13.5px] leading-6 text-[#5A6275]${["CO", "AL"].includes(stateCode) && question.id === "state_exclusion_categories" ? " whitespace-pre-line" : ""}`;
+  const helperClass = `text-[13.5px] leading-6 text-[#5A6275]${["CO", "AL", "NY"].includes(stateCode) && question.id === "state_exclusion_categories" ? " whitespace-pre-line" : ""}`;
   // Keep the four adopted AL lists separate; their source headings delimit the reviewed copy.
   const alExclusionSections = stateCode === "AL" && question.id === "state_exclusion_categories"
     ? helperText.split(/\n\n(?=[^\n]+ — (?:Alabama Code|Código de Alabama|49 CFR))/) : [];
