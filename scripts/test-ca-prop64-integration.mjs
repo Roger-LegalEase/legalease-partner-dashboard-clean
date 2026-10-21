@@ -308,6 +308,7 @@ for(const name of ['currently-serving','completed']){
  check(`CA-L06/${name} conditions asked only on the completed branch`,conditionIds.map(id=>selectScreeningQuestionIds(profile,pub,ordinary).includes(id)),conditionIds.map(()=>name==='completed'));
  for(const [label,patch,code]of [
   ['ended',{ca_prop64_supervision_ended:'ended',ca_prop64_payment_condition:'No'}],
+  ['blank',{ca_prop64_supervision_ended:null,ca_prop64_payment_condition:''}],
   ['unpaid-balance-alone',{financial_obligations:'Yes',ca_prop64_supervision_ended:'ended',ca_prop64_payment_condition:'No'}],
   ['supervision-continues',{ca_prop64_supervision_ended:'supervision_continues'},'sentence_condition_continues'],
   ['payment-condition',{ca_prop64_payment_condition:'Yes'},'sentence_condition_continues'],

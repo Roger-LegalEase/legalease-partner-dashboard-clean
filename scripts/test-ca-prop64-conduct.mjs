@@ -249,6 +249,7 @@ const conditionIds=['ca_prop64_supervision_ended','ca_prop64_payment_condition']
 for(const [name,done,cls]of [['possession',{...base,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'dismissal/sealing'},'no_offense'],['sale',{...sale,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'redesignation'},'misdemeanor']]){
  check('CA-L06 completed '+name+' asks both conditions',conditionIds.map(id=>F.caProp64ActiveFactIds(done).includes(id)),[true,true]);
  decision('CA-L06 completed '+name+' unanswered unchanged',done,'satisfied',cls);
+ for(const [label,value]of [['null',null],['empty',''],['undefined',undefined]])decision('CA-L06 completed '+name+' blank '+label+' unchanged',{...done,ca_prop64_supervision_ended:value,ca_prop64_payment_condition:value},'satisfied',cls);
  decision('CA-L06 completed '+name+' ended, no payment condition',{...done,ca_prop64_supervision_ended:'ended',ca_prop64_payment_condition:'No'},'satisfied',cls);
  decision('CA-L06 completed '+name+' unpaid balance alone',{...done,financial_obligations:'Yes',ca_prop64_supervision_ended:'ended',ca_prop64_payment_condition:'No'},'satisfied',cls);
  for(const [label,patch]of [['supervision continues',{ca_prop64_supervision_ended:'supervision_continues'}],['payment condition',{ca_prop64_payment_condition:'Yes'}],['both',{ca_prop64_supervision_ended:'supervision_continues',ca_prop64_payment_condition:'Yes'}]]){

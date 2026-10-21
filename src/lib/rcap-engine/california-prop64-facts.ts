@@ -95,6 +95,8 @@ const knownChoice = (a: Answers, id: string) => {
   return scalar(a[id]) !== "unknown" && Array.isArray(q?.options) && q.options.includes(String(scalar(a[id])));
 };
 const yes = (a: Answers, id: string) => scalar(a[id]) === "Yes";
+// A raw blank is unanswered (question-answer-state.ts); normalized() also maps a wrapped unsure answer to undefined.
+const blank = (v: unknown) => v === undefined || v === null || v === "";
 const missing = (ids: string[]): Decision => ({ status: "missing", code: "facts_missing", ids: [...new Set(ids)] });
 const review = (code: string, ids: string[] = []): Decision => ({ status: "review", code, ids });
 const amountIds = (a: Answers) => a.ca_prop64_substance === "flower" ? ["ca_prop64_flower_grams"]
@@ -196,6 +198,7 @@ export function caProp64ActiveFactIds(a: Answers): string[] {
  * Court presumptions, burdens and discretion are never participant assertions.
  */
 export function caProp64Facts(a: Answers, today: string): Decision {
+  const raw = a;
   a = normalized(a);
   const s = caProp64Section(a);
   if (!s || s === "unknown") return missing(["ca_prop64_record_section"]);
@@ -299,7 +302,7 @@ export function caProp64Facts(a: Answers, today: string): Decision {
   // CA-L06: unanswered keeps the ordinary branch; a reported condition or an unclear one is referred (DR13:366).
   if (branch === CA_PROP64_COMPLETED) {
     if (a.ca_prop64_supervision_ended === "supervision_continues" || yes(a, "ca_prop64_payment_condition")) return review("sentence_condition_continues", completedConditionIds);
-    const unclear = completedConditionIds.filter(id => Object.hasOwn(a, id) && !knownChoice(a, id));
+    const unclear = completedConditionIds.filter(id => !blank(raw[id]) && !knownChoice(a, id));
     if (unclear.length) return review("sentence_condition_unknown", unclear);
   }
   return { status: "satisfied", ids: [], classification };
