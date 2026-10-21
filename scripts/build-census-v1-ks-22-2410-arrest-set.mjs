@@ -17,6 +17,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
@@ -634,7 +635,7 @@ async function build() {
     const drift = []; for (const [rel, bytes] of output) { const abs = rel === "__PF20_RETURN__" ? path.join(ROOT, returnRel) : path.join(ROOT, OUT, rel); if (!fs.existsSync(abs)) { drift.push({ file: rel, why: "absent" }); continue; } const saved = fs.readFileSync(abs); if (sha(saved) !== sha(bytes) || saved.length !== bytes.length) drift.push({ file: rel, savedSha256: sha(saved), rebuiltSha256: sha(bytes) }); }
     return { familyId: FAMILY_ID, status: drift.length ? "DRIFT" : "DETERMINISTIC", drift, counters: counted.counters };
   }
-  for (const [rel, bytes] of output) { if (rel === "__PF20_RETURN__") { fs.writeFileSync(path.join(ROOT, returnRel), Buffer.from(`${JSON.stringify(returnValue, null, 2)}\n`)); continue; } const abs = path.join(ROOT, OUT, rel); fs.mkdirSync(path.dirname(abs), { recursive: true }); fs.writeFileSync(abs, bytes); }
+  for (const [rel, bytes] of output) { if (rel === "__PF20_RETURN__") { fs.writeFileSync(path.join(ROOT, returnRel), Buffer.from(`${JSON.stringify(returnValue, null, 2)}\n`)); continue; } const abs = path.join(ROOT, OUT, rel); fs.mkdirSync(path.dirname(abs), { recursive: true }); fs.writeFileSync(abs, rel.endsWith(".json") ? `${JSON.stringify(preserveIdentityRefresh(fs, abs, JSON.parse(bytes.toString("utf8"))), null, 2)}\n` : bytes); }
   const allZero = PASS_COUNTERS.every((c) => counted.counters[c] === 0);
   return { familyId: FAMILY_ID, status: allZero ? "COMPLETED" : "STOPPED", counters: counted.counters, counterFindings: counted.findings, directory: OUT, outputs: artifacts.map((a) => ({ fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount })), documents: SOURCE_DOCS.map((d) => `${d.documentId} (${d.strategy})`), writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0), requiredBeforeFiling: rbf.length, rasterState: "BUILT_RASTER_PENDING", independentReview: "PENDING", commercialRoutesOpened: 0 };
 }
