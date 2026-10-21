@@ -668,7 +668,7 @@ const SPEC = {
       "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "statute": "O.C.G.A. § 42-8-66",
       "instrument": "Georgia § 42-8-66 Retroactive First Offender Petition",
-      "statedOn": "the composed petition and filing instructions, in their titles, bodies and route footers",
+      "statedOn": "the composed petition and filing instructions, in their titles and bodies; no page prints a route footer",
       "precondition": "verified written prosecutorial consent, joinder or signed consent endorsement held as a document"
     }
   ],
