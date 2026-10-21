@@ -235,8 +235,8 @@ it("every receipt carrying an annotation is built through the preservation", () 
     if (!fs.existsSync(abs)) return false;
     const text = fs.readFileSync(abs, "utf8");
     if (text.includes("preserveIdentityRefresh")) return true;
-    for (const spec of text.match(/from\s+"(\.[^"]+\.mjs)"/g) ?? []) {
-      const rel = spec.replace(/^from\s+"/, "").replace(/"$/, "");
+    for (const spec of text.match(/from\s*["'](\.[^"']+\.mjs)["']/g) ?? []) {
+      const rel = spec.replace(/^from\s*["']/, "").replace(/["']$/, "");
       const next = path.posix.join(path.posix.dirname(script), rel);
       if (wired(next, seen)) return true;
     }
