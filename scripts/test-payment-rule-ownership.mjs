@@ -46,6 +46,8 @@ for (const row of fixture.cases) {
 const publicOwnPairs = {
   "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": "rule-10-mechanism-3-confidentiality-of-acquittals-dismissals-as",
   "CA:tool-4-arrest-record-sealing": "rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc",
+  // Lead 2026-10-21 19:53:10: rule-09 is this route's own conversion.
+  "HI:first-time-drug-conviction": "rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first",
   "HI:nonconviction-arrest-expungement": "rule-04-a-complete-application-valid-government-photo-id-paymen",
   "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146": "rule-01-family-1-dismissals-and-not-guilty-findings-g-s-15a-146",
   "ND:deferred-imposition-dismissal-and-sealing": "rule-29-path-d-deferred-imposition-of-sentence-dismissal",
@@ -63,7 +65,9 @@ for (const [key, rule] of [...Object.entries(publicOwnPairs),
     const [jurisdiction, pathwayId] = key.split(':');
     const witness = (jurisdiction === 'VA' ? publicAnswerSets : publicFixtures).find(row => row.pathwayKey === key);
     assert(witness);
-    const answers = structuredClone(jurisdiction === 'VA' ? witness.finalAnswers : witness.answers), before = structuredClone(answers);
+    const answers = structuredClone(jurisdiction === 'VA' ? witness.finalAnswers : witness.answers);
+    if (key === 'HI:first-time-drug-conviction') answers.hi_court_order_confirmed = 'Yes';
+    const before = structuredClone(answers);
     const profile = getProfileByJurisdiction(jurisdiction);
     const actual = evaluateScreening({ jurisdiction, profileVersion: profile.profileVersion, matterId: 'synthetic-public-own-content', answers });
     assert.equal(actual.pathwayId, pathwayId);
