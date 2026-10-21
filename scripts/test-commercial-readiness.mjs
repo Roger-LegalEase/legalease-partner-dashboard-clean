@@ -65,10 +65,18 @@ function loadTsFile(resolved, mocks) {
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
   mod.require = requireFor(mocks, resolved);
-  mod._compile(transpiled, compiledFilename);
   // Only dependencies loaded for real are cached. The module under test is
   // loaded fresh each time, because each case gives it different doubles.
+  // Cached before running, as Node does, so an import cycle
+  // (question-answer-state <-> ca-prop64-contact-answer) gets partial exports
+  // instead of recursing.
   REAL_MODULE_CACHE.set(resolved, mod.exports);
+  try {
+    mod._compile(transpiled, compiledFilename);
+  } catch (error) {
+    REAL_MODULE_CACHE.delete(resolved);
+    throw error;
+  }
   return mod.exports;
 }
 
