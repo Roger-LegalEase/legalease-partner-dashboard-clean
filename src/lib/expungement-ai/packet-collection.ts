@@ -627,6 +627,812 @@ export function dcFelonyRecordIsHistory(profile: EngineProfile | undefined, path
     && specification == null && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830";
 }
 
+// GA12/GA17: exact source-bound consumers keep generic labels as literal history.
+export function okCategoryAndRecordAreHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return profile?.jurisdiction.code === "OK" && [
+    "acquittal-dismissal-or-other-no-conviction-expungement", // GA12 Q-7c344b62b8005b8c0856 / GA17 Q-1af92bac0be9e8f1d3c1
+    "arrest-with-no-charges-filed", // GA12 Q-64ac71408f9198d6c6bb / GA17 Q-c2eae6c2aea996936af8
+    "conviction-reversed-and-case-dismissed", // GA12 Q-44758205328791de54b2 / GA17 Q-b2307423d9b47d9a1af7
+    "deferred-sentence-court-record-expungement-under-991-c", // GA12 Q-c7f7c05e9424141d43d5 / GA17 Q-bd410275cf3de6c271db
+    "dna-factual-innocence-expungement", // GA12 Q-3e40c600977518a9ad95 / GA17 Q-694560c7c95fb47ca5ac
+    "felony-reclassified-as-a-misdemeanor", // GA12 Q-d3ad0203b6c3121ae86e / GA17 Q-606eea91d3a3a9d1820d
+    "fine-only-misdemeanor-conviction-expungement", // GA12 Q-5733847ce93786556162 / GA17 Q-4932a2b1edb791de2454
+    "human-trafficking-survivor-relief", // GA12 Q-c54f700a248b3499c184 / GA17 Q-82571d80cc42abd806af
+    "juvenile-record-expungement", // GA12 Q-ef76f429778c93c43b10 / GA17 Q-b1d0bc75d75f9113d995
+    "misdemeanor-deferred-dismissal-expungement", // GA12 Q-bdf0e7619ddfad13d1b8 / GA17 Q-572c0c7e28831927a19a
+    "nonviolent-felony-deferred-dismissal-expungement", // GA12 Q-41b39b9d0aa40bacd744 / GA17 Q-77a18d8e1ed50ccabe51
+    "not-more-than-two-eligible-felony-convictions-expungement", // GA12 Q-7e9846761b731ed1bd35 / GA17 Q-5036cbc1e622a9444933
+    "one-eligible-nonviolent-felony-conviction-expungement", // GA12 Q-1b4a5930987a37b89ca1 / GA17 Q-302b485d17fcef854e84
+    "other-eligible-misdemeanor-conviction-expungement", // GA12 Q-c0893100ce168c61ea41 / GA17 Q-88799b7d454677674402
+    "pardon-based-expungement", // GA12 Q-fba22f7979e46d7aa914 / GA17 Q-ea6b30056ceb463744bb
+    "up-to-two-felony-deferred-dismissal-expungement", // GA12 Q-d61d0fbc71aad09c6bb0 / GA17 Q-5abc61f83ae56e7779f7
+    "victim-protective-order-record-relief", // GA12 Q-cf5ae343b7ff13b09400 / GA17 Q-69fdf8d958deae680d72
+  ].includes(pathwayId ?? "") && specification == null
+    && contactRepresentationHash(profile) === "d0c3f020cc38d939c56585e3f03227b08e865f4fa56377fddd71d0e7359a76c9";
+}
+
+// GA12/GA17 R1: per-state exact source-bound consumers, pinned to the profile hash, one route list per finding. Earlier
+// offense_category / record_type answers stay optional literal history; they never select a route, classify an offense or
+// change a payment decision.
+const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; categoryReason: string;
+  category: readonly string[]; record: readonly string[] }>> = {
+  UT: {
+    profileHash: "bd35a941b0354dd73ca8ca57741a5afc5da7824dd66571d97abb6ff45534ee49",
+    categoryReason: "Earlier Utah categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "path-a-automatic-clean-slate-expungement", // GA12 Q-252e5eaceeb14868ecfd
+      "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice", // GA12 Q-fa8ce3d47b028a9a9297
+      "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals", // GA12 Q-2333bc4d3b484d36fdbc
+      "path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility", // GA12 Q-e9f3971de039d6458dcc
+      "path-e-petition-based-non-conviction-expungement", // GA12 Q-cf0b883c11fa0a6f2fc3
+      "path-f-petition-based-conviction-expungement", // GA12 Q-650fb69353356a405ac7
+      "path-i-traffic-offense-expungement-or-deletion", // GA12 Q-6f5514279e5ffa50cb3e
+      "path-j-cannabis-possession-petition-without-a-bci-certificate", // GA12 Q-313866182a1e4777029e
+      "path-k-pardon-based-expungement", // GA12 Q-906056c11b74201b4da6
+      "path-l-vacatur-human-trafficking-related-expungement", // GA12 Q-d9d380005932a99444a6
+      "path-m-juvenile-expungement", // GA12 Q-2fe99c51c62078f670e8
+    ],
+    record: [
+      "path-a-automatic-clean-slate-expungement", // GA17 Q-5e88cc7ea97bd8745c1f
+      "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice", // GA17 Q-3784a90b21f601fc7637
+      "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals", // GA17 Q-24585f480025fdf4a4cb
+      "path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility", // GA17 Q-d8cf948f1c17c4bffa64
+      "path-e-petition-based-non-conviction-expungement", // GA17 Q-ef44181a41b9119ee4e6
+      "path-f-petition-based-conviction-expungement", // GA17 Q-8ab80724ffff8845f3bd
+      "path-i-traffic-offense-expungement-or-deletion", // GA17 Q-a3934d2a19074726f573
+      "path-j-cannabis-possession-petition-without-a-bci-certificate", // GA17 Q-bd3410d058530b0a0f26
+      "path-k-pardon-based-expungement", // GA17 Q-958937ed725e4ea87169
+      "path-l-vacatur-human-trafficking-related-expungement", // GA17 Q-53b2acc2f8354df04528
+      "path-m-juvenile-expungement", // GA17 Q-2ef0ec2a33a7e70da1e7
+    ],
+  },
+  PA: {
+    profileHash: "9691756c4a25ce87afb297bd809fb5dd5c39cce33ebfdcb85d9e9afb0662d12e",
+    categoryReason: "Earlier Pennsylvania categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "path-a-non-conviction-expungement", // GA12 Q-6303976ad4b8ae1e924f
+      "path-b-complete-acquittal-not-guilty-expungement", // GA12 Q-bbf51562519786068cc5
+      "path-c-summary-conviction-expungement", // GA12 Q-ebfada9e873528bccd38
+      "path-d-ard-expungement", // GA12 Q-f82ac89b0b9cd5a6f0b0
+      "path-e-age-70-expungement", // GA12 Q-ad80963961e658f9a1e4
+      "path-f-deceased-person-expungement", // GA12 Q-a106d2f89ee5932928db
+      "path-g-underage-drinking-conviction-expungement", // GA12 Q-7f0b7762d5aeefdbac2b
+      "path-h-pardon-based-expungement", // GA12 Q-7731018f38b0d5c7398e
+      "path-i-petition-for-limited-access", // GA12 Q-bcbdcf2105073c71d90d
+      "path-j-clean-slate-automatic-limited-access", // GA12 Q-3b3c3e699bffa01de277
+      "path-k-human-trafficking-vacatur-expungement", // GA12 Q-d4df0578591f1bba6c6c
+    ],
+    record: [
+      "path-a-non-conviction-expungement", // GA17 Q-5164c6e021bfd0897e7a
+      "path-b-complete-acquittal-not-guilty-expungement", // GA17 Q-e770b2de507acec4924c
+      "path-c-summary-conviction-expungement", // GA17 Q-0ebc9cb4212495acdc33
+      "path-d-ard-expungement", // GA17 Q-c28384c7cb8b3f5bf23f
+      "path-e-age-70-expungement", // GA17 Q-9aed0f34c9788d7a3f09
+      "path-f-deceased-person-expungement", // GA17 Q-26bf101779eb24857f29
+      "path-g-underage-drinking-conviction-expungement", // GA17 Q-f99c455f93cd674c4b2a
+      "path-h-pardon-based-expungement", // GA17 Q-14a06d05525bfd19ea98
+      "path-i-petition-for-limited-access", // GA17 Q-1d329de7345b39063b5e
+      "path-j-clean-slate-automatic-limited-access", // GA17 Q-79a7e977aac71c792fae
+      "path-k-human-trafficking-vacatur-expungement", // GA17 Q-afd2b456ce01f7e7429e
+    ],
+  },
+  LA: {
+    profileHash: "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6",
+    categoryReason: "Earlier Louisiana categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "felony-article-893-e-set-aside-followed-by-expungement", // GA12 Q-b30729ed956e8d23062e
+      "felony-ten-year-clean-period-expungement", // GA12 Q-b233741a48310919da10
+      "first-offender-pardon-felony-expungement", // GA12 Q-a2228520d97dcc903ff3
+      "first-offense-marijuana-expungement-after-90-days-art-998", // GA12 Q-028a5d4a6e578c29a060
+      "human-trafficking-survivor-expungement-fee-exempt-route", // GA12 Q-1f0e7d0488d670e692cd
+      "immediate-expungement-after-successful-court-program-completion-art-985-3", // GA12 Q-22065414a244c656a67f
+      "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction", // GA12 Q-7500ec895a5603e69c15
+      "misdemeanor-article-894-b-set-aside-followed-by-expungement", // GA12 Q-c2f2a4248850b31ea8ca
+      "misdemeanor-five-year-clean-period-expungement", // GA12 Q-8063c22833109ea3d94e
+    ],
+    record: [
+      "felony-article-893-e-set-aside-followed-by-expungement", // GA17 Q-4d1424ca5f2137df7aa0
+      "felony-ten-year-clean-period-expungement", // GA17 Q-5f8172fac27c22dd9f75
+      "first-offender-pardon-felony-expungement", // GA17 Q-abcb2d7a03cf6b8b18a2
+      "first-offense-marijuana-expungement-after-90-days-art-998", // GA17 Q-94f70a6bc5afb8db8b2e
+      "human-trafficking-survivor-expungement-fee-exempt-route", // GA17 Q-ffc39f9d7d89d27baba6
+      "immediate-expungement-after-successful-court-program-completion-art-985-3", // GA17 Q-836fc9f1ee674d99ab75
+      "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction", // GA17 Q-695fc1058b1ca3cd5828
+      "misdemeanor-article-894-b-set-aside-followed-by-expungement", // GA17 Q-ee9e78ee9b492f5731fa
+      "misdemeanor-five-year-clean-period-expungement", // GA17 Q-c3d27d726a5efb8a9e60
+    ],
+  },
+  TX: {
+    profileHash: "cbe146b80419cf03a0c7f7edd62da33f59177cea243dc9fd2b1e516d548dc49a",
+    categoryReason: "Earlier Texas categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA12 Q-97bc2a5f998b912adda8
+      "expunction-after-pardon-or-actual-innocence-relief", // GA12 Q-ece677b818ab583b0a14
+      "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA12 Q-b8b91c5dff89cb0adb64
+      "first-offense-dwi-nondisclosure", // GA12 Q-7b044f8b2d70a8798aca
+      "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA12 Q-ecdc2323b7eb7e9089ba
+      "petitioned-nondisclosure-for-an-eligible-conviction-411-0735", // GA12 Q-2e0fbd26cd239ff0d6e4
+    ],
+    record: [
+      "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA17 Q-824a1ba5bd22b494dfa1
+      "expunction-after-pardon-or-actual-innocence-relief", // GA17 Q-c51c4a1d5b7aa734511a
+      "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA17 Q-8d122cfbc96cf12d60cb
+      "first-offense-dwi-nondisclosure", // GA17 Q-35df6f53ee29fa1c90ec
+      "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA17 Q-714293c4107f4534661e
+      "petitioned-nondisclosure-for-an-eligible-conviction-411-0735", // GA17 Q-e6978babce1a46e17b47
+    ],
+  },
+  NE: {
+    profileHash: "2ff06c3e6b7fbcf4f82df41c0c7eb9315555fc3c535dfab28fa0c53a9f7fffbb",
+    categoryReason: "Earlier Nebraska categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-nonconviction-sealing", // GA12 Q-4a545ab85a94be27c95b
+      "juvenile-automatic-sealing", // GA12 Q-7d6e2953ebba7db1eb72
+      "juvenile-petition-backstop", // GA12 Q-d75d629d50ebb8c87426
+      "law-enforcement-error-expungement", // GA12 Q-5032ace2532c76a61e7c
+      "pardon-then-seal", // GA12 Q-f90e4e8ab93ba8a7096e
+      "set-aside-incarceration-one-year-or-less", // GA12 Q-17df472e8ea9aa127584
+      "set-aside-probation-fine-community-service", // GA12 Q-eea669c83c89361f4041
+      "trafficking-survivor-set-aside-and-seal", // GA12 Q-1fd3143f4dbee8014955
+    ],
+    record: [
+      "automatic-nonconviction-sealing", // GA17 Q-831f2f441d10e55f7960
+      "juvenile-automatic-sealing", // GA17 Q-acf1a4e859aaaf8006c4
+      "juvenile-petition-backstop", // GA17 Q-e093af789f1c7c7cfb0f
+      "law-enforcement-error-expungement", // GA17 Q-66dcd1e23c263ba19cbc
+      "pardon-then-seal", // GA17 Q-b8fdccd39b9b0190574f
+      "set-aside-incarceration-one-year-or-less", // GA17 Q-5f04b326441400689e07
+      "set-aside-probation-fine-community-service", // GA17 Q-d772db95899d4a74d3a0
+      "trafficking-survivor-set-aside-and-seal", // GA17 Q-d641e93e73955b0b8ca2
+    ],
+  },
+  RI: {
+    profileHash: "ddb5d94750f7e7586b38f99656b486c96fbad392938b32179dbf25eb95f54a8a",
+    categoryReason: "Earlier Rhode Island categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "path-a-first-offender-conviction-expungement", // GA12 Q-50cca60f5c7926124ba7
+      "path-b-multiple-misdemeanor-expungement", // GA12 Q-cb04a7aa485b8e2b72d8
+      "path-c-deferred-sentence-expungement", // GA12 Q-953071a0940638aa4080
+      "path-d-non-conviction-sealing-expungement", // GA12 Q-f267c2dff27842604000
+      "path-e-filed-complaint-relief-under-12-10-12", // GA12 Q-4eb0e509dabbd52d3833
+      "path-f-marijuana-possession-expungement", // GA12 Q-6ee35861d87c035055aa
+      "path-g-decriminalized-offense-expungement", // GA12 Q-6657da2a38a7cc5786a2
+      "path-h-commercial-sexual-activity-related-expungement", // GA12 Q-882f1028ec5db3a1c041
+    ],
+    record: [
+      "path-a-first-offender-conviction-expungement", // GA17 Q-b76d3d226ef90e273467
+      "path-b-multiple-misdemeanor-expungement", // GA17 Q-be9c68444b00deaf3e53
+      "path-c-deferred-sentence-expungement", // GA17 Q-231f7301ba7ec275311f
+      "path-d-non-conviction-sealing-expungement", // GA17 Q-315bc91f871d66169b51
+      "path-e-filed-complaint-relief-under-12-10-12", // GA17 Q-837bf7efc9ddfbb653af
+      "path-f-marijuana-possession-expungement", // GA17 Q-e90b9851defd241b9ab1
+      "path-g-decriminalized-offense-expungement", // GA17 Q-b9ef500f7b5744a20048
+      "path-h-commercial-sexual-activity-related-expungement", // GA17 Q-0cf26464d2bc85c7c351
+    ],
+  },
+  VT: {
+    profileHash: "71969bc9d553a1d480853d84082cb411d322de47b1e8fb6c5a180e5c0bd61806",
+    categoryReason: "Earlier Vermont categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-expungement-narrow-statutory-route", // GA12 Q-08b43436b06a0f4e805b
+      "adult-felony-conviction-sealing", // GA12 Q-8d42db81cba3d83cdfc8
+      "adult-misdemeanor-conviction-sealing", // GA12 Q-547a6af68b039d5a2147
+      "dui-sealing", // GA12 Q-327fabab0a5a937c065b
+      "juvenile-sealing", // GA12 Q-43f2d3e844b38b09b29d
+      "non-conviction-sealing", // GA12 Q-91a7d389265ef74bef51
+      "offense-before-age-25-sealing-under-33-v-s-a-5119-g", // GA12 Q-f1e29e900cf226e0d754
+      "young-adult-sealing-for-offenses-committed-at-ages-18-21", // GA12 Q-66970ef1355d84b71232
+    ],
+    record: [
+      "adult-conviction-expungement-narrow-statutory-route", // GA17 Q-03287db45ca3c582b999
+      "adult-felony-conviction-sealing", // GA17 Q-b96f19af50622e1a38f4
+      "adult-misdemeanor-conviction-sealing", // GA17 Q-5ac4b30089f77daf6cd5
+      "dui-sealing", // GA17 Q-ff9eafce80b006b84c5c
+      "juvenile-sealing", // GA17 Q-d38163b0b33fc71c05bc
+      "non-conviction-sealing", // GA17 Q-59aa1c6c9dcbb615627a
+      "offense-before-age-25-sealing-under-33-v-s-a-5119-g", // GA17 Q-ab8e14fa6d2ff40f35f4
+      "young-adult-sealing-for-offenses-committed-at-ages-18-21", // GA17 Q-552b6abf121201bf126a
+    ],
+  },
+  IL: {
+    profileHash: "b16978a1748ee80363763340a864f5ea8a2a5160bb8f76093440c02beda70afd",
+    categoryReason: "Earlier Illinois categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-sealing", // GA12 Q-5694f465c734a658c0e0
+      "adult-non-conviction-expungement", // GA12 Q-1dd94e9fab0cba0e0454
+      "cannabis-specific-automatic-or-petition-expungement", // GA12 Q-59face7f29c93d412462
+      "clean-slate-automatic-sealing", // GA12 Q-59f40e6c5a862593cb34
+      "expungement-after-eligible-supervision-or-qualified-probation", // GA12 Q-e875b077b30fe51dbdf1
+      "human-trafficking-survivor-vacatur-and-expungement", // GA12 Q-c7f7280000e453756a1d
+      "juvenile-automatic-or-petition-expungement", // GA12 Q-bd7baa2e2c96bc9547a0
+    ],
+    record: [
+      "adult-conviction-sealing", // GA17 Q-905b302c690c688a50ef
+      "adult-non-conviction-expungement", // GA17 Q-a1b55e7d832957cab52a
+      "cannabis-specific-automatic-or-petition-expungement", // GA17 Q-39fc9cec1bf95bfe925e
+      "clean-slate-automatic-sealing", // GA17 Q-37b8f5e80e350bcca952
+      "expungement-after-eligible-supervision-or-qualified-probation", // GA17 Q-5a68c2f8e2d58b0f5222
+      "human-trafficking-survivor-vacatur-and-expungement", // GA17 Q-4093022f362ef2861280
+      "juvenile-automatic-or-petition-expungement", // GA17 Q-4e2e79db0f82f00c9d5a
+    ],
+  },
+  NV: {
+    profileHash: "964eecfe7a5c3ffd4bae54636520141ff20d25c904401b4eab6941de5d3dd651",
+    categoryReason: "Earlier Nevada categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "controlled-substance-possession-sealing-under-nrs-453-3365", // GA12 Q-c5b04053ad25b6bdc48e
+      "deferred-judgment-dismissal-and-sealing-under-nrs-176-211", // GA12 Q-d37e8d6c0c587f910f10
+      "general-conviction-record-sealing-under-nrs-179-245", // GA12 Q-f64352d6d095968af4a5
+      "non-conviction-record-sealing", // GA12 Q-649e80666a379d07874e
+      "reentry-program-sealing-under-nrs-179-259", // GA12 Q-21a4729656d009a44472
+      "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160", // GA12 Q-f23bb2e343320420f6d4
+      "trafficking-victim-vacatur-and-sealing-under-nrs-179-247", // GA12 Q-79bc94877bba645c5ce8
+    ],
+    record: [
+      "controlled-substance-possession-sealing-under-nrs-453-3365", // GA17 Q-1db73533e210d247511c
+      "deferred-judgment-dismissal-and-sealing-under-nrs-176-211", // GA17 Q-6044b0d44312184fef47
+      "general-conviction-record-sealing-under-nrs-179-245", // GA17 Q-0b3068e00a728e8e9b5f
+      "non-conviction-record-sealing", // GA17 Q-1c93db2c1e3b044f4da9
+      "reentry-program-sealing-under-nrs-179-259", // GA17 Q-7fa963ef89606c0195de
+      "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160", // GA17 Q-3eeb7101599cd4ef082d
+      "trafficking-victim-vacatur-and-sealing-under-nrs-179-247", // GA17 Q-48f6f067fc1af171781c
+    ],
+  },
+  OH: {
+    profileHash: "10d16893413374ee1d2e37059f4d17ec1f15e8cd2329d5d22096396c142e9f68",
+    categoryReason: "Earlier Ohio categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32", // GA12 Q-789e93d63ae1e416ca52
+      "adult-non-conviction-sealing-or-expungement-under-2953-33", // GA12 Q-765489a449327996fbe9
+      "certain-firearm-carry-conviction-expungement-under-2953-35", // GA12 Q-bb5520a0a7519366f9e1
+      "human-trafficking-survivor-conviction-expungement-under-2953-36", // GA12 Q-2e36d0b5c1a1925c7c98
+      "human-trafficking-survivor-non-conviction-expungement-under-2953-521", // GA12 Q-daf300450ee87dd55597
+      "juvenile-sealing-and-expungement", // GA12 Q-d9d1c403448604d56ca8
+      "marijuana-hashish-possession-expungement-under-2953-321", // GA12 Q-99864a8cfd6d49f59819
+    ],
+    record: [
+      "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32", // GA17 Q-d4ce8aeb5628508912d2
+      "adult-non-conviction-sealing-or-expungement-under-2953-33", // GA17 Q-e0332e8dc4c98130d8d9
+      "certain-firearm-carry-conviction-expungement-under-2953-35", // GA17 Q-d87c7a2a4e6ba8df8a86
+      "human-trafficking-survivor-conviction-expungement-under-2953-36", // GA17 Q-5d9ed4f45d2af7006e2f
+      "human-trafficking-survivor-non-conviction-expungement-under-2953-521", // GA17 Q-7c86feef8f3c97e28642
+      "juvenile-sealing-and-expungement", // GA17 Q-2a1e11767600187fe110
+      "marijuana-hashish-possession-expungement-under-2953-321", // GA17 Q-463c45ad2785b6a60935
+    ],
+  },
+  SC: {
+    profileHash: "f722ee8e20a8a3f4838ba18888efd96a1e094005bfec54c7971a2c89f8bfb97d",
+    categoryReason: "Earlier South Carolina categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "diversion-or-program-completion-expungement", // GA12 Q-3628876a599f755ccb08
+      "eligible-conviction-expungement", // GA12 Q-a01dc251d4bc64a25e86
+      "general-sessions-non-conviction-expungement", // GA12 Q-1e95aceea3b46b97ce1b
+      "human-trafficking-survivor-expungement", // GA12 Q-4e381f7c25da41b693e3
+      "juvenile-expungement", // GA12 Q-66245d5d32703c1edee8
+      "pardon-guidance-for-otherwise-ineligible-convictions", // GA12 Q-732e7580dcb62e76f411
+      "summary-court-non-conviction-expungement", // GA12 Q-599b985661fec0558c4b
+    ],
+    record: [
+      "diversion-or-program-completion-expungement", // GA17 Q-90d4deac639927da1ee2
+      "eligible-conviction-expungement", // GA17 Q-087283881934291ebe40
+      "general-sessions-non-conviction-expungement", // GA17 Q-c26c3f6e7a42b5682710
+      "human-trafficking-survivor-expungement", // GA17 Q-cdfeecfbc806454a636f
+      "juvenile-expungement", // GA17 Q-4c98ca2da751837b69f7
+      "pardon-guidance-for-otherwise-ineligible-convictions", // GA17 Q-f369ae40853cc743fee6
+      "summary-court-non-conviction-expungement", // GA17 Q-b10be642c5fc30e77202
+    ],
+  },
+  SD: {
+    profileHash: "a1d4f1e781a618726d83137b3905ec17ab394dbc31f94aee23273746ec8331c1",
+    categoryReason: "Earlier South Dakota categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-arrest-record-expungement-under-sdcl-23a-3-27", // GA12 Q-e3265ba918c0807bc1d4
+      "automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases", // GA12 Q-0dd3d4a648d6ab2cace7
+      "controlled-substance-deferred-disposition-route", // GA12 Q-6ff783980d482acdedd8
+      "diversion-expungement", // GA12 Q-8283a2d886845701d5c8
+      "juvenile-delinquency-sealing", // GA12 Q-0fbe5c9baccd5dfb2743
+      "juvenile-trafficking-expungement", // GA12 Q-544a83f317e6925639ae
+      "pardon-based-sealing", // GA12 Q-0f015c8e313a541231b9
+    ],
+    record: [
+      "adult-arrest-record-expungement-under-sdcl-23a-3-27", // GA17 Q-022baee1cde486a164d3
+      "automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases", // GA17 Q-a39273de8f45dd093a92
+      "controlled-substance-deferred-disposition-route", // GA17 Q-6d14ac2fd7b6bddcc5b7
+      "diversion-expungement", // GA17 Q-e6106fb50b4129355c03
+      "juvenile-delinquency-sealing", // GA17 Q-d42a33c8cf47f037e46b
+      "juvenile-trafficking-expungement", // GA17 Q-3419f0242f9669240a3b
+      "pardon-based-sealing", // GA17 Q-3118da38c8786644c46e
+    ],
+  },
+  WA: {
+    profileHash: "a694f14abf3cddb6c7e8f3fac74c1ab396ab8e75c1d9f6b1cce533ff70887eb9",
+    categoryReason: "Earlier Washington categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-felony-vacation-under-rcw-9-94a-640", // GA12 Q-3b110b6ae08bd64d6bf3
+      "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060", // GA12 Q-10152501470126ecc07d
+      "blake-drug-possession-vacation-and-refund-route", // GA12 Q-adb77e291db09ef1d5d2
+      "juvenile-record-sealing-under-rcw-13-50-260", // GA12 Q-f58e57c144f081be3514
+      "misdemeanor-cannabis-conviction-vacation", // GA12 Q-4adaa2604fd09aa8f9b5
+      "non-conviction-record-deletion-under-rcw-10-97-060", // GA12 Q-9b41697713dead823c63
+      "victim-survivor-conviction-vacation-route", // GA12 Q-90c7165ec4b0da2c49d5
+    ],
+    record: [
+      "adult-felony-vacation-under-rcw-9-94a-640", // GA17 Q-97a9721e9b2e5b381d81
+      "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060", // GA17 Q-533e5e90f9eccd58ca69
+      "blake-drug-possession-vacation-and-refund-route", // GA17 Q-635048ef673d9cd2d5ec
+      "juvenile-record-sealing-under-rcw-13-50-260", // GA17 Q-1dc982540657d27bf12d
+      "misdemeanor-cannabis-conviction-vacation", // GA17 Q-268df1f07d1a37b0e808
+      "non-conviction-record-deletion-under-rcw-10-97-060", // GA17 Q-015e34cce8bfcc53bbeb
+      "victim-survivor-conviction-vacation-route", // GA17 Q-221e47610111f5c92642
+    ],
+  },
+  WV: {
+    profileHash: "4579631e506c34764e4c9b13ed1041a381fa980597b798c184226d8879b6284c",
+    categoryReason: "Earlier West Virginia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a", // GA12 Q-cf92b9ddf3aa29535066
+      "first-offense-drug-possession-conditional-discharge-relief", // GA12 Q-e09c22572076696b75e9
+      "juvenile-record-relief", // GA12 Q-8b168b02120d28ec1967
+      "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication", // GA12 Q-4788db0474a27ceae315
+      "pardon-based-expungement", // GA12 Q-438edd691f440307e9c6
+      "sex-trafficking-victim-vacatur-and-expungement", // GA12 Q-766aea3d3342bf31ebfe
+    ],
+    record: [
+      "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a", // GA17 Q-14029ec451f45aebd6e8
+      "first-offense-drug-possession-conditional-discharge-relief", // GA17 Q-50f3c1d6f0353c4b697c
+      "juvenile-record-relief", // GA17 Q-567a8b11142b92bae28f
+      "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication", // GA17 Q-e4b313c5e14f1c28f895
+      "pardon-based-expungement", // GA17 Q-58b3c0d9234aef3a26f6
+      "sex-trafficking-victim-vacatur-and-expungement", // GA17 Q-bdb22ef6c8161084b37f
+    ],
+  },
+  MD: {
+    profileHash: "758b4fde34401e6a8778e6fe15dc64184f3319cdb336d24055c0fe9265544207",
+    categoryReason: "Earlier Maryland categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-non-conviction-expungement-under-crim-proc-10-105", // GA12 Q-1ac39767ebd38f67205f
+      "automatic-expungement-under-crim-proc-10-105-1", // GA12 Q-8bceb546e5c92b856e55
+      "cannabis-specific-expungement", // GA12 Q-1bfea6abba26156d604b
+      "eligible-conviction-expungement-under-crim-proc-10-110", // GA12 Q-490cfd616dd97bfc8df2
+      "juvenile-expungement", // GA12 Q-87a80e79ceab8b8e0421
+      "second-chance-act-shielding", // GA12 Q-2366ddaaf367add0a243
+    ],
+    record: [
+      "adult-non-conviction-expungement-under-crim-proc-10-105", // GA17 Q-435bcf23d31f9f1a474c
+      "automatic-expungement-under-crim-proc-10-105-1", // GA17 Q-764036348a0a72c4295a
+      "cannabis-specific-expungement", // GA17 Q-f4d5d773c2868e5c9d1a
+      "eligible-conviction-expungement-under-crim-proc-10-110", // GA17 Q-3c0d28cff0082c9af2fc
+      "juvenile-expungement", // GA17 Q-0c7f6dea882f6b06bbda
+      "second-chance-act-shielding", // GA17 Q-7d682e0e897adec4533e
+    ],
+  },
+  MN: {
+    profileHash: "f779704436f10e0aabf0949877f3213af1900d5bf51729cec8397006e6a3f8bf",
+    categoryReason: "Earlier Minnesota categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11", // GA12 Q-0428789b04a87e050967
+      "automatic-clean-slate-expungement-under-609a-015", // GA12 Q-3767c02a7587f8046157
+      "automatic-mistaken-identity-expungement-under-609a-017", // GA12 Q-f23035e3845a362b111f
+      "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06", // GA12 Q-5578048f10653c4f1989
+      "petition-based-expungement-under-609a-02-03", // GA12 Q-522adeef09ebd5543747
+      "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025", // GA12 Q-afb8d1d88357accba349
+    ],
+    record: [
+      "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11", // GA17 Q-3bf293e8afaf34a905aa
+      "automatic-clean-slate-expungement-under-609a-015", // GA17 Q-8fef10d89ea0c2b64a74
+      "automatic-mistaken-identity-expungement-under-609a-017", // GA17 Q-cbbe48ecde268a32426c
+      "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06", // GA17 Q-c22e1092356ba2ea7e93
+      "petition-based-expungement-under-609a-02-03", // GA17 Q-19a56b6841c424eebb18
+      "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025", // GA17 Q-6f38f38e670d74cd9f54
+    ],
+  },
+  NH: {
+    profileHash: "f303b2822fac4b59e05e668d19072afe1c0aad0e4d0b728d04f5dde6cadc2cbd",
+    categoryReason: "Earlier New Hampshire categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "annulment-after-dismissal-acquittal-or-nonprosecution", // GA12 Q-10e00b3dc3d3a2d6e6bf
+      "annulment-of-a-vacated-conviction", // GA12 Q-55c5c19af69a1a529308
+      "conviction-annulment-under-rsa-651-5", // GA12 Q-1a87b0c3031a018211ec
+      "dwi-dui-annulment", // GA12 Q-c357f9bda99fc69890dd
+      "marijuana-possession-annulment-under-rsa-651-5-b", // GA12 Q-4a033a26b88ca399c1b7
+      "out-of-state-federal-or-military-record-guidance", // GA12 Q-f1b376edb928d6bb9bb7
+    ],
+    record: [
+      "annulment-after-dismissal-acquittal-or-nonprosecution", // GA17 Q-1735257e90ac2bfb3c6a
+      "annulment-of-a-vacated-conviction", // GA17 Q-01ccb87d2e863f142655
+      "conviction-annulment-under-rsa-651-5", // GA17 Q-0a954234cb7748a24bd4
+      "dwi-dui-annulment", // GA17 Q-0c1146198fffb005bd14
+      "marijuana-possession-annulment-under-rsa-651-5-b", // GA17 Q-fe987ba5e321b5de2ee2
+      "out-of-state-federal-or-military-record-guidance", // GA17 Q-cb9e54430db70d1e9208
+    ],
+  },
+  MT: {
+    profileHash: "29fe1b28e59f36a8ecdba6457b518b1d8e01a795042be695ed015b59e5254326",
+    categoryReason: "Earlier Montana categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "doj-record-removal-update-request", // GA12 Q-c3d85e5a096e9c1c35d6
+      "marijuana-related-redesignation-expungement-under-mmrta", // GA12 Q-7766060fdc5de774fcb8
+      "misdemeanor-conviction-expungement-under-mont-code-46-18-1104", // GA12 Q-aa23f3177f750603d156
+      "non-conviction-criminal-history-removal-through-criss", // GA12 Q-844547836228a5b71b3b
+    ],
+    record: [
+      "doj-record-removal-update-request", // GA17 Q-219950124033a90a3eec
+      "marijuana-related-redesignation-expungement-under-mmrta", // GA17 Q-22874003e3f9b4e789ff
+      "misdemeanor-conviction-expungement-under-mont-code-46-18-1104", // GA17 Q-2f14507f0aba274692a5
+      "non-conviction-criminal-history-removal-through-criss", // GA17 Q-95a3a1762360ab9abf6e
+    ],
+  },
+  NM: {
+    profileHash: "568a77e849af1c0f77b6c7cf241e4cbbfabf84935a7842991bcdd2b45e0b5574",
+    categoryReason: "Earlier New Mexico categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "cannabis-expungement", // GA12 Q-6c78059e8c67886152fc
+      "cannabis-sentence-dismissal-incarcerated-person-pathway", // GA12 Q-f87eb843a48c8089d84a
+      "conviction", // GA12 Q-eaa848b04cf6df34c042
+      "dna-sample-profile-expungement", // GA12 Q-df5dcb4a980a8c1c18c2
+      "no-conviction-released-without-conviction", // GA12 Q-3c6e09d127f9c6c1e013
+    ],
+    record: [
+      "cannabis-expungement", // GA17 Q-e67dc0c4b23494d95b29
+      "cannabis-sentence-dismissal-incarcerated-person-pathway", // GA17 Q-d062bdab12a7d79d248a
+      "conviction", // GA17 Q-18feadfb9d64e38eb940
+      "dna-sample-profile-expungement", // GA17 Q-9469d5272b630c1e42f2
+      "no-conviction-released-without-conviction", // GA17 Q-396bbe202b3656e21e7c
+    ],
+  },
+  WI: {
+    profileHash: "1cc5bd3d938f6ff6a011f93c73b859f0e364dfd2490ef1477a286758d88c57c8",
+    categoryReason: "Earlier Wisconsin categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-expungement-under-wis-stat-973-015", // GA12 Q-afbb3e3a97066d42db43
+      "adult-non-conviction-arrest-only-record-correction-or-removal", // GA12 Q-245b2c9539e69e175c1f
+      "executive-pardon-guidance", // GA12 Q-54b1f6c15bc185d39267
+      "human-trafficking-prostitution-relief-under-973-015-2m", // GA12 Q-2c27ce8de5fd655f67f3
+      "juvenile-adjudication-expungement-under-wis-stat-938-355-4m", // GA12 Q-17faa85a04ca540acf7f
+    ],
+    record: [
+      "adult-conviction-expungement-under-wis-stat-973-015", // GA17 Q-169832628a42d7562d0e
+      "adult-non-conviction-arrest-only-record-correction-or-removal", // GA17 Q-9f304de00959559d37a2
+      "executive-pardon-guidance", // GA17 Q-17f9b61ca88492af4a91
+      "human-trafficking-prostitution-relief-under-973-015-2m", // GA17 Q-481509abad98bb2a76be
+      "juvenile-adjudication-expungement-under-wis-stat-938-355-4m", // GA17 Q-779bb8134eda85585a64
+    ],
+  },
+  ND: {
+    profileHash: "02161fac85c2f585313ccdfaa9b91bc58054646a4356e2d486b5d7acc20f322f",
+    categoryReason: "Earlier North Dakota categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "deferred-imposition-dismissal-and-sealing", // GA12 Q-f2f665a3691cd1692e1a
+      "dui-record-sealing-under-the-separate-dui-statute", // GA12 Q-361173ac9d6a8a6b4ea9
+      "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1", // GA12 Q-2dcdf911e205525ea73c
+      "marijuana-specific-summary-pardon-or-sealing-relief", // GA12 Q-6e7be452bdd8e0dc1b8e
+      "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", // GA12 Q-e78b8e4321d54496b5b4
+    ],
+    record: [
+      "deferred-imposition-dismissal-and-sealing", // GA17 Q-7287e95f205449d12a41
+      "dui-record-sealing-under-the-separate-dui-statute", // GA17 Q-2d838c58e640f6cae2a4
+      "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1", // GA17 Q-b736e32042467f9b12ec
+      "marijuana-specific-summary-pardon-or-sealing-relief", // GA17 Q-45897cb3546575c003a8
+      "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", // GA17 Q-5eade38bbd184e137187
+    ],
+  },
+  GA: {
+    profileHash: "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef",
+    categoryReason: "Earlier Georgia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions", // GA12 Q-6bdd80f723dafb6905e9
+      "non-conviction-record-restriction-through-the-agency-prosecutor-process", // GA12 Q-e8573d34e2f642eadbfc
+      "retroactive-first-offender-treatment-under-42-8-66", // GA12 Q-bd2e702c83d3b1c90cdc
+      "youthful-first-offender-restriction-route", // GA12 Q-0a405fcc19ade62c2b36
+    ],
+    record: [
+      "non-conviction-record-restriction-through-the-agency-prosecutor-process", // GA17 Q-38c9b3d2a65f7b3cf0cf
+      "retroactive-first-offender-treatment-under-42-8-66", // GA17 Q-7c543453ac4a3b2df3c2
+      "youthful-first-offender-restriction-route", // GA17 Q-b16fc9a9eaf374ee138e
+    ],
+  },
+  CO: {
+    profileHash: "1e74ae18e3815426ae28001f741a954826a985d08164d8ab77820cda0d90d909",
+    categoryReason: "Earlier Colorado categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-clean-slate-sealing-13-3-117", // GA12 Q-f1db160874208d5020cc
+      "petition-based-conviction-sealing-jdf-612-24-72-706", // GA12 Q-6494b446a54f2fa4132f
+      "petition-based-non-conviction-sealing-jdf-417-24-72-704", // GA12 Q-fa4052b5baf06ea52e36
+    ],
+    record: [
+      "automatic-clean-slate-sealing-13-3-117", // GA17 Q-b716564db24866ec8d11
+    ],
+  },
+  HI: {
+    profileHash: "9b1a121be377fa34e6425d96f7edb82428321b60a757870f8dc4878ebfb27ece",
+    categoryReason: "Earlier Hawaii categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+    ],
+    record: [
+      "deferred-acceptance-one-year", // GA17 Q-379aef0fc804f8efff6f
+      "deferred-prostitution-three-year", // GA17 Q-caf00f0814d58e104534
+    ],
+  },
+  FL: {
+    profileHash: "aca558d3077491f0c09abe838d08b926c0cbe8b194ac1c4500d93520d9a32034",
+    categoryReason: "Earlier Florida categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "administrative-expunction-mistaken-or-unlawful-arrest", // GA12 Q-ff18c7ee7b5fc259855e
+      "automatic-sealing-943-0595", // GA12 Q-98941b8960c7c23861d8
+      "court-ordered-expunction-943-0585", // GA12 Q-3504135ef3a69720b765
+      "court-ordered-sealing-943-059", // GA12 Q-69e6932abb2280cfa2c9
+      "early-juvenile-expunction-943-0515", // GA12 Q-9244c44aa7d1cdae8c2d
+      "human-trafficking-victim-expunction-943-0583", // GA12 Q-28e8d29ebfb9bb1afee2
+      "juvenile-diversion-expunction-943-0582", // GA12 Q-e005e138022a5690c504
+      "lawful-self-defense-expunction-943-0578", // GA12 Q-e347bf63d9f2603594b8
+    ],
+    record: [
+    ],
+  },
+  MO: {
+    profileHash: "88e33a1958a25c8bd1082df4fccc1ebcba24938d8a4545af68c1a65820c8a750",
+    categoryReason: "Earlier Missouri categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "closed-record-outcome-under-rsmo-610-105", // GA12 Q-5daf517e434f5c47aed1
+      "false-information-or-qualifying-arrest-record-expungement-under-610-122-123", // GA12 Q-7b31b30a82048af5c44f
+      "first-intoxication-related-traffic-or-boating-expungement-under-610-130", // GA12 Q-35247ec81e17ad80e20c
+      "first-minor-in-possession-alcohol-expungement-under-311-326", // GA12 Q-95e16f98859d4d7d2f75
+      "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140", // GA12 Q-1b0ddb33a01cb171b540
+      "stolen-or-mistaken-identity-expungement-under-610-145", // GA12 Q-a83f973c4465e019063d
+    ],
+    record: [
+    ],
+  },
+  DC: {
+    profileHash: "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830",
+    categoryReason: "Earlier District of Columbia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "dc_auto_expungement_16_802", // GA12 Q-17b01d9289e67bead5a9
+      "dc_auto_sealing_16_805", // GA12 Q-43bad379c984bdcec522
+      "dc_juvenile_sealing_16_2335", // GA12 Q-81b71dadfadb286ccdf2
+      "dc_motion_seal_felony_conviction_8yr_16_806", // GA12 Q-02ab2e4e6d22bdbcddbd
+      "dc_motion_seal_misdemeanor_conviction_5yr_16_806", // GA12 Q-49ff4137a70f901c59b5
+      "dc_motion_seal_nonconviction_16_806", // GA12 Q-9a6bf799e24f4f09737a
+    ],
+    record: [
+    ],
+  },
+  CT: {
+    profileHash: "7a0dadd32497d4be04bfad21e8ee8cf3b735168a84a3cd5baf70dcd7039f348c",
+    categoryReason: "Earlier Connecticut categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "absolute-pardon-resulting-in-erasure", // GA12 Q-98e4ea3ca807af2b1e75
+      "petition-for-erasure-of-cannabis-conviction-records-under-54-142v", // GA12 Q-bb10b9d5904f136c12c5
+    ],
+    record: [
+    ],
+  },
+  ID: {
+    profileHash: "fbbdbd3f1afc5fb7c0959d8a31d56c142bea295096255e8ec3e6392a87f913f0",
+    categoryReason: "Earlier Idaho categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "clean-slate-shielding-under-idaho-code-67-3004-11", // GA12 Q-234d22947f5845d3fb3b
+      "human-trafficking-survivor-vacatur-and-expungement", // GA12 Q-275dc80a4ba3c3029744
+      "juvenile-expungement", // GA12 Q-03d858e3c437c0fa52eb
+      "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10", // GA12 Q-8e441ae51aae8b376f39
+      "withheld-judgment-idaho-code-19-2604-review-branch", // GA12 Q-07c6204e128727e33eef
+    ],
+    record: [
+    ],
+  },
+  MI: {
+    profileHash: "46b14de0bcfed90bedbd1e0e6c9b45d687a4170d5e75c4d009a237c6cbea994c",
+    categoryReason: "Earlier Michigan categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-clean-slate-set-aside-under-mcl-780-621g", // GA12 Q-9aaca77e5f49d2191a69
+      "first-offense-owi-set-aside-by-application", // GA12 Q-46ab6cce80afe155d987
+      "human-trafficking-related-set-aside-application", // GA12 Q-22de798715cd8ab7e2eb
+      "misdemeanor-marijuana-set-aside-under-mcl-780-621e", // GA12 Q-1c27ca54464512e7687e
+      "set-aside-by-application-under-mcl-780-621", // GA12 Q-5899a8341678d8dc28c8
+    ],
+    record: [
+    ],
+  },
+  AZ: {
+    profileHash: "299af842ba17587b84de282328c27e8bed1d82a4dfa51146341b42338b296300",
+    categoryReason: "Earlier Arizona categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "notation-of-clearance-after-a-wrongful-arrest-under-13-4051", // GA12 Q-b4234bcc40a7d7afbefc
+      "remedy-1-record-sealing", // GA12 Q-cd08f58b55c2f888c0f8
+      "remedy-2-set-aside-of-a-conviction", // GA12 Q-d86918b7cb375888f00b
+      "remedy-3-marijuana-expungement", // GA12 Q-d70b1ab1ce0903873c7d
+    ],
+    record: [
+    ],
+  },
+  DE: {
+    profileHash: "b37cab84b2a00c572d170364992fc81cfd6014f954086e8b7257fd798a5b84d7",
+    categoryReason: "Earlier Delaware categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "juvenile-expungement-under-10-del-c-1017-1019-1017a", // GA12 Q-1263e1e37b54b9879d32
+      "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a", // GA12 Q-9be76a8f976a01629777
+      "pardon-based-discretionary-expungement-under-11-del-c-4375", // GA12 Q-0a2fc8c16d3075f2aa20
+    ],
+    record: [
+    ],
+  },
+  NJ: {
+    profileHash: "c205f7ccca0671e3599268180f9e1286fd9b65f82703d6c39d0ebcd7fb1f1b6d",
+    categoryReason: "Earlier New Jersey categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6", // GA12 Q-d29d1dfeccfe728d2d8b
+      "clean-slate-petition-under-n-j-s-a-2c-52-5-3", // GA12 Q-e4dd744eac889810ece9
+      "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1", // GA12 Q-6571bc7f5a310ff68fa8
+      "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3", // GA12 Q-a27a84dcca35f0a9d3ae
+    ],
+    record: [
+    ],
+  },
+  TN: {
+    profileHash: "e598683f4fe1b7336e959b3295dd9cd6f9212a1207ab89f365193d9b61d21e4c",
+    categoryReason: "Earlier Tennessee categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106", // GA12 Q-c6c9fa03230c555ef82d
+      "pathway-2-diversion-expunction-under-40-15-105-40-35-313", // GA12 Q-8246dcb76f286d8cf5e6
+      "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107", // GA12 Q-3a3ab9bd323f2a1da3b0
+      "pathway-4-two-offense-expunction-under-40-32-101-k", // GA12 Q-b1f1233251db03f8dc14
+    ],
+    record: [
+    ],
+  },
+  WY: {
+    profileHash: "6cacd0640d00892a2779a57d824e1da655ae9cb6c71293b3869e5799b6f00804",
+    categoryReason: "Earlier Wyoming categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-non-conviction-expungement-w-s-7-13-1401", // GA12 Q-c8a576dfc34ec1a7016d
+      "human-trafficking-victim-vacatur-w-s-6-2-708", // GA12 Q-5d90f92d1d31ee0d3f53
+      "juvenile-minor-expungement-w-s-14-6-241", // GA12 Q-c1a21bfc795f5e44248c
+      "misdemeanor-conviction-expungement-w-s-7-13-1501", // GA12 Q-ed0db9351a6b18d9e429
+    ],
+    record: [
+    ],
+  },
+  KY: {
+    profileHash: "4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364",
+    categoryReason: "Earlier Kentucky categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "juvenile-automatic-dismissal", // GA12 Q-ec6ce3c8793c8f1b0090
+      "juvenile-petition-610330", // GA12 Q-cdc0542c5b9e6a5d5e6a
+    ],
+    record: [
+    ],
+  },
+  ME: {
+    profileHash: "d49e7b9cb025700b9c352d78e1e9044c41b99bd0695b61eda373215034d78f5a",
+    categoryReason: "Earlier Maine categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "juvenile-sealing", // GA12 Q-6a89d6d015a28fd619aa
+      "pardon-route", // GA12 Q-4d965d7602aca9206895
+      "sex-trafficking-sexual-exploitation-survivor-sealing", // GA12 Q-40e40ef4c2d63005dc47
+    ],
+    record: [
+    ],
+  },
+  NC: {
+    profileHash: "6b3df272a55d81cfbae08c2f3fb0425e65af76dcbf9bca01b5fc0a41510ae5ef",
+    categoryReason: "Earlier North Carolina categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "dismissal-and-not-guilty-expunction-under-g-s-15a-146", // GA12 Q-d7f6b91d78f8ca627bef
+      "nonviolent-conviction-expunction-under-g-s-15a-145-5", // GA12 Q-f0e10760c671ef2e0828
+      "youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes", // GA12 Q-01dc31e0d367ab795779
+    ],
+    record: [
+    ],
+  },
+  OR: {
+    profileHash: "5045bb7dbf151aafc37713183402c973c27e537cd07bce3283926b49a34bc9c3",
+    categoryReason: "Earlier Oregon categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "marijuana-specific-set-aside-redesignation", // GA12 Q-ea774274d6f256fe4960
+      "set-aside-of-eligible-convictions-under-ors-137-225-1-a", // GA12 Q-0bf7c9da02d503053a28
+    ],
+    record: [
+    ],
+  },
+  NY: {
+    profileHash: "e8a7a2198331e8d752842cf75f4bad3987e5aa54c11a5d447e2efde558158374",
+    categoryReason: "Earlier New York categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-clean-slate-sealing-under-cpl-160-57", // GA12 Q-a4e19170bd483d92f65a
+    ],
+    record: [
+    ],
+  },
+  KS: {
+    profileHash: "a8231b14f6a5e29b2a2923c0705390fdefdf8ad17b711bf8d192a1419131e500",
+    categoryReason: "Earlier Kansas categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "conviction-or-diversion-216614", // GA12 Q-2bcada7a84fc3b0995b5
+      "prostitution-coercion", // GA12 Q-4a36969d2416198e93df
+      "specialty-court-accelerated", // GA12 Q-951affad6847d3d0770e
+    ],
+    record: [
+    ],
+  },
+  VA: {
+    profileHash: "8b9e5e8eb7100788dae197f75a552d4e831918fc11d5fa74218652c1f8a7ca1c",
+    categoryReason: "Earlier Virginia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-sealing-no-filing", // GA12 Q-b420d66eab568ef36c73
+      "petition-based-sealing", // GA12 Q-3ce00ceb17e74f3c6601
+    ],
+    record: [
+      "automatic-sealing-no-filing", // GA17 Q-7070ec841b5d0fe78fc1
+      "petition-based-sealing", // GA17 Q-431fbd2fdc6dffa45504
+    ],
+  },
+  CA: {
+    profileHash: "754b7bb08f3b9010549c686c1571eeeb850afc8ac256cf28b20f25a1c6ef4a0f",
+    categoryReason: "Earlier California categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a", // GA12 Q-6b657df543ec719b75a9
+      "tool-2-automatic-relief", // GA12 Q-6bed0f50e6ae32171fc4
+      "tool-3-petition-based-felony-sealing", // GA12 Q-7dade446baddc667d7aa
+      "tool-4-arrest-record-sealing", // GA12 Q-b35f8525ff8af8a8c24a
+      "tool-5-proposition-64-marijuana-relief", // GA12 Q-88ad26cfb30862c5f373
+    ],
+    record: [
+      "tool-5-proposition-64-marijuana-relief", // GA17 Q-dff7fe80e1b6d9984b6d
+    ],
+  },
+  MS: {
+    profileHash: "da85c0c5994978a437454ef5d4d4f039c317ce619742d842751446d39e79178f",
+    categoryReason: "Earlier Mississippi categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "additional-justice-or-municipal-court-misdemeanor-relief", // GA12 Q-33ae0812c5ec6c16f49c
+      "dui-nonadjudication", // GA12 Q-04dfd5b6ef826ed1a603
+      "first-offense-controlled-substance-conditional-discharge-relief", // GA12 Q-b316dba4450967677ce5
+      "first-offense-dui-expungement", // GA12 Q-55d34e1c5bf66f373eea
+      "human-trafficking-survivor-vacatur-and-expungement", // GA12 Q-b339f88dfd6a60eb1946
+      "intervention-court-completion-expungement", // GA12 Q-61ce8e2a0e7ac1e9af03
+      "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA12 Q-0908882129a5103c8624
+      "minor-in-possession-underage-alcohol-expungement", // GA12 Q-c71795ecb6433a778af5
+      "nonadjudication-under-99-15-26", // GA12 Q-d1b6782102264f056e0e
+      "pretrial-intervention-or-diversion-expungement", // GA12 Q-ffccdb66a7bf8daecb9a
+      "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA12 Q-a58282187741a588b8f5
+      "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA12 Q-268c53a6d752b6229799
+    ],
+    record: [
+      "additional-justice-or-municipal-court-misdemeanor-relief", // GA17 Q-bb58e587444d3b3eaca9
+      "dui-nonadjudication", // GA17 Q-fac1c7a7430c180c73d6
+      "first-offense-controlled-substance-conditional-discharge-relief", // GA17 Q-9c32d5c83873cc9406a3
+      "first-offense-dui-expungement", // GA17 Q-266d588ee2741e693ed6
+      "human-trafficking-survivor-vacatur-and-expungement", // GA17 Q-5a7ef6fee530f4f68b0e
+      "intervention-court-completion-expungement", // GA17 Q-f015750c794542860c6f
+      "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA17 Q-c2ea75ba90409cc97e66
+      "minor-in-possession-underage-alcohol-expungement", // GA17 Q-378ac879953f15b31706
+      "nonadjudication-under-99-15-26", // GA17 Q-738fb87bc728b78e3d29
+      "pretrial-intervention-or-diversion-expungement", // GA17 Q-df263245a80fca378453
+      "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA17 Q-a0ac1097b055462afdac
+      "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA17 Q-46e4cfdf892f39dac9b3
+    ],
+  },
+};
+
+function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined, list: "category" | "record") {
+  const code = profile?.jurisdiction.code ?? "";
+  const entry = Object.hasOwn(R1_SOURCE_BOUND_HISTORY, code) ? R1_SOURCE_BOUND_HISTORY[code] : undefined;
+  return entry && entry[list].includes(pathwayId ?? "") && specification == null
+    && contactRepresentationHash(profile) === entry.profileHash ? entry : undefined;
+}
+
+export function r1CategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return r1SourceBoundHistoryEntry(profile, pathwayId, specification, "category") !== undefined;
+}
+
+export function r1RecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return r1SourceBoundHistoryEntry(profile, pathwayId, specification, "record") !== undefined;
+}
+
 // GA-17 Q-8105d5d0b28ebd1e4a67 / Q-c8633872a982712e7803 / Q-94c8f0620f0384854d98.
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d.
 // Q-ab7cc6744570b24e17d4 / Q-481c00319478c8236160 / Q-1ee2fb0eca77febaf2b6: the same history-only consumer.
@@ -636,7 +1442,9 @@ export function dcFelonyRecordIsHistory(profile: EngineProfile | undefined, path
 export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   if (specification != null) return false;
-  return profile?.jurisdiction.code === "DC"
+  return okCategoryAndRecordAreHistory(profile, pathwayId, specification)
+    || r1RecordIsHistory(profile, pathwayId, specification)
+    || profile?.jurisdiction.code === "DC"
     && ["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806", "dc_auto_expungement_16_802", "dc_auto_sealing_16_805", "dc_juvenile_sealing_16_2335"].includes(pathwayId ?? "")
     && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"
     || profile?.jurisdiction.code === "FL"
@@ -1003,6 +1811,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const laCategoryHistory = laThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const maCategoryHistory = maThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const maAdditionalCategoryHistory = maAdditionalCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const okCategoryHistory = okCategoryAndRecordAreHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const r1CategoryHistory = r1SourceBoundHistoryEntry(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification, "category");
   const maMeCategoryHistory = maMeCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const iaCategoryHistory = iaCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
@@ -1054,14 +1864,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((arCategoryHistory || alCategoryHistory || hiCategoryHistory || iaCategoryHistory || maMeCategoryHistory || maAdditionalCategoryHistory || maCategoryHistory || laCategoryHistory || kyCategoryHistory || ctCategoryHistory || wy1502CategoryHistory || sdSisCategoryHistory || ilProstitutionCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((r1CategoryHistory || okCategoryHistory || arCategoryHistory || alCategoryHistory || hiCategoryHistory || iaCategoryHistory || maMeCategoryHistory || maAdditionalCategoryHistory || maCategoryHistory || laCategoryHistory || kyCategoryHistory || ctCategoryHistory || wy1502CategoryHistory || sdSisCategoryHistory || ilProstitutionCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: maMeCategoryHistory ? "ma_me_category_history" : maAdditionalCategoryHistory ? "ma_additional_category_history" : maCategoryHistory ? "ma_three_route_category_history" : laCategoryHistory ? "la_three_route_category_history" : kyCategoryHistory ? "ky_three_route_category_history" : arCategoryHistory ? "ar_bound_category_history" : wy1502CategoryHistory ? "wy1502_category_history" : sdSisCategoryHistory ? "sd_sis_category_history" : ilProstitutionCategoryHistory ? "il_prostitution_category_history" : hiCategoryHistory ? "hi_three_route_category_history" : iaCategoryHistory ? "ia_three_route_category_history" : alCategoryHistory ? "al_three_route_category_history" : nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
-        reason: maMeCategoryHistory
+        source: r1CategoryHistory ? "r1_category_history" : okCategoryHistory ? "ok_category_history" : maMeCategoryHistory ? "ma_me_category_history" : maAdditionalCategoryHistory ? "ma_additional_category_history" : maCategoryHistory ? "ma_three_route_category_history" : laCategoryHistory ? "la_three_route_category_history" : kyCategoryHistory ? "ky_three_route_category_history" : arCategoryHistory ? "ar_bound_category_history" : wy1502CategoryHistory ? "wy1502_category_history" : sdSisCategoryHistory ? "sd_sis_category_history" : ilProstitutionCategoryHistory ? "il_prostitution_category_history" : hiCategoryHistory ? "hi_three_route_category_history" : iaCategoryHistory ? "ia_three_route_category_history" : alCategoryHistory ? "al_three_route_category_history" : nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: r1CategoryHistory ? r1CategoryHistory.categoryReason
+        : okCategoryHistory
+          ? "Earlier Oklahoma categories remain optional literal history. Charge, disposition, offense level, timing, court and applicable record-specific facts remain separate; a category does not establish statutory classification or eligibility."
+        : maMeCategoryHistory
           ? "These source-bound consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility."
         : maAdditionalCategoryHistory
           ? "These source-bound Massachusetts consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility."

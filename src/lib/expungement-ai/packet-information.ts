@@ -153,6 +153,8 @@ import {
   laThreeRouteCategoryIsHistory,
   maThreeRouteCategoryIsHistory,
   maAdditionalCategoryIsHistory,
+  okCategoryAndRecordAreHistory,
+  r1CategoryIsHistory,
   maMeCategoryIsHistory,
   iaCategoryIsHistory,
   arBoundCategoryIsHistory,
@@ -492,7 +494,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
-  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["wy1502_category_history", "sd_sis_category_history", "il_prostitution_category_history", "ma_me_category_history", "ma_additional_category_history", "ma_three_route_category_history", "la_three_route_category_history", "ky_three_route_category_history", "ia_three_route_category_history", "hi_three_route_category_history", "ar_bound_category_history", "al_three_route_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["wy1502_category_history", "sd_sis_category_history", "il_prostitution_category_history", "ok_category_history", "r1_category_history", "ma_me_category_history", "ma_additional_category_history", "ma_three_route_category_history", "la_three_route_category_history", "ky_three_route_category_history", "ia_three_route_category_history", "hi_three_route_category_history", "ar_bound_category_history", "al_three_route_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -971,7 +973,7 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
   if (completionConflict || completionUnknown) {
     const completion = allPublicQuestions(projectPublicProfile(profile)).find((question) => question.id === "sentence_completion_date");
     if (!completion) return null;
-    const question = { ...toProfileQuestion(completion), required: true };
+    const question = { ...caProp64CompletionQuestion(toProfileQuestion(completion)), required: true };
     if (questionAnswerState(question, allAnswers.sentence_completion_date) === "invalid") {
       question.legacyAnswerText = JSON.stringify(allAnswers.sentence_completion_date);
     }
@@ -3320,11 +3322,13 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   const profile = getProfileByJurisdiction(state);
   if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS,
     ...(includeInactive && Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
-  if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return ohJuvenileStageFactIds(answers, includeInactive);
-  if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
+  // The OH juvenile, DE and MN two-county R1 routes return before the generic offense_category history branch below, so they keep that entry here.
+  const r1CategoryHistory = includeInactive && Object.hasOwn(answers, "offense_category") && r1CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [];
+  if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...ohJuvenileStageFactIds(answers, includeInactive), ...r1CategoryHistory];
+  if (state === "DE") return [...delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive), ...r1CategoryHistory];
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
     MN_TARGET_ORIGIN_ID, "case_outcome", ...mnProtectedStageFactIds(profile, pathway!, answers, includeInactive), ...mnTwoCountyFactIds(pathway!).filter(id => includeInactive || id !== "mn_prosecuting_city" || answers.mn_prosecuted_by === "city_attorney"),
-    ...(Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
+    ...(Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : []), ...r1CategoryHistory];
   if (mdPoliceContext(profile, pathway) && packetSpecificationFor(`${state}:${pathway}`) == null) return [
     ...mdPoliceFactIds(answers, includeInactive), "case_outcome",
     ...(includeInactive ? ["county", "court", ...["financial_obligations", "sentence_completion_date", "court_requirements_completed", "resolved_timing_bucket"].filter(id => Object.hasOwn(answers, id))] : [])];
@@ -3352,6 +3356,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       || laThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || maThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || maAdditionalCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      || okCategoryAndRecordAreHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      || r1CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || maMeCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || iaCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || dcInnocenceCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
@@ -3829,7 +3835,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["wy1502_category_history", "sd_sis_category_history", "il_prostitution_category_history", "ma_me_category_history", "ma_additional_category_history", "ma_three_route_category_history", "la_three_route_category_history", "ky_three_route_category_history", "ia_three_route_category_history", "hi_three_route_category_history", "ar_bound_category_history", "al_three_route_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_tool3_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history", "ca_tool4_record_type_history", "co_petition_record_type_history", "dc_fl_petition_record_type_history", "dc_felony_record_type_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["wy1502_category_history", "sd_sis_category_history", "il_prostitution_category_history", "ok_category_history", "r1_category_history", "ma_me_category_history", "ma_additional_category_history", "ma_three_route_category_history", "la_three_route_category_history", "ky_three_route_category_history", "ia_three_route_category_history", "hi_three_route_category_history", "ar_bound_category_history", "al_three_route_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_tool3_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history", "ca_tool4_record_type_history", "co_petition_record_type_history", "dc_fl_petition_record_type_history", "dc_felony_record_type_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -4005,7 +4011,7 @@ function protectedPacketQuestionSurface(
     && collection?.facts.some(fact => fact.factId === question.id && fact.source === "ks_municipal_literal_category_context" && fact.optional === true) === true));
   questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && fact.source === "oh_juvenile_information_court_context")
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
-  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["wy1502_category_history", "sd_sis_category_history", "il_prostitution_category_history", "ma_me_category_history", "ma_additional_category_history", "ma_three_route_category_history", "la_three_route_category_history", "ky_three_route_category_history", "ia_three_route_category_history", "hi_three_route_category_history", "ar_bound_category_history", "al_three_route_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["wy1502_category_history", "sd_sis_category_history", "il_prostitution_category_history", "ok_category_history", "r1_category_history", "ma_me_category_history", "ma_additional_category_history", "ma_three_route_category_history", "la_three_route_category_history", "ky_three_route_category_history", "ia_three_route_category_history", "hi_three_route_category_history", "ar_bound_category_history", "al_three_route_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -5684,6 +5690,13 @@ function fallbackPacketQuestion(id: string): ProfileQuestion {
     ?? packetQuestion(id, answerLabel(id), "text_or_unknown", "Enter the wording from your court or agency record when possible.");
 }
 
+// CA-L06 gap 2 (lead decision 2026-10-21T02:10Z): once a Prop 64 route is selected, the completion helper is that route's approved
+// copy (the first three sentences of the approved ca_prop64_branch helper), not the generic "anything still owed". Screening is unchanged.
+const CA_PROP64_COMPLETION_HELPER: [string, string] = ["Use this case's current sentence status, including custody, probation, parole, PRCS or mandatory supervision. Release from custody alone does not mean the sentence is complete. A remaining balance alone does not decide sentence status; check whether an order makes payment an ongoing sentence condition.", "Use el estado actual de la sentencia de este caso, incluidas la custodia, la libertad a prueba (probation), la libertad condicional (parole), la supervisión comunitaria posterior a la liberación (PRCS) o la supervisión obligatoria. Salir de custodia no significa por sí solo que la sentencia esté cumplida. Un saldo pendiente no determina por sí solo el estado de la sentencia; revise si una orden exige el pago como condición aún vigente de la sentencia."];
+function caProp64CompletionQuestion(question: ProfileQuestion): ProfileQuestion {
+  return { ...question, helperText: CA_PROP64_COMPLETION_HELPER[0], translations: { ...question.translations, es: { ...question.translations?.es, helperText: CA_PROP64_COMPLETION_HELPER[1] } } };
+}
+
 function installPacketSpecificationQuestions(
   questions: Map<string, ProfileQuestion>,
   jurisdiction: string,
@@ -5693,6 +5706,8 @@ function installPacketSpecificationQuestions(
   unresolvedSavedFactIds: readonly string[] = []
 ) {
   const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
+  const caCompletion = isCaProp64Pathway(jurisdiction, pathwayId) ? questions.get("sentence_completion_date") : undefined;
+  if (caCompletion) questions.set(caCompletion.id, caProp64CompletionQuestion(caCompletion));
   const vaPardonQuestion = vaPardonTypeQuestion(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey), answers, unresolvedSavedFactIds);
   if (vaPardonQuestion) questions.set(vaPardonQuestion.id, vaPardonQuestion);
   if (msFirstOffenderSourceContract(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey))) {
