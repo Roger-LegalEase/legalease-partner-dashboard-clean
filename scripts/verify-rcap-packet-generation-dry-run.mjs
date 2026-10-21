@@ -45,7 +45,9 @@ function log(msg) { lines.push(msg); }
 const PKTGEN_SRC = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/packet-generation.ts"), "utf8");
 function generationGuardHolds(src) {
   const start = src.indexOf("export async function assertPacketGenerationAllowed(");
-  const body = start === -1 ? "" : src.slice(start, src.indexOf("\n}", start));
+  // Comments are stripped first, so a commented-out call cannot satisfy a pattern (Reviewer3 N3).
+  const body = (start === -1 ? "" : src.slice(start, src.indexOf("\n}", start)))
+    .replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
   const fulfillmentProven = body.search(/assertPacketFulfillmentProven\(\s*verification\.snapshot\.jurisdiction,\s*verification\.snapshot\.pathwayId,\s*"packet generation"/);
   // The fulfillment proof runs ahead of the result-code check (packet-generation.ts comment at the call).
   return fulfillmentProven !== -1 && fulfillmentProven < body.indexOf("const packetReadyResult")
@@ -60,6 +62,11 @@ const GUARD_MUTANTS = {
   "invalid payment no longer throws": PKTGEN_SRC.replace("if (!payment.valid) throw new ConsumerPacketPaymentRequiredError();", ""),
   "dry_run exemption outside dry-run mode": PKTGEN_SRC.replace('!(dryRunMode && item.paymentProvider === "dry_run")', '!(item.paymentProvider === "dry_run")'),
   "payment clamp removed": PKTGEN_SRC.replace("isConsumerPaymentAllowed(", "Boolean("),
+  "fulfillment proof commented out": (() => {
+    const at = PKTGEN_SRC.indexOf("assertPacketFulfillmentProven(", PKTGEN_SRC.indexOf("export async function assertPacketGenerationAllowed("));
+    const end = PKTGEN_SRC.indexOf(");\n", at) + 2;
+    return `${PKTGEN_SRC.slice(0, at)}/* ${PKTGEN_SRC.slice(at, end)} */${PKTGEN_SRC.slice(end)}`;
+  })(),
   "fulfillment proof removed": (() => {
     const at = PKTGEN_SRC.indexOf("assertPacketFulfillmentProven(", PKTGEN_SRC.indexOf("export async function assertPacketGenerationAllowed("));
     return `${PKTGEN_SRC.slice(0, at)}void (${PKTGEN_SRC.slice(at + "assertPacketFulfillmentProven(".length)}`;
@@ -144,10 +151,13 @@ function evaluate(code, pathway, outcome, offenseLevel, mutate) {
   const profile = getProfileByJurisdiction(code);
   return evaluateScreening({ jurisdiction: code, profileVersion: profile.profileVersion, matterId: `dryrun-${code}-${pathway.id}`, answers: buildAnswers(profile, pathway, outcome, offenseLevel, "2000-01-01", mutate) });
 }
+// evaluateScreening is unscoped, so a probe aimed at one route can resolve to a sibling. A qualifying case
+// counts only when it resolves to the route under test (resolved-pathwayId attribution, as in
+// verify-rcap-no-generic-fallbacks #9/#11).
 function findQualifying(code, pathway) {
   const t = `${pathway.id} ${pathway.label}`.toLowerCase();
   const offense = /felony/.test(t) ? "Felony" : "Misdemeanor";
-  for (const outcome of OUTCOMES) { const ev = evaluate(code, pathway, outcome, offense); if (ev.paymentAllowed === true && (ev.resultCode === "packet_ready" || ev.resultCode === "packet_ready_with_caution")) return { ev, outcome, offense }; }
+  for (const outcome of OUTCOMES) { const ev = evaluate(code, pathway, outcome, offense); if (ev.pathwayId === pathway.id && ev.paymentAllowed === true && (ev.resultCode === "packet_ready" || ev.resultCode === "packet_ready_with_caution")) return { ev, outcome, offense }; }
   return null;
 }
 function pathwayOf(code, id) { return getProfileByJurisdiction(code)?.pathways.find((p) => p.id === id); }
@@ -229,22 +239,26 @@ for (const c of CASES) {
 // --- negative cases: must NOT open payment / must block generation ---
 log("-".repeat(74));
 log("Negative cases (must not open payment):");
-function neg(desc, code, id, outcome, offense, mutate) {
+// A NEG fails on payment wherever the probe resolved. The resolved route is reported, and with
+// expectResolved the probe must land on the target, so a sibling cannot stand in for the negative.
+function neg(desc, code, id, outcome, offense, mutate, expectResolved = false) {
   const pathway = pathwayOf(code, id);
   if (!pathway) { failures.push(`neg ${desc}: pathway ${code}:${id} not found`); return; }
   const ev = evaluate(code, pathway, outcome, offense, mutate);
+  const resolved = `${code}:${ev.pathwayId ?? "(none)"}`;
+  if (expectResolved) ok(ev.pathwayId === id, `NEG ${desc}: probe resolved to ${resolved}, not the target ${code}:${id}.`);
   const paid = ev.paymentAllowed === true;
-  ok(!paid, `NEG ${desc}: payment opened (${ev.resultCode}) but must be blocked.`);
+  ok(!paid, `NEG ${desc}: payment opened (${ev.resultCode}) on ${resolved} but must be blocked.`);
   // generation guard must also refuse a non-paid item
   const blocked = !guardAllows({ id: "n", title: "n", state: code, pathwayLabel: id, resultCode: ev.resultCode, paymentAllowed: ev.paymentAllowed, paymentStatus: "unpaid", paymentProvider: "dry_run", confidence: "low" });
   ok(blocked, `NEG ${desc}: generation guard did not block a non-paid result.`);
-  log(`  NEG ${desc.padEnd(52)} -> ${ev.resultCode}/pay=${ev.paymentAllowed}`);
+  log(`  NEG ${desc.padEnd(52)} -> ${resolved} ${ev.resultCode}/pay=${ev.paymentAllowed}`);
 }
 neg("Alaska ordinary conviction (not CourtView)", "AK", "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40", "Misdemeanor conviction", "Misdemeanor");
 neg("Alaska under 60 days since dismissal", "AK", "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40", "Dismissed, no-billed, nolle prosequi, or not prosecuted", "Misdemeanor", (a) => { for (const k of Object.keys(a)) if (k.endsWith("_date")) a[k] = "2026-06-05"; });
 neg("Nevada excluded (pending charge)", "NV", "general-conviction-record-sealing-under-nrs-179-245", "Misdemeanor conviction", "Misdemeanor", (a) => { if ("pending_cases" in a) a.pending_cases = "Yes"; });
 neg("Massachusetts under-wait (recent)", "MA", "adult-conviction-sealing-under-m-g-l-c-276-100a", "Misdemeanor conviction", "Misdemeanor", (a) => { for (const k of Object.keys(a)) if (k.endsWith("_date")) a[k] = "2025-12-15"; });
-neg("Pennsylvania automatic Clean Slate route", "PA", "path-j-clean-slate-automatic-limited-access", "Misdemeanor conviction", "Misdemeanor");
+neg("Pennsylvania automatic Clean Slate route", "PA", "path-j-clean-slate-automatic-limited-access", "Misdemeanor conviction", "Misdemeanor", undefined, true);
 neg("Delaware automatic Clean Slate route", "DE", "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a", "Dismissed, no-billed, nolle prosequi, or not prosecuted", "Misdemeanor");
 neg("Hawaii conviction route without court order", "HI", "first-time-drug-conviction", "Misdemeanor conviction", "Misdemeanor", (a) => { if ("hi_court_order_confirmed" in a) a.hi_court_order_confirmed = "No"; });
 

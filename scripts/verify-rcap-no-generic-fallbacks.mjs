@@ -545,7 +545,7 @@ function offenseFor(pathway) {
 
 // Find any qualifying case that opens payment (tries several eligible outcomes); `counts` narrows
 // which paid results qualify.
-function findQualifying(profile, pathway, counts = () => true) {
+function findQualifying(profile, pathway, counts = () => true, offTarget = []) {
   const offense = offenseFor(pathway);
   for (const outcome of OUTCOME_CANDIDATES) {
     const ev = evaluate(profile, pathway, outcome, offense, "2000-01-01");
@@ -553,34 +553,46 @@ function findQualifying(profile, pathway, counts = () => true) {
     if (FAIL_CLOSED_CODES.has(ev.resultCode) && ev.paymentAllowed === true) {
       fail("#7", `${profile.jurisdiction.code}:${pathway.id}: fail-closed result ${ev.resultCode} carried paymentAllowed=true.`);
     }
+    if (packetOpen(ev) && !RATIFIED_DEPLOYABLE.has(`${profile.jurisdiction.code}:${ev.pathwayId}`)) {
+      behavioral.nonRatifiedThatPaid.add(`${profile.jurisdiction.code}:${ev.pathwayId}${ev.pathwayId === pathway.id ? "" : ` (probed as ${profile.jurisdiction.code}:${pathway.id})`} (tier ${tierNameOf(`${profile.jurisdiction.code}:${ev.pathwayId}`)} -> ${ev.resultCode})`);
+    }
     if (packetOpen(ev) && counts(ev)) return { ev, outcome, offense };
+    if (packetOpen(ev)) offTarget.push(`${profile.jurisdiction.code}:${ev.pathwayId}`);
   }
   return null;
 }
 
 // evaluateScreening is unscoped: a probe aimed at one route can resolve to a sibling (2026-10-21, all 14
-// MS "#11" hits resolved to the ratified MS 99-19-71). A paid result is attributed to the route the engine
-// resolved, and it is a finding when that route is not ratified (a missing pathwayId counts as unratified).
+// MS "#11" hits resolved to the ratified MS 99-19-71). Every paid result is attributed to the route the
+// engine resolved: on a non-ratified route (a missing pathwayId counts) it is a #10/#11 finding whichever
+// route was probed, and a #9 qualifying case counts only when it resolves to the ratified route under test.
 const paidOnUnratifiedRoute = (code) => (ev) => !RATIFIED_DEPLOYABLE.has(`${code}:${ev.pathwayId}`);
+const resolvesTo = (pathway) => (ev) => ev.pathwayId === pathway.id;
 {
   const ratifiedMs = [...RATIFIED_DEPLOYABLE].find((key) => key.startsWith("MS:"));
   const paid = (pathwayId) => ({ pathwayId, paymentAllowed: true, resultCode: "packet_ready" });
   ok(ratifiedMs && !paidOnUnratifiedRoute("MS")(paid(ratifiedMs.slice(3))), "#11", "Attribution self-check: a paid result on a ratified route must not count as non-ratified.");
   ok(paidOnUnratifiedRoute("MS")(paid("uncharged-misdemeanor-immediate-dismissal-branch-99-15-59")), "#11", "Attribution self-check: a paid result on a non-ratified route must count.");
   ok(paidOnUnratifiedRoute("MS")(paid(undefined)), "#11", "Attribution self-check: a paid result without a pathwayId must count.");
+  ok(ratifiedMs && !resolvesTo({ id: "another-route" })(paid(ratifiedMs.slice(3))), "#9", "Attribution self-check: a paid sibling must not qualify the route under test.");
 }
 
-const behavioral = { ratifiedQualified: 0, ratifiedMissingQualifying: [], ratifiedMissingBlock: [], nonRatifiedThatPaid: [], failClosedPaid: [] };
+const behavioral = { ratifiedQualified: 0, ratifiedMissingQualifying: [], ratifiedMissingBlock: [], nonRatifiedThatPaid: new Set(), failClosedPaid: [] };
 
 for (const profile of profiles) {
   for (const pathway of profile.pathways) {
     const key = `${profile.jurisdiction.code}:${pathway.id}`;
     const isRatified = RATIFIED_DEPLOYABLE.has(key);
-    const qualifying = findQualifying(profile, pathway, isRatified ? undefined : paidOnUnratifiedRoute(profile.jurisdiction.code));
+    // A non-ratified probe never qualifies; findQualifying records any paid result it meets on a non-ratified route.
+    const paidOffTarget = [];
+    const qualifying = findQualifying(profile, pathway, isRatified ? resolvesTo(pathway) : () => false, paidOffTarget);
 
     if (isRatified) {
       // [#9] qualifying direction: every ratified route must have a case that opens payment.
-      if (!qualifying) { behavioral.ratifiedMissingQualifying.push(key); continue; }
+      if (!qualifying) {
+        behavioral.ratifiedMissingQualifying.push(paidOffTarget.length ? `${key} (paid only off-target: ${[...new Set(paidOffTarget)].join(", ")})` : key);
+        continue;
+      }
       behavioral.ratifiedQualified++;
       // Paid result must carry a source-backed compiled-rule match reason. [rule cond. 9]
       if (!qualifying.ev.reasons.some((r) => r.code.includes("compiled_rule_match"))) {
@@ -591,11 +603,7 @@ for (const profile of profiles) {
       if (blocked.paymentAllowed !== false) behavioral.ratifiedMissingBlock.push(`${key} (pending -> ${blocked.resultCode}/${blocked.paymentAllowed})`);
     } else {
       // [#10][#11] No non-ratified route (hard-gate / corrected / held / untiered / automatic)
-      // may EVER open payment, even fully-eligible with every gate unlocked.
-      if (qualifying) {
-        const resolved = `${profile.jurisdiction.code}:${qualifying.ev.pathwayId}`;
-        behavioral.nonRatifiedThatPaid.push(`${resolved}${resolved === key ? "" : ` (probed as ${key})`} (tier ${tierNameOf(resolved)} -> ${qualifying.ev.resultCode})`);
-      }
+      // may EVER open payment, even fully-eligible with every gate unlocked. Recorded in findQualifying.
     }
   }
 }
@@ -646,7 +654,7 @@ console.log(`Deep payment gate (evaluator.ts:${payComputeLine}): ${payExpr.repla
 console.log("-".repeat(74));
 console.log("Behavioral both-direction coverage:");
 console.log(`  Ratified routes with qualifying(open) + disqualifying(block): ${behavioral.ratifiedQualified}/${RATIFIED_DEPLOYABLE.size}`);
-console.log(`  Non-ratified routes probed with fully-eligible facts that paid : ${behavioral.nonRatifiedThatPaid.length} (must be 0)`);
+console.log(`  Non-ratified routes probed with fully-eligible facts that paid : ${behavioral.nonRatifiedThatPaid.size} (must be 0)`);
 console.log("-".repeat(74));
 console.log("Check results:");
 for (const c of Object.keys(CHECK_TITLES)) {
