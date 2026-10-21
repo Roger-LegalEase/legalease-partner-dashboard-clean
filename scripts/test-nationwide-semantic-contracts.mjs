@@ -9,6 +9,8 @@ const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-re
 const {routeSafetyGateFactIds}=await import('../src/lib/expungement-ai/packet-route-safety.ts');
 const old=JSON.parse(fs.readFileSync(new URL('./lib/rcap-ms-legacy-contract-fixture.json',import.meta.url))).snapshot;
 const registry=JSON.parse(fs.readFileSync(new URL('../src/lib/expungement-ai/reviewed-packet-contract-successors.json',import.meta.url)));
+const historicalPlans=JSON.parse(fs.readFileSync(new URL('./fixtures/packet-contract-historical-plans.json',import.meta.url))).rows;
+const {contactRepresentationHash:hash}=await import('../src/lib/expungement-ai/contact-representation.ts');
 const make=(snapshot=old)=>({status:'unverified',reason:'synthetic-partial-legacy',revision:3,draftSnapshot:structuredClone(snapshot),draftHash:packet.protectedPacketDraftHash(snapshot)});
 const patch=(record,answers)=>packet.packetInformationPatch({existingItem:{id:'synthetic-legacy',jurisdiction:'MS',artifactRefs:{}},answers,protectedVerification:record});
 let checks=0;const check=(name,fn)=>{try{fn();checks++;}catch(e){e.message=name+': '+e.message;throw e;}};
@@ -37,8 +39,33 @@ for(const mutate of [s=>s.profileVersion+='-changed',s=>s.profileSourceFingerpri
 check('hash mismatch refused',()=>{const bad=make();bad.draftSnapshot.packetAnswers.trafficking_status='changed';assert.equal(packet.protectedPacketInformationModelFor(bad),null);});
 for(const [key,contract] of Object.entries(registry.routes)){
  const [state,pathway]=key.split(':'),plan=packetPlanForPathway(getProfileByJurisdiction(state),pathway);
+ const priorPlan=(()=>{
  const priorPlan=structuredClone(plan);priorPlan.requiredInputIds=state==='MS'&&pathway===old.pathwayId?priorPlan.requiredInputIds.map(x=>x===id?'trafficking_status':x):priorPlan.requiredInputIds.filter(x=>!contract.addedFactIds.includes(x));
- const s={...structuredClone(old),jurisdiction:state,pathwayId:pathway,profileVersion:contract.profileVersion,profileSourceFingerprint:contract.profileSourceFingerprint,profileAuthorityFingerprint:contract.profileAuthorityFingerprint,packetPlan:priorPlan,requiredInputIds:[...priorPlan.requiredInputIds]};
+ const historical=historicalPlans[key];
+ if(!historical)return priorPlan;
+ check(`${key} recorded historical plan identity`,()=>{
+  assert.equal(hash(historical.plan),historical.previousPlanSha256,'recorded native predecessor bytes changed');
+  assert.equal(historical.previousPlanSha256,contract.previousPlanSha256,'recorded native predecessor hash differs from the reviewed contract');
+  assert.equal(hash(historical.plan.requiredInputIds),contract.previousRequiredIdsSha256,'recorded native input order changed');
+ });
+ if(historical.reconstruction==='fact_only'){
+  check(`${key} fact-only reconstruction unchanged`,()=>assert.deepEqual(priorPlan,historical.plan));
+  return priorPlan;
+ }
+ check(`${key} historical exception required`,()=>{
+  assert.equal(historical.reconstruction,'historical_plan');
+  assert.notEqual(hash(priorPlan),contract.previousPlanSha256,'fact-only successor must retain the original reconstruction');
+ });
+ return structuredClone(historical.plan);
+ })();
+ // CA caption/contact successors validate the complete native envelope, including its jurisdiction and family.
+ const caEnvelope=state==='CA'?JSON.parse(fs.readFileSync(new URL('../'+historicalPlans[key].source.path,import.meta.url))).record.draftSnapshot:null;
+ if(caEnvelope)check(`${key} genuine CA predecessor envelope`,()=>{
+  assert.deepEqual([caEnvelope.jurisdiction,caEnvelope.pathwayId,caEnvelope.profileVersion,caEnvelope.profileSourceFingerprint,caEnvelope.profileAuthorityFingerprint],[state,pathway,contract.profileVersion,contract.profileSourceFingerprint,contract.profileAuthorityFingerprint]);
+  assert.deepEqual(caEnvelope.packetPlan,priorPlan);assert.deepEqual(caEnvelope.requiredInputIds,priorPlan.requiredInputIds);
+ });
+ const s={...structuredClone(caEnvelope??old),jurisdiction:state,pathwayId:pathway,profileVersion:contract.profileVersion,profileSourceFingerprint:contract.profileSourceFingerprint,profileAuthorityFingerprint:contract.profileAuthorityFingerprint,packetPlan:priorPlan,requiredInputIds:[...priorPlan.requiredInputIds]};
+ if(caEnvelope)check(`${key} borrowed MS envelope refused`,()=>assert.equal(reviewedPacketContractSuccessor({...s,serverFacts:old.serverFacts,packetFamilyIdentifiers:old.packetFamilyIdentifiers},plan),null));
  check(`${key} exact registry projects only current contract`,()=>{const projected=reviewedPacketContractSuccessor(s,plan);assert.ok(projected);assert.deepEqual(projected.packetPlan,plan);assert.deepEqual(projected.requiredInputIds,plan.requiredInputIds);assert.deepEqual(s.packetPlan,priorPlan);});
  check(`${key} new unreviewed plan field refused`,()=>assert.equal(reviewedPacketContractSuccessor(s,{...plan,mode:'unreviewed'}),null));
 }
