@@ -155,6 +155,9 @@ test("the owner decision reserves the year of birth on both petitions, and nothi
     "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:Year of Birth",
     "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022:Sex born in"
   ]);
+  // Roger's A28 follow-up words byte-exact, limit included (ROGER-ACTIONS-PENDING-20261020.md, the 01:1xZ entry).
+  const decision = JSON.parse(fs.readFileSync(decisionRows[0].controllingReservation.decisionPath, "utf8"));
+  assert.equal(crypto.createHash("sha256").update(decision.verbatim).digest("hex"), "584c0fd7541d5652d0b51285a7486581df7fbd040307e3c10c9b0c1780eac2d3");
   for (const r of decisionRows) {
     assert.equal(r.factId, "participant.birth_year");
     const proof = verifyControllingReservation(decisionInputs(r));
