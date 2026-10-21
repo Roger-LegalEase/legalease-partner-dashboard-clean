@@ -1298,6 +1298,17 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  ME: {
+    profileHash: "d49e7b9cb025700b9c352d78e1e9044c41b99bd0695b61eda373215034d78f5a",
+    categoryReason: "Earlier Maine categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "juvenile-sealing", // GA12 Q-6a89d6d015a28fd619aa
+      "pardon-route", // GA12 Q-4d965d7602aca9206895
+      "sex-trafficking-sexual-exploitation-survivor-sealing", // GA12 Q-40e40ef4c2d63005dc47
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
