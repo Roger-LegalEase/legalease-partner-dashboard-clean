@@ -879,6 +879,26 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "trafficking-victim-vacatur-and-sealing-under-nrs-179-247", // GA17 Q-48f6f067fc1af171781c
     ],
   },
+  OH: {
+    profileHash: "10d16893413374ee1d2e37059f4d17ec1f15e8cd2329d5d22096396c142e9f68",
+    categoryReason: "Earlier Ohio categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32", // GA12 Q-789e93d63ae1e416ca52
+      "adult-non-conviction-sealing-or-expungement-under-2953-33", // GA12 Q-765489a449327996fbe9
+      "certain-firearm-carry-conviction-expungement-under-2953-35", // GA12 Q-bb5520a0a7519366f9e1
+      "human-trafficking-survivor-conviction-expungement-under-2953-36", // GA12 Q-2e36d0b5c1a1925c7c98
+      "human-trafficking-survivor-non-conviction-expungement-under-2953-521", // GA12 Q-daf300450ee87dd55597
+      "marijuana-hashish-possession-expungement-under-2953-321", // GA12 Q-99864a8cfd6d49f59819
+    ],
+    record: [
+      "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32", // GA17 Q-d4ce8aeb5628508912d2
+      "adult-non-conviction-sealing-or-expungement-under-2953-33", // GA17 Q-e0332e8dc4c98130d8d9
+      "certain-firearm-carry-conviction-expungement-under-2953-35", // GA17 Q-d87c7a2a4e6ba8df8a86
+      "human-trafficking-survivor-conviction-expungement-under-2953-36", // GA17 Q-5d9ed4f45d2af7006e2f
+      "human-trafficking-survivor-non-conviction-expungement-under-2953-521", // GA17 Q-7c86feef8f3c97e28642
+      "marijuana-hashish-possession-expungement-under-2953-321", // GA17 Q-463c45ad2785b6a60935
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
