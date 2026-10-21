@@ -1003,6 +1003,26 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "second-chance-act-shielding", // GA17 Q-7d682e0e897adec4533e
     ],
   },
+  MN: {
+    profileHash: "f779704436f10e0aabf0949877f3213af1900d5bf51729cec8397006e6a3f8bf",
+    categoryReason: "Earlier Minnesota categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11", // GA12 Q-0428789b04a87e050967
+      "automatic-clean-slate-expungement-under-609a-015", // GA12 Q-3767c02a7587f8046157
+      "automatic-mistaken-identity-expungement-under-609a-017", // GA12 Q-f23035e3845a362b111f
+      "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06", // GA12 Q-5578048f10653c4f1989
+      "petition-based-expungement-under-609a-02-03", // GA12 Q-522adeef09ebd5543747
+      "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025", // GA12 Q-afb8d1d88357accba349
+    ],
+    record: [
+      "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11", // GA17 Q-3bf293e8afaf34a905aa
+      "automatic-clean-slate-expungement-under-609a-015", // GA17 Q-8fef10d89ea0c2b64a74
+      "automatic-mistaken-identity-expungement-under-609a-017", // GA17 Q-cbbe48ecde268a32426c
+      "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06", // GA17 Q-c22e1092356ba2ea7e93
+      "petition-based-expungement-under-609a-02-03", // GA17 Q-19a56b6841c424eebb18
+      "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025", // GA17 Q-6f38f38e670d74cd9f54
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
