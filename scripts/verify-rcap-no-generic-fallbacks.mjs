@@ -545,10 +545,16 @@ function offenseFor(pathway) {
 
 // Find any qualifying case that opens payment (tries several eligible outcomes); `counts` narrows
 // which paid results qualify.
+// Every outcome is probed, first with the route's possible_pathway_context hint and then without it, and
+// every paid result is attributed: an early return on the first qualifying outcome hid later payments
+// decided by another route's rule (VERIFY3 census: FL 943.0585, MN 609A, NM cannabis, all in the hint grid).
+// The returned qualifying case is the first that counts, hinted variants first.
+const WITHOUT_HINT = (a) => { delete a.possible_pathway_context; };
 function findQualifying(profile, pathway, counts = () => true, offTarget = [], foreignRule = []) {
   const offense = offenseFor(pathway);
-  for (const outcome of OUTCOME_CANDIDATES) {
-    const ev = evaluate(profile, pathway, outcome, offense, "2000-01-01");
+  let qualifying = null;
+  for (const mutate of [undefined, WITHOUT_HINT]) for (const outcome of OUTCOME_CANDIDATES) {
+    const ev = evaluate(profile, pathway, outcome, offense, "2000-01-01", mutate);
     // Global invariant: a fail-closed result may never carry payment. [#7 behavioral]
     if (FAIL_CLOSED_CODES.has(ev.resultCode) && ev.paymentAllowed === true) {
       fail("#7", `${profile.jurisdiction.code}:${pathway.id}: fail-closed result ${ev.resultCode} carried paymentAllowed=true.`);
@@ -556,11 +562,11 @@ function findQualifying(profile, pathway, counts = () => true, offTarget = [], f
     if (packetOpen(ev) && !RATIFIED_DEPLOYABLE.has(`${profile.jurisdiction.code}:${ev.pathwayId}`)) {
       behavioral.nonRatifiedThatPaid.add(`${profile.jurisdiction.code}:${ev.pathwayId}${ev.pathwayId === pathway.id ? "" : ` (probed as ${profile.jurisdiction.code}:${pathway.id})`} (tier ${tierNameOf(`${profile.jurisdiction.code}:${ev.pathwayId}`)} -> ${ev.resultCode})`);
     }
-    if (packetOpen(ev) && counts(ev)) return { ev, outcome, offense };
+    if (packetOpen(ev) && counts(ev)) { qualifying ??= { ev, outcome, offense, mutate }; continue; }
     if (packetOpen(ev) && ev.pathwayId !== pathway.id) offTarget.push(`${profile.jurisdiction.code}:${ev.pathwayId}`);
     else if (packetOpen(ev)) foreignRule.push(decidingRuleId(ev) ?? ev.reasons.map((r) => r.code).join("+"));
   }
-  return null;
+  return qualifying;
 }
 
 // evaluateScreening is unscoped: a probe aimed at one route can resolve to a sibling (2026-10-21, all 14
@@ -577,7 +583,11 @@ const resolvesTo = (pathway) => (ev) => ev.pathwayId === pathway.id;
 const OWN_CONTENT_RULES = new Set([
   "AR:situation-b-misdemeanor-convictions rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale",
   "AR:situation-c-felony-convictions rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove",
-  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to"
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to",
+  "DC:dc_actual_innocence_expungement_16_803 rule-07-expungement-by-motion-d-c-code-16-803-actual-innocence",
+  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104 rule-01-for-montana-s-misdemeanor-expungement-statute",
+  "VA:petition-based-sealing rule-13-petition-based-sealing-19-2-392-12-12-1",
+  "WI:adult-conviction-expungement-under-wis-stat-973-015 rule-03-adult-misdemeanor-or-class-h-i-felony-under-25-sentenci"
 ]);
 function decidingRuleId(ev) {
   return ev.reasons.map((r) => r.code.split("compiled_rule_match.")[1]).find(Boolean) ?? null;
@@ -638,7 +648,7 @@ for (const profile of profiles) {
         fail("#9", `${key}: paid result lacks a compiled_rule_match reason.`);
       }
       // [#9] disqualifying direction: pending case must block payment.
-      const blocked = evaluate(profile, pathway, qualifying.outcome, qualifying.offense, "2000-01-01", (a) => { a.pending_cases = "Yes"; });
+      const blocked = evaluate(profile, pathway, qualifying.outcome, qualifying.offense, "2000-01-01", (a) => { qualifying.mutate?.(a); a.pending_cases = "Yes"; });
       if (blocked.paymentAllowed !== false) behavioral.ratifiedMissingBlock.push(`${key} (pending -> ${blocked.resultCode}/${blocked.paymentAllowed})`);
     } else {
       // [#10][#11] No non-ratified route (hard-gate / corrected / held / untiered / automatic)
