@@ -2232,8 +2232,9 @@ async function assertEveryPageSubstantive(bytes, componentId, fixtureName) {
   const footer = `Route: ${COMPONENT[componentId].routeKey}`;
   for (const [pageIndex, page] of doc.getPages().entries()) {
     const lines = groupIntoLines(extractTextItems(page)).map((line) => line.text.trim()).filter(Boolean);
-    assert.equal(lines.filter((line) => /^route:/i.test(line)).length, 0,
-      `${fixtureName}/${componentId} page ${pageIndex + 1}: no route line (key or label, any case) may print`);
+    // A33 G1: a bare internal key with no "Route:" prefix must not print either.
+    assert.equal(lines.filter((line) => /^route:/i.test(line) || /obligation:[a-z-]+:[A-Z]{2}:/.test(line)).length, 0,
+      `${fixtureName}/${componentId} page ${pageIndex + 1}: no route line (key or label, any case) and no internal route key may print`);
     const substantive = lines.filter((line) => line !== footer);
     assert.ok(substantive.length >= 2,
       `${fixtureName}/${componentId} page ${pageIndex + 1}: footer-only or near-empty overflow page`);
