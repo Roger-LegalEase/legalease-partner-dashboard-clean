@@ -1,3 +1,4 @@
+import { PacketFulfillmentNotProvenError } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
@@ -54,6 +55,10 @@ export async function POST(request: NextRequest) {
       storedSessionRecovery: checkout.storedSessionRecovery ?? null
     });
   } catch (error) {
+    if (error instanceof PacketFulfillmentNotProvenError) {
+      return NextResponse.json({ error: "A packet is not available for this route yet. Your saved information remains available.", resultCode: "fulfillment_not_proven" }, { status: 403, headers: { "Cache-Control": "private, no-store" } });
+    }
+
     // The Grade-A authority refused this route or this participant. The refusal
     // carries a denial code and one sentence; `contextDenials` names matter and
     // owner ids and stays on the server.

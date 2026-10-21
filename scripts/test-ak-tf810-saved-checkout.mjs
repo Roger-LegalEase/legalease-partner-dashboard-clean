@@ -124,7 +124,12 @@ const {url:paymentUrl} = await install('src/lib/expungement-ai/payment-adapter.t
 const {module:checkoutApi} = await install('src/app/api/expungement-ai/checkout/route.ts',[
   ['@/lib/expungement-ai/auth',readerModule('src/lib/expungement-ai/auth.ts',['requireConsumerBriefcaseSession'])],
   ['@/lib/expungement-ai/briefcase',briefcase],['@/lib/expungement-ai/payment-adapter',paymentUrl],['@/lib/expungement-ai/packet-information',pUrl]
-]);
+],source=>{
+  if(!process.argv.includes('--mutation=fulfillment'))return source;
+  const target='if (error instanceof PacketFulfillmentNotProvenError)';
+  assert.equal(source.split(target).length,2,'mutate exactly the fulfillment refusal classifier');
+  return source.replace(target,'if (false)');
+});
 const seed = P.protectedPacketDraftSeedFromAuthoritative({authoritative:evaluate({jurisdiction:'AK',profileVersion:witness.profileVersion,matterId:item.id,answers:witness.answers}),screeningAnswers:witness.answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});
 assert.equal(routeId,'AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40');
 assert.equal(id,'ak_tf810_case_still_public');
@@ -262,7 +267,11 @@ try {
         const expected = mode==='missing' ? `${routeId}: NO_RECORD. No Grade-A fulfillment record binds ${routeId}; a route nobody has written a record for fails closed.`
           : `${routeId}: UNSUPPORTED_ROUTE. The record for ${routeId} declares schema TEST_INVALID_SCHEMA, which this authority does not evaluate.`;
         assert.equal(trace.find(t=>t.step==='authority_refusal')?.reason,expected);
-        assert.equal(response.status,503);assert.equal(body.resultCode,'checkout_failed');assert.equal(body.failureClass,'PacketFulfillmentNotProvenError');assert.equal(bindings.length,0);assert.equal(providerAttempts,0);
+        // Checkout now matches generation's typed authority refusal; saved facts and payment restrictions stay intact.
+        assert.equal(response.status,403);
+        assert.deepEqual(body,{error:'A packet is not available for this route yet. Your saved information remains available.',resultCode:'fulfillment_not_proven'});
+        assert.equal(response.headers.get('Cache-Control'),'private, no-store');
+        assert.equal(bindings.length,0);assert.equal(providerAttempts,0);
       } else if(name==='yes') {
         assert.equal(response.status,200);assert.equal(body.mode,'dry_run');assert.equal(body.amountCents,5000);assert.equal(body.outcome,'checkout_created');assert.equal(bindings.length,1);assert.equal(providerAttempts,1);
       } else {
