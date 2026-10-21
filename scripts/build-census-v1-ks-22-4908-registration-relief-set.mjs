@@ -28,6 +28,7 @@ const ROUTE_LABEL = "Kansas drug-offender registration relief under K.S.A. 22-49
 const OUT = "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs";
 const OWNER_RECORD = "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json";
+const BIRTH_YEAR_DECISION = "data/rcap-grade-a/legal-decisions/OWNER_DERIVED_BIRTH_YEAR_PARTICIPANT_COMPLETION_2026-10-21.json";
 const SOURCE_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const SOURCE_ADMISSION = "data/rcap-grade-a/packet-factory-24h/pf20/ks-native-source-index-admission-20260913.json";
 const REG_PET = "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022";
@@ -165,6 +166,12 @@ const NARRATIVE = (factId, why, allowProtectedCategories = []) => ({ kind: "narr
 const SELECT = (basis) => ({ kind: "select", basis });
 const PROTECTED = (reason, selectionControl = false) => ({ kind: "protected", reason, selectionControl });
 const RESERVED = (factId, claim, reason, supply) => ({ kind: "reserved", factId, claim, reason, supply });
+// The A28 follow-up owner decision reserves the derived birth year; decisionSha256 and entrySha256 pin its bytes and entry.
+const BIRTH_YEAR_RESERVED = (componentId, item, entrySha256) => RESERVED("participant.birth_year", {
+  trackId: "ks-22-4908-registration-relief", componentId, item, entrySha256,
+  decisionPath: BIRTH_YEAR_DECISION, decisionSha256: "ff7ee79b4f5ff6f8d3a49d327260741dbb85a82f86bfc51776f587e604cb849a"
+}, "Left for the participant because the owner extended the restriction on automatic printing to the birth year derived from the date of birth; the data-protection review stays open.",
+"your four-digit year of birth in the year-of-birth blank of item 3");
 
 const FIELDS = {};
 const declare = (doc, name, label, policy) => { FIELDS[doc + ":" + name] = { label, ...policy }; };
@@ -178,7 +185,7 @@ function registrationPetitionFields() {
   declare(d, "registration if different than 1 was", "Item 2 — full name at conviction, if different from item 1", RBF("the participant supplies the name used at the time of the registrable conviction, if it differs from item 1", "the full name the conviction record carried, or leave this blank only if it is the same as item 1"));
   declare(d, "3 I am a", "Item 3 — participant race", RBF("the participant supplies the race the verified petition should state", "the race in the words the participant wants the petition to carry"));
   declare(d, "Race", "Item 3 — participant sex", RBF("the participant supplies the sex the verified petition should state", "the sex in the words the participant wants the petition to carry"));
-  declare(d, "Sex born in", "Item 3 — year of birth", NARRATIVE("participant.birth_year", "the neutral year-of-birth value derived from the held full date of birth"));
+  declare(d, "Sex born in", "Item 3 — year of birth", BIRTH_YEAR_RESERVED("ks-22-4908-registration-relief-primary-filing-1", "Year of birth on the registration-relief petition", "e1e852b0af89a5618684e9e29642e336e794640d109ad134953ab2d1ad6cd7cb"));
   declare(d, "4 I was convicted of", "Held charge for the registration-relief petition", NARRATIVE("matter.charge", "the held registrable conviction offense; participant must verify it against the conviction record", ["disposition_or_hearing"]));
   declare(d, "offenses requiring registration on", "Held conviction date fact", NARRATIVE("matter.conviction_date", "the held conviction date for the registrable offense; participant must verify it against the conviction record", ["disposition_or_hearing"]));
   declare(d, "Date in", "Held court fact", NARRATIVE("matter.court", "the held judicial district of the convicting court; participant must verify the complete court identity before filing"));
@@ -233,7 +240,7 @@ function combinedExpungementFields() {
   declare(d, "undefined_2", "Combined expungement item 2 — name at arrest or conviction, if different", RBF("the participant supplies the name the record carried if it differs from item 1", "the full name used at arrest or conviction, or leave blank only if it is the same as item 1"));
   declare(d, "Race", "Combined expungement item 3 — participant race", RBF("the participant supplies the race the petition should state", "the race in the words the participant wants the petition to carry"));
   declare(d, "Sex born in", "Combined expungement item 3 — participant sex", RBF("the participant supplies the sex the petition should state", "the sex in the words the participant wants the petition to carry"));
-  declare(d, "Year of Birth", "Combined expungement item 3 — year of birth", NARRATIVE("participant.birth_year", "the neutral four-digit year derived from the held full date of birth"));
+  declare(d, "Year of Birth", "Combined expungement item 3 — year of birth", BIRTH_YEAR_RESERVED("ks-22-4908-registration-relief-primary-filing-3", "Year of birth on the combined expungement petition", "4caba7f975bb82f1cded4401d5efd385a52bae590f82a646e3d72d564396a6d4"));
   declare(d, "County Kansas on", "Combined expungement item 4 — arrest county", WRITE("matter.county", "the held arrest county; participant must verify it against the arrest record"));
   declare(d, "Date by", "Combined expungement item 4 — arrest date", WRITE("matter.arrest_date", "the held arrest date; participant must verify it against the arrest record"));
   declare(d, "Law Enforcement Agency and charged with the", "Held arresting department fact", NARRATIVE("matter.citing_or_arresting_agency", "the held arresting agency; participant must verify the agency name", ["agency"]));
@@ -349,6 +356,16 @@ const SPEC = {
       mustContain: [
         '"evidenceType": "owner_attestation"',
         '"dispositionOverride": "LEGAL_CLEAR"',
+        FAMILY_ID
+      ]
+    },
+    {
+      recordId: "owner-decision:a28-followup-derived-birth-year",
+      path: BIRTH_YEAR_DECISION,
+      role: "the owner decision that reserves the derived birth year on both petitions for the participant",
+      mustContain: [
+        '"decisionId": "OWNER-A28-FOLLOWUP-DERIVED-BIRTH-YEAR-20261021"',
+        '"dataProtectionReview": "open"',
         FAMILY_ID
       ]
     }

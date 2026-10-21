@@ -122,11 +122,13 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 
 ## Blanks the controlling record leaves to you
 
-LegalEase holds these facts and does not print them: the committed legal-design record for this route reserves each blank for you to complete by hand before filing.
+LegalEase holds these facts and does not print them: the controlling record for this route (its committed legal-design record, or a recorded owner decision) reserves each blank for you to complete by hand before filing.
 
 | Document | Page | The blank on the document | What to write | Reserved by |
 | --- | --- | --- | --- | --- |
+| KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022 | 1 | Item 3 — year of birth | your four-digit year of birth in the year-of-birth blank of item 3 | Year of birth on the registration-relief petition: Left for the participant because the owner extended the restriction on automatic printing to the birth year derived from the date of birth; the data-protection review stays open. |
 | KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022 | 1 | KBI cover sheet — date of birth | your date of birth as this cover sheet asks for it; mark the race box on the same sheet yourself too | Race and year of birth on the order cover sheet: Left for the participant pending the data-protection review. |
+| KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 | 1 | Combined expungement item 3 — year of birth | your four-digit year of birth in the year-of-birth blank of item 3 | Year of birth on the combined expungement petition: Left for the participant because the owner extended the restriction on automatic printing to the birth year derived from the date of birth; the data-protection review stays open. |
 
 ## What the court fills in after you file
 

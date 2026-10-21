@@ -97,8 +97,8 @@ export const PARTICIPANT_LATER_COMPLETION_CONDITIONS = [
 
 export const CONTROLLING_RESERVATION_CONDITIONS = [
   "DECLARED: the field-map row states PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD with requiredBeforeFiling=false and carries a reservation claim. It is never REQUIRED_BEFORE_FILING and never says the fact is unavailable.",
-  "BOUND: the claim names a manualCompletionItems entry of its track in the legal-design track registry whose bytes the packet pins, and the entry's text hashes to the digest the claim was declared against.",
-  "SAME COMPONENT: the entry's whereInPacket is the bound title of the component the blank is on.",
+  "BOUND: the claim names a manualCompletionItems entry of its track in the legal-design track registry whose bytes the packet pins, or a reservations entry of a recorded owner decision whose bytes the claim pins and which records the owner's words verbatim; either way the entry's text hashes to the digest the claim was declared against.",
+  "SAME COMPONENT: the entry's whereInPacket is the bound title of the component the blank is on; an owner-decision entry also names that component, document and field.",
   "UNWRITTEN: no fixture writes the reserved blank.",
   "DISCLOSED: participant-instructions.md names the blank and the registry entry.",
   "NOT AN ELECTION: a selection control or route-determined field cannot be reserved; a caller-supplied verified flag is never evidence."
@@ -140,8 +140,8 @@ export const BLANK_DISPOSITIONS = {
   },
   PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD: {
     allowed: true,
-    meaning: "A fact the platform holds, left blank because the controlling legal-design record reserves that blank for the participant to complete.",
-    requires: "A reservation proof verified in this process against the bound registry entry, the blank's component, every fixture's writes and the participant disclosure.",
+    meaning: "A fact the platform holds, left blank because the controlling legal-design record, or a recorded owner decision, reserves that blank for the participant to complete.",
+    requires: "A reservation proof verified in this process against the bound registry or owner-decision entry, the blank's component, every fixture's writes and the participant disclosure.",
     declaredOnly: true,
     conditions: CONTROLLING_RESERVATION_CONDITIONS
   },
