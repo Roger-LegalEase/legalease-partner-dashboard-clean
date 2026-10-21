@@ -1330,6 +1330,15 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  NY: {
+    profileHash: "e8a7a2198331e8d752842cf75f4bad3987e5aa54c11a5d447e2efde558158374",
+    categoryReason: "Earlier New York categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-clean-slate-sealing-under-cpl-160-57", // GA12 Q-a4e19170bd483d92f65a
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
