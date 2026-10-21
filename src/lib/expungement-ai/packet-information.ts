@@ -84,7 +84,7 @@ import { CA_PROP64_CAPTION_QUESTIONS, CA_PROP64_CAPTION_FACT_IDS } from "@/lib/e
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_PATHWAY, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { pathwayExcludedByKnownFacts } from "@/lib/rcap-engine/factual-pathway-exclusions";
-import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS, CA_PROP64_REASON_COPY, caProp64ActiveFactIds } from "@/lib/rcap-engine/california-prop64-facts";
+import { CA_PROP64_OPTIONAL_PROCEDURE_IDS, CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS, CA_PROP64_REASON_COPY, caProp64ActiveFactIds } from "@/lib/rcap-engine/california-prop64-facts";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 import { NY_16059_FACT_IDS, NY_16059_ROUTE, ny16059QuestionApplies, ny16059History, NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID } from "@/lib/rcap-engine/new-york-16059-facts";
 import { CA_PROP64_QUESTIONS, CA_PROP64_COMPLETED, isCaProp64Pathway, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -951,7 +951,7 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
   const activeFacts = caProp64ActiveFactIds(allAnswers);
   const questions = [...CA_PROP64_QUESTIONS.filter((question) => question.id === "ca_prop64_branch" || snapshot.pathwayId === CA_PROP64_COMPLETED),
     ...CA_PROP64_FACT_QUESTIONS.filter(question => activeFacts.includes(question.id))]
-    .map((question) => ({ ...toProfileQuestion(question), required: true }));
+    .map((question) => ({ ...toProfileQuestion(question), required: !CA_PROP64_OPTIONAL_PROCEDURE_IDS.includes(question.id) }));
   questions.push(...caProp64RecordQuestions(profile, profile.questions, snapshot.pathwayId).map(toProfileQuestion));
   for (const id of ["offense_level", "case_outcome"]) {
     const fact = allPublicQuestions(projectPublicProfile(profile)).find(question => question.id === id);
@@ -987,7 +987,7 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
     delete screeningAnswers[question.id]; delete prefilledAnswers[question.id]; delete packetAnswers[question.id];
   }
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
-  const missingInputIds = questions.filter((question) => questionAnswerState(question, initialAnswers[question.id]) !== "known_valid").map((question) => question.id);
+  const missingInputIds = questions.filter((question) => question.required && questionAnswerState(question, initialAnswers[question.id]) !== "known_valid").map((question) => question.id);
   // A supported choice for the other branch is still unresolved for this saved route.
   const expectedBranch = snapshot.pathwayId === CA_PROP64_COMPLETED ? "completed-sentence application" : "currently-serving petition";
   if (caProp64Choice("ca_prop64_branch", initialAnswers.ca_prop64_branch) !== expectedBranch && !missingInputIds.includes("ca_prop64_branch")) missingInputIds.push("ca_prop64_branch");
@@ -996,7 +996,7 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
   return {
     caProp64Clarification: true, resultCode: evaluation.resultCode, stateCode: snapshot.jurisdiction, pathwayId: snapshot.pathwayId, revision: verification.revision,
     packetPlan: null, questions, builderQuestions: questions, builderSections: [], initialAnswers, screeningAnswers, prefilledAnswers, packetAnswers,
-    serverFacts: canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId), requiredInputIds: ids, missingInputIds, pendingDerivations: [],
+    serverFacts: canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId), requiredInputIds: questions.filter(question => question.required).map(question => question.id), missingInputIds, pendingDerivations: [],
     stage: "in_progress", reviewedAt: null, capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt,
     verificationSummary: [], verificationContext: [], verificationManifest: { schemaVersion: "expungement-ai/verification-review-manifest/v1", factKeys: [], systemContextKeys: [] },
     reviewSafety: { safe: false, reason: "ca_prop64_choice_clarification_required" }, expectedComponents: []
@@ -1040,7 +1040,7 @@ export function caProp64ClarificationPatch(input: {
   const model = caProp64ClarificationModelFor(prior);
   const base = protectedAuthoritySnapshotFor(prior);
   if (!model || !base) return null;
-  const allowed = new Set(model.requiredInputIds);
+  const allowed = new Set(model.questions.map(question => question.id));
   if (Object.keys(input.answers).some((id) => !allowed.has(id))) return null;
   if (Object.entries(input.answers).some(([id, value]) => questionAnswerState(model.questions.find((question) => question.id === id)!, value) === "invalid" && !canonicalEqual(value, model.initialAnswers[id]))) return null;
   const maps = { screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) };

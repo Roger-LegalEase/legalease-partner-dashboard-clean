@@ -170,5 +170,86 @@ for(const name of ['currently-serving','completed']){
   for(const locale of ['en','es']){const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));renders.push({name,label,locale,markup});if(exactPair){const exactRendered=renderToStaticMarkup(React.createElement('span',null,exactPair[locale])).slice(6,-7);check(name+'/'+label+'/'+locale+' exact literal generated copy rendered',markup.includes(exactRendered),true);} for(const id of evaluation.missingQuestionIds){const q=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id===id);if(q&&['ca_prop64_possession_act','ca_prop64_possession_place','ca_prop64_school_distance','ca_prop64_children_present','ca_prop64_vehicle_container','ca_prop64_vehicle_role','ca_prop64_use_authorization'].includes(id)){const expected=locale==='es'?q.translations.es.prompt:q.prompt;check(name+'/'+label+'/'+locale+' missing prompt '+id,markup.includes(renderToStaticMarkup(React.createElement('span',null,expected)).slice(6,-7)),true);}} for(const reason of evaluation.reasons.filter(r=>Object.values(F.CA_PROP64_REASON_COPY).some(([en])=>en===r.text))){const text=resolveRuntimeText(locale,reason.text);check(name+'/'+label+'/'+locale+' reason rendered',markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);if(locale==='es')check(name+'/'+label+' Spanish reason',text!==reason.text,true);}}
  }
 }
+// Keep the real HTTP validation; substitute only authenticated storage transport.
+let procedureRecord;
+globalThis.__caProcedureTransport={
+ getRcapBriefcaseAuthState:async()=>({isAuthenticated:true,isVerified:true,userId:'synthetic-ca-owner'}),
+ getBriefcaseItem:async()=>({id:'synthetic-ca-procedure',artifactRefs:{}}),
+ readProtectedPacketVerification:async()=>({ok:true,value:procedureRecord}),
+ persistProtectedPacketVerification:()=>{throw Error('invalid procedure request reached persistence');},
+ decorateBriefcaseItemForPresentation:()=>{throw Error('invalid procedure request reached presentation');},
+ protectedPacketVerificationSeedFromTrustedSource:()=>{throw Error('unexpected seed');},
+ readTrustedBriefcasePresentationSource:()=>{throw Error('unexpected source');}
+};
+const procedureApiPath='src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts';
+let procedureApiSource=fs.readFileSync(procedureApiPath,'utf8');
+for(const [bindings,module] of [
+ [['getRcapBriefcaseAuthState'],'@/lib/rcap/briefcase/auth'],
+ [['getBriefcaseItem'],'@/lib/expungement-ai/briefcase'],
+ [['decorateBriefcaseItemForPresentation','protectedPacketVerificationSeedFromTrustedSource','readTrustedBriefcasePresentationSource'],'@/lib/expungement-ai/briefcase-presentation-authority'],
+ [['persistProtectedPacketVerification','readProtectedPacketVerification'],'@/lib/expungement-ai/verification-cas']
+]){
+ const pattern=new RegExp('import \\{\\s*'+bindings.join(',\\s*')+'\\s*\\} from "'+module+'";');
+ assert(pattern.test(procedureApiSource),module);
+ procedureApiSource=procedureApiSource.replace(pattern,bindings.map(binding=>'const '+binding+'=(...args:unknown[])=>(globalThis as any).__caProcedureTransport.'+binding+'(...args);').join('\n'));
+}
+const procedureApiUrl=pathToFileURL(`${process.cwd()}/${procedureApiPath}`).href;
+register(`data:text/javascript,${encodeURIComponent('let d;export function initialize(data){d=data;}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c);} ')}`,{data:{url:procedureApiUrl,source:ts.transpileModule(procedureApiSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText}});
+const procedureApi=await import(procedureApiUrl);
+// CA-L01 §4(b): real consumers keep the independent original benefit and the separate additional request.
+const procedureIds=['ca_prop64_additional_infraction_request','ca_prop64_judgment_finality_2017','ca_prop64_later_sentence_order','ca_prop64_pending_appeal'];
+for(const name of ['currently-serving','completed'])for(const level of ['Felony','Misdemeanor'])for(const [label,patch,code]of [
+ ['final',{},'concentrate_final_judgment'],
+ ['nonfinal',{ca_prop64_judgment_finality_2017:'nonfinal'},'concentrate_nonfinal_judgment'],
+ ['reopened',{ca_prop64_later_sentence_order:'vacated_or_recalled'},'concentrate_reopened_judgment'],
+ ['limited',{ca_prop64_later_sentence_order:'limited_proceeding'},'concentrate_limited_proceeding'],
+ ['unknown',{ca_prop64_judgment_finality_2017:{value:'nonfinal',unknown:true}},'concentrate_procedure_unknown'],
+ ['pending-appeal',{ca_prop64_pending_appeal:'Yes'},'concentrate_final_judgment']
+]){
+ const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url)));
+ const answers={...fixture.answers,...originalConcentrateBenefit,offense_level:level,case_outcome:level+' conviction',ca_prop64_additional_infraction_request:'Yes',ca_prop64_judgment_finality_2017:'final',ca_prop64_later_sentence_order:'none',ca_prop64_pending_appeal:'No',...patch};
+ const before=structuredClone(answers),prefix=`CA-L01/${name}/${level}/${label}`,authoritative=evaluateAnswers(answers),evaluation=authoritative.evaluation;
+ check(prefix+' original benefit or unpaid additional review',evaluation.resultCode,level==='Felony'?(name==='completed'?'packet_ready':'packet_ready_with_caution'):'needs_review');
+ check(prefix+' no new payment entitlement',evaluation.paymentAllowed,level==='Felony');
+ const display=[...evaluation.reasons.map(r=>r.text),...evaluation.cautions];
+ check(prefix+' actual procedural disposition displayed',display.includes(F.CA_PROP64_REASON_COPY[code][0]),true);
+ if(label==='pending-appeal')check(prefix+' petition mechanism not bypassed',display.includes(F.CA_PROP64_REASON_COPY.concentrate_pending_appeal[0]),true);
+ const selected=selectScreeningQuestionIds(profile,pub,answers),resumed=sanitizeResumedAnswersForQuestionIds(pub,answers,selected);
+ for(const id of procedureIds){check(prefix+' asked '+id,selected.includes(id),true);check(prefix+' literal resume '+id,resumed[id],answers[id]);}
+ const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-21T01:00:00Z'});assert(seed);
+ const saved={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot},savedBefore=structuredClone(saved),model=P.protectedPacketInformationModelFor(saved);assert(model);
+ const noop=P.packetInformationPatch({protectedVerification:saved,answers:{}});assert(noop);
+ check(prefix+' no-op preserves source maps',noop.protectedTransition.nextVerification,savedBefore);
+ for(const id of procedureIds)check(prefix+' optional procedure is not a filing gate '+id,model.questions.find(q=>q.id===id)?.required,false);
+ if(level==='Misdemeanor'){const clarification=P.caProp64ClarificationModelFor(saved);assert(clarification);for(const id of procedureIds){check(prefix+' recovery preserves optional '+id,clarification.questions.find(q=>q.id===id)?.required,false);check(prefix+' recovery required list excludes optional '+id,clarification.requiredInputIds.includes(id),false);check(prefix+' recovery missing list excludes optional '+id,clarification.missingInputIds.includes(id),false);}}
+ const update=P.packetInformationPatch({protectedVerification:saved,answers:{ca_prop64_additional_infraction_request:'No'}});assert(update);
+ const next=update.protectedTransition.nextVerification;
+ check(prefix+' explicit request correction saved',next.draftSnapshot.packetAnswers.ca_prop64_additional_infraction_request,'No');
+ check(prefix+' old request retained in history',next.draftSnapshot.dependencies.semanticAnswerHistory?.some(e=>e.factId==='ca_prop64_additional_infraction_request'&&e.value==='Yes'),true);
+ check(prefix+' edited draft stays unverified',[next.status,next.revision,update.readyToGenerate],['unverified',saved.revision+1,false]);
+ check(prefix+' hidden procedure facts retained',next.draftSnapshot.screeningAnswers.ca_prop64_judgment_finality_2017,answers.ca_prop64_judgment_finality_2017);
+ const retainedEdit=P.packetInformationPatch({protectedVerification:next,answers:{ca_prop64_judgment_finality_2017:'nonfinal'}});assert(retainedEdit);
+ const edited=retainedEdit.protectedTransition.nextVerification.draftSnapshot;
+ check(prefix+' retained fact correction cannot reelect request',edited.packetAnswers.ca_prop64_additional_infraction_request,'No');
+ check(prefix+' no additional procedure from retained facts',F.caProp64ConcentrateProcedure({...edited.screeningAnswers,...edited.prefilledAnswers,...edited.packetAnswers}),null);
+ procedureRecord=saved;
+ for(const [id,value] of [['ca_prop64_judgment_finality_2017','invented_finality'],['ca_prop64_unrecognized_fact','Yes']]){
+  const denied=await procedureApi.POST(new Request('http://localhost/api/expungement-ai/briefcase/synthetic-ca-procedure/packet-information',{method:'POST',body:JSON.stringify({expectedRevision:saved.revision,answers:{[id]:value}})}),{params:Promise.resolve({itemId:'synthetic-ca-procedure'})});
+  check(prefix+' HTTP refuses invalid fact '+id,[denied.status,await denied.json()],[422,{ok:false,error:'invalid_packet_answers',invalidFactIds:[id]}]);
+  check(prefix+' rejection preserves saved answers '+id,procedureRecord,savedBefore);
+ }
+ const response=await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-finality',answers})})),body=await response.json();
+ check(prefix+' public handler',[response.status,body.resultCode,body.paymentAllowed,body.reasons,body.cautions],[200,evaluation.resultCode,evaluation.paymentAllowed,evaluation.reasons,evaluation.cautions]);
+ for(const locale of ['en','es']){
+  const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};
+  const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));
+  for(const key of [code,...(label==='pending-appeal'?['concentrate_pending_appeal']:[])]){
+   const text=F.CA_PROP64_REASON_COPY[key][locale==='es'?1:0];
+   check(prefix+'/'+locale+' exact reviewed copy '+key,markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);
+  }
+  renders.push({name:prefix,label,locale,markup});
+ }
+ check(prefix+' original answers unchanged',answers,before);scenarios.push({name:prefix,label,evaluation});
+}
 const failed=checks.filter(c=>!c.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed,details:checks,scenarioDetails:scenarios,renderDetails:renders,limits:['Pure protected transitions and real stateless handlers/SSR; not DB/browser/RLS acceptance or professional approval.']};
 const out=process.argv[2];if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed},null,2));assert.equal(failed.length,0);

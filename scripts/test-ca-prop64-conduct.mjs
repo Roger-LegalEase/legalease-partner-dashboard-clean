@@ -108,6 +108,40 @@ for(const age of [18,19,20])for(const grams of ["4.0000000000000001",4.0001,7.99
  check('Q1 Infraction does not establish felony benefit '+age+'/'+grams,decision('already infraction',infraction,'review').code,'concentrate_amendment');
  check('Q1 saved Infraction stays held '+age+'/'+grams,decision('saved infraction',JSON.parse(JSON.stringify(infraction)),'review').ids,['ca_prop64_concentrate_grams']);
 }
+// CA-L01 §4(b): relevant-time finality and actual later orders change the additional review, never the original benefit.
+const additionalInfraction={...historicalConcentrate,ca_prop64_additional_infraction_request:'Yes',ca_prop64_judgment_finality_2017:'final',ca_prop64_later_sentence_order:'none',ca_prop64_pending_appeal:'No'};
+const proceduralCases=[
+ ['final',{},'concentrate_final_judgment'],
+ ['nonfinal-at-amendment',{ca_prop64_judgment_finality_2017:'nonfinal'},'concentrate_nonfinal_judgment'],
+ ['valid-reopening',{ca_prop64_later_sentence_order:'vacated_or_recalled'},'concentrate_reopened_judgment'],
+ ['limited-proceeding',{ca_prop64_later_sentence_order:'limited_proceeding'},'concentrate_limited_proceeding'],
+ ['unknown-finality',{ca_prop64_judgment_finality_2017:'unknown'},'concentrate_procedure_unknown'],
+ ['unknown-order',{ca_prop64_later_sentence_order:{value:'vacated_or_recalled',unknown:true}},'concentrate_procedure_unknown'],
+ ['pending-appeal',{ca_prop64_pending_appeal:'Yes'},'concentrate_final_judgment']
+];
+for(const [name,patch,code]of proceduralCases){
+ const answers={...additionalInfraction,...patch};
+ const procedure=F.caProp64ConcentrateProcedure(answers);
+ check(name+' actual procedural review',procedure?.code,code);
+ check(name+' pending appeal is distinct from finality in2017',procedure?.pendingAppeal,patch.ca_prop64_pending_appeal==='Yes');
+ for(const id of ['ca_prop64_additional_infraction_request','ca_prop64_judgment_finality_2017','ca_prop64_later_sentence_order','ca_prop64_pending_appeal'])check(name+' fact remains available '+id,F.caProp64QuestionApplies(answers,id),true);
+ decision(name+' supported original benefit',answers,'satisfied','misdemeanor');
+ decision(name+' completed original benefit',{...answers,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'redesignation'},'satisfied','misdemeanor');
+ const misdemeanor={...answers,offense_level:'Misdemeanor',case_outcome:'Misdemeanor conviction'};
+ check(name+' no automatic additional entitlement',decision(name+' existing misdemeanor',misdemeanor,'review').code,code);
+ check(name+' saved request and procedure retained',F.caProp64ConcentrateProcedure(JSON.parse(JSON.stringify(answers))),procedure);
+}
+for(const value of [undefined,'No','unknown',{value:'Yes',unknown:true}]){
+ const answers={...additionalInfraction,ca_prop64_additional_infraction_request:value};
+ decision('optional extra request cannot withdraw original '+JSON.stringify(value),answers,'satisfied','misdemeanor');
+ check('no inferred additional election '+JSON.stringify(value),F.caProp64ConcentrateProcedure(answers),null);
+ check('unrequested procedure hidden '+JSON.stringify(value),F.caProp64QuestionApplies(answers,'ca_prop64_judgment_finality_2017'),false);
+}
+for(const patch of [{ca_prop64_concentrate_grams:4},{ca_prop64_concentrate_grams:'8.0000000000000001'},{ca_prop64_age_at_offense:21},{ca_prop64_offense_date:'2016-11-09'},{ca_prop64_substance:'flower'},{ca_prop64_possession_context:'school_children'},{ca_prop64_existing_relief:'reduced'}]){
+ const answers={...additionalInfraction,...patch};
+ check('outside adopted amendment scenario '+JSON.stringify(patch),F.caProp64ConcentrateProcedure(answers),null);
+ check('outside scenario hides request '+JSON.stringify(patch),F.caProp64QuestionApplies(answers,'ca_prop64_additional_infraction_request'),false);
+}
 decision('exactly4 remains original infraction',{...historicalConcentrate,ca_prop64_concentrate_grams:4},'satisfied','infraction');
 decision('adult21 exactly8 lawful',{...historicalConcentrate,ca_prop64_age_at_offense:21},'satisfied','no_offense');
 decision('under18 retains own rule',{...historicalConcentrate,ca_prop64_age_at_offense:17},'satisfied','infraction');

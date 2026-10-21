@@ -17,6 +17,12 @@ export const CA_PROP64_REASON_COPY: Record<string, [string, string]> = {
   possession_context: ["The place and circumstances of possession need review under the rules for that conduct.", "El lugar y las circunstancias de la posesión necesitan revisión bajo las reglas de esa conducta."],
   restricted_conduct: ["Possession, public smoking, vehicle use and school-related conduct have different rules. Review the exact conduct before selecting the requested relief.", "La posesión, fumar en público, el uso en vehículos y la conducta relacionada con escuelas tienen reglas distintas. Revise la conducta exacta antes de elegir la reparación solicitada."],
   concentrate_amendment: ["This concentrate quantity falls within a statutory amendment boundary that needs review for this record.", "Esta cantidad de concentrado cae dentro del límite de una modificación legal que necesita revisión para este registro."],
+  concentrate_procedure_unknown: ["The additional infraction request needs the judgment's status on September 16, 2017, any later effective order vacating or recalling the sentence, and the status of an appeal. An unsure answer does not abandon that request or remove an independently supported original Proposition 64 reduction.", "La solicitud adicional de reducción a infracción necesita el estado de la sentencia al 16 de septiembre de 2017, cualquier orden posterior vigente que anule la sentencia o la retire para volver a sentenciar, y el estado de una apelación. Responder que no está seguro no implica renunciar a esa solicitud ni elimina una reducción respaldada de forma independiente por la Proposición 64 original."],
+  concentrate_final_judgment: ["AB 133 alone does not establish automatic infraction relief for this already-final judgment. Keep the supported original Proposition 64 request and the separately identified additional infraction argument for record-specific review; the greater reduction is not ruled out.", "La AB 133 por sí sola no establece una reducción automática a infracción para esta sentencia ya firme. Conserve la solicitud respaldada por la Proposición 64 original y el argumento adicional identificado por separado para revisión del expediente; no se descarta una reducción mayor."],
+  concentrate_nonfinal_judgment: ["This judgment was reported as not final when AB 133 took effect on September 16, 2017. Review the applicable procedure and the additional infraction argument on that basis, without treating the judgment as already final or promising the greater reduction.", "Se informó que esta sentencia aún no era firme cuando la AB 133 entró en vigor el 16 de septiembre de 2017. Revise el procedimiento aplicable y el argumento adicional de reducción a infracción sobre esa base, sin tratar la sentencia como ya firme ni prometer la reducción mayor."],
+  concentrate_reopened_judgment: ["The reported effective order vacating or recalling the sentence requires a new procedural review. Do not treat the judgment as unchanged and final, or infer automatic infraction relief from the reopening alone. Preserve the original Proposition 64 request and the additional argument.", "La orden vigente informada que anula la sentencia o la retira para volver a sentenciar requiere una nueva revisión del procedimiento. No trate la sentencia como firme e inalterada ni infiera una reducción automática a infracción solo por la reapertura. Conserve la solicitud de la Proposición 64 original y el argumento adicional."],
+  concentrate_limited_proceeding: ["A limited proceeding after judgment does not by itself establish that the sentence was vacated or recalled or that unrestricted resentencing is available. Review the actual order and preserve both the supported original Proposition 64 request and the additional infraction argument.", "Un procedimiento limitado posterior a la sentencia no establece por sí solo que la sentencia fue anulada o retirada para volver a sentenciar ni que exista una nueva imposición de pena sin restricciones. Revise la orden real y conserve tanto la solicitud respaldada por la Proposición 64 original como el argumento adicional de reducción a infracción."],
+  concentrate_pending_appeal: ["A pending appeal does not bypass the section 11361.8 petition procedure for an already-sentenced person seeking Proposition 64 relief. Review the procedural status before presenting the additional infraction argument.", "Una apelación pendiente no permite omitir el procedimiento de petición de la sección 11361.8 para una persona ya sentenciada que solicita reparación bajo la Proposición 64. Revise el estado procesal antes de presentar el argumento adicional de reducción a infracción."],
   transfer_conduct: ["Review whether this was a sale, unpaid gift, personal transport, or other conduct. These have different legal consequences.", "Revise si fue una venta, un regalo sin compensación, transporte personal u otra conducta. Tienen consecuencias legales distintas."],
   cross_border_exception: ["This cross-border conduct and quantity may permit a felony charge. The court must assess the specific exception; it is not an automatic denial.", "Esta conducta transfronteriza y cantidad pueden permitir un cargo de delito grave. El tribunal debe evaluar la excepción específica; no es una denegación automática."],
   cross_border_conduct: ["Review the exact import or export conduct before treating it as lawful possession or a lesser offense.", "Revise la conducta exacta de importación o exportación antes de tratarla como posesión legal o un delito de menor gravedad."],
@@ -106,6 +112,26 @@ function exceptionApplies(a: Answers) {
   }
   return age !== undefined && age >= 18 && (s === "11359" || s === "11360" || s === "11358" && (number(a.ca_prop64_plant_count) ?? 0) > 6);
 }
+const concentrateProcedureIds = ["ca_prop64_judgment_finality_2017", "ca_prop64_later_sentence_order", "ca_prop64_pending_appeal"];
+const additionalInfractionRequest = "ca_prop64_additional_infraction_request";
+export const CA_PROP64_OPTIONAL_PROCEDURE_IDS = [additionalInfractionRequest, ...concentrateProcedureIds];
+function concentrateAmendmentApplies(a: Answers): boolean {
+  const age = number(a.ca_prop64_age_at_offense), offenseDate = date(a.ca_prop64_offense_date, "2016-11-08");
+  return caProp64Section(a) === "11357" && Boolean(offenseDate) && age !== undefined && Number.isInteger(age) && age >= 18 && age < 21
+    && a.ca_prop64_existing_relief === "none" && a.ca_prop64_court_type === "adult" && a.ca_prop64_possession_context === "ordinary" && a.ca_prop64_substance === "concentrate"
+    && caProp64GramsExceed(a.ca_prop64_concentrate_grams, 4) && !caProp64GramsExceed(a.ca_prop64_concentrate_grams, 8);
+}
+// CA-L01: additional relief is reviewed separately; it cannot withdraw the original misdemeanor benefit.
+export function caProp64ConcentrateProcedure(a: Answers): { code: string; ids: string[]; pendingAppeal: boolean } | null {
+  a = normalized(a);
+  if (!concentrateAmendmentApplies(a) || !yes(a, additionalInfractionRequest)) return null;
+  const ids = concentrateProcedureIds.filter(id => !knownChoice(a, id));
+  const code = ids.length ? "concentrate_procedure_unknown"
+    : a.ca_prop64_later_sentence_order === "vacated_or_recalled" ? "concentrate_reopened_judgment"
+    : a.ca_prop64_later_sentence_order === "limited_proceeding" ? "concentrate_limited_proceeding"
+    : a.ca_prop64_judgment_finality_2017 === "nonfinal" ? "concentrate_nonfinal_judgment" : "concentrate_final_judgment";
+  return { code, ids: ids.length ? ids : concentrateProcedureIds, pendingAppeal: yes(a, "ca_prop64_pending_appeal") };
+}
 export function caProp64ActiveFactIds(a: Answers): string[] {
   a = normalized(a);
   const ids = ["ca_prop64_record_section"];
@@ -148,6 +174,10 @@ export function caProp64ActiveFactIds(a: Answers): string[] {
     ids.push("ca_prop64_transfer_conduct", "ca_prop64_cross_border");
     if (a.ca_prop64_transfer_conduct === "unpaid_gift") ids.push("ca_prop64_recipient_age");
   }
+  if (concentrateAmendmentApplies(a)) {
+    ids.push(additionalInfractionRequest);
+    if (yes(a, additionalInfractionRequest)) ids.push(...concentrateProcedureIds);
+  }
   return [...new Set(ids)];
 }
 
@@ -165,6 +195,7 @@ export function caProp64Facts(a: Answers, today: string): Decision {
   if (["other_relief", "check_status"].includes(String(a.ca_prop64_next_step))) return review("service_election", ["ca_prop64_next_step"]);
   const ids = caProp64ActiveFactIds(a).filter(id => id !== "ca_prop64_record_section");
   const absent = ids.filter(id => {
+    if (CA_PROP64_OPTIONAL_PROCEDURE_IDS.includes(id)) return false;
     const q = CA_PROP64_FACT_QUESTIONS.find(q => q.id === id)!;
     if (q.type === "date_or_unknown") return !date(a[id], today);
     if (q.type === "number_or_range") return number(a[id]) === undefined;
@@ -197,7 +228,10 @@ export function caProp64Facts(a: Answers, today: string): Decision {
     else if (age >= 21 && small) classification = "no_offense";
     else if (age < 21 && caProp64GramsExceed(concentrate, 4) && !caProp64GramsExceed(concentrate, 8)) {
       // CA-L01: the later-amendment dispute does not erase the original felony-to-misdemeanor benefit.
-      if (a.offense_level !== "Felony") return review("concentrate_amendment", ["ca_prop64_concentrate_grams"]);
+      if (a.offense_level !== "Felony") {
+        const procedure = caProp64ConcentrateProcedure(a);
+        return procedure ? review(procedure.code, procedure.ids) : review("concentrate_amendment", ["ca_prop64_concentrate_grams"]);
+      }
       classification = "misdemeanor";
     }
     else classification = age < 21 && small ? "infraction" : "misdemeanor";
@@ -259,6 +293,10 @@ function q(id: string, prompt: string, es: string, options?: Choice[], helper?: 
 }
 // Engineering drafts; independent language and legal approval remain required.
 export const CA_PROP64_FACT_QUESTIONS: PublicQuestion[] = [
+  q("ca_prop64_additional_infraction_request", "Do you also want to preserve an argument for an additional reduction to an infraction under the 2017 amendment?", "¿Desea también conservar un argumento para una reducción adicional a infracción conforme a la modificación de 2017?", yesNo, ["This is optional. The additional argument needs review and does not replace a reduction supported by the original Proposition 64. An unsure answer does not abandon the argument.", "Esto es opcional. El argumento adicional necesita revisión y no sustituye una reducción respaldada por la Proposición 64 original. Responder que no está seguro no implica renunciar al argumento."]),
+  q("ca_prop64_judgment_finality_2017", "What does the case record show about the judgment on September 16, 2017?", "¿Qué indica el expediente sobre la sentencia al 16 de septiembre de 2017?", [["final", "The judgment was final by that date", "La sentencia ya era firme en esa fecha"], ["nonfinal", "The judgment was not yet final on that date", "La sentencia aún no era firme en esa fecha"], ["unknown", "I am not sure", "No estoy seguro"]], ["Use the status when AB 133 took effect, not only the status today. Finality includes the time for direct review. Choose I am not sure if the record does not establish it; do not guess.", "Use el estado cuando entró en vigor la AB 133, no solo el estado actual. La firmeza incluye el plazo para revisión directa. Elija No estoy seguro si el expediente no lo establece; no adivine."]),
+  q("ca_prop64_later_sentence_order", "What later court order, if any, changed the sentence?", "¿Qué orden judicial posterior, si alguna, modificó la sentencia?", [["none", "No later order vacated or recalled the sentence", "Ninguna orden posterior anuló la sentencia ni la retiró para volver a sentenciar"], ["vacated_or_recalled", "An effective order vacated or recalled the sentence", "Una orden vigente anuló la sentencia o la retiró para volver a sentenciar"], ["limited_proceeding", "A limited proceeding occurred, without such an order", "Hubo un procedimiento limitado, sin una orden de ese tipo"], ["unknown", "I am not sure", "No estoy seguro"]], ["Use the actual order. Filing a request or holding a limited hearing does not by itself reopen the sentence. The order's effect still needs procedural review.", "Use la orden real. Presentar una solicitud o celebrar una audiencia limitada no reabre por sí solo la sentencia. El efecto de la orden aún necesita revisión procesal."]),
+  q("ca_prop64_pending_appeal", "Is an appeal of this judgment still pending?", "¿Sigue pendiente una apelación de esta sentencia?", yesNo, ["A pending appeal does not replace the Proposition 64 petition procedure for an already-sentenced person.", "Una apelación pendiente no sustituye el procedimiento de petición de la Proposición 64 para una persona ya sentenciada."]),
   q("ca_prop64_record_section", "Which Health and Safety Code section is on the marijuana conviction record?", "¿Qué sección del Código de Salud y Seguridad figura en el registro de la condena por cannabis?", [...sections.map(s => [s, `HSC § ${s}`, `HSC § ${s}`] as Choice), ["other", "Another law", "Otra ley"], ["unknown", "I am not sure", "No estoy seguro"]], ["Use the final conviction, including any amended charge. Different charges need separate review.", "Use la condena final, incluido cualquier cargo modificado. Los cargos distintos necesitan revisión por separado."]),
   q("ca_prop64_next_step", "What help do you want with this marijuana record?", "¿Qué ayuda desea con este registro de cannabis?", [["apply", "Ask the court for Proposition 64 relief", "Pedir al tribunal reparación bajo la Proposición 64"], ["check_status", "Check relief already granted", "Verificar la reparación ya concedida"], ["other_relief", "Consider other record-clearing options", "Considerar otras opciones para limpiar el registro"], ["unknown", "I am not sure", "No estoy seguro"]]),
   q("ca_prop64_offense_date", "When did the conduct in this conviction happen?", "¿Cuándo ocurrió la conducta de esta condena?", undefined, ["Use the offense date, which may differ from the conviction date.", "Use la fecha del delito, que puede ser distinta de la fecha de condena."], "date_or_unknown"),
