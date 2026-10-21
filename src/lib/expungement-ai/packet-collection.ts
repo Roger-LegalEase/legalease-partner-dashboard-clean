@@ -1241,6 +1241,17 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  DE: {
+    profileHash: "b37cab84b2a00c572d170364992fc81cfd6014f954086e8b7257fd798a5b84d7",
+    categoryReason: "Earlier Delaware categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "juvenile-expungement-under-10-del-c-1017-1019-1017a", // GA12 Q-1263e1e37b54b9879d32
+      "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a", // GA12 Q-9be76a8f976a01629777
+      "pardon-based-discretionary-expungement-under-11-del-c-4375", // GA12 Q-0a2fc8c16d3075f2aa20
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
