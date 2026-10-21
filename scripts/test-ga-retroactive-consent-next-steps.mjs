@@ -8,16 +8,33 @@ import { pathToFileURL } from 'node:url';
 const url = path => pathToFileURL(`${process.cwd()}/${path}`).href;
 register(url('scripts/lib/ts-esm-loader.mjs'));
 const mode = process.argv[2] ?? 'candidate';
-assert(['candidate', 'remove-handoff', 'remove-spanish'].includes(mode));
-if (mode !== 'candidate') {
-  const target = mode === 'remove-handoff' ? '/src/lib/rcap-engine/evaluator.ts' : '/src/lib/expungement-ai/localization.ts';
-  const anchor = mode === 'remove-handoff' ? 'nextSteps: [GA_RETROACTIVE_CONSENT_GUIDANCE[0]]' : 'GA_RETROACTIVE_CONSENT_GUIDANCE, KS_REGISTRATION_REVIEW_COPY';
-  const replacement = mode === 'remove-handoff' ? 'nextSteps: unavailable.nextSteps' : 'KS_REGISTRATION_REVIEW_COPY';
-  register('data:text/javascript,' + encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith(${JSON.stringify(target)}))return r;const a=${JSON.stringify(anchor)},s=String(r.source);if(s.split(a).length!==2)throw Error('nonunique mutant anchor');return {...r,source:s.replace(a,${JSON.stringify(replacement)})};}`));
-}
+assert(['candidate', 'remove-handoff', 'remove-spanish', 'widen-ga-any-route', 'widen-all-routes'].includes(mode));
+// Expose the loaded output selector only in memory: other GA contracts currently
+// stop earlier, so their native evaluations cannot exercise this guard boundary.
+register('data:text/javascript,' + encodeURIComponent(`export async function load(u,c,next){
+  const r=await next(u,c);let s=String(r.source);const mode=${JSON.stringify(mode)};
+  if(u.endsWith('/src/lib/rcap-engine/evaluator.ts')){
+    const start='return jurisdiction === "GA" && pathway.id === "retroactive-first-offender-treatment-under-42-8-66"';
+    const end=': unavailable;';const i=s.indexOf(start),j=s.indexOf(end,i);
+    if(i<0||j<0||s.indexOf(start,i+1)>=0)throw Error('nonunique scope anchor');
+    let block=s.slice(i,j+end.length);
+    if(mode==='remove-handoff')block=block.replace('nextSteps: [GA_RETROACTIVE_CONSENT_GUIDANCE[0]]','nextSteps: unavailable.nextSteps');
+    if(mode==='widen-ga-any-route')block=block.replace(start,'return jurisdiction === "GA"');
+    if(mode==='widen-all-routes')block=block.replace(start,'return true');
+    s=s.slice(0,i)+block+s.slice(j+end.length);
+    s+=' export function gaConsentScopeControl(jurisdiction,pathway,unavailable){'+block+'}';
+    return {...r,source:s};
+  }
+  if(mode==='remove-spanish'&&u.endsWith('/src/lib/expungement-ai/localization.ts')){
+    const a='GA_RETROACTIVE_CONSENT_GUIDANCE, KS_REGISTRATION_REVIEW_COPY';
+    if(s.split(a).length!==2)throw Error('nonunique Spanish mutant anchor');
+    return {...r,source:s.replace(a,'KS_REGISTRATION_REVIEW_COPY')};
+  }
+  return r;
+}`));
 const { getProfileByJurisdiction } = await import(url('src/lib/rcap-engine/profile-registry.ts'));
 const { projectPublicProfile } = await import(url('src/lib/rcap-engine/public-profile-projection.ts'));
-const { evaluateScreening } = await import(url('src/lib/rcap-engine/evaluator.ts'));
+const { evaluateScreening, gaConsentScopeControl } = await import(url('src/lib/rcap-engine/evaluator.ts'));
 const { selectScreeningQuestionIds } = await import(url('src/lib/rcap-engine/screening-question-selection.ts'));
 const { sanitizeResumedAnswersForQuestionIds } = await import(url('src/components/expungement-ai/screening/screens.ts'));
 const { resolveRuntimeText } = await import(url('src/lib/expungement-ai/localization.ts'));
@@ -48,6 +65,17 @@ check('spanish-approved', () => assert.equal(resolveRuntimeText('es', result.nex
 check('english-preserved', () => assert.equal(resolveRuntimeText('en', en), en));
 check('raw-preserved', () => assert.deepEqual(answers, original));
 check('resumed-preserved', () => assert.deepEqual(sanitizeResumedAnswersForQuestionIds(pub, answers, selectScreeningQuestionIds(profile, pub, answers)), original));
+const meWitness = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures.find(row => row.pathwayKey === 'ME:adult-conviction-sealing');
+assert(meWitness);
+const meAnswers = structuredClone(meWitness.answers);
+const me = evaluateScreening({ jurisdiction: 'ME', profileVersion: getProfileByJurisdiction('ME').profileVersion, matterId: 'synthetic-ga3-me-control', answers: meAnswers });
+const genericSteps = ['We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.', 'Save your progress and update your answers when you have that detail.'];
+check('non-GA-native-held-control', () => assert(me.pathwayId === 'adult-conviction-sealing' && me.resultCode === 'needs_more_info' && me.reasons[0].code === 'me.route_identified_packet_not_yet_available' && me.paymentAllowed === false));
+check('non-GA-native-nextSteps', () => assert.deepEqual(me.nextSteps, genericSteps));
+check('non-GA-native-raw-preserved', () => assert.deepEqual(meAnswers, meWitness.answers));
+const heldOutput = { ...result, nextSteps: genericSteps }, heldBefore = structuredClone(heldOutput);
+check('same-state-other-route-output-boundary', () => assert.strictEqual(gaConsentScopeControl('GA', { id: 'restriction-and-sealing-of-a-pardoned-felony' }, heldOutput), heldOutput));
+check('scope-boundary-input-preserved', () => assert.deepEqual(heldOutput, heldBefore));
 const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(request) }));
 const body = await response.json();
 check('public-handler', () => assert.equal(response.status, 200));
