@@ -87,17 +87,25 @@ import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 import routeRatificationRegistry from "@/../data/record-clearing/legal-decisions/route-ratification-registry.json";
 
-// OD-BR-1 D1-double-prime proposal: only the nine independently identified own-content pairs.
-const REVIEWED_OWN_CONTENT_PAYMENT_RULES: Readonly<Record<string, string>> = {
-  "AR:situation-b-misdemeanor-convictions": "rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale",
-  "AR:situation-c-felony-convictions": "rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove",
-  "DC:dc_actual_innocence_expungement_16_803": "rule-07-expungement-by-motion-d-c-code-16-803-actual-innocence",
-  "HI:nonconviction-arrest-expungement": "rule-02-the-source-says-the-arrest-record-is-removed-from-the-a",
-  "IA:nonconviction-901c2": "rule-02-all-court-costs-fees-and-other-financial-obligations-fo",
-  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e": "rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to",
-  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104": "rule-01-for-montana-s-misdemeanor-expungement-statute",
-  "VA:petition-based-sealing": "rule-13-petition-based-sealing-19-2-392-12-12-1",
-  "WI:adult-conviction-expungement-under-wis-stat-973-015": "rule-03-adult-misdemeanor-or-class-h-i-felony-under-25-sentenci"
+// OD-BR-1 D1-double-prime proposal: only the independently reviewed own-content pairs.
+const REVIEWED_OWN_CONTENT_PAYMENT_RULES: Readonly<Record<string, readonly string[]>> = {
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": ["rule-10-mechanism-3-confidentiality-of-acquittals-dismissals-as"],
+  "AR:situation-b-misdemeanor-convictions": ["rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale"],
+  "AR:situation-c-felony-convictions": ["rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove"],
+  "CA:tool-4-arrest-record-sealing": ["rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc"],
+  "DC:dc_actual_innocence_expungement_16_803": ["rule-07-expungement-by-motion-d-c-code-16-803-actual-innocence"],
+  "HI:nonconviction-arrest-expungement": ["rule-02-the-source-says-the-arrest-record-is-removed-from-the-a", "rule-04-a-complete-application-valid-government-photo-id-paymen"],
+  "IA:nonconviction-901c2": ["rule-02-all-court-costs-fees-and-other-financial-obligations-fo"],
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e": ["rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to"],
+  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104": ["rule-01-for-montana-s-misdemeanor-expungement-statute"],
+  "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146": ["rule-01-family-1-dismissals-and-not-guilty-findings-g-s-15a-146"],
+  "ND:deferred-imposition-dismissal-and-sealing": ["rule-29-path-d-deferred-imposition-of-sentence-dismissal"],
+  "NE:set-aside-probation-fine-community-service": ["rule-05-the-sentence-conditions-must-be-satisfactorily-complete"],
+  "NH:annulment-after-dismissal-acquittal-or-nonprosecution": ["rule-11-for-offenses-disposed-of-before-january-1-2019-a-person"],
+  "OH:adult-non-conviction-sealing-or-expungement-under-2953-33": ["rule-05-grand-jury-no-bill-non-conviction-sealing-or-expungemen"],
+  "VA:petition-based-sealing": ["rule-13-petition-based-sealing-19-2-392-12-12-1"],
+  "VA:regime-1-expungement-available-now": ["rule-01-regime-1-expungement-19-2-392-2-available-now"],
+  "WI:adult-conviction-expungement-under-wis-stat-973-015": ["rule-03-adult-misdemeanor-or-class-h-i-felony-under-25-sentenci"]
 };
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
@@ -1134,7 +1142,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     packetPlan: plan,
     paymentAllowed: paymentAllowed && legallyAuthorizedPayment
       && (compiledRouteRuleMatchesPathway(route.rule, pathway)
-        || REVIEWED_OWN_CONTENT_PAYMENT_RULES[`${jurisdiction}:${pathway.id}`] === route.rule.id)
+        || REVIEWED_OWN_CONTENT_PAYMENT_RULES[`${jurisdiction}:${pathway.id}`]?.includes(route.rule.id) === true)
   });
 }
 
