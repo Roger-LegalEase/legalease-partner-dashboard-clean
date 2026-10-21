@@ -857,6 +857,28 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "juvenile-automatic-or-petition-expungement", // GA17 Q-4e2e79db0f82f00c9d5a
     ],
   },
+  NV: {
+    profileHash: "964eecfe7a5c3ffd4bae54636520141ff20d25c904401b4eab6941de5d3dd651",
+    categoryReason: "Earlier Nevada categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "controlled-substance-possession-sealing-under-nrs-453-3365", // GA12 Q-c5b04053ad25b6bdc48e
+      "deferred-judgment-dismissal-and-sealing-under-nrs-176-211", // GA12 Q-d37e8d6c0c587f910f10
+      "general-conviction-record-sealing-under-nrs-179-245", // GA12 Q-f64352d6d095968af4a5
+      "non-conviction-record-sealing", // GA12 Q-649e80666a379d07874e
+      "reentry-program-sealing-under-nrs-179-259", // GA12 Q-21a4729656d009a44472
+      "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160", // GA12 Q-f23bb2e343320420f6d4
+      "trafficking-victim-vacatur-and-sealing-under-nrs-179-247", // GA12 Q-79bc94877bba645c5ce8
+    ],
+    record: [
+      "controlled-substance-possession-sealing-under-nrs-453-3365", // GA17 Q-1db73533e210d247511c
+      "deferred-judgment-dismissal-and-sealing-under-nrs-176-211", // GA17 Q-6044b0d44312184fef47
+      "general-conviction-record-sealing-under-nrs-179-245", // GA17 Q-0b3068e00a728e8e9b5f
+      "non-conviction-record-sealing", // GA17 Q-1c93db2c1e3b044f4da9
+      "reentry-program-sealing-under-nrs-179-259", // GA17 Q-7fa963ef89606c0195de
+      "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160", // GA17 Q-3eeb7101599cd4ef082d
+      "trafficking-victim-vacatur-and-sealing-under-nrs-179-247", // GA17 Q-48f6f067fc1af171781c
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
