@@ -20,6 +20,7 @@ function ownedFieldResolver(preparation: Preparation) {
   const direct: Record<string, string> = {
     "NY-CPL-160.59-PRO-SE-PACKET/AKAs": "ny_16059_case_alias_names",
     "NY-CPL-160.59-PRO-SE-PACKET/NYSID": "ny_16059_nysid_number",
+    "NY-CPL-160.59-APPLICATION/NYSID": "ny_16059_nysid_number",
     "NY-CPL-160.59-APPLICATION/Court_Name": "ny_16059_future_court",
     "NY-CPL-160.59-PRO-SE-PACKET/Court Name 3": "ny_16059_future_court",
     "NY-CPL-160.59-PRO-SE-PACKET/Case Number 3": "ny_16059_future_case_numbers",
