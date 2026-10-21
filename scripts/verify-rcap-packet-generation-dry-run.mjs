@@ -46,17 +46,24 @@ const PKTGEN_SRC = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/packe
 function generationGuardHolds(src) {
   const start = src.indexOf("export async function assertPacketGenerationAllowed(");
   const body = start === -1 ? "" : src.slice(start, src.indexOf("\n}", start));
-  return /packet_ready_with_caution/.test(body) && /isConsumerPaymentAllowed\(/.test(body)
+  const fulfillmentProven = body.search(/assertPacketFulfillmentProven\(\s*verification\.snapshot\.jurisdiction,\s*verification\.snapshot\.pathwayId,\s*"packet generation"/);
+  // The fulfillment proof runs ahead of the result-code check (packet-generation.ts comment at the call).
+  return fulfillmentProven !== -1 && fulfillmentProven < body.indexOf("const packetReadyResult")
+    && /packet_ready_with_caution/.test(body) && /isConsumerPaymentAllowed\(/.test(body)
     && /if \(paymentRequired && !\(dryRunMode && item\.paymentProvider === "dry_run"\)\) \{/.test(body)
     && /const payment = await consumerPacketPaymentAuthority\(item\.id, userId\);\s*if \(!payment\.valid\) throw new ConsumerPacketPaymentRequiredError\(\);/.test(body);
 }
 ok(generationGuardHolds(PKTGEN_SRC),
-  "assertPacketGenerationAllowed source no longer requires packet-ready + payment clamp + server payment authority/dry_run (guard weakened).");
+  "assertPacketGenerationAllowed source no longer requires the fulfillment proof + packet-ready + payment clamp + server payment authority/dry_run (guard weakened).");
 const GUARD_MUTANTS = {
   "server payment authority removed": PKTGEN_SRC.replace(/const payment = await consumerPacketPaymentAuthority\(item\.id, userId\);/, "const payment = { valid: true };"),
   "invalid payment no longer throws": PKTGEN_SRC.replace("if (!payment.valid) throw new ConsumerPacketPaymentRequiredError();", ""),
   "dry_run exemption outside dry-run mode": PKTGEN_SRC.replace('!(dryRunMode && item.paymentProvider === "dry_run")', '!(item.paymentProvider === "dry_run")'),
-  "payment clamp removed": PKTGEN_SRC.replace("isConsumerPaymentAllowed(", "Boolean(")
+  "payment clamp removed": PKTGEN_SRC.replace("isConsumerPaymentAllowed(", "Boolean("),
+  "fulfillment proof removed": (() => {
+    const at = PKTGEN_SRC.indexOf("assertPacketFulfillmentProven(", PKTGEN_SRC.indexOf("export async function assertPacketGenerationAllowed("));
+    return `${PKTGEN_SRC.slice(0, at)}void (${PKTGEN_SRC.slice(at + "assertPacketFulfillmentProven(".length)}`;
+  })()
 };
 for (const [name, mutant] of Object.entries(GUARD_MUTANTS)) {
   ok(mutant !== PKTGEN_SRC && !generationGuardHolds(mutant), `Generation-guard mutant "${name}" must RED.`);
