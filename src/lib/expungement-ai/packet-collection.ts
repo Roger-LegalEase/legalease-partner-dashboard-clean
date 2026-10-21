@@ -1180,6 +1180,19 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  DC: {
+    profileHash: "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830",
+    categoryReason: "Earlier District of Columbia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "dc_auto_expungement_16_802", // GA12 Q-17b01d9289e67bead5a9
+      "dc_auto_sealing_16_805", // GA12 Q-43bad379c984bdcec522
+      "dc_motion_seal_felony_conviction_8yr_16_806", // GA12 Q-02ab2e4e6d22bdbcddbd
+      "dc_motion_seal_misdemeanor_conviction_5yr_16_806", // GA12 Q-49ff4137a70f901c59b5
+      "dc_motion_seal_nonconviction_16_806", // GA12 Q-9a6bf799e24f4f09737a
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
