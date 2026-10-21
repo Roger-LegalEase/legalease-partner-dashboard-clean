@@ -1077,9 +1077,12 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     // control here, and the resolver enforces that rather than the caller.
     phase: "PRELIMINARY_SCREENING"
   });
+  // Missing authority grants nothing itself; the existing exact-route counsel ratification must permit payment.
   const legallyAuthorizedPayment = resolution.contract
     ? resolution.paymentAuthority === "packet_checkout" && resolution.delivery?.paymentAllowed === true
-    : pathway.legalAuthority?.paymentAuthority !== "closed" && pathway.legalAuthority?.paymentAuthority !== "attorney_review_required";
+    : pathway.legalAuthority === undefined
+      ? routeIsRatifiedDeployable(profile, pathway)
+      : pathway.legalAuthority?.paymentAuthority === "packet_checkout";
 
   // The resolver's answer, not only its payment bit.
   //
