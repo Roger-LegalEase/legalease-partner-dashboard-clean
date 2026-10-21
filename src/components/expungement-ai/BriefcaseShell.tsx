@@ -4,6 +4,7 @@ import { Sora } from "next/font/google";
 import { Bell, FileText, Layers, LayoutGrid, Plus, Settings, User } from "lucide-react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
+import { LocaleSwitch } from "@/components/expungement-ai/ConsumerNav";
 import { ExpungementWordmark } from "@/components/expungement-ai/ExpungementWordmark";
 
 const sora = Sora({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
@@ -101,12 +102,13 @@ export function BriefcaseShell({
 
         {/* Main column */}
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="flex h-[62px] shrink-0 items-center justify-between border-b border-[#ECEFF4] bg-[#FBFCFE] px-5 md:px-7">
+          <header className="flex min-h-[62px] shrink-0 flex-wrap items-center justify-between gap-2 border-b border-[#ECEFF4] bg-[#FBFCFE] px-5 py-2 md:px-7">
             <div className="flex items-center gap-2.5">
               <Link href="/briefcase" className="grid h-7 w-7 place-items-center rounded-md bg-[#00A99D] text-[12px] font-extrabold text-white md:hidden">E</Link>
               <p className="text-[13px] text-[#5E687A]">{breadcrumb ?? <b className="text-[#1A1D26]"><LocalizedText k="briefcase.label" fallback="Briefcase" /></b>}</p>
             </div>
             <div className="flex items-center gap-3">
+              <LocaleSwitch light />
               <span className="grid h-[34px] w-[34px] place-items-center rounded-[9px] border border-[#ECEFF4] bg-white text-[#5E687A]">
                 <Bell className="h-[17px] w-[17px]" aria-hidden="true" />
               </span>
