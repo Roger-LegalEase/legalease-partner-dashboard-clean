@@ -453,6 +453,7 @@ cases.push(...[
   }
 ]);
 const witnesses=read('data/rcap-ledger/public-witness-fixtures.json').fixtures;
+const coCleanSlateF2=read('scripts/fixtures/co-clean-slate-f2-predecessor-draft.json');
 // Synthetic juvenile contexts reuse the held KY witness facts and exact route labels; they grant no relief.
 witnesses.push(...[{"pathwayKey": "KY:juvenile-automatic-dismissal", "jurisdiction": "KY", "pathwayId": "juvenile-automatic-dismissal", "profileVersion": "2026-06-19-source-conversion-1", "publicRoute": "/expungement-ai/screening/kentucky", "evaluationEndpoint": "POST /api/expungement-ai/screening", "answers": {"age_at_offense": "17", "case_outcome": "Juvenile adjudication or offense committed as a minor", "financial_obligations": "Yes", "jurisdiction_scope": "State or local", "new_convictions_during_waiting_period": "No", "offense_level": "Misdemeanor", "ownership_scope": "Yes", "pardon_status": "No", "pending_cases": "No", "possible_pathway_context": "Juvenile automatic expungement on qualifying dismissal", "record_documents": "Yes", "sentence_completion_date": "Yes", "special_preconditions_confirmed": "Yes"}, "rounds": [{"round": 0, "droppedAsNotEvaluatorQuestions": ["court_requirements_completed", "state_exclusion_categories", "trafficking_status"]}, {"round": 1, "requested": ["age_at_offense"], "supplied": {"age_at_offense": "30"}}], "expected": {"pathwayId": "felony-conviction-431073", "resultCode": "guidance_only", "paymentAllowed": false}}, {"pathwayKey": "KY:juvenile-petition-610330", "jurisdiction": "KY", "pathwayId": "juvenile-petition-610330", "profileVersion": "2026-06-19-source-conversion-1", "publicRoute": "/expungement-ai/screening/kentucky", "evaluationEndpoint": "POST /api/expungement-ai/screening", "answers": {"age_at_offense": "17", "case_outcome": "Juvenile adjudication or offense committed as a minor", "financial_obligations": "Yes", "jurisdiction_scope": "State or local", "new_convictions_during_waiting_period": "No", "offense_level": "Misdemeanor", "ownership_scope": "Yes", "pardon_status": "No", "pending_cases": "No", "possible_pathway_context": "Juvenile petition to vacate and expunge under KRS 610.330", "record_documents": "Yes", "sentence_completion_date": "Yes", "special_preconditions_confirmed": "Yes"}, "rounds": [{"round": 0, "droppedAsNotEvaluatorQuestions": ["court_requirements_completed", "state_exclusion_categories", "trafficking_status"]}, {"round": 1, "requested": ["age_at_offense"], "supplied": {"age_at_offense": "30"}}], "expected": {"pathwayId": "felony-conviction-431073", "resultCode": "guidance_only", "paymentAllowed": false}}]);
 // Synthetic contexts reuse the retained state witness and exact route label; no endorsement or relief is inferred.
@@ -704,7 +705,17 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  const answers={...witness.answers,case_outcome:outcome};
  const a=evaluate({jurisdiction:state,profileVersion:witness.profileVersion,matterId:'synthetic-'+route+'-'+label,answers});
  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
- assert.equal(seed.hash,r1Row?r1Row.seedHash:predecessorHashes[route],"actual captured predecessor draft hash unchanged");
+ // CO F2 (97c2ff580) moved this witness's draft: the captured predecessor (r1Row.seedHash) is kept and must load through F3a's
+ // metadata successor; the fresh seed is the byte-derived successor recorded in the fixture (Reviewer2 15:14:45Z).
+ const f2=key===coCleanSlateF2.routeKey?coCleanSlateF2:null;
+ if(f2)check(key+'/'+label+': F2 predecessor draft loads through the metadata successor',()=>{
+  assert.equal(f2.predecessorDraftHash,r1Row.seedHash);assert.equal(P.protectedPacketDraftHash(f2.predecessorSnapshot),r1Row.seedHash);
+  const saved={status:'unverified',revision:0,draftHash:r1Row.seedHash,draftSnapshot:structuredClone(f2.predecessorSnapshot)};
+  assert(P.protectedPacketInformationModelFor(saved));
+  assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
+  const r=P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation;assert.equal(r.resultCode,result);assert.equal(r.paymentAllowed,false);
+ });
+ assert.equal(seed.hash,f2?f2.freshSeedHash:r1Row?r1Row.seedHash:predecessorHashes[route],"actual captured predecessor draft hash unchanged");
  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
  // Route ids repeat across states (SC and MD juvenile-expungement); the matterId above stays as captured, the store key adds the state.
  const id='synthetic-'+state+'-'+route+'-'+label;assert(!records.has(id),id);records.set(id,original);
