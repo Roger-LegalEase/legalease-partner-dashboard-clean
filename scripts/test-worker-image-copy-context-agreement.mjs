@@ -227,17 +227,26 @@ function traceImports(file) {
     if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node))
       && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) follow(node.moduleSpecifier.text);
     if (ts.isCallExpression(node) && (node.expression.kind === ts.SyntaxKind.ImportKeyword
-      || ts.isIdentifier(node.expression) && node.expression.text === "require")
-      && node.arguments.length === 1 && ts.isStringLiteral(node.arguments[0])) follow(node.arguments[0].text);
+      || ts.isIdentifier(node.expression) && node.expression.text === "require") && node.arguments.length === 1) {
+      const argument = node.arguments[0];
+      if (ts.isStringLiteral(argument)) follow(argument.text);
+      else if (ts.isCallExpression(argument) && ts.isPropertyAccessExpression(argument.expression)
+        && argument.expression.expression.getText(ast) === "path" && argument.expression.name.text === "join"
+        && argument.arguments[0]?.getText(ast) === "ROOT" && argument.arguments[1]
+        && ts.isStringLiteral(argument.arguments[1]) && argument.arguments.length === 2) {
+        follow(`@/../${argument.arguments[1].text}`);
+      }
+    }
     ts.forEachChild(node, walkImports);
   };
   walkImports(ast);
 }
 traceImports(path.join(rootDir, "scripts/rcap-render-worker.mjs"));
+traceImports(path.join(rootDir, "deploy/rcap-render-worker/preflight.mjs"));
 check(unresolvedImports.length === 0, "the worker's local static imports resolve", unresolvedImports);
 const missingModules = [...visited].map(file => path.relative(rootDir, file))
   .filter(file => !isCopied(file) || !includedByAllowlist(rules, file));
-check(missingModules.length === 0, "the worker's transitive emitted modules are packaged", missingModules);
+check(missingModules.length === 0, `the worker and preflight's transitive emitted modules are packaged (${visited.size} modules)`, missingModules);
 const missingImports = [...jsonImports].filter(file => !isCopied(file) || !includedByAllowlist(rules, file)
   || file.startsWith("data/") && !manifest.files.some(entry => entry.path === file));
 check(missingImports.length === 0,
