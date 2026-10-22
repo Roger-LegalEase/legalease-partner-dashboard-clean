@@ -46,9 +46,12 @@ const RENDER = path.join(rootDir, 'src/lib/expungement-ai/consumer-render-reques
 const AUTHORITY = path.join(rootDir, 'src/lib/expungement-ai/consumer-payment-authority.ts');
 const ORDER = path.join(rootDir, 'src/lib/expungement-ai/consumer-order-reconciliation.ts');
 
+// The default run is refused at the release gate until the MS Grade-A provider
+// proof exists, so mutants run under the verifier's synthetic publication
+// receipt; it asserts no release proof.
 function verifierIsRed() {
   try {
-    execFileSync('node', [verifier], { cwd: rootDir, stdio: 'pipe' });
+    execFileSync('node', [verifier, '--local-publication-fixture'], { cwd: rootDir, stdio: 'pipe' });
     return false;
   } catch {
     return true;
@@ -130,6 +133,13 @@ function restoreAll() {
 // `finally` does not run on a signal. Without this, a step timeout leaves the
 // deleted payment-authority check sitting in tracked source.
 registerMutationRestore(restoreAll);
+
+// A mutant counts only against a green baseline: a verifier that is already
+// red would "catch" every mutation.
+if (verifierIsRed()) {
+  console.error('test-rcap-consumer-payment-http-mutations FAILED: the unmutated verifier is red, so no mutation can be counted.');
+  process.exit(1);
+}
 
 try {
   for (const [name, file, mutate] of MUTATIONS) {
