@@ -124,6 +124,12 @@ jobs:
           node scripts/test-payment-authority-default.mjs
           node scripts/test-ga-retroactive-consent-next-steps.mjs
 
+      # ~8 s. IL supervision/qualified-probation termination and waiting gates, with held
+      # drafts preserved (be77e3012). Candidate mode only; committed fixtures, no DB or private source.
+      - name: Verify Illinois program termination gates
+        if: matrix.group == 'g'
+        run: node scripts/test-il-program-termination-gates.mjs
+
       # ~8 s. Public Briefcase surfaces render no raw engine token, EN or ES, in text or attributes (d8b5bff4e).
       # Gates the BriefcaseViews raw-code check retired from verify-expungement-launch-polish (Roger item 31).
       - name: Verify Briefcase shows no raw status tokens
