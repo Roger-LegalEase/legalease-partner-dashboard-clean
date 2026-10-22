@@ -43,10 +43,12 @@ function previousPacketContractSuccessor<T extends Snapshot>(snapshot: T, curren
   const routeKey = `${snapshot.jurisdiction}:${snapshot.pathwayId}`;
   const reviewed = (contracts.routes as Record<string, (typeof contracts.routes)[keyof typeof contracts.routes]>)[routeKey];
   const specification = packetSpecificationFor(routeKey);
+  // IL2a preserves both pre-IL1 CXP and IL1 empty-form drafts under the same fact pins.
   if (!reviewed || !currentPlan || !snapshot.packetPlan || !Array.isArray(snapshot.requiredInputIds) || snapshot.profileVersion !== reviewed.profileVersion
     || snapshot.profileSourceFingerprint !== reviewed.profileSourceFingerprint
     || snapshot.profileAuthorityFingerprint !== reviewed.profileAuthorityFingerprint
-    || hash(snapshot.packetPlan) !== reviewed.previousPlanSha256
+    || (hash(snapshot.packetPlan) !== reviewed.previousPlanSha256
+      && !("additionalPreviousPlanSha256s" in reviewed && reviewed.additionalPreviousPlanSha256s.includes(hash(snapshot.packetPlan))))
     || hash(snapshot.requiredInputIds) !== reviewed.previousRequiredIdsSha256
     || hash(currentPlan) !== reviewed.currentPlanSha256
     || hash(specification ?? null) !== reviewed.currentSpecificationSha256) return null;

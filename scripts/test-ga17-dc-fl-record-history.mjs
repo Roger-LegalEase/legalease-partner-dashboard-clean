@@ -612,6 +612,9 @@ for(const [state,r1] of Object.entries(r1States))for(const [route,row] of Object
 // D1'' (lead 2026-10-21T21:43:40Z; routes ruled closed 18:54:33Z): the payment guard also closes LA non-conviction (rule-09),
 // IL adult sealing (rule-06) and NE incarceration (rule-05), whose deciding rules are foreign to the route, as hiDuiD1. Each
 // captured predecessor draft (payment true) stays recorded; the fresh seed, measured at f447067d7, differs only in paymentAllowed.
+const il2Forms=read('scripts/fixtures/il2-plan-predecessors.json');
+const il2PlanSuccessors=il2Forms.dcflFormPlanSuccessors.rows;
+const il2PaidAdultPredecessor=read('scripts/fixtures/payment-only-draft-predecessors.json').rows.find(row=>row.key==='IL:adult-conviction-sealing').record;
 const d1Closed=[hiDuiD1,
  {routeKey:'LA:non-conviction-arrest-expungement',predecessorDraftHash:predecessorHashes['non-conviction-arrest-expungement'],freshSeedHash:'dac457256c9bfa6d30be7b9df742cab6b50ca5d326c42e1fd2ad5c1cb88f29cd'},
  {routeKey:'IL:adult-conviction-sealing',predecessorDraftHash:r1States.IL.routes['adult-conviction-sealing'].seedHash,freshSeedHash:'46370ed1474af81f382a2aba0a50407f4e85a9c0f992bfcae9817e04c6647704'},
@@ -745,9 +748,11 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
   const r=P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation;assert.equal(r.resultCode,result);assert.equal(r.paymentAllowed,false);
  });
+ const il2=il2PlanSuccessors.find(row=>row.routeKey===key)??null;
  const d1=d1Closed.find(d=>d.routeKey===key)??null;
- if(d1)check(key+'/'+label+': D1 closes payment; the draft moves only through paymentAllowed',()=>{
-  assert.equal(seed.snapshot.paymentAllowed,false);const predecessor=structuredClone(seed.snapshot);predecessor.paymentAllowed=true;
+ if(d1)check(key+'/'+label+': D1 closes payment and preserves the original saved draft',()=>{
+  assert.equal(seed.snapshot.paymentAllowed,false);
+  const predecessor=structuredClone(il2?il2PaidAdultPredecessor.draftSnapshot:seed.snapshot);if(!il2)predecessor.paymentAllowed=true;
   assert.equal(P.protectedPacketDraftHash(predecessor),d1.predecessorDraftHash);
   // F-D1-SAVED (lead 2026-10-21T22:26:47Z; CODEX paymentOnlyDraftSuccessor 42dd75f77): the saved predecessor still loads, unpaid.
   const saved={status:'unverified',revision:0,draftHash:d1.predecessorDraftHash,draftSnapshot:predecessor};
@@ -776,7 +781,19 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
   assert.equal(P.evaluateProtectedPacketFacts(predecessor).evaluation.paymentAllowed,false);
  });
- assert.equal(seed.hash,fneClosed[key]??(f2?f2.freshSeedHash:d1?d1.freshSeedHash:hop?hop.freshSeedHash:r1Row?r1Row.seedHash:predecessorHashes[route]),"actual captured predecessor or declared successor draft hash unchanged");
+ if(il2)check(key+'/'+label+': IL2 preserves the native predecessor and changes only reviewed form identities',()=>{
+  assert.equal(P.protectedPacketDraftHash(il2.predecessorSnapshot),il2.predecessorDraftHash);
+  assert.equal(il2.predecessorDraftHash,d1?d1.freshSeedHash:hop?hop.freshSeedHash:r1Row.seedHash);
+  const forms=il2Forms.expectedForms[route];
+  const expectedPlan={...il2.predecessorSnapshot.packetPlan,sourceFormIds:forms,formMappingStatus:forms.length?'source_candidate_identified':'not_required'};
+  assert.deepEqual(seed.snapshot,{...il2.predecessorSnapshot,packetPlan:expectedPlan,
+   packetFamilyIdentifiers:{...il2.predecessorSnapshot.packetFamilyIdentifiers,sourceFormIds:forms}});
+  const saved={status:'unverified',revision:0,draftHash:il2.predecessorDraftHash,draftSnapshot:structuredClone(il2.predecessorSnapshot)},before=structuredClone(saved);
+  const model=P.protectedPacketInformationModelFor(saved);assert(model);assert.deepEqual(model.packetPlan,expectedPlan);
+  assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
+  assert.deepEqual(saved,before);assert.equal(P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation.paymentAllowed,false);
+ });
+ assert.equal(seed.hash,il2?.freshSeedHash??fneClosed[key]??(f2?f2.freshSeedHash:d1?d1.freshSeedHash:hop?hop.freshSeedHash:r1Row?r1Row.seedHash:predecessorHashes[route]),"actual captured predecessor or declared successor draft hash unchanged");
  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
  // Route ids repeat across states (SC and MD juvenile-expungement); the matterId above stays as captured, the store key adds the state.
  const id='synthetic-'+state+'-'+route+'-'+label;assert(!records.has(id),id);records.set(id,original);

@@ -35,6 +35,12 @@ const { wy1501QuestionApplies, WY_1501_FACT_IDS } = await import('../src/lib/rca
 const { courtCompletionContractsFor, refreshCourtCompletionImplications: refresh } = await import('../src/lib/expungement-ai/court-completion-reuse.ts');
 const catalog = JSON.parse(fs.readFileSync('src/lib/expungement-ai/reviewed-court-completion-contracts.json'));
 const routes = [
+ 'IL:adult-conviction-sealing',
+ 'IL:expungement-after-eligible-supervision-or-qualified-probation',
+ 'IL:cannabis-specific-automatic-or-petition-expungement',
+ 'IL:adult-non-conviction-expungement',
+ 'IL:human-trafficking-survivor-vacatur-and-expungement',
+ 'IL:juvenile-automatic-or-petition-expungement',
  'DC:dc_actual_innocence_expungement_16_803',
  'GA:non-conviction-record-restriction-through-the-agency-prosecutor-process',
  'GA:restriction-and-sealing-of-a-pardoned-felony',
@@ -97,7 +103,7 @@ for (const routeKey of routes) {
  checks++;
  // Admission is necessary, never sufficient for authority. The isolated helper
  // below receives an explicit invariant synthetic tuple; it does not establish
- // that these fourteen routes are legally reachable or commercially available.
+ // that these reviewed routes are legally reachable or commercially available.
  const target = contract.targetFactId;
  const retained = retainedWitnesses.find(witness => witness.pathwayKey === routeKey);
  if (retained) {
@@ -196,6 +202,6 @@ for (const routeKey of routes) {
   } finally { for (const key of Object.keys(contract)) if (!Object.hasOwn(before, key)) delete contract[key]; Object.assign(contract, before); }
  }
 }
-console.log(JSON.stringify({ status: failures.length ? 'FAIL' : 'PASS', checks, sourceSuccessorContracts: routes.length, expectedCurrentApplicable: 12, expectedCurrentNonapplicable: 2, admitted: observations.filter(x => x.admitted).length, actualWitnessComparisons, observations, failures,
+console.log(JSON.stringify({ status: failures.length ? 'FAIL' : 'PASS', checks, sourceSuccessorContracts: routes.length, expectedCurrentApplicable: 18, expectedCurrentNonapplicable: 2, admitted: observations.filter(x => x.admitted).length, actualWitnessComparisons, observations, failures,
  scope: 'Actual production admission filter plus isolated status-only/provenance/raw/noop/withdrawal/authority-invariance controls. No protected state, new legal-positive witness, owner, database, payment, output or whole-finding acceptance.' }));
 assert.deepEqual(failures, [], 'Exact current source successors must pass the unchanged production admission predicate');

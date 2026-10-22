@@ -106,7 +106,7 @@ jobs:
 
       - name: Verify Clinic acceptance harness controls
         if: matrix.group == 'g'
-        run: node --test scripts/test-typescript-mock-loader.mjs scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/clinic-qa/sponsored-cleanup.test.mjs scripts/test-private-download-denial.mjs
+        run: node --test scripts/test-typescript-mock-loader.mjs scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/clinic-qa/packet-status-answer.test.mjs scripts/clinic-qa/sponsored-cleanup.test.mjs scripts/test-private-download-denial.mjs
 
       # Cheapest known failure first: this gate failed at the END of a 105-minute step on c98e7d422.
       # Its only inputs are the lockfile install and committed report/metadata files.
@@ -128,7 +128,9 @@ jobs:
       # drafts preserved (be77e3012). Candidate mode only; committed fixtures, no DB or private source.
       - name: Verify Illinois program termination gates
         if: matrix.group == 'g'
-        run: node scripts/test-il-program-termination-gates.mjs
+        run: |
+          node scripts/test-il-program-termination-gates.mjs
+          node scripts/test-il-plan-form-successors.mjs
 
       # ~8 s. Public Briefcase surfaces render no raw engine token, EN or ES, in text or attributes (d8b5bff4e).
       # Gates the BriefcaseViews raw-code check retired from verify-expungement-launch-polish (Roger item 31).

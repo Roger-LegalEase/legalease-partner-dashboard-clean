@@ -1,4 +1,5 @@
 import { IL_PROGRAM_ROUTE, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
+import { illinoisPlanForms, isIllinoisOfficialPlanUninstalled } from "@/lib/rcap-engine/illinois-plan-forms";
 import { mnTwoCountyFactIds, mnTwoCountySourceContract } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { isMontanaDeferredWithoutMmrtaForm } from "@/lib/rcap-engine/montana-deferred-facts";
 import { isMissouriClosureGuidanceWithoutIdentityForm } from "@/lib/rcap-engine/missouri-closed-record-facts";
@@ -63,6 +64,7 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
 
   // IL1: the positional CXP cannabis candidate is not the EXP-AD program packet.
   const illinoisProgramUnmapped = illinoisProgramContext(profile, pathwayId);
+  const illinoisForms = illinoisPlanForms(profile, pathwayId);
   return {
     pathwayId,
     mode: plan.mode,
@@ -79,12 +81,14 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
       && (!(marylandAutomaticWithoutCounty || georgiaAgencyWithoutCounty) || id !== "county")
       && (!dcLocationIsContext || id !== DC_LEGACY_LOCATION)),
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
-    packetReadyWhen: plan.packetReadyWhen ?? []
+    packetReadyWhen: plan.packetReadyWhen ?? [],
+    ...illinoisForms
   };
 }
 
 export function isPacketPlanFulfillmentReady(plan: ScreeningPacketPlan | undefined) {
   if (!plan) return false;
+  if (isIllinoisOfficialPlanUninstalled(plan)) return false;
   if (plan.pathwayId === IL_PROGRAM_ROUTE && plan.formMappingStatus === "custom_or_manual_mapping_required") return false;
   if (plan.mode === "automatic_relief_verification_and_guidance") return false;
   return plan.requiredInputIds.length > 0 && plan.sourceRuleRefs.length > 0 && plan.sourceFormIds.every((id) => id.includes(":"));

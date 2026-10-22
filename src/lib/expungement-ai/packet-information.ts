@@ -1344,8 +1344,21 @@ const PAYMENT_ONLY_DRAFT_ROUTES = new Set([
   "WI:adult-conviction-expungement-under-wis-stat-973-015",
   "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a"
 ]);
+// IL2a: compose only the reviewed IL form plans with existing held draft successors.
+function illinoisReviewedPlanDraftProjection(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
+  if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "IL" || !["adult-conviction-sealing", "expungement-after-eligible-supervision-or-qualified-probation"].includes(snapshot.pathwayId ?? "")
+    || !snapshot.packetPlan || !canonicalEqual(snapshot.packetFamilyIdentifiers,
+      { mode: snapshot.packetPlan.mode, sourceFormIds: snapshot.packetPlan.sourceFormIds })) return null;
+  const reviewed = reviewedPacketContractSuccessor(snapshot, authoritative.evaluation.packetPlan);
+  return reviewed && authoritative.evaluation.packetPlan ? { ...reviewed,
+    packetFamilyIdentifiers: { mode: authoritative.evaluation.packetPlan.mode, sourceFormIds: [...authoritative.evaluation.packetPlan.sourceFormIds] } } : null;
+}
+
 export function paymentOnlyDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
+  snapshot = illinoisReviewedPlanDraftProjection(snapshot, authoritative, status) ?? snapshot;
   const profile = authoritative.profile, evaluation = authoritative.evaluation;
   if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
     || !PAYMENT_ONLY_DRAFT_ROUTES.has(`${snapshot.jurisdiction}:${snapshot.pathwayId}`)
@@ -1364,6 +1377,7 @@ export function paymentOnlyDraftSuccessor(snapshot: ProtectedPacketAuthoritySnap
 // IL1b: a future termination date needs correction, while its original draft remains held.
 export function illinoisProgramFutureDateDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
+  snapshot = illinoisReviewedPlanDraftProjection(snapshot, authoritative, status) ?? snapshot;
   const profile = getProfileByJurisdiction("IL"), evaluation = authoritative.evaluation;
   const answers = protectedPacketScreeningAnswers(snapshot);
   const date = scalarAnswerText(answers?.il_program_termination_date)?.trim();

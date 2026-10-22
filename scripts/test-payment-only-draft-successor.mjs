@@ -111,7 +111,13 @@ for (const row of mode.startsWith('remove-route:') ? rows.filter(r=>r.key===mode
   check(`${row.key}:current-unpaid`,()=>assert.equal(authority.evaluation.paymentAllowed,false));
   check(`${row.key}:loads`,()=>assert(model));
   check(`${row.key}:not-ready`,()=>assert(model && model.stage!=='ready_to_generate' && model.reviewSafety.safe===false));
-  check(`${row.key}:successor-payment-only`,()=>assert.deepEqual(P.paymentOnlyDraftSuccessor(snapshot,authority,'unverified'),{...snapshot,paymentAllowed:false}));
+  const expectedSuccessor = { ...snapshot, paymentAllowed: false };
+  if (row.key === 'IL:adult-conviction-sealing') {
+    const forms = JSON.parse(fs.readFileSync(new URL('./fixtures/il2-plan-predecessors.json', import.meta.url))).expectedForms['adult-conviction-sealing'];
+    expectedSuccessor.packetPlan = { ...snapshot.packetPlan, sourceFormIds: forms, formMappingStatus: 'source_candidate_identified' };
+    expectedSuccessor.packetFamilyIdentifiers = { ...snapshot.packetFamilyIdentifiers, sourceFormIds: forms };
+  }
+  check(`${row.key}:successor-payment-only`,()=>assert.deepEqual(P.paymentOnlyDraftSuccessor(snapshot,authority,'unverified'),expectedSuccessor));
   check(`${row.key}:noop`,()=>{assert(saved);assert.equal(saved.readyToGenerate,false);assert.deepEqual(saved.protectedTransition.nextVerification,record);});
   const edited=P.packetInformationPatch({protectedVerification:record,answers:{participant_full_legal_name:'Synthetic Updated Name'}});
   check(`${row.key}:explicit-save-held`,()=>{assert(edited);assert.equal(edited.readyToGenerate,false);assert.equal(edited.protectedTransition.nextVerification.draftSnapshot.paymentAllowed,false);assert.equal(edited.protectedTransition.nextVerification.draftSnapshot.packetAnswers.participant_full_legal_name,'Synthetic Updated Name');});

@@ -21,7 +21,8 @@ const mutations = {
   age25: ['illinois-program-facts.ts', 'if (a.il_reckless_age_25 !== "yes")', 'if (false)'],
   vacatur: ['illinois-program-facts.ts', 'if (needsVacatur(type) && a.il_program_judgment_vacated !== "yes")', 'if (false)'],
   no_successor: ['reviewed-packet-contract-successors.json', '"IL:expungement-after-eligible-supervision-or-qualified-probation":', '"IL:test-only-missing-successor":'],
-  form: ['packet-planner.ts', 'const illinoisProgramUnmapped = illinoisProgramContext(profile, pathwayId);', 'const illinoisProgramUnmapped = false;']
+  form: ['packet-planner.ts', 'const illinoisProgramUnmapped = illinoisProgramContext(profile, pathwayId);', 'const illinoisProgramUnmapped = false;'],
+  form_il2: ['packet-planner.ts', 'const illinoisForms = illinoisPlanForms(profile, pathwayId);', 'const illinoisForms = undefined;']
 };
 assert(mode === 'candidate' || mutations[mode]);
 if (mutations[mode]) register('data:text/javascript,' + encodeURIComponent(`let m;export function initialize(v){m=v}export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/'+m[0]))return r;const s=String(r.source);if(s.split(m[1]).length!==2)throw Error('nonunique mutation anchor');return {...r,source:s.replace(m[1],m[2])};}`), { data: mutations[mode] });
@@ -40,6 +41,8 @@ const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const B = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
 const rows = JSON.parse(fs.readFileSync(new URL('./fixtures/il1-program-witnesses.json', import.meta.url))).rows;
 const profile = getProfileByJurisdiction('IL'), pub = projectPublicProfile(profile), route = G.IL_PROGRAM_ROUTE;
+// IL2a source-plan successor; IL1's substantive gates and renderer hold are unchanged.
+const expectedForms = JSON.parse(fs.readFileSync(new URL('./fixtures/il2-plan-predecessors.json', import.meta.url))).expectedForms[route];
 const failures = []; let checks = 0;
 function check(name, fn) { checks++; try { fn(); } catch (error) { failures.push({ name, error: error.message }); } }
 const request = answers => ({ jurisdiction: 'IL', profileVersion: profile.profileVersion, matterId: 'synthetic-il1', answers });
@@ -59,13 +62,23 @@ const base = { ...rows[1].answers, il_program_type: 'supervision', il_program_te
 check('profile-schema', () => assert(parseJurisdictionProfile(pub).ok));
 check('applicable-program-facts-not-labelled-optional', () => assert(G.IL_PROGRAM_FACT_IDS.every(id => pub.questions.find(q => q.id === id)?.required === true)));
 check('other-route-does-not-ask-program-facts', () => assert(G.IL_PROGRAM_FACT_IDS.every(id => !G.illinoisProgramQuestionApplies(profile, 'felony-prostitution-relief', base, id))));
-check('plan-no-wrong-cannabis', () => assert.deepEqual(packetPlanForPathway(profile, route).sourceFormIds, []));
+check('plan-no-wrong-cannabis', () => assert.deepEqual(packetPlanForPathway(profile, route).sourceFormIds, expectedForms));
+check('plan-literal-no-CXP', () => assert(packetPlanForPathway(profile, route).sourceFormIds.every(id => !id.includes('CXP'))));
+check('IL1-form-fallback-on-source-drift', () => {
+  const altered = structuredClone(profile); altered.source.sourceCorpusSha256 = 'unreviewed-source';
+  const plan = packetPlanForPathway(altered, route);
+  assert.deepEqual(plan.sourceFormIds, []); assert.equal(plan.formMappingStatus, 'custom_or_manual_mapping_required');
+  assert.equal(isPacketPlanFulfillmentReady(plan), false);
+});
 check('plan-not-fulfillment-ready', () => assert.equal(isPacketPlanFulfillmentReady(packetPlanForPathway(profile, route)), false));
 for (const row of rows) {
   const input = structuredClone(row.answers), result = evaluate(request(input)).evaluation;
   check(`${row.name}:held`, () => assert(result.paymentAllowed === false && !result.resultCode.startsWith('packet_ready')));
   check(`${row.name}:raw`, () => assert.deepEqual(input, row.answers));
-  if (result.pathwayId === route) check(`${row.name}:form`, () => assert.deepEqual(result.packetPlan?.sourceFormIds, []));
+  if (result.pathwayId === route) {
+    check(`${row.name}:form`, () => assert.deepEqual(result.packetPlan?.sourceFormIds, expectedForms));
+    check(`${row.name}:literal-no-CXP`, () => assert(result.packetPlan.sourceFormIds.every(id => !id.includes('CXP'))));
+  }
 }
 const cases = [
   ['two-years-exact', {}, 'satisfied'], ['two-years-short', { il_program_termination_date: '2024-10-22' }, 'not_yet'],
