@@ -1847,6 +1847,44 @@ function participantInstructions(maps, rbf) {
 }
 
 /* ---- the entry point ------------------------------------------------------------ */
+// Exact-source county floors: EXP104 uses the bottom stroke of its boxed
+// County caption. The other three are inline blanks; no widget is inferred.
+const CAPTION_COUNTY_CELLS = {
+  EXP102: { component: PETITION, ruleY: 655.2, ruleFromX: 123.2, ruleToX: 288 },
+  EXP104: { component: PROOF_OF_SERVICE, ruleY: 663.96, ruleFromX: 67.8, ruleToX: 283.32 },
+  EXP105: { component: PROPOSED_ORDER, ruleY: 681.6, ruleFromX: 123.2, ruleToX: 288 },
+  FEE102: { component: FEE_WAIVER, ruleY: 661.2, ruleFromX: 125.4, ruleToX: 288 }
+};
+
+/** Bounded held preview, separate from runFamily and commercial rendering.
+ * The existing published family/maps/fixtures stay untouched. */
+export async function renderMnPetitionCaptionPreview({ documentId, sourceBytes, preparation, includeFeeWaiver = false }) {
+  const cell = Object.hasOwn(CAPTION_COUNTY_CELLS, documentId) ? CAPTION_COUNTY_CELLS[documentId] : null;
+  assert(cell && (documentId !== "FEE102" || includeFeeWaiver === true), "Minnesota caption component is not requested");
+  const { mnPetitionCaptionFacts } = await import("../src/lib/rcap/render/mn-petition-caption-facts.ts");
+  const facts = mnPetitionCaptionFacts(preparation);
+  const source = SPEC.officialComponents[cell.component];
+  assert.equal(crypto.createHash("sha256").update(sourceBytes).digest("hex"), source.sha256, "Minnesota caption source bytes changed");
+  const { measured, drift } = await measureCells(sourceBytes, [{ ...cell, key: "caption_county", page: 1 }]);
+  assert.equal(drift.length, 0, "Minnesota caption source geometry changed");
+  assert.equal(measured.length, 1);
+  assert(!measured[0].tooShallowToWriteIn, "Minnesota county caption has no readable space");
+  const result = await finalizeFlatOverlay({
+    sourceBytes, expectedSha256: source.sha256,
+    anchors: [{ label: "Caption - County", page: 1, writeBox: measured[0].writeBox,
+      factId: "matter.county", protectedRules: [] }],
+    explicitMappings: { "Caption - County": "matter.county" }, facts,
+    documentTextLines: [], title: `MN ${documentId} held county-caption preview`
+  });
+  assert.equal(result.report.written.length, 1, "Minnesota county caption was refused");
+  const ink = await auditOfficialInk(sourceBytes, result.bytes,
+    [{ key: "caption_county", page: 1, rect: measured[0].writeBox, written: true }]);
+  assert.equal(ink.glyphsOutsideMeasuredWriteBoxes, 0, "Minnesota preview wrote outside the county caption");
+  assert.equal(ink.refusedFieldsWithInk.length, 0);
+  return { ...result, ink, writeBox: measured[0].writeBox,
+    status: "held_preview", authority: false, qualificationCheckboxExportAllowed: false };
+}
+
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
