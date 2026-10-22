@@ -1500,9 +1500,34 @@ function ohioDiversionCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot, 
     ? ["age_at_offense"] : [];
 }
 
+// F-D1-SAVED/F-CONV: preserve this source-bound paid draft after its current route becomes unpaid guidance.
+function oklahomaConvictionGuidanceDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status?: string): ProtectedPacketDraftSnapshot | null {
+  const contract = convictionFallbackPrior.okGuidance;
+  const profile = authoritative.profile;
+  if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1" || snapshot.jurisdiction !== "OK"
+    || !Object.entries(contract.prior).every(([key, value]) => canonicalEqual(snapshot[key as keyof ProtectedPacketAuthoritySnapshot], value))) return null;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers || !isAdultConvictionAnswer(answers.case_outcome)
+    || profile.jurisdiction.code !== contract.current.jurisdiction || profile.profileVersion !== contract.current.profileVersion
+    || profile.source?.sourceCorpusSha256 !== contract.current.profileSourceFingerprint
+    || profileAuthorityFingerprint(profile, contract.current.pathwayId) !== contract.current.profileAuthorityFingerprint
+    || !canonicalEqual(authoritative.evaluation.missingQuestionIds, [])
+    || convictionReliefQuestions("OK").some(q => Object.hasOwn(answers, q.id))
+    || !canonicalEqual(authoritative.evaluation.reasons.map(({ code, sourceRef }) => ({ code, sourceRef })), contract.currentReason)) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answerRecord(snapshot.screeningAnswers),
+    prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies,
+    capturedAt: snapshot.capturedAt });
+  if (!seeded || !Object.entries(contract.current).every(([key, value]) =>
+    canonicalEqual(seeded.snapshot[key as keyof ProtectedPacketDraftSnapshot], value))) return null;
+  return preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set());
+}
+
 /** Exact pre-correction nonconviction tuples at706dfe818. Reading a saved
  * matter preserves its raw history and grants no current packet authority. */
-export function convictionFallbackHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+export function convictionFallbackHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status?: string): ProtectedPacketDraftSnapshot | null {
+  const okGuidance = oklahomaConvictionGuidanceDraftSuccessor(snapshot, authoritative, status);
+  if (okGuidance) return okGuidance;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   const answers = protectedPacketScreeningAnswers(snapshot);
   const evaluation = authoritative.evaluation;
@@ -2826,7 +2851,7 @@ export function protectedPacketInformationModelFor(
     && protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode }, authoritative)) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  const factualSuccessor = paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
+  const factualSuccessor = paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative, verification.status) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
@@ -4630,7 +4655,7 @@ function deriveProtectedPacketDraftSnapshot(
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
-    base = factualPathwayHeldSuccessor(base, currentAuthority) ?? convictionFallbackHeldSuccessor(base, currentAuthority) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
+    base = factualPathwayHeldSuccessor(base, currentAuthority) ?? convictionFallbackHeldSuccessor(base, currentAuthority, verification.status) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
   }
   if (factualIds.some(id => explicitChangedIds.has(id) || (mtPreparationIds || caJuvenileIds || mdJuvenileIds) && confirmRecordFacts.includes(id))) {

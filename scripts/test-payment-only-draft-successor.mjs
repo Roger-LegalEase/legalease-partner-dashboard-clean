@@ -6,10 +6,16 @@ process.env.RCAP_EVALUATOR_TODAY = '2026-10-18';
 globalThis.fetch = () => { throw Error('NETWORK_FORBIDDEN'); };
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mode = process.argv[2] ?? 'candidate';
-assert(['candidate','removed','left_paid','briefcase_removed','allowlist_removed'].includes(mode) || mode.startsWith('remove-route:'));
+assert(['candidate','removed','left_paid','briefcase_removed','allowlist_removed','ok_successor_removed','ok_successor_paid','ok_briefcase_removed'].includes(mode) || mode.startsWith('remove-route:'));
 if (mode.startsWith('remove-route:') || mode === 'allowlist_removed') register('data:text/javascript,'+encodeURIComponent(`let mode;export function initialize(m){mode=m}export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;let s=String(r.source);if(mode==='allowlist_removed'){const a='!PAYMENT_ONLY_DRAFT_ROUTES.has(\`\${snapshot.jurisdiction}:\${snapshot.pathwayId}\`)';if(s.split(a).length!==2)throw Error('nonunique allowlist anchor');s=s.replace(a,'false')}else{const a=s.indexOf('const PAYMENT_ONLY_DRAFT_ROUTES = new Set(['),b=s.indexOf(']);',a);if(a<0||b<a)throw Error('list not found');const list=s.slice(a,b),key=JSON.stringify(mode.slice('remove-route:'.length));if(list.split(key).length!==2)throw Error('nonunique route');s=s.slice(0,a)+list.replace(key,JSON.stringify('test-only-removed-route'))+s.slice(b)}return {...r,source:s};}`),{data:mode});
 if (mode === 'briefcase_removed') register('data:text/javascript,'+encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/briefcase-presentation-authority.ts'))return r;const s=String(r.source),a='paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ??';if(s.split(a).length!==2)throw Error('nonunique anchor');return {...r,source:s.replace(a,'')};}`));
 if (['removed','left_paid'].includes(mode)) register('data:text/javascript,' + encodeURIComponent(`let mode;export function initialize(m){mode=m}export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;const s=String(r.source),anchor=mode==='removed'?'const paymentOnlyProjection = { ...snapshot, paymentAllowed: false };':'? paymentOnlyProjection : null;';if(s.split(anchor).length!==2)throw Error('nonunique mutation anchor');return {...r,source:s.replace(anchor,mode==='removed'?'return null;':'? snapshot : null;')};}`), {data:mode});
+const okMutations = {
+  ok_successor_removed: ['packet-information.ts', 'const okGuidance = oklahomaConvictionGuidanceDraftSuccessor(snapshot, authoritative, status);', 'const okGuidance = null;'],
+  ok_successor_paid: ['packet-information.ts', 'return okGuidance;', 'return { ...okGuidance, paymentAllowed: true };'],
+  ok_briefcase_removed: ['briefcase-presentation-authority.ts', 'convictionFallbackHeldSuccessor(snapshot, authoritative, verification.status) ??', '']
+};
+if (okMutations[mode]) register('data:text/javascript,' + encodeURIComponent('let m;export function initialize(x){m=x}export async function load(u,c,n){const r=await n(u,c);if(!u.endsWith("/"+m[0]))return r;const s=String(r.source);if(s.split(m[1]).length!==2)throw Error("nonunique OK mutation anchor");return {...r,source:s.replace(m[1],m[2])};}'), {data:okMutations[mode]});
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const B = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
 const {evaluateAuthoritativeScreeningResult} = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
@@ -121,10 +127,39 @@ for (const row of mode.startsWith('remove-route:') ? rows.filter(r=>r.key===mode
     expectedSuccessor.packetPlan = { ...snapshot.packetPlan, sourceFormIds: [], formMappingStatus: 'custom_or_manual_mapping_required' };
     expectedSuccessor.packetFamilyIdentifiers = { ...snapshot.packetFamilyIdentifiers, sourceFormIds: [] };
   }
-  check(`${row.key}:successor-payment-only`,()=>assert.deepEqual(P.paymentOnlyDraftSuccessor(snapshot,authority,'unverified'),expectedSuccessor));
+  if (row.key === 'OK:acquittal-dismissal-or-other-no-conviction-expungement') {
+    const contract = JSON.parse(fs.readFileSync(new URL('../src/lib/expungement-ai/conviction-fallback-prior-contracts.json',import.meta.url))).okGuidance;
+    check(`${row.key}:cross-route-is-not-payment-only`,()=>assert.equal(P.paymentOnlyDraftSuccessor(snapshot,authority,'unverified'),null));
+    check(`${row.key}:exact-held-guidance-successor`,()=>{
+      assert.equal(record.draftHash,'f8bceaed46466847bd99842e0ca9ed33af4b413918109a9e4c5fd673baf61d7d');
+      const expected={...snapshot,...contract.current};
+      assert.deepEqual([expected.pathwayId,expected.resultCode,expected.packetType,expected.paymentAllowed],['dna-factual-innocence-expungement','guidance_only','guidance_packet',false]);
+      assert.deepEqual(P.convictionFallbackHeldSuccessor(snapshot,authority,'unverified'),expected);
+    });
+    for (const kind of ['verified','invalidated','old-schema','old-held','nonconviction','current-route','current-paid','current-plan','current-source','current-version','current-missing','current-reason']) check(`${row.key}:held-guidance-refuses-${kind}`,()=>{
+      const old=structuredClone(snapshot),current=structuredClone(authority),status=['verified','invalidated'].includes(kind)?kind:'unverified';
+      if(kind==='old-schema')old.schemaVersion='unapproved';
+      if(kind==='old-held')old.paymentAllowed=false;
+      if(kind==='nonconviction')old.prefilledAnswers.case_outcome='Arrest or citation with no charge filed';
+      if(kind==='current-route')current.evaluation.pathwayId='unapproved';
+      if(kind==='current-paid')current.evaluation.paymentAllowed=true;
+      if(kind==='current-plan')current.evaluation.packetPlan.sourceFormIds=['unapproved'];
+      if(kind==='current-source')current.profile.source.sourceCorpusSha256='unapproved';
+      if(kind==='current-version')current.profile.profileVersion='unapproved';
+      if(kind==='current-missing')current.evaluation.missingQuestionIds=['unanswered'];
+      if(kind==='current-reason')current.evaluation.reasons[0].code='unapproved';
+      assert.equal(P.convictionFallbackHeldSuccessor(old,current,status),null);
+    });
+  } else check(`${row.key}:successor-payment-only`,()=>assert.deepEqual(P.paymentOnlyDraftSuccessor(snapshot,authority,'unverified'),expectedSuccessor));
   check(`${row.key}:noop`,()=>{assert(saved);assert.equal(saved.readyToGenerate,false);assert.deepEqual(saved.protectedTransition.nextVerification,record);});
   const edited=P.packetInformationPatch({protectedVerification:record,answers:{participant_full_legal_name:'Synthetic Updated Name'}});
   check(`${row.key}:explicit-save-held`,()=>{assert(edited);assert.equal(edited.readyToGenerate,false);assert.equal(edited.protectedTransition.nextVerification.draftSnapshot.paymentAllowed,false);assert.equal(edited.protectedTransition.nextVerification.draftSnapshot.packetAnswers.participant_full_legal_name,'Synthetic Updated Name');});
+  if(row.key==='OK:acquittal-dismissal-or-other-no-conviction-expungement')check(`${row.key}:guidance-edit-preserves-original-facts`,()=>{
+    assert(edited);const next=edited.protectedTransition.nextVerification.draftSnapshot;
+    for(const map of ['screeningAnswers','prefilledAnswers'])assert.deepEqual(next[map],snapshot[map]);
+    assert.deepEqual(next.packetAnswers,{...snapshot.packetAnswers,participant_full_legal_name:'Synthetic Updated Name'});
+    assert.equal(next.pathwayId,'dna-factual-innocence-expungement');assert.equal(next.resultCode,'guidance_only');assert.equal(next.paymentAllowed,false);
+  });
   check(`${row.key}:read-immutable`,()=>assert.deepEqual(record,before));
   const fresh = row.freshRecord ?? (() => { const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:authority,screeningAnswers:snapshot.screeningAnswers,prefilledAnswers:snapshot.prefilledAnswers,packetAnswers:snapshot.packetAnswers,dependencies:snapshot.dependencies,capturedAt:snapshot.capturedAt}); return seed && {status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot}; })();
   check(`${row.key}:fresh-readable`,()=>assert(fresh && P.protectedPacketInformationModelFor(fresh)));
