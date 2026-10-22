@@ -1,3 +1,4 @@
+import { IL_PROGRAM_ROUTE } from "@/lib/rcap-engine/illinois-program-facts";
 import type { EngineProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
 
@@ -62,7 +63,7 @@ export function convictionReliefRequest(profile: EngineProfile, answers: Answers
   if (typeof request !== "string" || !allowed.includes(request) || request === "unknown") return missing(id);
   if (request === "other_help") return { status: "review", code: "other_help" };
   if (request === "mixed_charges") return { status: "review", code: "mixed_charges" };
-  if (request === "program_record") return { status: "review", code: "program_record" };
+  if (request === "program_record") return state === "IL" ? selected(IL_PROGRAM_ROUTE) : { status: "review", code: "program_record" };
   if (request === "later_order") {
     const later = answers[`${state.toLowerCase()}_later_order`];
     if (!exactChoice(later, ["vacated", "reversed", "dismissed", "none", "other"]) || later === "unknown") return missing(`${state.toLowerCase()}_later_order`);

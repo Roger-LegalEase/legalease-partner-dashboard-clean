@@ -1,3 +1,4 @@
+import { IL_PROGRAM_ROUTE, IL_PROGRAM_FACT_IDS, IL_PROGRAM_SOURCE, IL_PROGRAM_COPY, illinoisProgramFacts, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, VA_RECORD_ORIGIN_COPY, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
@@ -284,6 +285,9 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       return state === "unanswered" || state === "invalid";
     });
   };
+  if (illinoisProgramContext(profile, evaluated.pathwayId) && evaluated.reasons[0]?.code.startsWith("il.program_")) {
+    return { ...evaluated, nextSteps: [evaluated.reasons[0].text] };
+  }
   if (illinoisProstitutionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code.startsWith("il.prostitution_"))) {
     const code = illinoisProstitutionFacts(request.answers);
     const questions = projectPublicProfile(profile).questions;
@@ -565,6 +569,8 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    // IL1 required questions are conditional and enforced by their route gate.
+    .filter(id => !IL_PROGRAM_FACT_IDS.includes(id))
     .filter(id => jurisdiction !== "CA" || caProp64QuestionApplies(answers, id))
     .filter(id => flConditionalInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => dcGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
@@ -1039,6 +1045,12 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     });
   }
 
+  if (jurisdiction === "IL" && pathway.id === IL_PROGRAM_ROUTE) {
+    return result(profile, request, "needs_review", [reason("IL", "program_form_mapping_unavailable", IL_PROGRAM_COPY.form[0], IL_PROGRAM_SOURCE)], {
+      pathwayId: pathway.id, ...(plan ? { packetPlan: plan } : {}), paymentAllowed: false
+    });
+  }
+
   const legalContract = legalRouteContract(profile.jurisdiction.code, pathway.id);
   if (legalContract?.outcomeMode === "referral") {
     return result(profile, request, "needs_review", [reason(jurisdiction, "legal_authority_referral_required", "This route is limited to attorney-review referral after its source-defined timing facts are confirmed.", pathway.sourceRef)], {
@@ -1333,6 +1345,7 @@ function requiredUnknownPublicDateQuestionIds(publicProfile: PublicJurisdictionP
   return publicProfile.questions
     .filter((question) => question.required && question.contextOnly !== true && isPrepaymentQuestion(question))
     .filter((question) => question.type === "date_or_unknown")
+    .filter(question => !IL_PROGRAM_FACT_IDS.includes(question.id))
     .filter((question) => isExplicitUnknownAnswer(answers[question.id]))
     .map((question) => question.id);
 }
@@ -2907,6 +2920,13 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   }
   if (profile.jurisdiction.code === "WI" && pathway.id === "adult-conviction-expungement-under-wis-stat-973-015") {
     return { status: "satisfied" };
+  }
+  if (illinoisProgramContext(profile, pathway.id)) {
+    const program = illinoisProgramFacts(answers, evaluationToday().toISOString().slice(0, 10));
+    if (program.status === "satisfied") return { status: "satisfied" };
+    const programReason = reason("IL", `program_${program.code}`, IL_PROGRAM_COPY[program.code][0], IL_PROGRAM_SOURCE);
+    return program.status === "missing" ? { status: "missing_anchor", reason: programReason, missingQuestionIds: program.missingQuestionIds }
+      : { status: program.status === "not_yet" ? "not_yet" : "needs_review", reason: programReason };
   }
   const routeOverride = specialRouteTiming(profile, answers, rule, pathway);
   if (routeOverride) return routeOverride;

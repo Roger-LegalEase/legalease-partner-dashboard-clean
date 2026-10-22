@@ -145,10 +145,10 @@ const before = [
   },
   {
     "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
-    "resultCode": "needs_review",
+    "resultCode": "needs_more_info",
     "paymentAllowed": false,
     "reasons": [
-      "il.waiting_rule_not_executed"
+      "il.program_missing"
     ]
   },
   {
