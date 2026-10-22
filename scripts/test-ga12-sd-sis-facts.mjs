@@ -55,8 +55,10 @@ check('reviewed SD witness still settles to prior review',()=>{
  assert.deepEqual(run.evaluation.missingQuestionIds,[]);assert(run.evaluation.reasons.some(r=>r.code==='sd.sis_prior_review'));
 });
 const predecessorCases=[{"id":"court_requirements_completed","value":"not_sure","draftHash":"98c030ca6257c9a511f7632d07b34a3cb86715c6f139a32a78f04fc9ed844075"},{"id":"court_requirements_completed","value":"not_applicable","draftHash":"e9edee6292d572909cb35edb923ccfdcbef7277c6ddfeb68df89a4a3f2a33964"},{"id":"offense_level","value":"Infraction or violation","draftHash":"c9ba9f2ade246ae93f8b58b4559980cfe78e4053c36e9b123b9cfaeee0b24e87"},{"id":"offense_level","value":"Traffic or driving matter","draftHash":"8fcdcfc36151cc4a7e65ca4665a0f78976e96d2b411578d93ef179af369845d1"},{"id":"offense_level","value":"Municipal or ordinance matter","draftHash":"9f92c098db276dcc8cd2b8b50e4040cf1913f4ab19c1bf5f79ea11dde0a04342"}];
+// These five pins bind the pre-b334 witness inputs; retain the current inactive raw fact separately.
+const predecessorBase={...base};delete predecessorBase.sd_sis_specified_charge;
 for(const {id,value,draftHash}of predecessorCases)check('reviewer answered value settles/'+id+'/'+value,()=>{
- const answers={...base,[id]:value},before=structuredClone(answers),run=converge('SD',profile,questions,answers,answers);
+ const answers={...predecessorBase,[id]:value},before=structuredClone(answers),run=converge('SD',profile,questions,answers,answers);
  assert.equal(run.error,null,JSON.stringify(run.unresolvedEvaluation));assert.deepEqual(run.answers,answers);
  const code=id==='court_requirements_completed'?'duty_review':'record_review',r=run.evaluation;
  assert.equal(G.southDakotaSisFacts(answers).code,code);assert.equal(r.resultCode,'guidance_only');assert.equal(r.paymentAllowed,false);
@@ -65,6 +67,13 @@ for(const {id,value,draftHash}of predecessorCases)check('reviewer answered value
  assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,saved);
  assert.deepEqual(record,saved);assert.deepEqual(answers,before);
  for(const map of maps)if(Object.hasOwn(saved.draftSnapshot[map],id))assert.deepEqual(record.draftSnapshot[map][id],value);
+ const current=modelFor({...base,[id]:value}),currentBefore=structuredClone(current),historicalProjection=structuredClone(current.draftSnapshot);
+ assert.equal(current.draftSnapshot.screeningAnswers.sd_sis_specified_charge,'Yes');
+ delete historicalProjection.screeningAnswers.sd_sis_specified_charge;
+ assert.deepEqual(historicalProjection,record.draftSnapshot,'Only the added inactive raw fact distinguishes the current witness.');
+ assert.notEqual(current.draftHash,draftHash);assert(P.protectedPacketInformationModelFor(current));
+ assert.deepEqual(P.packetInformationPatch({protectedVerification:current,answers:{}}).protectedTransition.nextVerification,currentBefore);
+ assert.deepEqual(current,currentBefore);
 });
 for(const id of ['court_requirements_completed','offense_level'])for(const raw of [undefined,'',[],{unexpected:true}])check('blank or malformed remains requested/'+id+'/'+JSON.stringify(raw),()=>{
  const answers={...base,[id]:raw},facts=G.southDakotaSisFacts(answers);assert.equal(facts.code,'missing');assert(facts.ids.includes(id));assert(evalFor(answers).evaluation.missingQuestionIds.includes(id));
@@ -129,15 +138,22 @@ check('existing stage selection unchanged and never inferred from new facts',()=
   assert.equal(Object.hasOwn(base,Stage.SD_SIS_STAGE_FACT_ID),false);
  }
 });
+const originalWitnessAnswers={...witness.answers};for(const id of G.SD_SIS_FACT_IDS)delete originalWitnessAnswers[id];
 check('original witness and absent new facts remain readable without rewriting history',()=>{
- const record=modelFor(witness.answers),before=structuredClone(record);assert(P.protectedPacketInformationModelFor(record));assert.equal(record.draftSnapshot.resultCode,'guidance_only');assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
- const result=evalFor(witness.answers).evaluation;assert(result.reasons.some(r=>r.code==='sd.sis_missing'));assert.equal(result.paymentAllowed,false);
+ const record=modelFor(originalWitnessAnswers),before=structuredClone(record);assert(P.protectedPacketInformationModelFor(record));assert.equal(record.draftSnapshot.resultCode,'guidance_only');assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
+ const result=evalFor(originalWitnessAnswers).evaluation;assert(result.reasons.some(r=>r.code==='sd.sis_missing'));assert.equal(result.paymentAllowed,false);
+});
+check('current adopted witness retains its factual prior-review hold and saved answers',()=>{
+ const record=modelFor(witness.answers),before=structuredClone(record);assert(P.protectedPacketInformationModelFor(record));
+ for(const id of G.SD_SIS_FACT_IDS)assert.equal(record.draftSnapshot.screeningAnswers[id],witness.answers[id]);
+ assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
+ const result=evalFor(witness.answers).evaluation;assert.equal(result.resultCode,'guidance_only');assert(result.reasons.some(r=>r.code==='sd.sis_prior_review'));assert.equal(result.paymentAllowed,false);
 });
 check('no authority and deferred drug track stays absent',()=>{
  const a=F.packetFulfillmentAuthority('SD',route,'checkout creation');assert.equal(a.allowed,false);assert.equal(a.reason,`${key}: NO_RECORD. No Grade-A fulfillment record binds ${key}; a route nobody has written a record for fails closed.`);
  assert(!profile.pathways.some(p=>p.id.includes('23a-27-53')));
 });
-for(const id of ['first','second'])records.set('synthetic-'+id,modelFor(base));
+for(const id of ['first','second'])records.set('synthetic-'+id,modelFor(predecessorBase));
 // Run the real HTTP handler with isolated in-memory auth/store boundaries.
 // No session, consent, entitlement, network or database fixture is created.
 let authenticated = true, verified = true, owner = 'synthetic-sd-owner';

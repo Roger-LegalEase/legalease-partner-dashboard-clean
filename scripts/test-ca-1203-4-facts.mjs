@@ -68,7 +68,9 @@ for(const [name,delta,code,status] of [
  const a={...legalAnswers,...fixed,...delta}; if(name.startsWith('mixed')) {check(name+' public refuses conflicting exclusive selections',()=>assert.throws(()=>evaluate({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'source-case',answers:a})));check(name+' raw helper remains unknown',()=>assert.equal(H.ca12034Facts(a).status,'missing'));continue;} const r=evaluate({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'source-case',answers:a});
  check(name,()=>{assert.equal(r.evaluation.resultCode,status);assert.equal(r.evaluation.reasons[0].code,'ca.probation_'+code);assert.equal(r.evaluation.paymentAllowed,false);assert.equal(r.selectedTrackId,null);});
 }
-for(const outcome of [witness.answers.case_outcome,'Dismissed, no-billed, nolle prosequi, or not prosecuted','I am not sure']) for(const hint of [true,false]) {
+// Preserve the original arrest/no-charge controls independently of the adopted misdemeanor witness.
+const noChargeOutcome='Arrest or citation with no charge filed';
+for(const outcome of [noChargeOutcome,'Dismissed, no-billed, nolle prosequi, or not prosecuted','I am not sure']) for(const hint of [true,false]) {
  const a={...legalAnswers,...fixed,case_outcome:outcome};if(!hint)delete a.possible_pathway_context;
  const r=evaluate({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'nonconviction',answers:a});
  check('no incompatible Tool1 '+outcome+'/'+hint,()=>{assert.notEqual(r.evaluation.pathwayId,route);assert.equal(r.evaluation.paymentAllowed,false);});
@@ -131,18 +133,18 @@ for(const text of ['not available','No lo sé']){
  check('explicit unknown and known code correction retains exact history '+text,()=>{assert.equal(snap().resultCode,'needs_review');assert(snap().dependencies.semanticAnswerHistory.some(x=>x.factId==='ca_12034_offense_sections'&&x.value?.value===text));assert(snap().dependencies.semanticAnswerHistory.some(x=>x.factId==='ca_12034_offense_sections'&&x.value?.unknown===true));});
 }
 const fixedRaw=Object.fromEntries(H.CA_12034_FACT_IDS.filter(id=>Object.hasOwn(snap().packetAnswers,id)).map(id=>[id,structuredClone(snap().packetAnswers[id])]));
-await save({case_outcome:witness.answers.case_outcome});
+await save({case_outcome:noChargeOutcome});
 check('truthful no-charge removes Tool1 and keeps source facts raw',()=>{assert.equal(snap().pathwayId,null);for(const[id,value]of Object.entries(fixedRaw))assert.deepEqual(snap().packetAnswers[id],value);assert(!model().builderQuestions.some(q=>H.CA_12034_FACT_IDS.includes(q.id)));});
 const noCharge=await Edit({params,searchParams:Promise.resolve({edit:'possible_pathway_context'})});
 check('actual offered route request can correct no-charge without false conviction',()=>{const b=nodes(noCharge).find(n=>n.type===PacketInformationBuilder);assert(b);assert(b.props.questions.some(q=>q.id==='possible_pathway_context'));assert.equal(b.props.returnToMatterAfterCorrection,true);});
 for(const hint of ['None of these / I am not sure','']) {
  await save({possible_pathway_context:hint});
- check('optional hint correction preserves truthful no-charge '+JSON.stringify(hint),()=>{assert.equal(snap().screeningAnswers.case_outcome??snap().packetAnswers.case_outcome,witness.answers.case_outcome);assert.equal(snap().pathwayId,null);assert.equal(snap().resultCode,'needs_review');assert.equal(snap().paymentAllowed,false);for(const[id,value]of Object.entries(fixedRaw))assert.deepEqual(snap().packetAnswers[id],value);});
+ check('optional hint correction preserves truthful no-charge '+JSON.stringify(hint),()=>{assert.equal(snap().screeningAnswers.case_outcome??snap().packetAnswers.case_outcome,noChargeOutcome);assert.equal(snap().pathwayId,null);assert.equal(snap().resultCode,'needs_review');assert.equal(snap().paymentAllowed,false);for(const[id,value]of Object.entries(fixedRaw))assert.deepEqual(snap().packetAnswers[id],value);});
  const p=await present();check('post-hint correction is available held draft',()=>{assert.equal(p.authorityStatus,'protected_draft');assert.equal(p.packetDraft.status,'available');assert.equal(p.commercialActions.checkoutAllowed,false);});
 }
 
-await save({case_outcome:'Misdemeanor conviction'});
-check('explicit conviction correction restores only saved factual controls',()=>{assert.equal(snap().pathwayId,route);for(const[id,value]of Object.entries(fixedRaw))assert.deepEqual(snap().packetAnswers[id],value);assert(model().builderQuestions.some(q=>q.id==='ca_12034_offense_sections'));assert.equal(snap().paymentAllowed,false);});
+await save({case_outcome:'Misdemeanor conviction',possible_pathway_context:legalAnswers.possible_pathway_context});
+check('explicit conviction and Tool1 topic restore only saved factual controls',()=>{assert.equal(snap().pathwayId,route);for(const[id,value]of Object.entries(fixedRaw))assert.deepEqual(snap().packetAnswers[id],value);assert(model().builderQuestions.some(q=>q.id==='ca_12034_offense_sections'));assert.equal(snap().paymentAllowed,false);});
 await save({ca_12034_relief_election:'interests_of_justice'});
 check('conditional narrative reappears with exact retained words',()=>{assert(model().builderQuestions.some(q=>q.id==='ca_12034_interests_narrative'));assert.deepEqual(snap().packetAnswers.ca_12034_interests_narrative,fixedRaw.ca_12034_interests_narrative);});
 const {projectPublicProfile}=await load('src/lib/rcap-engine/public-profile-projection.ts');

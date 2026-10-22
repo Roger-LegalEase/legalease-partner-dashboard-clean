@@ -10,7 +10,7 @@ process.env.RCAP_EVALUATOR_TODAY = "2026-08-25";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { routesForJurisdiction } = await import("../src/lib/legal-authority/index.ts");
-const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
+const { evaluateScreening, normalizeCaseOutcome } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
@@ -180,6 +180,16 @@ const currentFlowSuccessors = {
  'EXPAI-MS-9c7d692811': {rawSha:'0199a9afa6374dea45ccab8b5c92d2b6312362f0bfb1371be424712a6fc5586f',terminal:'needs_review',reason:'ms.felony_route_case_outcome_conflict',missing:[],basis:'LD-MS-01 / accepted test-ms-felony-record-class-safety'},
  'EXPAI-MS-c80f911e03': {rawSha:'dc158ad6c558e0b626422dc067b915bde1ceb252629e3cb63bfc544b4e622bec',terminal:'needs_more_info',reason:'ms.program_completion_event_missing',missing:['ms_program_order','ms_program_record_status','ms_program_final_disposition','ms_program_arrest_release'],basis:'LD-MS-01 / accepted test-ms-program-completion-events'},
  'EXPAI-MT-50958fd557': {rawSha:'fe88cd4f9796ac4eba352f7631e258ea2c9954c2e8a00dacdddbe6e22bafc27e',terminal:'needs_more_info',reason:'mt.deferred_facts_unresolved',missing:['mt_deferred_order_type'],basis:'LD-MT-03 / accepted test-ga10-mt-deferred-facts'}
+};
+// Exact adopted FNE groups (manifest 5c3f5f1f) and existing D1 rule09 closures; original witnesses stay pinned.
+const currentPaymentSuccessors = {
+ "EXPAI-LA-10da966e68": {"rawSha":"29c34cdad8f8b3418a0535fbb48acb9ae126bd86a90679475042044dc257c8e3","jurisdiction":"LA","pathwayId":"felony-article-893-e-set-aside-followed-by-expungement","rule":"route-felony-article-893-e-set-aside-followed-by-expungement","outcome":"dismissed","basis":"FNE approved group 44"},
+ "EXPAI-LA-9142a1d4a2": {"rawSha":"f4d5fe2ba479312bec6420b0190c80eda0c8634d4357a18e6dfbcf723f2c2d43","jurisdiction":"LA","pathwayId":"non-conviction-arrest-expungement","rule":"rule-09-if-article-894-b-was-not-already-completed-but-appears-","outcome":"dismissed","basis":"D1 LA rule09 / OD-D1-BEYOND-BORROWED-20261022"},
+ "EXPAI-LA-96b1e54edb": {"rawSha":"c64dd3349b2cfc9b299811bfd93feaf97f989ac930ddfaf1eb20719390877922","jurisdiction":"LA","pathwayId":"misdemeanor-article-894-b-set-aside-followed-by-expungement","rule":"route-misdemeanor-article-894-b-set-aside-followed-by-expungement","outcome":"dismissed","basis":"FNE approved group 50"},
+ "EXPAI-LA-b7c0dca2fa": {"rawSha":"29c34cdad8f8b3418a0535fbb48acb9ae126bd86a90679475042044dc257c8e3","jurisdiction":"LA","pathwayId":"felony-article-893-e-set-aside-followed-by-expungement","rule":"route-felony-article-893-e-set-aside-followed-by-expungement","outcome":"dismissed","basis":"FNE approved group 44"},
+ "EXPAI-LA-df5337b428": {"rawSha":"f4d5fe2ba479312bec6420b0190c80eda0c8634d4357a18e6dfbcf723f2c2d43","jurisdiction":"LA","pathwayId":"non-conviction-arrest-expungement","rule":"rule-09-if-article-894-b-was-not-already-completed-but-appears-","outcome":"dismissed","basis":"D1 LA rule09 / OD-D1-BEYOND-BORROWED-20261022"},
+ "EXPAI-LA-ed3f38bf32": {"rawSha":"c64dd3349b2cfc9b299811bfd93feaf97f989ac930ddfaf1eb20719390877922","jurisdiction":"LA","pathwayId":"misdemeanor-article-894-b-set-aside-followed-by-expungement","rule":"route-misdemeanor-article-894-b-set-aside-followed-by-expungement","outcome":"dismissed","basis":"FNE approved group 50"},
+ "EXPAI-MN-c0469656a5": {"rawSha":"1b1cb1f28d3af5cda92eb4f4295a12c39e5883db0d4f0cd8a4137ee05416dfcc","jurisdiction":"MN","pathwayId":"petition-based-expungement-under-609a-02-03","rule":"route-petition-based-expungement-under-609a-02-03","outcome":"arrest_no_charge","basis":"FNE approved group 62"},
 };
 const currentSourceSelectionObservations = {};
 
@@ -397,11 +407,23 @@ const assertCurrentFlowSuccessor=(flow,result,selected=false)=>{
  return true;
 };
 
+const assertCurrentPaymentSuccessor=(flow,result)=>{
+ const contract=currentPaymentSuccessors[flow.flowId];if(!contract)return false;
+ check(crypto.createHash('sha256').update(JSON.stringify(flow.fixture.answers)).digest('hex')===contract.rawSha,`${flow.flowId}: adopted payment premises changed`);
+ equal([flow.jurisdiction,result.pathwayId,normalizeCaseOutcome(flow.fixture.answers.case_outcome)],
+   [contract.jurisdiction,contract.pathwayId,contract.outcome],`${flow.flowId}: adopted payment route/outcome changed`);
+ check(result.reasons.some(reason=>reason.code===`${contract.jurisdiction.toLowerCase()}.compiled_rule_match.${contract.rule}`),`${flow.flowId}: adopted payment rule changed`);
+ check(flow.paymentMode==='dtc_paid' && result.resultCode==='packet_ready_with_caution' && result.paymentAllowed===false,`${flow.flowId}: adopted ${contract.basis} payment hold changed`);
+ equal(result.missingQuestionIds??[],[],`${flow.flowId}: adopted payment-only case acquired missing facts`);
+ return true;
+};
+
 const stateSet = new Set(Object.keys(expected));
 const flows = manifest.flows.filter((flow) => stateSet.has(flow.jurisdiction));
 const reconciliationRows = reconciliation.rows.filter((row) => stateSet.has(row.jurisdiction));
 check(flows.length === 80, `Lane F flow count changed: expected 80, got ${flows.length}`);
 check(reconciliationRows.filter((row) => row.browserRequired).length * 2 === 156, "Lane F browser witness count changed from 156");
+check(Object.keys(currentPaymentSuccessors).length===7 && flows.filter(flow=>currentPaymentSuccessors[flow.flowId]&&!currentFlowSuccessors[flow.flowId]).length===7,"Exact five FNE /two D1 payment-only successors changed");
 
 for (const flow of flows) {
   const profile = getProfileByJurisdiction(flow.jurisdiction);
@@ -414,7 +436,7 @@ for (const flow of flows) {
   check(result.pathwayId === flow.remedy.pathwayId, `${flow.flowId}: pathway ${result.pathwayId} != ${flow.remedy.pathwayId}`);
   if(!assertCurrentFlowSuccessor(flow,result)) {
     check(result.resultCode === flow.terminalOutcome.effectiveTerminal, `${flow.flowId}: terminal ${result.resultCode} != ${flow.terminalOutcome.effectiveTerminal}`);
-    check(result.paymentAllowed === (flow.paymentMode === "dtc_paid"), `${flow.flowId}: payment witness changed`);
+    if(!assertCurrentPaymentSuccessor(flow,result))check(result.paymentAllowed === (flow.paymentMode === "dtc_paid"), `${flow.flowId}: payment witness changed`);
   }
   if (["packet_ready", "packet_ready_with_caution"].includes(result.resultCode)) {
     check(result.packetPlan?.pathwayId === flow.remedy.pathwayId, `${flow.flowId}: packet witness missing or changed`);
@@ -480,7 +502,7 @@ if (!fs.existsSync(EVIDENCE_PATH)) {
   }, "evidence result counts changed");
   equal(evidence.selectedQuestionCounts, historicalSelectedQuestionCounts, "historical evidence selected-question counts changed");
   equal(normalizedSelectedQuestionCounts,historicalSelectedQuestionCounts,'Unrelated selector count drift after only accepted source-control deltas');
-  check(Object.keys(currentFlowSuccessors).length===6 && flows.filter(flow=>!currentFlowSuccessors[flow.flowId]).length===74,"Exact six source successors /74 untouched witness expectations changed");
+  check(Object.keys(currentFlowSuccessors).length===6 && flows.filter(flow=>!currentFlowSuccessors[flow.flowId]).length===74,"Exact six source successors /74 original terminal expectations changed");
   console.log(JSON.stringify({currentSelectedQuestionCounts:selectedQuestionCounts,normalizedSelectedQuestionCounts,historicalSelectedQuestionCounts,sourceScopedSelectionDelta:currentSourceSelectionObservations,qualification:"Derived current observations and exact accepted source-control assertions; no historical expected-total replacement or new approval."}));
   equal(evidence.representativeSelectedFlowIds, representativeSelectedFlowIds, "evidence selected-answer witnesses changed");
   equal(evidence.authorityLimitedNoncommercialFlowIds, authorityLimitedNoncommercialFlowIds, "evidence authority-limited route witnesses changed");
