@@ -11,6 +11,7 @@ import importlib.util
 import json
 from pathlib import Path
 import os
+import subprocess
 import sys
 
 _spec = importlib.util.spec_from_file_location('exact_sources', Path(__file__).with_name('restore-adopted-sources.py'))
@@ -21,6 +22,20 @@ ADMISSION = 'data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2
 INDEX = 'data/rcap-all50/local-source-corpus-index.json'
 PREFIX = 'private/transfers/sc-223a1-current-custody-20260914/'
 MASTER = 'private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1'
+REGISTRY = 'data/record-clearing/legal-design-track-registry.json'
+
+
+def reviewed_registry(root, row):
+    # Reuse the reviewed six-track successor, never traverse unverified current JSON.
+    module = (Path(__file__).resolve().parents[1] / 'grade-a-packet-factory-24h/sc-runtime-successor.mjs').as_uri()
+    program = (f'import {{loadScRuntimeSuccessor}} from {json.dumps(module)};'
+               'const bytes=loadScRuntimeSuccessor(process.cwd())?.historicalConsumer(JSON.parse(process.argv[1]));'
+               'if(!bytes)process.exit(1);process.stdout.write(bytes);')
+    try:
+        return subprocess.check_output(['node', '--input-type=module', '-e', program, json.dumps(row)],
+                                       cwd=root, stderr=subprocess.PIPE)
+    except (OSError, subprocess.CalledProcessError):
+        raise exact.Refused('reviewed SC registry successor unavailable') from None
 
 
 def bindings(root, admission=ADMISSION):
@@ -41,7 +56,14 @@ def bindings(root, admission=ADMISSION):
                 if path not in refs:
                     refs[path] = row
                     if path.endswith('.json'):
-                        pending.append(json.loads(exact.verify(target.read_bytes(), row)))
+                        raw = target.read_bytes()
+                        try:
+                            exact.verify(raw, row)
+                        except exact.Refused:
+                            if path != REGISTRY:
+                                raise
+                            raw = exact.verify(reviewed_registry(root, row), row)
+                        pending.append(json.loads(raw))
             pending.extend(value.values())
     return list(refs.values())
 

@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location('sc', Path(__file__).with_name('restore-sc-guidance-sources.py'))
 sc = importlib.util.module_from_spec(spec)
@@ -73,6 +74,38 @@ class ScRestorationTests(unittest.TestCase):
         self.write('receipt.json', b'{}')
         self.json(sc.ADMISSION, {'bindings': [self.ref, {'path': 'receipt.json', 'byteLength': 2, 'sha256': '0' * 64}]})
         with self.assertRaises(sc.exact.Refused): sc.restore(self.root)
+        self.assertFalse((self.root / self.ref['path']).exists())
+
+    def registry_predecessor(self):
+        raw = json.dumps({'bindings': [self.ref]}).encode()
+        row = {'path': sc.REGISTRY, 'byteLength': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+        self.json(sc.ADMISSION, {'bindings': [row]})
+        self.json(sc.REGISTRY, {'bindings': [{**self.ref, 'path': 'private/unreviewed/current.pdf'}]})
+        return raw, row
+
+    def test_reviewed_registry_traverses_only_authenticated_predecessor(self):
+        raw, row = self.registry_predecessor()
+        current = (self.root / sc.REGISTRY).read_bytes()
+        with patch.object(sc, 'reviewed_registry', return_value=raw) as reader:
+            result = sc.restore(self.root)
+        reader.assert_called_once_with(self.root, row)
+        self.assertEqual((self.root / self.ref['path']).read_bytes(), self.raw)
+        self.assertFalse((self.root / 'private/unreviewed/current.pdf').exists())
+        self.assertEqual((self.root / sc.REGISTRY).read_bytes(), current)
+        self.assertEqual(result['otherBindings'][0]['status'], 'MISMATCH_OR_MISSING')
+        self.assertEqual(result['admissionAcceptance'], 'NOT_GRANTED_BY_RESTORATION')
+
+    def test_reviewed_registry_bytes_must_match_original_pin(self):
+        raw, _ = self.registry_predecessor()
+        for value in [b'{}', bytes([raw[0] ^ 1]) + raw[1:]]:
+            with patch.object(sc, 'reviewed_registry', return_value=value):
+                with self.assertRaises(sc.exact.Refused): sc.restore(self.root)
+            self.assertFalse((self.root / self.ref['path']).exists())
+
+    def test_registry_without_valid_successor_never_installs(self):
+        self.registry_predecessor()
+        with self.assertRaisesRegex(sc.exact.Refused, 'reviewed SC registry successor unavailable'):
+            sc.restore(self.root)
         self.assertFalse((self.root / self.ref['path']).exists())
 
     def test_runtime_drift_remains_visible_and_never_rebound(self):
