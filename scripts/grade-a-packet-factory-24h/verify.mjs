@@ -1910,6 +1910,15 @@ if (MUTATIONS) {
       .digest("hex"),
   });
 
+  const f32SourceBlock = () => {
+    const rows = (read(`${DIR}/VERIFIER_RETURNS.json`).rows ?? []).filter((r) =>
+      r.familyId === "SYNTHETIC-F32" && r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
+    const families = read(MASTER).families.filter((f) => f.familyId === "SYNTHETIC-F32");
+    if (rows.length !== 1 || families.length !== 1 || families[0].state !== "SOURCE_BLOCKED" || families[0].sourceReadiness?.ready !== false) {
+      throw new Error("F32 mutation requires its exact unresolved SOURCE_BLOCKED subject");
+    }
+    return rows[0];
+  };
   const cases = [
     { on: "active", id: "F1", name: "a family claimed by two builders is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].items.push(b[0].items[0]); return j; } },
     { on: "active", id: "F2", name: "two lanes owning one path is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].ownedPaths.push(b[0].ownedPaths[1]); return j; } },
@@ -2152,27 +2161,21 @@ if (MUTATIONS) {
         return j;
       } },
     { on: "master", id: "F32", name: "a current source block sent back to verification is caught", mutate: (j) => {
-        const returns = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8"));
-        const row = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
-        if (!row) throw new Error("F32 mutation requires a current BLOCKED_SOURCE verdict");
+        const row = f32SourceBlock();
         const family = j.families.find((f) => f.familyId === row.familyId);
         if (!family) throw new Error(`F32 mutation cannot find ${row.familyId} in the queue`);
         family.state = "VERIFY_PENDING";
         return j;
       } },
     { on: "active", id: "F32", name: "a current source block put into a verifier assignment is caught", mutate: (j) => {
-        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
-        const row = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
-        if (!row) throw new Error("F32 dispatch mutation requires a current BLOCKED_SOURCE verdict");
+        const row = f32SourceBlock();
         const lane = j.assignments.find((a) => a.lane === "independent-verification");
         if (!lane) throw new Error("F32 dispatch mutation requires an independent-verification assignment");
         lane.items = [...new Set([...(lane.items ?? []), row.familyId])];
         return j;
       } },
     { on: "ledger", id: "F32", name: "a current source block given a live reread claim is caught", mutate: (j) => {
-        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
-        const sourceBlock = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
-        if (!sourceBlock) throw new Error("F32 reread mutation requires a current BLOCKED_SOURCE verdict");
+        const sourceBlock = f32SourceBlock();
         let claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(sourceBlock.familyId));
         if (!claim) {
           // A blocked family correctly may never have received a verification
