@@ -1427,7 +1427,7 @@ export function illinoisProstitutionHeldDraftSuccessor(snapshot: ProtectedPacket
 
 /** Exact pre-correction contracts at bd4f9715b. This proves historical held
  * ownership only; the contradicted plan is never carried into current authority. */
-export function factualPathwayHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+export function factualPathwayHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status?: string): ProtectedPacketDraftSnapshot | null {
   const historical = snapshot.jurisdiction === "IL" ? {
     route: "cannabis-specific-automatic-or-petition-expungement", type: "official_pdf_overlay",
     source: "aa34523e3b643b32124db5d83973622f37082f2d112b3e32ef55912258a7e630",
@@ -1451,6 +1451,13 @@ export function factualPathwayHeldSuccessor(snapshot: ProtectedPacketAuthoritySn
     || authoritative.packetType || authoritative.selectedTrackId || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
     || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== `${snapshot.jurisdiction.toLowerCase()}.pathway_conflicts_with_saved_fact`) return null;
   const plan = packetPlanForPathway(profile, historical.route);
+  // IL2 changes the historical plan, while the conflicting saved facts remain held.
+  const reviewed = snapshot.jurisdiction === "IL" && status === "unverified"
+    && snapshot.schemaVersion === "expungement-ai/protected-packet-draft/v1" && snapshot.packetPlan
+    && canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan.mode, sourceFormIds: snapshot.packetPlan.sourceFormIds })
+    ? reviewedPacketContractSuccessor(snapshot, plan ?? undefined) : null;
+  if (reviewed && plan) snapshot = { ...reviewed,
+    packetFamilyIdentifiers: { mode: plan.mode, sourceFormIds: [...plan.sourceFormIds] } };
   if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
     || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
     || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, historical.route))) return null;
@@ -2851,7 +2858,7 @@ export function protectedPacketInformationModelFor(
     && protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode }, authoritative)) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  const factualSuccessor = paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative, verification.status) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
+  const factualSuccessor = paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative, verification.status) ?? convictionFallbackHeldSuccessor(snapshot, authoritative, verification.status) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
@@ -4655,7 +4662,7 @@ function deriveProtectedPacketDraftSnapshot(
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
-    base = factualPathwayHeldSuccessor(base, currentAuthority) ?? convictionFallbackHeldSuccessor(base, currentAuthority, verification.status) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
+    base = factualPathwayHeldSuccessor(base, currentAuthority, verification.status) ?? convictionFallbackHeldSuccessor(base, currentAuthority, verification.status) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
   }
   if (factualIds.some(id => explicitChangedIds.has(id) || (mtPreparationIds || caJuvenileIds || mdJuvenileIds) && confirmRecordFacts.includes(id))) {

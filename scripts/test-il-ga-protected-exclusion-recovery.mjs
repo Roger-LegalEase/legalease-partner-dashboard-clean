@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
+const B = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
+const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const fixtures = JSON.parse(fs.readFileSync(new URL('./lib/il-ga-protected-pre-exclusion-fixtures.json',import.meta.url)));
 const checks=[]; const check=(id,pass)=>checks.push({id,pass:!!pass});
 const equal=(a,b)=>{try{assert.deepEqual(a,b);return true;}catch{return false;}};
@@ -15,6 +17,21 @@ for(const row of fixtures.rows){
  original.draftHash=P.protectedPacketDraftHash(original.draftSnapshot);
  const before=structuredClone(original),model=P.protectedPacketInformationModelFor(original);
  check(state+'/genuine-old-row-readable',model); if(!model)continue;
+ if(state==='IL'){
+  for(const status of ['verified','invalidated'])check(state+'/old-plan-'+status+'-refused',P.protectedPacketInformationModelFor({...original,status})===null);
+  const bad=structuredClone(original);bad.draftSnapshot.packetPlan.sourceFormIds=['unreviewed-form'];
+  bad.draftSnapshot.packetFamilyIdentifiers.sourceFormIds=['unreviewed-form'];bad.draftHash=P.protectedPacketDraftHash(bad.draftSnapshot);
+  check(state+'/unreviewed-plan-refused',P.protectedPacketInformationModelFor(bad)===null);
+ }
+ const presentation=await B.decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId:'synthetic-owner',item},{
+  readProtectedVerification:async()=>({ok:true,value:original}),readProtectedArtifact:async()=>({ok:true,value:null}),
+  readPaymentAuthority:async()=>({valid:false,reason:'no_authority_row'}),readTrustedPendingSource:async()=>({ok:false,reason:'not_needed'}),
+  evaluateAuthoritative:evaluate
+ });
+ check(state+'/briefcase-held-readable',presentation.authorityStatus==='protected_draft'&&presentation.resultCode==='needs_review'&&presentation.pathwayId===null&&presentation.packetDraft.status==='available'&&presentation.packetDraft.packetPlan===null&&presentation.packetProgress==='in_progress');
+ check(state+'/briefcase-no-checkout-or-download',!presentation.commercialActions.checkoutAllowed&&!presentation.commercialActions.generationAllowed&&!presentation.artifact.canDownload&&presentation.paymentState==='unavailable');
+ check(state+'/briefcase-correction-control',presentation.packetDraft.builderQuestions?.some(q=>q.id===(state==='IL'?'il_cannabis_next_step':'ga_original_first_offender')));
+ check(state+'/briefcase-raw-preserved',maps.every(map=>equal(presentation.packetDraft[map],original.draftSnapshot[map]))&&equal(original,before));
  check(state+'/current-held',model.pathwayId===null&&!model.packetPlan&&!model.reviewSafety.safe&&model.stage==='in_progress');
  check(state+'/no-invented-document-obligation',equal(model.requiredInputIds,[]));
  const fact=state==='IL'?'il_cannabis_next_step':'ga_original_first_offender';
