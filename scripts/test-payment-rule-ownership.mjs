@@ -36,11 +36,14 @@ function check(label, fn) {
   checks++;
   try { fn(); } catch (error) { failures.push({ label, error: error.message }); }
 }
+// F-NE-2 Lead 23:20:52 (m118/m143/m156): these recorded paid expectations become unpaid; fixture bytes stay exact.
+const fneWithdrawals = new Set([239,247,249,257,491,493,495,781,783,785,3257,3417,243,245,251,255,263]);
+assert.equal(fixture.cases.filter(row=>fneWithdrawals.has(row.index)&&row.expected.paymentAllowed).length,17);
 for (const row of fixture.cases) {
   const answers = structuredClone(row.answers), before = JSON.stringify(answers);
   const profile = getProfileByJurisdiction(row.jurisdiction);
   const actual = evaluateScreening({ jurisdiction: row.jurisdiction, profileVersion: profile.profileVersion, matterId: `verify3-borrowed-${row.jurisdiction}`, answers });
-  check(`evaluation:${row.index}:${row.jurisdiction}:${row.expected.pathwayId}`, () => assert.deepEqual(actual, row.expected));
+  check(`evaluation:${row.index}:${row.jurisdiction}:${row.expected.pathwayId}`, () => assert.deepEqual(actual, fneWithdrawals.has(row.index) ? {...row.expected,paymentAllowed:false} : row.expected));
   check(`saved-answers:${row.index}`, () => assert.equal(JSON.stringify(answers), before));
 }
 

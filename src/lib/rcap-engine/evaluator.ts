@@ -1,3 +1,4 @@
+import { paymentRouteScopeHeld } from "@/lib/rcap-engine/payment-route-scope";
 import { IL_PROGRAM_ROUTE, IL_PROGRAM_FACT_IDS, IL_PROGRAM_SOURCE, IL_PROGRAM_COPY, illinoisProgramFacts, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, VA_RECORD_ORIGIN_COPY, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
@@ -269,6 +270,8 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
 
 function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
   const evaluated = evaluateProfileRules(profile, request, msSource);
+  // F-NE-2 closes only payment; route, reasons, plan and saved answers retain their authority.
+  if (paymentRouteScopeHeld(evaluated, normalizeCaseOutcome(request.answers.case_outcome), request.answers)) evaluated.paymentAllowed = false;
   const nonconviction = ["GA", "CT"].includes(profile.jurisdiction.code)
     && ["arrest_no_charge", "dismissed", "acquitted"].includes(normalizeCaseOutcome(request.answers.case_outcome))
     && projectPublicProfile(profile).questions.some(question => question.id === "case_outcome"
