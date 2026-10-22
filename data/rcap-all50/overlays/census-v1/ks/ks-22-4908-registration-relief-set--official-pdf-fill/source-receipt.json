@@ -99,18 +99,79 @@
       ],
       "recordId": "legal-design-track-registry:ks-22-4908-registration-relief",
       "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "5e200d1520e15c36a9d0b70b982cefbdb42848704e318445940c599b1818649e",
-      "byteLength": 16782784,
+      "sha256": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+      "byteLength": 16782785,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed legal-design track and packet contract",
       "anchorStatementsVerified": 4,
+      "identityRefreshHistory": [
+        {
+          "refreshedOn": "2026-10-21",
+          "was": {
+            "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "byteLength": 16781025
+          },
+          "why": "The record was rewritten around this receipt's anchors. 4 named entries moved between the blob carrying the previous pin and the bytes on disk (tn_eligible_conviction, tn_judicial_diversion, tn_pretrial_diversion, tn_two_offense), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+          "anchorsCompared": 2,
+          "anchorDetail": [
+            "registryGlobalMetadata: identical",
+            "track:ks-22-4908-registration-relief: identical"
+          ],
+          "anchorsIdentical": 2,
+          "identicalAnchorSha256": {
+            "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+            "track:ks-22-4908-registration-relief": "1434f700f994d0f51a59699c77b19ce66a827915731dc8fcc3c1aeb9505ed104"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+          "anchorScope": {
+            "anchorIds": [
+              "ks-22-4908-registration-relief"
+            ],
+            "derivation": {
+              "fromPinRecordId": [
+                "ks-22-4908-registration-relief"
+              ],
+              "fromReceiptRouteKeys": [
+                "ks-22-4908-registration-relief"
+              ],
+              "routeKeysNamingNoTrackDirectly": [],
+              "globalMetadataComparedAsOneAnchor": true
+            }
+          },
+          "entriesThatMovedInThisRecord": [
+            "tn_eligible_conviction",
+            "tn_judicial_diversion",
+            "tn_pretrial_diversion",
+            "tn_two_offense"
+          ],
+          "recoveredFrom": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "98c89f71a96ba4869d4ea8c71a7702b5dc3a95c2",
+            "commit": "fe7fd55f3acd5eab0bdba5084e7a0390ad1f4359",
+            "commitsWithThisPath": 101,
+            "distinctBlobs": 84,
+            "blobsHashed": 3
+          },
+          "appliedUnder": "TN source-copy successor: the measured KS 22-4908 track and global registry metadata are unchanged; renew only their whole-file registry binding.",
+          "previousIdentityRefresh": null,
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval.",
+          "writtenAgainst": "5e200d1520e15c36a9d0b70b982cefbdb42848704e318445940c599b1818649e",
+          "writtenAgainstByteLength": 16782784,
+          "supersededBy": {
+            "measuredNow": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+            "on": "2026-10-22",
+            "by": "rebuild",
+            "why": "the source moved again: the annotation was written against 5e200d1520e1 and this build measured d0ba0e7d88ad. Nobody has compared anchors across that second move and this build cannot; a live note would assert that comparison, so the note is kept as history and the pin reads as moved until a measured re-pin"
+          }
+        }
+      ],
       "identityRefresh": {
-        "refreshedOn": "2026-10-21",
+        "refreshedOn": "2026-10-22",
         "was": {
-          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
-          "byteLength": 16781025
+          "sha256": "5e200d1520e15c36a9d0b70b982cefbdb42848704e318445940c599b1818649e",
+          "byteLength": 16782784
         },
-        "why": "The record was rewritten around this receipt's anchors. 4 named entries moved between the blob carrying the previous pin and the bytes on disk (tn_eligible_conviction, tn_judicial_diversion, tn_pretrial_diversion, tn_two_offense), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "why": "The record was rewritten around this receipt's anchors. 2 named entries moved between the blob carrying the previous pin and the bytes on disk (al-misd-conviction, co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
         "anchorsCompared": 2,
         "anchorDetail": [
           "registryGlobalMetadata: identical",
@@ -138,21 +199,74 @@
           }
         },
         "entriesThatMovedInThisRecord": [
-          "tn_eligible_conviction",
-          "tn_judicial_diversion",
-          "tn_pretrial_diversion",
-          "tn_two_offense"
+          "al-misd-conviction",
+          "co_motion_seal_conviction"
         ],
         "recoveredFrom": {
-          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
-          "blobId": "98c89f71a96ba4869d4ea8c71a7702b5dc3a95c2",
-          "commit": "fe7fd55f3acd5eab0bdba5084e7a0390ad1f4359",
-          "commitsWithThisPath": 101,
-          "distinctBlobs": 84,
-          "blobsHashed": 3
+          "method": "exact prior pinned commit/blob recovered and sha256/length verified",
+          "commit": "0a06008cdd5bb25515256ac0782964b930fe8ccf",
+          "blobId": "1caabb57ec3c49cb14518c6549eb065dd549818f"
         },
-        "appliedUnder": "TN source-copy successor: the measured KS 22-4908 track and global registry metadata are unchanged; renew only their whole-file registry binding.",
-        "previousIdentityRefresh": null,
+        "appliedUnder": "Measured registry-only identity refresh at 4ef8fbbb1fbd632948b4d4e8b71d2c8c92ce0013 under Lead m168; KS track and global metadata unchanged, prior annotation retained as history. Parent/tip tests and independent review recorded separately. No acceptance or permission changes.",
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-10-21",
+          "was": {
+            "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "byteLength": 16781025
+          },
+          "why": "The record was rewritten around this receipt's anchors. 4 named entries moved between the blob carrying the previous pin and the bytes on disk (tn_eligible_conviction, tn_judicial_diversion, tn_pretrial_diversion, tn_two_offense), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+          "anchorsCompared": 2,
+          "anchorDetail": [
+            "registryGlobalMetadata: identical",
+            "track:ks-22-4908-registration-relief: identical"
+          ],
+          "anchorsIdentical": 2,
+          "identicalAnchorSha256": {
+            "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+            "track:ks-22-4908-registration-relief": "1434f700f994d0f51a59699c77b19ce66a827915731dc8fcc3c1aeb9505ed104"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+          "anchorScope": {
+            "anchorIds": [
+              "ks-22-4908-registration-relief"
+            ],
+            "derivation": {
+              "fromPinRecordId": [
+                "ks-22-4908-registration-relief"
+              ],
+              "fromReceiptRouteKeys": [
+                "ks-22-4908-registration-relief"
+              ],
+              "routeKeysNamingNoTrackDirectly": [],
+              "globalMetadataComparedAsOneAnchor": true
+            }
+          },
+          "entriesThatMovedInThisRecord": [
+            "tn_eligible_conviction",
+            "tn_judicial_diversion",
+            "tn_pretrial_diversion",
+            "tn_two_offense"
+          ],
+          "recoveredFrom": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "98c89f71a96ba4869d4ea8c71a7702b5dc3a95c2",
+            "commit": "fe7fd55f3acd5eab0bdba5084e7a0390ad1f4359",
+            "commitsWithThisPath": 101,
+            "distinctBlobs": 84,
+            "blobsHashed": 3
+          },
+          "appliedUnder": "TN source-copy successor: the measured KS 22-4908 track and global registry metadata are unchanged; renew only their whole-file registry binding.",
+          "previousIdentityRefresh": null,
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval.",
+          "writtenAgainst": "5e200d1520e15c36a9d0b70b982cefbdb42848704e318445940c599b1818649e",
+          "writtenAgainstByteLength": 16782784,
+          "supersededBy": {
+            "measuredNow": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+            "on": "2026-10-22",
+            "by": "rebuild",
+            "why": "the source moved again: the annotation was written against 5e200d1520e1 and this build measured d0ba0e7d88ad. Nobody has compared anchors across that second move and this build cannot; a live note would assert that comparison, so the note is kept as history and the pin reads as moved until a measured re-pin"
+          }
+        },
         "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     },
