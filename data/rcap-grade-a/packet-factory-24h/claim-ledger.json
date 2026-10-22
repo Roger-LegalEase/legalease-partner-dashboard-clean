@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "8e21757aea004a597096d9c42118b164d9a1c67d",
+  "generatedAtCommit": "0149ee262402285b1bb488d3a4e77417e6b24852",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2341,9 +2341,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Integrated current independent verdict already proves family; no worker executing, stale grant released"
+      "released": true,
+      "releasedAt": "2026-10-21T21:47:56.127Z",
+      "releaseReason": "Verification returned: Reviewer2 VF02 content-only PASS_COMPLETE_INDEPENDENT at 9400b1919 (lane file 6f4918e2, commit 05ee87daf); raster owed to A9. verify.mjs:1119-1124 requires release before regeneration. Lead ruling 2026-10-21T21:40:56Z."
     },
     {
       "subjectType": "packet-family",
@@ -9395,7 +9395,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T18:29:59.166Z",
@@ -16036,7 +16036,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a01bb9da199599c31ad80e95b8d37fd90829f9fe5e8adca38a284bf494ca9c55",
+  "claimsDigest": "e3d3536f2a3e6cdcc4907b83a9a47097821aa18ede63bcc8a8a59756fef2f814",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44477,6 +44477,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-10-21T16:54:25.524Z",
       "reason": "F34: mt_deferred_dismissal-set is COMPLETE_PACKET_PROVEN at 5babc4312; stale VF08 verifier grant"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-10-21T21:47:56.127Z",
+      "reason": "Verification returned: Reviewer2 VF02 content-only PASS_COMPLETE_INDEPENDENT at 9400b1919 (lane file 6f4918e2, commit 05ee87daf); raster owed to A9. verify.mjs:1119-1124 requires release before regeneration. Lead ruling 2026-10-21T21:40:56Z."
     }
   ],
   "reissues": [
