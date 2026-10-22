@@ -156,7 +156,37 @@ check(()=>assert.equal(msMipPredecessor.sourceSha,'933615db47bf54d147fdbe0b32417
 check(()=>assert.equal(msMipPredecessor.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
 check(()=>assert.equal(msMipPredecessor.sourceSha256,'42ac6dfad098e928c136adb4cbe08106f6bcb6045e30aad8edd6fb0e39ad14ec'));
 check(()=>assert.equal(msMipPredecessor.witness.pathwayKey,msMipKey));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!originalChanged.has(w.pathwayKey)).map(vaOriginPredecessor).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+// F-NE-2/R25 closes only payment for these nine original public witnesses.
+// Restore that one field for historical digests; current native replay stays unpaid.
+const fnePaymentPriorHashes = {
+  "LA:felony-article-893-e-set-aside-followed-by-expungement": "07b7608500c2daa4f6a578b449a64da0339f1a818c050ee5d7e2dd8e4c3f1e35",
+  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement": "40c01c2fcf5df249568bdbc98f9c61642e49e29070922c5e5648676217bc4b95",
+  "MN:petition-based-expungement-under-609a-02-03": "b3d9d7d96a89ba4b80107b074e93a6ecaf4e021f3711364f48c5db1b3aeaba02",
+  "MS:first-offense-dui-expungement": "8f4aa85b1ab53b9d1b35e259b8692ce4deec0ac069c8d825b9c6b843521f2d55",
+  "ND:deferred-imposition-dismissal-and-sealing": "883137ce11891bbfc4d7d36b33109964499dbaefc2109c010434ea95ee5f86e5",
+  "NE:set-aside-probation-fine-community-service": "6d23da65eb34f0d7aca55815f24283ee974351df10d5d4c0c09d2d0e714e3c7b",
+  "UT:path-i-traffic-offense-expungement-or-deletion": "2b75bbef079494506a6e17f1fc17cadf580acec46a468403e9c877763ea16131",
+  "WI:adult-conviction-expungement-under-wis-stat-973-015": "194c71c90dd6bdf0778a769ef324e8f667b77b63f5b775cec857af1175922cb2",
+  "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a": "809831f6b16897429212563543bb3a3adb45ef1952d5a1a960fe2cd4f1130f2c"
+};
+const fnePaymentKeys = new Set(Object.keys(fnePaymentPriorHashes));
+function fnePaymentPredecessor(w) {
+  if (!fnePaymentKeys.has(w.pathwayKey)) return w;
+  assert.equal(w.terminalEvaluation?.paymentAllowed, false, 'FNE public witness remains unpaid');
+  const prior={...w, terminalEvaluation:{...w.terminalEvaluation, paymentAllowed:true}};
+  assert.equal(sha(JSON.stringify(prior)),fnePaymentPriorHashes[w.pathwayKey], 'FNE public witness changes only payment');
+  return prior;
+}
+check(()=>assert.equal(packet.witnesses.filter(w=>fnePaymentKeys.has(w.pathwayKey)).length,9));
+for (const key of fnePaymentKeys) {
+  const w=packet.witnesses.find(row=>row.pathwayKey===key);
+  check(()=>assert.deepEqual(projection(replay(w,w.finalAnswers)),w.terminalEvaluation));
+  const uplift=structuredClone(w);uplift.terminalEvaluation.paymentAllowed=true;
+  check(()=>assert.throws(()=>fnePaymentPredecessor(uplift),/FNE public witness remains unpaid/));
+  const altered=structuredClone(w);altered.finalAnswers.case_outcome='unapproved answer';
+  check(()=>assert.throws(()=>fnePaymentPredecessor(altered),/FNE public witness changes only payment/));
+}
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!originalChanged.has(w.pathwayKey)).map(vaOriginPredecessor).map(fnePaymentPredecessor).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
 // The MD source-stage successor changes only this synthetic transcript. Its
 // freshly answered release fact is not inferred from the former broad outcome.
 // Keep the ef0455 row in the original 253-row digest and pin all 266 other rows
@@ -182,7 +212,7 @@ check(()=>assert.equal(packetNextStepsPredecessors.sourceSha256,'fe56d26708583cd
 check(()=>assert.deepEqual([...packetNextStepsHistorical.keys()],packetNextStepsKeys));
 check(()=>assert.equal(packetNextStepsPredecessors.witnesses.length,5));
 check(()=>assert.ok(packetNextStepsKeys.every(key=>changed.has(key))));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(vaOriginPredecessor).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(vaOriginPredecessor).map(fnePaymentPredecessor).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
 // Current IL/SD/WY successors: the reviewed reason codes, payment still closed.
 for(const [key,code] of [[ilSdWyKeys[0],'il.prostitution_record_conflict'],[ilSdWyKeys[1],'sd.sis_prior_review'],[ilSdWyKeys[2],'wy.felony1502_disposition']])check(()=>{
   const w=packet.witnesses.find(w=>w.pathwayKey===key);
@@ -204,8 +234,8 @@ function requireB31eSuccessor(w,prior){
     assert.deepEqual(w.unresolvedEvaluation.missingQuestionIds,['case_outcome'],message);
     assert.deepEqual(w.unresolvedEvaluation.reasons.map(r=>r.code),['il.program_missing'],message);
     assert.equal(w.unresolvedEvaluation.paymentAllowed,false,message);
-    // N2: pin the copied unresolvedEvaluation (incl. nextSteps) as generated at 1f015b941.
-    assert.equal(sha(JSON.stringify(w.unresolvedEvaluation)),'b9a43288ec6117760303cd8d444de7d6080f91f3de81b866dde8fe9f2490606b',message);
+    // N2: pin the copied unresolvedEvaluation (incl. nextSteps) after the reviewed IL2 form-plan correction at e53f60347.
+    assert.equal(sha(JSON.stringify(w.unresolvedEvaluation)),'0b9b89c7f4504d853b0f744dc83d3178d5afd516cdd338aad7041582bc53c035',message);
     return;
   }
   const expected=structuredClone(prior);
@@ -456,7 +486,7 @@ check(()=>assert.equal(packet.totals.settledOnATerminalEvaluation,258));
 check(()=>assert.equal(packet.totals.landedOnTheirOwnPathway,257));
 check(()=>assert.equal(packet.totals.terminalResultCodes.guidance_only,91));
 check(()=>assert.equal(packet.totals.terminalResultCodes.likely_not_eligible,2));
-check(()=>assert.equal(packet.totals.paymentAllowedAtTheEvaluator,22));
+check(()=>assert.equal(packet.totals.paymentAllowedAtTheEvaluator,22-fnePaymentKeys.size));
 for(const w of packet.witnesses.filter(w=>changed.has(w.pathwayKey))) {
   const actual=replay(w,w.finalAnswers);
   if(w.terminalEvaluation) check(()=>assert.deepEqual(projection(actual),w.terminalEvaluation));
