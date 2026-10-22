@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 142,
-  "totalBytes": 15108709,
+  "fileCount": 205,
+  "totalBytes": 24197043,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -380,6 +380,237 @@
       "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
     },
     {
+      "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json",
+      "sha256": "81a8b5b107e728884555c313c1bbb797d2cb06512dab4094c0b1246650f1225b",
+      "bytes": 77376,
+      "readBy": "src/lib/expungement-ai/ak-courtview-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/production-field-map.json",
+      "sha256": "7fb92b8800b24738b92ee5cc6f5ee00f93952a9b3577598b4fbdbe2c62f4c197",
+      "bytes": 140236,
+      "readBy": "src/lib/expungement-ai/ak-pardon-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/production-field-map.json",
+      "sha256": "64edb26d1d136545dd95d244ffe2647cbdd1d230619604fc08990d6b994d258c",
+      "bytes": 84892,
+      "readBy": "src/lib/expungement-ai/ak-pardon-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/production-field-map.json",
+      "sha256": "b4919a2c01e3c742bf028763a26bb30a8a1fa8ec69db2ab82e8ca8aba55e5817",
+      "bytes": 96921,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/production-field-map.json",
+      "sha256": "fb63f56081dbe97fdb7e53f1f6fcee4f955ac712625f2dc4c61b5f9651490cfb",
+      "bytes": 96824,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/production-field-map.json",
+      "sha256": "650422bf616848a375b12f13185c24238185f8816d977758bebeaacf684e7c46",
+      "bytes": 96734,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/production-field-map.json",
+      "sha256": "27bb99d4179729443977e7608ee315ee3d1154822d6a94ee8b3e7cfc9e1cdaf2",
+      "bytes": 96784,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts; src/lib/expungement-ai/al-redeemer-classification.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/source-receipt.json",
+      "sha256": "944d1dcb593f21c5117c74b692c71dfd657c648df2372c8205ebea6c4ff23eea",
+      "bytes": 1011,
+      "readBy": "src/lib/expungement-ai/al-redeemer-classification.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/production-field-map.json",
+      "sha256": "72814646ee2919b62c669c38f3426934348f1dac16ebd8defee82cfcc9edba23",
+      "bytes": 96768,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/production-field-map.json",
+      "sha256": "d7789ee0aa3ae71a9ef0a22dc6f2e35a4355377857ac99a9999c83580b7ed446",
+      "bytes": 676011,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/production-field-map.json",
+      "sha256": "64c02232c19ae58c2baa7e2c85e1d37a4617806b28efeab0dab81c992bcd8e2f",
+      "bytes": 97108,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/production-field-map.json",
+      "sha256": "d88d49e0bfd5826401201308f059227c2863b3344cfc75cecd7f0360129339fd",
+      "bytes": 101259,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/production-field-map.json",
+      "sha256": "3aa4da42d129283492ba94555241f8cbc52a50748fc1ad886bba99f6c5ebb865",
+      "bytes": 162858,
+      "readBy": "src/lib/expungement-ai/ar-felony-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/source-receipt.json",
+      "sha256": "1337166283f5a68b7e67ed5fd32a19c0019051dbfc831dc50576572858c163d2",
+      "bytes": 5167,
+      "readBy": "src/lib/expungement-ai/ar-felony-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/production-field-map.json",
+      "sha256": "6c07d6c0d96d997be412c6a96bab465a399782548439cbbb17d24ddb92f5860e",
+      "bytes": 193446,
+      "readBy": "src/lib/expungement-ai/ar-nonconviction-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/source-receipt.json",
+      "sha256": "6dba9fe021cafe36655dbad1338893310f31471675abb9706d9ef29bea4e0b0c",
+      "bytes": 29857,
+      "readBy": "src/lib/expungement-ai/ar-nonconviction-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/production-field-map.json",
+      "sha256": "d745be7477220a9557da196784e116b0d66f92cc111d6fa5b7431d57973f580b",
+      "bytes": 259651,
+      "readBy": "src/lib/expungement-ai/ca-1203-4-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/source-receipt.json",
+      "sha256": "ba701b625d074fe2eab922e71a4e3ecab22e8c022bf62acba524f0c645d64f77",
+      "bytes": 7564,
+      "readBy": "src/lib/expungement-ai/ca-1203-4-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/production-field-map.json",
+      "sha256": "3148f84d3e57e4220fb85bf0b0a75497d16f87e85ddff850e01fc2b3866e1947",
+      "bytes": 241219,
+      "readBy": "src/lib/expungement-ai/ca-1203-4a-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/source-receipt.json",
+      "sha256": "8755a5090bfb114266f81daa322582af03beba261ef5e28aec13e3c7fa7b6b54",
+      "bytes": 6716,
+      "readBy": "src/lib/expungement-ai/ca-1203-4a-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/product-wiring.json",
+      "sha256": "ed54ec689e96dea1284d932f9244e11e8e063ecdc4192f8944e05b501c9b85be",
+      "bytes": 7220,
+      "readBy": "src/lib/expungement-ai/mn-two-county-source-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/production-field-map.json",
+      "sha256": "e9c6e6572940feb7767419261e8117a32c8ecf3f05acc9fe5e74ca1d8c46ced3",
+      "bytes": 466563,
+      "readBy": "src/lib/expungement-ai/mn-two-county-source-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading/product-wiring.json",
+      "sha256": "eac1a8400da33fb780535312595645c409ae55d1fee9c89619ce6b2c5aa790cd",
+      "bytes": 4815,
+      "readBy": "src/lib/expungement-ai/mn-two-county-source-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading/production-field-map.json",
+      "sha256": "03e2dd15c6c29dff423c1f7189a78c8fef05695c3988f4a184c6736f5fa5daac",
+      "bytes": 48887,
+      "readBy": "src/lib/expungement-ai/mn-two-county-source-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/product-wiring.json",
+      "sha256": "dfb0d48a12b42829810b5bcc56efc32ab12f440ca84c11fdd041cbcd9cde8a88",
+      "bytes": 3727,
+      "readBy": "src/lib/expungement-ai/mo-610122-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+      "sha256": "a6b3476b2b20000bd2476a73ecc34796e06e0bc75b1d8885c3d85d36819b0082",
+      "bytes": 723610,
+      "readBy": "src/lib/expungement-ai/mo-610122-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+      "sha256": "e8f57da4ff5ca180f004a526e71d2e588f908290d295446d73bedbce070b4f60",
+      "bytes": 2245,
+      "readBy": "src/lib/expungement-ai/mo-610122-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/product-wiring.json",
+      "sha256": "ddff302bfcacc524f0464828c1cdc7b8cb0c9a9f7e448a5e1da968c8fbbbc9ad",
+      "bytes": 5808,
+      "readBy": "src/lib/expungement-ai/mo-xiv-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/production-field-map.json",
+      "sha256": "a4267485fba9d9e62c55b9ba144ba9b89bd9bd01cd241c82b99a11a31180a420",
+      "bytes": 436378,
+      "readBy": "src/lib/expungement-ai/mo-xiv-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/source-receipt.json",
+      "sha256": "920fc0895738c128cb7dc43364986247e63439b45b9b61b72ac7d3a513fbf70a",
+      "bytes": 3844,
+      "readBy": "src/lib/expungement-ai/mo-xiv-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/product-wiring.json",
+      "sha256": "1e9b09810fafab2a34895e729f45410dfefd7ed91409c71a8434596a9df7732e",
+      "bytes": 3591,
+      "readBy": "src/lib/rcap-engine/ny-mrta-stage-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json",
+      "sha256": "3e0e3450b39213154bec9ff1f75f208599ffd202bd4391d9def2da12c38725e4",
+      "bytes": 1505,
+      "readBy": "src/lib/rcap-engine/ny-mrta-stage-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+      "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
+      "bytes": 580144,
+      "readBy": "src/lib/expungement-ai/oregon-disposition-contact.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
       "path": "data/rcap-all50/problematic-pdf-register.json",
       "sha256": "aee39d15e5ff23c25eb87f026607d1dfe8fa99e38a793d32a7cbcdb1f1de0b17",
       "bytes": 2554384,
@@ -681,6 +912,20 @@
       "why": "Read only when the delivery route state is live. Absent, deploymentConfigIncomplete() fails closed and every live route stops resolving."
     },
     {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "bytes": 22372,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+      "sha256": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
+      "bytes": 49479,
+      "readBy": "src/lib/expungement-ai/ak-pardon-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
       "path": "data/rcap-grade-a/maintenance/route-holds.json",
       "sha256": "54d7cdd734e207399e1f65977bfca6b6df7bea33c99e236a4f4264c6eb1a0d41",
       "bytes": 9791,
@@ -689,10 +934,24 @@
     },
     {
       "path": "data/rcap-grade-a/worker-static-authority.json",
-      "sha256": "a0c4d6e54bf9c159f0f9272f973e2aee298c45b4b39feb6af3f030bd38244f5e",
-      "bytes": 226527,
+      "sha256": "71ed4c037eff13d925366f66b598dc1ae85cf6525c67363c4fb60b5f84e64658",
+      "bytes": 282677,
       "readBy": "src/lib/rcap/fulfillment/worker-static-authority.ts",
       "why": "Render-only legal/source/specification authority; external publication facts remain outside the image."
+    },
+    {
+      "path": "data/rcap-ledger/completed-output-counsel-manifest.json",
+      "sha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+      "bytes": 321306,
+      "readBy": "src/lib/expungement-ai/mo-xiv-court-context.ts; src/lib/expungement-ai/mn-cannabis-location-context.ts; src/lib/expungement-ai/mn-609a017-location-context.ts; src/lib/expungement-ai/mn-299c11-location-context.ts; src/lib/expungement-ai/mn-609a015-location-context.ts; src/lib/expungement-ai/mo-610105-court-context.ts; src/lib/expungement-ai/oh-trafficking-court-context.ts; src/lib/rcap-engine/connecticut-automatic-source-guidance.ts; src/lib/rcap-engine/connecticut-cannabis-automatic-guidance.ts; src/lib/rcap-engine/district-of-columbia-general-guidance.ts; src/lib/rcap-engine/missouri-automatic-drug-guidance.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/rcap-ledger/crosswalk-resolution/E4-R2.json",
+      "sha256": "1bac67e19167e401d9fbd801c92613101cc12feb68ac88807a30524ec51959fa",
+      "bytes": 24347,
+      "readBy": "src/lib/rcap-engine/connecticut-cannabis-automatic-guidance.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
     },
     {
       "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
@@ -752,8 +1011,8 @@
     },
     {
       "path": "data/rcap-ledger/route-kind-adjudications.json",
-      "sha256": "df4757fa7b3ad6a942fc8cc0d8e516ea8b35e11f35614f4833f3d7b355162eb8",
-      "bytes": 45611,
+      "sha256": "e84342613e17a6451d1dcc650d60e1bc15175c6cf05125bb3482adc829691bb2",
+      "bytes": 46957,
       "readBy": "worker module graph (ESM JSON import)",
       "why": "Static import; module load fails if absent."
     },
@@ -780,10 +1039,17 @@
     },
     {
       "path": "data/record-clearing/factory-v2-route-registry.json",
-      "sha256": "e4c986e3a9e1ae21164d5a075870e721e1bd57297807b323804e24cd149a9b9f",
-      "bytes": 528250,
+      "sha256": "cddc3ce2a91bae4aa6936a54dd09ec3cd9eb3555796d65d3dfac128d48ca5c91",
+      "bytes": 530566,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (REGISTRY_PATH)",
       "why": "Factory-v2 route rows behind buildRenderJobSpec."
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      "sha256": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
+      "bytes": 184885,
+      "readBy": "src/lib/expungement-ai/ak-pardon-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
     },
     {
       "path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
@@ -815,15 +1081,127 @@
     },
     {
       "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
-      "sha256": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25",
-      "bytes": 149160,
+      "sha256": "a5771bd8dbd8604b5375f26079648adc96142af79fc90f89e2fc0c408f344a71",
+      "bytes": 149154,
       "readBy": "src/lib/rcap/render/job-contract.ts and src/lib/rcap-engine/evaluator.ts (ESM JSON import)",
       "why": "Static import; module load fails if absent."
     },
     {
+      "path": "data/record-clearing/legal-design-intake/AK.memo.json",
+      "sha256": "21b35a397c84f96cf6ea85b2eb70a494927c819e371db02d453804f935d82098",
+      "bytes": 67852,
+      "readBy": "src/lib/expungement-ai/ak-pardon-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/AL.memo.json",
+      "sha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+      "bytes": 112172,
+      "readBy": "src/lib/expungement-ai/al-record-context.ts; src/lib/expungement-ai/al-redeemer-classification.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/AR.memo.json",
+      "sha256": "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac",
+      "bytes": 131898,
+      "readBy": "src/lib/expungement-ai/ar-felony-record-context.ts; src/lib/expungement-ai/ar-nonconviction-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "sha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+      "bytes": 169729,
+      "readBy": "src/lib/expungement-ai/ca-automatic-record-context.ts; src/lib/expungement-ai/ca-1203-4-record-context.ts; src/lib/expungement-ai/ca-1203-4a-record-context.ts; src/lib/expungement-ai/ca-prop64-juvenile-document-preparation.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+      "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+      "bytes": 171609,
+      "readBy": "src/lib/rcap-engine/connecticut-automatic-source-guidance.ts; src/lib/rcap-engine/connecticut-cannabis-automatic-guidance.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/DC.memo.json",
+      "sha256": "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64",
+      "bytes": 91532,
+      "readBy": "src/lib/rcap-engine/district-of-columbia-general-guidance.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+      "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+      "bytes": 121810,
+      "readBy": "src/lib/rcap-engine/florida-conditional-source-information.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/KS.memo.json",
+      "sha256": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
+      "bytes": 276835,
+      "readBy": "src/lib/expungement-ai/ks-municipal-category-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/MD.memo.json",
+      "sha256": "4e773ffb80e152ed18294aa19545e6ec2f27d3d239188b25340d63726b7a8faf",
+      "bytes": 137393,
+      "readBy": "src/lib/rcap-engine/maryland-police-record-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/MN.memo.json",
+      "sha256": "de2c6bfe28f21ebf05dea318373f3e26dbf18027fe75a88e8f619d1a324baac2",
+      "bytes": 151485,
+      "readBy": "src/lib/expungement-ai/mn-cannabis-location-context.ts; src/lib/expungement-ai/mn-609a017-location-context.ts; src/lib/expungement-ai/mn-299c11-location-context.ts; src/lib/expungement-ai/mn-609a015-location-context.ts; src/lib/expungement-ai/mn-two-county-source-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "sha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "bytes": 494662,
+      "readBy": "src/lib/expungement-ai/mo-xiv-court-context.ts; src/lib/expungement-ai/mo-610122-court-context.ts; src/lib/expungement-ai/mo-610105-court-context.ts; src/lib/rcap-engine/missouri-automatic-drug-guidance.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+      "sha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+      "bytes": 399654,
+      "readBy": "src/lib/rcap-engine/mississippi-first-offender-source-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/MT.memo.json",
+      "sha256": "7f2ffd5993fec2a607f0858b332276745513281f465f9a3908a94a3c8a86c85d",
+      "bytes": 269202,
+      "readBy": "src/lib/expungement-ai/mt-deferred-document-inputs.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/NY.memo.json",
+      "sha256": "fcf1ac52c65f70db988f949fe4d95336781b024066ec7edc408641f627789c10",
+      "bytes": 226710,
+      "readBy": "src/lib/rcap-engine/ny-16057-guidance.ts; src/lib/rcap-engine/ny-mrta-stage-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/OH.memo.json",
+      "sha256": "c7882683f5f8a15d47b643574240682b1cb24308203a1a71e3b36cea91b5a0d1",
+      "bytes": 259331,
+      "readBy": "src/lib/rcap-engine/ohio-juvenile-source-stage.ts; src/lib/expungement-ai/oh-trafficking-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "sha256": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+      "bytes": 306821,
+      "readBy": "src/lib/expungement-ai/va-pardon-type-source.ts; src/lib/rcap-engine/virginia-victim-question.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0",
-      "bytes": 3737113,
+      "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+      "bytes": 3738732,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (ROUTE_MIGRATIONS_PATH)",
       "why": "Packet-set manifests behind buildRenderJobSpec."
     },
@@ -843,78 +1221,85 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
-      "sha256": "4f687d1cf05b4c858b92af341627433fdad4bf29daf4030bb25d9f7879deef9d",
-      "bytes": 30698,
+      "sha256": "ea7d7f0acf71915031366bfde09f7485665596c8992ad913b03a3e6707e07149",
+      "bytes": 43166,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
+      "path": "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json",
+      "sha256": "984ea6eb6bda4a8a06a92d5c5c0204d56b039739b6915f0c0949d8c52454750b",
+      "bytes": 51791,
+      "readBy": "src/lib/expungement-ai/ca-prop64-juvenile-config.ts",
+      "why": "Static JSON import: copied by the existing specification directory, but nested below its manifest enumeration."
+    },
+    {
       "path": "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
-      "sha256": "3665327f0eda0c206e43686ceef376c0cce73aa3335c0d908661ec2eaab31b36",
-      "bytes": 87167,
+      "sha256": "4e372f73d690328b495951de3fddd9758975b87de4e27ae14ef3c19ee1600868",
+      "bytes": 90472,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
-      "sha256": "d9e7335016e22d761252a07c47156e5e591382da80c347209bd476c12ab53bb6",
-      "bytes": 107093,
+      "sha256": "179163a1fc67df414e8ebe12518d01cf0cf8352e953efb39ed4ec9b55b94f4b2",
+      "bytes": 108874,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
-      "sha256": "86bcc6355c5dc4c8227dd0cd6d639ced02ec1ced12b8a29d184d0e7aaf895ccb",
-      "bytes": 39640,
+      "sha256": "5da89eed428bfa1989bcdf88983d6d4cb7efbf8e269dc01565c3ae0a08bc423b",
+      "bytes": 40819,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
-      "sha256": "ad588e077ef31a839622bdc65e6279b7f2e69293a8c0b9a659ef3da809a48bc8",
-      "bytes": 28540,
+      "sha256": "1d3e0a5cdea0956e6cd286a4c52f1509f029514d9ae849b699b01f703c4bd323",
+      "bytes": 28624,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json",
-      "sha256": "c748e2d6fdaac1fca670214fd601cf0ed1b102c96f101c7e4a87fffa34bea526",
-      "bytes": 9789,
+      "sha256": "7ab9f37c96a57f0405cb99ea979111b354e74d9c8afd98b0cf2e96ef15f519dc",
+      "bytes": 9779,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json",
-      "sha256": "13b4d1fc352dad7a54faa4b0adfdbb69cef06143958ebeda81a04f806ea1da59",
-      "bytes": 9283,
+      "sha256": "fbfbffc138dc8294769493a7234ccb5b6afd4a61f705dd9344f8a5f75b207ca2",
+      "bytes": 9273,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
-      "sha256": "6bc1e05b8385fd37469c1bd3db5cfb953eab9107381db3ff1f0cff5d7474594f",
-      "bytes": 54787,
+      "sha256": "4943c9aeceec21f2934b74b96f6728f5b96ba8b26aa60abf5b1e885b23abbf2b",
+      "bytes": 56125,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
-      "sha256": "14d1d7a1571c7abe891647909134dc60131900cbb9d7f1c1988cb8b6e24a2f40",
-      "bytes": 64034,
+      "sha256": "ea0fa12cb522d0d07c00b2b2587c7a398b8736bc7d0ab556cb251466ef4ba42e",
+      "bytes": 65266,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
-      "sha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
-      "bytes": 64769,
+      "sha256": "23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126",
+      "bytes": 64896,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
-      "sha256": "7eb9b6cbe9c487f679334030cbb958c6e7cdeca51844f01e52c74c1bb683b346",
-      "bytes": 26882,
+      "sha256": "64bda52e6eeda85a96bb2074463637175c0b60afd7ba119115f7e9e3709d9741",
+      "bytes": 25771,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
@@ -948,17 +1333,73 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
-      "sha256": "ac219585ad69e39c48ef280b32cc6ee277137a8f6686e94a86588006572d53a4",
-      "bytes": 35565,
+      "sha256": "2620f9312ab7aa94c69b3d94dc8eccbcb0d6c59ab7dfb1f29052aa8d9037948a",
+      "bytes": 67722,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
       "path": "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
-      "sha256": "6828916e90298f9cfc8e44b80112aa05f6c16a811b66854d01967edf86b1f7b6",
-      "bytes": 51723,
+      "sha256": "95bc696ccf22b11be045d36da1a8343898cfdb732363f60b1e1730a7d7137902",
+      "bytes": 53185,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-ak-guidance-implementation.json",
+      "sha256": "ed5b7c86728f1abb6e3d475a52cc4ff5ea48682a4a293a981ed9875268d1b7cb",
+      "bytes": 2207,
+      "readBy": "src/lib/expungement-ai/ak-pardon-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-ca-guidance-implementation.json",
+      "sha256": "859e34be09d3e0fea488f4d58bc9cefdc5eeb8aef88e11b8148c612ffcc6901c",
+      "bytes": 1992,
+      "readBy": "src/lib/expungement-ai/ca-automatic-record-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-md-guidance-implementation.json",
+      "sha256": "a01d25c29a080f09d179f78dcadcd1812374c6eb548f5021bc49f5bc16666e65",
+      "bytes": 2527,
+      "readBy": "src/lib/rcap-engine/maryland-police-record-facts.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-mn-custom-pleading.json",
+      "sha256": "2cec51694fff85eeae317a3a272328d6c9f9ae2f5f206099c4356415b403d32a",
+      "bytes": 2572,
+      "readBy": "src/lib/expungement-ai/mn-299c11-location-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-mn-guidance-implementation.json",
+      "sha256": "6bc70fd592ba40e607c1f8f159af4964c900da4fdc72854209e7bd3ad1b0dca1",
+      "bytes": 3098,
+      "readBy": "src/lib/expungement-ai/mn-cannabis-location-context.ts; src/lib/expungement-ai/mn-609a017-location-context.ts; src/lib/expungement-ai/mn-609a015-location-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-mo-guidance-implementation.json",
+      "sha256": "5ae1c54359b71db840c395e4a3eeb8a6630ffd7572a5c1efb8bb6cfe78ed058f",
+      "bytes": 1817,
+      "readBy": "src/lib/expungement-ai/mo-xiv-court-context.ts; src/lib/expungement-ai/mo-610105-court-context.ts; src/lib/rcap-engine/missouri-automatic-drug-guidance.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-ny-guidance-implementation.json",
+      "sha256": "1821bb5515dca1544ea079ba402eff5dccf1ba9406c2caee0c0348348a85572b",
+      "bytes": 2288,
+      "readBy": "src/lib/rcap-engine/ny-16057-guidance.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
+    },
+    {
+      "path": "data/record-clearing/production-factory/packet-proofs/rcap-oh-guidance-implementation.json",
+      "sha256": "d36fa5f527451bc441dc092b38769831e8c266e8084f348f4998ed4b2209b84d",
+      "bytes": 2032,
+      "readBy": "src/lib/expungement-ai/oh-trafficking-court-context.ts",
+      "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
     },
     {
       "path": "data/record-clearing/supplemental-guides/DC-actual-innocence-expungement.v1.json",
@@ -969,22 +1410,22 @@
     },
     {
       "path": "data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
-      "sha256": "d730420d7a5969fc62f0669584e7d02aadfb80cc176f48be001282ff93801d46",
-      "bytes": 18988,
+      "sha256": "48f82feb58f2f009f24992f4dfd16db6f26f3802153a7c57d77ccceb38ac5059",
+      "bytes": 36413,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
     {
       "path": "data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
-      "sha256": "f25b13e06afcbb6118e06187ea06ca7f0839b755930a36a25d7f41869a2951a8",
-      "bytes": 24319,
+      "sha256": "81734234ceec3022da710225322a8106b4a91cf43f4543733d3121ba1a140a2e",
+      "bytes": 40057,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
     {
       "path": "data/record-clearing/supplemental-guides/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
-      "sha256": "726a51230ff1054cd5da26fa0f0deafad77f2044c577929ba4fd2f0cb1ef4bba",
-      "bytes": 15220,
+      "sha256": "a05555092ae202e1405be2327068881f1f6cdb8bb084a979e68a427b66452f5c",
+      "bytes": 23605,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
@@ -1004,8 +1445,8 @@
     },
     {
       "path": "data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
-      "sha256": "d1631ad3de6499ddc6f575c7fd7dc4841112677cdbbc5ff71462fe464af1efbd",
-      "bytes": 19493,
+      "sha256": "2f24a5c35a866256f1e10150f3247953fa056eaf1bef1ec42742861011e14b56",
+      "bytes": 32705,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
