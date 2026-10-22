@@ -100,10 +100,16 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current batch31e staging stack source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31e-stack-20261021-v1.json',
   // Mandatory current batch31e payment-safety unit source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31e-payment-20261021-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31e-payment-20261021-v1.json',
+  // Mandatory current batch31e final combined correction source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31e-final-20261022-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
+  "src/lib/rcap-engine/illinois-plan-forms.ts",
+  "src/lib/rcap-engine/illinois-program-facts.ts",
+  "src/lib/rcap-engine/north-dakota-plan-forms.ts",
+  "src/lib/rcap-engine/payment-route-scope.ts",
   "data/rcap-all50/guidance-packets/ca.json",
   "data/rcap-all50/guidance-packets/mo.json",
   "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json",

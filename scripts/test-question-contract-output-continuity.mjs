@@ -27,6 +27,7 @@ import {assertB31dGa20R3SourceSuccession,B31D_GA20_R3_SOURCE_PATH} from '../src/
 import {assertB31dMdF1SourceSuccession,B31D_MD_F1_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31eStackSourceSuccession,B31E_STACK_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31ePaymentSourceSuccession,B31E_PAYMENT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertB31eFinalSourceSuccession,B31E_FINAL_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1107,6 +1108,13 @@ check('batch31e payment-safety unit hop preserves prior chain and refuses missin
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31E_PAYMENT_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31e payment-safety unit source succession record bytes changed/);
  assert.throws(()=>assertB31eStackSourceSuccession(file=>{if(file===B31E_PAYMENT_SOURCE_PATH)throw Error('missing batch31e payment-safety unit record');return readBytes(file);}),/missing batch31e payment-safety unit record/);
  for(const input of ["src/lib/expungement-ai/localization.ts", "src/lib/rcap-engine/georgia-first-offender.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('batch31e final combined correction hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertB31eFinalSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,36);assert.equal(c.currentUnchangedSourceCount,162);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31E_FINAL_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31e final combined correction source succession record bytes changed/);
+ assert.throws(()=>assertB31ePaymentSourceSuccession(file=>{if(file===B31E_FINAL_SOURCE_PATH)throw Error('missing batch31e final combined correction record');return readBytes(file);}),/missing batch31e final combined correction record/);
+ for(const input of ["src/lib/expungement-ai/localization.ts", "src/lib/expungement-ai/reviewed-court-completion-contracts.json", "src/lib/rcap-engine/conviction-relief-request.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
