@@ -189,7 +189,7 @@ For scheduling, the sets fall into 1 batches of one jurisdiction and one legal-d
 - **Affected legal-design element:** governing_mechanism_and_output_vehicle
 - **Exact unresolved question:** The governing mistaken-identity mechanism and the participant-facing output vehicle are both unresolved. Counsel named no approved form, pleading or guidance strategy. This track is not registered at runtime and is unreachable. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?
 - **Controlling authorities:** C.R.S. § 24-72-702, as amended by HB24-1133, which addresses records created as a result of mistaken identity and the costs associated with expunging the record
-- **Memo:** `data/record-clearing/legal-design-intake/CO.memo.json` · sha256 `427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591` · reviewed as of 2026-07-30
+- **Memo:** `data/record-clearing/legal-design-intake/CO.memo.json` · sha256 `9bc20b495047064cb0888610bdc07a5070413f91f1f0d9eb27873ee2bf3e1488` · reviewed as of 2026-07-30
 - **Service disposition today:** No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.
 
 ### NY `ny_160_55_violation`
