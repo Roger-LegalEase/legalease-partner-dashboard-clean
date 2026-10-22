@@ -33,7 +33,9 @@ export async function createClinicFixture(env = process.env) {
   const sql = query => execFileSync('docker', ['exec','-i',container,'psql','-X','-h','127.0.0.1','-p',port,'-U','postgres','-d',database,'-Atq','-v','ON_ERROR_STOP=1'],
     {input:query,encoding:'utf8',maxBuffer:64*1024*1024,stdio:['pipe','pipe','pipe']}).trim();
   const json = query => JSON.parse(sql(query));
-  const admin = createClient(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, {auth:{persistSession:false,autoRefreshToken:false}});
+  // Connection: close — snapshot() blocks the event loop (execFileSync psql per table) longer than the gateway's keep-alive,
+  // so a reused socket arrives closed and undici does not retry a POST (UND_ERR_SOCKET, empty error code).
+  const admin = createClient(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, {auth:{persistSession:false,autoRefreshToken:false},global:{headers:{Connection:'close'}}});
   const checked = result => {assert(!result.error, result.error?.code ?? 'Fixture database operation failed');return result.data;};
   const partner = checked(await admin.from('partner_records').select('id,partner_slug,partner_name').eq('partner_slug',program).single());
   assert(/synthetic|simulated|practice/i.test(partner.partner_name), 'Live participant programs are forbidden');

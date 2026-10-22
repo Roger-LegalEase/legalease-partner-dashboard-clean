@@ -144,11 +144,14 @@ try{
   const compare=page.getByRole('region',{name:/^(Compare answers|Comparar respuestas)$/});await compare.waitFor();
   await page.getByRole('button',{name:/^(Discard my draft and use saved answers|Descartar mi borrador y usar las respuestas guardadas)$/}).click();
   await compare.waitFor({state:'detached'});
-  check('B-R1-response-lost-no-loss-no-double-apply',committed?.status()===200&&afterCommit.revision===model.revision+1
-    &&afterCommit.answers.participant_full_legal_name==='Synthetic Interrupted Response'&&retried.status()===409
-    &&afterRetry.revision===afterCommit.revision&&afterRetry.answers.participant_full_legal_name==='Synthetic Interrupted Response'
-    &&await field.inputValue()==='Synthetic Interrupted Response'&&!await page.getByRole('alert').count(),
-    {committedHttp:committed?.status()??null,retryHttp:retried.status()});
+  // Each part recorded so a FAIL names its cause (attempt 7 recorded only the HTTP codes).
+  const responseLost={committedHttp:committed?.status()??null,retryHttp:retried.status(),revisionOnce:afterCommit.revision===model.revision+1,
+    committedValue:afterCommit.answers.participant_full_legal_name==='Synthetic Interrupted Response',retryNotApplied:afterRetry.revision===afterCommit.revision
+      &&afterRetry.answers.participant_full_legal_name==='Synthetic Interrupted Response',fieldRestored:await field.inputValue()==='Synthetic Interrupted Response',
+    // Next's app-router announcer is a permanent empty role=alert in an open shadow root (next 16.2.6 app-router-announcer.js); it is not product feedback.
+    alertsLeft:await page.getByRole('alert').evaluateAll(es=>es.filter(e=>e.id!=='__next-route-announcer__').map(e=>({id:e.id,text:e.innerText})))};
+  check('B-R1-response-lost-no-loss-no-double-apply',responseLost.committedHttp===200&&responseLost.retryHttp===409&&responseLost.revisionOnce
+    &&responseLost.committedValue&&responseLost.retryNotApplied&&responseLost.fieldRestored&&!responseLost.alertsLeft.length,responseLost);
 
   // B3 correction in Spanish on the recovered page (its revision must be the recovered one), reload, back to English.
   const corrected='Synthetic Unassisted Corrected';
@@ -159,7 +162,13 @@ try{
   await page.reload({waitUntil:'networkidle'});await field.waitFor();
   const next=await read();
   check('B3-explicit-correction-save-reload',next.answers.participant_full_legal_name===corrected&&next.revision===afterCommit.revision+1&&await field.inputValue()===corrected);
-  await switchTo('en');await field.waitFor();
+  // In-page switch back is required on the packet page itself; if it is missing that is a FAIL, and the run then switches through the
+  // consumer nav only to keep measuring that the correction survives a language change.
+  const inPage=await page.getByRole('button',{name:/^(Use English|Usar inglés)$/}).filter({visible:true}).count();
+  check('EN-ES-packet-page-language-control',inPage>0,{visibleControls:inPage});
+  if(!inPage){const back=page.url();await page.goto('/expungement-ai/how-it-works',{waitUntil:'networkidle'});await switchTo('en');await page.goto(back,{waitUntil:'networkidle'});}
+  else await switchTo('en');
+  await field.waitFor();
   check('EN-ES-switch-back-keeps-correction',await locale()==='en'&&await field.inputValue()===corrected);
   const stale=await context.request.post(api,{data:{expectedRevision:model.revision,answers:{participant_full_legal_name:'Stale correction'}}});
   check('B3-stale-revision-denied',stale.status()===409);

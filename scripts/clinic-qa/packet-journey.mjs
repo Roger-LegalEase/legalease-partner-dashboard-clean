@@ -9,14 +9,24 @@ const copy=JSON.parse(fs.readFileSync(new URL('../../src/lib/expungement-ai/fron
 
 const reviewed=JSON.parse(fs.readFileSync(new URL('../../src/lib/expungement-ai/frontend/reviewed-question-spanish.json',import.meta.url)));
 
+export function ownerPacketStatusAnswered({status,body,cacheControl,generationStatus,generationResultCode}) {
+  return status===200 || (status===403 && generationStatus===403 && generationResultCode==='fulfillment_not_proven'
+    && cacheControl==='private, no-store' && body?.resultCode==='fulfillment_not_proven'
+    && body.error==='A packet is not available for this route yet. Your saved information remains available.'
+    && Object.keys(body).length===2);
+}
+
 // The real screening controls, answered from an existing fixture; `beforeStep` lets a caller act between
 // questions (the unassisted run switches language mid-screening). Returns the save button and the questions seen.
 export async function answerScreening({page,answers,beforeStep=async()=>{}}) {
   const saveResult=page.getByRole('button',{name:/^(Save my result and continue|Guardar mi resultado y continuar)$/});
   const questionIds=[];
   for(let step=0;step<25;step++) {
-    await page.locator('input[type=radio],input[type=checkbox]').or(saveResult).first().waitFor();
+    // The optional pathway-context question keeps its options under a closed "Show optional help" disclosure (6b4cd9c21); open it like a participant would.
+    const optionalHelp=page.locator('[data-optional-pathway-help] > button[aria-expanded=false]');
+    await page.locator('input[type=radio]:visible,input[type=checkbox]:visible').or(saveResult).or(optionalHelp).first().waitFor();
     if(await saveResult.count())break;
+    if(await optionalHelp.count())await optionalHelp.click();
     await beforeStep(step);
     const names=await page.locator('input[type=radio],input[type=checkbox]').evaluateAll(nodes=>[...new Set(nodes.map(node=>node.name))]);
     for(const name of names) {
@@ -133,13 +143,18 @@ export async function packetJourney({fixture,participant,session,locale,check,re
     do {
       statusResponse=await context.request.get(`/api/expungement-ai/packet/status?briefcaseItemId=${matterId}`,{maxRedirects:0});
       delivery.statusHttp=statusResponse.status();
-      if(statusResponse.status()!==200)delivery.status='OWNER_STATUS_REQUEST_FAILED';
-      assert.equal(statusResponse.status(),200,`Owner packet status refused (HTTP ${statusResponse.status()})`);
+      // Preserve denial testing after a refusal; only the adopted public fulfillment refusal is an answered status.
+      if(statusResponse.status()!==200){statusBody=await statusResponse.json().catch(()=>null);delivery.status='OWNER_STATUS_REQUEST_FAILED';break;}
       statusBody=await statusResponse.json();
       if(!shouldAwaitArtifactStatus({generationHttp:generation.status(),generationPacketStatus:generated.packetStatus,
         status:statusBody,deadlineExpired:Date.now()>=deadline}))break;
       await new Promise(resolve=>setTimeout(resolve,1000));
     } while(true);
+    const answered=ownerPacketStatusAnswered({status:statusResponse.status(),body:statusBody,cacheControl:statusResponse.headers()['cache-control'],
+      generationStatus:generation.status(),generationResultCode:generated.resultCode});
+    check(`${locale}-owner-packet-status-answers`,answered,{http:statusResponse.status()});
+    if(answered&&statusResponse.status()===403)delivery.status='BLOCKED_FULFILLMENT_NOT_PROVEN';
+    if(statusResponse.status()===200){
     delivery.statusHttp=statusResponse.status();delivery.canDownload=statusBody.canDownload===true;
     delivery.finalPacketStatus=statusBody.packetStatus??null;
     if(statusBody.packetStatus==='failed')check(`${locale}-actual-render-completed-without-failure`,false);
@@ -150,6 +165,7 @@ export async function packetJourney({fixture,participant,session,locale,check,re
       await artifactDenial({item:{artifact,matterId,actor:{id:session.participant_user_id},context},context:helperContext,id:'staff-owner-artifact-denied',check});
       delivery.status='ARTIFACT_AVAILABLE_ACCEPTANCE_IN_PROGRESS';
     } else delivery.status='BLOCKED_NO_OWNER_ARTIFACT';
+    }
   } else delivery.status='BLOCKED_NOT_VERIFIED';
   const download=await helperContext.request.get(`/api/expungement-ai/packet/download-link?briefcaseItemId=${matterId}`,{maxRedirects:0});
   check(`${locale}-staff-unavailable-download-link-refused`,download.status()===404&&/no-store/.test(download.headers()['cache-control']??''));
