@@ -89,7 +89,8 @@ for(const row of predecessors){
  }
 }
 // Retained adopted source and exact c09 source-reproduced fixtures; no captured owner.
-const sourcePins={"data/record-clearing/legal-design-intake/NJ.memo.json": "a8bd80789f88f4e81853fdbf195e5538c2cc76ea71a4838fe84bdb517c9e6d22", "src/lib/legal-authority/routes/route-splits.json": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df", "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json": "369a22157ec223f271dd22bc56b70fd3947bf7df044d1884c5541b1470f0f949", "data/record-clearing/legal-decisions/route-ratification-registry.json": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25"};
+// Registry pin follows the CA tool-3 hold in 6e271b424; NJ entries are unchanged.
+const sourcePins={"data/record-clearing/legal-design-intake/NJ.memo.json": "a8bd80789f88f4e81853fdbf195e5538c2cc76ea71a4838fe84bdb517c9e6d22", "src/lib/legal-authority/routes/route-splits.json": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df", "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json": "369a22157ec223f271dd22bc56b70fd3947bf7df044d1884c5541b1470f0f949", "data/record-clearing/legal-decisions/route-ratification-registry.json": "a5771bd8dbd8604b5375f26079648adc96142af79fc90f89e2fc0c408f344a71"};
 for(const[file,expected]of Object.entries(sourcePins))check('retained source bytes '+file,()=>assert.equal(createHash('sha256').update(fs.readFileSync(root+'/'+file)).digest('hex'),expected));
 for(const route of [H.NJ_MARIJUANA_STATUS_ROUTE]){
  check('exact adopted source '+route,()=>assert(H.newJerseyMarijuanaStatusFinancialContract(profile,route)));
