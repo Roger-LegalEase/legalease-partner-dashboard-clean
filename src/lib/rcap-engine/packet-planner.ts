@@ -1,3 +1,4 @@
+import { isNorthDakotaUnmappedCandidateForm } from "@/lib/rcap-engine/north-dakota-plan-forms";
 import { IL_PROGRAM_ROUTE, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { illinoisPlanForms, isIllinoisOfficialPlanUninstalled } from "@/lib/rcap-engine/illinois-plan-forms";
 import { mnTwoCountyFactIds, mnTwoCountySourceContract } from "@/lib/expungement-ai/mn-two-county-source-facts";
@@ -65,11 +66,12 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
   // IL1: the positional CXP cannabis candidate is not the EXP-AD program packet.
   const illinoisProgramUnmapped = illinoisProgramContext(profile, pathwayId);
   const illinoisForms = illinoisPlanForms(profile, pathwayId);
+  const northDakotaUnmapped = isNorthDakotaUnmappedCandidateForm(profile, pathwayId);
   return {
     pathwayId,
     mode: plan.mode,
-    formMappingStatus: illinoisProgramUnmapped ? "custom_or_manual_mapping_required" : maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? "not_required" : plan.formMappingStatus,
-    sourceFormIds: (illinoisProgramUnmapped || maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? [] : plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
+    formMappingStatus: northDakotaUnmapped || illinoisProgramUnmapped ? "custom_or_manual_mapping_required" : maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? "not_required" : plan.formMappingStatus,
+    sourceFormIds: (northDakotaUnmapped || illinoisProgramUnmapped || maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? [] : plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
     requiredInputIds: [...new Set([
       ...scopedBaseRequiredInputIds,
       ...routedExactPacketFactIds,

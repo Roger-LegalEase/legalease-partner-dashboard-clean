@@ -117,6 +117,10 @@ for (const row of mode.startsWith('remove-route:') ? rows.filter(r=>r.key===mode
     expectedSuccessor.packetPlan = { ...snapshot.packetPlan, sourceFormIds: forms, formMappingStatus: 'source_candidate_identified' };
     expectedSuccessor.packetFamilyIdentifiers = { ...snapshot.packetFamilyIdentifiers, sourceFormIds: forms };
   }
+  if (["ND:deferred-imposition-dismissal-and-sealing", "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1", "ND:marijuana-specific-summary-pardon-or-sealing-relief"].includes(row.key)) {
+    expectedSuccessor.packetPlan = { ...snapshot.packetPlan, sourceFormIds: [], formMappingStatus: 'custom_or_manual_mapping_required' };
+    expectedSuccessor.packetFamilyIdentifiers = { ...snapshot.packetFamilyIdentifiers, sourceFormIds: [] };
+  }
   check(`${row.key}:successor-payment-only`,()=>assert.deepEqual(P.paymentOnlyDraftSuccessor(snapshot,authority,'unverified'),expectedSuccessor));
   check(`${row.key}:noop`,()=>{assert(saved);assert.equal(saved.readyToGenerate,false);assert.deepEqual(saved.protectedTransition.nextVerification,record);});
   const edited=P.packetInformationPatch({protectedVerification:record,answers:{participant_full_legal_name:'Synthetic Updated Name'}});

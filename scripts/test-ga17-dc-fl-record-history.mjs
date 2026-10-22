@@ -614,6 +614,7 @@ for(const [state,r1] of Object.entries(r1States))for(const [route,row] of Object
 // captured predecessor draft (payment true) stays recorded; the fresh seed, measured at f447067d7, differs only in paymentAllowed.
 const il2Forms=read('scripts/fixtures/il2-plan-predecessors.json');
 const il2PlanSuccessors=il2Forms.dcflFormPlanSuccessors.rows;
+const nd3PlanSuccessors=read('scripts/fixtures/nd-plan-form-predecessors.json').dcflFormPlanSuccessors.rows;
 const il2PaidAdultPredecessor=read('scripts/fixtures/payment-only-draft-predecessors.json').rows.find(row=>row.key==='IL:adult-conviction-sealing').record;
 const d1Closed=[hiDuiD1,
  {routeKey:'LA:non-conviction-arrest-expungement',predecessorDraftHash:predecessorHashes['non-conviction-arrest-expungement'],freshSeedHash:'dac457256c9bfa6d30be7b9df742cab6b50ca5d326c42e1fd2ad5c1cb88f29cd'},
@@ -749,6 +750,7 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   const r=P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation;assert.equal(r.resultCode,result);assert.equal(r.paymentAllowed,false);
  });
  const il2=il2PlanSuccessors.find(row=>row.routeKey===key)??null;
+ const nd3=nd3PlanSuccessors.find(row=>row.routeKey===key)??null;
  const d1=d1Closed.find(d=>d.routeKey===key)??null;
  if(d1)check(key+'/'+label+': D1 closes payment and preserves the original saved draft',()=>{
   assert.equal(seed.snapshot.paymentAllowed,false);
@@ -774,7 +776,7 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  });
  if(Object.hasOwn(fneClosed,key))check(key+'/'+label+': FNE closes only payment and preserves the paid predecessor draft',()=>{
   assert.equal(r1Row.payment,true);assert.equal(seed.snapshot.paymentAllowed,false);
-  const predecessor=structuredClone(seed.snapshot);predecessor.paymentAllowed=true;
+  const predecessor=structuredClone(nd3?.predecessorSnapshot??seed.snapshot);predecessor.paymentAllowed=true;
   assert.equal(P.protectedPacketDraftHash(predecessor),r1Row.seedHash);
   const saved={status:'unverified',revision:0,draftHash:r1Row.seedHash,draftSnapshot:predecessor};
   assert(P.protectedPacketInformationModelFor(saved));
@@ -793,7 +795,18 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
   assert.deepEqual(saved,before);assert.equal(P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation.paymentAllowed,false);
  });
- assert.equal(seed.hash,il2?.freshSeedHash??fneClosed[key]??(f2?f2.freshSeedHash:d1?d1.freshSeedHash:hop?hop.freshSeedHash:r1Row?r1Row.seedHash:predecessorHashes[route]),"actual captured predecessor or declared successor draft hash unchanged");
+ if(nd3)check(key+'/'+label+': ND3 preserves the native predecessor and removes only mismatched form identities',()=>{
+  assert.equal(P.protectedPacketDraftHash(nd3.predecessorSnapshot),nd3.predecessorDraftHash);
+  assert.equal(nd3.predecessorDraftHash,fneClosed[key]??r1Row.seedHash);
+  const expectedPlan={...nd3.predecessorSnapshot.packetPlan,sourceFormIds:[],formMappingStatus:'custom_or_manual_mapping_required'};
+  assert.deepEqual(seed.snapshot,{...nd3.predecessorSnapshot,packetPlan:expectedPlan,
+   packetFamilyIdentifiers:{...nd3.predecessorSnapshot.packetFamilyIdentifiers,sourceFormIds:[]}});
+  const saved={status:'unverified',revision:0,draftHash:nd3.predecessorDraftHash,draftSnapshot:structuredClone(nd3.predecessorSnapshot)},before=structuredClone(saved);
+  const model=P.protectedPacketInformationModelFor(saved);assert(model);assert.deepEqual(model.packetPlan,expectedPlan);
+  assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
+  assert.deepEqual(saved,before);assert.equal(P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation.paymentAllowed,false);
+ });
+ assert.equal(seed.hash,nd3?.freshSeedHash??il2?.freshSeedHash??fneClosed[key]??(f2?f2.freshSeedHash:d1?d1.freshSeedHash:hop?hop.freshSeedHash:r1Row?r1Row.seedHash:predecessorHashes[route]),"actual captured predecessor or declared successor draft hash unchanged");
  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
  // Route ids repeat across states (SC and MD juvenile-expungement); the matterId above stays as captured, the store key adds the state.
  const id='synthetic-'+state+'-'+route+'-'+label;assert(!records.has(id),id);records.set(id,original);

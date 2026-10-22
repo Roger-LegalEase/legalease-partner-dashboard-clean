@@ -11,6 +11,7 @@ const old=JSON.parse(fs.readFileSync(new URL('./lib/rcap-ms-legacy-contract-fixt
 const registry=JSON.parse(fs.readFileSync(new URL('../src/lib/expungement-ai/reviewed-packet-contract-successors.json',import.meta.url)));
 const historicalPlans=JSON.parse(fs.readFileSync(new URL('./fixtures/packet-contract-historical-plans.json',import.meta.url))).rows;
 const ilNativeRows=JSON.parse(fs.readFileSync(new URL('./fixtures/il2-plan-predecessors.json',import.meta.url))).rows;
+const ndNativeRows=JSON.parse(fs.readFileSync(new URL('./fixtures/nd-plan-form-predecessors.json',import.meta.url))).rows;
 const {contactRepresentationHash:hash}=await import('../src/lib/expungement-ai/contact-representation.ts');
 const make=(snapshot=old)=>({status:'unverified',reason:'synthetic-partial-legacy',revision:3,draftSnapshot:structuredClone(snapshot),draftHash:packet.protectedPacketDraftHash(snapshot)});
 const patch=(record,answers)=>packet.packetInformationPatch({existingItem:{id:'synthetic-legacy',jurisdiction:'MS',artifactRefs:{}},answers,protectedVerification:record});
@@ -74,7 +75,15 @@ for(const [key,contract] of Object.entries(registry.routes)){
   assert.deepEqual([native.jurisdiction,native.pathwayId,native.profileVersion,native.profileSourceFingerprint,native.profileAuthorityFingerprint],[state,pathway,contract.profileVersion,contract.profileSourceFingerprint,contract.profileAuthorityFingerprint]);
   assert.deepEqual(native.packetPlan,priorPlan);assert.deepEqual(native.requiredInputIds,priorPlan.requiredInputIds);
  });
- const s={...structuredClone(ilRecord?.draftSnapshot??caEnvelope??old),jurisdiction:state,pathwayId:pathway,profileVersion:contract.profileVersion,profileSourceFingerprint:contract.profileSourceFingerprint,profileAuthorityFingerprint:contract.profileAuthorityFingerprint,packetPlan:priorPlan,requiredInputIds:[...priorPlan.requiredInputIds]};
+ const ndRecord=state==='ND'&&historicalPlans[key]?.source.path==='scripts/fixtures/nd-plan-form-predecessors.json'
+  ?ndNativeRows.find(row=>row.route===pathway)?.verification:null;
+ if(state==='ND'&&historicalPlans[key]?.source.path==='scripts/fixtures/nd-plan-form-predecessors.json')check(`${key} genuine ND predecessor envelope`,()=>{
+  assert.ok(ndRecord);const native=ndRecord.draftSnapshot;
+  assert.equal(packet.protectedPacketDraftHash(native),ndRecord.draftHash);
+  assert.deepEqual([native.jurisdiction,native.pathwayId,native.profileVersion,native.profileSourceFingerprint,native.profileAuthorityFingerprint],[state,pathway,contract.profileVersion,contract.profileSourceFingerprint,contract.profileAuthorityFingerprint]);
+  assert.deepEqual(native.packetPlan,priorPlan);assert.deepEqual(native.requiredInputIds,priorPlan.requiredInputIds);
+ });
+ const s={...structuredClone(ndRecord?.draftSnapshot??ilRecord?.draftSnapshot??caEnvelope??old),jurisdiction:state,pathwayId:pathway,profileVersion:contract.profileVersion,profileSourceFingerprint:contract.profileSourceFingerprint,profileAuthorityFingerprint:contract.profileAuthorityFingerprint,packetPlan:priorPlan,requiredInputIds:[...priorPlan.requiredInputIds]};
  if(caEnvelope)check(`${key} borrowed MS envelope refused`,()=>assert.equal(reviewedPacketContractSuccessor({...s,serverFacts:old.serverFacts,packetFamilyIdentifiers:old.packetFamilyIdentifiers},plan),null));
  check(`${key} exact registry projects only current contract`,()=>{const projected=reviewedPacketContractSuccessor(s,plan);assert.ok(projected);assert.deepEqual(projected.packetPlan,plan);assert.deepEqual(projected.requiredInputIds,plan.requiredInputIds);assert.deepEqual(s.packetPlan,priorPlan);});
  check(`${key} new unreviewed plan field refused`,()=>assert.equal(reviewedPacketContractSuccessor(s,{...plan,mode:'unreviewed'}),null));
