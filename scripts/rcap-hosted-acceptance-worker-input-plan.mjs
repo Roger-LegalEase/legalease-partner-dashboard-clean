@@ -79,7 +79,7 @@ function dockerCopyInputs(rootDir, sourceSha) {
       throw new Error("unsupported Dockerfile COPY syntax in worker input plan");
     }
     for (const source of words.slice(0, -1)) {
-      if (!/^[A-Za-z0-9_.\/-]+$/.test(source) || source.startsWith("/") || source.split("/").includes("..")) {
+      if (!/^[A-Za-z0-9_.\/:-]+$/.test(source) || source.startsWith("/") || source.split("/").includes("..")) {
         throw new Error(`unsupported Dockerfile COPY source: ${source}`);
       }
       inputs.add(source.replace(/\/$/, ""));
