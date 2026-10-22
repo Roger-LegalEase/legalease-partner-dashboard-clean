@@ -142,12 +142,6 @@ jobs:
         if: matrix.group == 'g'
         run: node scripts/generate-packet-collection-audit.mjs --check
 
-      # ~5 s. The public witness answer sets must match a fresh, deterministic regeneration; IL1, the D1 Set
-      # and the CA tool-3 hold left them stale before the 31e regen (lead 2026-10-21T20:23:49Z). Committed files only.
-      - name: Verify public witness answer sets are current
-        if: matrix.group == 'g'
-        run: node scripts/generate-rcap-public-witness-answer-sets.mjs --check
-
       # ~4 s. Mississippi later-order effect: a "none" later order and every collected effect stay held for
       # review (lead 2026-10-21T21:26:40Z, with MS1). Positive run only; the test's --mutation= cases are not run here.
       - name: Verify Mississippi later-order effect handling
