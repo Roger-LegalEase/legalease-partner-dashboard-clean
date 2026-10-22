@@ -43,6 +43,16 @@ function withoutA35(delta) {
   assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), A35_REPIN_SHA256, 'exactly the reviewed A35 re-pin');
   return {...delta, supersededSha256: delta.supersededSha256.slice(0, -1)};
 }
+// R24 (owner-authorized 2026-10-22): one further re-pin per moved file, appended after the A35 one.
+const R24_REPINS = [{"path":"src/lib/rcap-engine/evaluator.ts","sha256":"3cdff25f7b38ec9c367e5284ca0c153a83e9f449675455be11ab2c5991fa6e7c","repinnedTo":"843500dbf6aa2077e579a350401d6e8be69a2f3c4ce42e162fe054ec39156a79","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"},{"path":"src/lib/rcap-engine/public-profile-projection.ts","sha256":"8bad18e499f5e4a451555002b2af4dead0353e781aec2f7280770efef48d3d32","repinnedTo":"44f0d77fae02fa8707d7914b55017632ef5acbd9a35087991b62915975bd4ba6","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"}];
+const R24_REPINS_SHA256 = '65ba1e5402b7b42f6ab0f9027f9a74aaf6a5c71cac952e01418611181bffe958'; // the appended entries, reasons included, in record order
+function withoutR24(delta) {
+  const tail = delta.supersededSha256.slice(-R24_REPINS.length);
+  assert.deepEqual(tail.map(e => ({path:e.path,sha256:e.sha256,repinnedTo:e.repinnedTo,behaviouralProof:e.behaviouralProof})),
+    R24_REPINS, `${delta.id}: the reviewed R24 re-pins are its last supersessions`);
+  assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), R24_REPINS_SHA256, 'exactly the reviewed R24 re-pins');
+  return {...delta, supersededSha256: delta.supersededSha256.slice(0, -R24_REPINS.length)};
+}
 const a17Appended = [];
 function withoutA17(delta) {
   const expected = A17_REPINS[delta.id];
@@ -54,7 +64,7 @@ function withoutA17(delta) {
   const {supersededSha256, ...rest} = delta;
   return supersededSha256.length > 1 ? {...rest, supersededSha256: supersededSha256.slice(0, -1)} : rest;
 }
-assert.deepEqual(withoutA17(withoutA27(withoutA35(history))), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
+assert.deepEqual(withoutA17(withoutA27(withoutA35(withoutR24(history)))), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
 assert.deepEqual(record.deltas.filter(d => d !== md).map(withoutA17), previous.deltas.filter(d => d.id !== md.id), 'other approvals unchanged');
 assert.equal(a17Appended.length, Object.keys(A17_REPINS).length, 'every reviewed A17 re-pin present');
 assert.equal(createHash('sha256').update(JSON.stringify(a17Appended)).digest('hex'), A17_REPINS_SHA256, 'exactly the reviewed A17 re-pins');
@@ -126,7 +136,10 @@ try {
     ['post-binding re-pin cites a missing proof',r=>a17Hop(r,(hops,i)=>{hops[i].behaviouralProof='scripts/verify-nothing-at-all.mjs'}),/as proof, and it does not exist/],
     // With A35 appended after it, losing the A27 hop leaves A35's starting hash unreachable.
     ['A27 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===A27_REPIN.repinnedTo);assert.ok(i>=0,'the A27 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
-    ['A35 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256;assert.equal(hops.at(-1).repinnedTo,A35_REPIN.repinnedTo);hops.pop()},/approval does not cover these bytes/]
+    // With R24's evaluator hop appended after it, losing the A35 hop leaves R24's starting hash unreachable.
+    ['A35 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===A35_REPIN.repinnedTo);assert.ok(i>=0,'the A35 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
+    ['R24 evaluator.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/evaluator.ts"&&e.repinnedTo==="843500dbf6aa2077e579a350401d6e8be69a2f3c4ce42e162fe054ec39156a79");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/approval does not cover these bytes/],
+    ['R24 public-profile-projection.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/public-profile-projection.ts"&&e.repinnedTo==="44f0d77fae02fa8707d7914b55017632ef5acbd9a35087991b62915975bd4ba6");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/approval does not cover these bytes/]
   ];
   for (const [name, mutate, marker] of mutants) {
     for(const [file,bytes] of originals)fs.writeFileSync(path.join(dir,file),bytes);
