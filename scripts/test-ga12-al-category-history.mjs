@@ -7,6 +7,7 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
+ fne_ut_hold:['const prefix = `${evaluation.jurisdiction.toLowerCase()}.compiled_rule_match.`;', 'if (evaluation.jurisdiction === "UT" && evaluation.pathwayId === "path-i-traffic-offense-expungement-or-deletion") return false; const prefix = `${evaluation.jurisdiction.toLowerCase()}.compiled_rule_match.`;'],
  ok_context:["export function okCategoryAndRecordAreHistory(profile, pathwayId, specification) {", "export function okCategoryAndRecordAreHistory(profile, pathwayId, specification) { return true;"],
  ok_collection:["okCategoryHistory ||", "false ||"],
  ok_level:["factId === \"offense_category\" && !overrideClass", "(factId === \"offense_category\" || okCategoryHistory && factId === \"offense_level\") && !overrideClass"],
@@ -335,7 +336,7 @@ const mutations={
  loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.offense_category;'],
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); shapesPreserved.packetAnswers.offense_category = "Inferred category";']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],["ok_context", "ok_collection", "ok_level", "ok_route_0", "ok_route_1", "ok_route_2", "ok_route_3", "ok_route_4", "ok_route_5", "ok_route_6", "ok_route_7", "ok_route_8", "ok_route_9", "ok_route_10", "ok_route_11", "ok_route_12", "ok_route_13", "ok_route_14", "ok_route_15", "ok_route_16",'mame_context','mame_collection','mame_level','mame_route_0','mame_route_1','mame_route_2','ma_next_context','ma_next_collection','ma_next_level','ma_next_route_0','ma_next_route_1','ma_next_route_2','ma_context','ma_collection','ma_level','ma_route_0','ma_route_1','ma_route_2','la_context','la_collection','la_level','la_route_0','la_route_1','la_route_2','ky_context','ky_collection','ky_level','ky_route_0','ky_route_1','ky_route_2','hi_context','hi_collection','hi_level','hi_dui','hi_drug','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)||/^r1_(context|collection|level|record_arm)$|^r1_[a-z]{2}_(category|record)_\d+$/.test(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],mutation==='fne_ut_hold'?'/payment-route-scope.ts':["ok_context", "ok_collection", "ok_level", "ok_route_0", "ok_route_1", "ok_route_2", "ok_route_3", "ok_route_4", "ok_route_5", "ok_route_6", "ok_route_7", "ok_route_8", "ok_route_9", "ok_route_10", "ok_route_11", "ok_route_12", "ok_route_13", "ok_route_14", "ok_route_15", "ok_route_16",'mame_context','mame_collection','mame_level','mame_route_0','mame_route_1','mame_route_2','ma_next_context','ma_next_collection','ma_next_level','ma_next_route_0','ma_next_route_1','ma_next_route_2','ma_context','ma_collection','ma_level','ma_route_0','ma_route_1','ma_route_2','la_context','la_collection','la_level','la_route_0','la_route_1','la_route_2','ky_context','ky_collection','ky_level','ky_route_0','ky_route_1','ky_route_2','hi_context','hi_collection','hi_level','hi_dui','hi_drug','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)||/^r1_(context|collection|level|record_arm)$|^r1_[a-z]{2}_(category|record)_\d+$/.test(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 // NC GA12 members are R1 history by design (test-ga12-ga17-no-consumer-collection.mjs asserts them): this test's group only.
 const ncDir = 'scripts/fixtures/ga12-ga17-no-consumer-collection', ncRoutes = new Set(fs.readdirSync(ncDir).filter(f => f.endsWith('.json'))
@@ -649,6 +650,45 @@ const maAdditionalRoutes=["juvenile-record-sealing-under-100b", "marijuana-only-
 const maMeRoutes=["time-based-expungement-under-100f-100j", "adult-conviction-sealing", "adult-non-conviction-record-relief"];
 // Exact retained Maine screening facts plus the non-conviction route label; no relief inferred.
 fixtures.push(...[{"pathwayKey": "ME:adult-non-conviction-record-relief", "jurisdiction": "ME", "pathwayId": "adult-non-conviction-record-relief", "profileVersion": "2026-06-19-source-conversion-1", "publicRoute": "/expungement-ai/screening/maine", "evaluationEndpoint": "POST /api/expungement-ai/screening", "answers": {"age_at_offense": "30", "case_outcome": "Arrest or citation with no charge filed", "court_requirements_completed": "yes", "financial_obligations": "Yes", "jurisdiction_scope": "State or local", "new_convictions_during_waiting_period": "No", "offense_level": "Felony", "ownership_scope": "Yes", "pardon_status": "No", "pending_cases": "No", "possible_pathway_context": "Adult non-conviction record relief", "record_documents": "Yes", "resolved_timing_bucket": "gt_10_years", "sentence_completion_date": "Yes", "special_preconditions_confirmed": "Yes", "trafficking_status": "No"}, "rounds": [{"round": 0, "droppedAsNotEvaluatorQuestions": ["state_exclusion_categories"]}, {"round": 1, "requested": ["age_at_offense", "resolved_timing_bucket"], "supplied": {"age_at_offense": "30", "resolved_timing_bucket": "gt_10_years"}}], "expected": {"pathwayId": "adult-conviction-sealing", "resultCode": "needs_more_info", "paymentAllowed": false}}]);
+// Adopted FNE withdrawals at 78db: only these exact original witnesses change payment expectations.
+const adoptedFneWitnesses = {
+  "Q-6f5514279e5ffa50cb3e": [
+    "UT:path-i-traffic-offense-expungement-or-deletion",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+  ],
+  "Q-b30729ed956e8d23062e": [
+    "LA:felony-article-893-e-set-aside-followed-by-expungement",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+  ],
+  "Q-c2f2a4248850b31ea8ca": [
+    "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+  ],
+  "Q-eea669c83c89361f4041": [
+    "NE:set-aside-probation-fine-community-service",
+    "Arrest or citation with no charge filed"
+  ],
+  "Q-cf92b9ddf3aa29535066": [
+    "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+  ],
+  "Q-522adeef09ebd5543747": [
+    "MN:petition-based-expungement-under-609a-02-03",
+    "Arrest or citation with no charge filed"
+  ],
+  "Q-afbb3e3a97066d42db43": [
+    "WI:adult-conviction-expungement-under-wis-stat-973-015",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+  ],
+  "Q-f2f665a3691cd1692e1a": [
+    "ND:deferred-imposition-dismissal-and-sealing",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+  ],
+  "Q-55d34e1c5bf66f373eea": [
+    "MS:first-offense-dui-expungement",
+    "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+  ]
+};
 const category = 'offense_category';
 const maps = ['screeningAnswers', 'prefilledAnswers', 'packetAnswers'];
 const safety = snapshot => ({
@@ -670,12 +710,14 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
   const historyContext=r1Row?r1CategoryIsHistory:{OK:okCategoryAndRecordAreHistory,ME:maMeCategoryIsHistory,MA:maMeRoutes.includes(route)?maMeCategoryIsHistory:maAdditionalRoutes.includes(route)?maAdditionalCategoryIsHistory:maThreeRouteCategoryIsHistory,LA:laThreeRouteCategoryIsHistory,KY:kyThreeRouteCategoryIsHistory,HI:hiThreeRouteCategoryIsHistory,IA:iaCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
   const hiCourtOrder=state==='HI'&&['dui-under-21-conviction','first-time-drug-conviction'].includes(route);
   const result=r1Row?r1Row.resultCode:state==='OK'?okExpectations[route].resultCode:['MA','ME'].includes(state)?{"adult-conviction-sealing-under-m-g-l-c-276-100a": "not_covered_yet", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c": "guidance_only", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c": "guidance_only", "juvenile-record-sealing-under-100b": "not_covered_yet", "marijuana-only-expungement": "guidance_only", "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k": "guidance_only", "time-based-expungement-under-100f-100j": "not_covered_yet", "adult-conviction-sealing": "needs_more_info", "adult-non-conviction-record-relief": "guidance_only"}[route]:state==='LA'?(route==='non-conviction-arrest-expungement'?'packet_ready_with_caution':'guidance_only'):state==='KY'?(route==='misdemeanor-violation-traffic-conviction'?'not_covered_yet':'needs_review'):state==='HI'&&(route==='nonconviction-arrest-expungement'||hiCourtOrder)?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
-  const payment=r1Row&&Object.hasOwn(r1Row,'paymentAllowed')?r1Row.paymentAllowed:result==='packet_ready_with_caution'&&!d1ClosedRoutes.has(`${state}:${route}`);
+  const adoptedFneWitness=adoptedFneWitnesses[questionRecordId];
+  const payment=adoptedFneWitness?false:r1Row&&Object.hasOwn(r1Row,'paymentAllowed')?r1Row.paymentAllowed:result==='packet_ready_with_caution'&&!d1ClosedRoutes.has(`${state}:${route}`);
   const historySource=r1Row?'r1_category_history':{OK:'ok_category_history',ME:'ma_me_category_history',MA:maMeRoutes.includes(route)?'ma_me_category_history':maAdditionalRoutes.includes(route)?'ma_additional_category_history':'ma_three_route_category_history',LA:'la_three_route_category_history',KY:'ky_three_route_category_history',HI:'hi_three_route_category_history',IA:'ia_three_route_category_history'}[state]??'al_three_route_category_history';
   const historyReason=r1Row?r1States[state].reason:{OK:"Earlier Oklahoma categories remain optional literal history. Charge, disposition, offense level, timing, court and applicable record-specific facts remain separate; a category does not establish statutory classification or eligibility.",ME:"These source-bound consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",MA:maMeRoutes.includes(route)?"These source-bound consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.":"These source-bound Massachusetts consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",LA:"These source-bound Louisiana consumers use separate disposition, charge, timing, redaction and automation-status facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",KY:"These source-bound Kentucky consumers use separate charge, disposition, offense-level and timing facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",HI:'These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.',IA:'These source-bound Iowa consumers use separate charge, disposition, age and timing facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.'}[state]??'These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate.';
   const witness=fixtures.find(f=>f.pathwayKey===`${state}:${route}`);assert(witness);
   // The HI conviction witnesses omit the required court-order confirmation; with it the paid packet opens.
   const answers=hiCourtOrder?{...structuredClone(witness.answers),hi_court_order_confirmed:'Yes'}:structuredClone(witness.answers);
+  if(adoptedFneWitness)check(`${route}: exact adopted FNE witness`,()=>assert.deepEqual([`${state}:${route}`,answers.case_outcome],adoptedFneWitness));
   // Declared HI DUI successor: rule-09 belongs to the drug route; its sibling expectation stays fixed.
   const reason=r1Row?r1Row.reason:state==='OK'?okExpectations[route].reason:['MA','ME'].includes(state)?{"adult-conviction-sealing-under-m-g-l-c-276-100a": "ma.intentional_unsupported_route", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c": "ma.guidance_only_no_user_filed_court_petition", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c": "ma.lawrence_hold_guidance_only", "juvenile-record-sealing-under-100b": "ma.intentional_unsupported_route", "marijuana-only-expungement": "ma.lawrence_hold_guidance_only", "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k": "ma.lawrence_hold_guidance_only", "time-based-expungement-under-100f-100j": "ma.intentional_unsupported_route", "adult-conviction-sealing": "me.route_identified_packet_not_yet_available", "adult-non-conviction-record-relief": "me.lawrence_hold_guidance_only"}[route]:state==='LA'?(route==='non-conviction-arrest-expungement'?'la.compiled_rule_match.rule-09-if-article-894-b-was-not-already-completed-but-appears-':route==='expungement-by-redaction-for-multi-person-records'?'la.lawrence_hold_guidance_only':'la.guidance_only_no_user_filed_court_petition'):state==='KY'?(result==='not_covered_yet'?'ky.intentional_unsupported_route':'ky.waiting_rule_not_executed'):hiCourtOrder?(route==='dui-under-21-conviction'?'hi.dui_pathway_context':'hi.compiled_rule_match.rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first'):payment?'hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen':result==='needs_review'?'ia.waiting_rule_not_executed':state.toLowerCase()+'.guidance_only_no_user_filed_court_petition';
   const authoritative = evaluate({ jurisdiction: state, profileVersion: profile.profileVersion,
