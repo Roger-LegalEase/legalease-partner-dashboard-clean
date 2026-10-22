@@ -235,6 +235,9 @@ function traceImports(file) {
 }
 traceImports(path.join(rootDir, "scripts/rcap-render-worker.mjs"));
 check(unresolvedImports.length === 0, "the worker's local static imports resolve", unresolvedImports);
+const missingModules = [...visited].map(file => path.relative(rootDir, file))
+  .filter(file => !isCopied(file) || !includedByAllowlist(rules, file));
+check(missingModules.length === 0, "the worker's transitive emitted modules are packaged", missingModules);
 const missingImports = [...jsonImports].filter(file => !isCopied(file) || !includedByAllowlist(rules, file)
   || file.startsWith("data/") && !manifest.files.some(entry => entry.path === file));
 check(missingImports.length === 0,

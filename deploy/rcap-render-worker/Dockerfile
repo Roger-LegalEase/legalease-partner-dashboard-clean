@@ -37,6 +37,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY package.json tsconfig.json ./
 COPY scripts/rcap-render-worker.mjs scripts/
 COPY scripts/lib/ scripts/lib/
+COPY scripts/rcap-custom-pleading/court-facing-rows.mjs scripts/rcap-custom-pleading/
 COPY src/ src/
 COPY data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json data/record-clearing/legal-decisions/
 
