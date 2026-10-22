@@ -99,13 +99,16 @@ const REVIEWED_OWN_CONTENT_PAYMENT_RULES: Readonly<Record<string, readonly strin
   "HI:first-time-drug-conviction": ["rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first"],
   "HI:nonconviction-arrest-expungement": ["rule-02-the-source-says-the-arrest-record-is-removed-from-the-a", "rule-04-a-complete-application-valid-government-photo-id-paymen"],
   "IA:nonconviction-901c2": ["rule-02-all-court-costs-fees-and-other-financial-obligations-fo"],
+  "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8": ["rule-11-full-and-unconditional-governor-pardon-10-105-route-onl"],
   "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e": ["rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to"],
   "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104": ["rule-01-for-montana-s-misdemeanor-expungement-statute"],
   "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146": ["rule-01-family-1-dismissals-and-not-guilty-findings-g-s-15a-146"],
   "ND:deferred-imposition-dismissal-and-sealing": ["rule-29-path-d-deferred-imposition-of-sentence-dismissal"],
+  "ND:marijuana-specific-summary-pardon-or-sealing-relief": ["rule-34-path-e-marijuana-specific-relief"],
   "NE:set-aside-probation-fine-community-service": ["rule-05-the-sentence-conditions-must-be-satisfactorily-complete"],
   "NH:annulment-after-dismissal-acquittal-or-nonprosecution": ["rule-11-for-offenses-disposed-of-before-january-1-2019-a-person"],
   "OH:adult-non-conviction-sealing-or-expungement-under-2953-33": ["rule-05-grand-jury-no-bill-non-conviction-sealing-or-expungemen"],
+  "UT:path-i-traffic-offense-expungement-or-deletion": ["rule-56-path-i-traffic-offense-expungement-deletion"],
   "VA:petition-based-sealing": ["rule-13-petition-based-sealing-19-2-392-12-12-1"],
   "VA:regime-1-expungement-available-now": ["rule-01-regime-1-expungement-19-2-392-2-available-now"],
   "WI:adult-conviction-expungement-under-wis-stat-973-015": ["rule-03-adult-misdemeanor-or-class-h-i-felony-under-25-sentenci"]
@@ -1419,7 +1422,7 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
     if (pardoned) return pardoned;
   }
 
-  const conviction = candidates.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`));
+  const conviction = candidates.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`) && !/without conviction|non[- ]conviction|no conviction|dismiss|acquit|not charged/i.test(pathway.label));
   if (/conviction|misdemeanor|felony/.test(outcome) && conviction) return conviction;
 
   return undefined;

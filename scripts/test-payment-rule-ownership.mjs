@@ -14,11 +14,18 @@ assert(['candidate', 'remove-own-pair', 'add-md-foreign', 'remove-draft-successo
 if (mode === 'remove-draft-successor') {
   register('data:text/javascript,'+encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;const s=String(r.source),a='const paymentOnlyProjection = { ...snapshot, paymentAllowed: false };';if(s.split(a).length!==2)throw Error('nonunique mutation anchor');return {...r,source:s.replace(a,'return null;')};}`));
 } else if (mode !== 'candidate') {
+  const mdKey = '"MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8":';
   const anchor = mode === 'remove-own-pair'
     ? '"AR:situation-b-misdemeanor-convictions": ["rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale"],'
-    : 'const REVIEWED_OWN_CONTENT_PAYMENT_RULES = {';
-  const replacement = mode === 'remove-own-pair' ? '' : anchor + '\n"MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8": ["rule-44-shieldable-conviction-4-503-petition-shield-3-yrs-once"],';
-  register('data:text/javascript,' + encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/src/lib/rcap-engine/evaluator.ts'))return r;const s=String(r.source),anchor=${JSON.stringify(anchor)};if(s.split(anchor).length!==2)throw Error('mutant anchor absent or nonunique');return {...r,source:s.replace(anchor,${JSON.stringify(replacement)})};}`));
+    : mdKey + ' ["rule-11-full-and-unconditional-governor-pardon-10-105-route-onl"],';
+  const replacement = mode === 'remove-own-pair' ? '' : anchor.replace('"]', '", "rule-44-shieldable-conviction-4-503-petition-shield-3-yrs-once"]');
+  register('data:text/javascript,' + encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/src/lib/rcap-engine/evaluator.ts'))return r;
+    const s=String(r.source),anchor=${JSON.stringify(anchor)},replacement=${JSON.stringify(replacement)};
+    if(s.split(anchor).length!==2)throw Error('mutant anchor absent or nonunique');
+    if(${mode === 'add-md-foreign'} && s.split(${JSON.stringify(mdKey)}).length!==2)throw Error('MD mutant key absent or nonunique');
+    const changed=s.replace(anchor,replacement);
+    if(${mode === 'add-md-foreign'} && (changed.includes(anchor) || changed.split(replacement).length!==2))throw Error('MD mutant was not applied exactly once');
+    return {...r,source:changed};}`));
 }
 const { getProfileByJurisdiction } = await import(url('src/lib/rcap-engine/profile-registry.ts'));
 const { evaluateScreening } = await import(url('src/lib/rcap-engine/evaluator.ts'));
@@ -61,6 +68,11 @@ const publicOwnPairs = {
   "OH:adult-non-conviction-sealing-or-expungement-under-2953-33": "rule-05-grand-jury-no-bill-non-conviction-sealing-or-expungemen",
   "VA:regime-1-expungement-available-now": "rule-01-regime-1-expungement-19-2-392-2-available-now"
 };
+// R25/F-NE-2 (manifest 5c3f5f1f): these formerly paid public witnesses are held on ND dismissed / NE arrest-no-charge outcomes.
+const fneHeldPublicWitnesses = new Set([
+  "ND:deferred-imposition-dismissal-and-sealing",
+  "NE:set-aside-probation-fine-community-service"
+]);
 const publicFixtures = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures;
 const publicAnswerSets = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses;
 const { packetFulfillmentAuthority } = await import(url('src/lib/expungement-ai/packet-fulfillment-authority.ts'));
@@ -76,7 +88,7 @@ for (const [key, rule] of [...Object.entries(publicOwnPairs),
     const profile = getProfileByJurisdiction(jurisdiction);
     const actual = evaluateScreening({ jurisdiction, profileVersion: profile.profileVersion, matterId: 'synthetic-public-own-content', answers });
     assert.equal(actual.pathwayId, pathwayId);
-    assert.equal(actual.paymentAllowed, rule !== null);
+    assert.equal(actual.paymentAllowed, rule !== null && !fneHeldPublicWitnesses.has(key));
     if (rule) assert.equal(actual.reasons[0].code, `${jurisdiction.toLowerCase()}.compiled_rule_match.${rule}`);
     assert.equal(packetFulfillmentAuthority(jurisdiction, pathwayId, 'checkout creation').allowed, false);
     assert.deepEqual(answers, before);

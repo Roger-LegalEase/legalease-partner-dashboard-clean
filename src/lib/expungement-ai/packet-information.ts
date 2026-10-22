@@ -1895,11 +1895,14 @@ export function legalAuthorityMetadataDraftSuccessor(snapshot: ProtectedPacketAu
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
   status: ProtectedPacketVerificationRecord["status"]): ProtectedPacketDraftSnapshot | null {
   const profile = authoritative.profile, evaluation = authoritative.evaluation;
+  const existingCoPayment = snapshot.jurisdiction === "CO"
+    && snapshot.pathwayId === "petition-based-non-conviction-sealing-jdf-417-24-72-704"
+    && snapshot.paymentAllowed && evaluation.paymentAllowed;
   if (!["unverified", "invalidated"].includes(status)
     || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
     || snapshot.jurisdiction !== profile.jurisdiction.code || snapshot.profileVersion !== profile.profileVersion
     || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
-    || snapshot.pathwayId !== (evaluation.pathwayId ?? null) || evaluation.paymentAllowed) return null;
+    || snapshot.pathwayId !== (evaluation.pathwayId ?? null) || (evaluation.paymentAllowed && !existingCoPayment)) return null;
   const pair = LEGAL_AUTHORITY_METADATA_SUCCESSORS.find(row => row.jurisdiction === snapshot.jurisdiction
     && row.pathwayId === snapshot.pathwayId && row.priorSha256 === snapshot.profileAuthorityFingerprint);
   if (!pair || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== pair.newSha256) return null;
@@ -1917,7 +1920,7 @@ export function legalAuthorityMetadataDraftSuccessor(snapshot: ProtectedPacketAu
       resultCode: evaluation.resultCode, paymentAllowed: false, packetType: authoritative.packetType } as ProtectedPacketDraftSnapshot;
     return protectedRouteAuthorityMatches(held, authoritative) ? held : null;
   }
-  if (snapshot.paymentAllowed) return null;
+  if (snapshot.paymentAllowed && !existingCoPayment) return null;
   return { ...snapshot, profileAuthorityFingerprint: pair.newSha256 } as ProtectedPacketDraftSnapshot;
 }
 

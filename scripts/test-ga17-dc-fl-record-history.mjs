@@ -591,9 +591,22 @@ const r1States={
 };
 // Lead witness hop e01a5a686 (m161/m177 2026-10-21): the regenerated public witnesses answer each declared cause commit's facts. Each
 // moved R1 row keeps its captured predecessor (r1 seedHash/result/reason); witnessHop declares the measured successor and its cause.
+// F-NE-2 / R25 (6a3e48784): these nine retained contradictory witnesses lose payment only.
+// Predecessors stay in r1States; successor hashes use their exact draft bytes with paymentAllowed=false.
+const fneClosed={
+ 'UT:path-i-traffic-offense-expungement-or-deletion':'1c71de2df8d6fabaedbf8b0ad9ae028239001eb827722b9078d90ae5fafb2d3f',
+ 'LA:felony-article-893-e-set-aside-followed-by-expungement':'d544700b0bb6664d47c9a35005454618eb7958689ce7837465f0c86f49e34d4a',
+ 'LA:misdemeanor-article-894-b-set-aside-followed-by-expungement':'c04cad2ca460081dcfd7462d0f815bd0a2835fdd357650dc3f05caa4d2aa0fae',
+ 'NE:set-aside-probation-fine-community-service':'596b932fcfb3c91f69141f1056cabf64760a87fe44aa1e54fb9ef7f9f0e1abac',
+ 'WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a':'98aee4627da5ac268b00110602449e63d260f6b921fa5fa271acf743d2707f1b',
+ 'MN:petition-based-expungement-under-609a-02-03':'c7deb56a64544b0a1586ec7c62f562c61cc47eb32d261e101a6ba8071fd4e364',
+ 'WI:adult-conviction-expungement-under-wis-stat-973-015':'16a8b73efae2c364369c12503a12afdf6a31c3c475daeca8cd7e619bce433159',
+ 'ND:deferred-imposition-dismissal-and-sealing':'a7c0457b59bba2f1153b3cb9574c4e35a2ef99aa233e78845efd719bcf0d0e6a',
+ 'MS:first-offense-dui-expungement':'9e4ac8b6811fd6765fc54d2a26e49ae0ba8cec549f9c609dd8caf71f3d7ee321',
+};
 for(const [state,r1] of Object.entries(r1States))for(const [route,row] of Object.entries(r1.routes)){
  const hop=witnessHop.find(h=>h.routeKey===`${state}:${route}`);
- cases.push({state,route,result:hop?hop.result:row.result,payment:hop?hop.payment:row.payment,reason:hop?hop.reason:row.reason});
+ cases.push({state,route,result:hop?hop.result:row.result,payment:Object.hasOwn(fneClosed,`${state}:${route}`)?false:(hop?hop.payment:row.payment),reason:hop?hop.reason:row.reason});
  if(r1.witnesses[route])witnesses.push({pathwayKey:`${state}:${route}`,...r1.witnesses[route]});
 }
 // D1'' (lead 2026-10-21T21:43:40Z; routes ruled closed 18:54:33Z): the payment guard also closes LA non-conviction (rule-09),
@@ -754,7 +767,16 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   const r=P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation;
   assert.deepEqual([r.resultCode,r.reasons[0].code,r.paymentAllowed],[hop.predecessorNowResult,hop.predecessorNowReason,false]);
  });
- assert.equal(seed.hash,f2?f2.freshSeedHash:d1?d1.freshSeedHash:hop?hop.freshSeedHash:r1Row?r1Row.seedHash:predecessorHashes[route],"actual captured predecessor draft hash unchanged");
+ if(Object.hasOwn(fneClosed,key))check(key+'/'+label+': FNE closes only payment and preserves the paid predecessor draft',()=>{
+  assert.equal(r1Row.payment,true);assert.equal(seed.snapshot.paymentAllowed,false);
+  const predecessor=structuredClone(seed.snapshot);predecessor.paymentAllowed=true;
+  assert.equal(P.protectedPacketDraftHash(predecessor),r1Row.seedHash);
+  const saved={status:'unverified',revision:0,draftHash:r1Row.seedHash,draftSnapshot:predecessor};
+  assert(P.protectedPacketInformationModelFor(saved));
+  assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
+  assert.equal(P.evaluateProtectedPacketFacts(predecessor).evaluation.paymentAllowed,false);
+ });
+ assert.equal(seed.hash,fneClosed[key]??(f2?f2.freshSeedHash:d1?d1.freshSeedHash:hop?hop.freshSeedHash:r1Row?r1Row.seedHash:predecessorHashes[route]),"actual captured predecessor or declared successor draft hash unchanged");
  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
  // Route ids repeat across states (SC and MD juvenile-expungement); the matterId above stays as captured, the store key adds the state.
  const id='synthetic-'+state+'-'+route+'-'+label;assert(!records.has(id),id);records.set(id,original);
