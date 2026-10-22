@@ -2924,7 +2924,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   if (illinoisProgramContext(profile, pathway.id)) {
     const program = illinoisProgramFacts(answers, evaluationToday().toISOString().slice(0, 10));
     if (program.status === "satisfied") return { status: "satisfied" };
-    const programReason = reason("IL", `program_${program.code}`, IL_PROGRAM_COPY[program.code][0], IL_PROGRAM_SOURCE);
+    const programReason = reason("IL", `program_${program.status === "missing" ? "missing" : program.code}`, IL_PROGRAM_COPY[program.code][0], IL_PROGRAM_SOURCE);
     return program.status === "missing" ? { status: "missing_anchor", reason: programReason, missingQuestionIds: program.missingQuestionIds }
       : { status: program.status === "not_yet" ? "not_yet" : "needs_review", reason: programReason };
   }

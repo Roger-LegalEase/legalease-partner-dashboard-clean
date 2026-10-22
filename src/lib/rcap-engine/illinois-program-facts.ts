@@ -26,7 +26,8 @@ export const IL_PROGRAM_QUESTIONS: PublicQuestion[] = [
     ["substance_40_10", "Substance Use Disorder Act, section 40-10", "Ley sobre Trastornos por Consumo de Sustancias, sección 40-10"],
     ["steroid_10", "Steroid Control Act, section 10", "Ley de Control de Esteroides, sección 10"],
     ["ordinary", "Ordinary probation", "Libertad condicional ordinaria"],
-    ["unknown", "Another type or I am not sure", "Otro tipo o no estoy seguro"]
+    ["other", "Another type", "Otro tipo"],
+    ["unknown", "I am not sure", "No estoy seguro"]
   ]),
   // data/record-clearing/legal-design-intake/IL.memo.json:629
   question("il_program_termination", "How did this supervision or probation end? Use the actual termination order, not just completion of a sentence.", "¿Cómo terminó esta supervisión o libertad condicional? Use la orden real de terminación, no solo el cumplimiento de una sentencia.", "single_choice", [
@@ -98,6 +99,8 @@ export const IL_PROGRAM_QUESTIONS: PublicQuestion[] = [
 ];
 export const IL_PROGRAM_FACT_IDS = IL_PROGRAM_QUESTIONS.map(q => q.id);
 export const IL_PROGRAM_COPY = {
+  "other": ["You chose another type of supervision or probation. The court order must show whether it is one of the qualified programs this route uses. Other record-clearing options need separate review.", "Usted eligió otro tipo de supervisión o libertad condicional. La orden judicial debe mostrar si es uno de los programas calificados que utiliza esta vía. Otras opciones para limpiar los antecedentes requieren una revisión separada."],
+  "future_date": ["Check the satisfactory termination date against the court order. A future date cannot confirm that the supervision or probation has ended. Your saved date has not been changed.", "Compare con la orden judicial la fecha en que terminó satisfactoriamente la supervisión o libertad condicional. Una fecha futura no permite confirmar que haya terminado. No se ha cambiado la fecha que guardó."],
   "missing": [
     "Confirm the actual supervision or probation order and termination facts. A general completion answer or an old case date does not establish them.",
     "Confirme la orden real de supervisión o libertad condicional y los hechos de su terminación. Una respuesta general de cumplimiento o una fecha antigua del caso no los establece."
@@ -153,13 +156,14 @@ export function illinoisProgramQuestionApplies(profile: EngineProfile, pathwayId
     && (a.il_record_help === "program_record" || a.case_outcome === "Diversion, deferred disposition, supervision, or similar program" && a.il_cannabis_next_step !== "status_check");
   return context && illinoisProgramFactIds(a).includes(id);
 }
-type Decision = { status: "satisfied" } | { status: "missing"; missingQuestionIds: string[]; code: "missing" }
+type Decision = { status: "satisfied" } | { status: "missing"; missingQuestionIds: string[]; code: "missing" | "future_date" }
   | { status: "not_yet" | "review"; code: keyof typeof IL_PROGRAM_COPY };
 export function illinoisProgramFacts(a: Answers, today: string): Decision {
   const missing = (...missingQuestionIds: string[]): Decision => ({ status: "missing", code: "missing", missingQuestionIds });
   const review = (code: keyof typeof IL_PROGRAM_COPY): Decision => ({ status: "review", code });
   const type = a.il_program_type;
   if (type === "ordinary") return review("ordinary");
+  if (type === "other") return review("other");
   if (typeof type !== "string" || type !== "supervision" && !qualified.includes(type)) return missing("il_program_type");
   if (!["Diversion, deferred disposition, supervision, or similar program", "Misdemeanor conviction", "Felony conviction"].includes(String(a.case_outcome))) return missing("case_outcome");
   if (a.il_program_termination === "ongoing") return { status: "not_yet", code: "completion" };
@@ -193,6 +197,7 @@ export function illinoisProgramFacts(a: Answers, today: string): Decision {
   }
   if (questionAnswerState({ id: "il_program_termination_date", type: "date_or_unknown" }, a.il_program_termination_date, today) !== "known_valid") return missing("il_program_termination_date");
   const date = new Date(`${scalarAnswerText(a.il_program_termination_date)!.trim()}T00:00:00.000Z`);
+  if (date.toISOString().slice(0, 10) > today) return { status: "missing", code: "future_date", missingQuestionIds: ["il_program_termination_date"] };
   date.setUTCFullYear(date.getUTCFullYear() + years);
   return date.toISOString().slice(0, 10) > today ? { status: "not_yet", code: "wait" } : { status: "satisfied" };
 }

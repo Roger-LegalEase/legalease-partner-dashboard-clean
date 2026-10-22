@@ -6,6 +6,14 @@ process.env.RCAP_EVALUATOR_TODAY = '2026-10-21';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mode = process.argv[2] ?? 'candidate';
 const mutations = {
+  briefcase_predecessor: ['briefcase-presentation-authority.ts', 'illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ??', ''],
+  verified_guard_removed: ['briefcase-presentation-authority.ts', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status)', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, "unverified")'],
+  briefcase_unverified: ['briefcase-presentation-authority.ts', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status)', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, "unverified")'],
+  future_today: ['illinois-program-facts.ts', 'if (date.toISOString().slice(0, 10) > today)', 'if (date.toISOString().slice(0, 10) >= today)'],
+  briefcase_future: ['briefcase-presentation-authority.ts', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ??', ''],
+  other_type: ['illinois-program-facts.ts', 'return review("other");', 'return review("ordinary");'],
+  future_date: ['illinois-program-facts.ts', 'if (date.toISOString().slice(0, 10) > today)', 'if (false)'],
+  future_successor: ['packet-information.ts', 'const date = scalarAnswerText(answers?.il_program_termination_date)?.trim();', 'return null;'],
   q09: ['illinois-program-facts.ts', 'return missing("il_program_termination");', 'return { status: "satisfied" };'],
   q10: ['illinois-program-facts.ts', 'return review("ordinary");', 'return { status: "satisfied" };'],
   two_years: ['illinois-program-facts.ts', '? 5 : 2;', '? 5 : 0;'],
@@ -17,6 +25,7 @@ const mutations = {
 };
 assert(mode === 'candidate' || mutations[mode]);
 if (mutations[mode]) register('data:text/javascript,' + encodeURIComponent(`let m;export function initialize(v){m=v}export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/'+m[0]))return r;const s=String(r.source);if(s.split(m[1]).length!==2)throw Error('nonunique mutation anchor');return {...r,source:s.replace(m[1],m[2])};}`), { data: mutations[mode] });
+if (mode === 'verified_guard_removed') register('data:text/javascript,'+encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;const s=String(r.source),f=s.indexOf('export function illinoisProgramFutureDateDraftSuccessor('),a=s.indexOf('if (status !== "unverified"',f),b=s.indexOf('const projected =',a);if(f<0||a<0||b<a)throw Error('guard anchor absent');return {...r,source:s.slice(0,a)+s.slice(b)};}`));
 const G = await import('../src/lib/rcap-engine/illinois-program-facts.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
 const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
@@ -28,11 +37,24 @@ const { parseJurisdictionProfile } = await import('../src/lib/expungement-ai/fro
 const { resolveRuntimeText } = await import('../src/lib/expungement-ai/localization.ts');
 const { POST } = await import('../src/app/api/expungement-ai/evaluate/route.ts');
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
+const B = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
 const rows = JSON.parse(fs.readFileSync(new URL('./fixtures/il1-program-witnesses.json', import.meta.url))).rows;
 const profile = getProfileByJurisdiction('IL'), pub = projectPublicProfile(profile), route = G.IL_PROGRAM_ROUTE;
 const failures = []; let checks = 0;
 function check(name, fn) { checks++; try { fn(); } catch (error) { failures.push({ name, error: error.message }); } }
 const request = answers => ({ jurisdiction: 'IL', profileVersion: profile.profileVersion, matterId: 'synthetic-il1', answers });
+async function presentSaved(v) {
+  const item={id:'00000000-0000-4000-8000-000000000037',jurisdiction:'IL',createdAt:v.draftSnapshot.capturedAt,artifactRefs:{}};
+  let paymentAllowed;
+  const presented=await B.decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId:item.id,item},{
+    readProtectedArtifact:async()=>({ok:true,value:null}),readProtectedVerification:async()=>({ok:true,value:v}),
+    readTrustedPendingSource:async()=>({ok:false,reason:'no-pending-source'}),
+    readPaymentAuthority:async()=>({valid:false,reason:'unpaid'}),evaluateAuthoritative:request=>{const a=evaluate(request);paymentAllowed=a.evaluation.paymentAllowed;return a;},
+    readCommercialActions:async()=>({fulfillmentAvailable:false,checkoutAllowed:false,generationAllowed:false})
+  });
+  return {presented,paymentAllowed};
+}
+
 const base = { ...rows[1].answers, il_program_type: 'supervision', il_program_termination: 'satisfactory', il_program_termination_date: { value: '2024-10-21', unknown: false }, il_program_minor_traffic: 'no', il_supervision_offense: 'other', il_supervision_sexual_minor: 'no' };
 check('profile-schema', () => assert(parseJurisdictionProfile(pub).ok));
 check('applicable-program-facts-not-labelled-optional', () => assert(G.IL_PROGRAM_FACT_IDS.every(id => pub.questions.find(q => q.id === id)?.required === true)));
@@ -47,7 +69,10 @@ for (const row of rows) {
 }
 const cases = [
   ['two-years-exact', {}, 'satisfied'], ['two-years-short', { il_program_termination_date: '2024-10-22' }, 'not_yet'],
-  ['date-future', { il_program_termination_date: '2027-01-01' }, 'not_yet'], ['date-invalid', { il_program_termination_date: '2024-02-30' }, 'missing'],
+  // Reviewer F2 / Lead 2026-10-21 21:05:03: old not_yet -> missing for a future date; payment stays false.
+  ['date-today', { il_program_termination_date: '2026-10-21' }, 'not_yet', 'wait'],
+  ['date-tomorrow', { il_program_termination_date: '2026-10-22' }, 'missing', 'future_date'],
+  ['date-future', { il_program_termination_date: '2027-01-01' }, 'missing', 'future_date'], ['date-invalid', { il_program_termination_date: '2024-02-30' }, 'missing'],
   ['date-unknown', { il_program_termination_date: { unknown: true } }, 'missing'], ['date-omitted', { il_program_termination_date: undefined }, 'missing'],
   ['date-retained-unknown', { il_program_termination_date: { value: '2024-10-21', unknown: true } }, 'missing'],
   ['date-invalid-wrapper', { il_program_termination_date: { value: '2024-10-21', unknown: 'yes' } }, 'missing'],
@@ -56,6 +81,7 @@ const cases = [
   ['termination-omitted', { il_program_termination: undefined }, 'missing'], ['termination-unknown', { il_program_termination: 'unknown' }, 'missing'],
   ['termination-ongoing', { il_program_termination: 'ongoing' }, 'not_yet'],
   ['ordinary', { il_program_type: 'ordinary' }, 'review', 'ordinary'], ['type-unknown', { il_program_type: 'unknown' }, 'missing'],
+  ['type-other', { il_program_type: 'other' }, 'review', 'other'],
   ['type-malformed', { il_program_type: ['cannabis_10'] }, 'missing'],
   ['qualified-five-years-short', { il_program_type: 'controlled_410', il_program_termination_date: '2021-10-22' }, 'not_yet'],
   ['qualified-five-years-exact', { il_program_type: 'controlled_410', il_program_termination_date: '2021-10-21' }, 'satisfied'],
@@ -80,6 +106,24 @@ for (const [name, extra, expected, code] of cases) {
   check(name, () => { assert.equal(d.status, expected); if (code) assert.equal(d.code, code); });
   check(`${name}:raw`, () => assert.deepEqual(a, before));
 }
+for (const [value, en, es] of [['other', 'Another type', 'Otro tipo'], ['unknown', 'I am not sure', 'No estoy seguro']]) {
+  const option = pub.questions.find(q => q.id === 'il_program_type').optionDisplay[value];
+  check(`type-label-${value}`, () => { assert.equal(option?.label, en); assert.equal(option?.translations?.es?.label, es); });
+}
+for (const [name, value] of [['scalar','2027-01-01'], ['wrapper',{value:'2027-01-01',unknown:false}]]) {
+  const answers = {...base, il_program_termination_date:value}, before = structuredClone(answers);
+  const e = evaluate(request(answers)).evaluation;
+  check(`future-${name}-consumer`, () => {
+    assert.equal(e.resultCode, 'needs_more_info'); assert.equal(e.paymentAllowed, false);
+    assert.equal(e.reasons[0].code, 'il.program_missing');
+    assert.deepEqual(e.missingQuestionIds, ['il_program_termination_date']);
+    assert.deepEqual(e.nextSteps, [G.IL_PROGRAM_COPY.future_date[0]]);
+    assert.equal(resolveRuntimeText('es', e.nextSteps[0]), G.IL_PROGRAM_COPY.future_date[1]);
+    assert.deepEqual(answers, before);
+  });
+}
+const other = evaluate(request({...base, il_program_type:'other'})).evaluation;
+check('other-consumer-review', () => { assert.equal(other.resultCode,'needs_review'); assert.equal(other.reasons[0].code,'il.program_other'); assert.deepEqual(other.nextSteps,[G.IL_PROGRAM_COPY.other[0]]); assert.equal(other.paymentAllowed,false); });
 const reckless = { ...base, il_supervision_offense: 'reckless_misdemeanor', age_at_offense: '24', il_reckless_age_25: 'yes', il_other_dui_reckless: 'no', il_program_termination_date: '2026-10-20' };
 for (const [name, patch, expected] of [['reached25', {}, 'satisfied'],['under25-now',{il_reckless_age_25:'no'},'not_yet'],['age25-at-offense',{age_at_offense:'25'},'review'],['other-DUI',{il_other_dui_reckless:'yes'},'review'],['age-unknown',{age_at_offense:'I am not sure'},'missing']]) check(name, () => assert.equal(G.illinoisProgramFacts({ ...reckless, ...patch }, '2026-10-21').status, expected));
 const positive = evaluate(request(base)).evaluation;
@@ -87,6 +131,11 @@ check('native-positive-held-for-form', () => assert(positive.pathwayId === route
 const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(request(base)) }));
 const body = await response.json();
 check('public-positive-held', () => assert(response.status === 200 && body.paymentAllowed === false && body.consumerPacketAvailable === false && body.sponsoredPacketAvailable === false && body.reasons[0].code === 'il.program_form_mapping_unavailable'));
+for (const [name, delta, resultCode, copy] of [['other',{il_program_type:'other'},'needs_review','other'],['future',{il_program_termination_date:'2027-01-01'},'needs_more_info','future_date']]) {
+  const http = await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(request({...base,...delta}))}));
+  const body = await http.json();
+  check(`public-${name}-held`, () => { assert.equal(http.status,200); assert.equal(body.resultCode,resultCode); assert.equal(body.paymentAllowed,false); assert.equal(body.consumerPacketAvailable,false); assert.equal(body.sponsoredPacketAvailable,false); assert.deepEqual(body.nextSteps,[G.IL_PROGRAM_COPY[copy][0]]); });
+}
 check('native-positive-nextSteps', () => assert.deepEqual(positive.nextSteps, [G.IL_PROGRAM_COPY.form[0]]));
 check('native-missing-nextSteps', () => assert.deepEqual(evaluate(request(rows[1].answers)).evaluation.nextSteps, [G.IL_PROGRAM_COPY.missing[0]]));
 check('native-ordinary-refused', () => assert.equal(evaluate(request({ ...base, il_program_type: 'ordinary' })).evaluation.reasons[0].code, 'il.program_ordinary'));
@@ -123,5 +172,56 @@ check('predecessor-correction-held', () => assert(oldUpdate && oldUpdate.readyTo
 if (oldUpdate) for (const map of ['screeningAnswers','prefilledAnswers','packetAnswers']) check(`predecessor-${map}-preserved`, () => {
   for (const [id,value] of Object.entries(predecessor.draftSnapshot[map])) assert.deepEqual(oldUpdate.protectedTransition.nextVerification.draftSnapshot[map][id], value);
 });
+// Native B records retain their exact historical hashes; no post-fix reconstruction.
+const nativeB = JSON.parse(fs.readFileSync(new URL('./fixtures/il1b-native-predecessors.json', import.meta.url)));
+for (const row of nativeB.rows) {
+  const v = structuredClone(row.verification), before = structuredClone(v), future = row.name.startsWith('future');
+  check(`${row.name}:native-hash`, () => assert.equal(P.protectedPacketDraftHash(v.draftSnapshot), v.draftHash));
+  const a = P.evaluateProtectedPacketFacts(v.draftSnapshot), model = P.protectedPacketInformationModelFor(v);
+  check(`${row.name}:native-readable`, () => assert(model));
+  check(`${row.name}:native-disposition`, () => { assert.equal(a.evaluation.resultCode, future ? 'needs_more_info' : v.draftSnapshot.resultCode); assert.equal(a.evaluation.paymentAllowed,false); });
+  const noop = P.packetInformationPatch({existingItem:{id:'synthetic-il1b-'+row.name,jurisdiction:'IL',artifactRefs:{}},protectedVerification:v,answers:{}});
+  check(`${row.name}:native-noop`, () => { assert(noop); assert.equal(noop.readyToGenerate,false); for (const map of ['screeningAnswers','prefilledAnswers','packetAnswers']) assert.deepEqual(noop.protectedTransition.nextVerification.draftSnapshot[map],v.draftSnapshot[map]); });
+  check(`${row.name}:native-original-unchanged`, () => assert.deepEqual(v,before));
+  const item = {id:'00000000-0000-4000-8000-000000000037',jurisdiction:'IL',createdAt:v.draftSnapshot.capturedAt,artifactRefs:{}};
+  const presented = await B.decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId:item.id,item},{
+    readProtectedArtifact:async()=>({ok:true,value:null}),readProtectedVerification:async()=>({ok:true,value:v}),
+    readTrustedPendingSource:async()=>({ok:true,value:{jurisdiction:'IL',profileVersion:profile.profileVersion,matterId:item.id,answers:P.protectedPacketScreeningAnswers(v.draftSnapshot),product:'expungement_ai_dtc',sourceSessionId:'synthetic-only',claimedAt:v.draftSnapshot.capturedAt,partnerBenefitActive:false,partnerSlug:null}}),
+    readPaymentAuthority:async()=>({valid:false,reason:'unpaid'}),evaluateAuthoritative:evaluate,
+    readCommercialActions:async()=>({fulfillmentAvailable:false,checkoutAllowed:false,generationAllowed:false})
+  });
+  check(`${row.name}:briefcase`,()=>{assert.equal(presented.authorityStatus,'protected_draft');assert.equal(presented.packetDraft.status,'available');assert.equal(presented.resultCode,future?'needs_more_info':v.draftSnapshot.resultCode);assert(Object.values(presented.commercialActions).every(value=>value===false));assert.deepEqual(v,before);});
+  if (future) {
+    const change = P.packetInformationPatch({existingItem:{id:'synthetic-il1b-'+row.name,jurisdiction:'IL',artifactRefs:{}},protectedVerification:v,answers:{il_program_termination_date:'2024-10-22'}});
+    check(`${row.name}:correctable`, () => { assert(change); assert.equal(change.readyToGenerate,false); assert.equal(change.protectedTransition.nextVerification.draftSnapshot.packetAnswers.il_program_termination_date,'2024-10-22'); });
+    for (const variant of ['reason','source','verified','paid','plan']) check(`${row.name}:reject-${variant}`, () => {
+      const snapshot = structuredClone(v.draftSnapshot), authority = structuredClone(a);
+      if (variant === 'reason') authority.evaluation.reasons[0].code = 'il.other';
+      if (variant === 'source') authority.evaluation.reasons[0].sourceRef = 'unreviewed';
+      if (variant === 'paid') snapshot.paymentAllowed = true;
+      if (variant === 'plan') snapshot.packetPlan.sourceFormIds = ['wrong-form'];
+      assert.equal(P.illinoisProgramFutureDateDraftSuccessor(snapshot, authority, variant === 'verified' ? 'verified' : 'unverified'), null);
+    });
+  } else check(`${row.name}:no-future-successor`, () => assert.equal(P.illinoisProgramFutureDateDraftSuccessor(v.draftSnapshot,a,'unverified'),null));
+}
+const pastSaved = nativeB.rows.find(r => r.name === 'past-unmet-wait').verification.draftSnapshot;
+const futureAuthority = P.evaluateProtectedPacketFacts(nativeB.rows.find(r => r.name === 'future-date').verification.draftSnapshot);
+check('past-date-cannot-borrow-future-authority', () => assert.equal(P.illinoisProgramFutureDateDraftSuccessor(pastSaved,futureAuthority,'unverified'),null));
+// F-IL1-BC: the exact pre-B held record must reach the second consumer too.
+const preBPresentation=await presentSaved(predecessor);
+check('pre-B-Briefcase-held',()=>{assert.equal(preBPresentation.presented.authorityStatus,'protected_draft');assert.equal(preBPresentation.presented.packetDraft.status,'available');assert.equal(preBPresentation.paymentAllowed,false);assert(Object.values(preBPresentation.presented.commercialActions).every(value=>value===false));assert.deepEqual(predecessor,oldBefore);});
+for (const row of [{name:'pre-B',verification:predecessor},...nativeB.rows.filter(r=>r.name.startsWith('future'))]) {
+  const v=structuredClone(row.verification),{capturedAt,...facts}=v.draftSnapshot;
+  v.status='verified';v.snapshot={...facts,schemaVersion:'expungement-ai/final-verification/v1',verifiedAt:capturedAt};
+  // Both hashes use canonical JSON; this is a synthetic negative envelope, not an approved verification.
+  v.hash=P.protectedPacketDraftHash(v.snapshot);
+  const before=structuredClone(v),{presented}=await presentSaved(v);
+  check(`${row.name}:verified-Briefcase-refused`,()=>{assert.equal(presented.authorityStatus,'unavailable');assert.equal(presented.packetDraft.status,'unavailable');assert(Object.values(presented.commercialActions).every(value=>value===false));assert.deepEqual(v,before);});
+}
+// A date that has passed must use today's disposition, never the future-date bridge.
+process.env.RCAP_EVALUATOR_TODAY = '2027-01-02';
+const aged = nativeB.rows.find(r => r.name === 'future-date').verification;
+check('future-now-past-no-successor', () => assert.equal(P.illinoisProgramFutureDateDraftSuccessor(aged.draftSnapshot,P.evaluateProtectedPacketFacts(aged.draftSnapshot),'unverified'),null));
+process.env.RCAP_EVALUATOR_TODAY = '2026-10-21';
 console.log(JSON.stringify({ mode, checks, passed:checks-failures.length, failures, positive },null,2));
 process.exitCode = failures.length ? 1 : 0;

@@ -10,8 +10,10 @@ globalThis.fetch = () => { throw Error('NETWORK_FORBIDDEN'); };
 const url = p => pathToFileURL(`${process.cwd()}/${p}`).href;
 register(url('scripts/lib/ts-esm-loader.mjs'));
 const mode = process.argv[2] ?? 'candidate';
-assert(['candidate', 'remove-own-pair', 'add-md-foreign'].includes(mode));
-if (mode !== 'candidate') {
+assert(['candidate', 'remove-own-pair', 'add-md-foreign', 'remove-draft-successor'].includes(mode));
+if (mode === 'remove-draft-successor') {
+  register('data:text/javascript,'+encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;const s=String(r.source),a='const paymentOnlyProjection = { ...snapshot, paymentAllowed: false };';if(s.split(a).length!==2)throw Error('nonunique mutation anchor');return {...r,source:s.replace(a,'return null;')};}`));
+} else if (mode !== 'candidate') {
   const anchor = mode === 'remove-own-pair'
     ? '"AR:situation-b-misdemeanor-convictions": ["rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale"],'
     : 'const REVIEWED_OWN_CONTENT_PAYMENT_RULES = {';
@@ -96,8 +98,10 @@ for (const row of fixture.legacy) {
   const expected = fixture.cases.find(c => c.index === row.index);
   const newlyClosed = row.baselinePaymentAllowed && !expected.expected.paymentAllowed;
   check(`${row.route}:historical-hash`, () => assert.equal(P.protectedPacketDraftHash(verification.draftSnapshot), verification.draftHash));
-  // The existing model refuses changed payment authority before presentation. No legacy migration is claimed.
-  check(`${row.route}:historical-model`, () => assert.equal(!!P.protectedPacketInformationModelFor(verification), newlyClosed ? false : row.modelAvailable));
+  // F-D1-SAVED m119/m136: HI's former refused model now loads held; the recorded Y2 hash stays exact.
+  // Lead 2026-10-21 22:54:21 OD-ext: five more refused predecessors now load held; original fixture unchanged.
+  const paymentOnlySuccessor = ["HI:dui-under-21-conviction", "FL:court-ordered-expunction-943-0585", "HI:first-time-drug-conviction", "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8", "MN:petition-based-expungement-under-609a-02-03", "NM:cannabis-sentence-dismissal-incarcerated-person-pathway"].includes(row.route);
+  check(`${row.route}:historical-model`, () => assert.equal(!!P.protectedPacketInformationModelFor(verification), paymentOnlySuccessor ? true : newlyClosed ? false : row.modelAvailable));
   const actual = await B.decorateBriefcaseItemForPresentationWithDependencies({
     consumerAuthUserId: '00000000-0000-4000-8000-000000000037', item: row.item
   }, {
@@ -113,7 +117,13 @@ for (const row of fixture.legacy) {
     readCommercialActions: async () => ({ fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false })
   });
   check(`${row.route}:protected-authority`, () => {
-    if (newlyClosed) {
+    if (paymentOnlySuccessor) {
+      // Former protected_packet_draft_invalid -> available protected_draft; payment remains withdrawn.
+      assert.equal(actual.authorityStatus, 'protected_draft');
+      assert.equal(actual.packetDraft.status, 'available');
+      assert.equal(actual.resultCode, expected.expected.resultCode);
+      assert.equal(P.evaluateProtectedPacketFacts(verification.draftSnapshot).evaluation.paymentAllowed, false);
+    } else if (newlyClosed) {
       assert.equal(actual.authorityStatus, 'unavailable');
       assert.equal(actual.unavailableReason, 'protected_packet_draft_invalid');
       assert.equal(actual.packetDraft.status, 'unavailable');
