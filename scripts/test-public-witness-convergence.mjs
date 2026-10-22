@@ -204,6 +204,8 @@ function requireB31eSuccessor(w,prior){
     assert.deepEqual(w.unresolvedEvaluation.missingQuestionIds,['case_outcome'],message);
     assert.deepEqual(w.unresolvedEvaluation.reasons.map(r=>r.code),['il.program_missing'],message);
     assert.equal(w.unresolvedEvaluation.paymentAllowed,false,message);
+    // N2: pin the copied unresolvedEvaluation (incl. nextSteps) as generated at 1f015b941.
+    assert.equal(sha(JSON.stringify(w.unresolvedEvaluation)),'b9a43288ec6117760303cd8d444de7d6080f91f3de81b866dde8fe9f2490606b',message);
     return;
   }
   const expected=structuredClone(prior);
@@ -221,6 +223,7 @@ for(const key of b31eKeys){
   const uplift=structuredClone(w);(uplift.terminalEvaluation??uplift.unresolvedEvaluation).paymentAllowed=true;
   check(()=>assert.throws(()=>requireB31eSuccessor(uplift,prior),/batch31e successor/));
   check(()=>assert.throws(()=>requireB31eSuccessor(prior,prior),/batch31e successor/));
+  if(w.unresolvedEvaluation){const copy=structuredClone(w);copy.unresolvedEvaluation.nextSteps=[...copy.unresolvedEvaluation.nextSteps,'Complete packet fields in Briefcase after payment.'];check(()=>assert.throws(()=>requireB31eSuccessor(copy,prior),/batch31e successor/));}
 }
 const packetReadyNextSteps = [
   'Your packet has been started. A few details may still be needed before it is ready to file.',
