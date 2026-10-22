@@ -31,6 +31,7 @@ assert.deepEqual(sourceTrack.dispositions, ['felony_conviction']);
 
 // The unmodified retained dismissal fixture must keep its proven nonconviction
 // route. Only the optional remedy label changes in the first negative case.
+const originalScreening = structuredClone(screening);
 const baseline = evaluate(screening);
 assert.equal(baseline.pathwayId, route.pathwayId);
 assert.equal(baseline.resultCode, 'packet_ready_with_caution');
@@ -81,10 +82,17 @@ for (const case_outcome of publicProfile.questions.find(q => q.id === 'case_outc
   } else {
     assert.ok(!result.reasons.some(r => r.code === 'ms.felony_route_case_outcome_unconfirmed'));
     assert.equal(result.resultCode, 'packet_ready_with_caution');
-    assert.equal(result.paymentAllowed, true);
+    assert.equal(result.pathwayId, felonyId);
+    assert.equal(result.paymentAllowed, false, 'The original felony/Misdemeanor contradiction remains unpaid.');
     assert.ok(result.packetPlan);
+    const consistent = evaluate({ ...screening, case_outcome, offense_level: 'Felony', possible_pathway_context: felonyLabel });
+    assert.equal(consistent.pathwayId, felonyId);
+    assert.equal(consistent.resultCode, 'packet_ready_with_caution');
+    assert.equal(consistent.paymentAllowed, true);
+    assert.ok(consistent.packetPlan);
   }
   otherOutcomeCases++;
 }
 assert.deepEqual(evaluate(screening), baseline, 'rejected context cannot mutate the retained route or inputs');
+assert.deepEqual(screening, originalScreening, 'Contradictory and consistent examples preserve the original answers.');
 console.log(JSON.stringify({ status: 'PASS', negativeCases, otherOutcomeCases, retainedNonconvictionPreserved: true, scope: 'Exact MS final-felony prerequisite; two published contradictory outcomes and ambiguous classes held; retained nonconviction positive preserved. No commercial, protected or document-output acceptance claimed.' }));
