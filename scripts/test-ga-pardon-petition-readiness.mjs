@@ -56,9 +56,13 @@ try {
  delete globalThis.__gaReadinessTest.fulfillment;
  check('ratification alone never bypasses genuine NO_RECORD',plan()===null);
  globalThis.__gaReadinessTest.fulfillment=allowed;
+ const contradictory={...base,case_outcome:'Felony conviction'},contradictorySaved=structuredClone(contradictory);
+ const contradictoryResult=evaluate(contradictory);
+ check('contradictory felony/misdemeanor stays unpaid despite simulated authority',contradictoryResult.resultCode==='packet_ready_with_caution'&&!contradictoryResult.paymentAllowed&&contradictoryResult.packetPlan?.pathwayId===G.GA_PARDON_ROUTE);
+ same('contradictory raw facts retained',contradictory,contradictorySaved);
  const qualifying = [
   ['misdemeanor',base],
-  ['felony',{...base,case_outcome:'Felony conviction'}],
+  ['felony',{...base,case_outcome:'Felony conviction',offense_level:'Felony'}],
   ['nonserious traffic',{...base,ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_jurisdictions:'all_georgia',ga_post_pardon_traffic_citations:'40-6-181(a)',ga_post_pardon_traffic_records:'Saved speeding conviction'}],
   ['historical route label',Object.fromEntries(Object.entries({...base,possible_pathway_context:G.GA_PARDON_OLD_LABEL}).filter(([key])=>key!=='ga_record_help'))],
   ['source misdemeanor exception',{...base,ga_pardoned_offense_section:'16-6-4(b)(2)'}]
