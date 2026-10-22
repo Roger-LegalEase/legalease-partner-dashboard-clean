@@ -121,6 +121,9 @@ export function convictionReliefRequest(profile: EngineProfile, answers: Answers
 export function convictionOutcomeCompatible(state: string, answers: Answers, pathwayId: string): boolean {
   if (state === "CO" && isAdultConvictionAnswer(answers.case_outcome)
     && pathwayId === "petition-based-non-conviction-sealing-jdf-417-24-72-704") return false;
+  // OR: the retired (1)(c) "without conviction" route reached a conviction through the generic label fallback (F-OR-RETIRED).
+  if (state === "OR" && isAdultConvictionAnswer(answers.case_outcome)
+    && pathwayId === "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c") return false;
   if (!isAdultConvictionAnswer(answers.case_outcome) || !CONVICTION_NONCONVICTION_ROUTES[state]?.includes(pathwayId)) return true;
   return state === "IL" && answers.il_record_help === "later_order"
     && (answers.il_later_order === "vacated" || answers.il_later_order === "reversed");
