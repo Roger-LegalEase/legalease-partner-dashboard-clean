@@ -108,7 +108,8 @@ for(const route of routes){
  test(route+' original B counterexample preserves observed source outcome, not entitlement',()=>{
   const answers={ownership_scope:'Yes',jurisdiction_scope:'State or local',case_outcome:'Arrest or citation with no charge filed',offense_level:'Misdemeanor',possible_pathway_context:profile.pathways.find(p=>p.id===route).label,identity_error:'Yes',pending_cases:'No',resolved_timing_bucket:'gt_10_years',court_requirements_completed:'yes'};
   const observed=evaluate({jurisdiction:'MN',profileVersion:profile.profileVersion,matterId:'mn-source-test',answers});
-  assert.equal(observed.evaluation.pathwayId,route);assert.equal(observed.evaluation.resultCode,route===H.MN_PETITION_ROUTE?'packet_ready_with_caution':'guidance_only');assert.equal(observed.evaluation.paymentAllowed,route===H.MN_PETITION_ROUTE);assert.equal(observed.selectedTrackId,null);
+  if(route===H.MN_PETITION_ROUTE)assert(observed.evaluation.reasons.some(r=>r.code==='mn.compiled_rule_match.route-petition-based-expungement-under-609a-02-03'),'Bind the adopted arrest/no-charge compiled held rule.');
+  assert.equal(observed.evaluation.pathwayId,route);assert.equal(observed.evaluation.resultCode,route===H.MN_PETITION_ROUTE?'packet_ready_with_caution':'guidance_only');assert.equal(observed.evaluation.paymentAllowed,false,'The adopted arrest/no-charge petition rule remains held; collection grants no payment.');assert.equal(observed.selectedTrackId,null);
  });
  test(route+' retained diagnostic is not entitled by collection',()=>{
   const before=evaluate({jurisdiction:'MN',profileVersion:profile.profileVersion,matterId:'mn-source-test',answers});
