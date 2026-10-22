@@ -11,8 +11,9 @@ const {OR_RETIRED_NONCONVICTION_PATH: retired} = await import('../src/lib/rcap-e
 // predecessor except the six declared movers below; nothing is paid, and the retired route is never a conviction's result.
 const profile = getProfileByJurisdiction('OR'), questions = projectPublicProfile(profile).questions;
 const options = id => questions.find(question => question.id === id).options;
-const witness = JSON.parse(fs.readFileSync(new URL('../data/rcap-ledger/public-witness-fixtures.json', import.meta.url)))
-  .fixtures.find(item => item.pathwayKey === 'OR:' + retired);
+// The retired route's generated row may disappear; keep the exact captured grid seed.
+const witness = JSON.parse(fs.readFileSync(new URL('./fixtures/or-1c-witness-fixture-hold.json', import.meta.url))).fixture;
+assert.equal(witness.pathwayKey, 'OR:' + retired);
 const baseline = JSON.parse(fs.readFileSync(new URL('./fixtures/or-retired-route-grid-predecessor.json', import.meta.url)));
 const conviction = 'set-aside-of-eligible-convictions-under-ors-137-225-1-a';
 const retiredLabel = profile.pathways.find(pathway => pathway.id === retired).label;
