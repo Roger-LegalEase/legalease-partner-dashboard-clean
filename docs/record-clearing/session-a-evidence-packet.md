@@ -13,7 +13,7 @@ denominator, changes runtime, or issues an approval.
 | `packetFamilyBridge` | working_tree | `fee93664c9795c56…` |
 | `trackSourceRelationships` | working_tree | `c24c9cf4edc2336f…` |
 | `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
-| `publicWitnessAnswerSets` | working_tree | `660bcc1c99c4b8a3…` |
+| `publicWitnessAnswerSets` | working_tree | `ba7c1c39b256b3d5…` |
 | `problematicPdfRegister` | working_tree | `aee39d15e5ff23c2…` |
 | `completedOutputPacketProofs` | working_tree | `ef771b3051b13e67…` |
 | `ownerLegalDecision` | working_tree | `8b7df128f69dfd2f…` |
@@ -62,9 +62,9 @@ technical result.
 Answer sets live in `data/rcap-ledger/public-witness-answer-sets.json` — no randomness,
 re-running reproduces the file byte for byte, and `--check` proves it.
 
-- Settled on a terminal evaluation: **259** of 267
-- Landed on their own pathway: **258**
-- Payment allowed at the evaluator: **25**
+- Settled on a terminal evaluation: **258** of 267
+- Landed on their own pathway: **257**
+- Payment allowed at the evaluator: **13**
 
 ## 5 — Owner-approved legal status
 
