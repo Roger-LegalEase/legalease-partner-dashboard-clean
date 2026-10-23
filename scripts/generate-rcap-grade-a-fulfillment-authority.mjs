@@ -14,6 +14,9 @@ import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-trac
 //   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check --scope <route>
 //     (or RCAP_AUTHORITY_SCOPED_CHECK_ROUTE=<route>) — nonmutating scoped authority check
 //
+// Bind only the existing MS record to an accepted equivalent native image:
+//   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --scope question-contract-successor --ms-native-publication-only
+//
 // Three artifacts, one derivation, so that none of them can quietly disagree
 // with the evidence the repository actually holds:
 //
@@ -108,14 +111,18 @@ if (SCOPED_ROUTE === "ga-pardon-current-output-handoff") {
 // CLI scope, not a retirement authority: the registered specification must
 // independently establish historical_only and its dated supersession.
 const OR_RETIREMENT_ROUTE = "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c";
+const MS_CLINIC_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 const QUESTION_CONTRACT_ONLY = SCOPED_ROUTE === "question-contract-successor";
+const MS_NATIVE_PUBLICATION_ONLY = process.argv.includes("--ms-native-publication-only");
+assert(!MS_NATIVE_PUBLICATION_ONLY || QUESTION_CONTRACT_ONLY, "MS native publication binding requires the existing question-contract scope");
 if (SCOPED_ROUTE !== null && SCOPED_ROUTE !== OR_RETIREMENT_ROUTE && !QUESTION_CONTRACT_ONLY) {
   console.error(`--scope only supports the terminal-retirement route today; received ${SCOPED_ROUTE}`);
   process.exit(2);
 }
 const OR_RETIREMENT_ONLY = SCOPED_ROUTE === OR_RETIREMENT_ROUTE;
 const QUESTION_CONTRACT_ROUTES = QUESTION_CONTRACT_ONLY
-  ? new Set(readQuestionContractSuccessor(rel => fs.readFileSync(path.join(rootDir, rel))).routes.map(row => row.routeId))
+  ? new Set(readQuestionContractSuccessor(rel => fs.readFileSync(path.join(rootDir, rel))).routes
+    .filter(row => !MS_NATIVE_PUBLICATION_ONLY || row.routeId === MS_CLINIC_ROUTE).map(row => row.routeId))
   : new Set();
 const OUTPUT_FLAG = process.argv.indexOf("--output-dir");
 const PREVIEW_DIR = OUTPUT_FLAG >= 0 ? path.resolve(process.argv[OUTPUT_FLAG + 1] ?? "") : null;
@@ -161,7 +168,6 @@ const PROJECTION_OUT = "data/rcap-grade-a/fulfillment-authority-projection.json"
 
 /** The only jurisdictions this generator writes candidate records for. */
 const CANDIDATE_JURISDICTIONS = ["ND", "OR"];
-const MS_CLINIC_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
 const CODIFIED_AUTHORITY_CONTRACT = "rcap-codified-authority-bound-inputs/v1";
 const INDEPENDENT_FINAL_VERIFICATION_CONTRACT = "rcap-independent-packet-final-verification/v1";
@@ -483,6 +489,15 @@ if (!ownerDecision) {
 // worker closes every authority until each is re-proven against the new image.
 const currentPublicationInputs = createWorkerInputPlan({rootDir, acceptedSourceSha:worker.sourceSha,
   acceptedDigest:worker.immutableRegistryDigest, candidateSha:execFileSync("git",["rev-parse","HEAD"],{cwd:rootDir,encoding:"utf8"}).trim()});
+if (MS_NATIVE_PUBLICATION_ONLY) {
+  assert.equal(worker.workflowConclusion, "success", "MS provider binding requires successful publication");
+  assert.equal(worker.runtimeAccepted, true, "MS provider binding requires native image acceptance");
+  assert.equal(worker.imageAcceptance?.conclusion, "success", "MS provider binding requires successful native image acceptance");
+  assert.equal(worker.imageAcceptance?.readOnly, true, "MS native image acceptance must be read-only");
+  assert.equal(worker.imageAcceptance?.sourceSha, worker.sourceSha, "MS native image acceptance source");
+  assert.equal(worker.imageAcceptance?.digest, worker.immutableRegistryDigest, "MS native image acceptance digest");
+  assert.equal(currentPublicationInputs.rebuildRequired, false, "MS provider binding requires equivalent worker inputs");
+}
 const provider = {
   providerId: worker.imageRepository,
   rendererKind: PACKET_RENDERER_KIND,
@@ -2301,6 +2316,10 @@ const registry = OR_RETIREMENT_ONLY || QUESTION_CONTRACT_ONLY ? { ...committedRe
   records
 };
 
+if (MS_NATIVE_PUBLICATION_ONLY) {
+  registry.evidenceInputs = { ...registry.evidenceInputs, [WORKER_EVIDENCE]: sha256(readEvidenceBytes(WORKER_EVIDENCE)) };
+}
+
 // The observation is derived from the same evidence the records were written
 // against, so a freshly generated pair is never stale. It becomes stale the
 // moment an upstream evidence file changes and only the snapshot is regenerated
@@ -2358,17 +2377,24 @@ const observation = OR_RETIREMENT_ONLY ? {
 };
 
 if (QUESTION_CONTRACT_ONLY) {
-  assert.equal(QUESTION_CONTRACT_ROUTES.size, 6);
+  assert.equal(QUESTION_CONTRACT_ROUTES.size, MS_NATIVE_PUBLICATION_ONLY ? 1 : 6);
   for (const routeId of QUESTION_CONTRACT_ROUTES) {
     assert.equal(records.filter(record => record.routeId === routeId && !record.supersededBy).length, 1,
       `exact current target record required: ${routeId}`);
   }
   const nonTarget = document => ({ ...document,
     records: document.records.filter(record => !QUESTION_CONTRACT_ROUTES.has(record.routeId)) });
-  assert.deepEqual(nonTarget(registry), nonTarget(committedRegistry), "question-contract scope cannot change unrelated registry data");
+  const expectedRegistry = MS_NATIVE_PUBLICATION_ONLY ? { ...committedRegistry,
+    evidenceInputs: { ...committedRegistry.evidenceInputs, [WORKER_EVIDENCE]: sha256(readEvidenceBytes(WORKER_EVIDENCE)) } } : committedRegistry;
+  assert.deepEqual(nonTarget(registry), nonTarget(expectedRegistry), "question-contract scope cannot change unrelated registry data");
   const otherObservations = document => ({ ...document,
     routes: Object.fromEntries(Object.entries(document.routes).filter(([routeId]) => !QUESTION_CONTRACT_ROUTES.has(routeId))) });
   assert.deepEqual(otherObservations(observation), otherObservations(committedObservation), "question-contract scope cannot change unrelated observations");
+}
+if (MS_NATIVE_PUBLICATION_ONLY) {
+  assert.deepEqual(createStaticWorkerAuthority(registry, observation),
+    JSON.parse(readGitBlob("HEAD", STATIC_AUTHORITY_PATH).toString("utf8")),
+    "MS publication binding cannot change static worker authority");
 }
 if (PREVIEW_DIR) {
   fs.mkdirSync(PREVIEW_DIR, { recursive: true });
@@ -2482,7 +2508,7 @@ let projectionRoutes = [...loaded.history.entries()]
 if (QUESTION_CONTRACT_ONLY) {
   const previous = JSON.parse(readGitBlob("HEAD", PROJECTION_OUT).toString("utf8"));
   const currentTargets = projectionRoutes.filter(record => QUESTION_CONTRACT_ROUTES.has(record.routeId));
-  assert.equal(currentTargets.length, 6);
+  assert.equal(currentTargets.length, MS_NATIVE_PUBLICATION_ONLY ? 1 : 6);
   projectionRoutes = [...previous.routes.filter(record => !QUESTION_CONTRACT_ROUTES.has(record.routeId)), ...currentTargets]
     .sort((a,b) => a.routeId.localeCompare(b.routeId));
 }
