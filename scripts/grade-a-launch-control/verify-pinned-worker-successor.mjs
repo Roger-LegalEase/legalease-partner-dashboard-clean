@@ -55,7 +55,17 @@ export function assertCommittedPredecessor(root,base){
   const dependencies=path.join(root,'node_modules');
   if(fs.existsSync(dependencies))fs.symlinkSync(fs.realpathSync(dependencies),path.join(snapshot,'node_modules'));
   const historicalModule=new URL('./verify-historical-release.mjs',import.meta.url).href;
-  const code=`import fs from 'node:fs';const c=JSON.parse(fs.readFileSync('${CANDIDATE}'));if(c.forwardProduction||c.hostedAdmission){const {verifyHistoricalRelease}=await import(${JSON.stringify(historicalModule)});const r=await verifyHistoricalRelease(process.cwd(),c);if(!r.historyValid||r.current||r.productionAuthorized)throw Error(JSON.stringify(r));}else{const {verifyReleaseCandidateBinding}=await import('./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs');const r=verifyReleaseCandidateBinding(process.cwd(),c);if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));}console.log('HISTORICAL_PREDECESSOR_VALID');`;
+  const code=`import fs from 'node:fs';const c=JSON.parse(fs.readFileSync('${CANDIDATE}'));
+if(c.forwardProduction||c.hostedAdmission){
+ const {verifyHistoricalRelease}=await import(${JSON.stringify(historicalModule)});const r=await verifyHistoricalRelease(process.cwd(),c);
+ if(!r.historyValid||r.current||r.productionAuthorized)throw Error(JSON.stringify(r));
+}else{
+ const {verifyReleaseCandidateBinding}=await import('./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs');const r=verifyReleaseCandidateBinding(process.cwd(),c);
+ if(c.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'){
+  if(c.runtimeAccepted!==true||c.previewExecution!=='held'||c.productionAuthorized!==false||c.deploymentAuthorized!==false||c.clinicDispatchReady!==false||r.bindingVerified!==true||r.current!==false||r.productionAuthorized!==false||r.status!==c.status)throw Error(JSON.stringify(r));
+ }else if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));
+}
+console.log('HISTORICAL_PREDECESSOR_VALID');`;
   const output=execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,encoding:'utf8',stdio:'pipe',maxBuffer:4*1024*1024});
   assert(output.includes('HISTORICAL_PREDECESSOR_VALID'),'historical predecessor validation');
   predecessorCache.add(key);
@@ -279,9 +289,9 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   const prior=at(root,p.releaseBaseSha,PENDING);
   assert.equal(prior.applicationSource,'pinned-source');assert.equal(prior.runtimeAccepted,true);
   assert.deepEqual(p.supersededRecord,prior,'accepted pending history preserved');
-  sourcePlan(root,prior);
-  const priorTools=at(root,p.releaseBaseSha,TOOLS);if(priorTools.successorInputs)verifySuccessorResponsibilities(root,prior,priorTools);
-  const e=publication(root,prior,at(root,p.releaseBaseSha,TOOLS));assert.equal(e.runtimeAccepted,true);
+  assertCommittedPredecessor(root,p.releaseBaseSha);
+  const priorTools=at(root,p.releaseBaseSha,TOOLS);
+  const e=publication(root,prior,priorTools);assert.equal(e.runtimeAccepted,true);
   assert.deepEqual(e,at(root,p.releaseBaseSha,PUBLICATION),'accepted worker evidence remains immutable');
   const expected={applicationSha:p.applicationSha,workerSourceSha:prior.workerSourceSha,
    workerDigest:prior.workerDigest,workerInputFingerprint:prior.workerInputFingerprint,toolsSha:p.toolsSha,

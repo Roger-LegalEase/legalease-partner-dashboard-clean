@@ -6,7 +6,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {nativeDecisionTime,historicalCheckTime,verifyHistoricalRelease} from './verify-historical-release.mjs';
-import {assertCommittedPredecessor,assertForwardHosted,CANDIDATE,PENDING} from './verify-pinned-worker-successor.mjs';
+import {assertCommittedPredecessor,assertForwardHosted,verifyPinnedForwardBinding,CANDIDATE,PENDING,TOOLS,PUBLICATION} from './verify-pinned-worker-successor.mjs';
 import {pinnedRecords} from './prepare-pinned-worker-successor.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 // Synthetic native decision fixtures exercise integrity and chronology only;
@@ -51,6 +51,32 @@ test('historical snapshot preserves actual origin and canonical ref rather than 
   assert.throws(()=>assertCommittedPredecessor(root,base),/rev-parse/,'missing canonical ref cannot fall back to the local branch');
   git(['update-ref','refs/remotes/origin/captain-release',base]);
   assert.deepEqual(assertCommittedPredecessor(root,base),{historyValid:true,current:false,productionAuthorized:false});
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+test('forward caller verifies native-held predecessor in its own snapshot and retains native refusal',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-forward-context-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ const write=(p,v)=>{fs.mkdirSync(path.dirname(path.join(root,p)),{recursive:true});fs.writeFileSync(path.join(root,p),JSON.stringify(v));};
+ const commit=()=>{git(['add','--','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',PENDING,CANDIDATE,TOOLS,PUBLICATION]);git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--quiet','-m','synthetic context only']);return git(['rev-parse','HEAD']);};
+ try{
+  git(['init','--quiet']);git(['remote','add','origin','https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean']);
+  fs.mkdirSync(path.join(root,'scripts/grade-a-launch-control'),{recursive:true});
+  // The double proves snapshot selection only; the real publication guard must still refuse.
+  fs.writeFileSync(path.join(root,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'),`import fs from 'node:fs';import assert from 'node:assert/strict';export function verifyReleaseCandidateBinding(){assert.equal(JSON.parse(fs.readFileSync('${TOOLS}')).context,'native-held');return {bindingVerified:true,current:false,productionAuthorized:false,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'};}`);
+  const held={status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,deploymentAuthorized:false,clinicDispatchReady:false};
+  write(CANDIDATE,held);write(TOOLS,{context:'native-held'});write(PENDING,{});write(PUBLICATION,{synthetic:'prior-publication'});const base=commit();
+  const prior={schemaVersion:'synthetic-context-only',applicationSource:'pinned-source',runtimeAccepted:true,releaseBaseSha:base,sourceCommit:base};
+  write(PENDING,prior);const nativeHeld=commit();git(['update-ref','refs/remotes/origin/captain-release',nativeHeld]);
+  write(TOOLS,{context:'forward'});write(PENDING,{applicationSource:'pinned-source-forward',releaseBaseSha:nativeHeld,applicationSha:nativeHeld,toolsSha:nativeHeld,supersededRecord:prior});
+  write(PUBLICATION,{supersededPublication:{synthetic:'deliberately-wrong'}});
+  const result=verifyPinnedForwardBinding(root,{});
+  assert.equal(result.bindingVerified,undefined);assert.equal(result.status,'INVALID_FORWARD_BINDING');
+  assert.match(result.reasons.join(),/full publication predecessor preserved/,'actual caller passed its own saved context, then refused invalid native history');
+  write(TOOLS,{context:'native-held'});write(PENDING,prior);
+  for(const [key,value]of [['productionAuthorized',true],['deploymentAuthorized',true],['clinicDispatchReady',true],['runtimeAccepted',false]]){
+   write(CANDIDATE,{...held,[key]:value});const invalid=commit();
+   assert.throws(()=>assertCommittedPredecessor(root,invalid),'held historical context cannot grant '+key);
+  }
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 test('real committed predecessor chain is history and new canonical preparation is HELD',()=>{
