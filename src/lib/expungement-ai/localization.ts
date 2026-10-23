@@ -13,6 +13,7 @@ import { MO_MARIJUANA_COPY } from "@/lib/rcap-engine/missouri-marijuana-status-f
 import { GA_PARDON_COPY } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { AR_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/arkansas-record-origin";
 import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
+import { MS_INTERVENTION_COPY } from "@/lib/rcap-engine/mississippi-intervention-referral";
 import { GA_FIRST_OFFENDER_GUIDANCE, GA_RETROACTIVE_CONSENT_GUIDANCE } from "@/lib/rcap-engine/georgia-first-offender";
 import { KS_REGISTRATION_REVIEW_COPY } from "@/lib/rcap-engine/kansas-district-facts";
 import { reviewedResultText, type MsTimingDisplayContext } from "@/lib/expungement-ai/reviewed-result-copy";
@@ -1258,7 +1259,7 @@ export function resolveRuntimeText(locale: Locale, text: string, options?: { key
   const nyQuestions = NY_16059_QUESTIONS.filter(q => [NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID].includes(q.id));
   const nyQuestionCopy = nyQuestions.flatMap(q => [[q.prompt, q.translations?.es?.prompt], [q.helperText, q.translations?.es?.helperText]]).find(([en]) => en === text);
   if (nyQuestionCopy?.[locale === "es" ? 1 : 0]) return nyQuestionCopy[locale === "es" ? 1 : 0]!;
-  const draft = [...Object.values(IL_PROGRAM_COPY), ...Object.values(NY_16059_REASON_COPY), ...Object.values(WY_1501_COPY), ...Object.values(TX_ND_TIMING_COPY), ...Object.values(WY_1401_COPY), ...Object.values(CA_12034_COPY), ...Object.values(ND_FIRST_OFFENSE_COPY), ...Object.values(OR_DISPOSITION_COPY), ...Object.values(MT_DEFERRED_COPY), ...Object.values(MO_MARIJUANA_COPY), ...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(VA_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE), GA_RETROACTIVE_CONSENT_GUIDANCE, KS_REGISTRATION_REVIEW_COPY].find(([en]) => en === text);
+  const draft = [...Object.values(IL_PROGRAM_COPY), ...Object.values(NY_16059_REASON_COPY), ...Object.values(WY_1501_COPY), ...Object.values(TX_ND_TIMING_COPY), ...Object.values(WY_1401_COPY), ...Object.values(CA_12034_COPY), ...Object.values(ND_FIRST_OFFENSE_COPY), ...Object.values(OR_DISPOSITION_COPY), ...Object.values(MT_DEFERRED_COPY), ...Object.values(MO_MARIJUANA_COPY), ...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(VA_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(MS_INTERVENTION_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE), GA_RETROACTIVE_CONSENT_GUIDANCE, KS_REGISTRATION_REVIEW_COPY].find(([en]) => en === text);
   if (draft) return interpolate(draft[locale === "es" ? 1 : 0], options?.vars);
   const reviewed = reviewedResultText(text, options?.msTimingContext);
   if (reviewed) return interpolate(reviewed[locale], options?.vars);

@@ -38,6 +38,7 @@ import { caProp64Pathway, caProp64Section, caProp64QuestionApplies, caProp64Appl
 import { ny16059QuestionApplies, ny16059Requested, NY_16059_ROUTE, NY_16059_FACT_IDS, NY_16059_LEGACY_IDS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deConvictionQuestionApplies, delawareConvictionRoute } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { msProgramCompletionQuestionApplies } from "@/lib/rcap-engine/mississippi-program-completion";
+import { msInterventionQuestionApplies } from "@/lib/rcap-engine/mississippi-intervention-referral";
 import { msConditionalDischargeQuestionApplies } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { kansasRecordScopeFromAnswers, kansasRecordScopeQuestionApplies } from "@/lib/rcap-engine/kansas-record-scope";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
@@ -201,6 +202,7 @@ export function selectScreeningQuestionIds(
         && ["completed_and_closed", "completed_without_closure"].includes(String(answers.ms_program_record_status))))
     .filter(question => deConvictionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msProgramCompletionQuestionApplies(profile.jurisdiction.code, answers, question.id))
+    .filter(question => msInterventionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msConditionalDischargeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => wy1502QuestionApplies(profile, selectedPathway?.id, answers, question.id))

@@ -57,6 +57,7 @@ import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop6
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { mississippiProgramRouteFromAnswers, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
+import { MS_INTERVENTION_ROUTE, MS_INTERVENTION_SOURCE, MS_INTERVENTION_COPY, msInterventionReferralCode } from "@/lib/rcap-engine/mississippi-intervention-referral";
 import { georgiaFirstOffenderFromAnswers, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, GA_FIRST_OFFENDER_GUIDANCE, GA_RETROACTIVE_CONSENT_GUIDANCE, isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, IL_CANNABIS_PATHWAY } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { pathwayExcludedByKnownFacts, FACTUAL_PATHWAY_EXCLUSION_COPY } from "@/lib/rcap-engine/factual-pathway-exclusions";
@@ -738,6 +739,17 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     });
   }
   const originalFirstOffender = jurisdiction === "GA" ? georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  const interventionReferral = preselectedPathway ? interventionCourtReferralReason(profile, answers, preselectedPathway) : undefined;
+  if (jurisdiction === "MS" && programRoute?.status === "selected" && programRoute.pathwayId === MS_INTERVENTION_ROUTE && !interventionReferral) {
+    return result(profile, request, "needs_review", [reason("MS", "intervention_source_unavailable", MS_INTERVENTION_COPY.records_confirmation[0], MS_INTERVENTION_SOURCE)], {
+      paymentAllowed: false
+    });
+  }
+  if (preselectedPathway && interventionReferral) {
+    return { ...result(profile, request, "guidance_only", [interventionReferral], {
+      pathwayId: preselectedPathway.id, paymentAllowed: false
+    }), nextSteps: [interventionReferral.text] };
+  }
   if (originalFirstOffender?.status === "clarification") {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "original_first_offender_facts_missing", "Check whether the original sentence imposed First Offender treatment, its current status, and the sentencing or discharge date requested. Completing a program or requesting retroactive treatment does not establish those facts.", "LD-GA-01; GA.memo:ga-fo-*; HB162:sections3-4")], {
       missingQuestionIds: originalFirstOffender.missingQuestionIds,
@@ -2439,6 +2451,17 @@ function missingProductFactIds(profile: EngineProfile, answers: Record<string, S
   if (!answerText(answers.wi_expungement_ordered_at_sentencing).trim()) missing.push("wi_expungement_ordered_at_sentencing");
   if (!answerText(answers.wi_no_probation_jail_prison).trim()) missing.push("wi_no_probation_jail_prison");
   return missing;
+}
+
+function interventionCourtReferralReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
+  if (profile.jurisdiction.code !== "MS" || pathway.id !== MS_INTERVENTION_ROUTE || answers.ms_program_order !== "9-23-23"
+    || contract?.stage !== "enforcement" || contract.outcomeMode !== "referral" || contract.packetFamily !== null
+    || !profile.orderedDecisionRules?.some(rule => rule.when?.backendPathwayId === pathway.id
+      && rule.sourceRef === "legal-authority:LD-MS-01" && rule.stage === "pathway_routing"
+      && rule.then?.suggestedResultCode === "guidance_only" && rule.then?.frontendAction === "save_state_guidance_no_checkout")) return undefined;
+  const code = msInterventionReferralCode(answers);
+  return reason("MS", `icourt_${code}`, MS_INTERVENTION_COPY[code][0], MS_INTERVENTION_SOURCE);
 }
 
 function activeProgramReferralReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {

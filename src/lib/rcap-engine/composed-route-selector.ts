@@ -81,6 +81,8 @@ export function mississippiProgramRouteFromAnswers(answers: Record<string, unkno
   | { status: "selected"; pathwayId: string } {
   const program = answers.ms_program_order;
   const stage = answers.ms_program_record_status;
+  // Q3: uncertain completion or plea posture still reaches unpaid records guidance.
+  if (program === "9-23-23") return { status: "selected", pathwayId: "intervention-court-statutory-result-enforcement-referral" };
   const routes: Record<string, [string, string]> = {
     "99-15-26": ["nonadjudication-99-15-26-active-case-admission", "nonadjudication-under-99-15-26"],
     "99-15-101": ["pretrial-intervention-active-case-admission", "pretrial-intervention-or-diversion-expungement"],

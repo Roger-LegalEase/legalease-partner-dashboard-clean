@@ -26,6 +26,7 @@ import { isCaProp64QuantityQuestion, CA_PROP64_QUANTITY_CONTRACT } from "@/lib/e
 import { NY_16059_FACT_IDS, NY_16059_QUESTIONS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { DE_CONVICTION_FACT_IDS, DE_CONVICTION_QUESTIONS } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_FACT_IDS, MS_PROGRAM_COMPLETION_QUESTIONS } from "@/lib/rcap-engine/mississippi-program-completion";
+import { MS_INTERVENTION_FACT_IDS, MS_INTERVENTION_QUESTIONS } from "@/lib/rcap-engine/mississippi-intervention-referral";
 import { MS_CONDITIONAL_DISCHARGE_FACT_IDS, MS_CONDITIONAL_DISCHARGE_QUESTIONS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { KS_RECORD_SCOPE_FACT_IDS, KS_RECORD_SCOPE_QUESTIONS } from "@/lib/rcap-engine/kansas-record-scope";
 import { CA_PROP64_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -105,6 +106,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "ms_program_final_disposition",
     ...MS_CONDITIONAL_DISCHARGE_FACT_IDS,
     ...MS_PROGRAM_COMPLETION_FACT_IDS,
+    ...MS_INTERVENTION_FACT_IDS,
     "disposition_date",
     "arrest_date",
     "ms_last_conviction_date_any_court",
@@ -1008,12 +1010,13 @@ const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
     prompt: "Which program is named in this case's order or written admission request?",
     helperText: "Read the program or statute from the case record. A completed class or supervision period alone does not identify the court's program. Choose Other or not sure if the record does not identify one of these.",
     required: false, contextOnly: false, doesNotSelectPathway: false, lifecyclePhase: "prepay_route_splitter",
-    options: ["no_program_order", "99-15-26", "99-15-101", "41-29-150", "other_or_unknown"],
+    options: ["no_program_order", "99-15-26", "99-15-101", "41-29-150", "9-23-23", "other_or_unknown"],
     optionDisplay: {
       no_program_order: { label: "No program order or admission request", translations: { es: { label: "No hay orden de programa ni solicitud de admisión" } } },
       "99-15-26": { label: "Nonadjudication — § 99-15-26", translations: { es: { label: "No adjudicación — sección 99-15-26" } } },
       "99-15-101": { label: "Pretrial intervention — §§ 99-15-101 through 99-15-127", translations: { es: { label: "Intervención previa al juicio — secciones 99-15-101 a 99-15-127" } } },
       "41-29-150": { label: "Controlled-substance conditional discharge — § 41-29-150", translations: { es: { label: "Descargo condicional por sustancias controladas — sección 41-29-150" } } },
+      "9-23-23": { label: "Intervention court (drug court or other problem-solving court) — § 9-23-23", translations: { es: { label: "Tribunal de intervención (tribunal de drogas u otro tribunal especializado en resolver problemas) — § 9-23-23" } } },
       other_or_unknown: { label: "Another program or I am not sure", translations: { es: { label: "Otro programa o no estoy seguro" } } }
     },
     translations: { es: {
@@ -1168,7 +1171,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "DE"
     ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
     : profile.jurisdiction.code === "MS"
-    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
+    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS, ...MS_INTERVENTION_QUESTIONS]
     : profile.jurisdiction.code === "SD" ? [...WILMA_FACT_QUESTIONS, ...SD_SIS_QUESTIONS]
     : profile.jurisdiction.code === "CT" ? [...WILMA_FACT_QUESTIONS, ...CT_PETITION_QUESTIONS]
     : profile.jurisdiction.code === "TX" ? [...WILMA_FACT_QUESTIONS, ...TX_ND_QUESTIONS]
