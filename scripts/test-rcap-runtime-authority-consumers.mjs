@@ -11,6 +11,26 @@ import {
   tracingIncludeKey,
   tracingKeyMatches,
 } from './rcap-runtime-authority-consumers.mjs';
+import { MS_INTERVENTION_SOURCE_PATH } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+
+test('current dynamic source-guard inputs are traced as raw files only for their actual consumers', () => {
+  const contract = JSON.parse(fs.readFileSync(path.join(DEFAULT_ROOT_DIR, MS_INTERVENTION_SOURCE_PATH)));
+  assert.equal(contract.additionalRuntimeSources.length, 2, 'the actual missing evaluator and referral source files');
+  const { consumers, entries } = discoverRuntimeAuthorityConsumers();
+  const includes = createRuntimeAuthorityTracingIncludes();
+  const guard = path.join(DEFAULT_ROOT_DIR, 'src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
+  const preview = consumers.find(entry => entry.route === '/briefcase/[packetId]/mn-caption-preview/[documentId]');
+  assert.ok(preview?.reachable.has(guard), 'the compiled route with the demonstrated missing-source failure');
+  for (const entry of consumers) {
+    for (const input of contract.additionalRuntimeSources) {
+      assert.equal(includes[entry.tracingKey].includes(input.file), entry.reachable.has(guard), `${entry.route}: ${input.file}`);
+    }
+    assert.equal(includes[entry.tracingKey].includes('src/**'), false, 'no whole source-tree fallback');
+  }
+  const unrelated = entries.find(entry => entry.authorityPaths.length === 0);
+  assert.ok(unrelated, 'real non-consumers remain outside the tracing scope');
+  assert.equal(Object.hasOwn(includes, unrelated.tracingKey), false);
+});
 
 test('every current authority consumer matches exactly its route, with no other entry admitted', () => {
   const { entries, consumers } = discoverRuntimeAuthorityConsumers();
