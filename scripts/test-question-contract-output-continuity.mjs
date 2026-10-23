@@ -1,3 +1,4 @@
+import {assertMsInterventionSourceSuccession,MS_INTERVENTION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGa49FooterSourceSuccession,GA49_FOOTER_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaNoPhoneContactSourceSuccession,CA_NO_PHONE_CONTACT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaSb288CtPetitionSourceSuccession,GA_SB288_CT_PETITION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1131,6 +1132,14 @@ check('GA49 footer source hop preserves prior chain and refuses missing/tampered
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA49_FOOTER_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA49 footer clearance source succession record bytes changed/);
  assert.throws(()=>assertB31eFinalSourceSuccession(file=>{if(file===GA49_FOOTER_SOURCE_PATH)throw Error('missing GA49 footer record');return readBytes(file);}),/missing GA49 footer record/);
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file==='src/lib/rcap/supplemental/guide-renderer.ts'?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+
+check('MS intervention source hop preserves historical output and refuses missing, altered and added-runtime drift',()=>{
+ const c=assertMsInterventionSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,37);assert.equal(c.currentUnchangedSourceCount,161);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===MS_INTERVENTION_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/MS intervention referral source succession record bytes changed/);
+ assert.throws(()=>assertGa49FooterSourceSuccession(file=>{if(file===MS_INTERVENTION_SOURCE_PATH)throw Error('missing MS intervention record');return readBytes(file);}),/missing MS intervention record/);
+ for(const input of ["src/lib/expungement-ai/localization.ts", "src/lib/rcap-engine/composed-route-selector.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts", "src/lib/rcap-engine/evaluator.ts", "src/lib/rcap-engine/mississippi-intervention-referral.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
