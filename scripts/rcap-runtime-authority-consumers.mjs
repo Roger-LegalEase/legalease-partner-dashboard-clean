@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
-import { MN_CAPTION_SOURCE_FILES } from "./rcap-official-forms/mn-petition-caption-preview.mjs";
+import { MN_CAPTION_SOURCE_FILES } from "./rcap-official-forms/mn-caption-source-files.mjs";
 
 const require = createRequire(import.meta.url);
 const { normalizeAppPath } = require('next/dist/shared/lib/router/utils/app-paths');
