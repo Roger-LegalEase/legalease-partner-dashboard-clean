@@ -356,6 +356,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap-engine/maryland-police-record-facts.ts",
   "src/lib/rcap-engine/mississippi-conditional-discharge.ts",
   "src/lib/rcap-engine/mississippi-exact-timing.ts",
+  "src/lib/rcap-engine/mississippi-intervention-referral.ts",
   "src/lib/rcap-engine/mississippi-program-completion.ts",
   "src/lib/rcap-engine/missouri-automatic-drug-guidance.ts",
   "src/lib/rcap-engine/missouri-closed-record-facts.ts",
