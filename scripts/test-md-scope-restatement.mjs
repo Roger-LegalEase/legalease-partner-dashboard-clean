@@ -53,6 +53,16 @@ function withoutR24(delta) {
   assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), R24_REPINS_SHA256, 'exactly the reviewed R24 re-pins');
   return {...delta, supersededSha256: delta.supersededSha256.slice(0, -R24_REPINS.length)};
 }
+// Q3-MS (2026-10-23): technical shared-file custody only; the signed MD scope is unchanged.
+const Q3_MS_REPINS = [{"path":"src/lib/rcap-engine/evaluator.ts","sha256":"843500dbf6aa2077e579a350401d6e8be69a2f3c4ce42e162fe054ec39156a79","repinnedTo":"72659e5cdf35cfd19a3562ecf9e50c760cc8875708d0a21b7226081c763c61f9","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"},{"path":"src/lib/rcap-engine/public-profile-projection.ts","sha256":"44f0d77fae02fa8707d7914b55017632ef5acbd9a35087991b62915975bd4ba6","repinnedTo":"177d0f0bf577d1cc4c8b978bc6471f2bca93325ee8eedf764995c7848145e324","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"}];
+const Q3_MS_REPINS_SHA256 = "b54b2c1b50da0d0cf49ea39c20a7553f43f3e765de47463f00372d35e34b706e";
+function withoutQ3Ms(delta) {
+  const tail = delta.supersededSha256.slice(-Q3_MS_REPINS.length);
+  assert.deepEqual(tail.map(e => ({path:e.path,sha256:e.sha256,repinnedTo:e.repinnedTo,behaviouralProof:e.behaviouralProof})),
+    Q3_MS_REPINS, 'exact two Q3 Mississippi-only shared-file custody hops');
+  assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), Q3_MS_REPINS_SHA256, 'complete Q3 custody entries including reasons');
+  return {...delta, supersededSha256: delta.supersededSha256.slice(0, -Q3_MS_REPINS.length)};
+}
 const a17Appended = [];
 function withoutA17(delta) {
   const expected = A17_REPINS[delta.id];
@@ -64,7 +74,7 @@ function withoutA17(delta) {
   const {supersededSha256, ...rest} = delta;
   return supersededSha256.length > 1 ? {...rest, supersededSha256: supersededSha256.slice(0, -1)} : rest;
 }
-assert.deepEqual(withoutA17(withoutA27(withoutA35(withoutR24(history)))), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
+assert.deepEqual(withoutA17(withoutA27(withoutA35(withoutR24(withoutQ3Ms(history))))), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
 assert.deepEqual(record.deltas.filter(d => d !== md).map(withoutA17), previous.deltas.filter(d => d.id !== md.id), 'other approvals unchanged');
 assert.equal(a17Appended.length, Object.keys(A17_REPINS).length, 'every reviewed A17 re-pin present');
 assert.equal(createHash('sha256').update(JSON.stringify(a17Appended)).digest('hex'), A17_REPINS_SHA256, 'exactly the reviewed A17 re-pins');
@@ -138,13 +148,15 @@ try {
     ['A27 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===A27_REPIN.repinnedTo);assert.ok(i>=0,'the A27 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
     // With R24's evaluator hop appended after it, losing the A35 hop leaves R24's starting hash unreachable.
     ['A35 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===A35_REPIN.repinnedTo);assert.ok(i>=0,'the A35 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
-    ['R24 evaluator.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/evaluator.ts"&&e.repinnedTo==="843500dbf6aa2077e579a350401d6e8be69a2f3c4ce42e162fe054ec39156a79");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/approval does not cover these bytes/],
-    ['R24 public-profile-projection.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/public-profile-projection.ts"&&e.repinnedTo==="44f0d77fae02fa8707d7914b55017632ef5acbd9a35087991b62915975bd4ba6");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/approval does not cover these bytes/]
+    ['Q3 evaluator custody omitted',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===Q3_MS_REPINS[0].repinnedTo);assert.ok(i>=0,'Q3 evaluator hop');hops.splice(i,1)},/approval does not cover these bytes/],
+    ['Q3 projection custody omitted',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===Q3_MS_REPINS[1].repinnedTo);assert.ok(i>=0,'Q3 projection hop');hops.splice(i,1)},/approval does not cover these bytes/],
+    ['R24 evaluator.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/evaluator.ts"&&e.repinnedTo==="843500dbf6aa2077e579a350401d6e8be69a2f3c4ce42e162fe054ec39156a79");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
+    ['R24 public-profile-projection.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/public-profile-projection.ts"&&e.repinnedTo==="44f0d77fae02fa8707d7914b55017632ef5acbd9a35087991b62915975bd4ba6");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/which the authorization chain never reaches/]
   ];
   for (const [name, mutate, marker] of mutants) {
     for(const [file,bytes] of originals)fs.writeFileSync(path.join(dir,file),bytes);
     const changed=structuredClone(fixture);mutate(changed);save(changed);
     assert.throws(()=>loadApprovedParityDeltas({rootDir:dir}),marker,name);checks++;
   }
-  console.log(JSON.stringify({status:'PASS',checks,mutants:mutants.length,scope:'MD only; original approval and other delta records unchanged except the reviewed A17 and A27 re-pins'}));
+  console.log(JSON.stringify({status:'PASS',checks,mutants:mutants.length,scope:'MD only; signed statement and all historical hops retained, with exactly two Q3 Mississippi-only technical shared-file custody continuations'}));
 } finally { fs.rmSync(dir,{recursive:true,force:true}); }
