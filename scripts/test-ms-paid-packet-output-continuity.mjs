@@ -139,6 +139,7 @@ check('all six DC artifact adoption/custody reads are explicit execution inputs'
 // The mandatory named source record refuses altered bytes before the generic
 // proof-input loop. Keep this exact path/message separate from the six DC cases.
 const namedSourceExecutionRefusals={
+ 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga49-footer-20261023-v1.json':{name:'Error',message:'Question-contract source successor refused: GA49 footer clearance source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-no-phone-contact-20261017-v1.json':{name:'Error',message:'Question-contract source successor refused: CA no-phone contact source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-sb288-ct-petition-20261018-v1.json':{name:'Error',message:'Question-contract source successor refused: GA SB288/CT petition source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-guide-spanish-20261018-v1.json':{name:'Error',message:'Question-contract source successor refused: GA guide Spanish source succession record bytes changed'},
