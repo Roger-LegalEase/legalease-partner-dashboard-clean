@@ -97,7 +97,7 @@ function sourcePlan(root,p){
  git(root,['merge-base','--is-ancestor',p.sourceCommit,'HEAD']);
  assert.equal(git(root,['rev-list','--parents','-n','1',p.sourceCommit]),`${p.sourceCommit} ${p.parent}`,'exact sole source parent');
  assert.deepEqual(p.supersededRecord,at(root,p.releaseBaseSha,PENDING),'entire committed predecessor');
- assert.equal(p.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root})));
+ assert.equal(p.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root,maxBuffer:64*1024*1024})));
  assertCommittedPredecessor(root,p.releaseBaseSha);
  const tools=read(root,TOOLS);
  const previous=at(root,tools.successorInputs?p.sourceCommit:p.releaseBaseSha,PUBLICATION);
@@ -113,10 +113,10 @@ function sourcePlan(root,p){
  assert.deepEqual(Object.keys(p.files).sort(),reviewed,'complete reviewed source delta');
  for(const [rel,digest]of Object.entries(p.files)){
   if(digest&&typeof digest==='object'){
-   assert.deepEqual(digest,{deleted:true,sha256:hash(execFileSync('git',['show',`${p.sourceRangeBaseSha??p.parent}:${rel}`],{cwd:root}))},'exact deleted source custody: '+rel);
+   assert.deepEqual(digest,{deleted:true,sha256:hash(execFileSync('git',['show',`${p.sourceRangeBaseSha??p.parent}:${rel}`],{cwd:root,maxBuffer:64*1024*1024}))},'exact deleted source custody: '+rel);
    assert.equal(git(root,['ls-tree',p.sourceCommit,'--',rel]),'','deleted in approved source: '+rel);
    assert.equal(fs.lstatSync(path.join(root,rel),{throwIfNoEntry:false}),undefined,'deleted source cannot reappear: '+rel);
-  }else assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
+  }else assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
  }
  const runtime=tools.successorInputs?verifySuccessorResponsibilities(root,p,tools).runtimeFiles:{};
  const controls=tools.successorInputs?tools.successorTools.files:{};
@@ -184,7 +184,7 @@ function publication(root,p,reviewed=read(root,TOOLS)){
  const evidence=runEvidence(root,e,'.github/workflows/publish-rcap-render-worker.yml','Publish RCAP render worker',reviewed);
  assert(evidence.log.includes(e.sourceSha)&&evidence.log.includes(e.immutableRegistryDigest),'native build subject');
  assert.equal(e.dockerfilePath,'deploy/rcap-render-worker/Dockerfile');
- for(const [rel,digest]of [[e.dockerfilePath,e.dockerfileSha256],['package-lock.json',e.lockfileSha256]])assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
+ for(const [rel,digest]of [[e.dockerfilePath,e.dockerfileSha256],['package-lock.json',e.lockfileSha256]])assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
  assert.equal(typeof e.runtimeAccepted,'boolean');
  if(e.runtimeAccepted)acceptance(root,e,reviewed);else assert.equal(e.imageAcceptance,undefined,'unaccepted image cannot inherit acceptance');
  return e;
@@ -239,7 +239,7 @@ export function verifyPinnedBinding(root,candidate,pending){
   else assert.deepEqual(Object.keys(manifest.files).sort(),controlDelta.filter(f=>!Object.keys(p.files).includes(f)).sort(),'entire control delta bound');
   for(const [rel,digest]of Object.entries(manifest.files)){
    assert(boundedControl(rel)||(tools.successorInputs&&previewControl(rel)),'bounded control paths');
-   assert.equal(hash(execFileSync('git',['show',`${tools.toolsSha}:${rel}`],{cwd:root})),digest,rel);
+   assert.equal(hash(execFileSync('git',['show',`${tools.toolsSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
    assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'working control bytes');
   }
   const allowed=new Set([PENDING,PUBLICATION,CANDIDATE,TOOLS,...Object.keys(manifest.files),...Object.keys(tools.successorInputs?.runtimeFiles??{}),...Object.keys(tools.successorInputs?.nativeFiles??{})]);
@@ -290,7 +290,7 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   for(const [rel,record]of [[PENDING,p],[CANDIDATE,candidate],[TOOLS,tools]]) {
    assertForwardTuple(record,expected);
    assert.deepEqual(record.supersededRecord,at(root,p.releaseBaseSha,rel),'complete forward predecessor');
-   assert.equal(record.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${rel}`],{cwd:root})),'forward predecessor byte hash');
+   assert.equal(record.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),'forward predecessor byte hash');
   }
   git(root,['merge-base','--is-ancestor',p.applicationSha,p.toolsSha]);git(root,['merge-base','--is-ancestor',p.toolsSha,'HEAD']);
   assert(applicationInputEquivalence(root,p.applicationSha,'HEAD').equivalent,'current application inputs match frozen successor');
@@ -305,7 +305,7 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   assert.deepEqual(Object.keys(manifest.files).sort(),delta,'complete forward control manifest');
   for(const [rel,digest]of Object.entries(manifest.files)) {
    if(priorTools.successorInputs)assert(boundedControl(rel)||previewControl(rel),'bounded forward control paths');
-   assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root})),digest,rel);
+   assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
    if(!corrected.has(rel))assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'current control bytes');
   }
   const allowed=new Set([PENDING,CANDIDATE,TOOLS,...corrected,...(candidate.hostedAdmission?.files??[]).map(f=>f.path)]);
