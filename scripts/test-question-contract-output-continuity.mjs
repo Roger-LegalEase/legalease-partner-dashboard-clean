@@ -1,3 +1,4 @@
+import {assertGa49FooterSourceSuccession,GA49_FOOTER_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaNoPhoneContactSourceSuccession,CA_NO_PHONE_CONTACT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaSb288CtPetitionSourceSuccession,GA_SB288_CT_PETITION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaGuideSpanishSourceSuccession,GA_GUIDE_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1123,6 +1124,13 @@ check('succession records are rebuilt per call',()=>{
  assertQuestionContractOutputInputs(readBytes);
  const file='data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json';
  assert.throws(()=>assertQuestionContractOutputInputs(f=>f===file?Buffer.from('drift'):readBytes(f)),/stale output input: [^;]+; exact [^;]+ source succession/);
+});
+
+check('GA49 footer source hop preserves prior chain and refuses missing/tampered/current drift',()=>{
+ const c=assertGa49FooterSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,36);assert.equal(c.currentUnchangedSourceCount,162);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA49_FOOTER_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA49 footer clearance source succession record bytes changed/);
+ assert.throws(()=>assertB31eFinalSourceSuccession(file=>{if(file===GA49_FOOTER_SOURCE_PATH)throw Error('missing GA49 footer record');return readBytes(file);}),/missing GA49 footer record/);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file==='src/lib/rcap/supplemental/guide-renderer.ts'?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
