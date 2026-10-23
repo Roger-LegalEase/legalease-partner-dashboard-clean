@@ -105,6 +105,16 @@ test('runtime import discovery follows new consumers and inherited layouts but r
     assert.throws(() => discoverRuntimeAuthorityConsumers({ root }), /Unresolved runtime import/);
     await assert.rejects(independentConsumers(root), /Unresolved runtime import/);
     fs.rmSync(path.join(root, 'src/app/dynamic'), { recursive: true });
+    write('src/app/static-require/route.ts', 'import {createRequire as nodeRequire} from "node:module";const require=nodeRequire(import.meta.url);export const GET=()=>require("@/lib/rcap/fulfillment/paid-consumer-successor");');
+    assert.ok(discoverRuntimeAuthorityConsumers({root}).consumers.some(e=>e.route==='/static-require'));
+    assert.ok((await independentConsumers(root)).consumers.some(e=>e.route==='/static-require'));
+    write('src/app/static-require/route.ts', 'const require=otherLoader(import.meta.url);export const GET=()=>require("@/lib/rcap/fulfillment/paid-consumer-successor");');
+    assert.throws(()=>discoverRuntimeAuthorityConsumers({root}),/Unsupported require reference/);
+    await assert.rejects(independentConsumers(root),/Unsupported require reference/);
+    write('src/app/static-require/route.ts', 'import {createRequire} from "node:module";const require=createRequire(import.meta.url);export const GET=(name)=>require(name);');
+    assert.throws(()=>discoverRuntimeAuthorityConsumers({root}),/Unresolved runtime import/);
+    await assert.rejects(independentConsumers(root),/Unresolved runtime import/);
+    fs.rmSync(path.join(root,'src/app/static-require'),{recursive:true});
     write('src/app/unsupported/route.ts', 'const loader = require; export const GET=()=>loader("@/lib/rcap/fulfillment/paid-consumer-successor");');
     assert.throws(() => discoverRuntimeAuthorityConsumers({root}), /Unsupported require reference/);
     await assert.rejects(independentConsumers(root), /Unsupported require reference/);

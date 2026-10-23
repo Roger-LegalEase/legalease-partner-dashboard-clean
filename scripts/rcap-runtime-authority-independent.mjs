@@ -52,11 +52,21 @@ export async function independentConsumers(rootDir) {
     if(/\bimport\s+\w+\s*=/.test(source)) throw Error(`Unsupported import-equals: ${file}`);
     const {code}=await swc.transform(source,{filename:file,jsc:{parser:{syntax:/\.[cm]?tsx?$/.test(file)?'typescript':'ecmascript',tsx:file.endsWith('.tsx'),jsx:file.endsWith('.jsx')},target:'es2022'},module:{type:'es6'}});
     const ast=acorn.parse(code,{ecmaVersion:'latest',sourceType:'module'}), specs=new Set();
+    const createRequireNames = ast.body.filter(n=>n.type==='ImportDeclaration'&&n.source.value==='node:module')
+      .flatMap(n=>n.specifiers.filter(s=>s.type==='ImportSpecifier'&&s.imported.name==='createRequire').map(s=>s.local.name));
+    function staticRequireBinding(n,parent) {
+      const call=parent?.init, arg=call?.arguments?.[0];
+      return parent?.type==='VariableDeclarator'&&parent.id===n&&call?.type==='CallExpression'
+        &&createRequireNames.includes(call.callee.name)&&call.arguments.length===1
+        &&arg?.type==='MemberExpression'&&!arg.computed&&arg.property.name==='url'
+        &&arg.object.type==='MetaProperty'&&arg.object.meta.name==='import'&&arg.object.property.name==='meta';
+    }
     function visit(n,parent) {
       if(!n||typeof n!=='object')return;
       if(n.type==='ImportDeclaration'||n.type==='ExportNamedDeclaration'||n.type==='ExportAllDeclaration') if(n.source)specs.add(n.source.value);
       if(n.type==='ImportExpression') {if(n.source.type!=='Literal'||typeof n.source.value!=='string')throw Error(`Unresolved runtime import: ${file}`);specs.add(n.source.value);}
       if(n.type==='Identifier'&&n.name==='require') {
+        if(staticRequireBinding(n,parent))return;
         if(parent?.type!=='CallExpression'||parent.callee!==n)throw Error(`Unsupported require reference: ${file}`);
         if(parent.arguments.length!==1||parent.arguments[0].type!=='Literal'||typeof parent.arguments[0].value!=='string')throw Error(`Unresolved runtime import: ${file}`);
         specs.add(parent.arguments[0].value);

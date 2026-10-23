@@ -1,3 +1,4 @@
+import { mnHeldCaptionPreparationFor } from "@/lib/rcap/render/mn-held-caption-consumer";
 import { VA_RECORD_CONTEXT_IDS } from "@/lib/expungement-ai/virginia-record-context";
 import { isMsTimingDisplayText } from "@/lib/expungement-ai/reviewed-result-copy";
 import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -40,6 +41,9 @@ export default async function BriefcasePacketPage({
   const clarificationRead = storedItem?.state === "CA" && (item?.authorityStatus === "unavailable" || item?.resultCode === "needs_review")
     ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
   const clarification = clarificationRead?.ok ? caProp64ClarificationModelFor(clarificationRead.value) : null;
+  const mnCaptionRead = item?.jurisdiction === "MN" && item.authorityStatus === "protected_draft"
+    ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: packetId }) : null;
+  const mnCaptionPreview = mnCaptionRead?.ok ? mnHeldCaptionPreparationFor(mnCaptionRead.value) : null;
   const mdPreparationRead = item?.jurisdiction === "MD" && item.pathwayId === "juvenile-expungement" && item.authorityStatus === "protected_draft"
     ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: item.id }) : null;
   const mdPreparation = mdPreparationRead?.ok ? mdJuvenilePreparationModelFor(mdPreparationRead.value) : null;
@@ -93,6 +97,14 @@ export default async function BriefcasePacketPage({
       {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={vaOptionalContext ? "Review optional record context" : savedCaseGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={vaOptionalContext ? "Revise el contexto opcional del expediente" : savedCaseGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
       </p> : null}
+      {mnCaptionPreview && item ? <details className="mb-5 rounded border border-slate-300 p-4" data-mn-held-caption-preview="true">
+        <summary className="min-h-11 cursor-pointer font-semibold"><LocalizedCopy en="County-caption drafts" es="Borradores con el condado del caso" /></summary>
+        <p><LocalizedCopy en="Only the county caption is filled. These drafts remain on hold." es="Solo se completa el condado del encabezado. Estos borradores siguen en espera." /></p>
+        <ul className="list-disc pl-5">
+          {["EXP102", "EXP104", "EXP105"].map(documentId => <li key={documentId}><Link className="inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(item.id)}/mn-caption-preview/${documentId}`}><LocalizedCopy en="Preview" es="Vista previa" /> {documentId}</Link></li>)}
+          <li><Link className="inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(item.id)}/mn-caption-preview/FEE102?feeWaiver=requested`}><LocalizedCopy en="Preview fee-waiver draft (FEE102)" es="Ver el borrador de exención de tarifas (FEE102)" /></Link></li>
+        </ul>
+      </details> : null}
       {item?.packetDraft.status === "available" && item.packetDraft.gaPardonPreparationAvailable ? <p className="mb-5 rounded border border-slate-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information?preparation=ga-pardon`}><LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /></Link>
         <span className="block text-sm"><LocalizedCopy en="Save your case details and your own account of how the record has affected you. The court decides the petition; document generation is not available yet." es="Guarde los datos de su caso y su propio relato de cómo le ha afectado el expediente. El tribunal decide la petición; la generación de documentos aún no está disponible." /></span>
