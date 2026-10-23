@@ -1,3 +1,4 @@
+import { VA_PARDON_FOLLOW_UP } from "@/lib/expungement-ai/va-pardon-follow-up-copy";
 import { IL_PROGRAM_COPY, IL_PROGRAM_SOURCE, IL_PROGRAM_FACT_IDS, illinoisProgramFactIds, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { vaPardonLocationApplies, vaPardonLocationScopeEntry, vaPardonLocationQuestion } from "@/lib/expungement-ai/va-pardon-location-context";
 import { VA_RECORD_CONTEXT_IDS, VA_RECORD_CONTEXT_QUESTIONS, virginiaRecordContextApplies } from "@/lib/expungement-ai/virginia-record-context";
@@ -325,7 +326,8 @@ export type ProtectedPacketInformationModel = Pick<
     status: "HELD_CONTEXT";
     reportedState: ReturnType<typeof vaPardonTypeReportedState>;
     participantChecklistItem: { id: string; text: string; requiredBeforeFiling: boolean };
-    languageHold: "es_translation_not_adopted";
+    languageHold: null;
+    followUp: typeof VA_PARDON_FOLLOW_UP;
   };
   /** Held source-stage information only, never a client-supplied route/track. */
   mnSourceStageCandidate?: MnHeldSourceStage;
@@ -3266,7 +3268,9 @@ export function protectedPacketInformationModelFor(
       status: "HELD_CONTEXT" as const,
       reportedState: vaPardonTypeReportedState(vaPardonQuestion, initialAnswers[VA_PARDON_TYPE_ID]),
       participantChecklistItem: { ...vaPardonChecklist },
-      languageHold: "es_translation_not_adopted" as const
+      // Scoped translation review: LEAD-SPANISH-REVIEW-LOG entry85 (2026-10-22).
+      languageHold: null,
+      followUp: VA_PARDON_FOLLOW_UP
     } } : {}),
     ...(mnStage ? { mnSourceStageCandidate: mnStage } : {}),
     ...(heldFactualCorrectionIds.length ? { heldFactualCorrectionIds } : {}),
