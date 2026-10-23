@@ -90,6 +90,21 @@ const app='a'.repeat(40),worker={rcapWorkerSourceSha:'b'.repeat(40),rcapWorkerDi
 const goodPreview={id:'dpl_Synthetic',url:'synthetic.vercel.app',projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',gitSource:{sha:app},target:null,readyState:'READY',
  meta:{rcapApplicationSha:app,...worker,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'false',rcapRouteState:'disabled',
  rcapPartnerOnboardingEnabled:'true',rcapClosedPreview:'true',rcapCatalogProduct:'inline',rcapReturnOrigin:'https://synthetic.vercel.app',rcapClinicDemoMode:'none',rcapStagingScopeSha256:crypto.createHash('sha256').update('').digest('hex')}};
+check('output analysis is build-only in the actual closed Preview request',()=>{
+ const identity={teamId:'team_4qLmZK9WI6xIy5vjYC0IF3ae',projectId:goodPreview.projectId,projectName:'legalease-partner-dashboard-clean'};
+ const create=vm.runInNewContext('('+functionText(transportSource,'createPreviewRequest')+')',{
+  HOSTED_VERCEL_TEAM_ID:identity.teamId,HOSTED_VERCEL_PROJECT_ID:identity.projectId,HOSTED_VERCEL_PROJECT_NAME:identity.projectName,
+  FROZEN_APPLICATION_SHA:app,FROZEN_WORKER_METADATA:worker,ACCEPTANCE_PROJECT:'hyflxnlhpmiqxvvcoiia',expectedHostedReturnOrigin:()=>goodPreview.meta.rcapReturnOrigin
+ });
+ const maps=isolationDeploymentMaps();
+ const request=create({identity,applicationSha:app,...maps,meta:goodPreview.meta});
+ assert.equal(request.build.env.VERCEL_ANALYZE_BUILD_OUTPUT,'1');
+ assert.equal(Object.hasOwn(request.env,'VERCEL_ANALYZE_BUILD_OUTPUT'),false);
+ assert.equal(request.build.env.SUPABASE_SERVICE_ROLE_KEY,'');
+ assert.equal(request.build.env.STRIPE_SECRET_KEY,'');
+ assert.equal(Object.hasOwn(request,'target'),false);
+ for(const env of Object.values(isolationDeploymentMaps('payment')))assert.equal(Object.hasOwn(env,'VERCEL_ANALYZE_BUILD_OUTPUT'),false);
+});
 function reuseContext(candidate,phase='replace_preview'){
  const ctx={APPLICATION_SHA:app,FROZEN_APPLICATION_SHA:app,FROZEN_WORKER_METADATA:worker,HOSTED_VERCEL_PROJECT_ID:goodPreview.projectId,
  PROJECT_REF:'hyflxnlhpmiqxvvcoiia',VERCEL_IDENTITY:{projectId:goodPreview.projectId},REQUIRE_DTC_READINESS:true,

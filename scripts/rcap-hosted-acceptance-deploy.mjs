@@ -442,7 +442,7 @@ const runtimeEnv = {
 };
 const buildEnv = {
   ...closedPreviewEnv,
-  ...(process.env.PHASE_INPUT === "replace_preview" ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "" } : {}),
+  ...(process.env.PHASE_INPUT === "replace_preview" ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "", VERCEL_ANALYZE_BUILD_OUTPUT: "1" } : {}),
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: keys.anon,
