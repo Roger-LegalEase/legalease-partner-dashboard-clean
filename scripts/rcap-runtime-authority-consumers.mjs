@@ -76,10 +76,17 @@ export function tracingKeyMatches(key, appPath) {
 
 function runtimeImports(file, source) {
   const input = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+  const createRequireBindings = new Set(input.statements.flatMap(statement =>
+    ts.isImportDeclaration(statement) && statement.moduleSpecifier.text === 'node:module'
+      && statement.importClause?.namedBindings && ts.isNamedImports(statement.importClause.namedBindings)
+      ? statement.importClause.namedBindings.elements.filter(element => (element.propertyName ?? element.name).text === 'createRequire').map(element => element.name.text) : []));
+  const staticRequireDeclaration = node => ts.isVariableDeclaration(node.parent) && node.parent.name === node
+    && node.parent.initializer && [...createRequireBindings].some(binding =>
+      node.parent.initializer.getText(input).replace(/\s/g, '') === `${binding}(import.meta.url)`);
   function rejectUnsupported(node) {
     if (ts.isImportEqualsDeclaration(node) && !node.isTypeOnly) throw new Error(`Unsupported runtime import-equals in ${file}`);
     if (ts.isIdentifier(node) && node.text === 'require') {
-      if (!(ts.isCallExpression(node.parent) && node.parent.expression === node)) throw new Error(`Unsupported require reference in ${file}`);
+      if (!staticRequireDeclaration(node) && !(ts.isCallExpression(node.parent) && node.parent.expression === node)) throw new Error(`Unsupported require reference in ${file}`);
     }
     ts.forEachChild(node, rejectUnsupported);
   }
