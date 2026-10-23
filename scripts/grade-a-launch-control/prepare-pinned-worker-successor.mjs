@@ -16,10 +16,13 @@ const write=(root,rel,value)=>fs.writeFileSync(path.join(root,rel),JSON.stringif
 export function pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha,sourceRangeBaseSha,applicationSuccessorSha}){
  for(const sha of [sourceSha,releaseBaseSha,toolsSha])assert.match(sha,/^[a-f0-9]{40}$/);
  assertCommittedPredecessor(root,releaseBaseSha);
- const previous=at(root,releaseBaseSha,PUBLICATION);
+ // Release bindings and native publication history advance independently.
+ const previous=at(root,applicationSuccessorSha===undefined?releaseBaseSha:sourceSha,PUBLICATION);
  const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:previous.sourceSha,acceptedDigest:previous.immutableRegistryDigest,candidateSha:sourceSha});
  const parent=git(root,['rev-parse',`${sourceSha}^`]);
- const files=Object.fromEntries(reviewedSourceFiles(root,{sourceSha,parent,sourceRangeBaseSha}).map(rel=>[rel,hash(execFileSync('git',['show',`${sourceSha}:${rel}`],{cwd:root}))]));
+ const reviewBase=sourceRangeBaseSha??parent;
+ const deleted=new Set(git(root,['diff','--no-renames','--diff-filter=D','--name-only',reviewBase,sourceSha]).split('\n').filter(Boolean));
+ const files=Object.fromEntries(reviewedSourceFiles(root,{sourceSha,parent,sourceRangeBaseSha}).map(rel=>[rel,deleted.has(rel)?{deleted:true,sha256:hash(execFileSync('git',['show',`${reviewBase}:${rel}`],{cwd:root}))}:hash(execFileSync('git',['show',`${sourceSha}:${rel}`],{cwd:root}))]));
  const supersededRecord=at(root,releaseBaseSha,PENDING);
  const p={schemaVersion:supersededRecord.schemaVersion,status:'AWAITING_WORKER_PUBLICATION',releaseBaseSha,sourceCommit:sourceSha,parent,applicationSource:'pinned-source',workerSource:'sourceCommit',applicationSha:sourceSha,workerSourceSha:sourceSha,workerDigest:null,workerInputFingerprint:plan.aggregateInputSha256,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:git(root,['diff','--name-only',previous.sourceSha,sourceSha,'--',...plan.canonicalInputs]).split('\n').filter(Boolean).sort(),files,workerRebuildRequired:true,publication:'pending',acceptance:'pending',runtimeAccepted:false,previewExecution:'held',productionAuthorized:false,resume:null,historicalWorker:{sourceSha:previous.sourceSha,digest:previous.immutableRegistryDigest,fingerprint:previous.workerInputFingerprint},supersededRecord,supersededRecordSha256:hash(execFileSync('git',['show',`${releaseBaseSha}:${PENDING}`],{cwd:root}))};
  if(sourceRangeBaseSha!==undefined)p.sourceRangeBaseSha=sourceRangeBaseSha;

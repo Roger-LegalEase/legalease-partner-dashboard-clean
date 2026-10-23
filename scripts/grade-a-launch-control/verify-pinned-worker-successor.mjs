@@ -12,6 +12,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {isDeepStrictEqual} from 'node:util';
 import {applicationInputEquivalence,applicationInputManifest} from '../rcap-application-inputs.mjs';
 import {createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
 
@@ -84,8 +85,6 @@ export function reviewedSourceFiles(root,{sourceSha,parent,sourceRangeBaseSha}){
   validSha(base);
   assert.equal(git(root,['rev-parse','--verify',`${base}^{commit}`]),base,'exact reviewed source-range commit');
   git(root,['merge-base','--is-ancestor',base,sourceSha]);
-  const deleted=git(root,['diff','--no-renames','--diff-filter=D','--name-only',base,sourceSha]);
-  assert.equal(deleted,'','reviewed source-range deletions cannot be represented by the source file manifest');
  }
  return git(root,['diff',...(explicit?['--no-renames']:[]),'--name-only',base,sourceSha]).split('\n').filter(Boolean);
 }
@@ -100,7 +99,8 @@ function sourcePlan(root,p){
  assert.deepEqual(p.supersededRecord,at(root,p.releaseBaseSha,PENDING),'entire committed predecessor');
  assert.equal(p.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root})));
  assertCommittedPredecessor(root,p.releaseBaseSha);
- const previous=at(root,p.releaseBaseSha,PUBLICATION);
+ const tools=read(root,TOOLS);
+ const previous=at(root,tools.successorInputs?p.sourceCommit:p.releaseBaseSha,PUBLICATION);
  assert.deepEqual(p.historicalWorker,{sourceSha:previous.sourceSha,digest:previous.immutableRegistryDigest,fingerprint:previous.workerInputFingerprint});
  const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:previous.sourceSha,acceptedDigest:previous.immutableRegistryDigest,candidateSha:p.sourceCommit});
  assert.equal(plan.rebuildRequired,true);assert.deepEqual(plan.missingCanonicalInputs,[]);
@@ -111,9 +111,19 @@ function sourcePlan(root,p){
  const reviewed=reviewedSourceFiles(root,{sourceSha:p.sourceCommit,parent:p.parent,
   ...(Object.hasOwn(p,'sourceRangeBaseSha')?{sourceRangeBaseSha:p.sourceRangeBaseSha}:{})}).sort();
  assert.deepEqual(Object.keys(p.files).sort(),reviewed,'complete reviewed source delta');
- for(const [rel,digest]of Object.entries(p.files))assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
+ for(const [rel,digest]of Object.entries(p.files)){
+  if(digest&&typeof digest==='object'){
+   assert.deepEqual(digest,{deleted:true,sha256:hash(execFileSync('git',['show',`${p.sourceRangeBaseSha??p.parent}:${rel}`],{cwd:root}))},'exact deleted source custody: '+rel);
+   assert.equal(git(root,['ls-tree',p.sourceCommit,'--',rel]),'','deleted in approved source: '+rel);
+   assert.equal(fs.lstatSync(path.join(root,rel),{throwIfNoEntry:false}),undefined,'deleted source cannot reappear: '+rel);
+  }else assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
+ }
+ const runtime=tools.successorInputs?verifySuccessorResponsibilities(root,p,tools).runtimeFiles:{};
+ const controls=tools.successorInputs?tools.successorTools.files:{};
+ for(const [rel,digest]of Object.entries(controls))assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'frozen successor control: '+rel);
  if(Object.hasOwn(p,'sourceRangeBaseSha')&&reviewed.length){
-  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...reviewed]),'','reviewed source-range files cannot change after source approval');
+  const frozen=reviewed.filter(rel=>!Object.hasOwn(runtime,rel)&&!Object.hasOwn(controls,rel));
+  if(frozen.length)assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...frozen]),'','reviewed source-range files cannot change after source approval');
  }
  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'HEAD','--',...plan.canonicalInputs]),'','control history cannot change worker inputs');
  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...plan.canonicalInputs]),'','working worker inputs unchanged');
@@ -144,7 +154,10 @@ function runEvidence(root,e,workflowPath,runName,reviewed=read(root,TOOLS)){
  return {run,job,log};
 }
 function publication(root,p,reviewed=read(root,TOOLS)){
- const e=read(root,PUBLICATION),prior=at(root,p.releaseBaseSha,PUBLICATION);
+ const e=read(root,PUBLICATION),prior=at(root,reviewed.successorInputs?p.sourceCommit:p.releaseBaseSha,PUBLICATION);
+ let ancestor=prior;const releasePrior=at(root,p.releaseBaseSha,PUBLICATION);
+ while(ancestor&&!isDeepStrictEqual(ancestor,releasePrior))ancestor=ancestor.supersededPublication;
+ assert.deepEqual(ancestor,releasePrior,'committed release publication remains in the complete predecessor chain');
  assert.deepEqual(e.supersededPublication,prior,'full publication predecessor preserved');
  assert.deepEqual(e.supersededChain,prior.supersededChain,'retired source-binding anchors preserved');
  assert.equal(e.sourceSha,p.sourceCommit);assert.equal(e.imageTag,p.sourceCommit);validDigest(e.immutableRegistryDigest);

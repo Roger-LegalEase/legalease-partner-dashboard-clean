@@ -131,7 +131,7 @@ for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historica
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
-test('explicit review bases resolve, require ancestry, and refuse deletion or rename',()=>{
+test('explicit review bases require ancestry and enumerate the complete deletion and rename delta',()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-source-range-'));
  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
  try{
@@ -144,9 +144,9 @@ test('explicit review bases resolve, require ancestry, and refuse deletion or re
   const unrelated=git(['commit-tree',`${sourceSha}^{tree}`,'-m','synthetic unrelated root']);
   for(const wrong of ['main',rangeBase.slice(0,12),'0'.repeat(40),unrelated,null])assert.throws(()=>reviewedSourceFiles(root,{...options,sourceRangeBaseSha:wrong}));
   git(['mv','product.txt','renamed.txt']);git(['commit','--quiet','-m','synthetic rename']);
-  assert.throws(()=>reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),/deletions cannot be represented/);
+  assert.deepEqual(reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),['product.txt','renamed.txt']);
   git(['rm','renamed.txt']);git(['commit','--quiet','-m','synthetic deletion']);
-  assert.throws(()=>reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),/deletions cannot be represented/);
+  assert.deepEqual(reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),['product.txt']);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
