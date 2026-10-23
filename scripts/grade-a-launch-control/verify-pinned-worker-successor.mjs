@@ -46,6 +46,10 @@ export function assertCommittedPredecessor(root,base){
  const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-predecessor-'));
  try{
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',root,snapshot],{stdio:'pipe'});
+  // Local clones otherwise replace origin and lose the canonical remote-tracking ref.
+  git(snapshot,['remote','set-url','origin',git(root,['remote','get-url','origin'])]);
+  const canonicalRef='refs/remotes/origin/captain-release';
+  git(snapshot,['update-ref',canonicalRef,git(root,['rev-parse','--verify',`${canonicalRef}^{commit}`])]);
   git(snapshot,['checkout','--quiet','--detach',base]);
   const dependencies=path.join(root,'node_modules');
   if(fs.existsSync(dependencies))fs.symlinkSync(fs.realpathSync(dependencies),path.join(snapshot,'node_modules'));

@@ -34,6 +34,25 @@ for(const mode of ['missing','tampered','wrong run','wrong source','failed resul
  }finally{f.close();}
 });
 test('caller-selected historical clocks cannot authorize current checks',()=>{assert.throws(()=>historicalCheckTime({time:0},process.cwd()),/private historical/);assert.throws(()=>assertForwardHosted({capturedAt:'2020-01-01T00:00:00Z'},{},undefined,process.cwd()),/fresh hosted/);});
+test('historical snapshot preserves actual origin and canonical ref rather than its local branch',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-history-ref-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ try{
+  git(['init','--quiet']);git(['remote','add','origin','https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean']);
+  fs.mkdirSync(path.join(root,'scripts/grade-a-launch-control'),{recursive:true});fs.mkdirSync(path.join(root,path.dirname(CANDIDATE)),{recursive:true});
+  fs.writeFileSync(path.join(root,CANDIDATE),'{}');
+  // Synthetic validator checks clone transport only; it supplies no real release evidence.
+  fs.writeFileSync(path.join(root,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'),`import {execFileSync} from 'node:child_process';import assert from 'node:assert/strict';export function verifyReleaseCandidateBinding(root){const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8'}).trim();assert.equal(git(['remote','get-url','origin']),'https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean');assert.equal(git(['rev-parse','refs/remotes/origin/captain-release']),git(['rev-parse','HEAD']));return {current:true,status:'CURRENT'};}`);
+  git(['add','--',CANDIDATE,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs']);git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--quiet','-m','synthetic historical ref fixture']);
+  const base=git(['rev-parse','HEAD']);git(['update-ref','refs/remotes/origin/captain-release',base]);
+  fs.writeFileSync(path.join(root,'unrelated-local-branch'),'synthetic');git(['add','--','unrelated-local-branch']);git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--quiet','-m','unrelated synthetic local captain']);git(['branch','-f','captain-release','HEAD']);
+  assert.notEqual(git(['rev-parse','captain-release']),base);
+  git(['update-ref','-d','refs/remotes/origin/captain-release']);
+  assert.throws(()=>assertCommittedPredecessor(root,base),/rev-parse/,'missing canonical ref cannot fall back to the local branch');
+  git(['update-ref','refs/remotes/origin/captain-release',base]);
+  assert.deepEqual(assertCommittedPredecessor(root,base),{historyValid:true,current:false,productionAuthorized:false});
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
 test('real committed predecessor chain is history and new canonical preparation is HELD',()=>{
  const root=process.cwd(),base='9794f078553d8cd95aec47518ac773ee3e968fdc';
  assert.deepEqual(assertCommittedPredecessor(root,base),{historyValid:true,current:false,productionAuthorized:false});
