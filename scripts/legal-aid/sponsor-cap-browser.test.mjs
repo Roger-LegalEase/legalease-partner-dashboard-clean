@@ -97,7 +97,7 @@ test('lost cap response preserves decision; reload returns to same verified revi
 for(const lang of ['en','es'])test(`pre-matter Clinic / MVLP entry ${lang}: truthful consumer continuation and no automatic Stripe`,async()=>{
  const s=await site({capacity:false,entry:'clinic'});try{
   await s.page.goto(s.base+'/?lang='+lang);await s.page.locator('select[name=eventStaffId]').selectOption('10000000-0000-4000-8000-000000000001');
-  await s.page.locator('input[name=consent]').check();await s.page.getByRole('button',{name:'Start assisted nationwide screening'}).click();
+  await s.page.locator('input[name=consent]').check();await s.page.getByRole('button',{name:'Start screening with assistance'}).click();
   await s.page.getByRole('heading',{name:lang==='es'?'La cobertura del patrocinador no está disponible':'Sponsored coverage is unavailable'}).waitFor();
   assert.match(await s.page.getByRole('status').innerText(),/sponsor will not pay|patrocinador no pagará/);
   assert.equal(await s.page.getByRole('link',{name:lang==='es'?'Continuar con el servicio habitual para consumidores':'Continue with standard consumer service'}).getAttribute('href'),continuation);

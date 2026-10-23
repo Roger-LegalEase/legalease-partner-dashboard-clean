@@ -145,7 +145,7 @@ try{
   await page.goto(`${origin}/clinic/${event.data.public_slug}`);assert.equal(await page.getByRole('heading').count()>0,true);assert.doesNotMatch(await page.locator('body').innerText(),/Application error|404/);
   await page.locator('input[name=eventCode]').fill(accessCode);await page.getByRole('button',{name:/Continue to participant consent/i}).click();
   await page.waitForURL(u=>u.pathname===`/clinic/${event.data.public_slug}/assist`);await page.locator('select[name=eventStaffId]').selectOption(staffId);await page.locator('input[name=consent]').check();
-  pending=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/assistance/start'));await page.getByRole('button',{name:'Start assisted nationwide screening',exact:true}).click();r=await pending;assert.equal(r.status(),200);
+  pending=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/assistance/start'));await page.getByRole('button',{name:'Start screening with assistance',exact:true}).click();r=await pending;assert.equal(r.status(),200);
   await page.waitForURL(u=>u.pathname===`/clinic/${event.data.public_slug}/screening/md`);
   const assisted=await db.from('clinic_assisted_sessions').select('screening_session_id,participant_user_id,consent_version').eq('event_id',body.eventId).eq('event_staff_id',staffId).single();assert.equal(assisted.error,null);assert.equal(assisted.data.consent_version,'clinic-assistance-v1');
   const actualSession=await db.from('screening_sessions').select('partner_slug,jurisdiction,flow_mode').eq('session_id',assisted.data.screening_session_id).single();assert.equal(actualSession.error,null);assert.deepEqual(actualSession.data,{partner_slug:slug,jurisdiction:'MD',flow_mode:'rcap'});
