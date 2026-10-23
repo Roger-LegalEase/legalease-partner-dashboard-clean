@@ -14,6 +14,7 @@ const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profil
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const { mnHeldCaptionPreparationFor } = await import('../src/lib/rcap/render/mn-held-caption-consumer.ts');
 const { NextRequest, NextResponse } = await import('next/server');
+const { MN_CAPTION_SOURCE_FILES } = await import('./rcap-official-forms/mn-caption-source-files.mjs');
 const profile = getProfileByJurisdiction('MN'), route = H.MN_PETITION_ROUTE;
 const witness = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses.find(w => w.jurisdiction === 'MN' && w.pathwayId === route);
 const answers = { ...witness.finalAnswers, case_outcome: 'Misdemeanor conviction' };
@@ -29,9 +30,10 @@ assert(seed);
 const original = { status: 'unverified', revision: 1, draftHash: seed.hash, draftSnapshot: seed.snapshot };
 assert(mnHeldCaptionPreparationFor(original), 'real current protected model must reach the guarded adapter');
 let stored = structuredClone(original), user = 'synthetic-owner', authenticated = true, sourceFault = null;
+const sourceReads = [];
 const item = { id: 'synthetic-mn-owned-caption', jurisdiction: 'MN', artifactRefs: {} };
 globalThis.__mnCaptionRoute = {
-  readFile: async file => { if (sourceFault === 'missing') throw new Error('synthetic missing source'); const bytes = await readSource(file); return sourceFault === 'changed' ? Buffer.concat([bytes, Buffer.from('changed')]) : bytes; },
+  readFile: async file => { sourceReads.push(path.resolve(file)); if (sourceFault === 'missing') throw new Error('synthetic missing source'); const bytes = await readSource(file); return sourceFault === 'changed' ? Buffer.concat([bytes, Buffer.from('changed')]) : bytes; },
   requireConsumerBriefcaseApiSession: async () => authenticated ? { ok: true, userId: user } : { ok: false, response: NextResponse.json({ error: 'not_authenticated' }, { status: 401 }) },
   getBriefcaseItem: async (owner, id) => owner === 'synthetic-owner' && id === item.id ? item : null,
   readProtectedPacketVerification: async input => { assert.deepEqual(input, { consumerAuthUserId: 'synthetic-owner', briefcaseItemId: item.id }); return stored ? { ok: true, value: stored } : { ok: false, reason: 'missing' }; }
@@ -54,7 +56,9 @@ const check = async (name, fn) => { await fn(); checks.push(name); };
 const out = process.env.RCAP_MN_CONSUMER_OUTPUT;
 if (out) { assert(!fs.existsSync(out)); fs.mkdirSync(out, { recursive: true }); }
 for (const documentId of ['EXP102', 'EXP104', 'EXP105', 'FEE102']) await check(documentId + ': actual owned route returns exact held caption bytes privately', async () => {
+  const beforeReads = sourceReads.length;
   const result = await request(documentId, documentId === 'FEE102' ? '?feeWaiver=requested' : '');
+  assert.deepEqual(sourceReads.slice(beforeReads), [path.resolve(MN_CAPTION_SOURCE_FILES[documentId])]);
   assert.equal(result.status, 200); assert.equal(result.headers.get('x-legalease-output-status'), 'held_preview');
   assert.match(result.headers.get('cache-control'), /private, no-store/); assert.equal(result.headers.get('x-content-type-options'), 'nosniff');
   const bytes = Buffer.from(await result.arrayBuffer()); assert(bytes.subarray(0, 4).equals(Buffer.from('%PDF')));
@@ -71,8 +75,10 @@ for (const [name, mutate, rehash = true] of [
   ['wrong pathway', v => { v.draftSnapshot.pathwayId = H.MN_PROSECUTOR_ROUTE; }],
   ['missing current stage fact', v => { delete v.draftSnapshot.packetAnswers.mn_sentence_discharge_date; }]
 ]) await check(name + ': actual route refuses without promoting a hold', async () => {
+  const beforeReads = sourceReads.length;
   stored = structuredClone(original); mutate(stored); if (rehash) stored.draftHash = P.protectedPacketDraftHash(stored.draftSnapshot);
   assert.equal((await request()).status, 404);
+  assert.equal(sourceReads.length, beforeReads, 'protected refusal must precede source reads');
 });
 stored = structuredClone(original);
 for (const fault of ['missing', 'changed']) await check(fault + ' exact source refuses in actual route', async () => {
@@ -80,7 +86,7 @@ for (const fault of ['missing', 'changed']) await check(fault + ' exact source r
 });
 stored = null; await check('missing protected record refuses', async () => assert.equal((await request()).status, 404));
 stored = structuredClone(original); user = 'other-owner'; await check('other owner cannot read or render', async () => assert.equal((await request()).status, 404));
-user = 'synthetic-owner'; authenticated = false; await check('session guard precedes owner read', async () => assert.equal((await request()).status, 401));
+user = 'synthetic-owner'; authenticated = false; await check('session guard precedes owner read', async () => { const beforeReads = sourceReads.length; assert.equal((await request()).status, 401); assert.equal(sourceReads.length, beforeReads); });
 authenticated = true;
 await check('preparation leaves protected authority/review/record unchanged', async () => {
   assert.deepEqual(stored, original); const model = P.protectedPacketInformationModelFor(stored);

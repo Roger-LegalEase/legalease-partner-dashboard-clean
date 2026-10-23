@@ -12,6 +12,16 @@ export const dynamic = "force-dynamic";
 const privateHeaders = { "cache-control": "private, no-store, max-age=0", pragma: "no-cache", "x-content-type-options": "nosniff" };
 const unavailable = () => NextResponse.json({ error: "Draft preview unavailable." }, { status: 404, headers: privateHeaders });
 
+// Literal read paths keep the tracer from expanding a dynamic read to the project root.
+async function readCaptionSource(documentId: keyof typeof MN_CAPTION_SOURCE_FILES) {
+  switch (documentId) {
+    case "EXP102": return readFile(path.join(process.cwd(), "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP102_Current-2.pdf"));
+    case "EXP104": return readFile(path.join(process.cwd(), "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP104_Current.pdf"));
+    case "EXP105": return readFile(path.join(process.cwd(), "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP105_Current.pdf"));
+    case "FEE102": return readFile(path.join(process.cwd(), "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf"));
+  }
+}
+
 export async function GET(request: NextRequest, context: { params: Promise<{ packetId: string; documentId: string }> }) {
   const session = await requireConsumerBriefcaseApiSession();
   if (!session.ok) return session.response;
@@ -24,8 +34,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ pac
     const read = await readProtectedPacketVerification({ consumerAuthUserId: session.userId, briefcaseItemId: item.id });
     const preparation = read.ok ? mnHeldCaptionPreparationFor(read.value) : null;
     if (!preparation) return unavailable();
-    const file = MN_CAPTION_SOURCE_FILES[documentId as keyof typeof MN_CAPTION_SOURCE_FILES];
-    const sourceBytes = await readFile(path.join(process.cwd(), file));
+    const sourceBytes = await readCaptionSource(documentId as keyof typeof MN_CAPTION_SOURCE_FILES);
     const result = await renderMnPetitionCaptionPreview({ documentId, sourceBytes, preparation, includeFeeWaiver: documentId === "FEE102" });
     return new NextResponse(new Uint8Array(result.bytes), { headers: {
       ...privateHeaders, "content-type": "application/pdf", "content-disposition": `inline; filename="MN-${documentId}-held-caption.pdf"`,
