@@ -714,6 +714,10 @@ jobs:
         if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_deploy' && (steps.contract.outputs.resume == 'true' || steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true')
         env:
           PHASE_INPUT: ${{ inputs.phase }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
