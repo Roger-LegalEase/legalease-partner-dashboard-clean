@@ -346,4 +346,3 @@ export async function renderMnPetitionCaptionPreview({ documentId, sourceBytes, 
   return { ...result, ink, writeBox: measured[0].writeBox,
     status: "held_preview", authority: false, qualificationCheckboxExportAllowed: false };
 }
-
