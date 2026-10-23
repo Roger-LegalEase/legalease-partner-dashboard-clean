@@ -592,11 +592,12 @@ function drawNextSteps(sheet: Sheet, guide: SupplementalGuide, options: GuideRen
       text(sheet, String(index + 1), MARGIN, BODY, sheet.fonts.bold, MUTED);
     }
     const lines = wrap(sanitize(body), sheet.fonts.body, BODY, CONTENT_WIDTH - 26);
-    lines.forEach((line, lineIndex) => {
-      if (lineIndex > 0) ensure(sheet, LINE);
-      sheet.page.drawText(line, { x: MARGIN + 26, y: sheet.y - lineIndex * LINE, size: BODY, font: sheet.fonts.body, color: INK });
+    lines.forEach((line) => {
+      ensure(sheet, LINE);
+      sheet.page.drawText(line, { x: MARGIN + 26, y: sheet.y, size: BODY, font: sheet.fonts.body, color: INK });
+      sheet.y -= LINE;
     });
-    sheet.y -= lines.length * LINE + 8;
+    sheet.y -= 8;
   });
 }
 

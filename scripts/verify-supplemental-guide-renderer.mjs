@@ -42,6 +42,34 @@ const check = (passed, message) => {
   if (!passed) failures.push(message);
 };
 
+/** A single wrapped step must move its cursor before checking the next line. */
+async function nextStepFlowControl() {
+  const tokens = Array.from({ length: 800 }, (_, index) => `STEP${String(index).padStart(4, "0")}`);
+  const guide = {
+    schemaVersion: "rcap-supplemental-guide/v1", routeKey: "TEST:next-step-footer-flow", jurisdiction: "TEST",
+    supersedesPacketComponent: null, overview: [],
+    nextSteps: [{ text: tokens.join(" "), provenance: { kind: "product_copy" } }],
+    filingChecklist: [], feesAndCosts: [], carriedElsewhere: []
+  };
+  const pdf = await renderSupplementalGuidePdf(guide, { variant: "full", locale: "en" });
+  const file = path.join(os.tmpdir(), `next-step-footer-${process.pid}.pdf`);
+  fs.writeFileSync(file, pdf, { flag: "wx" });
+  try {
+    const xml = execFileSync("pdftotext", ["-bbox", file, "-"], { encoding: "utf8" });
+    const words = [...xml.matchAll(/<word [^>]*yMax="([\d.]+)"[^>]*>(STEP\d{4})<\/word>/g)];
+    check(words.map(word => word[2]).join(" ") === tokens.join(" "), "every wrapped next-step word survives in order");
+    check(words.every(word => Number(word[1]) <= 792 - 46 - 14), "wrapped next-step body stays above the footer rule on every page");
+    check(pagesOf(pdf).every(page => page.includes("KEEP FOR YOUR RECORDS")), "every next-step continuation retains its guide banner");
+  } finally { fs.rmSync(file); }
+}
+
+if (process.argv.includes("--next-step-flow-only")) {
+  await nextStepFlowControl();
+  if (failures.length) process.exitCode = 1;
+  console.log(`${failures.length ? "FAIL" : "PASS"}: focused next-step flow/footer controls`);
+  process.exit(process.exitCode ?? 0);
+}
+
 const guideDir = path.join(rootDir, "data/record-clearing/supplemental-guides");
 const guides = fs.readdirSync(guideDir).filter((f) => f.endsWith(".json"))
   .map((f) => JSON.parse(fs.readFileSync(path.join(guideDir, f), "utf8")));
@@ -713,6 +741,8 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   const lastParagraphReached = pages.join("\n").includes("Paragraph 40.");
   check(lastParagraphReached, "the final paragraph survives pagination rather than being dropped");
 }
+
+await nextStepFlowControl();
 
 /*
  * The banner belongs to guide pages and to nothing else. Telling someone not to
