@@ -391,9 +391,12 @@ const closedPreviewEnv = process.env.PHASE_INPUT === "replace_preview" ? {
   RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "disabled",
   RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "",
   RCAP_SPONSORED_PREVIEW_CHANNEL: "",
-  STRIPE_SECRET_KEY: "sk_test_hosted_acceptance_placeholder",
-  STRIPE_WEBHOOK_SECRET: "whsec_hosted_acceptance_placeholder",
+  STRIPE_SECRET_KEY: "",
+  STRIPE_WEBHOOK_SECRET: "",
   STRIPE_LEGACY_WEBHOOK_SECRET: "",
+  OPENAI_API_KEY: "",
+  UPSTASH_REDIS_REST_URL: "",
+  UPSTASH_REDIS_REST_TOKEN: "",
   ENABLE_PARTNER_EMAIL_DELIVERY: "false",
   EXPUNGEMENT_EMAIL_PROVIDER: "",
   RESEND_API_KEY: "",
@@ -477,7 +480,7 @@ const buildEnv = {
     ? { configured: true, provider: "resend", valuesRecorded: false }
     : { configured: false, note: "no nonproduction email provider supplied; follow-up messages are saved, not sent" };
   evidence.stripe = {
-    mode: process.env.PHASE_INPUT === "replace_preview" ? "closed candidate Preview; the placeholder cannot transact" : stripeSecret ? "test key supplied" : "no key supplied; the placeholder cannot transact",
+    mode: process.env.PHASE_INPUT === "replace_preview" ? "closed candidate Preview; Stripe credentials are absent" : stripeSecret ? "test key supplied" : "no key supplied; the placeholder cannot transact",
     webhookSigningSecretSupplied: process.env.PHASE_INPUT !== "replace_preview" && Boolean(stripeWebhook)
   };
 }

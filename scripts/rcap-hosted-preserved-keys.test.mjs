@@ -60,7 +60,7 @@ check('closed candidate request overrides inherited authority without changing o
  for(const [name,value] of Object.entries({SUPABASE_URL:acceptanceUrl,NEXT_PUBLIC_SUPABASE_URL:acceptanceUrl,
  SUPABASE_SERVICE_ROLE_KEY:'synthetic-acceptance-service',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic-acceptance-anon',
  RCAP_PARTNER_ONBOARDING_ENABLED:'true',RCAP_CONSUMER_DELIVERY_ROUTE_STATE:'disabled',RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:'',
- RCAP_SPONSORED_PREVIEW_CHANNEL:'',STRIPE_SECRET_KEY:'sk_test_hosted_acceptance_placeholder',STRIPE_WEBHOOK_SECRET:'whsec_hosted_acceptance_placeholder',
+ RCAP_SPONSORED_PREVIEW_CHANNEL:'',STRIPE_SECRET_KEY:'',STRIPE_WEBHOOK_SECRET:'',
  STRIPE_LEGACY_WEBHOOK_SECRET:'',ENABLE_PARTNER_EMAIL_DELIVERY:'false',EXPUNGEMENT_EMAIL_PROVIDER:'',RESEND_API_KEY:'',INTERNAL_ADMIN_ACCESS_TOKEN:'',
  LEGALEASE_OS_EVENTS_ENABLED:'false',LEGALEASE_OS_EVENTS_ENDPOINT:''})) assert.equal(got[name],value,name);
  const payment=vm.runInNewContext('('+runtime+')',configContext('payment'));
@@ -272,3 +272,110 @@ test('DS-08 runner bootstrap: masks precede env exports with no log, output or e
  assert.equal(e.error,null);assert.ok(e.exported[names[2]]===unusual);assert.ok(e.masks.includes(unusual));
 });
 }
+
+// These new isolation checks use actual request maps and TS entrypoints with
+// intercepted I/O only; presentation/context dependencies are test fixtures.
+const isolationRequire=createRequire(import.meta.url);
+const isolationTs=isolationRequire('typescript');
+const isolationStripe=isolationRequire('stripe');
+function isolationDeploymentMaps(phase='replace_preview') {
+ const start=DEPLOY_SOURCE.indexOf('const closedPreviewEnv =');
+ const end=DEPLOY_SOURCE.indexOf('// A live Stripe key',start);
+ assert(start>0&&end>start);
+ return vm.runInNewContext(DEPLOY_SOURCE.slice(start,end)+'\n({runtimeEnv,buildEnv})',{
+  process:{env:{PHASE_INPUT:phase,HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}},
+  RETURN_ORIGIN:'https://synthetic-preview.invalid',SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',
+  keys:{anon:'synthetic-anon',service:'synthetic-acceptance-service'},PRESERVED_DATA_KEYS:{},
+  CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null
+ });
+}
+function isolationEntryContext(env,{challenge=true}={}) {
+ const cache=new Map(),calls=[],events=[];
+ const aliases={
+  '@/lib/expungement-ai/wilma-model':'src/lib/expungement-ai/wilma-model.ts',
+  '@/lib/expungement-ai/wilma-rate-limit':'src/lib/expungement-ai/wilma-rate-limit.ts',
+  '@/lib/expungement-ai/wilma-bot-challenge':'src/lib/expungement-ai/wilma-bot-challenge.ts',
+  '@/lib/expungement-ai/wilma-kill-switch':'src/lib/expungement-ai/wilma-kill-switch.ts',
+  '@/lib/expungement-ai/wilma':'src/lib/expungement-ai/wilma.ts',
+  '@/lib/server-runtime-environment':'src/lib/server-runtime-environment.ts',
+  '@/lib/stripe/server':'src/lib/stripe/server.ts'
+ };
+ const fixtures={
+  'server-only':{},stripe:isolationStripe,'next/server':{NextResponse:{json:(value,init={})=>({status:init.status??200,value})}},
+  '@/lib/expungement-ai/wilma-context':{buildPublicWilmaContext:()=>({state:'MS',pageContext:'landing'})},
+  '@/lib/expungement-ai/wilma-system-prompt':{buildWilmaSystemPrompt:()=> 'Synthetic configuration probe.'},
+  '@/lib/expungement-ai/wilma-safety':{guardWilmaResponse:({draftResponse})=>({response:draftResponse,blocked:false,flags:[]})},
+  '@/lib/expungement-ai/wilma-telemetry':{createWilmaTelemetryRecord:value=>value,logWilmaExchange:async()=>{}},
+  '@/lib/expungement-ai/localization':{normalizeLocale:()=> 'en',t:(_locale,_key,fallback)=>fallback},
+  '@/lib/expungement-ai/checkout-reconciliation':{
+   isExpungementAiCheckoutEvent:event=>{assert.equal(event.type,'preview.isolation.probe');return false;},
+   reconcileExpungementAiCheckoutEvent:async()=>{throw Error('unexpected consumer branch');}
+  },
+  '@/lib/partners/billing':{reconcileStripeInvoiceEvent:event=>load('src/lib/partners/billing-reconciliation.ts').reconcilePartnerBillingInvoiceEvent(event,{
+   hasProcessedStripeEvent:async()=>false,recordProcessedStripeEvent:async(...args)=>{events.push(args);},
+   findBillingRequestById:async()=>null,findBillingRequestByStripeInvoiceId:async()=>null,
+   updateBillingRequestFromInvoice:async()=>{throw Error('unexpected invoice update');}
+  })}
+ };
+ const fakeFetch=async(url,init={})=>{
+  const target=new URL(url);calls.push({host:target.host,path:target.pathname,method:init.method??'GET'});
+  if(target.host==='challenges.cloudflare.com')return {ok:true,json:async()=>({success:challenge})};
+  if(target.host==='synthetic-redis.invalid')return {ok:true,json:async()=>target.pathname==='/pipeline'?JSON.parse(init.body).map(()=>({result:1})):{result:0}};
+  if(target.host==='api.openai.com')return {ok:true,json:async()=>({output_text:'Synthetic provider response.',usage:{input_tokens:1,output_tokens:1}})};
+  throw Error('Unapproved test I/O target: '+target.host);
+ };
+ function load(rel) {
+  if(cache.has(rel))return cache.get(rel);
+  const source=execFileSync('git',['show','HEAD:'+rel],{cwd:ROOT,encoding:'utf8',maxBuffer:1024*1024});
+  const js=isolationTs.transpileModule(source,{compilerOptions:{module:isolationTs.ModuleKind.CommonJS,target:isolationTs.ScriptTarget.ES2022,esModuleInterop:true}}).outputText;
+  const exports={};cache.set(rel,exports);
+  const require=name=>{
+   if(Object.hasOwn(fixtures,name))return fixtures[name];
+   if(aliases[name])return load(aliases[name]);
+   if(name==='node:crypto')return crypto;
+   throw Error('Unapproved test dependency: '+name);
+  };
+  vm.runInNewContext('(function(exports,require,module){'+js+'\n})',{
+   process:{env},fetch:fakeFetch,console:{info(){},warn(){},error(){}},AbortSignal,URL,URLSearchParams,Buffer,Date
+  },{filename:rel})(exports,require,{exports});
+  return exports;
+ }
+ return {load,calls,events};
+}
+const isolationInherited={VERCEL_ENV:'preview',NODE_ENV:'production',OPENAI_API_KEY:'synthetic-model-key',
+ UPSTASH_REDIS_REST_URL:'https://synthetic-redis.invalid',UPSTASH_REDIS_REST_TOKEN:'synthetic-redis-token',TURNSTILE_SECRET_KEY:'synthetic-challenge-secret'};
+test('closed integration isolation: explicit blank credentials at build and runtime; other phases unchanged',()=>{
+ for(const env of Object.values(isolationDeploymentMaps()))for(const name of ['STRIPE_SECRET_KEY','STRIPE_WEBHOOK_SECRET','OPENAI_API_KEY','UPSTASH_REDIS_REST_URL','UPSTASH_REDIS_REST_TOKEN']){
+  assert.ok(Object.hasOwn(env,name),name+' must override inheritance');assert.equal(env[name],'',name);
+ }
+ const payment=isolationDeploymentMaps('payment');assert.equal(payment.runtimeEnv.STRIPE_SECRET_KEY,'sk_test_synthetic');
+ assert.equal(payment.runtimeEnv.STRIPE_WEBHOOK_SECRET,'whsec_synthetic');
+ for(const name of ['OPENAI_API_KEY','UPSTASH_REDIS_REST_URL','UPSTASH_REDIS_REST_TOKEN'])assert.equal(Object.hasOwn(payment.runtimeEnv,name),false,name);
+});
+test('closed integration isolation: real public chat preserves challenge refusal and cannot reach inherited model or Redis',async()=>{
+ const env={...isolationInherited,...isolationDeploymentMaps().runtimeEnv};
+ const request=()=>new Request('https://synthetic-preview.invalid/api/expungement-ai/wilma/public-chat',{
+  method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message:'Synthetic configuration probe.',turnstileToken:'synthetic-valid-token'})
+ });
+ const rejected=isolationEntryContext(env,{challenge:false});
+ assert.equal((await rejected.load('src/app/api/expungement-ai/wilma/public-chat/route.ts').POST(request())).status,403);
+ assert.deepEqual(rejected.calls.map(c=>c.host),['challenges.cloudflare.com']);
+ const accepted=isolationEntryContext(env);
+ await accepted.load('src/app/api/expungement-ai/wilma/public-chat/route.ts').POST(request());
+ assert.deepEqual(accepted.calls.filter(c=>c.host!=='challenges.cloudflare.com'),[],JSON.stringify(accepted.calls));
+ assert.equal(env.TURNSTILE_SECRET_KEY,isolationInherited.TURNSTILE_SECRET_KEY,'security challenge remains configured');
+});
+test('closed integration isolation: real webhook refuses configuration before any logical event-store write',async()=>{
+ const env={...isolationInherited,...isolationDeploymentMaps().runtimeEnv};
+ const ctx=isolationEntryContext(env),handler=ctx.load('src/lib/stripe/webhook-handler.ts');
+ const payload=JSON.stringify({id:'evt_synthetic_isolation_probe',type:'preview.isolation.probe',data:{object:{id:'synthetic_object'}}});
+ const request=signature=>new Request('https://synthetic-preview.invalid/api/stripe/webhook',{
+  method:'POST',headers:{'stripe-signature':signature},body:payload
+ });
+ const invalid=await handler.handleStripeWebhookPost(request('invalid'),{route:'/api/stripe/webhook',secretEnvVar:'STRIPE_WEBHOOK_SECRET'});
+ assert.ok([400,500].includes(invalid.status));assert.equal(ctx.events.length,0,'bad signature/configuration already refuses');
+ const signature=isolationStripe.webhooks.generateTestHeaderString({payload,secret:'whsec_hosted_acceptance_placeholder'});
+ const result=await handler.handleStripeWebhookPost(request(signature),{route:'/api/stripe/webhook',secretEnvVar:'STRIPE_WEBHOOK_SECRET'});
+ assert.equal(ctx.events.length,0,'closed Preview must not enter the actual billing reconciler event-write branch');
+ assert.equal(result.status,500,'explicit absent configuration refuses before signature/reconciliation');assert.equal(ctx.calls.length,0);
+});
