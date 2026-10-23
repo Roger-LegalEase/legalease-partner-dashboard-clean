@@ -432,6 +432,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap-engine/district-of-columbia-general-guidance.ts",
   "data/record-clearing/legal-design-intake/FL.memo.json",
   "src/lib/rcap-engine/florida-conditional-source-information.ts",
+  "src/lib/expungement-ai/va-pardon-follow-up-copy.ts",
   "src/lib/expungement-ai/va-pardon-location-context.ts",
   "src/lib/expungement-ai/va-pardon-type-source.ts",
 ];

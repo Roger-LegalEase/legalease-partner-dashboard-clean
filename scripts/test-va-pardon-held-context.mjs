@@ -4,6 +4,7 @@ import { register } from 'node:module';
 
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
+const { VA_PARDON_FOLLOW_UP } = await import('../src/lib/expungement-ai/va-pardon-follow-up-copy.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
 const { packetSpecificationFor, composablePacketSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
@@ -34,7 +35,8 @@ for (const [raw, state] of [['Yes', 'known_both'], ['No', 'known_not_both'], ['I
   assert.equal(model.pathwayId, route);
   assert.deepEqual(model.vaPardonTypeHeldContext, {
     status: 'HELD_CONTEXT', reportedState: state, participantChecklistItem: checklist,
-    languageHold: 'es_translation_not_adopted'
+    // Entry85 adopted the scoped EN/ES guide and four checklist translations.
+    languageHold: null, followUp: VA_PARDON_FOLLOW_UP
   });
   assert.equal(model.reviewSafety.safe, false);
   // The retained evaluator flag is true; the unbound specification still

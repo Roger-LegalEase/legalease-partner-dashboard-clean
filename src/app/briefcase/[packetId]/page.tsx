@@ -53,6 +53,8 @@ export default async function BriefcasePacketPage({
   const packetMatter = available && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
   const factsVerified = item?.verificationStatus === "verified";
   const packetDraftAvailable = item?.packetDraft.status === "available";
+  const vaFollowUp = item?.jurisdiction === "VA" && item.packetDraft.status === "available"
+    ? item.packetDraft.vaPardonTypeHeldContext?.followUp : null;
   const completionCorrectionAvailable = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
     && heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode).size > 0;
@@ -120,6 +122,20 @@ export default async function BriefcasePacketPage({
           </div>
 
           {packetMatter ? <MatterStepper item={item} className="mt-6 max-w-[680px]" /> : null}
+
+          {vaFollowUp ? <details className="mt-6 rounded border border-slate-300 p-4" data-va-pardon-follow-up="true">
+            <summary className="min-h-11 cursor-pointer font-semibold"><LocalizedCopy {...vaFollowUp.title} /></summary>
+            {vaFollowUp.sections.map(section => <section key={section.heading.en} className="mt-4">
+              <h2 className="font-semibold"><LocalizedCopy {...section.heading} /></h2>
+              {section.paragraphs.map(paragraph => <p key={paragraph.en} className="mt-2 text-sm leading-6"><LocalizedCopy {...paragraph} /></p>)}
+            </section>)}
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm">
+              {vaFollowUp.checklist.map(entry => <li key={entry.id} data-va-checklist-id={entry.id}><LocalizedCopy {...entry} /></li>)}
+            </ul>
+            <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm">
+              {vaFollowUp.sources.map(source => <li key={source.href}><a className="underline" href={source.href}><LocalizedCopy {...source} /></a></li>)}
+            </ol>
+          </details> : null}
 
           {!packetMatter ? (
             <SavedResultValue item={item} />
