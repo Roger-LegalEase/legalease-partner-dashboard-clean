@@ -70,7 +70,7 @@ const publicationInputs = [
  'data/rcap-render/worker-publication-evidence.json'
 ];
 const requiredAuthorityInputs = [STATIC_AUTHORITY_PATH,
- 'data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'];
+ 'data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json'];
 const copies=docker.replace(/\\\n\s*/g,' ').split('\n').filter(l=>l.startsWith('COPY ')).join('\n');
 const runtimeManifest=JSON.parse(fs.readFileSync('deploy/rcap-render-worker/runtime-data-manifest.json'));
 for(const f of publicationInputs) {

@@ -154,7 +154,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "data/rcap-ledger/route-kind-adjudications.json",
   "data/rcap-ledger/route-presentation-conflicts.json",
   "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-  "data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json",
+  "data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json",
   "data/record-clearing/legal-decisions/route-ratification-registry.json",
   "data/record-clearing/legal-design-intake/AK.memo.json",
   "data/record-clearing/legal-design-intake/AL.memo.json",

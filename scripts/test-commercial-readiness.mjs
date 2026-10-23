@@ -380,7 +380,7 @@ for (const [label, options, expected] of [
 // A valid current sponsored context may pass without consumer payment, but
 // the trusted source's matter identity remains a separate mandatory gate.
 {
-  const grant = JSON.parse(read('data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'));
+  const grant = JSON.parse(read('data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json'));
   const env = {VERCEL_ENV:'preview',VERCEL_TARGET_ENV:'preview',RCAP_SPONSORED_PREVIEW_CHANNEL:grant.channel,
     RCAP_CONSUMER_DELIVERY_ROUTE_STATE:grant.routeState,NEXT_PUBLIC_SUPABASE_URL:`https://${grant.acceptanceProjectRef}.supabase.co`,
     RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:grant.participantUserIds.join(',')};

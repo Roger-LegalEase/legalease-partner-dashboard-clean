@@ -93,7 +93,7 @@ const ENTRIES = [
   {"path": "data/record-clearing/production-factory/packet-proofs/rcap-mo-guidance-implementation.json", "kind": "file", "readBy": "src/lib/expungement-ai/mo-xiv-court-context.ts; src/lib/expungement-ai/mo-610105-court-context.ts; src/lib/rcap-engine/missouri-automatic-drug-guidance.ts", "why": "Static JSON import: the worker module graph cannot load without these exact bytes."},
   {"path": "data/record-clearing/production-factory/packet-proofs/rcap-ny-guidance-implementation.json", "kind": "file", "readBy": "src/lib/rcap-engine/ny-16057-guidance.ts", "why": "Static JSON import: the worker module graph cannot load without these exact bytes."},
   {"path": "data/record-clearing/production-factory/packet-proofs/rcap-oh-guidance-implementation.json", "kind": "file", "readBy": "src/lib/expungement-ai/oh-trafficking-court-context.ts", "why": "Static JSON import: the worker module graph cannot load without these exact bytes."},
-  { path: "data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json", kind: "file",
+  { path: "data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json", kind: "file",
     readBy: "src/lib/rcap/fulfillment/sponsored-channel-authority.ts", why: "Current immutable sponsored Preview channel decision; absent or mismatched scope refuses." },
   // The MS paid-consumer successor loader reads every one of these on each
   // call, at statically identifiable paths, and returns null if any is absent

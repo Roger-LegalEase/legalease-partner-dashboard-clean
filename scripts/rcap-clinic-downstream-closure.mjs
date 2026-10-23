@@ -17,7 +17,7 @@ export function closureAuthority() {
   const read=p=>JSON.parse(fs.readFileSync(p));
   return {candidate:read('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'),
     binding:read('data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'),
-    grant:read('data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'),
+    grant:read('data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json'),
     workerStatic:read('data/rcap-grade-a/worker-static-authority.json')};
 }
 export function downstreamClosureSql(targetId) {

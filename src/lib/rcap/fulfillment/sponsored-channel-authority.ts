@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { createHash } from "node:crypto";
 import type { GradeAFulfillmentRecord } from "./grade-a-authority";
 import { resolveDeploymentEnvironment } from "@/lib/server-runtime-environment";
-import decision from "@/../data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json";
+import decision from "@/../data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json";
 
 export type SponsoredChannelContext = {
   participantUserId: string;
@@ -15,7 +15,7 @@ export type SponsoredChannelContext = {
 export type SponsoredChannelDecision = typeof decision;
 export const sponsoredChannelDecisions: readonly SponsoredChannelDecision[] = [decision];
 // Pin the adopted decision itself; edits require a new immutable decision.
-const decisionDigests = new Set(["4550b2bbeff33c890892d1a845e774981b38230ba538c7240928446cc5353f30"]);
+const decisionDigests = new Set(["b33784d8509264f03466a379ac52028dc943477489ca4b9a4f1de94f3d7578f5"]);
 const sha256 = (bytes: string | Buffer) => createHash("sha256").update(bytes).digest("hex");
 
 /** Pure scope comparison; callers supply only protected server context. Packet
