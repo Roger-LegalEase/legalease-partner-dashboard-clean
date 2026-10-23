@@ -385,6 +385,22 @@ if (ISOLATED_CLINIC_PREVIEW) {
 // Public at build time, server-only at runtime. The delivery flag is passed
 // ONLY when ROUTE_STATE is explicitly set; the default deployment carries no
 // flag at all, so the control's own default (disabled) applies.
+// Candidate staging cannot inherit payment, legacy billing or outbound delivery authority.
+const closedPreviewEnv = process.env.PHASE_INPUT === "replace_preview" ? {
+  RCAP_PARTNER_ONBOARDING_ENABLED: "true",
+  RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "disabled",
+  RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "",
+  RCAP_SPONSORED_PREVIEW_CHANNEL: "",
+  STRIPE_SECRET_KEY: "sk_test_hosted_acceptance_placeholder",
+  STRIPE_WEBHOOK_SECRET: "whsec_hosted_acceptance_placeholder",
+  STRIPE_LEGACY_WEBHOOK_SECRET: "",
+  ENABLE_PARTNER_EMAIL_DELIVERY: "false",
+  EXPUNGEMENT_EMAIL_PROVIDER: "",
+  RESEND_API_KEY: "",
+  INTERNAL_ADMIN_ACCESS_TOKEN: "",
+  LEGALEASE_OS_EVENTS_ENABLED: "false",
+  LEGALEASE_OS_EVENTS_ENDPOINT: ""
+} : {};
 const runtimeEnv = {
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
@@ -419,24 +435,11 @@ const runtimeEnv = {
     PARTNER_EMAIL_FROM: LEGAL_AID_EMAIL.from
   } : {}),
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
-  // Candidate staging cannot inherit live payment, legacy billing or outbound delivery authority.
-  ...(process.env.PHASE_INPUT === "replace_preview" ? {
-    RCAP_PARTNER_ONBOARDING_ENABLED: "true",
-    RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "disabled",
-    RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "",
-    RCAP_SPONSORED_PREVIEW_CHANNEL: "",
-    STRIPE_SECRET_KEY: "sk_test_hosted_acceptance_placeholder",
-    STRIPE_WEBHOOK_SECRET: "whsec_hosted_acceptance_placeholder",
-    STRIPE_LEGACY_WEBHOOK_SECRET: "",
-    ENABLE_PARTNER_EMAIL_DELIVERY: "false",
-    EXPUNGEMENT_EMAIL_PROVIDER: "",
-    RESEND_API_KEY: "",
-    INTERNAL_ADMIN_ACCESS_TOKEN: "",
-    LEGALEASE_OS_EVENTS_ENABLED: "false",
-    LEGALEASE_OS_EVENTS_ENDPOINT: ""
-  } : {})
+  ...closedPreviewEnv
 };
 const buildEnv = {
+  ...closedPreviewEnv,
+  ...(process.env.PHASE_INPUT === "replace_preview" ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "" } : {}),
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: keys.anon,

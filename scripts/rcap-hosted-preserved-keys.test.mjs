@@ -40,7 +40,7 @@ check('old derivation and fallback absent',()=>{assert.ok(!s.includes('acceptanc
 check('validation runs before first remote call',()=>assert.ok(s.indexOf('const PRESERVED_DATA_KEYS =')<s.indexOf('await resolveHostedVercelIdentity')));
 const runtime=s.slice(s.indexOf('const runtimeEnv = {')+'const runtimeEnv = '.length,s.indexOf('\nconst buildEnv =')).trim().replace(/;$/,'');
 check('actual runtime mapping is exact and build/metadata exclude keys',()=>{
- const got=vm.runInNewContext('('+runtime+')',{PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.invalid',SUPABASE_URL:'https://synthetic.invalid',keys:{anon:'synthetic',service:'synthetic'},process:{env:{}},CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null});
+ const got=vm.runInNewContext('('+runtime+')',{closedPreviewEnv:{},PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.invalid',SUPABASE_URL:'https://synthetic.invalid',keys:{anon:'synthetic',service:'synthetic'},process:{env:{}},CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null});
  assert.ok(Object.keys(expected).every(k=>got[k]===expected[k]));
  const build=s.slice(s.indexOf('const buildEnv ='),s.indexOf('// A live Stripe key'));
  const meta=s.slice(s.indexOf('const deploymentMeta ='),s.indexOf('let deploymentUrl ='));
@@ -48,10 +48,13 @@ check('actual runtime mapping is exact and build/metadata exclude keys',()=>{
 });
 // Run the actual request mappings and reuse predicates with synthetic provider rows.
 const acceptanceUrl='https://hyflxnlhpmiqxvvcoiia.supabase.co';
-const configContext=phase=>({PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.vercel.app',SUPABASE_URL:acceptanceUrl,
+const configContext=phase=>{const context={PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.vercel.app',SUPABASE_URL:acceptanceUrl,
  keys:{anon:'synthetic-acceptance-anon',service:'synthetic-acceptance-service'},process:{env:{PHASE_INPUT:phase,
  HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}},
- CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null});
+ CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null};
+ const start=s.indexOf('const closedPreviewEnv = ');
+ const expression=start<0?'{}':s.slice(start+'const closedPreviewEnv = '.length,s.indexOf('\nconst runtimeEnv =',start)).trim().replace(/;$/,'');
+ context.closedPreviewEnv=vm.runInNewContext('('+expression+')',context);return context;};
 check('closed candidate request overrides inherited authority without changing other phases',()=>{
  const got=vm.runInNewContext('('+runtime+')',configContext('replace_preview'));
  for(const [name,value] of Object.entries({SUPABASE_URL:acceptanceUrl,NEXT_PUBLIC_SUPABASE_URL:acceptanceUrl,
@@ -65,7 +68,20 @@ check('closed candidate request overrides inherited authority without changing o
  const build=s.slice(s.indexOf('const buildEnv = {')+'const buildEnv = '.length,s.indexOf('// A live Stripe key')).trim().replace(/;$/,'');
  const built=vm.runInNewContext('('+build+')',configContext('replace_preview'));
  assert.equal(built.NEXT_PUBLIC_SUPABASE_URL,acceptanceUrl);assert.equal(built.NEXT_PUBLIC_SUPABASE_ANON_KEY,'synthetic-acceptance-anon');
- assert.equal(built.SUPABASE_SERVICE_ROLE_KEY,undefined);assert.equal(built.STRIPE_SECRET_KEY,undefined);
+ const inherited={SUPABASE_URL:'https://production.invalid',SUPABASE_SERVICE_ROLE_KEY:'synthetic-production-service',
+ STRIPE_SECRET_KEY:'sk_live_synthetic',STRIPE_WEBHOOK_SECRET:'synthetic-production-webhook',STRIPE_LEGACY_WEBHOOK_SECRET:'synthetic-legacy',
+ ENABLE_PARTNER_EMAIL_DELIVERY:'true',EXPUNGEMENT_EMAIL_PROVIDER:'resend',RESEND_API_KEY:'synthetic-production-email',INTERNAL_ADMIN_ACCESS_TOKEN:'synthetic-admin',
+ LEGALEASE_OS_EVENTS_ENABLED:'true',LEGALEASE_OS_EVENTS_ENDPOINT:'https://production.invalid/events',RCAP_PARTNER_ONBOARDING_ENABLED:'false',
+ RCAP_CONSUMER_DELIVERY_ROUTE_STATE:'staging_scoped',RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:'synthetic-owner',RCAP_SPONSORED_PREVIEW_CHANNEL:'mississippi_preview'};
+ const merged={...inherited,...built};
+ for(const name of Object.keys(inherited)){
+  assert.ok(Object.hasOwn(built,name),name+' must explicitly override inherited build authority');
+  assert.equal(merged[name],name==='SUPABASE_SERVICE_ROLE_KEY'?'':got[name],name);
+ }
+ assert.equal(merged.SUPABASE_SERVICE_ROLE_KEY,'');
+ for(const value of [configContext('replace_preview').keys.service,...Object.values(expected)])assert.ok(!Object.values(built).includes(value),'server credential/data key remains runtime-only');
+ const paymentBuild=vm.runInNewContext('('+build+')',configContext('payment'));
+ for(const name of Object.keys(inherited))assert.equal(paymentBuild[name],undefined,'other phase unchanged: '+name);
 });
 const functionText=(source,name)=>{const start=source.indexOf(`function ${name}(`);assert(start>=0,name);const end=source.indexOf('\n}\n',start)+2;assert(end>start,name);return source.slice(start,end);};
 const resolverSource=fs.readFileSync(path.join(root,'scripts/rcap-hosted-resolve-preview.mjs'),'utf8');
