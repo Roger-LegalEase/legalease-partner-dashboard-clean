@@ -270,9 +270,20 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$RELEASE_INTEGRATION_BRANCH"
+          ADMISSION_REF="origin/$RELEASE_INTEGRATION_BRANCH"
+          if [ "${{ inputs.phase }}" = "replace_preview" ]; then
+            # The existing publisher admits this exact open PR shape; Preview alone may reuse it.
+            git fetch --no-tags origin "refs/pull/268/head:refs/remotes/preview/head" "refs/pull/268/merge:refs/remotes/preview/merge"
+            PREVIEW_HEAD="$(git rev-parse preview/head)"
+            [ "$PREVIEW_HEAD" = "$GITHUB_SHA" ] || { echo "::error::Preview workflow is not the current PR 268 head"; exit 1; }
+            [ "$(git rev-parse 'preview/merge^2')" = "$PREVIEW_HEAD" ] || { echo "::error::Preview head/merge refs disagree"; exit 1; }
+            PREVIEW_BASE="$(git rev-parse 'preview/merge^1')"
+            [ "$(git merge-base "$PREVIEW_BASE" "origin/$RELEASE_INTEGRATION_BRANCH")" = "$PREVIEW_BASE" ] || { echo "::error::PR 268 does not merge into canonical integration history"; exit 1; }
+            ADMISSION_REF="preview/head"
+          fi
           for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
-            git merge-base --is-ancestor "$SHA" "origin/$RELEASE_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "$ADMISSION_REF" || { echo "::error::$SHA is outside the authorized phase history"; exit 1; }
           done
           git merge-base --is-ancestor "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" \
             || { echo "::error::the accepted worker source is not an ancestor of the final application candidate"; exit 1; }
@@ -575,7 +586,7 @@ jobs:
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
             # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$LEGAL_AID" = "true" ] || [ "$SPONSOR_CAP" = "true" ] || [ "$PHASE" = "replace_preview" ] || [ "$PHASE" = "clinic_deploy" ] || [ "$RESUME" = "true" ]; then
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$LEGAL_AID" = "true" ] || [ "$SPONSOR_CAP" = "true" ] || [ "$PHASE" = "clinic_deploy" ] || [ "$RESUME" = "true" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
@@ -702,6 +713,7 @@ jobs:
         # The isolated deployer performs its own exhaustive search and before/after readback.
         if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_deploy' && (steps.contract.outputs.resume == 'true' || steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true')
         env:
+          PHASE_INPUT: ${{ inputs.phase }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
@@ -783,8 +795,8 @@ jobs:
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_ISOLATED_CLINIC_PREVIEW: ${{ (inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
-          HOSTED_STRIPE_TEST_SECRET: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
-          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ inputs.phase != 'replace_preview' && steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ inputs.phase != 'replace_preview' && steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
           # Baked into the deployment, so a Preview that sells the inline
           # fallback is a different deployment and is never reused for a run
           # that is proving the catalog path.

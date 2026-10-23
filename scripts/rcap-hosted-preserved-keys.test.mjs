@@ -46,6 +46,78 @@ check('actual runtime mapping is exact and build/metadata exclude keys',()=>{
  const meta=s.slice(s.indexOf('const deploymentMeta ='),s.indexOf('let deploymentUrl ='));
  assert.ok(!/PRESERVED_DATA_KEYS|HOSTED_LEGAL_AID_RESTRICTED|HOSTED_PARTICIPANT_PRIVACY/.test(build+meta));
 });
+// Run the actual request mappings and reuse predicates with synthetic provider rows.
+const acceptanceUrl='https://hyflxnlhpmiqxvvcoiia.supabase.co';
+const configContext=phase=>({PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.vercel.app',SUPABASE_URL:acceptanceUrl,
+ keys:{anon:'synthetic-acceptance-anon',service:'synthetic-acceptance-service'},process:{env:{PHASE_INPUT:phase,
+ HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}},
+ CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null});
+check('closed candidate request overrides inherited authority without changing other phases',()=>{
+ const got=vm.runInNewContext('('+runtime+')',configContext('replace_preview'));
+ for(const [name,value] of Object.entries({SUPABASE_URL:acceptanceUrl,NEXT_PUBLIC_SUPABASE_URL:acceptanceUrl,
+ SUPABASE_SERVICE_ROLE_KEY:'synthetic-acceptance-service',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic-acceptance-anon',
+ RCAP_PARTNER_ONBOARDING_ENABLED:'true',RCAP_CONSUMER_DELIVERY_ROUTE_STATE:'disabled',RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:'',
+ RCAP_SPONSORED_PREVIEW_CHANNEL:'',STRIPE_SECRET_KEY:'sk_test_hosted_acceptance_placeholder',STRIPE_WEBHOOK_SECRET:'whsec_hosted_acceptance_placeholder',
+ STRIPE_LEGACY_WEBHOOK_SECRET:'',ENABLE_PARTNER_EMAIL_DELIVERY:'false',EXPUNGEMENT_EMAIL_PROVIDER:'',RESEND_API_KEY:'',INTERNAL_ADMIN_ACCESS_TOKEN:'',
+ LEGALEASE_OS_EVENTS_ENABLED:'false',LEGALEASE_OS_EVENTS_ENDPOINT:''})) assert.equal(got[name],value,name);
+ const payment=vm.runInNewContext('('+runtime+')',configContext('payment'));
+ assert.equal(payment.STRIPE_SECRET_KEY,'sk_test_synthetic');assert.equal(payment.RCAP_PARTNER_ONBOARDING_ENABLED,undefined);
+ const build=s.slice(s.indexOf('const buildEnv = {')+'const buildEnv = '.length,s.indexOf('// A live Stripe key')).trim().replace(/;$/,'');
+ const built=vm.runInNewContext('('+build+')',configContext('replace_preview'));
+ assert.equal(built.NEXT_PUBLIC_SUPABASE_URL,acceptanceUrl);assert.equal(built.NEXT_PUBLIC_SUPABASE_ANON_KEY,'synthetic-acceptance-anon');
+ assert.equal(built.SUPABASE_SERVICE_ROLE_KEY,undefined);assert.equal(built.STRIPE_SECRET_KEY,undefined);
+});
+const functionText=(source,name)=>{const start=source.indexOf(`function ${name}(`);assert(start>=0,name);const end=source.indexOf('\n}\n',start)+2;assert(end>start,name);return source.slice(start,end);};
+const resolverSource=fs.readFileSync(path.join(root,'scripts/rcap-hosted-resolve-preview.mjs'),'utf8');
+const transportSource=fs.readFileSync(path.join(root,'scripts/rcap-hosted-vercel-rest-transport.mjs'),'utf8');
+const app='a'.repeat(40),worker={rcapWorkerSourceSha:'b'.repeat(40),rcapWorkerDigest:'sha256:'+'c'.repeat(64),rcapWorkerInputFingerprint:'sha256:'+'d'.repeat(64)};
+const goodPreview={id:'dpl_Synthetic',url:'synthetic.vercel.app',projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',gitSource:{sha:app},target:null,readyState:'READY',
+ meta:{rcapApplicationSha:app,...worker,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'false',rcapRouteState:'disabled',
+ rcapPartnerOnboardingEnabled:'true',rcapClosedPreview:'true',rcapCatalogProduct:'inline',rcapReturnOrigin:'https://synthetic.vercel.app',rcapClinicDemoMode:'none',rcapStagingScopeSha256:crypto.createHash('sha256').update('').digest('hex')}};
+function reuseContext(candidate,phase='replace_preview'){
+ const ctx={APPLICATION_SHA:app,FROZEN_APPLICATION_SHA:app,FROZEN_WORKER_METADATA:worker,HOSTED_VERCEL_PROJECT_ID:goodPreview.projectId,
+ PROJECT_REF:'hyflxnlhpmiqxvvcoiia',VERCEL_IDENTITY:{projectId:goodPreview.projectId},REQUIRE_DTC_READINESS:true,
+ EXPECTED_CATALOG_PRODUCT:'inline',EXPECTED_RETURN_ORIGIN:'https://synthetic.vercel.app',EXPECTED_RETURN_HOST:'synthetic.vercel.app',
+ ISOLATED_CLINIC_PREVIEW:false,EXPECTED_CLINIC_DEMO_MODE:'none',CLINIC_DEMO_MODE:'',EXPECTED_CLINIC_SCOPE_SHA256:null,
+ REQUIRED_ROUTE_STATE:'staging_scoped',REQUIRE_STAGING_SCOPED:phase!=='replace_preview',process:{env:{PHASE_INPUT:phase}},
+ api:async route=>{assert(route.startsWith('/v6/deployments?')||route.startsWith('/v13/deployments/'),'GET-only fake provider');return route.startsWith('/v6/')?{deployments:[{id:candidate.id}]}:candidate;},
+ isPreviewTarget:value=>value===null||value==='preview',routeStateOf:value=>value.meta?.rcapRouteState??null};
+ const constants=resolverSource.slice(resolverSource.indexOf('const EXPECT_CLOSED_PREVIEW ='),resolverSource.indexOf('// Which catalog Product'));
+ vm.runInNewContext(constants+'\nglobalThis.EXPECT_CLOSED_PREVIEW=EXPECT_CLOSED_PREVIEW;globalThis.EXPECTED_STRIPE_CONFIGURED=EXPECTED_STRIPE_CONFIGURED;',ctx);
+ ctx.assertPreviewResponse=vm.runInNewContext('('+functionText(transportSource,'assertPreviewResponse')+')',ctx);
+ ctx.closedPreviewPosture=vm.runInNewContext('('+functionText(resolverSource,'closedPreviewPosture')+')',ctx);
+ ctx.routeStateAcceptable=vm.runInNewContext('('+functionText(resolverSource,'routeStateAcceptable')+')',ctx);
+ return ctx;
+}
+check('actual resolver search reuses only exact closed metadata and retains other-phase refusal',async()=>{
+ const run=async(candidate,phase)=>{const ctx=reuseContext(candidate,phase);const find=vm.runInNewContext('(async '+functionText(resolverSource,'findExistingExactPreview')+')',ctx);return find();};
+ assert.equal((await run(goodPreview,'replace_preview')).found.id,goodPreview.id);
+ for(const patch of [{rcapStripeConfigured:'true'},{rcapRouteState:'staging_scoped'},{rcapClosedPreview:undefined},
+ {rcapPartnerOnboardingEnabled:undefined},{rcapPartnerOnboardingEnabled:'false'},{rcapWorkerDigest:'sha256:'+'e'.repeat(64)}]){
+  const bad={...goodPreview,meta:{...goodPreview.meta,...patch}};assert.equal((await run(bad,'replace_preview')).found,null,JSON.stringify(patch));
+  const ctx=reuseContext(bad);let verdict;
+  ctx.meta=bad.meta;ctx.ok=()=>{verdict=true;};ctx.bad=()=>{verdict=false;};
+  const start=resolverSource.indexOf('(closedPreviewPosture(meta)',resolverSource.indexOf('const deployedReturnOrigin'));
+  const end=resolverSource.indexOf(';',start)+1;assert(start>0&&end>start);
+  if(!Object.hasOwn(patch,'rcapWorkerDigest')){vm.runInNewContext(resolverSource.slice(start,end),ctx);assert.equal(verdict,false,'explicit mismatched Preview refuses');}
+ }
+ assert.equal((await run({...goodPreview,gitSource:{sha:'f'.repeat(40)}},'replace_preview')).found,null,'stale source refuses');
+ assert.equal((await run(goodPreview,'payment')).found,null,'closed Preview cannot satisfy payment');
+ const open={...goodPreview,meta:{...goodPreview.meta,rcapStripeConfigured:'true',rcapRouteState:'staging_scoped'}};
+ assert.equal((await run(open,'payment')).found.id,open.id,'existing payment posture unchanged');
+});
+check('actual deploy READY search binds closed markers and preserves key-continuity refusal',async()=>{
+ const run=async candidate=>{
+  const ctx={...configContext('replace_preview'),ISOLATED_CLINIC_PREVIEW:false,APPLICATION_SHA:app,FROZEN_WORKER_METADATA:worker,
+   PROJECT_REF:'hyflxnlhpmiqxvvcoiia',VERCEL_IDENTITY:{projectId:goodPreview.projectId},STRIPE_CONFIGURED:false,CATALOG_PRODUCT_TAG:'inline',ROUTE_STATE_TAG:'disabled',
+   sha256:value=>crypto.createHash('sha256').update(String(value)).digest('hex'),vercelApi:async()=>({status:200,json:{deployments:[candidate]}})};
+  return vm.runInNewContext('(async '+functionText(s,'findReusableDeployment')+')',ctx)();
+ };
+ assert.equal((await run(goodPreview)).id,goodPreview.id);
+ for(const patch of [{rcapClosedPreview:undefined},{rcapPartnerOnboardingEnabled:undefined},{rcapStripeConfigured:'true'},{rcapRouteState:'staging_scoped'}])
+  assert.equal(await run({...goodPreview,meta:{...goodPreview.meta,...patch}}),null,JSON.stringify(patch));
+ assert.ok(s.includes('if (reusable) throw new Error("DEPLOY_REUSE_PRESERVED_KEY_CONTINUITY_UNPROVEN")'));
+});
 check('old ciphertext continuity and pseudonym identity survive credential changes',()=>{
  const iv=crypto.randomBytes(12),plain=Buffer.from('synthetic restricted data');
  const c=crypto.createCipheriv('aes-256-gcm',Buffer.from(expected.LEGAL_AID_RESTRICTED_FIELD_KEY,'base64'),iv);
@@ -66,6 +138,26 @@ check('metadata-only reuse refuses',()=>assert.ok(s.includes('if (reusable) thro
 const yaml=createRequire(import.meta.url)('yaml');
 const wf=yaml.parse(fs.readFileSync(path.join(root,'.github/workflows/rcap-hosted-acceptance-staging.yml'),'utf8'));
 const caller=yaml.parse(fs.readFileSync(path.join(root,'.github/workflows/rcap-f1-ephemeral-staging.yml'),'utf8'));
+check('actual replace_preview contract closes execution without changing payment',()=>{
+ const steps=Object.values(wf.jobs).flatMap(j=>j.steps||[]);
+ const contract=steps.find(x=>x.id==='contract');assert.ok(contract);
+ const tmp=fs.mkdtempSync('/tmp/rcap-preview-phase-');
+ try {
+  for(const phase of ['replace_preview','payment']){
+   const output=path.join(tmp,phase);
+   const shell=contract.run.replaceAll('${{ inputs.phase }}',phase).replace(/\$\{\{ inputs\.[a-z_]+ \}\}/g,'');
+   execFileSync('bash',['-c',shell],{env:{...process.env,GITHUB_OUTPUT:output},stdio:'pipe'});
+   const values=Object.fromEntries(fs.readFileSync(output,'utf8').trim().split('\n').map(line=>line.split('=')));
+   assert.equal(values.deploy,'true');assert.equal(values.dtc,'true');
+   assert.equal(values.require_staging_scoped,phase==='payment'?'true':'false');
+   assert.equal(values.matrix,phase==='payment'?'true':'false');
+   for(const name of ['gate','retarget','browser','clinic','resume','legal_aid','sponsor_cap','diagnose'])assert.equal(values[name],'false',name);
+  }
+ } finally {fs.rmSync(tmp,{recursive:true,force:true});}
+ const deploy=steps.find(x=>x.id==='deploy_preview');
+ for(const name of ['HOSTED_STRIPE_TEST_SECRET','HOSTED_STRIPE_TEST_WEBHOOK_SECRET'])assert.ok(deploy.env[name].startsWith("${{ inputs.phase != 'replace_preview' &&"));
+ assert.equal(steps.find(x=>x.id==='resolve_preview').env.PHASE_INPUT,'${{ inputs.phase }}');
+});
 check('caller to reusable to deploy passes all three reviewed inputs',()=>{
  const job=Object.values(caller.jobs).find(j=>j.uses?.includes('rcap-hosted-acceptance-staging.yml'));
  const steps=Object.values(wf.jobs).flatMap(j=>j.steps||[]);
