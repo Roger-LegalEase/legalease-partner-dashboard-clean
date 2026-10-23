@@ -121,7 +121,7 @@
     "data/rcap-ledger/completed-output-counsel-manifest.json": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
     "data/rcap-ledger/public-witness-fixtures.json": "3c911a1585857f1d778e58a327cacfc147a071ff3ca7ddc52987e1613f704975",
     "data/rcap-all50/contact-sheet-visual-proof.json": "9b34268741438fb1965324bee3ef6af4e7734614a5892fa4a96703aac9b52157",
-    "data/rcap-render/worker-publication-evidence.json": "876ccb89d2ad29a944f2f993086607ca5480092d1541add2a0a10d0544eb44e8",
+    "data/rcap-render/worker-publication-evidence.json": "aad72c535480030453ed3fe86dad06a485296d92f6286c00c6fe912d8c70495b",
     "data/rcap-grade-a/official-source-registry.json": "ff8336d2788ea22fe25ab730dcd102c344ed79ce4cb60ee4b76396ff8b73d1cc",
     "data/record-clearing/legal-decisions/2026-10-19-ms-nonconv-paid-consumer-successor-v4.json": "f0a6172f40d82047259e59bbb46632f9e204f3c51081dda1cb81db0fb91177e1",
     "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261013.json": "61c97b0bf95bfea07f14489316a30c31f82a8f582664edf8fd51b942f42bc954",
@@ -5269,7 +5269,7 @@
       "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
       "packetFamilyId": "ms-nonconv-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 60,
+      "version": 61,
       "effectiveFrom": "2026-09-20",
       "supersededBy": null,
       "supersededAt": null,
@@ -5396,7 +5396,7 @@
         "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
         "rendererKind": "packet_document_v1",
         "rendererVersion": "1.0.0",
-        "imageDigest": ""
+        "imageDigest": "sha256:81da44032e00150e9b105e48d07080d1fa1ccf9fed678155266a42c85e77eb96"
       },
       "evidenceBindings": {
         "rendererSource": {
@@ -5410,10 +5410,10 @@
         },
         "providerPublication": {
           "evidencePath": "data/rcap-render/worker-publication-evidence.json",
-          "publishedSourceSha": "c36bbae814c4aefa416f14b58e18e4eb19bff200",
-          "historicalImmutableRegistryDigest": "sha256:bdae4f1dea7d71f191b74a9458dcae2e7a38f0e5b3ce2293ece06f22deba76e2",
-          "currentInputsEquivalent": false,
-          "state": "missing_current_publication",
+          "publishedSourceSha": "c3fdaadd53c4f2636a1ba66877dd3d0921e5eadf",
+          "historicalImmutableRegistryDigest": "sha256:81da44032e00150e9b105e48d07080d1fa1ccf9fed678155266a42c85e77eb96",
+          "currentInputsEquivalent": true,
+          "state": "published_input_equivalent",
           "hostedAcceptance": "not_established_by_this_record"
         },
         "paidConsumerSuccessor": {
@@ -6187,6 +6187,15 @@
           "reason": "Regenerated current evidence and publication bindings without rewriting the prior authority history; no new owner approval, packet-content decision, legal treatment, eligibility change, or hosted acceptance is implied.",
           "recordSha256": "f9e8524750247e5c932615c13c2088afca9656808dbb5b0cab0a202135cd2da4",
           "supersedesRecordSha256": "3758e0052d62e4e2b8bb0e0b47eb1d9cd0f39ad66eb7e1a12b6aa021138a035d"
+        },
+        {
+          "version": 61,
+          "changeKind": "proof_added",
+          "changedAt": "2026-10-23",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence and publication bindings without rewriting the prior authority history; no new owner approval, packet-content decision, legal treatment, eligibility change, or hosted acceptance is implied.",
+          "recordSha256": "db6a4d6eae1e8b6c108966f7f7969eccdf6d522814bf768c55922b61c3f9e575",
+          "supersedesRecordSha256": "f9e8524750247e5c932615c13c2088afca9656808dbb5b0cab0a202135cd2da4"
         }
       ]
     },
