@@ -18,7 +18,7 @@ source in this repository yields 97. These are the denominators that actually ex
 | `packet_checkout` legal authority | 104 | 38 |
 | Counsel-ratified deployable | 79 | 47 |
 | Product `paid_now` | 77 | 45 |
-| Grade-A commercially eligible | 0 | 0 |
+| Grade-A commercially eligible | 1 | 1 |
 
 The correction is applied to every route with a packet plan, which is a superset of all of them.
 
