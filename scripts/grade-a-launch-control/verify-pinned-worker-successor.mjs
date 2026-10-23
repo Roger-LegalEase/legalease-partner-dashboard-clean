@@ -293,6 +293,10 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   const priorTools=at(root,p.releaseBaseSha,TOOLS);
   const e=publication(root,prior,priorTools);assert.equal(e.runtimeAccepted,true);
   assert.deepEqual(e,at(root,p.releaseBaseSha,PUBLICATION),'accepted worker evidence remains immutable');
+  const applicationDelta=git(root,['diff','--no-renames','--name-only',prior.sourceCommit,p.applicationSha]).split('\n').filter(Boolean);
+  const applicationFiles=applicationDelta.filter(rel=>!boundedControl(rel)&&!previewControl(rel));
+  // Application-owned CI/data changes retain their frozen identity in the tools tree.
+  if(applicationFiles.length)assert.equal(git(root,['diff','--name-only',p.applicationSha,p.toolsSha,'--',...applicationFiles]),'','frozen application successor bytes and modes');
   const expected={applicationSha:p.applicationSha,workerSourceSha:prior.workerSourceSha,
    workerDigest:prior.workerDigest,workerInputFingerprint:prior.workerInputFingerprint,toolsSha:p.toolsSha,
    publication:at(root,p.releaseBaseSha,CANDIDATE).publication,
@@ -314,7 +318,7 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   const delta=git(root,['diff','--name-only',p.releaseBaseSha,p.toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/')).sort();
   assert.deepEqual(Object.keys(manifest.files).sort(),delta,'complete forward control manifest');
   for(const [rel,digest]of Object.entries(manifest.files)) {
-   if(priorTools.successorInputs)assert(boundedControl(rel)||previewControl(rel),'bounded forward control paths');
+   if(priorTools.successorInputs)assert(boundedControl(rel)||previewControl(rel)||applicationFiles.includes(rel),'bounded forward control paths or frozen application source');
    assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
    if(!corrected.has(rel))assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'current control bytes');
   }
