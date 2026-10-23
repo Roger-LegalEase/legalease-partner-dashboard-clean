@@ -40,9 +40,14 @@ const { QuestionField } = await import('../src/components/expungement-ai/screeni
 const { t, resolveRuntimeText } = await import('../src/lib/expungement-ai/localization.ts');
 const evaluated = input => { try { return evaluate(input); } catch (error) { if (error.name !== 'InvalidAnswerError') throw error; return { rejected: { name: error.name, invalidQuestionIds: error.invalidQuestionIds } }; } };
 const cases = [['selected', ['Other named excluded offense']], ['unselected', ['None of these']], ['unknown', ['I am not sure']], ['conflicting', ['Other named excluded offense', 'None of these']]];
-const allFixtures = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures;
-const catalog = JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/reviewed-source-question-copy.json'));
 const baseline = capture ? null : JSON.parse(fs.readFileSync(baselinePath));
+// Preserve the measured table's inputs; capture still diagnoses current public witnesses.
+const allFixtures = capture ? JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures : baseline.inputFixtures;
+if (!capture) {
+  assert.equal(hash(allFixtures), baseline.inputSource.fixturesSha256, 'Retained baseline input bytes');
+  assert.deepEqual(allFixtures.map(f => f.pathwayKey).sort(), Object.values(baseline.states).flatMap(s => s.protectedHashes.map(h => h.route)).sort(), 'Every original fixture remains represented');
+}
+const catalog = JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/reviewed-source-question-copy.json'));
 const result = { states: {} };
 let renders = 0, associations = 0;
 for (const [state, names] of Object.entries(states)) {
