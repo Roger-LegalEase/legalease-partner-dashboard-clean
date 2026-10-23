@@ -232,6 +232,12 @@ test('successor custody preserves deleted source and separately binds narrow run
    try{write(rel,bytes);const changed=commit('synthetic forbidden post-application change');refuse(()=>successorResponsibilities(root,{...options,toolsSha:changed}),reason);}
    finally{git(['reset','--hard',toolsSha]);} // Only this disposable synthetic repository.
   }
+  try{
+   fs.chmodSync(path.join(root,'product.txt'),0o755);pendingPaths.add('product.txt');const modeChanged=commit('synthetic forbidden source file-mode change');
+   assert.equal(git(['rev-parse',`${sourceSha}:product.txt`]),git(['rev-parse',`${modeChanged}:product.txt`]),'mode-only change keeps the same file bytes');
+   assert.match(git(['diff','--summary',sourceSha,modeChanged,'--','product.txt']),/mode change 100644 => 100755/);
+   refuse(()=>successorResponsibilities(root,{...options,toolsSha:modeChanged}),/unclassified successor path/);
+  }finally{git(['reset','--hard',toolsSha]);} // Only this disposable synthetic repository.
   for(const rel of [PUBLICATION,publication.nativeRunMetadata.path]){
    const before=fs.readFileSync(path.join(root,rel));
    try{write(rel,'{"syntheticCurrentDrift":true}\n');refuse(()=>verifySuccessorResponsibilities(root,pending,tools),/frozen runtime bytes/);}
