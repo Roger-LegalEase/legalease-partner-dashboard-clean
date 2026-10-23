@@ -4,6 +4,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
+import { MN_CAPTION_SOURCE_FILES } from "./rcap-official-forms/mn-petition-caption-preview.mjs";
 
 const require = createRequire(import.meta.url);
 const { normalizeAppPath } = require('next/dist/shared/lib/router/utils/app-paths');
@@ -257,6 +258,10 @@ export function createRuntimeAuthorityTracingIncludes(options = {}) {
   const { consumers, entries } = discoverRuntimeAuthorityConsumers(options);
   const includes = Object.fromEntries(consumers.map((entry) => [entry.tracingKey, [...RUNTIME_AUTHORITY_FILES]]));
   for (const entry of entries) {
+    if (entry.route === '/briefcase/[packetId]/mn-caption-preview/[documentId]') {
+      if (!includes[entry.tracingKey]) throw new Error('MN held preview authority closure is missing');
+      includes[entry.tracingKey].push(...Object.values(MN_CAPTION_SOURCE_FILES));
+    }
     const matches = Object.keys(includes).some((key) => tracingKeyMatches(key, entry.appPath));
     if (matches !== (entry.authorityPaths.length > 0)) {
       throw new Error(`Runtime authority tracing scope mismatch: ${entry.entry}`);
