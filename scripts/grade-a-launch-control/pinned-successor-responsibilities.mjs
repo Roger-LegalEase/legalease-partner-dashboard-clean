@@ -32,6 +32,10 @@ export function successorResponsibilities(root,{releaseBaseSha,sourceSha,toolsSh
  assert.equal(publication.sourceSha,sourceSha);assert.equal(publication.runtimeAccepted,true);assert.equal(publication.imageAcceptance?.conclusion,'success');assert.equal(publication.imageAcceptance?.sourceSha,sourceSha);assert.equal(publication.imageAcceptance?.digest,publication.immutableRegistryDigest);assert.match(publication.immutableRegistryDigest,/^sha256:[0-9a-f]{64}$/);
  const native=publicationNativeFiles(publication);
  const appDelta=git(root,['diff','--no-renames','--name-only',sourceSha,applicationSha]).split('\n').filter(Boolean);
+ for(const [p,entry]of Object.entries(reviewedFiles))if(entry?.deleted===true){
+  for(const sha of [sourceSha,applicationSha,toolsSha])assert.equal(git(root,['ls-tree',sha,'--',p]),'','deleted source cannot reappear in successor: '+p);
+  assert.equal(fs.lstatSync(path.join(root,p),{throwIfNoEntry:false}),undefined,'deleted source cannot reappear in worktree: '+p);
+ }
  for(const p of git(root,['diff','--no-renames','--diff-filter=D','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(Boolean)){
   assert.equal(reviewedFiles[p]?.deleted,true,'successor deletion requires reviewed source custody: '+p);
   assert.equal(git(root,['ls-tree',sourceSha,'--',p]),'','deletion belongs to the approved source: '+p);
