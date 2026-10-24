@@ -1,3 +1,4 @@
+import { GA_RETROACTIVE_HISTORY_ROUTE } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { VA_RECORD_CONTEXT_IDS } from "@/lib/expungement-ai/virginia-record-context";
 import { WY_1401_ROUTE } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { CA_12034_ROUTE } from "@/lib/rcap-engine/california-1203-4-facts";
@@ -115,7 +116,7 @@ export default async function PacketInformationPage({
     && factualPathwayCorrectionIds("WY",item.pathwayId,item.packetDraft.initialAnswers).includes("wy_1401_listed_deferral");
   const savedCaseMatterCorrection = correctingCompletion && item?.authorityStatus === "protected_draft"
     && item.packetDraft.status === "available"
-    && (vaOptionalContext || wyNonconvictionCorrection || caProbationCorrection || deSavedCorrection || ctContactCorrection || ksContactCorrection || ndContactCorrection || orDispositionCorrection || item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
+    && (item.jurisdiction === "GA" && item.pathwayId === GA_RETROACTIVE_HISTORY_ROUTE || vaOptionalContext || wyNonconvictionCorrection || caProbationCorrection || deSavedCorrection || ctContactCorrection || ksContactCorrection || ndContactCorrection || orDispositionCorrection || item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
       || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0)
       || item.jurisdiction === "MT" && item.pathwayId === "deferred-sentence-dismissal-or-confidentiality-route"
       || item.jurisdiction === "MO" && (item.pathwayId === "closed-record-outcome-under-rsmo-610-105" || item.pathwayId === "marijuana-expungement-under-missouri-constitution-article-xiv"

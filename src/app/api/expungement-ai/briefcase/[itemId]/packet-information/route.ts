@@ -1,3 +1,4 @@
+import { GA_RETROACTIVE_HISTORY_IDS } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { mdJuvenileProtectedDocumentPreparation } from "@/lib/expungement-ai/md-juvenile-document-preparation";
 import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { MT_DEFERRED_DOCUMENT_QUESTION_IDS } from "@/lib/expungement-ai/mt-deferred-document-questions";
@@ -197,6 +198,9 @@ export async function POST(
   // This controls owner corrections only; verification and commercial holds remain.
   const savedResult = protectedModel.resultCode;
   const factualCorrectionIds = protectedModel ? [...factualPathwayCorrectionIds(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers), ...(protectedModel.heldFactualCorrectionIds ?? [])].filter(id => protectedModel.stateCode !== "VA" || protectedModel.questions.some(question => question.id === id)) : [];
+  if (parsed.verify && GA_RETROACTIVE_HISTORY_IDS.some(id => factualCorrectionIds.includes(id))) {
+    return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
+  }
   const financialCorrection = protectedModel && heldPacketCorrectionInputIds(protectedModel, savedResult ?? null).has("financial_obligations");
   if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification && !protectedModel?.caJuvenilePreparationFactIds && !protectedModel?.mdJuvenilePreparationFactIds
     && !financialCorrection && !factualCorrectionIds.length
@@ -338,7 +342,8 @@ async function readBody(request: Request): Promise<
     const mtPreparation = new URL(request.url).searchParams.get("preparation") === "mt-deferred";
     if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id)
       && !(mtPreparation && MT_DEFERRED_DOCUMENT_QUESTION_IDS.includes(id))
-      && !ND_FIRST_OFFENSE_FACT_IDS.includes(id))) return { ok: false };
+      && !ND_FIRST_OFFENSE_FACT_IDS.includes(id)
+      && !(GA_RETROACTIVE_HISTORY_IDS as readonly string[]).includes(id))) return { ok: false };
     if (!Object.values(body.answers).every(validDraftValue)) return { ok: false };
     return {
       ok: true,

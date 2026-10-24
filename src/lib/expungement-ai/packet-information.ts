@@ -1,3 +1,4 @@
+import { GA_RETROACTIVE_HISTORY_IDS, gaRetroactiveHistoryQuestions } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { VA_PARDON_FOLLOW_UP } from "@/lib/expungement-ai/va-pardon-follow-up-copy";
 import { IL_PROGRAM_COPY, IL_PROGRAM_SOURCE, IL_PROGRAM_FACT_IDS, illinoisProgramFactIds, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { vaPardonLocationApplies, vaPardonLocationScopeEntry, vaPardonLocationQuestion } from "@/lib/expungement-ai/va-pardon-location-context";
@@ -2969,6 +2970,8 @@ export function protectedPacketInformationModelFor(
   if (msFirstOffenderSourceContract(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) {
     requiredInputIds = [...new Set([...requiredInputIds, ...MS_FIRST_OFFENDER_COLLECTION_IDS])];
   }
+  const gaHistoryQuestions = gaRetroactiveHistoryQuestions(profile, snapshot.pathwayId);
+  if (gaHistoryQuestions.length) requiredInputIds = [...new Set([...requiredInputIds, ...gaHistoryQuestions.map(question => question.id)])];
   const vaPardonSpecification = packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`);
   const vaPardonQuestion = vaPardonTypeQuestion(profile, snapshot.pathwayId, vaPardonSpecification, initialAnswers, legacy.inspection.effectiveInvalidIds);
   const vaPardonChecklist = vaPardonQuestion && vaPardonSpecification && "participantChecklist" in vaPardonSpecification
@@ -3581,6 +3584,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (includeInactive && Object.hasOwn(answers, "residency_or_location")
     && (nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || sdSisCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))) extra.push("residency_or_location");
+  extra.push(...gaRetroactiveHistoryQuestions(profile, pathway).map(question => question.id));
   if (includeInactive && Object.hasOwn(answers, "residency_or_location")
     && vaPardonLocationApplies(profile, pathway, packetSpecificationFor(`${state}:${pathway}`), answers)) extra.push("residency_or_location");
   if (includeInactive && Object.hasOwn(answers, "residency_or_location")
@@ -3877,6 +3881,9 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  for (const question of gaRetroactiveHistoryQuestions(getProfileByJurisdiction(model.stateCode), model.pathwayId)) {
+    if (editablePacketInputIds(model).has(question.id) && model.questions.some(candidate => candidate.id === question.id)) ids.add(question.id);
+  }
   // GA-16-M01616: the held SIS page still owns an earlier optional location correction.
   if (resultCode === "guidance_only"
     && sdSisCategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
@@ -4547,6 +4554,7 @@ export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthori
   // These source facts travel separately through the internal evaluator. They
   // are never public screening answers or promoted old category narratives.
   const answers = toScreeningAnswers(Object.fromEntries(Object.entries(raw)
+    .filter(([id]) => !(gaRetroactiveHistoryQuestions(profile, snapshot.pathwayId).length && (GA_RETROACTIVE_HISTORY_IDS as readonly string[]).includes(id)))
     .filter(([id]) => snapshot.jurisdiction !== "MS" || snapshot.pathwayId !== MS_FIRST_OFFENDER_ROUTE
       || !(MS_FIRST_OFFENDER_IDS as readonly string[]).includes(id))));
   const savedSourceFacts = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
@@ -5949,6 +5957,7 @@ function installPacketSpecificationQuestions(
   unresolvedSavedFactIds: readonly string[] = []
 ) {
   const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
+  for (const question of gaRetroactiveHistoryQuestions(getProfileByJurisdiction(jurisdiction), pathwayId)) questions.set(question.id, question);
   const caCompletion = isCaProp64Pathway(jurisdiction, pathwayId) ? questions.get("sentence_completion_date") : undefined;
   if (caCompletion) questions.set(caCompletion.id, caProp64CompletionQuestion(caCompletion));
   const vaPardonQuestion = vaPardonTypeQuestion(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey), answers, unresolvedSavedFactIds);
