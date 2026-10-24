@@ -502,6 +502,28 @@ function loadDcMisattributedProductization(): FactoryV2ExactRouteProductization 
 // This admits the existing composer connection, never commercial fulfillment.
 // The source content pin includes all eight unchanged factual prerequisites,
 // the existing 25 sections, seven source bindings and manual-slot ownership.
+// Bind only the six owner-adopted DC proof files to literal runtime paths.
+// The original SHA checks remain in the caller. Literal reads keep Turbopack
+// from tracing the entire repository through a variable file argument.
+function readDcPinnedProofFile(file: string) {
+  switch (file) {
+    case "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_DC_MISATTRIBUTED_2026-10-16.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_DC_MISATTRIBUTED_2026-10-16.json"));
+    case "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json"));
+    case "data/record-clearing/legal-design-intake/DC.memo.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-intake/DC.memo.json"));
+    case "data/rcap-grade-a/mission-lock/task54-dc-render/render-evidence.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-grade-a/mission-lock/task54-dc-render/render-evidence.json"));
+    case "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf"));
+    case "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf"));
+    default:
+      throw new Error("Unexpected DC proof source");
+  }
+}
+
 function dcMisattributedCurrentSourceMatches(specification: Parameters<typeof specificationContentSha256>[0]): boolean {
   if (!specificationLegalSectionsBound(specification)
     || specificationContentSha256(specification) !== "6ecd622fc6cbd49dce3642c1a979caf2492e885efadf9ece3b1436184b18c2da") return false;
@@ -517,7 +539,7 @@ function dcMisattributedCurrentSourceMatches(specification: Parameters<typeof sp
       ["data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf", "31beb81d0a97122b9517b17d58d04527aba2bae88ecd157e05b9755a4dd35a27"],
       ["data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf", "f1086e078bce597b9629f86afc4e0f683d4d1c41ff704d3aee5d94caeccb0d72"]
     ]) {
-      if (createHash("sha256").update(fs.readFileSync(path.join(process.cwd(), file))).digest("hex") !== expected) return false;
+      if (createHash("sha256").update(readDcPinnedProofFile(file)).digest("hex") !== expected) return false;
     }
     return true;
   } catch {
