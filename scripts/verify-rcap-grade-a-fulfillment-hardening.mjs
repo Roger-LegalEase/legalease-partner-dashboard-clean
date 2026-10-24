@@ -926,10 +926,11 @@ if (MUTATIONS) {
       RCAP_SPONSORED_PREVIEW_CHANNEL: grant.channel, RCAP_CONSUMER_DELIVERY_ROUTE_STATE: grant.routeState,
       NEXT_PUBLIC_SUPABASE_URL: runtime.projectUrl, RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: runtime.scope });
     const { packetFulfillmentAuthority } = await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
-    check("actual current authority stays closed to ordinary sponsorship without an adopted ordinary grant", () => {
+    check("Clinic runtime scope stays closed to ordinary sponsorship", () => {
       assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "sponsored entitlement", partnerContext), false);
       assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "packet credit consumption", partnerContext), false);
-      assert.equal(sponsoredChannelDecisions.some(g => g.acquisitionMode === "partner"), false);
+      assert.equal(sponsoredChannelDecisions.filter(g => g.acquisitionMode === "partner").length, 1);
+      assert.equal(sponsoredChannelDecisions.find(g => g.acquisitionMode === "partner").partnerSlug, "legalease-ordinary-qa-20261024");
     });
     check("real runtime adapter admits current sponsored scope and keeps paid authority independent", () => {
       const args = [canonical.jurisdiction, canonical.pathwayId];

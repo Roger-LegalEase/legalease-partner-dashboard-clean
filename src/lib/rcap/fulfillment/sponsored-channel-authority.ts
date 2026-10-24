@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import type { GradeAFulfillmentRecord } from "./grade-a-authority";
 import { resolveDeploymentEnvironment } from "@/lib/server-runtime-environment";
 import decision from "@/../data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json";
+import ordinaryInternalQaDecision from "@/../data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json";
 
 export type SponsoredChannelContext = {
   participantUserId: string;
@@ -18,9 +19,12 @@ export type SponsoredChannelDecision = typeof decision | (
     acquisitionMode: "partner"; eventName: null; eventId: null;
   }
 );
-export const sponsoredChannelDecisions: readonly SponsoredChannelDecision[] = [decision];
+export const sponsoredChannelDecisions: readonly SponsoredChannelDecision[] = [decision, ordinaryInternalQaDecision as SponsoredChannelDecision];
 // Pin the adopted decision itself; edits require a new immutable decision.
-const decisionDigests = new Set(["b33784d8509264f03466a379ac52028dc943477489ca4b9a4f1de94f3d7578f5"]);
+const decisionDigests = new Set([
+  "b33784d8509264f03466a379ac52028dc943477489ca4b9a4f1de94f3d7578f5",
+  "316a211790dbdaca3bd260beac0a854076ebed618390b339b1d68b6a40381ebb"
+]);
 const sha256 = (bytes: string | Buffer) => createHash("sha256").update(bytes).digest("hex");
 
 /** Pure scope comparison; callers supply only protected server context. Packet
