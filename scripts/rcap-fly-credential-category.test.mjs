@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
-const workflow=fs.readFileSync(new URL('../.github/workflows/rcap-worker-identity-readonly.yml',import.meta.url),'utf8');
+const workflow=fs.readFileSync(new URL('../.github/workflows/rcap-worker-image-acceptance.yml',import.meta.url),'utf8');
 const block=workflow.split("          node --input-type=module <<'NODE'\n")[1];
 assert(block,'expected inline category-only program');
 const source=block.split('          NODE\n')[0].replace(/^          /gm,'');
