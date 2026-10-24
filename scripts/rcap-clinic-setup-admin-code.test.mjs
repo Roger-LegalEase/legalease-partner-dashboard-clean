@@ -1,3 +1,5 @@
+import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
+import {assertNormalClinicSurfaces} from './rcap-clinic-normal-readiness.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -11,7 +13,7 @@ function fixture() {
     startsAt:new Date(now-3600000).toISOString(),endsAt:new Date(now+3600000).toISOString(),experience:'standard'};
   const workspace={status:200,json:{success:true,workspace:{event,accessCodes:[old]}}};
   const codeId='11111111-1111-4111-8111-111111111111',code='CLINIC-MOCKCODEONLY';
-  const io={normalLogin:async()=>({id:CLINIC_CODE_ADMIN.id,partnerAdminVisible:true}),now:()=>now,
+  const io={beforeCode:async()=>{},normalLogin:async()=>({id:CLINIC_CODE_ADMIN.id,partnerAdminVisible:true}),now:()=>now,
     readWorkspace:async()=>workspace,
     createCode:async body=>{calls.push(structuredClone(body));workspace.json.workspace.accessCodes.push({id:codeId,eventId:CLINIC_SETUP.event,
       maxUses:1,usesCount:0,isActive:true,startsAt:body.startsAt,expiresAt:body.expiresAt});return {status:201,json:{success:true,accessCode:{id:codeId,code}}};},
@@ -22,6 +24,7 @@ test('normal scoped test admin issues exactly one bounded max1 code and passes i
   const f=fixture();const code=await issueClinicSetupCode(f.io);assert.equal(code,f.code);assert.equal(f.calls.length,1);
   const body=f.calls[0];assert.equal(body.requestId,CLINIC_CODE_ADMIN.requestId);assert.equal(body.maxUses,1);
   assert.equal(Date.parse(body.startsAt),f.now);assert.equal(Date.parse(body.expiresAt),f.now+15*60000);
+  assert.deepEqual(f.receipts[0].request,body);
   assert.equal(f.receipts.at(-1).status,'verified_unredeemed');assert.ok(!JSON.stringify(f.receipts).includes(f.code));
   assert.deepEqual(Object.keys(f.receipts.at(-1)).sort(),['httpStatus','actorId','eventId','codeId','maxUses','status'].sort());
   assert.equal(f.old.usesCount,2);
@@ -38,6 +41,7 @@ for(const [label,change] of [
   ['event not published',f=>{f.event.status='paused';}],
   ['already renewed or unknown inventory',f=>{f.workspace.json.workspace.accessCodes.push({...f.old,id:'22222222-2222-4222-8222-222222222222',usesCount:0});}],
   ['old code no longer exhausted',f=>{f.old.usesCount=1;}],
+  ['normal read-only surfaces blocked',f=>{f.io.beforeCode=async()=>{throw Error('blocked normal surfaces');};}],
   ['prior attempt marker',f=>{f.io.saveAttempt=async()=>{throw Error('prior attempt');};}]
 ]) test(`refuses ${label} before code POST`,async()=>{
   const f=fixture();change(f);await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,0);
@@ -84,10 +88,11 @@ test('actual runner uses guarded exact-event controls and captures denied/server
         innerText:async()=>{if(mode==='unknown-role')throw Error('No recognized error heading');return mode==='server-error'?'Application error: PRIVATE-NOT-RECORDED':'Clinic access denied PRIVATE-NOT-RECORDED';}})}),
       evaluate:async(_fn,{body})=>{assert.equal(controlsChecked,true);return body?f.io.createCode(body):f.io.readWorkspace();}};
     const context={route:async()=>{},newPage:async()=>page,close:async()=>{closed++;}};
-    const env={RCAP_BROWSER_PASSWORD:'mock-private-password'},result={};
+    const env={RCAP_BROWSER_PASSWORD:'mock-private-password'},result={stage:'test',guardEvents:[]};
     const scope={issueClinicCode:true,browser:{newContext:async()=>context},attachBypass:async()=>{},
       clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure,clinicSetupSafePathname,
-      CLINIC_CODE_ADMIN,CLINIC_SETUP,assert,result,baseUrl:CLINIC_SETUP.origin,password:env.RCAP_BROWSER_PASSWORD,
+      CLINIC_CODE_ADMIN,CLINIC_SETUP,assert,result,createClinicRequestGuard,clinicGate:{captchaPolicy:{serverCaptchaRequired:false,frontend:{clientCaptchaRequired:false,widgetSiteKeyConfigured:true}}},
+      readNormalClinicSurfaces:async()=>['general_clinic_list','clinic_follow_up_page','clinic_queue','clinic_follow_up','clinic_reporting'].map(id=>({id,ok:true,httpStatus:200})),assertNormalClinicSurfaces,baseUrl:CLINIC_SETUP.origin,password:env.RCAP_BROWSER_PASSWORD,
       signIn:async()=>{listeners.response({request:()=>({method:()=> 'GET',isNavigationRequest:()=>true}),url:()=>CLINIC_SETUP.origin+adminPath,status:()=>mode==='server-error'?500:200});return {user:{id:CLINIC_CODE_ADMIN.id}};},
       fs:{writeFileSync:(_path,value)=>files.push(JSON.parse(value))},path:{join:(_dir,name)=>name},evidenceDir:'mock',process:{env},clinicAccessCode:''};
     const run=()=>new Function(...Object.keys(scope),`return (async()=>{${preamble.getText(ast)};return clinicAccessCode;})()`)(...Object.values(scope));

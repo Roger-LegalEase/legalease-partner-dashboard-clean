@@ -28,10 +28,11 @@ export async function issueClinicSetupCode(io) {
   const old=workspace.json.workspace.accessCodes[0];
   assert.equal(old.id,CLINIC_CODE_ADMIN.oldCodeId);
   assert.equal(old?.eventId,CLINIC_SETUP.event);assert.equal(old.maxUses,2);assert.equal(old.usesCount,2,'old code must be confirmed exhausted');
+  await io.beforeCode();
   const body={requestId:CLINIC_CODE_ADMIN.requestId,maxUses:1,
     startsAt:new Date(now).toISOString(),expiresAt:new Date(Math.min(ends,now+15*60*1000)).toISOString()};
   const safe={httpStatus:null,actorId:actor.id,eventId:CLINIC_SETUP.event,codeId:null,maxUses:1,status:'attempting'};
-  await io.saveAttempt(safe);
+  await io.saveAttempt({...safe,request:body});
   const response=await io.createCode(body);
   const codeId=response.json?.accessCode?.id;
   const validId=typeof codeId==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(codeId);

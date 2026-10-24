@@ -158,10 +158,18 @@ jobs:
       - name: Install locked runner dependencies without application build
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify the setup-only stop and request boundaries before credentials
-        run: node --test scripts/rcap-clinic-setup-only-boundary.test.mjs scripts/rcap-clinic-setup-admin-code.test.mjs
+        run: node --test scripts/rcap-clinic-setup-only-boundary.test.mjs scripts/rcap-clinic-setup-admin-code.test.mjs scripts/rcap-clinic-setup-request-guard.test.mjs scripts/rcap-clinic-normal-readiness.test.mjs scripts/rcap-clinic-live-prerequisites.test.mjs
+      - name: Aggregate live read-only Clinic database, Preview and CAPTCHA prerequisites
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          RCAP_BROWSER_EVIDENCE_DIR: clinic-setup-only-evidence
+        run: node scripts/rcap-clinic-live-prerequisites.mjs
       - name: Enter existing Clinic and claim one new screening result
         env:
           RCAP_BROWSER_CLINIC_SETUP_ONLY: '1'
+          RCAP_BROWSER_CLINIC_PREREQUISITES_FILE: clinic-setup-only-evidence/clinic-live-prerequisites.json
           RCAP_BROWSER_BASE_URL: https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app
           RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID: dpl_Eg2n58h38JhnU9uuXQ7Nk46QXGuL
           RCAP_BROWSER_APPLICATION_SHA: 4feb8e94b3dee4085fe05ea75d78853fe21e5097

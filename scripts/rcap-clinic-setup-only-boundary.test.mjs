@@ -45,7 +45,10 @@ test('registered workflow isolates existing secrets and exact current target wit
   const env={...step.env};for(const key of ['RCAP_BROWSER_PASSWORD','RCAP_BROWSER_VERCEL_TOKEN','RCAP_BROWSER_VERCEL_BYPASS_SECRET'])env[key]='mock-existing-custody';
   assert.equal(env.RCAP_BROWSER_ISSUE_CLINIC_CODE,'1');assert.equal(env.RCAP_BROWSER_CLINIC_ACCESS_CODE,undefined);
   assertClinicSetupInput(env);assert.equal(step.run,'node scripts/verify-rcap-commercial-browser.mjs');
-  const serialized=JSON.stringify(job);
+  const live=job.steps.find(s=>s.name==='Aggregate live read-only Clinic database, Preview and CAPTCHA prerequisites');
+  assert.ok(live.env.SUPABASE_ACCESS_TOKEN);assert.ok(job.steps.indexOf(live)<job.steps.indexOf(step));
+  assert.equal(step.env.SUPABASE_ACCESS_TOKEN,undefined);
+  const serialized=JSON.stringify(step);
   assert.ok(!/SUPABASE_ACCESS_TOKEN|SERVICE_ROLE|STRIPE_SECRET|FLY_API_TOKEN|docker |npm run build|clinic-preview-seed/.test(serialized));
   const vercel=JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url)));
   assert.equal(vercel.git.deploymentEnabled['codex/d-clinic-setup-only-20261024'],false);

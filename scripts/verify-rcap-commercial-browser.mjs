@@ -1,3 +1,7 @@
+import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
+import {readCurrentClinicGate} from './rcap-clinic-live-prerequisites.mjs';
+import {readNormalClinicSurfaces,assertNormalClinicSurfaces} from './rcap-clinic-normal-readiness.mjs';
+import {previewRequestHeaders} from './rcap-clinic-resume-network-policy.mjs';
 import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure} from './rcap-clinic-setup-admin-code.mjs';
 import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError, captureClinicEntryResponse, assertClinicEntryAccepted, clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
 import crypto from "node:crypto";
@@ -54,7 +58,7 @@ const clinicMode = Boolean(clinicEventSlug);
 const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
 const issueClinicCode = clinicSetupOnly && process.env.RCAP_BROWSER_ISSUE_CLINIC_CODE === "1";
 if (clinicSetupOnly) assertClinicSetupInput(process.env);
-const result = { schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
+const result = { stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
   process.env.RCAP_BROWSER_EVIDENCE_DIR?.trim() ||
     path.join(process.cwd(), "hosted-acceptance-evidence", "rcap-commercial-flow")
@@ -67,7 +71,8 @@ if (clinicMode && (!validUuid(clinicEventId) || !clinicEventName || (!issueClini
   fail("Clinic mode requires an exact event id, slug, name, and 8+ character access code.");
 }
 fs.mkdirSync(evidenceDir, { recursive: true });
-const environmentClassification = await verifyExactHostedPreview(baseUrl, bypassSecret);
+const clinicGate=clinicSetupOnly?readCurrentClinicGate(required('RCAP_BROWSER_CLINIC_PREREQUISITES_FILE')):null;
+const environmentClassification=clinicGate?clinicGate.preview:await verifyExactHostedPreview(baseUrl,bypassSecret);
 result.environmentClassification = environmentClassification;
 
 const failures = [];
@@ -94,31 +99,24 @@ async function runJourney() {
   browser = await chromium.launch(launchOptions);
   if (issueClinicCode) {
     const admin=await browser.newContext(); await attachBypass(admin);
-    let codePosts=0,blocked=false;
-    await admin.route('**/*',async route=>{
-      const request=route.request();const pathname=new URL(request.url()).pathname;
-      if (!clinicAdminCodeRequestAllowed(request.method(),request.url())
-        || (request.method()==='POST'&&pathname.endsWith('/access-codes')&&++codePosts>1)) {
-        blocked=true;return route.abort('blockedbyclient');
-      }
-      return route.fallback();
-    });
     const adminPage=await admin.newPage();
     const adminPath=`/partner/clinic/${CLINIC_SETUP.event}`;
     result.adminDiagnostics={httpStatus:null,currentPathname:null,inlineError:null,requestFailures:[],roleEvidence:'unknown'};
+    const adminGuard=createClinicRequestGuard({actor:'admin',captchaPolicy:clinicGate.captchaPolicy,env:process.env,stage:()=>result.stage,events:result.guardEvents,requestFailures:result.adminDiagnostics.requestFailures,stageResults:result.stageResults});
+    await admin.route('**/*',adminGuard.route);
+    adminPage.on('response',adminGuard.response);adminPage.on('requestfailed',adminGuard.requestFailed);adminPage.on('console',adminGuard.consoleError);adminPage.on('pageerror',adminGuard.pageError);
     adminPage.on('response',response=>{
       if (response.request().method()==='GET'&&response.request().isNavigationRequest()&&new URL(response.url()).pathname===adminPath)
         result.adminDiagnostics.httpStatus=response.status();
     });
-    adminPage.on('requestfailed',request=>result.adminDiagnostics.requestFailures.push({method:request.method(),
-      pathname:clinicSetupSafePathname(request.url(),process.env),error:request.failure()?.errorText?.match(/(?:net::)?ERR_[A-Z_]+/)?.[0]??'request failed'}));
     const call=async (pathname,body)=>{
+      adminGuard.assertNoCritical();
       const response=await adminPage.evaluate(async ({pathname,body})=>{
         const response=await fetch(pathname,{method:body?'POST':'GET',credentials:'same-origin',
           ...(body?{headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{})});
         return {status:response.status,json:await response.json().catch(()=>null)};
       },{pathname,body});
-      assert.equal(blocked,false,'test-admin context blocked an out-of-scope request');
+      adminGuard.assertNoCritical();
       if (!body) {
         const event=response.json?.workspace?.event;
         if (response.status===200&&response.json?.success===true&&event?.id===CLINIC_SETUP.event&&event.partnerSlug==='mvl-demo')
@@ -131,9 +129,11 @@ async function runJourney() {
       const codePath=`/api/clinic/events/${CLINIC_SETUP.event}/access-codes`;
       const rawCode=await issueClinicSetupCode({
         normalLogin:async()=>{
+          result.stage='admin_normal_signin';
           await adminPage.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(adminPath)}`,baseUrl).href);
           const auth=await signIn(adminPage,CLINIC_CODE_ADMIN.email,password);
           assert.equal(auth?.user?.id,CLINIC_CODE_ADMIN.id,'normal test-admin identity mismatch');
+          result.stage='admin_exact_event_controls';
           await adminPage.waitForURL(url=>url.pathname===adminPath);
           assert.equal(result.adminDiagnostics.httpStatus,200,'Scoped Clinic event page did not load successfully');
           await requireClinicAdminControls(adminPage);
@@ -141,8 +141,13 @@ async function runJourney() {
           result.adminDiagnostics.roleEvidence='scoped_partner_admin_event_controls';
           return {id:auth.user.id,partnerAdminVisible:true};
         },
-        readWorkspace:()=>call(`/api/clinic/events/${CLINIC_SETUP.event}`),now:()=>Date.now(),
-        createCode:body=>call(codePath,body),
+        readWorkspace:()=>{result.stage='admin_workspace_read';return call(`/api/clinic/events/${CLINIC_SETUP.event}`);},now:()=>Date.now(),
+        beforeCode:async()=>{
+          result.stage='normal_readonly_admission';
+          result.normalReadOnlyViews=await readNormalClinicSurfaces(adminPage);
+          adminGuard.assertNoCritical();assertNormalClinicSurfaces(result.normalReadOnlyViews);
+        },
+        createCode:body=>{result.stage='admin_one_code_issuance';return call(codePath,body);},
         saveAttempt:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-attempt.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'}),
         saveResult:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-result.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'}),
         saveVerified:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-verified.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'})
@@ -159,18 +164,14 @@ async function runJourney() {
     colorScheme: "light"
   });
   await attachBypass(context);
-  if (clinicSetupOnly) {
-    await context.route('**/*', async route => {
-      const request=route.request();
-      if (!clinicSetupRequestAllowed(request.method(),request.url())) {
-        failures.push(`Clinic setup blocked an out-of-scope ${request.method()} request to ${new URL(request.url()).pathname}`);
-        return route.abort('blockedbyclient');
-      }
-      return route.fallback();
-    });
-  }
+  const participantGuard=clinicSetupOnly?createClinicRequestGuard({actor:'participant',captchaPolicy:clinicGate.captchaPolicy,env:process.env,
+    stage:()=>result.stage,events:result.guardEvents,requestFailures,stageResults:result.stageResults}):null;
+  if(participantGuard)await context.route('**/*',participantGuard.route);
   const page = await context.newPage();
   if (clinicSetupOnly) activePage=page;
+  if(participantGuard) {
+    page.on('response',participantGuard.response);page.on('pageerror',participantGuard.pageError);page.on('console',participantGuard.consoleError);page.on('requestfailed',participantGuard.requestFailed);
+  } else {
   page.on("pageerror", (error) => browserErrors.push(`pageerror at ${safeRequestPath(page.url())}: ${error.message}`));
   page.on("console", (message) => {
     if (message.type() === "error") browserErrors.push(`console at ${safeRequestPath(page.url())}: ${message.text()}`);
@@ -183,6 +184,7 @@ async function runJourney() {
       browserErrors.push(`requestfailed: ${request.method()} ${safeRequestPath(request.url())} (${detail})`);
     }
   });
+  }
   page.on("request", (request) => {
     const requestUrl = new URL(request.url());
     if (/^\/api\/rcap\/packets\/[^/]+\/download$/.test(requestUrl.pathname)) packetDownloadRequests.push(requestUrl.pathname);
@@ -203,12 +205,22 @@ async function runJourney() {
   // additionally proves the event-code and participant-owned assistance chain.
   if (clinicMode) {
     const clinicEntry = new URL(`/clinic/${encodeURIComponent(clinicEventSlug)}`, baseUrl).href;
+    if(clinicSetupOnly) {
+      result.stage='participant_normal_signin';
+      await page.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(`/clinic/${clinicEventSlug}`)}`,baseUrl).href);
+      const auth=await signIn(page,email,password);assert.equal(auth?.user?.id,CLINIC_SETUP.owner);
+      participantUserId=auth.user.id;
+      await page.waitForURL(url=>url.pathname===`/clinic/${clinicEventSlug}`);
+      participantGuard.assertNoCritical();
+    }
+    result.stage='participant_entry';
     const landingResponse = await page.goto(clinicEntry, { waitUntil: "networkidle" });
     check(landingResponse?.ok(), `Clinic entry returned ${landingResponse?.status() ?? "no response"}.`);
     await expectText(page, clinicEventName);
     await page.getByLabel("Event access code").fill(clinicAccessCode);
     const entryResponse=clinicSetupOnly ? page.waitForResponse(response=>response.request().method()==='POST'
       && new URL(response.url()).pathname==='/api/clinic/entry',{timeout:15000}).catch(()=>null) : null;
+    participantGuard?.assertNoCritical();result.stage='participant_code_redemption';
     await page.getByRole("button", { name: "Continue to participant consent", exact: true }).click();
     if (clinicSetupOnly) {
       const observation=await captureClinicEntryResponse(await entryResponse);
@@ -217,7 +229,9 @@ async function runJourney() {
     }
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/assist` || url.pathname === "/expungement-ai/sign-in");
     if (new URL(page.url()).pathname === "/expungement-ai/sign-in") {
+      assert.equal(clinicSetupOnly,false,'Existing participant session unavailable; no automatic reauthentication or code retry');
       await page.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(`/clinic/${clinicEventSlug}/assist`)}`, baseUrl).href);
+      participantGuard?.assertNoCritical();result.stage='participant_normal_signin';
       const signedIn = await signIn(page, email, password);
       participantUserId = signedIn?.user?.id ?? signedIn?.id ?? null;
     }
@@ -230,6 +244,7 @@ async function runJourney() {
     await page.locator('input[name="consent"]').check();
     const assistanceResponse = clinicSetupOnly ? page.waitForResponse(response => response.request().method()==='POST'
       && new URL(response.url()).pathname==='/api/clinic/assistance/start') : null;
+    participantGuard?.assertNoCritical();result.stage='participant_fresh_consent';
     await page.getByRole("button", { name: "Start screening with assistance", exact: true }).click();
     if (clinicSetupOnly) {
       const response=await assistanceResponse; const body=await response.json();
@@ -279,6 +294,7 @@ async function runJourney() {
   const authCookies = (await context.cookies(baseUrl)).filter((cookie) => /^sb-.*-auth-token/.test(cookie.name));
   check(authCookies.length > 0, "Supabase session cookie was not written on the acceptance origin.");
 
+  result.stage='participant_screening';
   // 2. Answer the deterministic Mississippi non-conviction fixture.
   await answerChoice(page, "Are you asking about your own record?", "Yes");
   await answerChoice(page, "Did this case happen in Mississippi (not a federal case)?", "State or local");
@@ -340,6 +356,7 @@ async function runJourney() {
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/screening/pending/claim",
     { timeout: 20_000 }
   );
+  participantGuard?.assertNoCritical();result.stage='participant_claim';
   await page.getByRole("button", { name: "Save to my Briefcase and continue", exact: true }).click();
   const pendingResponse = await pendingResponsePromise;
   check(pendingResponse.ok(), `Partner pending-result write returned ${pendingResponse.status()}.`);
@@ -360,6 +377,7 @@ async function runJourney() {
   await screenshotPair(page, "02-partner-covered-briefcase-matter");
 
   if (clinicSetupOnly) {
+    participantGuard.assertNoCritical();result.stage='setup_complete';
     assert.equal(claimed?.matterId,packetItemId,'actual claim must name the new saved matter');
     assert.notEqual(packetItemId,'6e7a0013-f372-438d-9454-6ba6451b290c','do not replay the historical Clinic case');
     assert.notEqual(packetItemId,'d13233f6-d9c7-41e1-9bb5-8a454d747503','do not relabel the DTC case');
@@ -775,7 +793,7 @@ async function attachBypass(context) {
 }
 
 function bypassHeaders() {
-  return bypassSecret ? { "x-vercel-protection-bypass": bypassSecret } : {};
+  return bypassSecret ? (clinicSetupOnly?previewRequestHeaders(bypassSecret):{ "x-vercel-protection-bypass": bypassSecret }) : {};
 }
 
 async function screenshotPair(page, stem) {
