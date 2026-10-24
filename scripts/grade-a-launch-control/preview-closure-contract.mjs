@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 import {HOSTED_VERCEL_PROJECT_ID} from '../rcap-hosted-acceptance-vercel-identity.mjs';
 import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
 export const PREVIEW_ADMISSION_SCHEMA='rcap-readonly-successor-admission/v3';
-export const PREVIEW_CREATION_RUN=37692898588;
+export const PREVIEW_CREATION_RUN=40057159400;
 export const ACCEPTANCE_PROJECT='hyflxnlhpmiqxvvcoiia';
 export const TUPLE_KEYS=['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'];
 export const sha256=bytes=>'sha256:'+createHash('sha256').update(bytes).digest('hex');
