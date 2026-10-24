@@ -44,9 +44,12 @@ export function assertCommittedPredecessor(root,base){
  if(predecessorCache.has(key))return {historyValid:true,current:false,productionAuthorized:false};
  // Never validate an old record against the new source/worktree. Use the
  // committed validator and evidence from its own clean historical snapshot.
+ // Legacy shared-clone chains need direct access to this repository's immutable objects.
+ const objects=git(root,['rev-parse','--path-format=absolute','--git-path','objects']);
+ const env={...process.env,GIT_ALTERNATE_OBJECT_DIRECTORIES:[process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES,JSON.stringify(objects)].filter(Boolean).join(path.delimiter)};
  const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-predecessor-'));
  try{
-  execFileSync('git',['clone','--quiet','--shared','--no-checkout',root,snapshot],{stdio:'pipe'});
+  execFileSync('git',['clone','--quiet','--shared','--no-checkout',root,snapshot],{stdio:'pipe',env});
   // Local clones otherwise replace origin and lose the canonical remote-tracking ref.
   git(snapshot,['remote','set-url','origin',git(root,['remote','get-url','origin'])]);
   const canonicalRef='refs/remotes/origin/captain-release';
@@ -69,7 +72,7 @@ if(c.forwardProduction||c.hostedAdmission){
  }else if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));
 }
 console.log('HISTORICAL_PREDECESSOR_VALID');`;
-  const output=execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,encoding:'utf8',stdio:'pipe',maxBuffer:4*1024*1024});
+  const output=execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,encoding:'utf8',stdio:'pipe',maxBuffer:4*1024*1024,env});
   assert(output.includes('HISTORICAL_PREDECESSOR_VALID'),'historical predecessor validation');
   predecessorCache.add(key);
   return {historyValid:true,current:false,productionAuthorized:false};
