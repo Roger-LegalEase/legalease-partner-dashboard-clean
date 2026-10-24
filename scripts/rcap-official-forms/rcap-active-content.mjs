@@ -23,7 +23,7 @@ import {
   stripDocumentActions,
   stripLinkAnnotations,
   scanAnnotationActions
-} from "../rcap-hard-form-xfa-shadow-fill.mjs";
+} from "./rcap-active-content-primitives.mjs";
 
 import { APPEARANCE_DISPOSITION, structuralDisposition } from "./rcap-appearance-semantics.mjs";
 
