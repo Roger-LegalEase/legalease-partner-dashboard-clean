@@ -28,7 +28,7 @@ test('complete synthetic native v3 closure reaches CURRENT through real successo
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',sourceRoot,root]);
   git(['remote','set-url','origin',originUrl]);
   git(['update-ref',canonicalRef,canonicalSha]);
-  const predecessorSha='2fba2fb04c9b116f5bd89ccc8a7b3b90d33dba8a';git(['checkout','--quiet','--detach',predecessorSha]);fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
+  const predecessorSha='eb9564de96b2514cf6d972f7a5cb5b6d8c4675a3';git(['checkout','--quiet','--detach',predecessorSha]);fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
   for(const p of CLOSURE_CONTROL_PATHS)fs.copyFileSync(p,path.join(root,p));git(['add','--',...CLOSURE_CONTROL_PATHS]);commit('synthetic closure-only control correction');const sourceSha=git(['rev-parse','HEAD']);
   const closureControl=prepareClosureControl(root,{predecessorSha,sourceSha});for(const p of [PENDING,CANDIDATE,TOOLS])write(p,{...read(p),closureControl});
   const c=read(CANDIDATE),tuple=Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'].map(k=>[k,c[k]]));
