@@ -39,7 +39,9 @@ export function clinicSetupRequestAllowed(method, address) {
 export function clinicSetupSafeError(error,env) {
   let message=String(error?.stack ?? error?.message ?? error);
   for (const key of ['RCAP_BROWSER_PASSWORD','RCAP_BROWSER_CLINIC_ACCESS_CODE','RCAP_BROWSER_VERCEL_TOKEN','RCAP_BROWSER_VERCEL_BYPASS_SECRET']) {
-    const value=env[key]; if (value?.trim()) for (const literal of [value,value.trim()]) message=message.replaceAll(literal,'[redacted]');
+    const value=env[key]; if (value?.trim()) for (const literal of [value,value.trim(),encodeURIComponent(value),encodeURIComponent(value.trim())]) {
+      message=message.replace(new RegExp(literal.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),'[redacted]');
+    }
   }
   return message;
 }
@@ -57,4 +59,8 @@ export async function captureClinicEntryResponse(response) {
 export function assertClinicEntryAccepted(observation) {
   assert.equal(observation.httpStatus,200,`Clinic entry refused HTTP ${observation.httpStatus ?? 'no response'}`);
   assert.equal(observation.accepted,true,'Clinic entry response did not confirm the expected continuation');
+}
+
+export function clinicSetupSafePathname(address,env) {
+  return clinicSetupSafeError({message:new URL(address).pathname},env);
 }

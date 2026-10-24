@@ -1,4 +1,4 @@
-import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError, captureClinicEntryResponse, assertClinicEntryAccepted } from './rcap-clinic-setup-only-boundary.mjs';
+import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError, captureClinicEntryResponse, assertClinicEntryAccepted, clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
 import crypto from "node:crypto";
 import {downstreamClosureSql,assertDownstreamClosure} from "./rcap-clinic-downstream-closure.mjs";
 import fs from "node:fs";
@@ -114,7 +114,7 @@ async function runJourney() {
   });
   page.on("requestfailed", (request) => {
     const detail = request.failure()?.errorText ?? "request failed";
-    if (clinicSetupOnly) requestFailures.push({method:request.method(),pathname:new URL(request.url()).pathname,
+    if (clinicSetupOnly) requestFailures.push({method:request.method(),pathname:clinicSetupSafePathname(request.url(),process.env),
       error:detail.match(/(?:net::)?ERR_[A-Z_]+/)?.[0] ?? 'request failed'});
     if (!/ERR_ABORTED/i.test(detail)) {
       browserErrors.push(`requestfailed: ${request.method()} ${safeRequestPath(request.url())} (${detail})`);
@@ -601,8 +601,8 @@ async function runJourney() {
 
 try { await runJourney(); } catch (error) {
   if (clinicSetupOnly) {
-    result.entryDiagnostics ??= {};
-    result.entryDiagnostics.currentPathname=activePage ? new URL(activePage.url()).pathname : null;
+    result.entryDiagnostics ??= {httpStatus:null};
+    result.entryDiagnostics.currentPathname=activePage ? clinicSetupSafePathname(activePage.url(),process.env) : null;
     const inline=await activePage?.locator('#eventCodeError').filter({hasText:/\S/}).innerText({timeout:1000}).catch(()=>null);
     result.entryDiagnostics.inlineError=inline?clinicSetupSafeError({message:inline},process.env).slice(0,1000):null;
     result.entryDiagnostics.requestFailures=requestFailures;

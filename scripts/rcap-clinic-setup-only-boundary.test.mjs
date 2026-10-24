@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
 import YAML from 'yaml';
-import { CLINIC_SETUP,assertClinicSetupInput,clinicSetupRequestAllowed,clinicSetupSafeError,captureClinicEntryResponse,assertClinicEntryAccepted } from './rcap-clinic-setup-only-boundary.mjs';
+import { CLINIC_SETUP,assertClinicSetupInput,clinicSetupRequestAllowed,clinicSetupSafeError,captureClinicEntryResponse,assertClinicEntryAccepted,clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
 const browserSource=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
 const ast=ts.createSourceFile('browser.mjs',browserSource,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
 const journey=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='runJourney');
@@ -102,10 +102,37 @@ test('actual entry diagnostics branch retains refusal and 200 navigation-timeout
       assert.equal(selector,'#eventCodeError');return {filter:()=>({innerText:async()=>{
         await Promise.resolve();inlineResolved=true;return 'Ask staff MOCKCODEONLY';}})};}};
     await execute(failureCapture,{clinicSetupOnly:true,result,activePage,clinicSetupSafeError,
-      process:{env:{RCAP_BROWSER_CLINIC_ACCESS_CODE:'MOCKCODEONLY'}},requestFailures:[{method:'POST',pathname:'/api/clinic/entry',error:'net::ERR_FAILED'}]});
+      clinicSetupSafePathname,process:{env:{RCAP_BROWSER_CLINIC_ACCESS_CODE:'MOCKCODEONLY'}},requestFailures:[{method:'POST',pathname:'/api/clinic/entry',error:'net::ERR_FAILED'}]});
     assert.equal(inlineResolved,true);assert.equal(result.entryDiagnostics.httpStatus,status);
     assert.deepEqual(Object.keys(result.entryDiagnostics).sort(),['httpStatus','inlineError','currentPathname','requestFailures'].sort());
     assert.ok(!JSON.stringify(result).includes('MOCKCODEONLY'));assert.ok(!JSON.stringify(result).includes('private='));
     assert.equal(result.entryDiagnostics.inlineError,'Ask staff [redacted]');
+  }
+});
+
+test('actual pathname capture redacts raw and URI-encoded known secrets in both diagnostic fields',async()=>{
+  let failureCapture,requestFailed;
+  const visit=node=>{
+    if(ts.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly'&&node.getText(ast).includes('currentPathname=activePage'))failureCapture=node;
+    if(ts.isCallExpression(node)&&node.expression.getText(ast)==='page.on'&&node.arguments[0]?.text==='requestfailed')requestFailed=node.arguments[1];
+    ts.forEachChild(node,visit);
+  };visit(ast);assert.ok(failureCapture&&requestFailed);
+  const env={RCAP_BROWSER_CLINIC_ACCESS_CODE:'MOCK/CODE',RCAP_BROWSER_PASSWORD:'mock password'};
+  for(const path of ['/MOCK/CODE/mock%20password','/MOCK%2fCODE/mock%20password']) {
+    const address=CLINIC_SETUP.origin+path+'?private=not-captured';
+    const requestFailures=[];const browserErrors=[];
+    const scope={clinicSetupOnly:true,requestFailures,browserErrors,clinicSetupSafeError,clinicSetupSafePathname,
+      process:{env},safeRequestPath:()=> '[memory only]'};
+    const callback=new Function(...Object.keys(scope),`return ${requestFailed.getText(ast)}`)(...Object.values(scope));
+    callback({method:()=> 'POST',url:()=>address,failure:()=>({errorText:'net::ERR_FAILED'})});
+    const result={};
+    const activePage={url:()=>address,locator:()=>({filter:()=>({innerText:async()=> 'Entry refused'})})};
+    const captureScope={...scope,result,activePage};
+    await new Function(...Object.keys(captureScope),`return (async()=>{${failureCapture.getText(ast)}})()`)(...Object.values(captureScope));
+    const evidence=result.entryDiagnostics;assert.equal(evidence.httpStatus,null);
+    assert.ok(evidence.currentPathname.includes('[redacted]'));assert.ok(evidence.requestFailures[0].pathname.includes('[redacted]'));
+    const serialized=JSON.stringify(evidence);
+    for(const value of [...Object.values(env),...Object.values(env).map(encodeURIComponent)])assert.ok(!serialized.toLowerCase().includes(value.toLowerCase()));
+    assert.ok(!serialized.includes('private='));assert.equal(Object.keys(evidence).length,4);
   }
 });
