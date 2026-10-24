@@ -37,6 +37,7 @@ const authority = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts
 const packetProof = await import("../src/lib/rcap/fulfillment/grade-a-packet-proof.ts");
 const requestContext = await import("../src/lib/rcap/fulfillment/grade-a-request-context.ts");
 const registryModule = await import("../src/lib/rcap/fulfillment/grade-a-registry.ts");
+const { resolveObservation } = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
 
 const {
   COMPLETE_PACKET_PROVEN,
@@ -718,7 +719,6 @@ check("no synthetic record reaches the shipped registry", () => {
 
 check("the shipped registry admits exactly the evidence-complete productized records the authority proves", () => {
   const shipped = JSON.parse(readSource("data/rcap-grade-a/fulfillment-authority-registry.json"));
-  const observations = JSON.parse(readSource("data/rcap-grade-a/fulfillment-observation-snapshot.json"));
   /*
    * The expected set was a hard-coded five. It went stale on 2026-09-14, when
    * MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal
@@ -729,8 +729,9 @@ check("the shipped registry admits exactly the evidence-complete productized rec
    *
    * Read from the authority's own projection instead. Not circular: the
    * projection states which routes are COMPLETE_PACKET_PROVEN, while the
-   * admissions below are computed from the registry and the observation
-   * snapshot. The check is unchanged in strength -- every proven route must be
+   * admissions below use the registry and the server-resolved observation,
+   * which verifies publication receipts before treating snapshot data as current.
+   * The check is unchanged in strength -- every proven route must be
    * admitted at every point, and every route the authority does not prove must
    * be denied at every point. A route added to the registry without becoming
    * proven still fails here.
@@ -747,7 +748,7 @@ check("the shipped registry admits exactly the evidence-complete productized rec
         admissionPoint: point,
         request: { routeId: record.routeId, jurisdiction: record.jurisdiction, packetFamilyId: record.packetFamilyId },
         record,
-        observation: observations.routes?.[record.routeId] ?? null,
+        observation: resolveObservation(record.routeId),
         context: provenContext(record)
       });
       if (expectedAdmitted.has(record.routeId)) {
@@ -898,12 +899,38 @@ if (MUTATIONS) {
     assert.ok(readSource("src/lib/expungement-ai/packet-generation.ts").includes('sponsoredContext: sponsoredContext ?? undefined'));
     assert.ok(readSource("src/lib/expungement-ai/briefcase-presentation-authority.ts").includes('sponsoredContext: sponsoredContext ?? undefined'));
   });
+  const partnerGrant = { ...grant, acquisitionMode: "partner", eventName: null, eventId: null };
+  const partnerContext = { ...context, acquisitionMode: "partner", eventName: null, eventId: null };
+  check("synthetic ordinary grant requires explicit matching protected acquisition mode", () => {
+    assert.equal(matches(partnerGrant, canonical, partnerContext), true);
+    assert.equal(matches(grant, canonical, partnerContext), false);
+    assert.equal(matches(partnerGrant, canonical, context), false);
+    assert.equal(matches({ ...partnerGrant, acquisitionMode: undefined }, canonical, partnerContext), false);
+    assert.equal(matches(partnerGrant, canonical, { ...partnerContext, eventId: context.eventId }), false);
+    assert.equal(matches({ ...partnerGrant, eventName: context.eventName }, canonical, partnerContext), false);
+  });
+  check("ordinary grant retains exact participant, partner, route, specification, artifact and runtime boundaries", () => {
+    for (const key of ["participantUserId", "partnerSlug", "registeredSpecificationSha256"])
+      assert.equal(matches(partnerGrant, canonical, { ...partnerContext, [key]: "wrong" }), false);
+    for (const changed of [{ ...canonical, routeId: "wrong" }, { ...canonical, packetFamilyId: "wrong" },
+      { ...canonical, packetSpecification: { ...canonical.packetSpecification, sha256: "0".repeat(64) } },
+      { ...canonical, artifactValidation: { ...canonical.artifactValidation, artifactSha256: "0".repeat(64) } }])
+      assert.equal(matches(partnerGrant, changed, partnerContext), false);
+    for (const changed of [{ ...runtime, environment: "production" }, { ...runtime, channel: "wrong" },
+      { ...runtime, projectUrl: "https://wrong.supabase.co" }, { ...runtime, scope: runtime.scope + ",extra" }])
+      assert.equal(matches(partnerGrant, canonical, partnerContext, changed), false);
+  });
   const saved = { ...process.env };
   try {
     Object.assign(process.env, { VERCEL_ENV: "preview", VERCEL_TARGET_ENV: "preview",
       RCAP_SPONSORED_PREVIEW_CHANNEL: grant.channel, RCAP_CONSUMER_DELIVERY_ROUTE_STATE: grant.routeState,
       NEXT_PUBLIC_SUPABASE_URL: runtime.projectUrl, RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: runtime.scope });
     const { packetFulfillmentAuthority } = await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+    check("actual current authority stays closed to ordinary sponsorship without an adopted ordinary grant", () => {
+      assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "sponsored entitlement", partnerContext), false);
+      assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "packet credit consumption", partnerContext), false);
+      assert.equal(sponsoredChannelDecisions.some(g => g.acquisitionMode === "partner"), false);
+    });
     check("real runtime adapter admits current sponsored scope and keeps paid authority independent", () => {
       const args = [canonical.jurisdiction, canonical.pathwayId];
       assert.equal(packetFulfillmentAuthority(...args, "sponsored entitlement", { trackId: grant.trackId, sponsoredContext: context }).allowed, true);

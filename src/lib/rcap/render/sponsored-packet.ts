@@ -9,7 +9,7 @@ import { currentSponsoredChannelAllowed } from "@/lib/rcap/fulfillment/sponsored
 import { readProtectedPacketArtifact } from "@/lib/expungement-ai/verification-cas";
 import type { RenderJobRow } from "@/lib/rcap/render/job-queue";
 
-/** Read the existing service-only registration and claimed Clinic scope. It is
+/** Read the existing service-only registration and protected acquisition scope. It is
  * an additional entitlement check, never a substitute for Grade-A authority. */
 export async function sponsoredRenderAuthority(input: {
   routeId: string; sourceSessionId: string; briefcaseItemId: string; authUserId: string;
@@ -62,7 +62,7 @@ export async function sponsoredRenderJobAdmitted(jobId: string) {
 
 /** The worker has already validated and stored these bytes through its fenced
  * finalizer. The existing scoped transaction owns participant publication and
- * Clinic allowance consumption. Identical retries submit identical metadata. */
+ * sponsor allowance consumption. Identical retries submit identical metadata. */
 export async function finalizeSponsoredRenderArtifact(jobId: string,
   admitted?: NonNullable<Awaited<ReturnType<typeof sponsoredRenderJobAdmitted>>>): Promise<boolean> {
   const supabase = getSupabaseAdminClient();

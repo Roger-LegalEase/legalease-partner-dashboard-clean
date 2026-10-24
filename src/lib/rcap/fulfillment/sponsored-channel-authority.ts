@@ -8,11 +8,16 @@ import decision from "@/../data/record-clearing/legal-decisions/2026-10-23-ms-no
 export type SponsoredChannelContext = {
   participantUserId: string;
   partnerSlug: string;
-  eventName: string;
-  eventId: string;
   registeredSpecificationSha256: string;
-};
-export type SponsoredChannelDecision = typeof decision;
+} & (
+  | { acquisitionMode?: "clinic"; eventName: string; eventId: string }
+  | { acquisitionMode: "partner"; eventName: null; eventId: null }
+);
+export type SponsoredChannelDecision = typeof decision | (
+  Omit<typeof decision, "eventName" | "eventId"> & {
+    acquisitionMode: "partner"; eventName: null; eventId: null;
+  }
+);
 export const sponsoredChannelDecisions: readonly SponsoredChannelDecision[] = [decision];
 // Pin the adopted decision itself; edits require a new immutable decision.
 const decisionDigests = new Set(["b33784d8509264f03466a379ac52028dc943477489ca4b9a4f1de94f3d7578f5"]);
@@ -26,7 +31,13 @@ export function matchesSponsoredChannel(
   context: SponsoredChannelContext | undefined,
   runtime: { environment: string; channel: string; routeState: string; projectUrl: string; scope: string }
 ): boolean {
-  if (!context || grant.approved !== true || grant.productionAuthorized !== false
+  const grantMode = "acquisitionMode" in grant ? grant.acquisitionMode : "clinic";
+  if (!context || !["clinic", "partner"].includes(grantMode)
+    || (context.acquisitionMode ?? "clinic") !== grantMode
+    || (grantMode === "clinic" && (!grant.eventId || !grant.eventName))
+    || (grantMode === "partner" && (grant.eventId !== null || grant.eventName !== null
+      || context.eventId !== null || context.eventName !== null))
+    || grant.approved !== true || grant.productionAuthorized !== false
     || grant.publicLaunchAuthorized !== false || grant.liveConsumerPaymentAuthorized !== false
     || grant.hostedFullAuthorized !== false || runtime.environment !== "preview"
     || runtime.channel !== grant.channel || runtime.routeState !== grant.routeState

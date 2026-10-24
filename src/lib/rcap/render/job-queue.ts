@@ -67,7 +67,7 @@ export type RenderJobRow = {
    * A partner job without one is a partner job that never passed through the
    * shared sponsored verification mechanism, whatever its route.
    */
-  sponsoredBinding?: { routeKey: string; sourceSessionId: string; clinicEventId: string; briefcaseItemId: string; authUserId: string; verificationHash: string } | null;
+  sponsoredBinding?: { routeKey: string; sourceSessionId: string; clinicEventId: string | null; briefcaseItemId: string; authUserId: string; verificationHash: string } | null;
   personalizedBinding?: { trackId: string; packetFamilyId: string; specificationSha256: string; specificationFileSha256: string } | null;
 };
 
