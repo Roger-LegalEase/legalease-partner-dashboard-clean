@@ -117,8 +117,8 @@ test('actual pathname capture redacts raw and URI-encoded known secrets in both 
     if(ts.isCallExpression(node)&&node.expression.getText(ast)==='page.on'&&node.arguments[0]?.text==='requestfailed')requestFailed=node.arguments[1];
     ts.forEachChild(node,visit);
   };visit(ast);assert.ok(failureCapture&&requestFailed);
-  const env={RCAP_BROWSER_CLINIC_ACCESS_CODE:'MOCK/CODE',RCAP_BROWSER_PASSWORD:'mock password'};
-  for(const path of ['/MOCK/CODE/mock%20password','/MOCK%2fCODE/mock%20password']) {
+  const env={RCAP_BROWSER_CLINIC_ACCESS_CODE:'MOCK/CODE',RCAP_BROWSER_PASSWORD:'mock.+[value](1)'};
+  for(const path of [`/${env.RCAP_BROWSER_CLINIC_ACCESS_CODE}/${env.RCAP_BROWSER_PASSWORD}`,`/${encodeURIComponent(env.RCAP_BROWSER_CLINIC_ACCESS_CODE).replace('%2F','%2f')}/${encodeURIComponent(env.RCAP_BROWSER_PASSWORD)}`]) {
     const address=CLINIC_SETUP.origin+path+'?private=not-captured';
     const requestFailures=[];const browserErrors=[];
     const scope={clinicSetupOnly:true,requestFailures,browserErrors,clinicSetupSafeError,clinicSetupSafePathname,
