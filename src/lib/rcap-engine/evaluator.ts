@@ -56,7 +56,7 @@ import { KS_REGISTRATION_ROUTE, KS_REGISTRATION_SOURCE, KS_REGISTRATION_REVIEW_C
 import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
-import { mississippiProgramRouteFromAnswers, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
+import { mississippiProgramRouteFromAnswers, mississippiNonConvictionPathway, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
 import { MS_INTERVENTION_ROUTE, MS_INTERVENTION_SOURCE, MS_INTERVENTION_COPY, msInterventionReferralCode } from "@/lib/rcap-engine/mississippi-intervention-referral";
 import { georgiaFirstOffenderFromAnswers, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, GA_FIRST_OFFENDER_GUIDANCE, GA_RETROACTIVE_CONSENT_GUIDANCE, isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, IL_CANNABIS_PATHWAY } from "@/lib/rcap-engine/illinois-cannabis-facts";
@@ -1408,6 +1408,9 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   const reliefRequest = convictionReliefRequest(profile, answers);
   if (reliefRequest.status === "selected") return profile.pathways.find(pathway => pathway.id === reliefRequest.pathwayId);
   if (reliefRequest.status !== "not_applicable") return undefined;
+  if (profile.jurisdiction.code === "MS" && isExplicitUnknownAnswer(answers.case_outcome)) return undefined;
+  const msNonConviction = profile.jurisdiction.code === "MS" ? mississippiNonConvictionPathway(answers) : undefined;
+  if (msNonConviction) return profile.pathways.find(pathway => pathway.id === msNonConviction);
   const context = answerText(answers.possible_pathway_context).toLowerCase();
   if (context) {
     const requested = pathwayFromContext(profile, context);

@@ -1,3 +1,4 @@
+import { isExplicitUnknownAnswer } from "@/lib/rcap-engine/answer-normalization";
 import { illinoisProgramQuestionApplies } from "@/lib/rcap-engine/illinois-program-facts";
 import { VA_RECORD_ORIGIN_ID, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { wy1502QuestionApplies } from "@/lib/rcap-engine/wyoming-1502-facts";
@@ -42,7 +43,7 @@ import { msInterventionQuestionApplies } from "@/lib/rcap-engine/mississippi-int
 import { msConditionalDischargeQuestionApplies } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { kansasRecordScopeFromAnswers, kansasRecordScopeQuestionApplies } from "@/lib/rcap-engine/kansas-record-scope";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
-import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
+import { mississippiProgramRouteFromAnswers, mississippiNonConvictionPathway } from "@/lib/rcap-engine/composed-route-selector";
 import { nevada176AQuestionApplies } from "@/lib/rcap-engine/nevada-176a-branch";
 import { georgiaFirstOffenderFromAnswers, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
@@ -105,11 +106,14 @@ export function selectScreeningQuestionIds(
   const deRoute = profile.jurisdiction.code === "DE" ? delawareConvictionRoute(answers) : undefined;
   const caRoute = profile.jurisdiction.code === "CA" ? caProp64Pathway(answers) : undefined;
   const reliefRequest = convictionReliefRequest(profile, answers);
+  const msNonConviction = profile.jurisdiction.code === "MS" ? mississippiNonConvictionPathway(answers) : undefined;
   const nyMrta = nyMrtaDecision(profile, answers);
   const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
   const selectedPathway = reliefRequest.status === "selected" ? profile.pathways.find(p => p.id === reliefRequest.pathwayId) : reliefRequest.status !== "not_applicable" ? undefined : caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : nyMrta?.status === "guidance" ? profile.pathways.find(p => p.id === NY_MRTA_ROUTE) : nyPartialSeal?.status === "guidance" ? profile.pathways.find(p => p.id === NY_16055_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
-    : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
+    : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)
+      || profile.jurisdiction.code === "MS" && isExplicitUnknownAnswer(answers.case_outcome)) ? undefined : msNonConviction
+    ? profile.pathways.find(pathway => pathway.id === msNonConviction) : selectedLabel
     ? ["MS", "GA"].includes(profile.jurisdiction.code) ? pathwayFromContext(profile, selectedLabel) : profile.pathways.find((pathway) => pathway.label === selectedLabel
       && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id) && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id))
     : undefined;

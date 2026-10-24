@@ -122,6 +122,16 @@ export function mississippiProgramRouteFromAnswers(answers: Record<string, unkno
   return { status: "clarification", missingQuestionIds: ["ms_program_record_status"] };
 }
 
+/** LD-MS-01 / MS.memo:ms-nonconv. This nominates a source family;
+ * arrest/release, exact disposition and closure still require packet verification. */
+export function mississippiNonConvictionPathway(answers: Record<string, unknown>): string | undefined {
+  if (answers.case_outcome === "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+    || answers.case_outcome === "Acquitted or found not guilty") {
+    return "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+  }
+  return undefined;
+}
+
 /**
  * Evidence-backed jurisdiction+pathway to composed-route mappings.
  *
