@@ -31,7 +31,7 @@ export function assertStage(stage, baseline) {
   requireEqual(stage.owner, DTC.owner);
   requireEqual(stage.item, DTC.item);
   requireEqual(stage.testPurchaseReleased, true, 'exact test purchase must be released by coordinator');
-  assert.match(stage.webhookEndpointId ?? '', /^we_[A-Za-z0-9]+$/);
+  requireEqual(stage.webhookEndpointId, 'we_1U4AKGRWROAHlAKyNFChAnWr');
   requireEqual(baseline.item, DTC.item); requireEqual(baseline.owner, DTC.owner);
   requireEqual(baseline.revision, DTC.revision); assert.match(baseline.verificationHash ?? '', sha);
   assert.equal(baseline.route?.jurisdiction, 'MS');
@@ -242,10 +242,20 @@ async function runtime(config, env) {
       requireEqual(deployment.id, stage.deploymentId); requireEqual(deployment.readyState, 'READY');
       requireEqual(deployment.projectId, identity.projectId); assert.notEqual(deployment.target, 'production');
       requireEqual(deployment.meta?.rcapApplicationSha, DTC.app);
+      requireEqual(deployment.meta?.rcapWorkerSourceSha, DTC.worker);
+      requireEqual(deployment.meta?.rcapWorkerDigest, DTC.digest);
+      requireEqual(deployment.meta?.rcapAcceptanceProjectRef, DTC.project);
+      requireEqual(deployment.meta?.rcapStripeConfigured, 'true');
+      requireEqual(deployment.meta?.rcapCatalogProduct, DTC.product);
+      requireEqual(deployment.meta?.rcapRouteState, 'staging_scoped');
+      requireEqual(deployment.meta?.rcapStagingScopeSha256, hash(DTC.owner));
+      requireEqual(deployment.meta?.rcapReturnOrigin, DTC.origin);
       assert.ok(deployment.alias?.includes(new URL(DTC.origin).hostname));
       const endpoint = await stripe.webhookEndpoints.retrieve(stage.webhookEndpointId);
       requireEqual(endpoint.livemode, false); requireEqual(endpoint.status, 'enabled');
-      requireEqual(endpoint.url, `${DTC.origin}/api/stripe/webhook`);
+      const webhookUrl = new URL(config.expectedWebhookUrl);
+      requireEqual(webhookUrl.origin, DTC.origin); requireEqual(webhookUrl.pathname, '/api/stripe/webhook');
+      requireEqual(endpoint.url, config.expectedWebhookUrl, 'existing approved private protection query must match exactly');
       assert.ok(endpoint.enabled_events.includes('checkout.session.completed') || endpoint.enabled_events.includes('*'));
     },
     session: id => stripe.checkout.sessions.retrieve(id), lineItems: id => stripe.checkout.sessions.listLineItems(id),
