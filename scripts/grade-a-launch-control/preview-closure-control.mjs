@@ -21,6 +21,8 @@ export const CLOSURE_CONTROL_PATHS=[
  'scripts/rcap-configured-sandbox-preview-contract.mjs',
  'scripts/rcap-configured-sandbox-preview.mjs',
  'scripts/rcap-configured-sandbox-preview.test.mjs',
+ 'scripts/rcap-hosted-existing-dtc-continuation.mjs',
+ 'scripts/rcap-hosted-existing-dtc-continuation.test.mjs',
 ];
 const records=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'].map(n=>`data/rcap-grade-a/launch-control/${n}.json`);
 const hash=b=>createHash('sha256').update(b).digest('hex');
