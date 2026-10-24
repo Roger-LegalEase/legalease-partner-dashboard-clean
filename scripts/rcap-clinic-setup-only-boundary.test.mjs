@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
 import YAML from 'yaml';
-import { CLINIC_SETUP,assertClinicSetupInput,clinicSetupRequestAllowed,clinicSetupSafeError } from './rcap-clinic-setup-only-boundary.mjs';
+import { CLINIC_SETUP,assertClinicSetupInput,clinicSetupRequestAllowed,clinicSetupSafeError,captureClinicEntryResponse,assertClinicEntryAccepted } from './rcap-clinic-setup-only-boundary.mjs';
 const browserSource=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
 const ast=ts.createSourceFile('browser.mjs',browserSource,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
 const journey=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='runJourney');
@@ -56,4 +56,56 @@ test('setup failure evidence removes the existing private credential values',()=
   const env={RCAP_BROWSER_PASSWORD:'mock-password',RCAP_BROWSER_CLINIC_ACCESS_CODE:'MOCKCODEONLY',RCAP_BROWSER_VERCEL_TOKEN:'mock-token',RCAP_BROWSER_VERCEL_BYPASS_SECRET:'mock-bypass'};
   const safe=clinicSetupSafeError(new Error(Object.values(env).join(' ')),env);
   for(const value of Object.values(env))assert.ok(!safe.includes(value));
+});
+
+test('entry refusal records HTTP status only and fails before navigation or consent',async()=>{
+  const response={status:()=>503,json:async()=>({success:false,error:'private-response-value',next:'private-next-value',code:'private-code'}),headerValue:async()=> 'private-header'};
+  const observation=await captureClinicEntryResponse(response);
+  assert.deepEqual(observation,{httpStatus:503,accepted:false});
+  const evidence={httpStatus:observation.httpStatus};assert.deepEqual(Object.keys(evidence),['httpStatus']);
+  let navigationOrConsent=0;
+  assert.throws(()=>{assertClinicEntryAccepted(observation);navigationOrConsent++;},/Clinic entry refused HTTP 503/);
+  assert.equal(navigationOrConsent,0);assert.ok(!JSON.stringify(observation).includes('private-'));
+});
+test('entry response checks continuation in memory without exposing success, next, body or headers',async()=>{
+  const response={status:()=>200,json:async()=>({success:true,next:`/clinic/${CLINIC_SETUP.slug}/assist?private=not-captured`})};
+  const observation=await captureClinicEntryResponse(response);assertClinicEntryAccepted(observation);
+  assert.deepEqual(observation,{httpStatus:200,accepted:true});
+  response.json=async()=>({success:true,next:'https://different.example/assist?secret=not-captured'});
+  assert.throws(()=>assertClinicEntryAccepted({httpStatus:200,accepted:false}));
+  const external=await captureClinicEntryResponse(response);assert.equal(external.accepted,false);
+  assert.throws(()=>assertClinicEntryAccepted(external));
+});
+test('transport failure has an explicit no-response diagnostic and cannot advance',async()=>{
+  const observation=await captureClinicEntryResponse(null);assert.equal(observation.httpStatus,null);
+  assert.throws(()=>assertClinicEntryAccepted(observation),/no response/);
+});
+
+test('actual entry diagnostics branch retains refusal and 200 navigation-timeout evidence with only four fields',async()=>{
+  let entryCheck,failureCapture;
+  const visit=node=>{
+    if(ts.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly') {
+      if(node.getText(ast).includes('const observation=await captureClinicEntryResponse'))entryCheck=node;
+      if(node.getText(ast).includes('currentPathname=activePage'))failureCapture=node;
+    }
+    ts.forEachChild(node,visit);
+  };visit(ast);assert.ok(entryCheck&&failureCapture);
+  const execute=(node,scope)=>new Function(...Object.keys(scope),`return (async()=>{${node.getText(ast)}})()`)(...Object.values(scope));
+  for(const status of [503,200]) {
+    const result={};let readyForNavigation=0,inlineResolved=false;
+    const response={status:()=>status,json:async()=>({success:status===200,next:`/clinic/${CLINIC_SETUP.slug}/assist`})};
+    const scope={clinicSetupOnly:true,result,entryResponse:Promise.resolve(response),captureClinicEntryResponse,assertClinicEntryAccepted};
+    if(status===503)await assert.rejects(execute(entryCheck,scope),/HTTP 503/);
+    else {await execute(entryCheck,scope);readyForNavigation++;}
+    assert.equal(readyForNavigation,status===200?1:0);
+    const activePage={url:()=>CLINIC_SETUP.origin+'/clinic/'+CLINIC_SETUP.slug+'?private=not-recorded',locator:selector=>{
+      assert.equal(selector,'#eventCodeError');return {filter:()=>({innerText:async()=>{
+        await Promise.resolve();inlineResolved=true;return 'Ask staff MOCKCODEONLY';}})};}};
+    await execute(failureCapture,{clinicSetupOnly:true,result,activePage,clinicSetupSafeError,
+      process:{env:{RCAP_BROWSER_CLINIC_ACCESS_CODE:'MOCKCODEONLY'}},requestFailures:[{method:'POST',pathname:'/api/clinic/entry',error:'net::ERR_FAILED'}]});
+    assert.equal(inlineResolved,true);assert.equal(result.entryDiagnostics.httpStatus,status);
+    assert.deepEqual(Object.keys(result.entryDiagnostics).sort(),['httpStatus','inlineError','currentPathname','requestFailures'].sort());
+    assert.ok(!JSON.stringify(result).includes('MOCKCODEONLY'));assert.ok(!JSON.stringify(result).includes('private='));
+    assert.equal(result.entryDiagnostics.inlineError,'Ask staff [redacted]');
+  }
 });

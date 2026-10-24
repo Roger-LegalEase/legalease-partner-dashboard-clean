@@ -43,3 +43,18 @@ export function clinicSetupSafeError(error,env) {
   }
   return message;
 }
+
+export async function captureClinicEntryResponse(response) {
+  if (!response) return {httpStatus:null,accepted:false};
+  const body=await response.json().catch(()=>null);
+  let accepted=false;
+  if (body?.success===true && typeof body.next==='string') {
+    try {const url=new URL(body.next,CLINIC_SETUP.origin);accepted=url.origin===CLINIC_SETUP.origin
+      && url.pathname===`/clinic/${CLINIC_SETUP.slug}/assist`;} catch { /* invalid next */ }
+  }
+  return {httpStatus:response.status(),accepted};
+}
+export function assertClinicEntryAccepted(observation) {
+  assert.equal(observation.httpStatus,200,`Clinic entry refused HTTP ${observation.httpStatus ?? 'no response'}`);
+  assert.equal(observation.accepted,true,'Clinic entry response did not confirm the expected continuation');
+}

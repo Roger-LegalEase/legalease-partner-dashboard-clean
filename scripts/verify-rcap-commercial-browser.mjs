@@ -1,4 +1,4 @@
-import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError } from './rcap-clinic-setup-only-boundary.mjs';
+import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError, captureClinicEntryResponse, assertClinicEntryAccepted } from './rcap-clinic-setup-only-boundary.mjs';
 import crypto from "node:crypto";
 import {downstreamClosureSql,assertDownstreamClosure} from "./rcap-clinic-downstream-closure.mjs";
 import fs from "node:fs";
@@ -82,6 +82,8 @@ const packetDownloadRequests = [];
 let screeningSessionId = null;
 let participantUserId = null;
 let browser;
+let activePage;
+const requestFailures=[];
 
 async function runJourney() {
   const launchOptions = { headless: true };
@@ -105,12 +107,15 @@ async function runJourney() {
     });
   }
   const page = await context.newPage();
+  if (clinicSetupOnly) activePage=page;
   page.on("pageerror", (error) => browserErrors.push(`pageerror at ${safeRequestPath(page.url())}: ${error.message}`));
   page.on("console", (message) => {
     if (message.type() === "error") browserErrors.push(`console at ${safeRequestPath(page.url())}: ${message.text()}`);
   });
   page.on("requestfailed", (request) => {
     const detail = request.failure()?.errorText ?? "request failed";
+    if (clinicSetupOnly) requestFailures.push({method:request.method(),pathname:new URL(request.url()).pathname,
+      error:detail.match(/(?:net::)?ERR_[A-Z_]+/)?.[0] ?? 'request failed'});
     if (!/ERR_ABORTED/i.test(detail)) {
       browserErrors.push(`requestfailed: ${request.method()} ${safeRequestPath(request.url())} (${detail})`);
     }
@@ -139,7 +144,14 @@ async function runJourney() {
     check(landingResponse?.ok(), `Clinic entry returned ${landingResponse?.status() ?? "no response"}.`);
     await expectText(page, clinicEventName);
     await page.getByLabel("Event access code").fill(clinicAccessCode);
+    const entryResponse=clinicSetupOnly ? page.waitForResponse(response=>response.request().method()==='POST'
+      && new URL(response.url()).pathname==='/api/clinic/entry',{timeout:15000}).catch(()=>null) : null;
     await page.getByRole("button", { name: "Continue to participant consent", exact: true }).click();
+    if (clinicSetupOnly) {
+      const observation=await captureClinicEntryResponse(await entryResponse);
+      result.entryDiagnostics={httpStatus:observation.httpStatus};
+      assertClinicEntryAccepted(observation);
+    }
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/assist` || url.pathname === "/expungement-ai/sign-in");
     if (new URL(page.url()).pathname === "/expungement-ai/sign-in") {
       await page.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(`/clinic/${clinicEventSlug}/assist`)}`, baseUrl).href);
@@ -588,6 +600,13 @@ async function runJourney() {
 }
 
 try { await runJourney(); } catch (error) {
+  if (clinicSetupOnly) {
+    result.entryDiagnostics ??= {};
+    result.entryDiagnostics.currentPathname=activePage ? new URL(activePage.url()).pathname : null;
+    const inline=await activePage?.locator('#eventCodeError').filter({hasText:/\S/}).innerText({timeout:1000}).catch(()=>null);
+    result.entryDiagnostics.inlineError=inline?clinicSetupSafeError({message:inline},process.env).slice(0,1000):null;
+    result.entryDiagnostics.requestFailures=requestFailures;
+  }
   result.passed = false;
   result.failure = clinicSetupOnly ? clinicSetupSafeError(error,process.env) : error instanceof Error ? error.message : String(error);
   result.productionTouched = environmentClassification.previewVerified ? false : null;
