@@ -27,7 +27,7 @@ export const requirePreviewPreparation=requireHeldPreviewAdmission;
 // normal CURRENT requirement, including its real-time freshness check.
 export function loadPreviewTransportIdentity(root){
  const candidate=JSON.parse(fs.readFileSync(root+'/'+CANDIDATE));
- if(candidate.status!=='FORWARD_BOUND_HOSTED_PENDING')return requireCurrentReleaseCandidate(root);
+ if(candidate.hostedAdmission||candidate.status!=='FORWARD_BOUND_HOSTED_PENDING')return requireCurrentReleaseCandidate(root);
  const env=process.env;
  const supplied=env.PHASE_INPUT!==undefined;
  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8'}).trim();
