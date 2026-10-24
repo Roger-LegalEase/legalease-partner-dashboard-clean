@@ -24,6 +24,7 @@
 // Secrets are sent in the authenticated REST request body and are never
 // echoed or written to the evidence bundle.
 
+import {CONFIGURED_SANDBOX_PHASE,configuredSandboxOverrides} from './rcap-configured-sandbox-preview-contract.mjs';
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -49,6 +50,7 @@ const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
+const configuredSandboxEnv = process.env.PHASE_INPUT === CONFIGURED_SANDBOX_PHASE ? configuredSandboxOverrides(process.env) : null;
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
 const ISOLATED_CLINIC_PREVIEW = process.env.HOSTED_ISOLATED_CLINIC_PREVIEW === "true";
@@ -438,7 +440,8 @@ const runtimeEnv = {
     PARTNER_EMAIL_FROM: LEGAL_AID_EMAIL.from
   } : {}),
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
-  ...closedPreviewEnv
+  ...closedPreviewEnv,
+  ...(configuredSandboxEnv?.runtime ?? {})
 };
 const buildEnv = {
   ...closedPreviewEnv,
@@ -458,7 +461,8 @@ const buildEnv = {
   // affected. Trimming the bundle instead would mean editing src/ — a new
   // application freeze, a new worker image, and a re-run of both required
   // checks, to change nothing a participant can observe.
-  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
+  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
+  ...(configuredSandboxEnv?.build ?? {})
 };
 
 // A live Stripe key must never reach this environment, and the check is on the
