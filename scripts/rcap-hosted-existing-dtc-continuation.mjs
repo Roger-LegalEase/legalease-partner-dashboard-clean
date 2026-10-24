@@ -197,6 +197,7 @@ export async function runtime(config, env, { checkoutBrowser } = {}) {
   const { resolveHostedVercelIdentity, hostedVercelScopedUrl } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
   assert.match(env.STRIPE_SECRET_KEY ?? '', /^sk_test_/);
   for (const key of ['SUPABASE_ACCESS_TOKEN', 'SUPABASE_ANON_KEY', 'VERCEL_TOKEN', 'VERCEL_AUTOMATION_BYPASS_SECRET', 'DTC_OWNER_EMAIL', 'DTC_OWNER_PASSWORD', 'DTC_STRANGER_EMAIL', 'DTC_STRANGER_PASSWORD']) assert.ok(env[key], `${key} required from existing authorized custody`);
+  assert.ok((env.VERCEL_AUTOMATION_BYPASS_SECRET ?? '').trim(), 'VERCEL_AUTOMATION_BYPASS_SECRET must contain a non-whitespace value');
   assert.ok(path.isAbsolute(config.outputDir) && !config.outputDir.startsWith('/tmp/'), 'unique evidence must remain persistent');
   await fs.mkdir(config.outputDir, { recursive: true, mode: 0o700 });
   assert.ok(!(await fs.realpath(config.outputDir)).startsWith('/tmp/'), 'persistent output cannot resolve into scratch');

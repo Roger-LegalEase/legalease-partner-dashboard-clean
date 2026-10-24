@@ -127,7 +127,7 @@ test('runtime refuses missing bypass credential before any Checkout and passes e
   const env={STRIPE_SECRET_KEY:'sk_test_MOCKONLY',SUPABASE_ACCESS_TOKEN:'mock',SUPABASE_ANON_KEY:'mock',VERCEL_TOKEN:'mock',
     DTC_OWNER_EMAIL:'mock-owner@rcap-acceptance.test',DTC_OWNER_PASSWORD:'mock',DTC_STRANGER_EMAIL:'mock-stranger@rcap-acceptance.test',DTC_STRANGER_PASSWORD:'mock'};
   // Existing persistent directory only; runtime construction writes no evidence files here.
-  const config={outputDir:process.cwd(),protectionStateFile:stateFile};
+  const config={outputDir:os.homedir(),protectionStateFile:stateFile};
   let observed=null; const checkoutBrowser=async options=>{observed=options;return {completed:true};};
   const originalFetch=globalThis.fetch;
   try {
@@ -136,6 +136,7 @@ test('runtime refuses missing bypass credential before any Checkout and passes e
       return new Response(JSON.stringify({user:{id:DTC.owner},access_token:'mock-session'}),{status:200});
     };
     await assert.rejects(runtime(config,env,{checkoutBrowser}),/VERCEL_AUTOMATION_BYPASS_SECRET/);
+    await assert.rejects(runtime(config,{...env,VERCEL_AUTOMATION_BYPASS_SECRET:'   '},{checkoutBrowser}),/VERCEL_AUTOMATION_BYPASS_SECRET/);
     const io=await runtime(config,{...env,VERCEL_AUTOMATION_BYPASS_SECRET:'mock-existing-bypass'},{checkoutBrowser});
     await io.completeCheckout({checkoutUrl:'https://checkout.stripe.com/mock',expectedReturnUrl:DTC.origin});
     assert.equal(observed.previewProtectionBypassSecret,'mock-existing-bypass');
