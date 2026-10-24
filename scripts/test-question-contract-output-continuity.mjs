@@ -1,3 +1,4 @@
+import {assertGa21MsFactsSourceSuccession,GA21_MS_FACTS_SOURCE_PATH,GA21_MS_FACTS_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMsInterventionSourceSuccession,MS_INTERVENTION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGa49FooterSourceSuccession,GA49_FOOTER_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaNoPhoneContactSourceSuccession,CA_NO_PHONE_CONTACT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1143,3 +1144,19 @@ check('MS intervention source hop preserves historical output and refuses missin
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
+
+check('GA21 MS factual-source hop retains historical authority and rejects missing, tampered and current drift',()=>{
+ const c=assertGa21MsFactsSourceSuccession(readBytes);
+ assertQuestionContractOutputInputs(readBytes);
+ assert.equal(c.previousNamedSource.sha256,'444b193c71134441d7dcdc168e6b97be1705d37a68b8a587fa99608f771a2d1b');
+ assert.equal(c.currentChangedSourceCount,37);assert.equal(c.currentUnchangedSourceCount,161);
+ assert.equal(sha(readBytes(GA21_MS_FACTS_SOURCE_PATH)),GA21_MS_FACTS_SOURCE_SHA256);
+ for(const key of ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'])assert.equal(c[key],false);
+ assert.equal(assertMsInterventionSourceSuccession(readBytes).recordId,'MS-INTERVENTION-SOURCE-SUCCESSION-20261023');
+ assert.throws(()=>assertGa21MsFactsSourceSuccession(file=>{if(file===GA21_MS_FACTS_SOURCE_PATH)throw Error('missing GA21 MS facts record');return readBytes(file);}),/missing GA21 MS facts record/);
+ assert.throws(()=>assertMsInterventionSourceSuccession(file=>file===GA21_MS_FACTS_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA21 MS factual-source succession record bytes changed/);
+ assert.throws(()=>assertGa21MsFactsSourceSuccession(file=>file===MS_INTERVENTION_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/MS intervention referral source succession record bytes changed/);
+ for(const input of [...c.transitions,...c.additionalRuntimeSources])assert.throws(()=>assertGa21MsFactsSourceSuccession(file=>file===input.file?Buffer.from('drift'):readBytes(file)),/stale output input/);
+ for(const input of c.transitions)assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input.file?Buffer.from('drift'):readBytes(file)),/stale output input/);
+ assert(msProofInventory.MS_PROOF_EXECUTION_INPUTS.includes(GA21_MS_FACTS_SOURCE_PATH),'new source custody is mandatory');
+});

@@ -5,7 +5,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { MN_CAPTION_SOURCE_FILES } from "./rcap-official-forms/mn-caption-source-files.mjs";
-import { assertMsInterventionSourceSuccession } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import { assertGa21MsFactsSourceSuccession } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
 const require = createRequire(import.meta.url);
 const { normalizeAppPath } = require('next/dist/shared/lib/router/utils/app-paths');
@@ -260,7 +260,7 @@ export function createRuntimeAuthorityTracingIncludes(options = {}) {
   const sourceGuard = path.join(rootDir, 'src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
   // The current source contract hashes these raw files; compiled imports cannot replace them.
   const rawSources = consumers.some(entry => entry.reachable.has(sourceGuard))
-    ? assertMsInterventionSourceSuccession(file => fs.readFileSync(path.join(rootDir, file))).additionalRuntimeSources.map(row => row.file)
+    ? assertGa21MsFactsSourceSuccession(file => fs.readFileSync(path.join(rootDir, file))).additionalRuntimeSources.map(row => row.file)
     : [];
   const includes = Object.fromEntries(consumers.map((entry) => [entry.tracingKey,
     [...RUNTIME_AUTHORITY_FILES, ...(entry.reachable.has(sourceGuard) ? rawSources : [])]]));
