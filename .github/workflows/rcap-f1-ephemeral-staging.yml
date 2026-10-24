@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [clinic_setup_only, configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -134,6 +134,61 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
+  clinic_setup_only:
+    name: Normal Clinic consent and screening only
+    if: inputs.mode == 'clinic_setup_only'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require the published control branch to prevent Vercel Git deployment
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs'; import assert from 'node:assert/strict';
+          const config=JSON.parse(fs.readFileSync('vercel.json'));
+          assert.equal(config.git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');
+          JS
+      - name: Install locked runner dependencies without application build
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify the setup-only stop and request boundaries before credentials
+        run: node --test scripts/rcap-clinic-setup-only-boundary.test.mjs
+      - name: Enter existing Clinic and claim one new screening result
+        env:
+          RCAP_BROWSER_CLINIC_SETUP_ONLY: '1'
+          RCAP_BROWSER_BASE_URL: https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app
+          RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID: dpl_Eg2n58h38JhnU9uuXQ7Nk46QXGuL
+          RCAP_BROWSER_APPLICATION_SHA: 4feb8e94b3dee4085fe05ea75d78853fe21e5097
+          RCAP_BROWSER_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
+          RCAP_BROWSER_WORKER_SOURCE_SHA: 16908485a94f475448657cea90583a4d352da9a3
+          RCAP_BROWSER_WORKER_DIGEST: sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af
+          RCAP_BROWSER_EMAIL: mvl-demo-participant-a@rcap-acceptance.test
+          RCAP_BROWSER_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          RCAP_BROWSER_CLINIC_ACCESS_CODE: ${{ secrets.HOSTED_CLINIC_DEMO_ACCESS_CODE }}
+          RCAP_BROWSER_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_BROWSER_VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          RCAP_BROWSER_PARTNER_SLUG: mvl-demo
+          RCAP_BROWSER_CLINIC_EVENT_ID: 77000000-0000-4000-8000-000000000055
+          RCAP_BROWSER_CLINIC_EVENT_SLUG: mississippi-volunteer-lawyers-demo
+          RCAP_BROWSER_CLINIC_EVENT_NAME: Mississippi Volunteer Lawyers Clinic Mode Demo
+          RCAP_BROWSER_ALLOW_MUTATION: '1'
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_BROWSER_EVIDENCE_DIR: clinic-setup-only-evidence
+        run: node scripts/verify-rcap-commercial-browser.mjs
+      - name: Preserve actual setup-only result and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clinic-setup-only-${{ github.run_id }}
+          path: clinic-setup-only-evidence/
+          if-no-files-found: warn
+
   production_hotfix:
     name: Exact authorized onboarding hotfix Production sequence
     if: inputs.mode == 'production_hotfix'

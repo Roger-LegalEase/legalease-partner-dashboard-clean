@@ -1,3 +1,4 @@
+import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError } from './rcap-clinic-setup-only-boundary.mjs';
 import crypto from "node:crypto";
 import {downstreamClosureSql,assertDownstreamClosure} from "./rcap-clinic-downstream-closure.mjs";
 import fs from "node:fs";
@@ -49,6 +50,8 @@ const clinicEventName = process.env.RCAP_BROWSER_CLINIC_EVENT_NAME?.trim() || ""
 const clinicAccessCode = process.env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim() || "";
 const bypassSecret = process.env.RCAP_BROWSER_VERCEL_BYPASS_SECRET?.trim() || "";
 const clinicMode = Boolean(clinicEventSlug);
+const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
+if (clinicSetupOnly) assertClinicSetupInput(process.env);
 const result = { schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
   process.env.RCAP_BROWSER_EVIDENCE_DIR?.trim() ||
@@ -80,7 +83,7 @@ let screeningSessionId = null;
 let participantUserId = null;
 let browser;
 
-try {
+async function runJourney() {
   const launchOptions = { headless: true };
   const executablePath = process.env.RCAP_BROWSER_CHROMIUM?.trim();
   if (executablePath) launchOptions.executablePath = executablePath;
@@ -91,6 +94,16 @@ try {
     colorScheme: "light"
   });
   await attachBypass(context);
+  if (clinicSetupOnly) {
+    await context.route('**/*', async route => {
+      const request=route.request();
+      if (!clinicSetupRequestAllowed(request.method(),request.url())) {
+        failures.push(`Clinic setup blocked an out-of-scope ${request.method()} request to ${new URL(request.url()).pathname}`);
+        return route.abort('blockedbyclient');
+      }
+      return route.fallback();
+    });
+  }
   const page = await context.newPage();
   page.on("pageerror", (error) => browserErrors.push(`pageerror at ${safeRequestPath(page.url())}: ${error.message}`));
   page.on("console", (message) => {
@@ -134,9 +147,21 @@ try {
       participantUserId = signedIn?.user?.id ?? signedIn?.id ?? null;
     }
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/assist`);
-    await page.locator('select[name="eventStaffId"]').selectOption({ index: 1 });
+    if (clinicSetupOnly) {
+      assert.equal(participantUserId, CLINIC_SETUP.owner, 'existing Clinic account must own this new journey');
+      assert.equal(await page.locator('input[name="consent"]').isChecked(),false,'fresh consent must start unchecked');
+      await page.locator('select[name="eventStaffId"]').selectOption(CLINIC_SETUP.staff);
+    } else await page.locator('select[name="eventStaffId"]').selectOption({ index: 1 });
     await page.locator('input[name="consent"]').check();
+    const assistanceResponse = clinicSetupOnly ? page.waitForResponse(response => response.request().method()==='POST'
+      && new URL(response.url()).pathname==='/api/clinic/assistance/start') : null;
     await page.getByRole("button", { name: "Start screening with assistance", exact: true }).click();
+    if (clinicSetupOnly) {
+      const response=await assistanceResponse; const body=await response.json();
+      assert.equal(response.status(),200); assert.equal(body.success,true);
+      assert.equal(body.screeningUrl,`/clinic/${CLINIC_SETUP.slug}/screening/ms`);
+      result.freshConsent={startedUnchecked:true,submittedFromNormalUI:true,status:response.status(),staffId:CLINIC_SETUP.staff,ownerId:participantUserId};
+    }
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/screening/ms`);
     await expectText(page, "Shared-device privacy is active");
     result.clinicEntry = clinicEntry;
@@ -258,6 +283,21 @@ try {
   check(!(await page.getByText("We couldn't find that matter", { exact: true }).isVisible().catch(() => false)), "Saved partner matter was not visible to the authenticated user.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner-covered Briefcase matter");
   await screenshotPair(page, "02-partner-covered-briefcase-matter");
+
+  if (clinicSetupOnly) {
+    assert.equal(claimed?.matterId,packetItemId,'actual claim must name the new saved matter');
+    assert.notEqual(packetItemId,'6e7a0013-f372-438d-9454-6ba6451b290c','do not replay the historical Clinic case');
+    assert.notEqual(packetItemId,'d13233f6-d9c7-41e1-9bb5-8a454d747503','do not relabel the DTC case');
+    assert.equal(participantUserId,CLINIC_SETUP.owner);
+    assert.equal(generationRequests.length,0); assert.equal(stripeRequests.length,0); assert.equal(packetDownloadRequests.length,0);
+    assert.deepEqual(failures,[]); assert.deepEqual(browserErrors,[]);
+    result.passed=true; result.scope='clinic_setup_only';
+    result.stopReason='new_owned_screening_claimed_before_packet_builder_funding_render_worker';
+    result.itemId=packetItemId; result.participantUserId=participantUserId; result.screeningSessionId=screeningSessionId;
+    result.fullHostedJourneyCompleted=false;
+    fs.writeFileSync(path.join(evidenceDir,'clinic-setup-only-result.json'),JSON.stringify(result,null,2)+'\n');
+    return;
+  }
 
   // 4. Complete the sponsored packet-information builder. Saving the final
   // fact must reach review without starting generation.
@@ -545,15 +585,17 @@ try {
   result.stripeTouched = environmentClassification.stripeConfigured === false && stripeRequests.length === 0 ? false : null;
   result.stripeEvidence = { deploymentConfigured: environmentClassification.stripeConfigured, browserRequests: stripeRequests };
   fs.writeFileSync(path.join(evidenceDir, "sponsored-browser-result.json"), `${JSON.stringify(result, null, 2)}\n`);
-} catch (error) {
+}
+
+try { await runJourney(); } catch (error) {
   result.passed = false;
-  result.failure = error instanceof Error ? error.message : String(error);
+  result.failure = clinicSetupOnly ? clinicSetupSafeError(error,process.env) : error instanceof Error ? error.message : String(error);
   result.productionTouched = environmentClassification.previewVerified ? false : null;
   result.stripeTouched = environmentClassification.stripeConfigured === false && stripeRequests.length === 0 ? false : null;
   result.stripeEvidence = { deploymentConfigured: environmentClassification.stripeConfigured, browserRequests: stripeRequests };
   fs.writeFileSync(path.join(evidenceDir, "sponsored-browser-result.json"), `${JSON.stringify(result, null, 2)}\n`);
   console.error("RCAP commercial browser proof failed.");
-  console.error(error instanceof Error ? error.stack ?? error.message : String(error));
+  console.error(clinicSetupOnly ? clinicSetupSafeError(error,process.env) : error instanceof Error ? error.stack ?? error.message : String(error));
   process.exitCode = 1;
 } finally {
   await browser?.close();
@@ -720,7 +762,7 @@ async function verifyExactHostedPreview(origin, bypass) {
   const workerSourceSha = required("RCAP_BROWSER_WORKER_SOURCE_SHA");
   const workerDigest = required("RCAP_BROWSER_WORKER_DIGEST");
   const projectRef = required("RCAP_BROWSER_ACCEPTANCE_PROJECT_REF");
-  const expectedScopeSha256 = clinicMode ? required("RCAP_BROWSER_EXPECTED_SCOPE_SHA256") : null;
+  const expectedScopeSha256 = clinicMode && !clinicSetupOnly ? required("RCAP_BROWSER_EXPECTED_SCOPE_SHA256") : null;
   if (!/^dpl_[A-Za-z0-9]+$/.test(deploymentId) || !/^[0-9a-f]{40}$/.test(applicationSha)
     || !/^[0-9a-f]{40}$/.test(workerSourceSha) || !/^sha256:[0-9a-f]{64}$/.test(workerDigest)) {
     fail("Hosted browser mutation requires an exact deployment id, application SHA, worker source and immutable digest.");
@@ -750,10 +792,14 @@ async function verifyExactHostedPreview(origin, bypass) {
     && meta.rcapWorkerDigest === workerDigest
     && meta.rcapApplicationSha === applicationSha
     && meta.rcapAcceptanceProjectRef === projectRef
-    && meta.rcapRouteState === "staging_scoped"
-    && (!clinicMode || meta.rcapClinicDemoMode === "mississippi_preview")
-    && (!clinicMode || meta.rcapStagingScopeSha256 === expectedScopeSha256)
-    && (!clinicMode || meta.rcapStripeConfigured === "false")
+    && (clinicSetupOnly ? deploymentId===CLINIC_SETUP.deploymentId && origin===CLINIC_SETUP.origin
+      && meta.rcapRouteState==="disabled" && meta.rcapClinicDemoMode==="none"
+      && meta.rcapStagingScopeSha256===crypto.createHash('sha256').update('').digest('hex')
+      && meta.rcapStripeConfigured==="false"
+      : meta.rcapRouteState === "staging_scoped"
+        && (!clinicMode || meta.rcapClinicDemoMode === "mississippi_preview")
+        && (!clinicMode || meta.rcapStagingScopeSha256 === expectedScopeSha256)
+        && (!clinicMode || meta.rcapStripeConfigured === "false"))
     && productionAliases.length === 0;
   if (!exact) fail("Hosted browser mutation refused: Vercel did not confirm the exact READY nonproduction Clinic Preview, scope hash, no-Stripe posture, and acceptance project metadata.");
   return {
