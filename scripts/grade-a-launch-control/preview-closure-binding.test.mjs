@@ -18,7 +18,17 @@ test('complete synthetic native v3 closure reaches CURRENT through real successo
  const read=p=>JSON.parse(fs.readFileSync(path.join(root,p)));
  const commit=msg=>git(['-c','user.name=Synthetic Closure Test','-c','user.email=synthetic@example.invalid','commit','--quiet','-m',msg]);
  try{
-  execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root]);const predecessorSha='2fba2fb04c9b116f5bd89ccc8a7b3b90d33dba8a';git(['checkout','--quiet','--detach',predecessorSha]);fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
+  // The synthetic clone sees the parent's local branches, not its remote-tracking
+  // refs. Preserve the *actual* canonical ref from the full checkout before
+  // verifying predecessor history; never fabricate a passing release identity.
+  const sourceRoot=process.cwd();
+  const canonicalRef='refs/remotes/origin/captain-release';
+  const canonicalSha=execFileSync('git',['rev-parse','--verify',`${canonicalRef}^{commit}`],{cwd:sourceRoot,encoding:'utf8'}).trim();
+  const originUrl=execFileSync('git',['remote','get-url','origin'],{cwd:sourceRoot,encoding:'utf8'}).trim();
+  execFileSync('git',['clone','--quiet','--shared','--no-checkout',sourceRoot,root]);
+  git(['remote','set-url','origin',originUrl]);
+  git(['update-ref',canonicalRef,canonicalSha]);
+  const predecessorSha='2fba2fb04c9b116f5bd89ccc8a7b3b90d33dba8a';git(['checkout','--quiet','--detach',predecessorSha]);fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
   for(const p of CLOSURE_CONTROL_PATHS)fs.copyFileSync(p,path.join(root,p));git(['add','--',...CLOSURE_CONTROL_PATHS]);commit('synthetic closure-only control correction');const sourceSha=git(['rev-parse','HEAD']);
   const closureControl=prepareClosureControl(root,{predecessorSha,sourceSha});for(const p of [PENDING,CANDIDATE,TOOLS])write(p,{...read(p),closureControl});
   const c=read(CANDIDATE),tuple=Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'].map(k=>[k,c[k]]));
