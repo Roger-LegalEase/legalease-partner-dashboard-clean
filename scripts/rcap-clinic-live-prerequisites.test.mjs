@@ -29,7 +29,7 @@ test('browser admission rejects stale, other-run, unknown CAPTCHA and incomplete
  const env={GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'},now=Date.now();
  const gate={schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:'READY',projectRef:CLINIC_SETUP.project,
   applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,controlHead:env.GITHUB_SHA,runId:'123',runAttempt:'1',capturedAt:new Date(now).toISOString(),
-  checks:['database_complete_compatibility','exact_current_preview','shipped_and_server_captcha'].map(id=>({id,ok:true})),blockers:[],
+  checks:['database_complete_compatibility','normal_code_issuance_inventory','exact_current_preview','shipped_and_server_captcha'].map(id=>({id,ok:true})),blockers:[],
   preview:{previewVerified:true,deploymentId:CLINIC_SETUP.deploymentId},captchaPolicy:{project:CLINIC_SETUP.project,serverCaptchaRequired:false,
     frontend:{applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,clientCaptchaRequired:false,widgetSiteKeyConfigured:true}}};
  try {

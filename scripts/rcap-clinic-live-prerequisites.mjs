@@ -55,6 +55,10 @@ export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=
       assert.equal(response.status,200);const rows=await response.json();assert.ok(Array.isArray(rows)&&rows.length===1);
       const result=qualifyDatabase({catalog:rows[0].clinic_known_compatibility_prerequisites,projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app});
       assert.ok(Array.isArray(result.checks)&&result.checks.length>0);checks.push(...result.checks);
+      const inventory=result.operational?.existing_code_inventory;
+      add('normal_code_issuance_inventory',result.operational?.codeIssuanceRequired===true&&Array.isArray(inventory)&&inventory.length===1
+        &&inventory[0].id==='77000000-0000-4000-8000-000000000057'&&inventory[0].uses_count===2&&inventory[0].max_uses===2,
+        'code_inventory_requires_reconciliation_before_auth');
       add('database_complete_compatibility',result.status==='READY'&&result.blockers?.length===0,'database_requirements_blocked');
     } catch {add('database_complete_compatibility',false,'database_read_or_contract_unproven');}
   };
@@ -79,7 +83,7 @@ export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
   for(const [key,value] of Object.entries({controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT}))assert.ok(value&&gate[key]===value,'live gate must belong to this exact runner');
   assert.ok(now-Date.parse(gate.capturedAt)>=0&&now-Date.parse(gate.capturedAt)<300000,'live prerequisite result must be fresh');
   assert.ok(gate.checks.length>0&&gate.checks.every(c=>c.ok===true)&&gate.blockers.length===0);
-  for(const id of ['database_complete_compatibility','exact_current_preview','shipped_and_server_captcha'])assert.ok(gate.checks.some(c=>c.id===id&&c.ok));
+  for(const id of ['database_complete_compatibility','normal_code_issuance_inventory','exact_current_preview','shipped_and_server_captcha'])assert.ok(gate.checks.some(c=>c.id===id&&c.ok));
   assert.equal(gate.preview?.previewVerified,true);assert.equal(gate.preview.deploymentId,CLINIC_SETUP.deploymentId);
   assert.equal(gate.captchaPolicy?.project,CLINIC_SETUP.project);assert.equal(gate.captchaPolicy.frontend?.applicationSha,CLINIC_SETUP.app);
   assert.equal(gate.captchaPolicy.frontend?.deploymentId,CLINIC_SETUP.deploymentId);assert.equal(gate.captchaPolicy?.serverCaptchaRequired,false);assert.equal(gate.captchaPolicy?.frontend?.clientCaptchaRequired,false);assert.equal(gate.captchaPolicy.frontend.widgetSiteKeyConfigured,true);
