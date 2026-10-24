@@ -20,6 +20,7 @@ for(const actor of ['admin','participant']) test(`${actor}: intentional exact op
  for(const url of [TOOLBAR_LOADER,TURNSTILE_LOADER]) {
   const req=request(url);assert.equal(await f.route(req),'abort');f.guard.requestFailed(req);
   f.guard.consoleError({type:()=> 'error',location:()=>({url}),text:()=> 'Failed to load resource: net::ERR_BLOCKED_BY_CLIENT'});
+  f.guard.consoleError({type:()=> 'error',location:()=>({url}),text:()=> 'Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector'});
  }
  assert.equal(await f.route(request(CLINIC_SETUP.origin+'/api/clinic/events/'+CLINIC_SETUP.event,'GET','fetch')),'fallback');
  f.guard.assertNoCritical();assert.equal(f.requestFailures.length,2);assert.ok(f.events.every(row=>row.stage==='before_code'));

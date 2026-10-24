@@ -108,7 +108,7 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
       if(message.type()!=='error')return;
       const address=message.location()?.url;
       if(address&&optionalUrls.has(address)&&!criticalUrls.has(address)
-        &&/^Failed to load resource: net::ERR_(?:BLOCKED_BY_CLIENT|FAILED)$/.test(message.text()))return;
+        &&/^Failed to load resource: net::ERR_(?:BLOCKED_BY_CLIENT|FAILED)(?:\.Inspector)?$/.test(message.text()))return;
       fatal.push({stage:stage(),actor,outcome:'critical_console_error'});
     },
     pageError(){fatal.push({stage:stage(),actor,outcome:'critical_page_error'});},
