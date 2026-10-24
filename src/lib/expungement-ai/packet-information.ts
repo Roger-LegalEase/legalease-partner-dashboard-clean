@@ -16,7 +16,7 @@ import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, projectMsFirstOffenderSourceFacts, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { ohJuvenileSourceContract, ohJuvenileStageFactIds } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
 import { OH_JUVENILE_ROUTE, OH_JUVENILE_STAGE_QUESTIONS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
-import { mnTwoCountySourceContract, mnTwoCountyQuestions, mnTwoCountyFactIds, MN_TARGET_ORIGIN_ID, mnTargetOriginQuestion, mnTargetOriginRule18Entry, mnProtectedStageQuestions, mnProtectedStageFactIds, mnProtectedStageContext, type MnHeldSourceStage } from "@/lib/expungement-ai/mn-two-county-source-facts";
+import { mnTwoCountySourceContract, mnTwoCountyQuestions, mnTwoCountyFactIds, MN_PROSECUTOR_ROUTE, MN_TARGET_ORIGIN_ID, mnTargetOriginQuestion, mnTargetOriginRule18Entry, mnProtectedStageQuestions, mnProtectedStageFactIds, mnProtectedStageContext, type MnHeldSourceStage } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { MD_POLICE_IDS, MD_POLICE_ROUTE, MD_POLICE_SOURCE, mdPoliceContext, mdPoliceFactIds } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtContextQuestion } from "@/lib/expungement-ai/mo-xiv-court-context";
 import { mnCannabisLocationContextQuestion } from "@/lib/expungement-ai/mn-cannabis-location-context";
@@ -3493,13 +3493,14 @@ export function packetCollectionFor(input: {
   // GA-16-M01514: this source contract uses separate jurisdiction and conviction-court facts.
   if (msFirstOffenderSourceContract(profile, input.pathwayId, specification)) decidingFactIds.delete("residency_or_location");
   const originQuestion = mnTargetOriginQuestion(profile, input.pathwayId, specification);
+  const mnProsecutorReferral = Boolean(originQuestion) && input.pathwayId === MN_PROSECUTOR_ROUTE;
   const originAnswers = { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers };
   const originConfirmed = originQuestion && !input.unresolvedSavedFactIds?.includes(MN_TARGET_ORIGIN_ID)
     && scalarAnswerText(originAnswers[MN_TARGET_ORIGIN_ID]) === "State or local"
     && !unresolvedRecordFactConfirmations(`${input.jurisdiction}:${input.pathwayId}`, originAnswers,
       new Map([[MN_TARGET_ORIGIN_ID, originQuestion]]), input.recordFactConfirmations).includes(MN_TARGET_ORIGIN_ID);
   const vaLocationContext = vaPardonLocationApplies(profile, input.pathwayId, specification, originAnswers, input.unresolvedSavedFactIds);
-  const unresolvedRules = scope?.unresolvedRules.filter(rule => !(originConfirmed && mnTargetOriginRule18Entry(rule))
+  const unresolvedRules = scope?.unresolvedRules.filter(rule => !((originConfirmed || mnProsecutorReferral) && mnTargetOriginRule18Entry(rule))
     && !(vaLocationContext && vaPardonLocationScopeEntry(rule))) ?? [];
   const unresolvedFactIds = new Set(unresolvedRules.flatMap(rule => rule.factIds));
   const contactContract = reviewedContactRepresentation({ profile, pathwayId: input.pathwayId, specification,

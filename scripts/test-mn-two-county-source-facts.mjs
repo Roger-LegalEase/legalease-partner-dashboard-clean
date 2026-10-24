@@ -35,6 +35,7 @@ const collect=(route,screeningAnswers={},savedAnswers={},extra={})=>resolvePacke
 const fixtureFor=route=>fixtures.find(f=>f.pathwayKey==='MN:'+route);
 for(const route of routes){
  const plan=packetPlanForPathway(profile,route),ids=H.mnTwoCountyFactIds(route);
+ const unconfirmedLegacySource=route===H.MN_PROSECUTOR_ROUTE?'mn_two_county_legacy_context':'unresolved_route_rule_scope';
  test(route+' exact adopted tuple',()=>assert(H.mnTwoCountySourceContract(profile,route,null)));
  test(route+' distinct required plan inputs',()=>{for(const id of ids)assert(plan.requiredInputIds.includes(id),id);});
  const collection=collect(route,{residency_or_location:'Minnesota residence, not case county',county:'Ramsey',city:'Saint Paul'});
@@ -97,12 +98,24 @@ for(const route of routes){
   assert(H.mnTargetOriginRule18Entry(exact));for(const entry of others)assert.equal(H.mnTargetOriginRule18Entry(entry),false);
   const remaining=[exact,...others].filter(entry=>!H.mnTargetOriginRule18Entry(entry));assert.deepEqual(remaining,others);assert(new Set(remaining.flatMap(entry=>entry.factIds)).has('residency_or_location'));
  });
- test(route+' actual packet caller uses saved precedence and explicit confirmation only',()=>{
+ test(route+' collection purpose preserves separate explicit origin confirmation',()=>{
   const input={jurisdiction:'MN',pathwayId:route,requiredInputIds:plan.requiredInputIds,serverFacts:{},screeningAnswers:originAnswers,prefilledAnswers:{},savedAnswers:{},recordFactConfirmations:{jurisdiction_scope:originMarker}};
-  const unconfirmed=P.packetCollectionFor({...input,recordFactConfirmations:{}});assert.equal(unconfirmed.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');
+  const unconfirmed=P.packetCollectionFor({...input,recordFactConfirmations:{}});assert.equal(unconfirmed.facts.find(f=>f.factId==='residency_or_location').source,unconfirmedLegacySource);
   const confirmed=P.packetCollectionFor(input);assert.notEqual(confirmed.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');
-  for(const value of ['Federal','I am not sure',{unknown:true},'',{value:'',unknown:false}]){const held=P.packetCollectionFor({...input,savedAnswers:{jurisdiction_scope:value}});assert.equal(held.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');}
-  const explicitlyUnresolved=P.packetCollectionFor({...input,unresolvedSavedFactIds:['jurisdiction_scope']});assert.equal(explicitlyUnresolved.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');
+  for(const value of ['Federal','I am not sure',{unknown:true},'',{value:'',unknown:false}]){const held=P.packetCollectionFor({...input,savedAnswers:{jurisdiction_scope:value}});assert.equal(held.facts.find(f=>f.factId==='residency_or_location').source,unconfirmedLegacySource);}
+  const explicitlyUnresolved=P.packetCollectionFor({...input,unresolvedSavedFactIds:['jurisdiction_scope']});assert.equal(explicitlyUnresolved.facts.find(f=>f.factId==='residency_or_location').source,unconfirmedLegacySource);
+ });
+ if(route===H.MN_PROSECUTOR_ROUTE)test(route+' empty audit and saved legacy shapes agree on referral collection only',()=>{
+  for(const legacy of [undefined,'Exact old raw location',{unknown:true}]){
+   const saved=legacy===undefined?{}:{residency_or_location:legacy},before=clone(saved);
+   const input={jurisdiction:'MN',pathwayId:route,requiredInputIds:plan.requiredInputIds,serverFacts:{jurisdiction:'MN',pathway_id:route},screeningAnswers:{},savedAnswers:saved};
+   const production=P.packetCollectionFor(input),legacyFact=production.facts.find(f=>f.factId==='residency_or_location');
+   assert.deepEqual(legacyFact,collect(route,{},saved).facts.find(f=>f.factId==='residency_or_location'));
+   assert.equal(legacyFact.source,'mn_two_county_legacy_context');assert.equal(legacyFact.collection,'conditional');assert.equal(legacyFact.phase,'known');assert.equal(legacyFact.group,null);assert.equal(legacyFact.active,false);
+   assert(production.facts.some(f=>f.factId===H.MN_TARGET_ORIGIN_ID&&f.collection==='prepay_confirmation'));
+   for(const id of [H.MN_TARGET_ORIGIN_ID,...ids])assert.equal(production.knownFacts[id],undefined);
+   assert.deepEqual(saved,before);
+  }
  });
  const fixture=fixtureFor(route);assert(fixture,route);const answers=clone(fixture.answers);
  test(route+' original B counterexample preserves observed source outcome, not entitlement',()=>{
@@ -156,7 +169,7 @@ for(const route of routes){
   }
 
  });
- test(route+' protected source questions and legacy view',()=>{assert(model);for(const id of ids){assert(model.requiredInputIds.includes(id));assert(model.questions.some(q=>q.id===id));assert(P.editablePacketInputIds(model,true).has(id));}assert.equal(model.questions.find(q=>q.id==='residency_or_location').required,true,'Actual unresolved record-origin rule is not waived by a new county fact');const c=P.packetCollectionFor({jurisdiction:'MN',pathwayId:route,requiredInputIds:model.requiredInputIds,serverFacts:model.serverFacts,screeningAnswers:model.screeningAnswers,prefilledAnswers:model.prefilledAnswers,savedAnswers:model.packetAnswers});assert.equal(c.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');assert.deepEqual(record,original);});
+ test(route+' protected source questions and legacy view',()=>{assert(model);for(const id of ids){assert(model.requiredInputIds.includes(id));assert(model.questions.some(q=>q.id===id));assert(P.editablePacketInputIds(model,true).has(id));}assert(model.requiredInputIds.includes('residency_or_location'),'Legacy fact stays accounted for');assert.equal(model.questions.find(q=>q.id==='residency_or_location').required,route===H.MN_PETITION_ROUTE,'Only the adopted prosecutor referral makes legacy location inactive context');assert.equal(model.questions.find(q=>q.id===H.MN_TARGET_ORIGIN_ID).required,true,'Separate record origin remains required');assert(model.requiredInputIds.includes(H.MN_TARGET_ORIGIN_ID));const c=P.packetCollectionFor({jurisdiction:'MN',pathwayId:route,requiredInputIds:model.requiredInputIds,serverFacts:model.serverFacts,screeningAnswers:model.screeningAnswers,prefilledAnswers:model.prefilledAnswers,savedAnswers:model.packetAnswers});assert.equal(c.facts.find(f=>f.factId==='residency_or_location').source,unconfirmedLegacySource);assert.deepEqual(record,original);});
  const item={id:'mn-source-test',state:'MN',jurisdiction:'MN',artifactRefs:{},resultCode:authoritative.evaluation.resultCode,pathwayLabel:authoritative.evaluation.pathwayLabel};
  test(route+' ordinary read/noop retains exact maps/history',()=>{const patch=P.packetInformationPatch({existingItem:item,answers:{},protectedVerification:record});assert(patch);assert.deepEqual(patch.protectedTransition.nextVerification,record);assert.equal(patch.protectedTransition.expectedPriorRevision,3);});
  test(route+' exact fresh fact can be saved without commerce/legacy loss',()=>{const patch=P.packetInformationPatch({existingItem:item,answers:{[ids[0]]:'Ramsey'},protectedVerification:record});assert(patch);record=patch.protectedTransition.nextVerification;assert.notEqual(record.status,'verified');assert.deepEqual(record.draftSnapshot.packetAnswers.residency_or_location,original.draftSnapshot.packetAnswers.residency_or_location);assert.deepEqual(record.draftSnapshot.dependencies.semanticAnswerHistory,original.draftSnapshot.dependencies.semanticAnswerHistory);assert.equal(record.draftSnapshot.packetAnswers[ids[0]],'Ramsey');assert.equal(record.draftSnapshot.paymentAllowed,original.draftSnapshot.paymentAllowed);assert.equal(record.draftSnapshot.resultCode,original.draftSnapshot.resultCode);assert.equal(record.draftSnapshot.selectedTrackId,original.draftSnapshot.selectedTrackId);assert.equal(P.protectedPacketInformationModelFor(record).reviewSafety.safe,false);});

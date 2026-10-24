@@ -30,8 +30,8 @@ The correction is applied to every route with a packet plan, which is a superset
 - Dropped required facts: **0**
 - Routes whose facts do not reconcile: **0**
 - Routes still asking an external-actor field: **0**
-- Routes with an unresolved fact: **17**
-- Unresolved required facts in this empty-answer fixture: **17** (GA-14; not a zero-gap acceptance)
+- Routes with an unresolved fact: **16**
+- Unresolved required facts in this empty-answer fixture: **16** (GA-14; not a zero-gap acceptance)
 
 ## Participant experience
 
