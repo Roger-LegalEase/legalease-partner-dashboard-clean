@@ -13,6 +13,9 @@ export const CLOSURE_CONTROL_PATHS=[
  'scripts/grade-a-launch-control/preview-closure-contract.test.mjs',
  'scripts/grade-a-launch-control/preview-closure-control.mjs',
  'scripts/grade-a-launch-control/preview-closure-binding.test.mjs',
+ 'scripts/rcap-worker-identity-readonly.mjs',
+ 'scripts/rcap-worker-identity-readonly.test.mjs',
+ 'vercel.json',
 ];
 const records=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'].map(n=>`data/rcap-grade-a/launch-control/${n}.json`);
 const hash=b=>createHash('sha256').update(b).digest('hex');
