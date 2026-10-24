@@ -87,7 +87,7 @@ with wanted_functions(name) as (values
 ('packet_scope','public.rcap_program_packet_scope_authorized(text,text)','select to_jsonb(public.rcap_program_packet_scope_authorized(''mvl-demo'',''MS''))::text as value'),
 ('sponsor_capacity','public.clinic_entry_sponsor_capacity(uuid,text)','select to_jsonb(public.clinic_entry_sponsor_capacity(''77000000-0000-4000-8000-000000000055'',''mvl-demo''))::text as value'),
 ('screening_capacity','public.rcap_program_screening_capacity(text)','select public.rcap_program_screening_capacity(''mvl-demo'')::text as value')
-), probe_results as (select key,to_regprocedure(signature) is not null as present,case when to_regprocedure(signature) is not null then has_function_privilege('service_role',to_regprocedure(signature),'EXECUTE') else false end as service_execute,case when to_regprocedure(signature) is not null then ((xpath('string(/table/row/value)',query_to_xml(sql_text,false,false,'')))[1]::text)::jsonb else null end as result from read_probes)
+), probe_results as (select key,to_regprocedure(signature) is not null as present,case when to_regprocedure(signature) is not null then has_function_privilege('service_role',to_regprocedure(signature),'EXECUTE') else false end as service_execute,case when to_regprocedure(signature) is not null then nullif((xpath('string(/table/row/value)',query_to_xml(sql_text,false,false,'')))[1]::text,'')::jsonb else null end as result from read_probes)
 select jsonb_build_object(
  'read_probes',(select jsonb_object_agg(key,jsonb_build_object('present',present,'service_execute',service_execute,'result',result)) from probe_results),
  'operational',jsonb_build_object(
@@ -101,7 +101,7 @@ select jsonb_build_object(
   'packet_scope_authorized',coalesce((select present and service_execute and result='true'::jsonb from probe_results where key='packet_scope'),false),
   'sponsor_capacity_available',coalesce((select present and service_execute and result='true'::jsonb from probe_results where key='sponsor_capacity'),false),
   'screening_capacity_available',coalesce((select present and service_execute and (result->>'limited'='false' or (result->>'remaining')::bigint>0) from probe_results where key='screening_capacity'),false),
-  'screening_entitlement_present',exists(select 1 from public.partner_entitlement where partner_slug='mvl-demo' and screenings_allowed is not null),
+  'screening_entitlement_present',exists(select 1 from public.partner_entitlement where partner_slug='mvl-demo' and screenings_allowed is not null) or exists(select 1 from public.partner_onboarding where partner_slug='mvl-demo' and operating_model='legalease_managed'),
   'existing_code_inventory',(select coalesce(jsonb_agg(jsonb_build_object('id',id,'uses_count',uses_count,'max_uses',max_uses,'is_active',is_active,'starts_at',starts_at,'expires_at',expires_at) order by created_at),'[]'::jsonb) from public.clinic_event_access_codes where event_id='77000000-0000-4000-8000-000000000055'),
   'existing_code_available',exists(select 1 from public.clinic_event_access_codes c where event_id='77000000-0000-4000-8000-000000000055' and is_active and (starts_at is null or starts_at<=now()) and (expires_at is null or expires_at>now()) and (max_uses is null or uses_count<max_uses))
  ),

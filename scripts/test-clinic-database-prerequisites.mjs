@@ -49,5 +49,7 @@ test('optional Legal Aid table absence retains standard Clinic support; required
 test('fixed read-only probes resolve absence before dynamic SELECT, and SQL emits no code secrets', () => {
   assert.match(CLINIC_PREREQUISITE_SQL, /begin transaction read only/i); assert.match(CLINIC_PREREQUISITE_SQL, /case when to_regprocedure\(signature\) is not null then/); assert.match(CLINIC_PREREQUISITE_SQL, /query_to_xml\(sql_text,false,false,''\)/);
   assert.doesNotMatch(CLINIC_PREREQUISITE_SQL, /\b(?:insert into|update public|delete from|create function|alter table)\b/i);
-  assert.match(CLINIC_PREREQUISITE_SQL, /'existing_code_inventory'/);
+  assert.match(CLINIC_PREREQUISITE_SQL, /'existing_code_inventory'/); assert.match(CLINIC_PREREQUISITE_SQL, /nullif\(\(xpath/);
 });
+
+test('managed screening retains the admission function nullable allowance rule', () => { assert.match(CLINIC_PREREQUISITE_SQL, /'screening_entitlement_present',exists\(select 1 from public\.partner_entitlement where partner_slug='mvl-demo' and screenings_allowed is not null\) or exists\(select 1 from public\.partner_onboarding where partner_slug='mvl-demo' and operating_model='legalease_managed'\)/); });
