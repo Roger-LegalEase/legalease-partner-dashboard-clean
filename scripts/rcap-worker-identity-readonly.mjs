@@ -8,9 +8,10 @@ export const APP='legalease-rcap-render-worker';
 // their value. Do not prepend "Bearer " to a complete Authorization header.
 // Historical raw personal tokens use Bearer; bare fm2_ macaroons use FlyV1.
 export function flyReadOnlyAuthorizationHeader(token){
- if(typeof token!=='string'||!token.trim())throw Error('Existing runner Fly credential unavailable');
+ if(typeof token!=='string')throw Error('Existing runner Fly credential unavailable');
+ if(/[\x00-\x1f\x7f]/.test(token))throw Error('Malformed Fly credential');
  const t=token.trim();
- if(/[\r\n]/.test(t))throw Error('Malformed Fly credential');
+ if(!t)throw Error('Existing runner Fly credential unavailable');
  if(/^FlyV1\s+\S+$/i.test(t)||/^Bearer\s+\S+$/i.test(t))return t;
  if(/^fm2_\S+$/.test(t))return `FlyV1 ${t}`;
  if(/^\S+$/.test(t))return `Bearer ${t}`;

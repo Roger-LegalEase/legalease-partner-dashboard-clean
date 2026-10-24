@@ -45,3 +45,14 @@ test('Fly access 403 remains fail-closed and does not print the credential',asyn
    error=>error.message==='Fly identity GET HTTP 403'&&!error.message.includes(token)
  );
 });
+
+test('original credential controls are refused before fetch or normalization',async()=>{
+ for(const code of [...Array(32).keys(),127]){
+   const control=String.fromCharCode(code);
+   for(const token of [control+'FlyV1 fm2_FAKE_TOKEN','FlyV1 fm2_FAKE_TOKEN'+control,'FlyV1'+control+'fm2_FAKE_TOKEN','fm2_FAKE'+control+'_TOKEN']){
+     let calls=0;
+     await assert.rejects(readWorkerIdentity({token,fetchImpl:async()=>{calls++;return {ok:true,json:async()=>[]};}}),error=>error.message==='Malformed Fly credential');
+     assert.equal(calls,0,`control ${code} must not reach fetch`);
+   }
+ }
+});
