@@ -6,6 +6,11 @@ import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
 export const PREVIEW_ADMISSION_SCHEMA='rcap-readonly-successor-admission/v3';
 export const PREVIEW_CREATION_RUN=40057159400;
 export const ACCEPTANCE_PROJECT='hyflxnlhpmiqxvvcoiia';
+export const PRODUCTION_BASELINE=Object.freeze({deploymentId:'dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6',applicationSha:'342bf0d885dca1e24e41ae12c9c5302270514637',projectId:HOSTED_VERCEL_PROJECT_ID,target:'production',readyState:'READY'});
+export function assertProductionBaseline(d){
+ const baseline={deploymentId:d.id,applicationSha:d.gitSource?.sha??d.meta?.githubCommitSha,projectId:d.projectId??d.project?.id,target:d.target,readyState:d.readyState};
+ assert.deepEqual(baseline,PRODUCTION_BASELINE,'exact observed Production baseline');return baseline;
+}
 export const TUPLE_KEYS=['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'];
 export const sha256=bytes=>'sha256:'+createHash('sha256').update(bytes).digest('hex');
 export function assertNativePreviewCreation({run,jobs,artifact,archiveDigest,deploy,preflight,creationCandidate},tuple,inputs){
@@ -35,7 +40,7 @@ export function assertPreviewDeployment(d,tuple,creation,{aliases=[],domains=[]}
  assert(!aliases.some(a=>a.alias===d.url),'Preview is not a Production alias');assert(!domains.some(a=>a.name===d.url),'Preview is not a Production domain');
 }
 export function assertPreviewAdmission(h){
- assert.equal(h.schemaVersion,PREVIEW_ADMISSION_SCHEMA);assert([null,'preview'].includes(h.target),'v3 requires a true Preview');assert.equal(h.projectId,HOSTED_VERCEL_PROJECT_ID);assert.equal(h.acceptanceProjectRef,ACCEPTANCE_PROJECT);
+ assert.equal(h.schemaVersion,PREVIEW_ADMISSION_SCHEMA);assert.deepEqual(h.productionBaseline,PRODUCTION_BASELINE,'exact Production baseline receipt');assert([null,'preview'].includes(h.target),'v3 requires a true Preview');assert.equal(h.projectId,HOSTED_VERCEL_PROJECT_ID);assert.equal(h.acceptanceProjectRef,ACCEPTANCE_PROJECT);
  assert.equal(h.previewCreation?.runId,PREVIEW_CREATION_RUN);assert.equal(h.previewCreation.deploymentId,h.deploymentId);assert.equal(h.previewCreation.hostname,h.hostname);assert.equal(h.previewCreation.toolsSha,h.toolsSha);assert.equal(h.previewCreation.projectId,h.projectId);assert.equal(h.previewCreation.applicationSha,h.applicationSha);assert.equal(h.previewCreation.newDeploymentCreated,false);
  assert([null,'preview'].includes(h.previewCreation.target));assert.match(h.previewCreation.workflowSourceSha,/^[a-f0-9]{40}$/);assert.match(h.closureControlSha,/^[a-f0-9]{40}$/);
  assert.equal(h.queueSafetyVerified,true);assert.equal(h.productionEnvironmentUnchanged,true);assert.equal(h.projectLevelProductionEnvironmentMutations,0);assert.equal(h.newDeploymentCreated,false);assert.equal(h.workerClaims,0);assert.equal(h.realPayments,0);assert.equal(h.participantWrites,0);
@@ -51,6 +56,7 @@ export function assertPreviewClosureDocuments(h,read){
  const queue=read('queue-safety.json');assert.equal(queue.passed,true);assert.equal(queue.readOnly,true);for(const key of ['stale_queued','queued','claimed','terminal_failed'])assert.equal(Number(queue.queue[key]),0);
  const routing=read('shared-host-routing.json');assert.equal(routing.passed,true);assert.equal(routing.source,h.applicationSha);assert.deepEqual(routing.cases,[['expungement.ai','/','/expungement-ai'],['legalease.com','/','/static/legalease/index.html'],['legaleasepartner.com','/','/partners']]);
  const browser=read('browser-results.json');assert.equal(browser.length,4);assert.deepEqual(browser.map(r=>[r.locale,r.width]).sort(),[['en',375],['en',1440],['es',375],['es',1440]].sort());for(const r of browser){assert.equal(r.status,'PASS');assert.equal(r.auth,'MOCKED: NO LIVE AUTH');assert.equal(r.claim,'MOCKED: NO LIVE CLAIM');}
+ for(const when of ['before','after'])assert.deepEqual(read(`production-baseline-${when}.json`),h.productionBaseline,'exact unchanged Production baseline');
  for(const when of ['before','after'])assertVercelProductionScopes(read(`production-aliases-${when}.json`),read(`production-project-domains-${when}.json`),h);
  assert.deepEqual(read('production-environment-before.json'),read('production-environment-after.json'),'Production environment unchanged');
 }
