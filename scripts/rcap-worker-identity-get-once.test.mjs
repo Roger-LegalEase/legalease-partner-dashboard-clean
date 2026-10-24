@@ -44,7 +44,24 @@ test('CLI retains a safe receipt on actual mocked403 and exits1',()=>{
    assert.equal(result.status,1);assert.equal(result.stderr,'');
    const receipt=JSON.parse(fs.readFileSync(path.join(cwd,'worker-identity-evidence/get-result.json'),'utf8'));
    assert.equal(receipt.httpStatus,403);assert.equal(receipt.passed,false);assert.equal(receipt.requestCount,1);
-   assert.equal(receipt.reason,'Fly identity GET HTTP 403; provider details withheld.');
+   assert.equal(receipt.reason,'Fly identity GET HTTP 403.');assert.equal(receipt.providerCode,'not_specified');
    assert(!result.stdout.includes('SYNTHETIC_PRIVATE'));assert(!JSON.stringify(receipt).includes('SYNTHETIC_PRIVATE'));
  }finally{fs.rmSync(cwd,{recursive:true});}
+});
+
+test('only exact allowlisted structured provider codes survive one denied GET',async()=>{
+ for(const [body,expected] of [
+   [{code:'app_access_denied',message:'SYNTHETIC_PRIVATE_BODY'},'app_access_denied'],
+   [{error:{code:'organization_access_denied',message:'SYNTHETIC_PRIVATE_BODY'}},'organization_access_denied'],
+   [{code:'invalid_token',token:'SYNTHETIC_PRIVATE_BODY'},'invalid_token'],
+   [{code:'SYNTHETIC_PRIVATE_BODY',message:'app_access_denied'},'not_specified'],
+   [{error:{message:'organization_access_denied SYNTHETIC_PRIVATE_BODY'}},'not_specified'],
+   [null,'not_specified'],
+ ]){
+   let calls=0;
+   const result=await inspectWorkerOnce({token:'FlyV1 fm2_SYNTHETIC_PRIVATE',fetchImpl:async()=>{calls++;return {ok:false,status:403,clone:()=>({json:async()=>{if(body===null)throw Error('SYNTHETIC_PRIVATE_BODY');return body;}})};}});
+   assert.equal(calls,1);assert.equal(result.requestCount,1);assert.equal(result.httpStatus,403);assert.equal(result.passed,false);
+   assert.equal(result.providerCode,expected);
+   assert(!JSON.stringify(result).includes('SYNTHETIC_PRIVATE'));
+ }
 });
