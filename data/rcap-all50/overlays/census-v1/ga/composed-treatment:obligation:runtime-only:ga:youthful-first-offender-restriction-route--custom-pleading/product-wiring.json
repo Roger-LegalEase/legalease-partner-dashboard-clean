@@ -40,16 +40,16 @@
     "sourceVersion": [],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692784",
-      "artifactId": "9956091404",
-      "boundToCanonicalSha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+      "workflowRunId": "39494164576",
+      "jobId": "118877582709",
+      "artifactId": "12298505254",
+      "boundToCanonicalSha256": "6762d8195273957a3d00660a8f7f5248ec854d5f077f29be4d9f28ccc0fe861d",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf12",
-      "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14"
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -59,7 +59,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+        "replacedByCanonicalSha256": "6762d8195273957a3d00660a8f7f5248ec854d5f077f29be4d9f28ccc0fe861d",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33923497915",
+          "jobId": "101187692784",
+          "artifactId": "9956091404",
+          "boundToCanonicalSha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -72,7 +87,7 @@
         "order": 1,
         "documentId": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+        "sha256": "6762d8195273957a3d00660a8f7f5248ec854d5f077f29be4d9f28ccc0fe861d",
         "requirement": "required"
       }
     ]

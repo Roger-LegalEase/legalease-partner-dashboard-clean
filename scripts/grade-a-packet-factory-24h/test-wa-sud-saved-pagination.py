@@ -2,7 +2,10 @@ import pathlib,hashlib,json,subprocess,re
 import tempfile,os
 root=pathlib.Path(__file__).resolve().parents[2];temporary=tempfile.TemporaryDirectory(prefix='wa-sud-saved-pdf-');work=pathlib.Path(temporary.name);name='wa-vac-substance-use-disorder-set--custom-pleading';old=work/'original'/name;new=root/'data/rcap-all50/overlays/census-v1/wa'/name
 # Recover only the frozen comparison bytes, never rebuild either fixture.
-for relative in [p.relative_to(new) for p in new.rglob('*') if p.is_file()]:
+# Only these frozen files are compared below. Later-added product wiring is not
+# part of the historical pagination fixture and must not be invented at its base.
+for relative in map(pathlib.Path, ['fixtures/canonical.pdf','fixtures/boundary.pdf',
+ 'production-field-map.json','participant-instructions.md','reports/blanks-left-for-the-participant.json']):
  target=old/relative;target.parent.mkdir(parents=True,exist_ok=True)
  target.write_bytes(subprocess.check_output(['git','show',f'fc78ab3ac5e3ab94c332117fc40ef7a5edc65c6a:{(new/relative).relative_to(root)}'],cwd=root,env={**os.environ,'GIT_NO_LAZY_FETCH':'1'}))
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()

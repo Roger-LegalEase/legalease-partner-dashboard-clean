@@ -170,3 +170,24 @@ test('specialty route does not collect or require the two-year felony lookback',
   assert.equal(SPEC.policy['KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:Check Box8'].kind,'select');
   for (const name of ['Check Box3','Check Box4','Check Box5','Check Box6','Check Box7']) assert.equal(SPEC.policy[`KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:${name}`].kind,'notApplicable');
 });
+
+
+test('coercion instructions keep the one-year route and participant-owned elections consistent', () => {
+  const { SPEC } = modules[2];
+  const saved = fs.readFileSync(`${SPEC.outDir}/participant-instructions.md`, 'utf8');
+  const generated = [...SPEC.steps, ...SPEC.deliberatelyBlank, ...SPEC.notTold].join('\n');
+  for (const text of [saved, generated]) {
+    assert.doesNotMatch(text, /Decide from the chart which of the year boxes|Which waiting period applies|on a different statutory route/);
+    assert.match(text, /Mark only the one-year box at item 8\.A\.i, and only after/);
+    assert.match(text, /Leave the three, five and ten year boxes unmarked/);
+    assert.match(text, /coercion assertion for this route/);
+    assert.match(text, /Whether one year has elapsed since your own final discharge/);
+  }
+  for (const line of [...SPEC.steps, ...SPEC.deliberatelyBlank, ...SPEC.notTold]) assert.ok(saved.includes(line));
+  const field = name => SPEC.policy[`KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:${name}`];
+  assert.equal(field('Check Box3').kind, 'select');
+  assert.equal(field('Check Box4').kind, 'requiredBeforeFiling');
+  for (const name of ['Check Box5', 'Check Box6', 'Check Box7', 'Check Box8']) assert.equal(field(name).kind, 'notApplicable');
+  assert.equal(field('I was convicted received a diversion for prostitution and I was acting under').kind, 'election');
+  assert.ok(SPEC.stopConditions.includes('The coercion element is contested or the prosecutor disputes it.'));
+});

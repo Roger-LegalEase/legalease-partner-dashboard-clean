@@ -29,9 +29,7 @@
   "role": "Codex Cloud verification slot (isolated, read-only on packet bodies)",
   "lane": "VF18",
   "laneKind": "independent-verification",
-  "subjectIds": [
-    "ak-courtview-set"
-  ],
+  "subjectIds": [],
   "subjects": [
     {
       "familyId": "ak-courtview-set",
@@ -93,5 +91,13 @@
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
     "mustContain": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
+  },
+  "subjectCount": 0,
+  "withdrawn": {
+    "on": "2026-10-18",
+    "by": "Captain (integrating lead, PR #268)",
+    "reason": "This assignment reserved ak-courtview-set for a second independent read on VF18. It was completed: Captain transferred the grant VF01->VF18 at 2026-09-01T11:38:04.433Z, VF18 returned PASS_COMPLETE_INDEPENDENT at verifiedAtBase 321650b5a71d16ce6b59e78147c8d39cd94c9d80 (extracted into VERIFIER_RETURNS.json) and released the grant at 2026-09-01T12:43:28.231Z. The listing outlived the work and now holds a spent reservation.",
+    "whyNotLeftStanding": "A spent reservation still listed makes generate.mjs treat the family as held externally, so the new verification cycle owed after the 2026-10-17 public-index guide correction (OWNER-RELAYED-ADOPTION-v3 section 8) cannot open and the pre-write guard refuses (CI factory run 39080225285). The guard is left exactly as it is.",
+    "ifTheExternalReadIsStillWanted": "Re-issue it as a further read on the corrected bytes after the fresh VF01 verification returns."
   }
 }

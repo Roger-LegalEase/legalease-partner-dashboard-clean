@@ -437,13 +437,14 @@ const FAMILIES = {
       "your own first-hand account of what has changed and how the record has been a barrier - these lines are yours alone and nothing on them is written for you",
       "the platform prompts for and formats the participant's own account; it does not write the privacy-harm narrative"),
     prayerLines: [
-      "WHEREFORE, the defendant asks the Court to enter an order directing the Georgia Crime Information Center (GCIC) and every agency in the county named in the caption, including the arresting agency and the jail or detention center, to restrict all criminal history record information pertaining to this case, pursuant to O.C.G.A. Sec. 35-3-37(j)(7), with disclosure limited to what O.C.G.A. Sec. 35-3-37(t) and (v) permit"
+      "WHEREFORE, the defendant requests restriction under O.C.G.A. Sec. 35-3-37(j)(7) only of the criminal-history record information associated with the qualifying pardoned conviction identified by the exact O.C.G.A. Code section stated above. The defendant does not request relief for other counts merely because they share an arrest or case number. Access and disclosure authorized by applicable law remain available"
     ],
     orderLines: [
       "Before the Court is the defendant's Petition to Restrict Access to Criminal History Record Information Following Pardon under O.C.G.A. Sec. 35-3-37(j)(7).",
-      "IT IS ORDERED that the Georgia Crime Information Center (GCIC) and every agency in the county named in the caption, including the arresting agency and the jail or detention center, restrict all criminal history record information pertaining to this case, identified by the OTN and the date of arrest stated below, pursuant to O.C.G.A. Sec. 35-3-37(j)(7).",
-      "Disclosure of the restricted information remains limited to what O.C.G.A. Sec. 35-3-37(t) and (v) permit."
+      "IT IS ORDERED that the Georgia Crime Information Center (GCIC) and the applicable agencies restrict criminal-history record information associated only with the qualifying pardoned conviction identified by the exact O.C.G.A. Code section below, with the other case identifiers stated below, pursuant to O.C.G.A. Sec. 35-3-37(j)(7). This order does not adjudicate relief concerning other counts.",
+      "Access and disclosure authorized by applicable law remain available."
     ],
+    // The later clerk-sealing step is instruction only; no sibling route admission.
     exhibits: [
       { id: "exhibit_a_final_disposition", letter: "A", name: "Final disposition", requirement: "required", condition: null,
         attach: "a copy of the final disposition of this case", from: "the clerk of the convicting court",
@@ -1095,7 +1096,8 @@ function composedBody(F, componentId, facts) {
     L.push(`(${F.statute})`, "");
     L.push("(This page is proposed by the defendant for the Court's consideration, as the controlling practice directs a proposed order always accompany the filing. Every order line below is completed, signed and dated only by the Court.)", "");
     for (const o of F.orderLines) L.push(o, "");
-    L.push("OTN of the case (needed for this order to be actionable by GCIC):");
+    if (F.trackId === "ga-pardon-j7") { L.push("Exact O.C.G.A. Code section of the qualifying pardoned conviction covered by this order:", DOTS(), ""); L.push("This order does not itself grant clerk-record sealing under O.C.G.A. Sec. 35-3-37(m).", ""); }
+    L.push(F.trackId === "ga-pardon-j7" ? "OTN of the case, if known (do not invent an unknown number):" : "OTN of the case (needed for this order to be actionable by GCIC):");
     L.push(DOTS(), "");
     L.push("Date of arrest identified in this order:");
     L.push(DOTS(), "");
@@ -1108,7 +1110,7 @@ function composedBody(F, componentId, facts) {
     L.push(...captionLines(F, facts, { judge: false }));
     L.push("CERTIFICATE OF SERVICE", "");
     L.push(`I, ${name}, certify that on the date stated below I served a copy of the ${F.title} and the accompanying proposed order on each person listed below, by ${F.serviceMethods}.`, "");
-    L.push("NAME AND MAILING ADDRESS OF THE PROSECUTING ATTORNEY SERVED, IDENTIFIED AS DISTRICT ATTORNEY OR SOLICITOR-GENERAL FOR THE COUNTY (you write it here before service; the clerk's office can provide it):");
+    L.push(F.trackId === "ga-pardon-j7" ? "NAME AND MAILING ADDRESS OF THE ACTUAL PROSECUTING ATTORNEY FOR THIS COURT AND OFFENSE (confirm the office and address with the clerk before service):" : "NAME AND MAILING ADDRESS OF THE PROSECUTING ATTORNEY SERVED, IDENTIFIED AS DISTRICT ATTORNEY OR SOLICITOR-GENERAL FOR THE COUNTY (you write it here before service; the clerk's office can provide it):");
     L.push(DOTS());
     L.push(DOTS(), "");
     L.push("OFFICE OF THE CLERK OF COURT SERVED (the clerk of the court named in the caption; the clerk's office can confirm its service address):");
@@ -1123,7 +1125,7 @@ function composedBody(F, componentId, facts) {
     L.push(DOTS(), "");
     L.push("DATE OF SERVICE " + DOTS(40));
     L.push("SIGNATURE OF DEFENDANT " + DOTS(48), "");
-    L.push("This page is not proof of service and does not say that anything has been served. It is completed and signed when the copies actually go out. A date or a signature written before the copies go out would be false.");
+    L.push(F.trackId === "ga-pardon-j7" ? "Until completed and signed, this page does not establish that service occurred. Complete it from actual service facts and sign only when service has occurred." : "This page is not proof of service and does not say that anything has been served. It is completed and signed when the copies actually go out. A date or a signature written before the copies go out would be false.");
   } else {
     const ex = F.exhibits.find((e) => e.id === componentId);
     L.push(titles[componentId].toUpperCase(), "");
@@ -1305,8 +1307,9 @@ function composedMap(F, componentId, familyId) {
     refusals.push(
       ...captionFacts(F).map((i) => rowOf({ ...i, id: `order_${i.id}`, label: `${i.label} - proposed order caption` })),
       rowOf({ ...captionJudgeBlank, id: "order_caption_judge", label: "Judge assigned to the case, shown in the proposed order caption" }),
-      rowOf(rbf("order_otn", "OTN of the case, stated in the proposed order so the order is actionable by GCIC",
-        "the GCIC OTN, copied from your Georgia criminal history report where it appears - a restriction order that does not identify the case for GCIC is not actionable",
+      ...(F.trackId === "ga-pardon-j7" ? [rowOf(rbf("order_offense_code_section", "Exact O.C.G.A. Code section of the qualifying pardoned conviction covered by this order", "the same exact qualifying pardoned conviction identified in the petition, from the final disposition and actual pardon", "only that identified conviction is covered; other counts are not swept into the order"))] : []),
+      rowOf(rbf("order_otn", (F.trackId === "ga-pardon-j7" ? "OTN of the case, where known; leave unknown OTN blank and identify the actual conviction with the other case facts" : "OTN of the case, stated in the proposed order so the order is actionable by GCIC"),
+        (F.trackId === "ga-pardon-j7" ? "the GCIC OTN where known, copied from the actual record; do not invent an unknown number or treat it as automatic statutory disqualification" : "the GCIC OTN, copied from your Georgia criminal history report where it appears - a restriction order that does not identify the case for GCIC is not actionable"),
         "the OTN lives on the criminal history record, which the platform never collects, inspects or authenticates")),
       rowOf(rbf("order_arrest_date", "Date of arrest identified in the proposed order",
         "the date of arrest, from the case papers or your Georgia criminal history report - the order names it so the agencies can identify the cycle",
@@ -1317,8 +1320,8 @@ function composedMap(F, componentId, familyId) {
   } else if (componentId === "certificate_of_service") {
     writes.push(write("certifier_name", "Defendant named as the certifier on the certificate of service", "participant.full_legal_name"));
     refusals.push(
-      rowOf(attorneyBlock("prosecutor_name_address", "Name and mailing address of the prosecuting attorney served, identified as District Attorney or Solicitor-General for the county",
-        "the name and mailing address of the prosecuting attorney - District Attorney or Solicitor-General - for the county where you file; the clerk's office can provide it",
+      rowOf(attorneyBlock("prosecutor_name_address", (F.trackId === "ga-pardon-j7" ? "Name and mailing address of the actual prosecuting attorney for this court and offense" : "Name and mailing address of the prosecuting attorney served, identified as District Attorney or Solicitor-General for the county"),
+        (F.trackId === "ga-pardon-j7" ? "the name and mailing address of the actual prosecuting office for this court and offense; confirm both with that clerk" : "the name and mailing address of the prosecuting attorney - District Attorney or Solicitor-General - for the county where you file; the clerk's office can provide it"),
         "the platform holds no address for the prosecuting attorney and the participant writes it before service")),
       rowOf(court("clerk_office_address", "Office of the Clerk of Court served with this filing",
         "the clerk's own office; the clerk's office confirms its service address")),
@@ -1508,6 +1511,10 @@ function participantInstructions(F, maps, rbfItems) {
   out.push("The platform filled in what it holds about you: your name, your mailing address, your telephone number and your email. Every case fact lives on a court record the platform has not seen, so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.", "");
 
   out.push("## Restrict and seal — the words matter", "");
+  if (F.trackId === "ga-pardon-j7") {
+    out.push("This packet seeks restriction for the identified qualifying pardoned conviction. It does not itself grant clerk-record sealing. After restriction, request clerk-record sealing under O.C.G.A. Sec. 35-3-37(m) in the court with original jurisdiction over the offenses in the county where the clerk is located. Confirm filing with that clerk. Supply evidence that restriction has occurred and your own particular privacy harm. The court must find restriction occurred and that privacy harm clearly outweighs the public interest in access; address the clerk records and relevant index. Give notice to both clerk and actual prosecuting attorney; registered mail, certified mail or statutory overnight delivery is sufficient under(m)(1). A combined local procedure requires verified authority, sequencing and an order expressly addressing both remedies.", "");
+    out.push("Complete only applicable participant-owned blanks. Court findings, dates and signatures stay for the court; service is recorded only after it occurs. Identify the actual prosecutor for the court and offense, not an assumed county office. An unknown OTN is an identification issue, not automatic statutory disqualification; never invent one. Preserve a Spanish-authored narrative and obtain a faithful English rendering unless receiving-court acceptance of the Spanish original as filed is established.", "");
+  }
   out.push("Georgia law provides **record restriction** (limiting who may see criminal history record information) and, separately, **sealing** (closing the clerk of court's file). Neither remedy destroys the record, and this packet never says otherwise.", "");
   out.push("**A restriction or sealing may still be used to disqualify you from employment or office** in the same manner as a first offender discharge under O.C.G.A. § 42-8-63.1, and it does not supersede disclosure required by federal law. Nothing in § 35-3-37 gives you the right to deny that a restricted arrest or conviction exists, and this packet never tells you that you may.", "");
 
@@ -1528,17 +1535,17 @@ function participantInstructions(F, maps, rbfItems) {
   out.push("GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee; the GCIC lobby office is by appointment only.", "");
 
   out.push("## The items you must supply", "");
-  out.push("Each is printed on its page as a labelled dotted blank. Fill every one, from the records above.", "");
+  out.push((F.trackId === "ga-pardon-j7" ? "Complete only applicable participant-owned blanks from the records above. Court findings, court dates and signatures stay for the court; service is recorded only after it occurs." : "Each is printed on its page as a labelled dotted blank. Fill every one, from the records above."), "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${titles[doc] ?? doc}`, "");
     out.push("| The blank on the document | What to write |", "| --- | --- |");
     for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
     out.push("");
   }
-  out.push("Also written by you before service, on the certificate of service: the name and mailing address of the prosecuting attorney (District Attorney or Solicitor-General) for the county, and the office of the Clerk of Court served — the clerk's office can provide both.", "");
+  out.push(F.trackId === "ga-pardon-j7" ? "Before service identify the actual prosecuting attorney for this court and offense and its service address, and the clerk office served; confirm both with that clerk." : "Also written by you before service, on the certificate of service: the name and mailing address of the prosecuting attorney (District Attorney or Solicitor-General) for the county, and the office of the Clerk of Court served — the clerk's office can provide both.", "");
 
   out.push("## What you do, in order", "");
-  out.push("1. **Gather the records** listed above, and fill in every dotted blank from them. Do not guess a date, a Code section or a case number.");
+  out.push((F.trackId === "ga-pardon-j7" ? "1. **Gather the records** listed above and complete only applicable participant-owned blanks. Leave court findings, court dates and signatures to the court; never anticipate service. Do not guess a date, a Code section, case number or unknown OTN." : "1. **Gather the records** listed above, and fill in every dotted blank from them. Do not guess a date, a Code section or a case number."));
   out.push(`2. **Read every numbered statement in the ${F.instrument}.** Each is pleaded as your own statement. If any is not true of your case, do not file; see the help section below.`);
   out.push(`3. **Confirm the filing method with the clerk before filing.** ${F.venueLine} No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders — ask the clerk before you file.`);
   out.push(`4. **Sign and date the ${F.instrument} yourself.** The platform never signs for you and never dates a signature. Sign "Defendant, Pro Se" where unrepresented. No notarization is required by statute, and none is added.`);

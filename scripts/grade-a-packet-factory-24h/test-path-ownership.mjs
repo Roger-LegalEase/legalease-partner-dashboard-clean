@@ -10,7 +10,7 @@ try {
 
 assert.ok(ownership, "path ownership helpers must exist");
 
-const { pathsOverlap, unresolvedHistoricalRepairPaths } = ownership;
+const { handoffClaimsFromLedger, pathsOverlap, unresolvedHistoricalRepairPaths } = ownership;
 
 const familyDirectory = "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**";
 const historicalGlob = "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*";
@@ -55,5 +55,20 @@ assert.deepEqual(
   ],
   "any modern repair claim supersedes its historical pseudo-owner; only work with no modern claim stays protected"
 );
+
+/* A withdrawn modern claim, read from the ledger's withdrawals log as generate.mjs
+ * now passes it, ends the historical hold just as a released one does. */
+const withdrawal = { subjectType: "packet-family", subjectId: "legacy_without_modern_claim-set", operation: "rapid-repair",
+  lane: "FIX05", withdrawnAt: "2026-09-02T17:51:55Z", reason: "obligation dissolved" };
+assert.deepEqual(unresolvedHistoricalRepairPaths(historical, [...claims, withdrawal]), [],
+  "a withdrawn modern repair claim proves the handoff and retires the historical pseudo-owner");
+
+/* The ledger read generate.mjs uses: withdrawn claims are handoff proof. */
+assert.deepEqual(unresolvedHistoricalRepairPaths(historical, handoffClaimsFromLedger({ claims, withdrawals: [withdrawal] })), [],
+  "the ledger read must include withdrawals, or a withdrawn handoff keeps its historical hold alive");
+assert.deepEqual(handoffClaimsFromLedger({}), [], "an empty ledger yields no handoff claims");
+/* generate.mjs must take the handoff claims from this helper, not from `claims` alone. */
+const generatorSource = (await import("node:fs")).readFileSync(new URL("./generate.mjs", import.meta.url), "utf8");
+assert.match(generatorSource, /priorClaimsForOwnership = handoffClaimsFromLedger\(/, "generate.mjs must read Wave 2 handoff claims through handoffClaimsFromLedger");
 
 console.log("OK path ownership recognizes glob collisions and retires only superseded historical holds");

@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement": "ALREADY_RELEASED: agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement at 2026-09-05T00:17:37.105Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "lane": "VF02",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement run here at 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR set to the 5-file stub: PASS_COMPLETE, 5/11 written; counters read from the verifier's own output line, not from the builder's completeness-counters.json"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, build-status, rendered-artifacts and the MASTER_QUEUE row. The single routeKey obligation:runtime-only:NM:dna-sample-profile-expungement is declared identically by all four and resolves in the committed route-obligation census (routes[73], trackId null, destination 'not recorded', bound to route-contract single-routes.json#NM:dna-sample-profile-expungement and compiled profile NM-new-mexico.json#dna-sample-profile-expungement under LD-NM-02) and in canonical-route-universe.json canonicalObligations (708 keys). The route line is printed in the header and footer of both fixture PDFs, read from the bytes with pdftotext."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All 4 compositionSources recomputed from disk here (sha256 + byteLength). Exact: NM.memo.json 94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25 (199178 B); NM-new-mexico.json ec03515fa44ddab02dd1b4d2be31c42752f145f142d2f46841fa73c052634086 (134214 B). Drifted whole-file pins, bound anchors compared object-for-object between the recovered pinned version and the current file: (1) src/lib/legal-authority/routes/single-routes.json pinned 6322c661 (67533 B) -> current 1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd (102577 B); the controlling route entry NM:dna-sample-profile-expungement (routes[15]: LD-NM-02, mechanism, timing, requiredFacts, exclusions, packetComponents, 30/45-day processing note) is IDENTICAL (canonical anchor sha256 3b4e3be35275b783ed9307df0f5f9f05e223305da6115d5acebb9281bd88c500), as are batch and authority; the drift is 5 added routes (AZ 13-4051, CA 1203.4a, CT 54-142v, KY 218A.276, NV 179A.160) and one changed route (MD 10-103 branch selectors), 27 -> 32 routes. (2) route-obligation-candidate.json pinned 9816a479 (2607149 B) -> current f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B); this family's census entry routes[73] is IDENTICAL (anchor 6a775c3c0c4e83b56be9bf39519235dead925fd1e9d2bee58c257210bf1e9f5a); the drift is 5 track-only AZ/CA/CT/KY/NV entries replaced by track-pathway entries, 22 other routes' entries changed (none NM), plus metadata.sourceFingerprint and counts. No official document byte is bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT), so the unmounted Master Library does not reach this family. The receipt's whole-file pins are stale for 2 of 4 entries while every bound anchor is unchanged; the current sha256/byteLength above is the new pin value, recorded for the lead and NOT re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Declared componentSet [agency_preparation_guide] equals the rendered page manifest of both fixtures (pages 1-2, one component). No packet-set manifest or track-registry entry exists for this runtime-only route (census trackId null) and the MASTER_QUEUE row declares no packetComponents, so the single guide is the whole of what the route names. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "5/5 written values per fixture (name, DOB, address, phone, email) read back by this lane from pdftotext over the fixture bytes; 0 not found; 0 reported invisible. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 6 REQUIRED_BEFORE_FILING blanks; all 6 disclosure labels are in participant-instructions.md with what to supply and whom to confirm it with, and the PDF prints the same 6 blanks each with a 'Check with' line. reports/blanks-left-for-the-participant.json records the same 6. requiredFactsNotCollected=0, unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls in the field map; routeSelectionsMade is empty with the note that the route is fixed. The qualifying Section 29-16-10 branch is a participant-supplied blank confirmed against the certified disposition, not an election the build pre-marked. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The composed guide has no repeating row structure (no row-indexed fields in the map, no table on the page). incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "refusedFieldsWithInk is empty in both fixtures; the extracted text carries no signature, signature-date, notary or agency/clerk/prosecutor/court value, and the page states 'Do not sign or date this guide' and that no court, clerk, prosecutor, agency, notary or hearing-officer field is completed. The map's 6 refusals are all REQUIRED_BEFORE_FILING blanks. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded; canonical 1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f (6220 B) and boundary 0c1e91e1b74a31f60a56b96547a402811369b2a01ee3c4fc0cf8f6c753caf651 (6354 B) recomputed here and matching reports/rendered-artifacts.json exactly. 0 unrecorded PDFs, 0 recorded PDFs missing. The canonical sha256 appears in RASTER_QUEUE.json and product-wiring's acceptanceReceipt records RASTER_PASS (workflow run 33923497915) bound to it."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures' page manifests run packetPage 1..2 for the single component; recorded pageCount 2 equals pdfinfo read from the bytes here (2 and 2)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over both fixtures: 427 (canonical) and 436 (boundary) words, 0 outside the page box, 0 same-band overlapping word pairs; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both; no placeholder text. visualDefects=0 measured here. No raster was produced in this lane."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Applying DET-FEE-AND-WAIVER-001-A1's test first: no held source establishes the destination \u2014 the census records 'not recorded', NM.memo.json records the receiving office as 'Not determined', and the route contract names only 'the administrative centre'. The packet therefore states what the record holds (an administrative written request to the administrative center of the state DNA identification system, not a court filing, no Rule 1-077.1 form), says in terms that no held source identifies the center, unit, destination or format, deliberately supplies no address, and names the checkable authority: the New Mexico Department of Public Safety. That is the honest statement of a destination the repository does not hold, not a gesture."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "The page states 'No held source identifies the administrative center, receiving unit, destination, accepted request format, or fee. Confirm every one with the New Mexico Department of Public Safety before sending anything', and the instructions repeat 'fee if any; confirm it with the New Mexico Department of Public Safety'. That is the DET-FEE-AND-WAIVER-001 third prong exactly: no-held-source stated plus a specific checkable authority named. A waiver route does not arise where no fee is established. No figure is invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "No held source states a service rule (the route contract and NM.memo.json carry none) and an administrative DNA-expungement request serves no opposing party. The packet does not carry a literal 'nobody is served' sentence; it states that this is an administrative written request to an agency and not a court filing, and names the New Mexico Department of Public Safety as the authority on the accepted request format and destination to confirm before sending. Under DET-FEE-AND-WAIVER-001 as extended to SERVICE, a named checkable authority standing in for a rule no held source establishes satisfies the obligation. Thinnest of the fifteen on this family; scored PASS on that standard."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling runtime route (single-routes.json NM:dna-sample-profile-expungement: prior/pending-felony disqualifier; 30/45-day periods never shown as prefiling waits) and NM.memo.json track nm_dna_expungement's three selfHelpStopConditions (every matter until the receiving agency and format are established; any prior felony conviction or pending authorized-felony charge; obtaining certified dispositions). All are carried: 'Do not apply if a prior felony conviction or a pending felony charge authorizing DNA collection may exist; obtain counsel'; 'Confirm the state DNA identification system's administrative center and its accepted written-request format with DPS first' with the page's 'this guide deliberately supplies no address'; obtain the certified disposition or the sworn affirmation only in the form the confirmed office accepts; the 30/45-day periods are post-request processing, never prefiling waits; a New Mexico attorney where branch classification is uncertain. The memo's blanket stop is carried as a confirm-with-DPS-before-sending condition rather than as a refusal to proceed at all, which fits a preparation guide that files nothing. The packet states which fields it will not sign and that it is not an official form. The compiled profile's lawrenceRatification for this pathway reads hold_guidance / packet_capable false, which is a product gate consistent with product-wiring generationAllowed=false and is not a packet-completeness defect. No inversion found."
+        }
+      },
+      "evidence": {
+        "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement run here at 1b48eb358: PASS_COMPLETE, 5/11 written, all nine counters zero",
+        "sourceRecomputation": "4/4 compositionSources recomputed from disk: 2 exact; 2 whole-file pins drifted (single-routes.json 6322c661->1bd1efb0 102577 B; route-obligation-candidate.json 9816a479->f6fc0814 2629290 B) with this family's route contract entry and census route entry compared object-for-object and identical; no official document byte bound",
+        "artifactRecomputation": "2/2 PDFs hash to record (sha256 and byteLength); pdfinfo 2 pages each",
+        "byteReadBack": "10/10 written values (5 per fixture) read back from pdftotext over the fixture bytes by this lane",
+        "stopConditions": "1/1 route-contract exclusion and 3/3 memo stops carried in the instructions and on the page; processing-period rule carried",
+        "lapseResolved": "No lapse is recorded on the queue row (verificationLapsedBecause null). The extended drift flag is answered by this reading: both drifted pins' bound anchors are identical to the pinned versions; the current sha256/byteLength values are recorded above for the lead's re-pin decision and nothing was re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

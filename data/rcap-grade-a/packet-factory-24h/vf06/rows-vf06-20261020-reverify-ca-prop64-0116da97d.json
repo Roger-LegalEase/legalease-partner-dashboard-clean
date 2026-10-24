@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF06",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "ca-prop64-set": "CLAIM_OK VF06 ca-prop64-set (independent-verification, grant set b15f165126c84d71)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "ca-prop64-set",
+      "lane": "VF06",
+      "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T13:10:03Z",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 22,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 27,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allZero": false,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<full library> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set in a detached worktree at 0116da97daa896e517323f18c01a1a33de0ceaee: 'FAIL ca-prop64-set FAIL_MISSING_REQUIRED_FACTS 3/148 written', counters line verbatim in verifier-direct.log; the 49 findings from a read-only import of auditFamily (audit-family.json). invisibleWrites and visualDefects are reported UNMEASURED by the verifier for this family; this read measured them by hand (geometry.txt, renders) and found no added ink outside the written fields and no clipping."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "<MASTER_LIBRARY_SOURCE_DIR>/STATES/CA/02_PACKET_FORMS/CA__FORM__CR-400__petition-application-under-health-and-safety-code-section-11361-8-adult-crimes__REV-2024-01-01__EN.pdf",
+          "sha256": "d325bb75f5a90b7864eab8fa43a905db7f2a9c233bb89fe412f609dee9ab35a1",
+          "byteLength": 82246,
+          "matchesReceipt": true
+        },
+        {
+          "path": "<MASTER_LIBRARY_SOURCE_DIR>/STATES/CA/02_PACKET_FORMS/CA__FORM__CR-401__proof-of-service-for-petition-application-under-health-and-safety-code-section-11361-8-adu__REV-2024-01-01__EN.pdf",
+          "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01",
+          "byteLength": 80276,
+          "matchesReceipt": true
+        },
+        {
+          "path": "<MASTER_LIBRARY_SOURCE_DIR>/STATES/CA/02_PACKET_FORMS/CA__FORM__CR-403__order-after-petition-application-under-health-and-safety-code-section-11361-8-adult-crimes__REV-2024-01-01__EN.pdf",
+          "sha256": "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff",
+          "byteLength": 102018,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/derived-sources/cr-400-pikepdf-unlocked.pdf",
+          "sha256": "f82c6046aa4db98a02f3115c2ec1753b848e44ac0474422dc2624901951f326c",
+          "byteLength": 76662,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "hs-11361-8-completed-sentence-application-boundary/cr-400-filled.pdf",
+          "sha256": "53b07cf75b2fee362fcfa07a9f080d86dc04ae4adb705fe4039078508884ac4a",
+          "byteLength": 34360,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-completed-sentence-application-boundary/cr-401-unchanged-official.pdf",
+          "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01",
+          "byteLength": 80276,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-completed-sentence-application-boundary/cr-403-unchanged-official.pdf",
+          "sha256": "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff",
+          "byteLength": 102018,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf",
+          "sha256": "87f93a9b4273a1af89de31a7576ae0e4aae86e42361bfacfae042574695885d4",
+          "byteLength": 34243,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-completed-sentence-application-canonical/cr-401-unchanged-official.pdf",
+          "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01",
+          "byteLength": 80276,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-completed-sentence-application-canonical/cr-403-unchanged-official.pdf",
+          "sha256": "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff",
+          "byteLength": 102018,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-currently-serving-petition-boundary/cr-400-filled.pdf",
+          "sha256": "ac3f310b0bdfe8244965e31f1953a90df70e39e264ac9cdc81f384b9906b2290",
+          "byteLength": 34361,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-currently-serving-petition-boundary/cr-401-unchanged-official.pdf",
+          "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01",
+          "byteLength": 80276,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-currently-serving-petition-boundary/cr-403-unchanged-official.pdf",
+          "sha256": "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff",
+          "byteLength": 102018,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-currently-serving-petition-canonical/cr-400-filled.pdf",
+          "sha256": "7369e11b1d4ffd7caf7d2a0b9ed981f738c109b94194652fafe0df6ad120cc84",
+          "byteLength": 34244,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-currently-serving-petition-canonical/cr-401-unchanged-official.pdf",
+          "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01",
+          "byteLength": 80276,
+          "pageCount": 1,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "hs-11361-8-currently-serving-petition-canonical/cr-403-unchanged-official.pdf",
+          "sha256": "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff",
+          "byteLength": 102018,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The two packet routes obligation:track-pathway:CA:ca-prop64:prop-64-completed-sentence-application-11361-8 and obligation:track-pathway:CA:ca-prop64:prop-64-currently-serving-petition-11361-8 are declared identically by production-field-map, product-wiring and actual-writes, and resolve in the current census at routes[328] and routes[329] (Cal. Health & Safety Code Sec. 11361.8; Superior Court of the county of conviction), each IDENTICAL to the a3ca119bd pin. The CR-400 branch controls mark 'REDESIGNATION OR DISMISSAL/SEALING (11361.8(f))' and item 2b APPLICATION on the completed-sentence variant and 'RESENTENCING OR DISMISSAL (11361.8(b))' and item 2a PETITION on the currently-serving variant (statutorySelectionProof, renders). The MASTER_QUEUE row also lists the umbrella route ...:tool-5-proposition-64-marijuana-relief (census routes[330], currentServiceDisposition product_scope_exclusion, possibleCategory NEEDS_LEGAL_REVIEW), present since d7fd49857 (2026-08-31); recorded as an observation."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All three receipt sources are held byte-exact under MASTER_LIBRARY_SOURCE_DIR (custody-check.txt): CR-400 d325bb75\u2026/82246, CR-401 39442195\u2026/80276, CR-403 b0ecaeb4\u2026/102018, each equal to pinnedSha256 and pinnedByteLength; the derived cr-400-pikepdf-unlocked.pdf f82c6046\u2026/76662 equals its derivedRepairs pin. The queue lists no drifted record (driftedRecords []); the lapse is FAMILY_MOVED_SINCE_THE_VERDICT (401bcf529 rewrote field map, field census and instructions after the 018cd5584 verdict; the 12 PDFs are byte-unchanged)."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The registry filing rule is 'File CR-400 in the Superior Court of the county of conviction, with CR-401 proof of service and the proposed CR-403 order'. Each of the two route variants ships cr-400-filled, cr-401-unchanged-official and cr-403-unchanged-official in both fixtures (12 PDFs, rendered-artifacts records all 12, none unrecorded). CR-402 is the prosecuting agency's response, not a participant component. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "detail": "KNOWN_PREFILLS: the repository's completeness verifier, run on the current bytes at 0116da97d (verify-packet-completeness --family ca-prop64-set, MASTER_LIBRARY_SOURCE_DIR = the full library), returns FAIL_MISSING_REQUIRED_FACTS with knownRequiredFieldsMissing 22 (3/148 terminal fields written). The 22 known facts not written (auditFamily findings, read-only import): CR-400 EMAIL ADDRESS; CR-400 MAILING ADDRESS; CR-400 STREET ADDRESS; CR-400 TELEPHONE NUMBER; CR-401 Case Number; CR-401 Court mailing address; CR-401 Court street address; CR-401 Defendant; CR-401 Email address; CR-401 Street address; CR-401 Superior Court of California, County of; CR-401 Telephone number; CR-403 Case number; CR-403 Defendant; CR-403 Email address; CR-403 Mailing address; CR-403 People of the State of California v Defendant; CR-403 Street address; CR-403 Superior Court of California, County of; CR-403 Telephone number. The CR-400 field map writes exactly three values per variant (matter.county, matter.case_number, participant.full_legal_name; read back exactly from pdftotext of all four CR-400 fixtures) and refuses the whole 'ATTORNEY OR PARTY WITHOUT ATTORNEY' block as classified_unwritable_by_role, although the participant files self-represented and the platform holds their name, mailing address, telephone and email; CR-401 and CR-403 ship as unchanged official bytes, so their neutral captions (county, court address, case number, defendant), which participant-instructions.md itself assigns to preparer_from_record, stay blank although county, case number and name are written on CR-400. participant-instructions.md says so: 'The current field map writes exactly 3 fields ... It does not fill date of birth, other contact details or every recorded offense fact. Remaining known facts must be bound through a reviewed successor'. The render (renders/*-cr-400-1.png) shows the blank caption block."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "REQUIRED_BEFORE_FILING: the same verifier run reports unclassifiedBlanks 27, blanks whose disposition is neither a disclosed required-before-filing item with a field identity, a protected/actor field, nor not-applicable: CR-400 11357 - Possession of Marijuana; CR-400 11358 - Cultivation of Marijuana; CR-400 11359 - Possession of Marijuana for Sale; CR-400 11360 - Transportation, Distribution, or Importation of Marijuana; CR-400 11362.1 - Personal Use of Marijuana; CR-400 CITY; CR-400 CITY AND ZIP CODE; CR-400 FAX NUMBER; CR-400 FIRM NAME; CR-400 NAME; CR-400 STATE; CR-400 ZIP CODE; CR-401 City; CR-401 Court city and zip code; CR-401 Fax number; CR-401 Firm name; CR-401 Name; CR-401 State; CR-401 Zip code; CR-403 Cas enumber; CR-403 City; CR-403 City and zip code; CR-403 Fax number; CR-403 Firm name; CR-403 Name; CR-403 State; CR-403 Zip. They include the five CR-400 item-1 conviction-section controls (11357, 11358, 11359, 11360, 11362.1), which the instructions disclose only in prose ('Item 1 asks for every applicable statute section'), and the attorney-only caption fields (firm, fax) that a self-represented filer leaves blank but that no field-level disposition classifies. requiredBeforeFilingCount 12 in the field map does not cover them."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Four route controls (two per variant: the form-title branch box and item 2a/2b) are selected and re-read as two diagonal strokes inside the exact official widget rectangles (statutorySelectionProof, everyControlObservedExactly true). Items 3 and 4 are optional waivers left unchecked and disclosed as optional; the verifier counts requiredOptionsMissing 0. The item-1 section controls are scored under REQUIRED_BEFORE_FILING."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating structure is composed; CR-400 item 1 is a fixed set of five official checkboxes. incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites 0. 75 blanks are PROTECTED_FIELD under the CA actor contract added by 401bcf529 (court-use-only date/time/department, CR-403 judicial findings and orders, the CR-401 nonparty server's entries, signatures); exactBindingProof reports no protected field with a fixture value or added ink, and the renders show none."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "All 12 PDFs recomputed here equal reports/rendered-artifacts.json (sha256 and byteLength) and pdfinfo page counts (CR-400 1, CR-401 1, CR-403 2). The six CR-401/CR-403 files are byte-identical to the official sources (394421959966\u2026, b0ecaeb4fc76\u2026). The RASTER_QUEUE row's RASTER_PASS receipt (workflow run 33850403312) is bound to canonical 87f93a9b\u2026 and boundary 53b07cf7\u2026 and lists all 12 documents (16 pages); coverage complete."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Per variant: CR-400 (1 page), CR-401 (1 page), CR-403 (2 pages), the order the registry's filing rule names; each official form keeps its own page order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox on all four CR-400s: 0 words outside the page box (410/417 words). Read on the 80-dpi renders: the boundary values 'Saint Bartholomew and the Northern Reaches County', '0123-45-2026-CR-900123.00-AB-CDE/2201' and the 66-character defendant name are shrunk to fit inside their widgets without overlapping printed labels; the branch marks sit inside their boxes. CR-401/CR-403 are unchanged official bytes."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Registry venue 'Superior Court of the county of conviction' and filing rule; the census destination is the same. participant-instructions.md 'Where you file this' states the rule verbatim, attributes it, and invents no deadline; the CR-400 caption county is written from matter.county."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Prong 1 (stated, sourced, A1). The compiled California profile, in the route's requiredSourceIds scope, holds 'Prop 64 marijuana relief $0 Largely automatic' in feeRules, keyed to this relief (not a sibling statute); the instructions state $0 attributed to that line. Waiver: the registry's 'FW-001 is the general California fee waiver form' is stated as a separate form outside the packet, with the clerk named for local intake. A4: the registry's 'The source review does not state a filing fee for the CR-400 series' is a non-statement, not a contrary figure."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Registry 'Serve the prosecuting agency and file CR-401 proof of service'; notice 'The prosecuting agency responds at CR-402'. The instructions state both, include CR-401, and assign its declaration to the actual adult nonparty server; the participant never signs as server."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The instructions print the registry's three selfHelpStopConditions verbatim (CR-402 contesting response; contested hearing; unclear Sec. 11361.8 qualification) and its fourth boundary sentence (a routine hearing does not block the initial packet)."
+        }
+      },
+      "observations": [
+        {
+          "what": "Owner-evidence dependency (recorded once)",
+          "detail": "The FAIL counters are the ones the repository already records as actively owned: docs/rcap/grade-a/handoffs/NATIONWIDE_BLOCKER_RESOLUTION_INPUTS_2026-10-12.md, section 'California form ownership and completeness-consumer checkpoint \u2014 2026-10-13' (added by 401bcf529): 'the actual prepared-input audit remains FAIL_MISSING_REQUIRED_FACTS, with 22 known-fact gaps and 27 unclassified fields involving captions and the five CR-400 record-section controls. Those counters do not establish 49 universally mandatory participant answers: known-fact reuse, actor choice and conditional/optional applicability must be resolved field by field.' The six existing CA decisions remain open there. This row requests no owner decision."
+        },
+        {
+          "what": "Stale selected verdict",
+          "detail": "The selected PASS_COMPLETE_INDEPENDENT at 018cd5584 (2026-09-04) predates 401bcf529 (2026-10-13), which changed this family's field map, field census, instructions and the verifier's CA actor handling. The PDFs are unchanged; the current verifier reading of the same bytes is FAIL."
+        },
+        {
+          "what": "Umbrella route on the MASTER_QUEUE row",
+          "detail": "MASTER_QUEUE lists obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief (census product_scope_exclusion, NEEDS_LEGAL_REVIEW) beside the two packet routes; the field map, wiring and fixtures serve only the two Sec. 11361.8 variants. Recorded, not scored."
+        },
+        {
+          "what": "Instructions written for participant and reviewer at once",
+          "detail": "participant-instructions.md is titled 'Participant and reviewer instructions' and prints field identifiers, actor codes and the field-map write count (builder-vocabulary class, recorded once by the lead). Recorded, not scored."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv13-ca-prop64-vf06/",
+        "claimCanAssert": "claim-can-assert.log (CLAIM_OK VF06)",
+        "custody": "custody-check.txt (3/3 corpus pins exact; derived exact)",
+        "verifierRun": "verifier-direct.log, measure.log, audit-family.json, audit-family-findings.txt",
+        "sources": "route-identity.txt, fee-dest-service-sources.txt, instr-dest-fee-service.txt, writes-controls.txt, participant-instructions-0116da97d.md, family-history-since-verdict.txt",
+        "artifacts": "artifacts-check.txt",
+        "byteReadBack": "text/*-cr-400.txt, geometry.txt (read-back of the 3 writes in all four CR-400s)",
+        "wordGeometry": "text/*-cr-400.bbox.html, geometry.txt",
+        "renders": "renders/*-cr-400-1.png (pdftoppm -r 80), renders/cr-400-sheet.png"
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

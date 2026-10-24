@@ -55,6 +55,17 @@ assert.deepEqual(applicableStatements(citizen).map((s) => s.key), ["financial_at
 assert.deepEqual(applicableStatements(nonCitizen).map((s) => s.key), ["financial_attestation", "noncitizen_review_acknowledgment", "information_sharing_consent"], "a No answer is never asked to sign the citizenship statement");
 assert.ok(!applicableStatements({}).some((s) => s.key === "citizenship_attestation"), "an unanswered citizenship question does not surface the citizenship statement");
 assert.equal(INTAKE_STATEMENTS.find((s) => s.key === "citizenship_attestation").text, "I am a citizen of the United States of America.", "verbatim source statement preserved");
+const unsureCitizen = { is_us_citizen: { state: "unknown" } };
+assert.deepEqual(applicableStatements(unsureCitizen).map((s) => s.key), applicableStatements(nonCitizen).map((s) => s.key), "explicit uncertainty has the existing confidential review, never citizenship attestation");
+assert.deepEqual(sanitizeIntakeAnswers(unsureCitizen), unsureCitizen, "uncertainty is preserved as unknown, never a No answer");
+assert.notEqual(canonicalAnswersJson(unsureCitizen), canonicalAnswersJson(nonCitizen), "uncertainty and noncitizen answers retain distinct hashes");
+assert.deepEqual(byKey.is_us_citizen.options, [{ value: "yes", label: "Yes" }, { value: "no", label: "No" }], "source choices retain their original wire values");
+assert.equal(byKey.is_us_citizen.product.allowUnknown, true);
+assert.equal(byKey.is_us_citizen.product.category, "adaptation");
+assert.deepEqual(INTAKE_FIELDS.filter((field) => field.control === "radio" && field.product.allowUnknown).map((field) => field.key), ["is_us_citizen"], "uncertainty control is limited to the configured supported field");
+for (const answer of [undefined, { state: "answered", value: "maybe" }, { state: "not_applicable" }]) {
+  assert.deepEqual(applicableStatements({ is_us_citizen: answer }).map((s) => s.key), ["financial_attestation", "information_sharing_consent"], "missing or invalid citizenship is not a status statement");
+}
 
 // --- validation ------------------------------------------------------------
 const empty = validateIntakeAnswers({});
@@ -89,6 +100,10 @@ assert.equal(validateIntakeAnswers(complete({ "household.adult_count": { state: 
 assert.equal(validateIntakeAnswers(complete({ "email": { state: "answered", value: "not-an-email" } })).valid, false);
 assert.equal(validateIntakeAnswers(complete({ "assets.owns_home": { state: "answered", value: "yes" }, "assets.home_value": undefined })).missingRequired.includes("assets.home_value"), true, "home value required once the applicant owns a home");
 assert.equal(validateIntakeAnswers(complete({ "is_us_citizen": { state: "answered", value: "maybe" } })).valid, false, "unknown option rejected");
+const unsureValidation = validateIntakeAnswers(complete(unsureCitizen));
+assert.equal(unsureValidation.valid, true, "explicit permitted uncertainty supports saving and confidential review");
+assert.deepEqual(unsureValidation.unknownFields, ["is_us_citizen"]);
+assert.ok(!unsureValidation.missingRequired.includes("is_us_citizen"));
 delete_check: {
   const answers = complete();
   delete answers["household.adult_count"];

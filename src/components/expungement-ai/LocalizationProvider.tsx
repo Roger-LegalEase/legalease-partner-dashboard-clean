@@ -110,6 +110,12 @@ export function LocalizedRuntimeText({
   return <>{localize(text, { key: k, vars })}</>;
 }
 
+/** Exact source-reviewed presentation pair; never translates an entered answer. */
+export function LocalizedCopy({ en, es }: { en: string; es?: string }) {
+  const { locale } = useLocalization();
+  return <>{locale === "es" ? es ?? en : en}</>;
+}
+
 // Audience only; locale remains owned by the existing LocalizationProvider.
 const LegalAidParticipantContext = createContext(true);
 export function LegalAidAudience({ participant, children }: { participant: boolean; children: ReactNode }) {

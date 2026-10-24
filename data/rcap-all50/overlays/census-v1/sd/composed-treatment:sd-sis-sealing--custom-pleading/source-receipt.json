@@ -26,11 +26,74 @@
       ],
       "recordId": "legal-decision:2026-08-28:Q-044:sd_sis_sealing",
       "pathInRepository": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-      "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-      "byteLength": 184365,
+      "sha256": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
+      "byteLength": 184885,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the controlling Q-044 decision: the mandatory-duty holding, the two-step escalation this family implements, the enforcement-motion authorization, and the prohibition on arrest-expungement-form fallback",
-      "anchorStatementsVerified": 6
+      "anchorStatementsVerified": 6,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-19",
+        "was": {
+          "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+          "byteLength": 184365
+        },
+        "why": "The record was rewritten around this receipt's anchors. 13 named entries moved between the blob carrying the previous pin and the bytes on disk (question:Q-002:ky_felony_expungement_after_pardon, question:Q-003:ky_felony_vacatur_expungement, question:Q-004:ky_nonconviction_expungement, question:Q-006:la-978-felony-conviction, question:Q-007:la-985-3-immediate-expungement, question:Q-008:la-985-expungement-by-redaction, question:Q-019:nd-dui-record-seal, question:Q-020:nd-dui-record-seal, question:Q-023:ne-expunge-le-error, question:Q-024:ne-expunge-le-error, question:Q-025:ne-expunge-le-error, question:Q-026:ne-seal-pardoned, question:Q-027:ne-seal-pardoned), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 3 were identical.",
+        "anchorsCompared": 3,
+        "anchorDetail": [
+          "decisionsSharedAuthority: identical",
+          "implementationMatrix:Q-037: identical",
+          "question:Q-044:sd_sis_sealing: identical"
+        ],
+        "anchorsIdentical": 3,
+        "identicalAnchorSha256": {
+          "decisionsSharedAuthority": "00934d2e8d0a1605e7757bdbe21e77e4e37d5cf86610f5b4e3ef5fdcf876fa60",
+          "implementationMatrix:Q-037": "47fddadbc173513e8da2534ed73f4d123d5f6e2c2abcb4e70e74e617f859f3bb",
+          "question:Q-044:sd_sis_sealing": "ee2324e429b5b3d65c169d53507ddd55d581c2dd5980e5771c1d0209fc2c5634"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "question:Q-044:sd_sis_sealing"
+          ],
+          "derivation": {
+            "fromPinRecordId": "legal-decision:2026-08-28:Q-044:sd_sis_sealing",
+            "sharedAuthorityComparedAsOneAnchor": true,
+            "implementationMatrixRowsComparedForQuestions": true,
+            "measuredReVerification": [
+              {
+                "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows-vf12-20261019-reverify.json",
+                "lane": "VF12",
+                "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208"
+              }
+            ]
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "question:Q-002:ky_felony_expungement_after_pardon",
+          "question:Q-003:ky_felony_vacatur_expungement",
+          "question:Q-004:ky_nonconviction_expungement",
+          "question:Q-006:la-978-felony-conviction",
+          "question:Q-007:la-985-3-immediate-expungement",
+          "question:Q-008:la-985-expungement-by-redaction",
+          "question:Q-019:nd-dui-record-seal",
+          "question:Q-020:nd-dui-record-seal",
+          "question:Q-023:ne-expunge-le-error",
+          "question:Q-024:ne-expunge-le-error",
+          "question:Q-025:ne-expunge-le-error",
+          "question:Q-026:ne-seal-pardoned",
+          "question:Q-027:ne-seal-pardoned"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "d316c19be26d5ffbef04260dd484c08984f2cec7",
+          "commit": "2375800649ba76eebc40adf4674c4112cd8d1d22",
+          "commitsWithThisPath": 5,
+          "distinctBlobs": 5,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
     },
     {
       "sourceIds": [

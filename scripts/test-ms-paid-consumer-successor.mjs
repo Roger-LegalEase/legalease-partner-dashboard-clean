@@ -8,9 +8,12 @@ import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_DECISION_PATH: decisionPath,
   MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH: priorDecisionPath,
-  MS_PAID_SUCCESSOR_FIRST_DECISION_PATH: firstDecisionPath, MS_PAID_SUCCESSOR_ROUTE: route } =
+  MS_PAID_SUCCESSOR_SECOND_DECISION_PATH: secondDecisionPath, MS_PAID_SUCCESSOR_FIRST_DECISION_PATH: firstDecisionPath, MS_PAID_SUCCESSOR_ROUTE: route } =
   await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
+const { QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH } =
+  await import('../src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
 const root = process.cwd();
+const sourceSuccessor = JSON.parse(fs.readFileSync(QUESTION_CONTRACT_SUCCESSOR_PATH));
 const approved = JSON.parse(fs.readFileSync(decisionPath));
 const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'ms-paid-scope-'));
 let passed = 0;
@@ -18,75 +21,35 @@ function check(label, run) { run(); passed++; console.log(`PASS ${label}`); }
 function writeDecision(decision) { fs.writeFileSync(path.join(scratch, decisionPath), JSON.stringify(decision)); }
 try {
   // The whole superseded chain and the approved bytes are custody inputs now,
-  // not only the evidence list: the loader reads all of them. The chain is two
-  // links deep since v3, so v1 is copied too -- the loader verifies that v2
-  // still names v1 exactly, and a fixture missing it would fail for the wrong
-  // reason in every control below.
-  for (const rel of [decisionPath, priorDecisionPath, firstDecisionPath,
-    ...approved.preservedEvidence.map(e => e.path), ...approved.approvedArtifacts.map(a => a.path)]) {
+  // not only the evidence list: v4 -> v3 -> v2 -> v1 must all be present
+  // so each mutation is refused for its own reason.
+  for (const rel of [decisionPath, priorDecisionPath, secondDecisionPath, firstDecisionPath, approved.currentCommercialArtifactApproval.path,
+    ...approved.preservedEvidence.map(e => e.path), ...approved.approvedArtifacts.map(a => a.path),
+    "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+    QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH,
+    ...sourceSuccessor.preservedEvidence.map(e => e.path)]) {
     fs.mkdirSync(path.dirname(path.join(scratch, rel)), { recursive: true });
     fs.copyFileSync(path.join(root, rel), path.join(scratch, rel));
   }
-  /*
-   * The scratch decision names the scratch bytes.
-   *
-   * This copies the real artifacts, and after the shared Fees & Costs
-   * correction moved two of them the real decision no longer names what was
-   * copied -- so every control below failed for one reason that has nothing to
-   * do with the rule it is testing. These 49 controls are about the LOADER's
-   * rules: that it refuses a changed route, a waived gate, an edited
-   * supersession, a swapped artifact path. Re-pointing the fixture's decision
-   * at the fixture's own bytes is what lets each of them fail for its own
-   * reason again.
-   *
-   * It is a fixture, and it says nothing about what Roger approved. The real
-   * mismatch is recorded in MS_NONCONVICTION_ARTIFACT_MOVE_2026-09-20.json and
-   * held by its own control; the real decision is never edited.
-   */
-  const fixtureDecision = JSON.parse(JSON.stringify(approved));
-  const scratchDigest = rel => crypto.createHash('sha256')
-    .update(fs.readFileSync(path.join(scratch, rel))).digest('hex');
-  for (const entry of fixtureDecision.approvedArtifacts) entry.sha256 = scratchDigest(entry.path);
-  for (const entry of fixtureDecision.preservedEvidence) entry.sha256 = scratchDigest(entry.path);
-  // The assembly binding pins the guide the review was produced from; the
-  // review evidence in the fixture tree states it, so the fixture reads it from
-  // there rather than restating a digest of its own.
-  const fixtureReview = JSON.parse(fs.readFileSync(path.join(scratch,
-    'data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json'), 'utf8'));
-  fixtureDecision.assemblyBinding.supplementalGuideContentSha256 =
-    fixtureReview.generatedFrom.supplementalGuideIdentity.contentSha256;
-  fixtureDecision.assemblyBinding.supplementalGuideSha256 =
-    fixtureReview.generatedFrom.supplementalGuideSha256;
-  fixtureDecision.assemblyBinding.specificationSha256 = fixtureReview.generatedFrom.specificationSha256;
-  for (const entry of fixtureDecision.approvedArtifacts) {
-    const produced = (fixtureReview.artifacts ?? []).find(row => row.id === entry.id);
-    if (produced) entry.pageCount = produced.pageCount;
-  }
-  /*
-   * The account of what moved has to follow the fixture's own digests.
-   *
-   * The loader ties `supersedes.movedArtifacts[].to` to the approved digest and
-   * `.from` to the superseded decision's, so a fixture that re-pointed the
-   * approved bytes without re-pointing the account would be refused for the
-   * bookkeeping rather than for the rule each control is about.
-   */
-  const supersededDecision = JSON.parse(fs.readFileSync(path.join(scratch, priorDecisionPath), 'utf8'));
-  for (const moved of fixtureDecision.supersedes.movedArtifacts) {
-    moved.from = supersededDecision.approvedArtifacts.find(a => a.id === moved.id).sha256;
-    moved.to = fixtureDecision.approvedArtifacts.find(a => a.id === moved.id).sha256;
-    moved.moved = moved.from !== moved.to;
-  }
-  writeDecision(fixtureDecision);
+  // Preserve the real owner decisions byte for byte. The loader proves their
+  // historical specification endpoint against the archived predecessor, then
+  // proves the separately named current question-contract transition. Fixture
+  // rehashing must not turn a historic owner decision into a current approval.
+  const fixtureDecision = structuredClone(approved);
 
   check('new exact approval loads without granting technical acceptance', () => {
     const a = loadMsPaidConsumerSuccessor(scratch);
     assert.equal(a.routeId, route); assert.equal(a.trackId, 'ms-nonconv');
     assert.equal(a.packetContentsChanged, true, 'the successor packet contents changed and the approval says so');
     assert.equal(a.approvedArtifacts.length, 3);
+    assert.equal(a.decisionId,'MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20261019-V4');
+    assert.equal(a.approvedArtifacts.find(a=>a.id==='full-es').sha256,'f80520fbb425435b19b1e5d97d3214c56d2c469fcc7c660035258d0d57926fcd');
     assert.equal(a.decisionSha256, crypto.createHash('sha256').update(fs.readFileSync(path.join(scratch,decisionPath))).digest('hex'));
   });
   const artifact = (d, id) => d.approvedArtifacts.find(a => a.id === id);
   const mutations = {
+    'changed commercial approval binding': d => d.currentCommercialArtifactApproval.sha256 = '0'.repeat(64),
+    'redirected commercial approval binding': d => d.currentCommercialArtifactApproval.path = d.supersedes.path,
     'other route': d => d.routeId += '-other', 'other track': d => d.trackId = 'ms-misd-addl',
     'other family': d => d.packetSetId = 'ms-misd-addl-set', 'wrong price': d => d.priceCents = 100,
     'no paid approval': d => d.consumerPaidAuthorized = false,
@@ -143,21 +106,35 @@ try {
     // does not stop at the immediate predecessor.
     'a chain whose tail no longer names the first decision':
       (d, tree) => {
-        const v2 = JSON.parse(fs.readFileSync(path.join(tree, priorDecisionPath), 'utf8'));
+        const v2 = JSON.parse(fs.readFileSync(path.join(tree, secondDecisionPath), 'utf8'));
         v2.supersedes.sha256 = '0'.repeat(64);
-        fs.writeFileSync(path.join(tree, priorDecisionPath), JSON.stringify(v2));
+        fs.writeFileSync(path.join(tree, secondDecisionPath), JSON.stringify(v2));
+        // Observe descent so a later custody guard cannot make this control pass accidentally.
+        const read = fs.readFileSync;
+        let followedFirst = false;
+        try {
+          fs.readFileSync = (file, ...options) => {
+            if (file === path.join(tree, firstDecisionPath)) followedFirst = true;
+            return read(file, ...options);
+          };
+          assert.equal(loadMsPaidConsumerSuccessor(tree), null);
+          assert.equal(followedFirst, false, 'v3 -> v2 must refuse before following the first decision');
+        } finally { fs.readFileSync = read; }
       }
   };
   for (const [label, mutate] of Object.entries(mutations)) {
     // A mutation gets the decision and the tree: custody rules live in files
     // beside the decision, so proving those refuse means editing one of them.
+    fs.copyFileSync(path.join(root, decisionPath), path.join(scratch, decisionPath));
+    assert.ok(loadMsPaidConsumerSuccessor(scratch), `positive control before ${label}`);
     const d = structuredClone(fixtureDecision); mutate(d, scratch); writeDecision(d);
     check(`refuses ${label}`, () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
     // Restore whatever the mutation may have touched, so each refusal is its own.
     fs.copyFileSync(path.join(root, priorDecisionPath), path.join(scratch, priorDecisionPath));
+    fs.copyFileSync(path.join(root, secondDecisionPath), path.join(scratch, secondDecisionPath));
     fs.copyFileSync(path.join(root, firstDecisionPath), path.join(scratch, firstDecisionPath));
   }
-  writeDecision(fixtureDecision);
+  fs.copyFileSync(path.join(root, decisionPath), path.join(scratch, decisionPath));
   check('the unmutated fixture still loads (control for every refusal above)',
     () => assert.ok(loadMsPaidConsumerSuccessor(scratch)));
   const evidencePath = path.join(scratch, fixtureDecision.preservedEvidence[0].path);
@@ -170,6 +147,16 @@ try {
   fs.copyFileSync(path.join(root, artifact(fixtureDecision, 'full-en').path), approvedPdf);
   check('the restored evidence and bytes load again (control for the two refusals above)',
     () => assert.ok(loadMsPaidConsumerSuccessor(scratch)));
+  for (const rel of [QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH,
+    MS_QUESTION_CONTRACT_PREDECESSOR_PATH, ...sourceSuccessor.preservedEvidence.map(e => e.path)]) {
+    assert.ok(loadMsPaidConsumerSuccessor(scratch), `positive control before ${rel}`);
+    fs.appendFileSync(path.join(scratch, rel), '\n');
+    check(`refuses changed successor dependency ${rel}`, () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
+    fs.copyFileSync(path.join(root, rel), path.join(scratch, rel));
+    fs.unlinkSync(path.join(scratch, rel));
+    check(`refuses missing successor dependency ${rel}`, () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
+    fs.copyFileSync(path.join(root, rel), path.join(scratch, rel));
+  }
   fs.unlinkSync(path.join(scratch, priorDecisionPath));
   check('a deleted superseded decision fails closed', () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
   fs.copyFileSync(path.join(root, priorDecisionPath), path.join(scratch, priorDecisionPath));
@@ -205,6 +192,10 @@ check('unmigrated Mississippi route remains retired', () => {
   const result = resolvePacketRoute({state:'MS', pathway:'felony-expungement-under-99-19-71'});
   assert.equal(result.routeKind, 'legacy_retired');
 });
+if (process.argv.includes('--loader-only')) {
+  console.log(`${passed} loader/route controls passed; registry/publication acceptance deliberately not run`);
+  process.exit(0);
+}
 // Publication binding is a server admission fact, never owner scope. The
 // provider digest may appear on the active record only when the committed
 // publication evidence names a source whose worker inputs are equivalent to the

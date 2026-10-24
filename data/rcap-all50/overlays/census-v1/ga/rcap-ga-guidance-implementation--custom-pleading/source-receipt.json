@@ -24,33 +24,79 @@
       ],
       "recordId": "legal-design-specifications:processGuidance#ga-rfo",
       "pathInRepository": "data/record-clearing/legal-design-specifications.json",
-      "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
-      "byteLength": 16830109,
+      "sha256": "1dec458ba2717e197c20d9b4eedced43cea8649a8e7fa63c724db477098ce970",
+      "byteLength": 16831121,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed process-guidance specification for this route: that nothing is filed without the prosecuting attorney's advance consent, that no participant document is generated, that the statute prohibits a filing fee, that nothing is served, the required participant inputs, the self-help stop conditions and the named Georgia referral desks",
       "anchorStatementsVerified": 16,
       "identityRefresh": {
-        "refreshedOn": "2026-09-11",
+        "refreshedOn": "2026-10-21",
         "was": {
-          "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
-          "byteLength": 16829391
+          "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+          "byteLength": 16830109
         },
-        "why": "Exact GA track entries across every specification array and global metadata, or exact GA census route, compared against recovered prior pinned source bytes; all bound content unchanged.",
-        "anchorsCompared": 1,
-        "anchorsIdentical": 1,
-        "recoveredFromCommit": "0be1fee769162cf337ad79daaa3d5a94d88b4f5e",
-        "identicalAnchorSha256": "3375cc4ab0beef9286365791b93a87729fd4f566f652475476f0eab153259c00",
+        "why": "The record was rewritten around this receipt's anchors. 3 named entries moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction, tn_judicial_diversion, tn_pretrial_diversion), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "specificationsGlobalMetadata: identical",
+          "specs:ga-rfo: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "specificationsGlobalMetadata": "80f3d90666804a9335821cdb40782458835ffedaef33088bd1dc5eb3ef85ce61",
+          "specs:ga-rfo": "da0f8e71d902c1ffd2930baabd151212b98b51e54ac69e496f070ede74cdb149"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "ga-rfo"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "processGuidance#ga-rfo"
+            ],
+            "globalMetadataComparedAsOneAnchor": true,
+            "measuredReVerification": []
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction",
+          "tn_judicial_diversion",
+          "tn_pretrial_diversion"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "87e1a629a4bc930956efd875d1aeb2438ae5ba3b",
+          "commit": "bebf876320336dc440b4a31e378b9af0ff76b3e4",
+          "commitsWithThisPath": 56,
+          "distinctBlobs": 53,
+          "blobsHashed": 4
+        },
+        "appliedUnder": "31e factory re-pin range (lead 16:26:14Z, ND excluded 16:35:43Z): registry d0ba0e7d, specifications 1dec458b; CI",
         "previousIdentityRefresh": {
-          "refreshedOn": "2026-09-04",
+          "refreshedOn": "2026-09-11",
           "was": {
-            "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
-            "byteLength": 16829383
+            "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+            "byteLength": 16829391
           },
-          "why": "The record was rewritten around this receipt's anchors. Every anchored entry this receipt binds was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and all were identical, so the bound content is unchanged and only the whole-file identity moved.",
-          "anchorsCompared": 2,
-          "anchorsIdentical": 2,
-          "previousPinLastSeenAtCommit": "7a46c420b"
-        }
+          "why": "Exact GA track entries across every specification array and global metadata, or exact GA census route, compared against recovered prior pinned source bytes; all bound content unchanged.",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "recoveredFromCommit": "0be1fee769162cf337ad79daaa3d5a94d88b4f5e",
+          "identicalAnchorSha256": "3375cc4ab0beef9286365791b93a87729fd4f566f652475476f0eab153259c00",
+          "previousIdentityRefresh": {
+            "refreshedOn": "2026-09-04",
+            "was": {
+              "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "byteLength": 16829383
+            },
+            "why": "The record was rewritten around this receipt's anchors. Every anchored entry this receipt binds was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and all were identical, so the bound content is unchanged and only the whole-file identity moved.",
+            "anchorsCompared": 2,
+            "anchorsIdentical": 2,
+            "previousPinLastSeenAtCommit": "7a46c420b"
+          }
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     },
     {
@@ -83,34 +129,11 @@
       ],
       "recordId": "route-obligation-census:GA-rfo",
       "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
-      "byteLength": 2629290,
+      "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+      "byteLength": 2635434,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route-obligation census: this route's exact key and its recorded destination, the prosecuting attorney first and then the convicting court",
-      "anchorStatementsVerified": 3,
-      "identityRefresh": {
-        "refreshedOn": "2026-09-11",
-        "was": {
-          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-          "byteLength": 2607149
-        },
-        "why": "Exact GA track entries across every specification array and global metadata, or exact GA census route, compared against recovered prior pinned source bytes; all bound content unchanged.",
-        "anchorsCompared": 1,
-        "anchorsIdentical": 1,
-        "recoveredFromCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
-        "identicalAnchorSha256": "be3e1d166998a683bf1547082625da2f117cc01425069163f8787b8bc5b56165",
-        "previousIdentityRefresh": {
-          "refreshedOn": "2026-09-04",
-          "was": {
-            "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
-            "byteLength": 2599752
-          },
-          "why": "The record was rewritten around this receipt's anchors. Every anchored entry this receipt binds was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and all were identical, so the bound content is unchanged and only the whole-file identity moved.",
-          "anchorsCompared": 1,
-          "anchorsIdentical": 1,
-          "previousPinLastSeenAtCommit": "39b88c674"
-        }
-      }
+      "anchorStatementsVerified": 3
     }
   ],
   "composedComponentsAuthoredByThisBuild": [

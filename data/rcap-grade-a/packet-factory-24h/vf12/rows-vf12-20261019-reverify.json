@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF12",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:sd_sis_sealing",
+      "lane": "VF12",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:sd_sis_sealing run here at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR set: PASS_COMPLETE, 9/21 written, all nine counters printed 0. The builder's reports/completeness-counters.json (9 zeros, blankDispositions REQUIRED_BEFORE_FILING 8 / PROTECTED_FIELD 4) was read as the thing being checked, not as the measurement."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId composed-treatment:sd_sis_sealing agrees across product-wiring.json, source-receipt.json, production-field-map.json and the MASTER_QUEUE row. The two routeKeys obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request and ...:original_case_enforcement_motion are the same set in all four records. Each instrument prints its own route on its face (page 2 trailer of the request, page 4 trailer of the motion); both keys resolve in route-obligation-candidate.json at routes[4] and routes[3] (trackId sd_sis_sealing, runtimePathwayId suspended-imposition-of-sentence-sealing, legalDecisionRecordIds LD-SD-02 / register-question:Q-044 / report-question:Q-037) and in route-obligation-census-v1/category-a-implementation-waves.json."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Two committedRecords, both recomputed here with sha256sum. (1) data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json: pinned 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef / 184365 B; now 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B - the drift the lapse names. Where the SD decision sits now: questionDecisions[26] in BOTH the pinned and the current bytes, registerQuestionId Q-044, reportQuestionId Q-037, heading '### Q-037 - `sd_sis_sealing`', controllingProductDecision 'Automatic sealing; enforcement if missed', deliveryDisposition LEGAL_DECISION_RESOLVED_GUIDANCE. The receipt's 'Q-044' is the register id and is correct; the report-numbered '### Q-044' heading belongs to wv_conv_nonviolent_felony (register Q-051) in both the pinned and current versions, so the SD decision was never under that heading and nothing moved. The entry is canonical-identical between the two versions (entry sha256 07242df73a2b8dbc3dec979cb84e174f192fa06d04b7e3b4b84e1bb0916b4991), its reportSectionHash d3538238... recomputes exactly from completeSectionText, and its memoSha256 8d088d48... equals the SD memo on disk. The diff's 21 added / 16 removed lines touch only a KY Q-058 register entry and memoSha256 values for KY, LA, ND and NE tracks; the two lines mentioning sd_sis_sealing are identical. Anchors present in the current entry: 'Sealing under SDCL section 23A-27-17 is the court's mandatory duty when a person is discharged and the matter dismissed under section 23A-27-14. There is no ordinary participant motion', the five-step escalation (expected sealing -> verify access -> written implementation request in original case -> motion to enforce if not corrected -> attorney handoff for refusal or mandamus), 'Do not use a form designed for a separate arrest-expungement statute as a fallback', 'attach the discharge/dismissal order and ask the clerk or sentencing judge to enter and implement the statutorily required sealing order', 'If judicial relief is needed, file in the original criminal docket', disposition 'an enforcement-motion template may be built, but a contested court refusal is ATTORNEY / PARTNER HANDOFF'. (2) data/record-clearing/legal-design-intake/SD.memo.json exact: 8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7 / 128351 B; memo anchors counted in the bytes: 'Upon the discharge and dismissal a court SHALL order' x1, 'nonpublic records retained by the Division of Criminal Investigation' x2, 'not guilty of perjury' x2, 'section 22-22-7' x6, 'certified teacher' x2. No source binary is bound. New pin for the drifted record: sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, byteLength 184885."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Declared set implementation_request, enforcement_motion, filing_instructions is identical in production-field-map componentSet, reports/rendered-artifacts.json componentSet, source-receipt composedComponentsAuthoredByThisBuild and both fixtures' page manifests, in that order: the two instruments the decision's escalation names and that its disposition authorises ('an enforcement-motion template may be built'), plus instructions. No UJS arrest-expungement form is included or referenced as usable, which the decision forbids. The motion's after-the-request condition is on its own face. requiredComponentsMissing 0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "9 writes per fixture (defendant name, address, telephone, email on each instrument; 'Prepared for' on the instructions), only identity and contact facts. I ran pdftotext -layout on both fixtures and found every recorded value: 18/18, including the boundary fixture's \"Maria-Alejandra O'Shaughnessy-Whitfield\", the 86-character Sioux Falls address, '(605) 555-0199 ext. 4417' and the 56-character e-mail. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures. knownRequiredFieldsMissing 0 and invisibleWrites 0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 8 (request: discharge-and-dismissal date, public-record evidence, case number, court and county; motion: what happened after the request, case number, court and county, discharge date). Each is a labelled dotted blank on its page and each is in the participant-instructions.md tables with what to write and where it comes from. The documents to obtain are named with their source: the SIS order and the order of discharge and dismissal from the office of the court in the original criminal case (the memo's required supporting document, from the Clerk of Courts), and dated evidence of the public record entry. The memo's conditional DCI criminal history is not required before filing and is correctly not demanded. requiredFactsNotCollected 0 and unclassifiedBlanks 0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "selectionControls 0 on all three documents, routeSelectionsMade []. Which step a participant has reached turns on what happened to their own request, so the condition is printed on the motion's face rather than elected. requiredOptionsMissing 0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure exists on any of the six pages; incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "4 refusals dispositioned 'signature or date field; never prefilled by this build' (implementation_request.request_signature, request_signature_date, enforcement_motion.motion_signature, motion_signature_date). In both fixtures the lines read 'DATE ........ SIGNATURE OF DEFENDANT ........' blank, with '(The defendant signs and dates this request personally. Nothing on this page is signed or dated for the defendant.)' and '(The defendant signs and dates this motion personally.)' beside them; the court and county captions are labelled blanks and no clerk or court field is filled. refusedFieldsWithInk [] in both fixtures; protectedWrites 0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded. canonical.pdf d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 / 13644 B / 6 pages; boundary.pdf 0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3 / 13985 B / 6 pages; both match reports/rendered-artifacts.json, and the canonical hash is the one product-wiring's acceptanceReceipt binds (RASTER_PASS, run 33579500812, job 100091041690). 0 mismatches, 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both manifests run packetPage 1..6: pages 1-2 implementation_request, 3-4 enforcement_motion, 5-6 filing_instructions, the declared order. My pdftotext page split confirms it in both fixtures: 'WRITTEN REQUEST TO IMPLEMENT MANDATORY SEALING' opens page 1, 'MOTION IN THE ORIGINAL CRIMINAL CASE' page 3, 'FILING INSTRUCTIONS' page 5. pdfinfo reads 6 pages, equal to the recorded 6, for both."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox recomputed here: canonical 1127 words, boundary 1138 words, 0 words outside the 612x792 page box and 0 same-band overlapping word pairs in either; this agrees with the facts file. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 both fixtures; visualDefects 0 measured here; the central acceptance receipt is RASTER_PASS bound to the canonical hash."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The repository holds it and the packet states it. Memo destination: 'The court that entered the discharge and dismissal'; census: 'clerk or sentencing judge in the original criminal case' (request) and 'sentencing court in the original criminal docket' (motion); decision: 'written implementation request in original case' / 'file in the original criminal docket'. Both instruments are captioned 'IN THE ____ COURT ____ COUNTY, SOUTH DAKOTA (THE COURT IN THE ORIGINAL CRIMINAL CASE, AND ITS COUNTY - that court's own office can confirm both)'; STEP THREE files the request 'in the original case' and STEP FOUR the motion 'in the original criminal docket'; participant-instructions.md says the same. A1 satisfied."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the third branch, after asking the repository first (A2) per fact and per route (A3). The memo's rules.fees / filing / feeWaiver 'none' describe the track's own mechanism - the court seals on its own order and 'The participant files nothing' - not a fee fact for a written request or a motion in the original docket; the SD profile's '$72 filing fee' lines are keyed to the arrest-expungement motion under SDCL 23A-3-27/28, a new civil action under a different statute, which A3 forbids applying; the census routes carry requiredSourceIds [] and no fee field; the decision record states no fee. So no held source establishes a fee for these two filings, and the packet says exactly that and names the authority in the same sentence: page 5 STEP THREE 'Ask the office of that court how it accepts delivery and whether any fee applies - no committed record this packet is built from states either'; participant-instructions.md 'Whether a filing fee applies, and how the request or motion must be delivered. Neither is established by the committed records ... The office of the court in the original criminal case is the authority that can answer both'. That office is specific and reachable - STEP TWO already sends the participant there for the two orders. No figure invented; PDF and instructions agree."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Serves-nobody rule stated affirmatively with the mechanism that replaces it, plus a named authority for the one delivery the participant makes. Memo rules.service 'none' and destination detail 'The participant files nothing'; the packet carries it on the face of both instruments and the instructions ('SDCL Sec. 23A-27-17 makes sealing the COURT'S duty ... You apply for nothing to obtain it'), drafts no order for the court, names no adverse party (none is named by the decision or memo), and delegates delivery of the request and motion to 'the office of that court'. No certificate of service is composed and none is claimed."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling decision: its stops are 'attorney handoff for refusal or mandamus' and 'a contested court refusal is ATTORNEY / PARTNER HANDOFF'. Both are carried on the motion's face ('If the court refuses after this motion, the recorded next step is a lawyer - attorney handoff for refusal or mandamus - not another filing from this packet') and in the page-6 stop list, which has five triggers: discharge not issued / conditions incomplete / status unclear; refusal after the motion or disputed eligibility; a 22-22-1 or 22-22-7 conviction with a teaching licence in play; relying on sealing to erase the matter everywhere; any immigration question. The decision's arrest-expungement-form prohibition is a never-use-for bullet; the memo's two limitations are carried in its own terms (teacher-licensing carve-out as a stop; 'Sealing restricts access; it does not erase the DCI's nonpublic records'). The sealing order, the signature and its date, and the post-request outcome are stated as left blank, and the packet says it carries no approval and is not filed for you. Against the memo's seven track-level stops: four carried (incomplete conditions or no discharge, unclear discharge status, teacher licensing, assuming SIS means the record is gone); #6 (records appear unsealed -> escalate to the court) is the branch this packet implements as the decision directs; two are NOT carried anywhere in the packet: 'Any felony matter' and 'Federal, tribal, military or out-of-state records'. The packet does carry 'eligibility is disputed in any way -> stop' and 'Whether your case was eligible for the suspended imposition of sentence in the first place ... is a recorded attorney handoff'. Recorded as an observation for the owner and counsel (the memo asks the felony/misdemeanor and prior-felony questions as participant inputs); not a failure under the controlling decision's conditions, which this lane's standard measures."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 9/21 written, all nine counters zero, run here at f3ff92ac2",
+        "sourceRecomputation": "2/2 committedRecords rehashed here: SD.memo.json exact; 2026-08-28-national-legal-decisions.json drifted 0aad88ef/184365 -> 63fe0b16/184885 with the SD decision entry (questionDecisions[26], register Q-044 / report Q-037) canonical-identical in both versions; 6 decision anchors and 5 memo anchors present in the current bytes; both route keys present in the census",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo 6/6 pages both",
+        "byteReadBack": "18/18 written values (9 per fixture) read back from pdftotext -layout output produced here; bbox geometry 0 outside / 0 overlapping in both",
+        "stopConditions": "2/2 controlling-decision stops carried (refusal -> attorney handoff; mandamus -> attorney handoff); 4/7 memo track-level stops carried, 1 is the resolved branch, 2 ('Any felony matter'; federal/tribal/military/out-of-state records) not carried - observation only",
+        "lapseResolved": "BOUND_SOURCE_DRIFTED on 2026-08-28-national-legal-decisions.json re-verified by locating the controlling decision in the current bytes (questionDecisions[26], register Q-044 / report Q-037 - the '### Q-044' report heading is and always was wv_conv_nonviolent_felony), proving the entry canonical-identical to the pinned version (entry sha256 07242df7...), confirming its holding, escalation and disposition are what the packet implements, and recording the new pin 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885. The receipt on disk still carries the old pin; re-pinning it is the builder's follow-up, not this lane's."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

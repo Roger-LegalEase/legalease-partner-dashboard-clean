@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimLedger": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/review-evidence/lead-batch29/a9-claims/claim-ledger.json",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge": "CLAIM_OK VF01 agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge (independent-verification, grant set 1c6319b6441f6094)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "lane": "VF01",
+      "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T14:16:14Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node review-evidence/ci-factory/vf-reverify-f3ff92ac2/measure-family.mjs (verify-packet-completeness.mjs --family) in /tmp/legalease-reviewer-20261020 detached at 0116da97daa896e517323f18c01a1a33de0ceaee: PASS_COMPLETE 5/10 written"
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+          "sha256Prefix": "63fe0b16adc4",
+          "byteLength": 184885,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+          "sha256Prefix": "764d59c2965e",
+          "byteLength": 32881,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/AL.memo.json",
+          "sha256Prefix": "7d484d636a16",
+          "byteLength": 112172,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256Prefix": "eeabd8b97786",
+          "byteLength": 2635434,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "3a623ddd053ba69285f8ff51da9eab1b8dd38664c766462b247937e8014f8372",
+          "byteLength": 6329,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "27f03f93313603b66fee97cae8cf85425820cc8f307c3979bb392f34435d34d4",
+          "byteLength": 6439,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across source-receipt, production-field-map, product-wiring and MASTER_QUEUE, all on obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge; the census carries the same routeKey (routes[24]) with destination \"ALEA/ACJIC or the originating criminal justice agency\" and authority Ala. Code Secs. 41-9-645 to -646, which the instructions name."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 0116da97daa896e517323f18c01a1a33de0ceaee: all 4 receipt pins equal the bytes (2026-08-28-national-legal-decisions.json 63fe0b16adc4/184885 B; 2026-08-30-lawrence-four-counsel-determinations.json 764d59c2965e/32881 B; AL.memo.json 7d484d636a16/112172 B; route-obligation-candidate.json eeabd8b97786/2635434 B); receipt-pins.txt."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "declared = rendered = agency_preparation_guide (requiredComponentsMissing 0); the controlling decision (researchTrackDecisions[4]) disposes the route as OUTPUT: AGENCY RECORD-CHALLENGE PACKET, and the circuit-court appeal is a separate packet the guide says it does not open."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 5 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (5/5 both): full legal name, date of birth, mailing address, telephone and email; the boundary differs from the canonical only in those values (text/canonical.txt vs text/boundary.txt). No signature, date, election or authority field is inked."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map requiredBeforeFilingCount 5, each a labelled dotted blank with a \"Check with\" authority (holding agency, challenged entry, why it is wrong, certified disposition, current submission method and destination); participant-instructions.md lists the same five."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade 0. The route-distinction branches of the decision are printed as a use test, not a pre-made choice: record error -> this route; accurate arrest -> stop, Title 15 expungement; identity theft or disputed biometrics -> agency correction, then counsel."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating structure is declared (repeatingRows 0) and none is printed."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "\"Do not sign or date this guide\"; no court, clerk, prosecutor, agency, notary or hearing-officer field is completed (p2, instructions \"Protected items left blank\"); protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf 3a623ddd053ba69285f8ff51da9eab1b8dd38664c766462b247937e8014f8372/6329 B and boundary.pdf 27f03f93313603b66fee97cae8cf85425820cc8f307c3979bb392f34435d34d4/6439 B, 2 pages each by pdfinfo, equal to reports/rendered-artifacts.json; product-wiring binds the canonical sha. A9 run 39430479568 (RASTER_PASS, rendered at dba387ad6f1fa778edbccd7873772c9c5e7cf839) binds both pins, 4 pages, every PNG sha256 recomputed from the downloaded bytes (rv16-a9-39430479568/RV16-REVIEW-39430479568.json)."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "One component on 2 pages per fixture: p1 title, guide status, identity block, WHO MUST RECEIVE A COPY OR NOTICE, route-use test, agency sequence, first required blank; p2 the remaining required blanks and PROTECTED ITEMS. Reading order is continuous."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox at 0116da97d: 0 words outside the page box and 0 same-band overlapping pairs on either fixture (canonical 430 / boundary 437 words). Every page of A9 run 39430479568 viewed: legible, inside margins, the boundary's long name, address and email wrap cleanly, no collision."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "ALEA/ACJIC or the originating criminal-justice agency, by that agency's current procedure, \"not as a court filing\" (p1 AGENCY SEQUENCE, instructions); equal to the census destination. The exact holding agency is a required blank confirmed with the record and the agency's records unit, not invented."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "DET-FEE-AND-WAIVER-001 third prong in substance. No held source states an agency fee: the controlling decision text (researchTrackDecisions[4]) mentions costs only for the later circuit-court review (\"without advance costs or bond\"), which this packet does not open. participant-instructions.md says the guide \"does not replace any current form, portal, address, fee, or submission rule the receiving agency requires\" and makes the \"Current agency submission method and destination\" blank include \"fee if any; confirm it with ALEA/ACJIC or the originating agency\". The fee is not presented as known, no figure is published, and the authority to ask is named; no waiver route arises where no fee is established."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "p1 \"WHO MUST RECEIVE A COPY OR NOTICE?\": nothing in the guide is served; the challenge goes by the agency's procedure, not as a court filing; \"The held sources do not establish who must receive a copy or notice\"; ask that agency's records unit before submitting. The decision's serviceWorkflow is empty; its notice language belongs to the circuit-court review."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "All four product-disposition stops of researchTrackDecisions[4] are carried: accurate uncharged arrest -> stop, separate Title 15 route (p1); identity theft or disputed biometrics -> counsel if unresolved (p1); court output only after final denial and as a separate packet (p1); a disputed material fact or final denial -> attorney handoff (instructions \"Route boundary\")."
+        }
+      },
+      "observations": [
+        {
+          "what": "Route key printed to the participant (PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class)",
+          "detail": "p1 prints \"ROUTE: obligation:research-decision-route:AL:...\". The rebuild since 1b48eb358 removed only the trailing \"Route:\" footer line (text/canonical.1b48eb358-vs-now.diff); participant-instructions.md still ends with it. Recorded, not scored."
+        },
+        {
+          "what": "Fee wording weaker than the NM pattern",
+          "detail": "The packet carries no explicit \"no held source states a fee\" sentence; it reaches prong 3 through \"fee if any; confirm it with ALEA/ACJIC\" in the instructions only. Recorded for the class, not scored."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv17-al-arc/read-0116da97d",
+        "measure": "facts.json, measure.log",
+        "receipt": "source-receipt.json, receipt-pins.txt",
+        "text": "text/canonical.txt, text/boundary.txt, text/*.1b48eb358-vs-now.diff (old/ holds the 1b48eb358 bytes)",
+        "records": "participant-instructions.md, product-wiring.json, production-field-map.json, json-diff-1b48eb358.txt",
+        "raster": "review-evidence/reviewer/rv16-a9-39430479568/RV16-REVIEW-39430479568.json"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

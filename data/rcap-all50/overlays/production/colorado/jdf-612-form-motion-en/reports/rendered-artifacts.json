@@ -1,34 +1,52 @@
 {
   "artifacts": {
-    "contact-sheet/blank-vs-filled.pdf": {
-      "bytes": 1255122,
-      "sha256": "d9cc6c4060509a0e05a5395933887ee235cef888077474c709c8c67d9f5f48a5",
-      "verifiedOnDisk": true
-    },
     "fixtures/boundary-filled.pdf": {
-      "bytes": 231678,
-      "sha256": "391775264f24cb4ee66a96402f19fd8044a6a22bbaa935db849984517f9a5578",
-      "verifiedOnDisk": true
+      "bytes": 246988,
+      "sha256": "393f57c1c4dd3290a04af968a64e0fdd20e1c190c6855c4d30fc9401ac70f5e7"
     },
     "fixtures/canonical-filled.pdf": {
-      "bytes": 231616,
-      "sha256": "cb796b51f5b747e357796c1b6ab7bc1799a436b4ea1b550574fa1f56a88e022e",
-      "verifiedOnDisk": true
+      "bytes": 245938,
+      "sha256": "0c284777ee375629502260504835f792b27a7a64775f2499c64ad9fddfd57175"
     },
     "fixtures/negative-filled.pdf": {
-      "bytes": 231478,
-      "sha256": "9b354d7d36eff190e0031f1ccde74f4541a1f1bfa6c220f1ccd5d5ed782ad1a4",
-      "verifiedOnDisk": true
+      "bytes": 243200,
+      "sha256": "ebd1a8b1526665e7e196c33f2afbb336db4a9c5ae2e40f8b3e729290082da696"
     }
   },
-  "factoryVersion": "d0-remediated-v1",
-  "manifestRepairedFrom": "the bytes on disk after the D final remediation cycle; no participant artifact was re-rendered to make a manifest current",
-  "renderer": null,
-  "rendererNamedByPortedManifest": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
-  "rendererProvenance": "reports/renderer-provenance.json",
-  "rendererStatus": "unrecoverable_from_accepted_history",
-  "reproducibilityBasis": "These bytes cannot be regenerated in this environment: the renderer named by the ported manifest is not in the tree, no renderer in accepted history claims Colorado, and the official binary this family is pinned to is not mounted. The digests below are recomputed from the bytes on disk and match, which is what these artifacts are retained on.",
-  "reproducible": false,
+  "historicalArtifacts": [
+    {
+      "bytes": 1255122,
+      "gitBlobSha": "4104118c6ff68abe5127642f22c0e5ab4390b803",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/contact-sheet/blank-vs-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "d9cc6c4060509a0e05a5395933887ee235cef888077474c709c8c67d9f5f48a5"
+    },
+    {
+      "bytes": 231678,
+      "gitBlobSha": "a90cdcb9319ff65c37a6c90c2d3a2f2e89307de1",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/boundary-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "391775264f24cb4ee66a96402f19fd8044a6a22bbaa935db849984517f9a5578"
+    },
+    {
+      "bytes": 231616,
+      "gitBlobSha": "d7066a7448424f47065f7554a049efa7a1196f2b",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/canonical-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "cb796b51f5b747e357796c1b6ab7bc1799a436b4ea1b550574fa1f56a88e022e"
+    },
+    {
+      "bytes": 231478,
+      "gitBlobSha": "39d43e312db29f9032029699a2e0fb26452822ae",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/negative-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "9b354d7d36eff190e0031f1ccde74f4541a1f1bfa6c220f1ccd5d5ed782ad1a4"
+    }
+  ],
+  "implementation": "src/lib/rcap/state-packs/colorado/official-forms/pipeline.ts#renderCurrentFixture",
+  "independentReview": "pending",
+  "renderer": "src/lib/rcap/state-packs/colorado/official-forms/run-emit.mjs",
+  "revision": "REV-2025-07-01",
   "schemaVersion": "rcap-rendered-artifacts/v2-provenance",
-  "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e"
+  "sourceSha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b"
 }

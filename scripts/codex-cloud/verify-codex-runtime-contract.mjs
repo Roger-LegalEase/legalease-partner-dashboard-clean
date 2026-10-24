@@ -232,15 +232,8 @@ const wf = fs.existsSync(path.join(ROOT, READY_WORKFLOW)) ? fs.readFileSync(path
 const wfProblems = [];
 if (!wf) wfProblems.push("the readiness workflow is absent");
 /*
- * The packet runtime is asked of the workflow that renders, not of the one that
- * gates source readiness.
- *
- * This required the source-conveyor gate to run the packet-runtime probe, and
- * that gate then failed -- not on Chromium, which installed fine on the runner,
- * but on `Cannot find module 'pdf-lib'`, because the job never runs npm ci. A
- * packet-runtime check bolted onto a dependency-free control-plane job was
- * wrong twice: wrong about what that gate is for, and unable to run even where
- * a browser exists. DISC, SRC, ACQ and PROMO render nothing.
+ * The source conveyor installs locked dependencies for PDF checks. The browser
+ * runtime probe belongs to the raster workflow that actually renders pages.
  */
 const rasterWf = fs.existsSync(path.join(ROOT, RASTER_WORKFLOW)) ? fs.readFileSync(path.join(ROOT, RASTER_WORKFLOW), "utf8") : "";
 if (!rasterWf) wfProblems.push("the central raster workflow is absent, so nothing renders anywhere");

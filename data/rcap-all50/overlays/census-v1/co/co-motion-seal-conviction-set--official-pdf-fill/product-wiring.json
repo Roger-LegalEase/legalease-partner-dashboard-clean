@@ -32,6 +32,7 @@
     ],
     "deliveryType": "official_pdf_fill",
     "instrumentKinds": [
+      "conditional_filing",
       "primary_filing",
       "proposed_order",
       "required_filing"
@@ -47,12 +48,12 @@
     "sourceVersion": [
       {
         "sourceId": "official-form:JDF-612",
-        "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-        "tier": "exact_form_number"
+        "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+        "tier": "exact_content_hash"
       },
       {
         "sourceId": "official-form:JDF-615",
-        "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+        "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
         "tier": "exact_content_hash"
       },
       {
@@ -76,14 +77,7 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34662168673",
-      "jobId": "103467351587",
-      "artifactId": "10288455534",
-      "boundToCanonicalSha256": "f8eaffc976b0b73ba6cf76b3332d9ff950d38a8089279a3a5b364db49153b4b9",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf07",
@@ -124,6 +118,19 @@
           "boundToCanonicalSha256": "f8eaffc976b0b73ba6cf76b3332d9ff950d38a8089279a3a5b364db49153b4b9",
           "coversTheWholeFamily": true
         }
+      },
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "f8eaffc976b0b73ba6cf76b3332d9ff950d38a8089279a3a5b364db49153b4b9",
+        "replacedByCanonicalSha256": "aec7580daffa50e7498eafdb3acd006a427131d18c3f49194a8244414d2b3ec6",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34662168673",
+          "jobId": "103467351587",
+          "artifactId": "10288455534",
+          "boundToCanonicalSha256": "f8eaffc976b0b73ba6cf76b3332d9ff950d38a8089279a3a5b364db49153b4b9",
+          "coversTheWholeFamily": true
+        }
       }
     ]
   },
@@ -138,7 +145,7 @@
         "order": 1,
         "documentId": "JDF-612",
         "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f8eaffc976b0b73ba6cf76b3332d9ff950d38a8089279a3a5b364db49153b4b9",
+        "sha256": "aec7580daffa50e7498eafdb3acd006a427131d18c3f49194a8244414d2b3ec6",
         "requirement": "required"
       },
       {
@@ -147,7 +154,7 @@
         "order": 2,
         "documentId": "JDF-615",
         "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f8eaffc976b0b73ba6cf76b3332d9ff950d38a8089279a3a5b364db49153b4b9",
+        "sha256": "aec7580daffa50e7498eafdb3acd006a427131d18c3f49194a8244414d2b3ec6",
         "requirement": "required"
       }
     ]

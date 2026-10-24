@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "baseSha": "cf419c9e115183c0778074daa5a4f99e4f4eac49",
+  "branch": "codex/de1017a-fix01-return-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker",
+  "grantsAsserted": [
+    "FIX01 composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction: Lead writer release2026-10-20T17:48:14Z; historical repair claim already released, no live CLAIM_OK asserted."
+  ],
+  "grantBasis": "Explicit Lead assignment and CI projection2026-10-20T17:48Z. Return records existing owned implementation; worker does not mutate claims, integrate, or assert independent approval.",
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairAssignment": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261019-reverify-census-5e7fe802c.json",
+      "implementationCommit": "cb24ad0b787a9e3002867fd0174459385f62b0df",
+      "correction": "Remove adult SBI fee and filing-destination claims from juvenile1017A correction. Name the adjudicating Family Court clerk as an office to confirm the destination and fee, and explicitly disclose the exact office/postal-address blank as required before filing. No invented recipient or fee.",
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf",
+          "documentId": "assembled_packet",
+          "role": "assembled_packet_of_composed_pleadings",
+          "fixture": "canonical",
+          "sha256": "04668f73fac3100e9c1fb0be3a78b5aa622aa18ff8c17107a8e91bbb7bbc24c1",
+          "byteLength": 10069,
+          "pageCount": 4
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf",
+          "documentId": "assembled_packet",
+          "role": "assembled_packet_of_composed_pleadings",
+          "fixture": "boundary",
+          "sha256": "fe5b1c38e1b0973ec9e9bc8f45d1878672020b3d34acedf576ac57d23bd7523a",
+          "byteLength": 10237,
+          "pageCount": 4
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "evidencePath": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/codex-worker-evidence/de1017a-correction",
+      "testsActuallyRun": {
+        "parent": "3/3 final regression tests RED on committed rejected bytes",
+        "candidate": "3/3PASS; actual canonical/boundary PDF readback and declared blank/instructions",
+        "nativeBuild": "COMPLETED; all nine counters zero",
+        "auditFamily": "All nine counters zero with required corpus environment; first import without environment refused before audit",
+        "preservation": "Existing writes/refusals, fixtures, route keys and component identities unchanged; one new required-before-filing address blank, no upstream gate. Renderer mechanics byte-identical. Committed pin identities/history preserved.",
+        "eslint": "exit0, one pre-existing unused declarationIndex warning",
+        "diffCheck": 0,
+        "visual": "Viewed all 8 pages of two four-page PDFs. Text fits; generic renderer carries some continuation lines/headings across page breaks. No independent visual verdict."
+      },
+      "evidenceReuse": {
+        "implementationEvidence": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/codex-worker-evidence/de1017a-correction/review-package.json",
+        "immutableLeadRead": "23c6c1660fbd086eea936a5de9efa4b0dea1ba7a",
+        "implementationPathsEqualAtLead": {
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/approval-request.json": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/build-findings.json": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/participant-instructions.md": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/production-field-map.json": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/reports/blanks-left-for-the-participant.json": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/reports/completeness-counters.json": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/reports/rendered-artifacts.json": false,
+          "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/source-receipt.json": false,
+          "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs": false,
+          "scripts/test-de-1017a-correction-packet.mjs": false
+        },
+        "rowOnlyChecks": "Rehashed immutable implementation PDFs and byte lengths; existing repairRowDischargesFailure check. No rebuild or test edits."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true,
+      "remaining": "Lead integrates only after Reviewer2 ACCEPT; new raster then VF02 reissue. No premature verification claim operation."
+    }
+  ]
+}

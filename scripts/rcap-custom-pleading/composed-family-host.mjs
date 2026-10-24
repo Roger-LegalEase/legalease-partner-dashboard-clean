@@ -261,7 +261,7 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   let glyphs = 0;
   for (const map of maps) {
     const componentText = String(textOfComponent.get(map.formNumber) ?? "").replace(/\s+/g, " ");
-    for (const w of map.canonicalWrites ?? []) {
+    for (const w of map[fixtureName + "Writes"] ?? map.canonicalWrites ?? []) {
       const value = sanitizePdfText(String(facts[w.factId] ?? ""));
       assert.ok(value.length > 0, `${map.formNumber}/${w.field}: no fixture value for ${w.factId}`);
       const found = componentText.includes(value);
@@ -717,7 +717,8 @@ export async function runComposedFamily(family, argv = process.argv.slice(2)) {
     buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     counselQuestionsRaised: family.counselQuestions,
-    mattersForTheReviewersAttention: family.reviewerAttention
+    mattersForTheReviewersAttention: family.reviewerAttention,
+    ...(family.counselQuestionsSettled ? { counselQuestionsSettled: family.counselQuestionsSettled } : {})
   });
 
   const allZero = PASS_COUNTERS.every((c) => counted.counters[c] === 0);

@@ -15,7 +15,8 @@ import { flattenedWidgets, drawnAt } from "./pdf-flattened-widgets.mjs";
 import { scanBytesForActiveContent } from "./rcap-active-content.mjs";
 import { stampDeterministic } from "./rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "../rcap-packet-completeness/completeness-contract.mjs";
-import { preserveIdentityRefresh } from "../rcap-packet-completeness/identity-refresh.mjs";
+import { preserveIdentityRefresh, committedReceiptText } from "../rcap-packet-completeness/identity-refresh.mjs";
+import { verifyControllingReservation, RESERVATION_REGISTRY_PATH } from "../rcap-packet-completeness/controlling-record-reservation.mjs";
 
 
 import { measureKansasDocument, preserveKansasOrderBlank } from "./kansas-byte-measurement.mjs";
@@ -84,6 +85,8 @@ function resolveRecords() {
   const resolved = [];
   const failures = [];
   for (const rec of SPEC.records) {
+    // A generated factory ledger (MASTER_QUEUE.json and its siblings) is build context, never authority (VFKS3).
+    if (/^data\/rcap-grade-a\/packet-factory-24h\/[A-Z][A-Z0-9_]*\.json$/.test(rec.path)) { failures.push({ recordId: rec.recordId, path: rec.path, why: "a generated factory ledger is build context, not a committed record this family may bind as authority" }); continue; }
     const abs = path.join(ROOT, rec.path);
     if (!fs.existsSync(abs)) { failures.push({ recordId: rec.recordId, path: rec.path, why: "the committed record does not exist at this path" }); continue; }
     const bytes = fs.readFileSync(abs);
@@ -204,6 +207,13 @@ function policyRow(source, field) {
         ...(decision.caseDetermined
           ? { determinedByTheCaseNotTheRoute: true, whyTheRouteCannotDetermineIt: decision.caseDetermined }
           : {})
+      };
+    case "reserved":
+      return {
+        ...row, factId: decision.factId, category: null, completenessClass: null, class: null,
+        completenessDisposition: "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD", disposition: "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD",
+        requiredBeforeFiling: false, routeDetermined: false,
+        participantMustSupply: decision.supply, controllingReservation: { ...decision.claim }
       };
     default:
       throw new Error(`${key}: unknown policy kind ${decision.kind}`);
@@ -573,6 +583,7 @@ function countCompleteness(maps, writeProofs, instructionsText, declaredComponen
     refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
     factId: r.factId ?? null, isSelectionControl: r.isSelectionControl === true,
     heldButNotWritten: r.heldButNotWritten === true, finalizerRefusal: r.finalizerRefusal ?? null,
+    controllingReservation: r.controllingReservation ?? null,
     declared: {
       disposition: r.completenessDisposition ?? null,
       ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
@@ -618,6 +629,28 @@ function countCompleteness(maps, writeProofs, instructionsText, declaredComponen
       finalizerRefusal: b.finalizerRefusal ?? null
     });
   }
+  /* The same rule per fixture: a held write the canonical fixture carries can
+   * still be dropped by the finalizer on the boundary fixture's longer values
+   * (VFKS4 measured matter.charge missing from items 4 and 5 that way). */
+  for (const m of maps) {
+    for (const b of (m.boundaryRefusals ?? []).map(row).filter((x) => x.heldButNotWritten)) {
+      note("knownRequiredFieldsMissing", {
+        field: b.id, document: b.document, label: b.label, fixture: "boundary",
+        basis: "this family declared a write for a fact the boundary fixture holds and the saved boundary artifact does not carry it",
+        finalizerRefusal: b.finalizerRefusal ?? null
+      });
+    }
+  }
+
+  /* A reservation is verified here, against the registry bytes this family
+   * binds and every fixture's writes; the contract accepts nothing else. */
+  const fixtureWrites = maps.flatMap((m) => [...(m.canonicalWrites ?? []), ...(m.boundaryWrites ?? [])]).map((w) => ({ document: w.document, field: w.field }));
+  const verifyReservation = (blank) => verifyControllingReservation({
+    root: ROOT, claim: blank.controllingReservation, blank,
+    registrySha256: resolveRecords().resolved.find((r) => r.path === RESERVATION_REGISTRY_PATH)?.sha256,
+    documentTitle: SPEC.documents.find((d) => d.componentId === blank.controllingReservation.componentId)?.officialTitle,
+    fixtureWrites, instructions: instructionsText
+  });
 
   const ledger = [];
   for (const blank of blanks) {
@@ -625,7 +658,8 @@ function countCompleteness(maps, writeProofs, instructionsText, declaredComponen
     const declared = {
       ...blank.declared,
       factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
-        || here.has(normLabel(blank.label)) || here.has(normLabel(blank.name))
+        || here.has(normLabel(blank.label)) || here.has(normLabel(blank.name)),
+      ...(blank.controllingReservation ? { controllingReservation: verifyReservation(blank) } : {})
     };
     const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
     ledger.push({ ...blank, ...verdict });
@@ -727,6 +761,15 @@ function participantInstructions(maps, rbf, laterCompletion) {
     out.push("");
   }
 
+  const reserved = maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.controllingReservation));
+  if (reserved.length > 0) {
+    out.push("## Blanks the controlling record leaves to you", "");
+    out.push("LegalEase holds these facts and does not print them: the controlling record for this route (its committed legal-design record, or a recorded owner decision) reserves each blank for you to complete by hand before filing.", "");
+    out.push("| Document | Page | The blank on the document | What to write | Reserved by |", "| --- | --- | --- | --- | --- |");
+    for (const r of reserved) out.push(`| ${r.document} | ${r.page} | ${r.effectiveLabel} | ${r.participantMustSupply} | ${r.controllingReservation.item}: ${r.reason} |`);
+    out.push("");
+  }
+
   out.push("## What the court fills in after you file", "");
   out.push("These blanks are not yours to complete before filing. The court or the clerk supplies them.", "");
   out.push("| Document | Page | The blank | When it is filled |", "| --- | --- | --- | --- |");
@@ -759,6 +802,16 @@ function participantInstructions(maps, rbf, laterCompletion) {
 /* ======================================================================== *
  * 9. OUTPUT
  * ======================================================================== */
+
+/* Receipt context a repair lane wrote by hand (VFKS3's historicalBuildContext and
+ * sourceBindingCorrection) is not regenerated away: carried verbatim from the
+ * receipt on disk, or from HEAD when the file is absent. */
+function carriedReceiptContext() {
+  const abs = path.join(ROOT, OUT, "source-receipt.json");
+  let previous = null;
+  try { previous = JSON.parse(fs.existsSync(abs) ? fs.readFileSync(abs, "utf8") : committedReceiptText(abs)); } catch { return {}; }
+  return Object.fromEntries(["historicalBuildContext", "sourceBindingCorrection"].filter((k) => previous?.[k] !== undefined).map((k) => [k, previous[k]]));
+}
 
 function writeOut(output, rel, value) {
   output.set(rel, Buffer.isBuffer(value) ? value : Buffer.from(`${JSON.stringify(value, null, 2)}\n`));
@@ -967,7 +1020,8 @@ async function runFamily(argv = process.argv.slice(2)) {
       "that any record is eligible for the relief this family petitions for",
       "that the Kansas Judicial Council republication restriction recorded above has been resolved, waived or licensed",
       "that a partial custody standing behind five of these six binaries is the complete operational corpus"
-    ]
+    ],
+    ...carriedReceiptContext()
   });
 
   writeOut(output, "reports/actual-writes.json", {
@@ -1126,5 +1180,6 @@ async function runFamily(argv = process.argv.slice(2)) {
   };
 }
 
+runFamily.countCompleteness = countCompleteness;
 return runFamily;
 }

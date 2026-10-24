@@ -63,7 +63,31 @@ const SHA40 = /\b[0-9a-f]{40}\b/g;
 const PIN_FIELD = /"(?:minimumCaptainSha|dispatchPin|packetCommitSha|generatedAtCommit|captainSha|baseSha|pinnedCommit)"\s*:\s*"([0-9a-f]{40})"/g;
 const ISO_MS = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 
-export function makeEmitter({ root, check, label, volatilePin = true, selectDispatchIdentity = null }) {
+export function makeEmitter({ root, check, label, volatilePin = true, selectDispatchIdentity = null, candidateDirectory = null }) {
+  // Optional evidence capture for a failed check. Candidates never replace the
+  // checkout, alter the comparison, or turn divergence into success.
+  if (candidateDirectory && (!check || !path.isAbsolute(candidateDirectory)
+      || !path.relative(path.resolve(root), path.resolve(candidateDirectory)).startsWith(`..${path.sep}`))) {
+    throw new Error("Generator candidates require --check and an absolute directory outside the checkout");
+  }
+  const capture = (rel, content) => {
+    if (!candidateDirectory) return;
+    const target = path.resolve(candidateDirectory, rel);
+    if (path.isAbsolute(rel) || !path.relative(path.resolve(candidateDirectory), target)
+        || path.relative(path.resolve(candidateDirectory), target).startsWith(`..${path.sep}`)) {
+      throw new Error("Generator candidate path escaped its evidence directory");
+    }
+    // Reject every existing symlink ancestor, including a symlink used as the
+    // evidence root; lexical containment alone does not protect the checkout.
+    const directory = path.dirname(target);
+    for (let current = directory; ; current = path.dirname(current)) {
+      try { if (fs.lstatSync(current).isSymbolicLink()) throw new Error("Generator candidate directory contains a symlink"); }
+      catch (error) { if (error.code !== "ENOENT") throw error; }
+      if (current === path.dirname(current)) break;
+    }
+    fs.mkdirSync(directory, { recursive: true });
+    fs.writeFileSync(target, content, { flag: "wx" });
+  };
   const emitted = new Set();
   const drift = [];
   let written = 0;
@@ -101,7 +125,7 @@ export function makeEmitter({ root, check, label, volatilePin = true, selectDisp
       written += 1;
       return;
     }
-    if (!fs.existsSync(abs)) { drift.push(`${rel}: the generator produces it and the checkout does not carry it`); return; }
+    if (!fs.existsSync(abs)) { capture(rel, content); drift.push(`${rel}: the generator produces it and the checkout does not carry it`); return; }
     const committed = fs.readFileSync(abs, "utf8");
     let committedIdentity;
     try { committedIdentity = identity(rel, committed); }
@@ -115,6 +139,7 @@ export function makeEmitter({ root, check, label, volatilePin = true, selectDisp
     const a = committedIdentity?.normalizedContent ?? normalize(committed);
     const b = generatedIdentity?.normalizedContent ?? normalize(content);
     if (a === b) return;
+    capture(rel, content);
     const c = crypto.createHash("sha256").update(a).digest("hex").slice(0, 12);
     const g = crypto.createHash("sha256").update(b).digest("hex").slice(0, 12);
     drift.push(`${rel}: committed ${committed.length}B sha ${c} != generated ${content.length}B sha ${g} (after normalizing the dispatch pin and the timestamp)`);

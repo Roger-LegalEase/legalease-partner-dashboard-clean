@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-targeted-review-successor/v1",
+  "familyId": "rcap-nv-custom-pleading",
+  "whatThisIs": "Successor to the 2026-09-07 targeted review for the task53 route-footer rerender. It chains the rerendered fixtures to the exact bytes that review examined: the only change is removed footer ink. It grants nothing; the reviewed content stands, the footer removal is task53's decision, and a fresh central raster of the new bytes is still owed.",
+  "reviewer": "CI & Factory Claude (author QA of the measurement; not an independent post-repair approval)",
+  "reviewDate": "2026-10-20",
+  "predecessor": {
+    "record": "data/rcap-grade-a/nv-completion-2026-09-07/targeted-review.json",
+    "packetCommit": "3794a1a1ace8ad3e85423122afd380cabcd58140",
+    "canonicalSha256": "1d72131dcf8adefe7142cb2241aa97811b4c90892342d1422d3441b649e293bf",
+    "boundarySha256": "5274a3d33329f447612a9736ac31442a760dc24b4aa2acdc01d7061175578596"
+  },
+  "successor": {
+    "builder": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
+    "builderFlags": [
+      "--no-raster"
+    ],
+    "reproducedByWorkflowRun": "39340781712",
+    "canonicalSha256": "aed030107fe36b8a4b96a6e9809db821dbed96910eac78487bf772546a1d9d30",
+    "boundarySha256": "94dc8ffb9b290c954e394aaf937f529126f02591bbdeef1f73e11870a43e292e",
+    "byteLengths": {
+      "canonical": 121357,
+      "boundary": 123571
+    },
+    "pageCountEach": 44
+  },
+  "cause": {
+    "task53": "86006af26",
+    "measurement": "data/rcap-grade-a/packet-factory-24h/PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS.json",
+    "pagesCarryingARouteKey": [
+      1,
+      2,
+      3,
+      5,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15,
+      16,
+      18,
+      22,
+      23,
+      24,
+      25,
+      28,
+      31,
+      32,
+      33,
+      34,
+      36,
+      39,
+      40,
+      41,
+      42,
+      44
+    ]
+  },
+  "comparison": {
+    "tool": "scripts/rcap-packet-recovery/verify-nv-footer-rerender.py",
+    "dpi": 100,
+    "maxBandHeightPx": 40,
+    "textRule": "every text line equal after dropping the footer lines (Route: obligation:\u2026 and their wrapped continuations)",
+    "pixelRule": "no pixel darker on any page; ink removed only inside one band of at most maxBandHeightPx; the changed pages equal pagesCarryingARouteKey"
+  },
+  "visualReviewCarriedForward": "The 2026-09-07 review examined pages 1-5 and 14-18 of each fixture and found the other 68 pages pixel-identical to the pre-repair packet. Every page of the rerender is that page minus its footer line, so that examination stands for the content.",
+  "stillRequired": [
+    "Fresh central raster of the rerendered PDFs (owner dispatch); the raster queue row is RASTER_PENDING until it passes.",
+    "No verifier return pins the fixture bytes, so the independent verdict is unaffected; a later lane read measures the new bytes as usual."
+  ],
+  "terminalPromotionGranted": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0
+}

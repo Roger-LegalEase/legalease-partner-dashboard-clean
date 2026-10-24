@@ -1,4 +1,8 @@
 import "server-only";
+import { createHash } from "node:crypto";
+import oregonConfigurations from "../../../data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json";
+import { OR_DISPOSITION_SOURCE, OR_DISPOSITION_CONFIGURATIONS, OR_RETIRED_NONCONVICTION_PATH, oregonDispositionIdentity, type OregonDispositionConfiguration } from "@/lib/rcap-engine/oregon-disposition-identity";
+import { GA_PARDON_ROUTE, GA_PARDON_SOURCE, GA_PARDON_FACT_IDS, georgiaPardonFacts, georgiaPardonQuestionApplies } from "@/lib/rcap-engine/georgia-pardon-facts";
 
 /**
  * The single authority on which composed-route track a screening evaluation is
@@ -17,7 +21,9 @@ export type ComposedRouteSelection =
   | { status: "no_composed_route"; trackId: null }
   | { status: "identity_unavailable"; trackId: null; reason: string }
   | { status: "route_conditions_unmet"; trackId: null; reason: string }
-  | { status: "selected"; trackId: string };
+  | { status: "selected"; trackId: string }
+  | { status: "held_configuration"; trackId: string; configuration: OregonDispositionConfiguration }
+  | { status: "configuration_clarification"; trackId: null; missingQuestionIds: string[] };
 
 /**
  * The record classes a mapped track may require.
@@ -33,16 +39,87 @@ export type ComposedRouteSelectorInput = {
   pathwayId?: string | null;
   /** Server-derived from the evaluated answers. Never accepted from a client. */
   disposition?: ComposedRouteDisposition;
+  /** Registry identity plus answers already evaluated on the server. Never a requested track. */
+  oregonDispositionSource?: {
+    profileVersion: string; sourceFingerprint: string; answers: Readonly<Record<string, unknown>>;
+  };
+  georgiaPardonSource?: {
+    profileVersion: string; sourceFingerprint: string; today: string;
+    answers: Readonly<Record<string, unknown>>;
+  };
 };
 
 /** Screening answers -> record class. Server-side, so the mapping is auditable. */
 export function dispositionFromAnswers(answers: Record<string, unknown> | undefined): ComposedRouteDisposition {
   const outcome = typeof answers?.case_outcome === "string" ? answers.case_outcome : "";
-  const level = typeof answers?.offense_level === "string" ? answers.offense_level : "";
-  if (!outcome) return "unknown";
-  const convicted = /conviction|adjudication/i.test(outcome) && !/no-billed|nolle|dismiss|acquit|not prosecuted|no charge/i.test(outcome);
-  if (!convicted) return "non_conviction";
-  return /^felony$/i.test(level.trim()) ? "felony_conviction" : "other_conviction";
+  // Charge severity is not the final disposition: a felony charge can end in
+  // a misdemeanor conviction or dismissal. Only an explicit final felony
+  // conviction can reach a track restricted to that record class.
+  switch (outcome.trim().toLowerCase()) {
+    case "felony conviction": return "felony_conviction";
+    case "misdemeanor conviction": return "other_conviction";
+    case "pardoned conviction": return "other_conviction";
+    case "arrest or citation with no charge filed":
+    case "dismissed, no-billed, nolle prosequi, or not prosecuted":
+    case "acquitted or found not guilty": return "non_conviction";
+    // The shared program option says neither which order was entered nor how
+    // it terminated. IL § 5.2(a)(1)(C), for example, treats successful and
+    // unsuccessful supervision differently. Juvenile adjudication and the
+    // combined other-conviction/adjudication answer are also not proof of an
+    // adult conviction. Preserve uncertainty until those facts are supplied.
+    default: return "unknown";
+  }
+}
+
+/** LD-MS-01 separates admission from post-completion relief. The order and
+ * actual closure, not an optional remedy label, identify these existing routes.
+ * This selects a candidate only; all eligibility and commercial gates remain.
+ */
+export function mississippiProgramRouteFromAnswers(answers: Record<string, unknown>):
+  | { status: "not_applicable" }
+  | { status: "clarification"; missingQuestionIds: string[] }
+  | { status: "selected"; pathwayId: string } {
+  const program = answers.ms_program_order;
+  const stage = answers.ms_program_record_status;
+  // Q3: uncertain completion or plea posture still reaches unpaid records guidance.
+  if (program === "9-23-23") return { status: "selected", pathwayId: "intervention-court-statutory-result-enforcement-referral" };
+  const routes: Record<string, [string, string]> = {
+    "99-15-26": ["nonadjudication-99-15-26-active-case-admission", "nonadjudication-under-99-15-26"],
+    "99-15-101": ["pretrial-intervention-active-case-admission", "pretrial-intervention-or-diversion-expungement"],
+    "41-29-150": ["controlled-substance-conditional-discharge-active-case-admission", "first-offense-controlled-substance-conditional-discharge-relief"]
+  };
+  if (program === undefined || program === "no_program_order") {
+    return answers.case_outcome === "Diversion, deferred disposition, supervision, or similar program"
+      ? { status: "clarification", missingQuestionIds: ["ms_program_order"] }
+      : { status: "not_applicable" };
+  }
+  if (typeof program !== "string" || !Object.hasOwn(routes, program)) {
+    return { status: "clarification", missingQuestionIds: ["ms_program_order"] };
+  }
+  // A conviction or revocation is not silently reclassified as successful
+  // completion. The exact disposition/order needs clarification first.
+  if (["Misdemeanor conviction", "Felony conviction", "Pardoned conviction"].includes(String(answers.case_outcome))) {
+    return { status: "clarification", missingQuestionIds: ["case_outcome", "ms_program_record_status"] };
+  }
+  if (stage === "active") return { status: "selected", pathwayId: routes[program][0] };
+  const finalDisposition = answers.ms_program_final_disposition;
+  if (finalDisposition !== undefined) {
+    const expected = program === "99-15-26" ? ["dismissed_and_closed"]
+      : program === "99-15-101" ? ["dismissed_and_closed", "charges_dropped", "no_disposition"]
+        : ["discharged_and_dismissed"];
+    if (!expected.includes(String(finalDisposition))) {
+      return { status: "clarification", missingQuestionIds: ["ms_program_final_disposition"] };
+    }
+  }
+  if (stage === "completed_and_closed") return { status: "selected", pathwayId: routes[program][1] };
+  // Section99-15-123(3) includes no disposition after completion. That is
+  // distinct from a missing required dismissal under99-15-26 or41-29-150.
+  // A generic "no closure" answer cannot establish which event occurred.
+  if (program === "99-15-101" && stage === "completed_without_closure"
+    && (finalDisposition === "no_disposition" || finalDisposition === "charges_dropped")) {
+    return { status: "selected", pathwayId: routes[program][1] };
+  }
+  return { status: "clarification", missingQuestionIds: ["ms_program_record_status"] };
 }
 
 /**
@@ -93,10 +170,71 @@ const AUTHORITATIVE_TRACK_BY_PATHWAY: ReadonlyMap<string, AuthoritativeTrack> = 
   }]
 ]);
 
+/** Shared read-only source guard for current OR selection and protected correction.
+ * It validates the retained configuration bytes; it grants no route or authority. */
+export function oregonDispositionConfigurationSourceMatches(profileVersion: string, sourceFingerprint: string | null | undefined): boolean {
+  return profileVersion === OR_DISPOSITION_SOURCE.profileVersion
+    && sourceFingerprint === OR_DISPOSITION_SOURCE.sourceFingerprint
+    && createHash("sha256").update(JSON.stringify(oregonConfigurations)).digest("hex") === OR_DISPOSITION_SOURCE.configurationSha256;
+}
+
 export function selectComposedRoute(input: ComposedRouteSelectorInput): ComposedRouteSelection {
   const jurisdiction = String(input.jurisdiction ?? "").trim().toUpperCase();
   const pathwayId = String(input.pathwayId ?? "").trim();
+  if (jurisdiction === "OR" && (!pathwayId || pathwayId === OR_RETIRED_NONCONVICTION_PATH
+    || Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === pathwayId))) {
+    const source = input.oregonDispositionSource;
+    if (!source || !oregonDispositionConfigurationSourceMatches(source.profileVersion, source.sourceFingerprint)) {
+      return { status: "no_composed_route", trackId: null };
+    }
+    // The normal evaluator validates the public IDs first. An exact local case
+    // context is also necessary; federal/other-person answers are not projected.
+    if (typeof source.answers.ownership_scope !== "string"
+      || !["Yes", "I am helping someone complete their own check"].includes(source.answers.ownership_scope)
+      || source.answers.jurisdiction_scope !== "State or local") return { status: "no_composed_route", trackId: null };
+    const identity = oregonDispositionIdentity(source.answers);
+    if (identity.status === "clarification") return { status: "configuration_clarification", trackId: null, missingQuestionIds: identity.ids };
+    if (identity.status === "identified") {
+      if (pathwayId && pathwayId !== OR_RETIRED_NONCONVICTION_PATH && pathwayId !== identity.configuration.pathwayId) {
+        return { status: "configuration_clarification", trackId: null, missingQuestionIds: ["case_outcome", "or_disposition_record"] };
+      }
+      return { status: "held_configuration", trackId: identity.configuration.trackId, configuration: identity.configuration };
+    }
+  }
   if (!jurisdiction || !pathwayId) return { status: "no_composed_route", trackId: null };
+
+  if (jurisdiction === "GA" && pathwayId === GA_PARDON_ROUTE) {
+    // GA.memo distinguishes ga-pardon-j7 from ga-seal-m despite their shared
+    // historical pathway. Only explicit pardon-record intent and established
+    // GA02 predicates identify this candidate. Selection grants no entitlement
+    // or court balancing result; absent/uncertain facts keep their current hold.
+    const source = input.georgiaPardonSource;
+    if (!source || source.profileVersion !== "2026-06-19-source-conversion-1"
+      || source.sourceFingerprint !== "2e9c9d5f9ad17fefb315d71b4336f0ffd2de6c1b614453cd06abd45f06cf2812"
+      || GA_PARDON_SOURCE !== "GA-02:2026-10-13;GA.memo:ga-pardon-j7;OCGA35-3-37(j)(7)") return { status: "no_composed_route", trackId: null };
+    const date = new Date(`${source.today}T00:00:00.000Z`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(source.today) || !Number.isFinite(date.getTime())
+      || date.toISOString().slice(0, 10) !== source.today) return { status: "no_composed_route", trackId: null };
+    const answers: Record<string, unknown> = {};
+    for (const id of ["case_outcome", "pending_cases", "ga_record_help", ...GA_PARDON_FACT_IDS]) {
+      const raw = source.answers[id];
+      const wrapper = raw && typeof raw === "object" && !Array.isArray(raw) ? raw as Record<string, unknown> : null;
+      answers[id] = wrapper ? wrapper.unknown === false ? wrapper.value : undefined : raw;
+    }
+    if (answers.ga_record_help !== "pardon_record") return { status: "no_composed_route", trackId: null };
+    for (const id of ["case_outcome", "pending_cases", ...GA_PARDON_FACT_IDS]) {
+      if (!Object.hasOwn(source.answers, id) || !georgiaPardonQuestionApplies("GA", answers, id, GA_PARDON_ROUTE)) continue;
+      const value = answers[id];
+      if (id === "pending_cases" && typeof value === "boolean") continue;
+      if (typeof value !== "string" || !value.trim() || /^(unknown|i am not sure)$/i.test(value.trim())) {
+        return { status: "no_composed_route", trackId: null };
+      }
+    }
+    const decision = georgiaPardonFacts(answers, source.today);
+    if (decision.status !== "review" || decision.ids.length
+      || !["court_review", "court_review_traffic"].includes(decision.code)) return { status: "no_composed_route", trackId: null };
+    return { status: "selected", trackId: "ga-pardon-j7" };
+  }
 
   const mapped = AUTHORITATIVE_TRACK_BY_PATHWAY.get(`${jurisdiction}:${pathwayId}`);
   if (!mapped) return { status: "no_composed_route", trackId: null };

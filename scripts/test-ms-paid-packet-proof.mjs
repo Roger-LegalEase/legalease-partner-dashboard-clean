@@ -33,12 +33,29 @@ for(const [name,mutate] of Object.entries({
  'another assembler':p=>p.assemblyIdentity.assemblyVersion='1.0.0',
  'another guide in the assembly identity':p=>p.assemblyIdentity.supplementalGuideSha256='0'.repeat(64),
  'an assembly that bypassed the one production entry point':p=>p.assemblyIdentity.assembledThrough='src/lib/rcap/grade-a/renderer.ts',
- 'a claim that the superseded packet still reproduces':p=>p.supersededProof.artifactBytesStillReproduce=true,
+ 'a denial that the immediate predecessor output still reproduces':p=>p.supersededProof.artifactBytesStillReproduce=false,
+ 'a missing current source transition':p=>delete p.questionContractSourceSuccessor,
+ 'a fabricated protected participant acceptance':p=>p.currentProtectedJourneyEstablished=true,
+ 'a production authorization claim':p=>p.productionAuthorized=true,
+ 'inferred charged conduct':p=>p.syntheticScenario.inferredFromLegacyAnswer=true,
+ 'an omitted charged-conduct safety negative':p=>p.chargedConductSafetyControls.pop(),
+ 'an admitted charged-conduct negative':p=>p.chargedConductSafetyControls[0].refused=false,
+ 'a changed immediate predecessor':p=>p.supersededProof.sha256='0'.repeat(64),
  'a determinism control presented as an approval':p=>p.unapprovedDeterminismControls[0].approved=true,
+ 'missing all unapproved controls':p=>delete p.unapprovedDeterminismControls,
+ 'missing one unapproved control':p=>p.unapprovedDeterminismControls.pop(),
+ 'duplicate unapproved control':p=>p.unapprovedDeterminismControls[1]=p.unapprovedDeterminismControls[0],
+ 'unproved boundary JSONB durability':p=>p.unapprovedDeterminismControls[0].postgresJsonbByteIdentical=false,
+ 'wrong boundary fixture':p=>p.unapprovedDeterminismControls[0].fixturePath='other',
+ 'wrong boundary locale':p=>p.unapprovedDeterminismControls[0].locale='es',
+ 'wrong charged-conduct safety layer':p=>p.chargedConductSafetyControls[0].layer='composer',
+ 'wrong charged-conduct safety reason':p=>p.chargedConductSafetyControls[0].reason='other',
+ 'undeclared safety fixture addition':p=>delete p.routeSafetySyntheticAdditions.prior_relief,
  'missing verifier binding':p=>delete p.inputs[p.generatedBy]
 })){const p=structuredClone(original);mutate(p);check('refuses '+name,()=>assert.throws(()=>load(p)));}
 for(const file of [approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/grade-a/renderer.ts','src/lib/rcap/render/participant-packet-assembly.ts',original.results[0].artifactPath])
  check('refuses moved input '+file,()=>assert.throws(()=>load(original,{path:file,bytes:Buffer.concat([fs.readFileSync(file),Buffer.from('\n')])})));
+if(process.argv.includes('--proof-only')){console.log(`${count} packet proof controls passed; registry/offer acceptance not run`);process.exit(0);}
 const registry=JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-authority-registry.json'));
 // Explicitly the live record. The registry now also carries this route's
 // superseded predecessor, and a superseded record is never current authority.

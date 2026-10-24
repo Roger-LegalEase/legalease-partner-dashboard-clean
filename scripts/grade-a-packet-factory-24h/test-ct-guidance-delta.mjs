@@ -6,6 +6,8 @@ import { FAMILY as absolute } from '../build-census-v1-agency-application-treatm
 import { annotationIsSourceBound, carryForwardIdentityRefresh } from '../rcap-packet-completeness/identity-refresh.mjs';
 
 const portal = 'https://epardonportal.ct.gov/portal';
+const CENSUS = 'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
+const EXPECTED_REFRESHES = [{ path: 'data/rcap-ledger/completed-output-counsel-manifest.json', wasSha256: '99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c' }];
 const matrix = [];
 for (const family of [provisional, absolute]) {
   const maps = family.maps();
@@ -43,8 +45,12 @@ for (const family of [provisional, absolute]) {
     }
   }
   const receipt = JSON.parse(fs.readFileSync(`${family.outDir}/source-receipt.json`));
-  const annotated = receipt.compositionSources.filter(p => p.identityRefresh);
-  assert.equal(annotated.length, 2, 'Rebuild preserves both source-identity refresh annotations');
+  // V5 rebuilt these outputs against the regenerated census, so the census pin is a build-time pin of the
+  // bytes the outputs were made from; its 2026-09-08 refresh note (9816a479... -> f6fc0814...) no longer
+  // describes it. The counsel manifest's refresh is the one annotation that still does.
+  const annotated = receipt.compositionSources.filter(p => p.identityRefresh).map(p => ({ path: p.path, wasSha256: p.identityRefresh.was.sha256 }));
+  assert.deepEqual(annotated, EXPECTED_REFRESHES, 'Rebuild keeps exactly the source-identity refresh annotations that still describe a refresh');
+  assert.equal(receipt.compositionSources.filter(p => p.path === CENSUS && !p.identityRefresh).length, 1, 'The census pin is a build-time pin and carries no refresh note');
   for (const pin of receipt.compositionSources) {
     assert.equal(crypto.createHash('sha256').update(fs.readFileSync(pin.path)).digest('hex'), pin.sha256);
     if (pin.identityRefresh) assert.equal(annotationIsSourceBound(pin.identityRefresh).ok, true);
@@ -52,7 +58,7 @@ for (const family of [provisional, absolute]) {
   const next = structuredClone(receipt);
   for (const p of next.compositionSources) delete p.identityRefresh;
   const carried = carryForwardIdentityRefresh(receipt, next);
-  assert.equal(carried.carried.length, 2);
+  assert.deepEqual(carried.carried.map(c => ({ path: c.path, wasSha256: c.wasSha256 })), EXPECTED_REFRESHES);
   assert.equal(carried.dropped.length, 0);
 }
 console.log(JSON.stringify({status: 'PASS', actualInvokingPathCases: matrix, filingPositiveApplicationClaims: 0, scope: 'Guide destinations, unknown supervision, exact90/>90 disclosure, protected roles, current source pins, source-note preservation; no independent review or treatment grant.'}, null, 2));

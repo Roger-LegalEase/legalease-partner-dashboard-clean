@@ -17,6 +17,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { sourceDispositionAdvancement } from './source-disposition-advancement.mjs';
+import { loadLegalBlockResolutions, sourcePermissionHoldResolved } from './legal-block-resolution.mjs';
 import {
   applyUserSourceDeterminations,
   loadUserSourceAdoption,
@@ -30,6 +31,7 @@ const REGISTRY = `${DIR}/SOURCE_RELATIONSHIP_REGISTRY.json`;
 const UNBLOCK = `${DIR}/ROGER_SOURCE_UNBLOCK_LIST.json`;
 const VERIFICATION = "data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json";
 const MASTER = `${DIR}/MASTER_QUEUE.json`;
+const RETURNS = `${DIR}/VERIFIER_RETURNS.json`;
 const CAPTAIN_DETERMINATIONS = "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json";
 const GENERATOR = "scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs";
 
@@ -232,6 +234,25 @@ for (const [group, count] of Object.entries(expectedGroups)) {
   if (recOutput?.byGroup?.[group] !== actual) recProblems.push(`output group ${group} is stale`);
   if (actual !== count) recProblems.push(`group ${group} has ${actual}, expected ${count}`);
 }
+/* generate.mjs:2463-2472 sends a BLOCKED_SOURCE read that failed no obligation, on bound sources with no legal
+ * hold, to VERIFY_PENDING: it requests the now-possible fresh read. That read is not advancement (only
+ * PASS_COMPLETE_INDEPENDENT or FAIL_REPAIR_REQUIRED discharge a product-path hold), so a PRODUCT_PATH_PENDING row
+ * whose permission hold the owner released may sit at VERIFY_PENDING and nowhere else (KS 6614 VF05 92ff5d436,
+ * 2026-10-21). sourcePermissionHoldResolved also requires that row disposition and a LEGAL_CLEAR record. */
+const verifierReturns = readJson(RETURNS);
+const legalResolutions = loadLegalBlockResolutions(ROOT).byFamily;
+const freshReadRequested = (row, family) => {
+  const selected = family.selectedIndependentVerdict;
+  const returned = (verifierReturns?.rows ?? []).find((r) => r.familyId === row.familyId && r.verdict === selected?.verdict
+    && r.lane === selected?.lane && r.verifiedAtBase === selected?.verifiedAtBase && r.evidencePath === selected?.evidencePath);
+  const resolution = legalResolutions.get(row.familyId);
+  return family.state === "VERIFY_PENDING" && family.sourceReadiness?.ready === true && selected?.verdict === "BLOCKED_SOURCE"
+    && Array.isArray(returned?.failedObligationNames) && returned.failedObligationNames.length === 0
+    && family.currentLegalResolution?.disposition === "LEGAL_CLEAR"
+    && resolution?.decisionId === family.currentLegalResolution.decisionId
+    && resolution.decisionRecord === family.currentLegalResolution.decisionRecord
+    && sourcePermissionHoldResolved(row.familyId, row, resolution);
+};
 if ((recOutput?.byGroup?.LATER ?? 0) !== recRows.filter((row) => row.group === "LATER").length) recProblems.push("output later group is stale");
 if (recOutput?.additiveInput !== USER_SOURCE_ADOPTION_PATH) recProblems.push("output omits the additive determination input");
 for (const row of recRows) {
@@ -250,7 +271,7 @@ for (const row of recRows) {
       || generated.state === "PRODUCT_PATH_PENDING") {
       recProblems.push(`${row.familyId}: source release regressed at ${generated.state}`);
     }
-  } else if (generated.state !== (advancement?.effectiveDisposition ?? row.disposition)) {
+  } else if (generated.state !== (advancement?.effectiveDisposition ?? row.disposition) && !freshReadRequested(row, generated)) {
     recProblems.push(`${row.familyId}: ${generated.state} != ${row.disposition}`);
   }
 }
@@ -398,8 +419,64 @@ if (MUTATIONS) {
     if (!caught || !restored) allCaught = false;
     console.log(`  ${caught ? "detected" : "MISSED  "} [${c.id}] ${c.name}${restored ? "" : " — FILE NOT RESTORED"}`);
   }
+  /* The generate.mjs:2472 cell, seeded from the real VF05 return into MASTER (the selection) and REGISTRY (no
+   * advancement), so these cases hold whatever KS 6614 selects today. The seed alone must keep S12 green; each case
+   * then breaks one condition of the cell and must be refused. */
+  const FRESH = 'ks-21-6614-prostitution-coercion-set';
+  const freshReturn = (verifierReturns?.rows ?? []).find((r) => r.familyId === FRESH && r.verdict === 'BLOCKED_SOURCE'
+    && r.lane === 'vf05' && r.verifiedAtBase === '92ff5d4366f64de3c1efaed70a1100e37acd9773');
+  if (!freshReturn) throw new Error(`No VF05 BLOCKED_SOURCE return for ${FRESH} to seed the fresh-read cell`);
+  const ks = (j) => j.families.find((x) => x.familyId === FRESH);
+  const freshSeed = {
+    [MASTER]: (j) => { ks(j).state = 'VERIFY_PENDING'; ks(j).selectedIndependentVerdict = { verdict: freshReturn.verdict,
+      lane: freshReturn.lane, verifiedAtBase: freshReturn.verifiedAtBase, evidencePath: freshReturn.evidencePath }; return j; },
+    [REGISTRY]: (j) => { delete j.reconciliation42.families.find((x) => x.familyId === FRESH).advancement; return j; },
+  };
+  const ret = (j) => j.rows.find((r) => JSON.stringify(r) === JSON.stringify(freshReturn));
+  const captainRow = (j) => j.reconciliation42.families.find((x) => x.familyId === FRESH);
+  const freshCases = [
+    { name: 'a fresh-read request cannot rest at a passing state', edits: { [MASTER]: (j) => { ks(j).state = 'VERIFIED_PASS'; return j; } } },
+    { name: 'a fresh-read request needs bound sources', edits: { [MASTER]: (j) => { ks(j).sourceReadiness.ready = false; return j; } } },
+    { name: 'a BLOCKED_LEGAL_INPUT read does not request a fresh read', edits: {
+      [MASTER]: (j) => { ks(j).selectedIndependentVerdict.verdict = 'BLOCKED_LEGAL_INPUT'; return j; },
+      [RETURNS]: (j) => { ret(j).verdict = 'BLOCKED_LEGAL_INPUT'; return j; } } },
+    { name: 'a selection with no matching return is refused', edits: { [MASTER]: (j) => { ks(j).selectedIndependentVerdict.evidencePath += '.absent'; return j; } } },
+    { name: 'a BLOCKED_SOURCE read that failed an obligation is repair, not a fresh-read request',
+      edits: { [RETURNS]: (j) => { ret(j).failedObligationNames = ['SOURCE_IDENTITY']; return j; } } },
+    { name: 'a fresh-read request cannot sit under a legal hold', edits: { [MASTER]: (j) => { ks(j).currentLegalResolution.disposition = 'LEGAL_HOLD'; return j; } } },
+    { name: 'a fresh-read request cannot carry a changed legal decision identity', edits: { [MASTER]: (j) => { ks(j).currentLegalResolution.decisionId = 'forged'; return j; } } },
+    { name: 'a fresh-read request cannot carry a changed legal decision record', edits: {
+      [MASTER]: (j) => { ks(j).currentLegalResolution.decisionRecord = 'data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json'; return j; } } },
+    { name: 'a fresh-read request needs the owner release of its permission hold',
+      edits: { [CAPTAIN_DETERMINATIONS]: (j) => { captainRow(j).permissionHold = 'an unreleased product permission hold'; return j; } } },
+    { name: 'a SOURCE_BLOCKED row cannot use a fresh-read request', edits: {
+      [CAPTAIN_DETERMINATIONS]: (j) => { captainRow(j).disposition = 'SOURCE_BLOCKED'; return j; },
+      [REGISTRY]: (j) => { const rec = j.reconciliation42; rec.families.find((x) => x.familyId === FRESH).decidedDisposition = 'SOURCE_BLOCKED';
+        rec.remainingSourceBlockedFamilyIds = [...rec.remainingSourceBlockedFamilyIds, FRESH].sort(); return j; } } },
+  ];
+  for (const c of freshCases) {
+    if (!results.find((r) => r.id === 'S12')?.ok) { console.log(`NOT_RUN [S12] ${c.name}: its real baseline already fails`); allCaught = false; continue; }
+    const files = [...new Set([MASTER, REGISTRY, ...Object.keys(c.edits)])];
+    const originals = new Map(files.map((f) => [f, fs.readFileSync(path.join(ROOT, f))]));
+    const write = (f, j) => fs.writeFileSync(path.join(ROOT, f), `${JSON.stringify(j, null, 2)}\n`);
+    let baseline, out, unchanged;
+    try {
+      const seeded = new Map(files.map((f) => [f, (freshSeed[f] ?? ((j) => j))(JSON.parse(originals.get(f).toString('utf8')))]));
+      for (const [f, j] of seeded) write(f, j);
+      baseline = rerun();
+      const mutated = Object.entries(c.edits).map(([f, edit]) => [f, edit(structuredClone(seeded.get(f)))]);
+      unchanged = mutated.some(([f, j]) => JSON.stringify(j) === JSON.stringify(seeded.get(f)));
+      for (const [f, j] of mutated) write(f, j);
+      out = rerun();
+    } finally { for (const [f, bytes] of originals) fs.writeFileSync(path.join(ROOT, f), bytes); }
+    const restored = files.every((f) => fs.readFileSync(path.join(ROOT, f)).equals(originals.get(f)));
+    if (!/ok\s+S12\b/.test(baseline)) throw new Error(`Seeded fresh-read cell is not green under S12 (${c.name})`);
+    const caught = !unchanged && /FAIL S12\b/.test(out);
+    if (!caught || !restored) allCaught = false;
+    console.log(`  ${caught ? "detected" : "MISSED  "} [S12] ${c.name}${unchanged ? " — the mutation changed nothing" : ""}${restored ? "" : " — FILE NOT RESTORED"}`);
+  }
   if (!allCaught) { console.error("\nFAIL source-model mutations"); process.exit(1); }
-  console.log(`\nOK source-model mutations — ${cases.length} case(s), every mutation caught.`);
+  console.log(`\nOK source-model mutations — ${cases.length + freshCases.length} case(s), every mutation caught.`);
 }
 
 if (results.some((r) => !r.ok)) process.exit(1);

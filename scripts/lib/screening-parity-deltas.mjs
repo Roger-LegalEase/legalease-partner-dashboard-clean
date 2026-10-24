@@ -58,6 +58,7 @@ const DELTA_KEYS = new Set([
   "authorizedSha256",
   "originallyApprovedSha256",
   "supersededSha256",
+  "scopeRestatement",
   "projectionsNote",
   "projections"
 ]);
@@ -402,11 +403,22 @@ function authorizedRuntimeHash(delta, candidate, runtimeReauthorizations) {
     (entry) => entry.path === candidate && typeof entry[REPIN_KEY] === "string"
   );
   const consumed = new Set();
-  for (let hop = 0; hop < repins.length; hop += 1) {
-    const next = repins.find((entry) => entry.sha256 === expected && !consumed.has(entry));
-    if (!next) break;
-    consumed.add(next);
-    expected = next[REPIN_KEY];
+  const walkRepins = () => {
+    for (let hop = 0; hop < repins.length; hop += 1) {
+      const next = repins.find((entry) => entry.sha256 === expected && !consumed.has(entry));
+      if (!next) break;
+      consumed.add(next);
+      expected = next[REPIN_KEY];
+    }
+  };
+  walkRepins();
+  const binding = delta.scopeRestatement?.bindings[candidate];
+  if (binding) {
+    if (expected !== binding.priorSha256) reject(`${delta.id} scope restatement does not continue the historical chain for ${candidate}`);
+    expected = binding.newSha256;
+    // A restatement is not the end of history: later unrelated edits re-pin
+    // forward from its newSha256 exactly as they do from a signed hash.
+    walkRepins();
   }
   for (const entry of repins) {
     if (!consumed.has(entry)) {
@@ -414,6 +426,20 @@ function authorizedRuntimeHash(delta, candidate, runtimeReauthorizations) {
     }
   }
   return expected;
+}
+
+// Item 11 restates MD behavior; it does not pretend the old signed bytes were equivalent.
+function validateMdScopeRestatement(delta, rootDir) {
+  const record = delta.scopeRestatement;
+  if (record === undefined) return;
+  if (delta.id !== "md-pardon-signed-date-2026-08-25" || delta.jurisdiction !== "MD"
+    || sha256(canonicalJson(record)) !== "55312fae853f434856e13e7c42cd5bfbd3f92e2eaf62bbdc94f0c98c5849df67") {
+    reject(`${delta.id} is not the exact Item 11 MD scope restatement`);
+  }
+  const signed = Object.fromEntries(["id", "statutoryAuthority", "purpose", "routeBehavior", "authorization"].map(key => [key, delta[key]]));
+  if (sha256(canonicalJson(signed)) !== record.historicalStatementSha256) reject(`${delta.id} changed the historical signed statement`);
+  const proof = path.join(rootDir, record.proofPath);
+  if (!fs.existsSync(proof) || sha256(fs.readFileSync(proof)) !== record.proofSha256) reject(`${delta.id} scope restatement proof bytes changed`);
 }
 
 function validateDelta(delta, rootDir, runtimeReauthorizations) {
@@ -424,11 +450,12 @@ function validateDelta(delta, rootDir, runtimeReauthorizations) {
     // would make "no re-pin has happened" indistinguishable from "the history
     // was emptied". Absent means never re-pinned; present means it must be a
     // complete, reasoned record.
-    if (key === OPTIONAL_DELTA_KEY) continue;
+    if (key === OPTIONAL_DELTA_KEY || key === "scopeRestatement") continue;
     if (!(key in delta)) reject(`a delta is missing "${key}"`);
   }
 
   if (typeof delta.id !== "string" || delta.id.length === 0) reject("delta id is missing");
+  validateMdScopeRestatement(delta, rootDir);
   requireString(delta.jurisdiction, JURISDICTION, `${delta.id}.jurisdiction`);
   requireString(delta.questionId, QUESTION_ID, `${delta.id}.questionId`);
   requireString(delta.questionType, QUESTION_ID, `${delta.id}.questionType`);

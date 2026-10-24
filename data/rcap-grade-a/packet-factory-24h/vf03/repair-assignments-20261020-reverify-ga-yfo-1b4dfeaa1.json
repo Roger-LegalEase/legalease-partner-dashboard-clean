@@ -1,0 +1,22 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF03",
+ "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "assignmentCount": 1,
+ "assignments": [
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+   "lane": "VF03",
+   "assignedBy": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
+   "failedObligationNames": [
+    "COMPONENT_SET"
+   ],
+   "decisiveDefect": "COMPONENT_SET: the owner decision this packet binds (LA-IMM-01, recorded as controlling decision CLD-2026-08-28-GA-RFO in 2026-08-28-controlling-decisions.json, and projected into the bound effective route record national-report-2026-08-28.json routes[3] packetComponents) says 'The packet should include' ten items. Five are participant-obtained records and are disclosed under 'Documents you must obtain before filing' (written consent/joinder/endorsement; judgment, sentence and disposition records; original-eligibility evidence; branch evidence; rehabilitation and interests-of-justice exhibits). Four are packet-prepared documents that are neither rendered nor disclosed as something the participant obtains: (1) the proposed order, which LA-IMM-01 also requires to 'expressly address the current restriction and court-record sealing duties' for a discharge entered on or after July 1, 2026; (2) the hearing-request election; (3) the certificate of service or local notice document; (4) the post-order restriction, sealing and verification instructions. Both fixtures (canonical 61ebc643\u2026/10525, boundary 3c7ea1d4\u2026/10708, 4 pages) render only ga-retroactive-first-offender-42-8-66-petition-1 (pp1-2) and -filing-instructions-2 (pp3-4). The packet's own filing-instructions page 3 lists all ten under 'WHAT THE COMMITTED ROUTE RECORD SAYS THE PACKET SHOULD INCLUDE', and participant-instructions.md step 4 tells the participant to 'Include the written-consent document, proposed order, hearing-request election, certificate of service or local notice document, \u2026 and post-order instructions', but nothing in the packet supplies them or says where they come from. The route record's own deliveryGates (ga_42_8_66_petition_family_build) list 'proposed order component', 'hearing-election component', 'service or local-notice component' and 'supporting-record checklist component' as build items. requiredComponentsMissing 0 counts only the field map's two declared components, so the counter cannot see this.",
+   "repairScope": "Add the four packet-prepared components LA-IMM-01 lists, each declared in the field map and rendered in both fixtures: (1) a proposed order in the original criminal matter (court of conviction caption, original case number, court-only decision, signature and date lines as protected blanks), including the restriction and court-record sealing paragraph LA-IMM-01 requires for a discharge entered on or after 2026-07-01; (2) a hearing-request election (request / do not request, petitioner-signed); (3) a certificate of service or local notice document with recipient, method and date as participant blanks, keeping the 'confirm with the clerk of the court of conviction' rule, since no recipient is held; (4) post-order restriction, sealing and verification instructions (may be a section of the filing instructions). Then update the 'What is in this packet' table and step 4 so each item says whether the packet supplies it or the participant obtains it. The petition and the existing filing-instruction content need no change beyond that. The rebuild changes the bytes, so a new raster is owed.",
+   "grantsNothing": "Assignment only; opens no route."
+  }
+ ],
+ "grantsNothing": "Assignments only; this file opens no route, sets no price and authorises no promotion."
+}

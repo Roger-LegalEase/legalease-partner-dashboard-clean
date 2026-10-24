@@ -8,7 +8,7 @@
 //   register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 import { pathToFileURL, fileURLToPath } from "node:url";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 
@@ -29,7 +29,9 @@ export async function resolve(specifier, context, next) {
     return { url: pathToFileURL(path.join(root, "scripts/lib/next-server-esm-bridge.mjs")).href, shortCircuit: true };
   }
   if ((specifier === "next/headers" || specifier === "next/image" || specifier === "next/link" || specifier === "next/navigation") && existsSync(path.join(root, "node_modules", `${specifier}.js`))) {
-    return { url: pathToFileURL(path.join(root, "node_modules", `${specifier}.js`)).href, shortCircuit: true };
+    // Match Node's normal physical-path resolution for symlinked worktree dependencies.
+    // Node 22 can otherwise expose undefined CommonJS exports (including useRouter).
+    return { url: pathToFileURL(realpathSync(path.join(root, "node_modules", `${specifier}.js`))).href, shortCircuit: true };
   }
   if (specifier.startsWith("@/")) {
     const target = resolveAliasPath(path.join(root, "src", specifier.slice(2)));

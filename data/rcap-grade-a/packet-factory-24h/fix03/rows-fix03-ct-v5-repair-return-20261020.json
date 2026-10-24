@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX03",
+  "laneKind": "repair",
+  "baseSha": "4f387fa2d0819b963edd810b49b120afd1024815",
+  "branch": "codex/nationwide-question-corrections-20261011",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "CI & Factory Claude, landing the CT guidance V5 repair as this lane's return on the lead's ruling (LEAD_TO_CI 2026-10-20T01:40Z, option a). The repair itself was authored by Roger-LegalEase on 2026-10-19 (CT guidance V5) and re-cut patch-identically onto the base above; no cloud worker asserted a grant for it.",
+  "grantsAsserted": [],
+  "grantBasis": "The ledger holds this lane's rapid-repair grant for the family released since 2026-09-12T06:34:08Z and the dispatch at 4f387fa2d names FIX03 for it; this return lands on the record under the lead's ruling rather than through claim.mjs --assert. generate.mjs reads a released grant plus a completed repair row newer than the verdict as a completed repair (repairSupersedesFailedVerdict).",
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-20261019-reverify-census-5e7fe802c.json",
+          "sha256": "6e329e3b4b8d2db91c008b9fbefa06024ed18f3a2504ee5ccf0119acebf47e65",
+          "lane": "VFCT1",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "failedObligationNames": [
+            "FEE_AND_WAIVER",
+            "SERVICE"
+          ],
+          "preserved": true
+        }
+      ],
+      "actualDefect": {
+        "FEE_AND_WAIVER": "Not met as written. Guide: 'This guide does not state a waiting period or fee. Confirm current eligibility, timing, fee, and hearing mechanics from the Board's current rules.' Instructions: 'any charge; confirm it with the Connecticut Board of Pardons and Paroles' and 'this packet quotes no unverified number'. The repository holds the answer. The family's own bound source ct-pardon-faq.html.gz (compositionSources, exact; official capture of https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs) says: 'The Board of Pardons and Paroles does not currently charge a fee to apply for a pardon. However, you must pay the State Police - now known as the Department of Emergency Services and Public Protection (DESPP) - for processing and providing your State Police Criminal History Report (rap sheet.) ... The Board of Pardons and Paroles does not determine the fee that the State Police charges'. The census requiredSourceId compiled profile CT-connecticut.json says 'Absolute Pardon / COE application $0 BOPP charges no application fee'. Under DET-FEE-AND-WAIVER-001 A1/A2 the named-authority limb is not available when a held source establishes the answer, and neither the amount limb nor the no-fee limb is met. The field map's board_process reason ('no stable application or verified fee is bound') is contradicted by the receipt's own bound FAQ. Tension to flag: CT.memo.json says 'Verify every waiting-period and fee number before it appears in participant-facing copy' and stop 3 says 'no number is quoted'. The bound official Board page is that verification only if the lead accepts it as such.",
+        "SERVICE": "Silence on service. CT.memo.json ct-absolute-pardon rules.service: 'No service. This is an executive-branch application, not a court filing.' The guide carries only the mechanism ('It is not a court filing'; apply through the Board's ePardon process). Neither instructions nor fixtures say that the participant serves no one. The repository establishes the rule, and under the brief's standard silence does not meet it."
+      },
+      "correction": "The guide now states the Board's no-fee statement from the bound Pardon FAQ plus the FAQ's DESPP criminal-history report charge, which the Board does not set (no amount quoted; ask DESPP), and the memo's service rule in affirmative terms: the participant serves no one, because the ePardon application is an executive-branch application, not a court filing.",
+      "repairCommits": {
+        "authored": {
+          "558174db4": "558174db4a57022269c6089c243542ec678f8e69",
+          "f0b02088a": "f0b02088af51917cb7690df0673cb39d871b88cc",
+          "92db64cdd": "92db64cdd332e6a934213ec52e28486b984a3cb5",
+          "a45d54640": "a45d546407446f692b1fb5b1b4dda6db439d8833"
+        },
+        "reCutOnto": "4f387fa2d0819b963edd810b49b120afd1024815",
+        "reCut": {
+          "d5662d256": "d5662d256bfe9be9abbc62e086baefe8e2491f48",
+          "10278322e": "10278322e393ea81113ed9c16604d8d942eda147",
+          "c80eaf3ae": "c80eaf3ae78b960a923d8dfb2d1dddd343576557",
+          "c90d8c62f": "c90d8c62f151ee58dfbef428d45df83e9d18f019"
+        },
+        "note": "commit ids are named for provenance only; every base this row relies on is baseSha above and the historical verdict path"
+      },
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a9ae6e65a1fbe1311b9f8a48dea115840beb5ba9c2482b8a13a2de9669f14c46",
+          "byteLength": 6516,
+          "pageCount": 2,
+          "pageCountBasis": "pdfinfo (poppler) on the exact bytes",
+          "changed": true,
+          "sha256BeforeRepair": "7875f369eccda528c4cab60c0ef70947344a46c20eb6c6c82983832fe4c56144"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e2ec46c7d52ee5703401a519141c7885bd0f1b73820c23df65bee538dc5a1d1b",
+          "byteLength": 6644,
+          "pageCount": 2,
+          "pageCountBasis": "pdfinfo (poppler) on the exact bytes",
+          "changed": true,
+          "sha256BeforeRepair": "fc609cc3c048a965f9ee339cb87e891be08720f2dc36b1ee41d117b4dd6af3b9"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/reports/completeness-counters.json written by the V5 rebuild; verify-packet-completeness.mjs --family reports PASS_COMPLETE at the re-cut tip (corpus environment)",
+      "rasterRequired": "A central raster of the rebuilt bytes is still owed (owner dispatch); this row grants nothing and moves the family only through the generator.",
+      "independentRereadRequired": true
+    }
+  ]
+}

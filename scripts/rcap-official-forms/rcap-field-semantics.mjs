@@ -447,9 +447,22 @@ export function statedSubjectExemptions(name) {
   return out;
 }
 
-export function protectCategoryOf(name) {
+// These exact MD participant statements belong to this source, not every form.
+const MD_JUVENILE_PARTICIPANT_SUBJECTS = {
+  "The States Attorney entered a nolle prosequi": ["prosecutor", "attorney"],
+  "The court in a disposition hearing found that I did not require guidance treatment or": ["disposition_or_hearing"],
+  "The court in a disposition hearing found that I did require guidance treatment or": ["disposition_or_hearing"],
+  "I have not subsequently been convicted of any offense": ["disposition_or_hearing"],
+  "I have fully paid any monetary restitution ordered by the court in the delinquency": ["money"],
+  "Law Enforcement Agency": ["agency"]
+};
+
+export function protectCategoryOf(name, { sourceSha256 } = {}) {
   const hay = haystack(name);
   const exempt = statedSubjectExemptions(name);
+  if (sourceSha256 === "24fcb98eb0af35906252a424011a00d14ed393ed5451b01219ed5653c4c10a92" && Object.hasOwn(MD_JUVENILE_PARTICIPANT_SUBJECTS, name)) {
+    for (const category of MD_JUVENILE_PARTICIPANT_SUBJECTS[name] ?? []) exempt.add(category);
+  }
   for (const [category, re] of PROTECT_RULES) {
     if (exempt.has(category)) continue;
     if (re.test(hay)) return category;
@@ -502,7 +515,7 @@ export function decideBinding(field, options = {}) {
   // a way around them.
   const subject = effectiveLabel ?? name;
 
-  const category = protectCategoryOf(subject) ?? protectCategoryOf(name);
+  const category = protectCategoryOf(subject, options) ?? protectCategoryOf(name, options);
   if (category) return { writable: false, reason: "protected_category", category };
 
   // Geometry. A widget sits inside a printed section of the page, and when

@@ -38,18 +38,11 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33791677725",
-      "jobId": "100770326999",
-      "artifactId": 9907767099,
-      "boundToCanonicalSha256": "b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf03",
-      "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1"
+      "lane": "vf07",
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -59,7 +52,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179",
+        "replacedByCanonicalSha256": "1f58a28e664897023c59485baf859f22c8d82d24b444b53a3166a6b74c75cd22",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33791677725",
+          "jobId": "100770326999",
+          "artifactId": 9907767099,
+          "boundToCanonicalSha256": "b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -72,7 +80,7 @@
         "order": 1,
         "documentId": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179",
+        "sha256": "1f58a28e664897023c59485baf859f22c8d82d24b444b53a3166a6b74c75cd22",
         "requirement": "required"
       }
     ]

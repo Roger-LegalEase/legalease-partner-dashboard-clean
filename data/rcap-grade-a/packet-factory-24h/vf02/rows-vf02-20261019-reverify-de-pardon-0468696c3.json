@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0468696c309c7bb654e6f42b55ae56a857a4fffb",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "de_pardon_expungement-set": "GRANTED_ELSEWHERE: de_pardon_expungement-set is granted to VF03, not VF02, and that grant is LIVE -- another lane is working it now."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "de_pardon_expungement-set",
+      "lane": "VF02",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0468696c309c7bb654e6f42b55ae56a857a4fffb",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "PYTHONDONTWRITEBYTECODE=1 MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set, run here at 0468696c3: PASS_COMPLETE, 18/86 written, all nine counters 0. The builder's reports/completeness-counters.json carries the same nine zeros and is cited only as the thing checked. The RASTER_QUEUE row for this family is RASTER_PASS and is bound to the two fixture hashes recomputed here."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId de_pardon_expungement-set agrees across product-wiring (family), source-receipt, production-field-map, build-findings, build-status, approval-request, the four reports and the MASTER_QUEUE row. The single routeKey obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375 is identical in product-wiring, source-receipt, production-field-map and MASTER_QUEUE, and resolves in data/record-clearing/factory-v2-route-registry.json routes[34] to registryTrackIds [de_pardon_expungement], packetSetIds [de_pardon_expungement-set], componentCount 3, officialFormIds [CIV_EXP_02_A, CIV_EXP_08_A]. The current packet-set manifest entry carries trackId de_pardon_expungement. The controlling decision DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW (LEGAL_BLOCKED_RESOLUTION_2026-09-11.json, LEGAL_CLEAR) names this family and the same two official forms."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "committedRecords recomputed from disk here. (1) data/record-clearing/legal-design-packet-set-manifests.json: receipt pins 08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51 (3737741 B); the bytes now are fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 (3738732 B), so the file-level pin is NOT exact. The pinned blob was recovered (identical to git blob at 6ec5f2284, sha256 recomputed 08dddbcd...) and compared object-for-object against the current file: the de_pardon_expungement-set packetSets entry is IDENTICAL (one occurrence, same index 86; canonical sha256 fe0e0d0f180b63a98eb7a9e04630b3fa9b0fb4c2efda839d0c9884775ca069a1 both sides, equal to the receipt's own identicalAnchorSha256), and the non-packetSets global content (schemaVersion, factoryV2RouteMigrations) is IDENTICAL (canonical cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298 both sides, equal to the receipt's recorded value). Of 497 entries only va_exp_absolute_pardon-set changed; none added or removed. The controlling section did not drift. Pin verified against: sha256 fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82, byteLength 3738732. (2) data/record-clearing/legal-design-track-registry.json: b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0, 16781025 B, exact. Official forms: CIV_EXP_02_A (f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a, 179445 B) and CIV_EXP_08_A (0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b, 1128070 B) come from the master library / custody pool, which is not mounted here (Expungement_AI_RCAP_Master_Library_Edition_1 holds 5 files, none Delaware; no mounted file hashes to either value). SOURCE_IDENTITY therefore binds those two by the committed hash record only, not by recomputed bytes: data/rcap-all50/local-source-corpus-index.json entries 692 and 979 carry exactly the receipt's sha256, byteLength and custody path for each. The transport derivatives (4da3c898..., 90218a00...) are not committed and were not recomputed. That limit does not fail the obligation because the record is exact, but it is a limit."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The current manifest entry declares 3 required components in order: de_pardon_expungement-primary-filing-1 (primary_filing, official_pdf_fill, CIV_EXP_02_A), de_pardon_expungement-proposed-order-2 (proposed_order, official_pdf_fill, CIV_EXP_08_A), de_pardon_expungement-cover-sheet-3 (cover_sheet, custom_pleading). production-field-map componentSet and rendered-artifacts componentSet are the same three; both fixtures' page text identifies page 1 as CIV_EXP_02_A (footer 'Updated 6/12/2024'), page 2 as CIV_EXP_08_A ('Updated 05/30/2024') and page 3 as the FILING COVER SHEET. No component from another route appears. Observation only: the MASTER_QUEUE row's packetComponents lists two components (omits cover-sheet-3), which the queue summary, not the packet, gets wrong; and the DE memo's note for the cover sheet reads 'SBI cover letter', which approval-request.json already puts to counsel."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "18/18 written values read back by this lane from the fixture bytes in each fixture (36/36). Each value was found in the pdftotext text of its own packet page, and each of the 12 official-form writes per fixture was read inside its own widget rectangle with pdftotext -bbox (the boundary order's street address wraps to two lines inside its 27.1 pt rect). Values: full legal name (petition caption, petition recital line, order caption, cover sheet), street address, city/state/zip, date of birth, telephone, and criminal case number (petition and cover sheet). The builder's added-glyph counts per official document (114/83 canonical, 182/130 boundary) equal the non-whitespace glyph count of the written values exactly. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "All 11 requiredBeforeFiling strings in the CURRENT manifest entry appear verbatim as bullets in participant-instructions.md. Both prerequisite documents are named with where they come from: the unconditional pardon (Board of Pardons and the Governor, outside scope) and the certified criminal history dated within 45 days (IdentoGo, service code 27S23V, about $72). All 45 REQUIRED_BEFORE_FILING blanks in production-field-map (20 petition charge-table cells, the manifest-injustice box, its 4 ruled lines, 20 order charge-table cells) have their participantMustSupply text in the instructions (45/45). Observation, not a failure: the instructions state the manifest's SHA-256 as 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7, the build-time hash (git blob at 1784eec3d, 2026-09-09). The de_pardon entry in that blob is identical to the current one, so the list is still correct, but the stated hash is not the file's hash today."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls in the field map, and the route has no internal branch election. The four routeSelectionsMade (instrument, statutory recital, charge table, venue) are each sourced to the manifest or track registry. The county boxes (3 per form), the interpreter Yes/No and the manifest-injustice box are classified participant elections, left unmarked on both fixtures, and the instructions tell the participant to mark the county where the most recent case was terminated. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "Each form has one 4-row by 5-column charge table (chargeTableGeometry). Every cell of all 8 rows is left wholly blank on both fixtures, and each cell is named row by row in the instructions as a REQUIRED_BEFORE_FILING item to be copied from the certified history, with the order's rows matched to the petition's. No row carries written cells beside blank required cells. incompleteRows=0 measured here. Observation: the petition's own face says additional charges go on CIV_EXP_02_B, and the instructions do not mention that form. No committed record requires it on this route."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "7 court/clerk/agency-owned widgets are blank: on the petition, Civil Petition No. and the three jurat widgets ('day of', 'undefined', 'undefined_2'); on the order, Civil Action No. ('Leave Blank Court will assign'), paragraph 5 'Other' and the judicial DATE. The printed participant signature line, the notary line and the judicial officer's signature line carry no ink. Measured here on all 68 unwritten widget rectangles per fixture (field-census, 44 + 36 fields): none holds any glyph except two U+F06F (Wingdings empty-box) glyphs inside the order's interpreter Yes/No rects. Those are identical in both fixtures and are not among the build's added glyphs (added glyphs equal written-value glyphs exactly), so they read as the form's printed unticked boxes. pdfinfo reports Form: none (flattened) for both fixtures. Outside the 12 write rects, the official pages' words are identical between the canonical and boundary fixtures (440 on p1, 423 on p2). protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk under fixtures/, both recorded in rendered-artifacts.json; 0 unrecorded, 0 recorded-but-missing. Recomputed here: canonical.pdf 7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9 (1202521 B), boundary.pdf 68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9 (1202719 B), each matching its recorded sha256 and byteLength."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures' page manifests run packet pages 1..3: primary_filing (CIV_EXP_02_A p1), proposed_order (CIV_EXP_08_A p1), cover_sheet. That is the manifest's declared order 1, 2, 3, and the cover sheet's own list gives the same order. pdfinfo reads 3 pages, letter 612x792, from both fixtures' bytes, equal to the recorded pageCount. Each page's printed footer or heading confirms which document it is."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox here: canonical 999 words, boundary 1014 words; 0 words outside the page box and 0 same-band overlapping word pairs in either. Builder report nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both fixtures, checked here: printed words outside the write rects are identical across fixtures, and every write reads back inside its own rect. RASTER_QUEUE row is RASTER_PASS bound to the two recomputed hashes. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The track registry and DE memo name the destination 'Superior Court or Family Court of the State of Delaware', with venue 'Superior or Family Court for the county where the most recent case was terminated, following the \u00a7 4374(c) venue rule.' participant-instructions.md 'Where this goes' states exactly that venue rule, says it is the most recent termination that decides, explains the three county boxes, and tells the participant to mark the one the rule gives. The instructions' title, the petition and the cover sheet name the Superior Court."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Under DET-FEE-AND-WAIVER-001 limb 1 (fee amount stated and sourced): the instructions state '$75, per the \u00a7 4374(j) fee schedule' and attribute it to the committed packet-set manifest (pay_fee entry; the same figure is in the track registry rules.fees). The waiver is stated and sourced: \u00a7 4372(l), the court may waive fines or fees or convert them to a civil judgment where non-payment is not wilful, conditional on inability to pay (apply_fee_waiver entry). Step 7 repeats both. The certified-history cost (about $72) is also stated."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "A named rule: 'You serve the Attorney General, who may object or answer within 120 days. If the Attorney General opposes, you have 30 days to file a response.' This matches the manifest serve_party entry and registry rules.service word for word. The instructions point to the AG's three county addresses printed on the petition's face, and step 7 says to serve the Attorney General. Observation: the registry's separate notice rule (the expungement clerk emails the filing to the AG once a case number is assigned) is not repeated. It is not needed to meet the obligation."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling DE.memo.json track de_pardon_expungement selfHelpStopConditions (7, identical to the registry's selfHelpBoundaries). All 7 are carried: AG objection or answer opposing; victim opposes; court sets a hearing; manifest-injustice showing on contested facts; no unconditional pardon yet (stop list: 'pardon is conditional, or you are not sure'; opening section: 'If you have not been pardoned, this is not your packet'); immigration, firearm, licensing, registry or law-enforcement-employment consequences; attacking the conviction. The decision record DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW (official petition workflow plus CIV_EXP_08_A, no custom-pleading hold) is followed, and nothing sends the participant into a posture the record holds as a stop. The packet says the platform does not decide eligibility or the sufficiency of the manifest-injustice showing, signs nothing, and carries no counsel review or delivery approval. It still describes DE-5 as an open counsel question, which matches the registry's buildBlockers today."
+        }
+      },
+      "evidence": {
+        "verifierRun": "verify-packet-completeness.mjs --family de_pardon_expungement-set at 0468696c3: 'ok de_pardon_expungement-set PASS_COMPLETE 18/86 written'; 1 family audited, 1 PASS_COMPLETE; all nine counters 0. The worktree was unchanged afterwards (git status: only the pre-existing untracked private symlink).",
+        "sourceRecomputation": "Manifests: pinned 08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51 (3737741 B, recovered blob = 6ec5f2284) vs current fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 (3738732 B). Family entry and global content identical object-for-object (fe0e0d0f... / cb026b3c... both sides); only va_exp_absolute_pardon-set changed. Pin verified against fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732. Track registry b62ae691... exact. Official forms CIV_EXP_02_A f2820f71... and CIV_EXP_08_A 0f7666ac... are bound by the committed local-source-corpus-index record (exact sha256, byteLength, path), not by bytes recomputed here, because the master library is not mounted.",
+        "artifactRecomputation": "2/2 fixture PDFs hash and byte-length to record; pdfinfo 3+3 pages; Form: none on both.",
+        "byteReadBack": "36/36 written values (18 per fixture) read back from the fixture bytes by this lane: 24/24 official-form writes inside their own widget rects, 12/12 cover-sheet values on page 3.",
+        "stopConditions": "7/7 controlling memo-track stops carried; decision record followed; no inversion.",
+        "lapseResolved": "Lapse BOUND_SOURCE_DRIFTED on data/record-clearing/legal-design-packet-set-manifests.json (pinned 08dddbcd..., now fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82). The drift is outside this family's controlling entry and outside the global content, so the family re-verifies against the current bytes. The receipt still pins 08dddbcd; the re-pin to fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 (3738732 B) is the lead's step and was not made by this lane."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

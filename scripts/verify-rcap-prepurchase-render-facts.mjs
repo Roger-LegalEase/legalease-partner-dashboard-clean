@@ -67,6 +67,7 @@ const { packetSpecificationFor, packetSpecificationRouteKeys, composablePacketSp
   "../src/lib/rcap/grade-a/packet-specification.ts"
 );
 const { renderPreflight } = await import("../src/lib/expungement-ai/render-preflight.ts");
+const { packetCollectionFor } = await import("../src/lib/expungement-ai/packet-information.ts");
 const { documentContractFor, isCourtFacing } = await import("../src/lib/rcap/grade-a/document-contract.ts");
 const { resolvePacketCollection, prepayGateFactIds, filingReadinessFactIds, participantOwesFact } = await import(
   "../src/lib/expungement-ai/packet-collection.ts"
@@ -91,30 +92,18 @@ for (const profile of getAllJurisdictionProfiles()) {
   }
 }
 
-/**
- * Resolved exactly as the nationwide audit resolves it: no participant answers
- * at all. That is the honest worst case -- nothing is carried forward from
- * screening and nothing is derived -- so a fact that reaches the gate here
- * reaches it on every real matter too.
- */
+/** Empty-answer production projection, not a universal maximum or live journey. */
 function resolutionFor(routeKey, profile, pathway, specification) {
   const plan = packetPlanForPathway(profile, pathway.id);
   if (!plan || plan.requiredInputIds.length === 0) return null;
   return {
     plan,
-    resolution: resolvePacketCollection({
+    resolution: packetCollectionFor({
       jurisdiction: profile.jurisdiction.code,
       pathwayId: pathway.id,
       requiredInputIds: plan.requiredInputIds,
       serverFacts: { jurisdiction: profile.jurisdiction.code, pathway_id: pathway.id },
-      screeningAnswers: {},
-      specification,
-      routeDecidingFactIds: new Set([
-        ...routeDecidingFactIds(profile, pathway),
-        ...routeSafetyGateFactIds(profile.jurisdiction.code, pathway.id)
-      ]),
-      baselineCarriedFactIds: baselineCarriedFactIds(routeKey),
-      override: routeCollectionOverrideFor(routeKey)
+      screeningAnswers: {}
     })
   };
 }
@@ -126,6 +115,13 @@ const perRoute = [];
 
 for (const routeKey of packetSpecificationRouteKeys()) {
   const specification = packetSpecificationFor(routeKey);
+  if (!composablePacketSpecificationFor(routeKey)) {
+    // Registered identity is not a promise to compose an unbound legal track.
+    // Keep its facts visible as a reference gap; never inject them into a
+    // broader compiled route (notably VA subsection I vs the general route).
+    perRoute.push({ routeKey, note: "registered reference only: legal sections unbound", sourceOnlyFactIds: (specification?.requiredFacts ?? []).map((fact) => fact.factId) });
+    continue;
+  }
   const participantFactIds = (specification?.requiredFacts ?? [])
     .filter((fact) => fact.ownership === "participant")
     .map((fact) => fact.factId);
@@ -213,6 +209,7 @@ const ADMITTED_BY_NAME = new Set(["prepay_confirmation", "render_required"]);
 const externallyAcquired = [];
 const notYetProbes = [];
 const gateClassCounts = {};
+const unresolvedCollectionFacts = [];
 const renderProbe = { required: 0, overGated: [], unreachable: [] };
 
 /** Values that satisfy each route's own rules, not merely its fact list. */
@@ -238,6 +235,7 @@ for (const [routeKey, { profile, pathway }] of pathwayByRouteKey) {
   const specification = packetSpecificationFor(routeKey);
   const resolved = resolutionFor(routeKey, profile, pathway, specification ?? null);
   if (!resolved) continue;
+  for (const factId of resolved.resolution.unresolvedRequiredFacts) unresolvedCollectionFacts.push(`${routeKey}|${factId}`);
 
   const gate = new Set(prepayGateFactIds(resolved.resolution));
   const readiness = filingReadinessFactIds(resolved.resolution);
@@ -498,10 +496,10 @@ if (failures.length > 0) {
 console.log(`verify-rcap-prepurchase-render-facts passed: ${checks} checks`);
 console.log(`  routes with a registered packet specification: ${routesChecked} reachable, ${unreachable} unreachable`);
 console.log(`  participant-owned specification facts examined: ${factsChecked}`);
-console.log("  required participant-owned render facts left after Checkout: 0");
+console.log("  declared participant facts in composable specifications: accounted for (not protected Checkout acceptance)");
 console.log("  what stands between a participant and Checkout, by collection class:");
 for (const [collection, count] of Object.entries(gateClassCounts).sort((a, b) => b[1] - a[1])) {
-  console.log(`    ${String(count).padStart(5)}  ${collection}${ADMITTED_BY_NAME.has(collection) ? "" : "  (each one proven necessary to render)"}`);
+  console.log(`    ${String(count).padStart(5)}  ${collection}${ADMITTED_BY_NAME.has(collection) ? "" : "  (see tested and unprobed populations below)"}`);
 }
 console.log(`  gate facts outside those two classes, proven required by the renderer: ${renderProbe.required}`);
 console.log(`  gate facts the packet composes without (later tasks blocking payment): ${renderProbe.overGated.length}`);
@@ -519,3 +517,6 @@ for (const row of perRoute) {
     ? `    ${row.routeKey}: ${row.note}`
     : `    ${row.routeKey}: ${row.inGate}/${row.participant} in gate, ${row.excused} excused`);
 }
+
+console.log(`  empty-answer unresolved collection facts: ${unresolvedCollectionFacts.length} (GA-14; not a zero-gap claim)`);
+for (const fact of unresolvedCollectionFacts) console.log(`    unresolved: ${fact}`);

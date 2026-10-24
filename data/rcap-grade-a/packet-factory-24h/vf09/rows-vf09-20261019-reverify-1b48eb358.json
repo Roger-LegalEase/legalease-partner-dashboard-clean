@@ -1,0 +1,277 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF09",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "ma-bmc-multi-set": "ALREADY_RELEASED: ma-bmc-multi-set at 2026-09-12T04:58:32.828Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "ma-bmc-multi-set",
+      "lane": "VF09",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run by this verifier at base 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR pointed at the 5-file stub; the counter line was parsed from that run, not read from reports/completeness-counters.json (that report was read only as the thing being checked and agrees)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "production-field-map.json, source-receipt.json, product-wiring.json and the MASTER_QUEUE family row declare the identical route key set ['obligation:track-only:MA:ma-bmc-multi']; every key is present in canonical-route-universe.json (708 keys, read here); familyId agrees across field map, receipt, wiring, rendered-artifacts, actual-writes, completeness-counters and the queue row."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Fully measurable here: the family binds no Master Library bytes and no official form (queue row officialFormFamily NONE, boundSources []; receipt sourceBinaryCommitted false). Both compositionSources rehashed from disk at base 1b48eb358: data/record-clearing/legal-design-intake/MA.memo.json exact (fde00193af73\u2026, 110088 B); data/record-clearing/legal-design-packet-set-manifests.json drifted b28edfb9 -> fee93664 (3708050 -> 3738732 B; last moved at a9e4ee852, 2026-10-16). Read against the recovered pinned blob: packetSets[packetSetId=ma-bmc-multi-set] is identical object-for-object (anchor sha 577780ee75a4\u2026 both sides, keys sorted, no spacing, UTF-8), the record's non-packetSets content (schemaVersion, factoryV2RouteMigrations) is identical (anchor eb4a53fc38ac\u2026), packetSets count 497 -> 497, and every line mentioning ma-bmc-multi is the same set in both versions. Nothing this family depends on moved; the drift is other packet sets' entries (Virginia and Minnesota commits). No controlling entry drifted in substance. Not re-pinned here; the current sha256/byteLength are recorded under evidence.sourceRecomputation.newPinsIfAccepted. The receipt's additiveLegalDecision pin (LEGAL_BLOCKED_RESOLUTION_2026-09-11.json, decisionId MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS) also rehashes exactly: 5e3b6fb6bdef\u2026, 22372 B."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The packet-set manifest entry (identical pinned and current) names two components, ma-bmc-multi-primary-filing-1 (primary_filing) and ma-bmc-multi-instructions-2 (instructions); the field map, receipt and rendered page manifest carry exactly primary_filing (pages 1-2) and instructions (pages 3-4) in both fixtures. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Read back here, not trusted: every value actual-writes.json records as written was searched for in pdftotext -layout output of that fixture's own bytes - canonical 6/6 found; boundary 6/6 found. refusedFieldsWithInk is empty in both fixtures; the fresh run measured invisibleWrites 0 and knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 6 required-before-filing item(s); each disclosureLabel was found verbatim in participant-instructions.md's 'items you must supply' table (read here), and the fresh run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade [] and no election control on the composed pages: the route is stated in the petition's own title and body (G.L. c. 276, Sec. 100C and BMC Amended Standing Order No. 1-09, read here), and the only branch - three-plus records from two-plus divisions versus the ordinary per-case route - is explained, not selected. requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The fresh run measured incompleteRows 0: no row band carries written cells beside a required cell left blank in either fixture."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites 0; refusedFieldsWithInk [] in both fixtures; read here, the 'DATE .... SIGNATURE OF PETITIONER ....' line is dotted in both fixtures, the good-cause paragraph is four dotted lines, and no court-, clerk- or prosecutor-owned value is written."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "canonical.pdf sha256 e8a629a4b7b5\u2026 and 11360 bytes recomputed here = reports/rendered-artifacts.json; boundary.pdf sha256 47a65b128319\u2026 and 11605 bytes recomputed here = reports/rendered-artifacts.json. No unrecorded PDF exists under fixtures/ and no recorded PDF is missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "canonical: pdfinfo 4 = recorded 4 = manifest 4 pages, packetPage 1..4 contiguous, documents in order ['primary_filing', 'instructions']; boundary: pdfinfo 4 = recorded 4 = manifest 4 pages, packetPage 1..4 contiguous, documents in order ['primary_filing', 'instructions']; that order is the receipt's composedComponentsAuthoredByThisBuild order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured geometrically here with pdftotext -bbox: canonical 1056 words on 4 pages, 0 outside the page box, 0 same-band overlapping pairs; boundary 1058 words on 4 pages, 0 outside the page box, 0 same-band overlapping pairs. The builder's byte proof records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both fixtures and the fresh run measured visualDefects 0. No raster was inspected here (rendered-artifacts.json records rasterSkipped true); this is a geometry reading, not a visual one."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The route names a clerk destination, 'Boston Municipal Court division identified by the Standing Order'. The instructions name it with the venue rule and the office to confirm it ('the division the Standing Order's venue rule identifies - where you live if you live in BMC territory, otherwise the division your most recent eligible record is from; the clerk of that division can confirm it') and step 7 says 'File in the venue division'; the petition caption prints the same rule under the blank division line. The repository holds exactly that rule and no street address, and the packet states it."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met under DET-FEE-AND-WAIVER-001 clause 2, a sourced no-fee statement: the instructions say 'There is no filing fee to request sealing, so no filing-fee waiver application is needed for this request. This does not promise that obtaining records or other third-party services is free', and the instructions page in the packet repeats it. Source held: the MA legal-design track rule fees 'No filing fee: the Massachusetts Court System's guide states that requesting sealing has no fee (MA2)' and feeWaiver 'Not applicable', in MA.memo.json (exact pin) and the track registry. Noted: the packet-set manifest's pay_fee entry still reads the older 'None identified in the review'; the packet follows the updated memo rule, which is the sourced one."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "A named rule with its mechanism: 'Send a copy of this petition to the Suffolk County District Attorney at least 30 days before the final hearing, unless that office waives the full notice period. Keep proof of what you sent and when. Court notice does not replace your separate obligation' - in the instructions, on the packet's instructions page, and in paragraph 4 of the petition itself. Source held: the track rule service/notice in MA.memo.json and the registry, which say exactly that and nothing more about the method."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The registry's four stops - threshold not met; a record outside the BMC Department; the judge requests additional information; a hearing is set - are the four items of the instructions' 'When to stop and get help instead of filing' and the packet page's 'WHEN TO STOP' block, read here. The instructions also say what the platform left blank (signature and date; the good-cause narrative) and that the packet is not legal advice, is not filed for the participant and decides nothing. approval-request.json: approvedForLive false, live false, commercialRoutesOpened 0."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok   ma-bmc-multi-set                               PASS_COMPLETE                6/14 written | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "officialSourcesBound": 0,
+          "masterLibraryBytesBound": false,
+          "compositionSources": [
+            {
+              "path": "data/record-clearing/legal-design-intake/MA.memo.json",
+              "pinnedSha256": "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6",
+              "pinnedByteLength": 110088,
+              "recomputedSha256": "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6",
+              "byteLengthOnDisk": 110088,
+              "exact": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "pinnedSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+              "pinnedByteLength": 3708050,
+              "recomputedSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+              "byteLengthOnDisk": 3738732,
+              "exact": false
+            }
+          ],
+          "driftAnchors": {
+            "legal-design-packet-set-manifests.json": {
+              "packetSetEntry": {
+                "pinnedAnchorSha256": "577780ee75a4d3f66d7410c567b840234866615f4fab9a6a38d5b41498f43646",
+                "currentAnchorSha256": "577780ee75a4d3f66d7410c567b840234866615f4fab9a6a38d5b41498f43646",
+                "identical": true,
+                "pinnedBlobSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "currentSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+                "currentByteLength": 3738732
+              },
+              "nonPacketSetsContent": {
+                "pinnedAnchorSha256": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "currentAnchorSha256": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "identical": true,
+                "pinnedBlobSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "currentSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+                "currentByteLength": 3738732
+              },
+              "packetSetsCountPinnedToCurrent": [
+                497,
+                497
+              ]
+            }
+          },
+          "additiveLegalDecision": {
+            "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+            "pinnedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+            "recomputedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+            "byteLengthOnDisk": 22372,
+            "exact": true
+          },
+          "newPinsIfAccepted": [
+            {
+              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+              "byteLength": 3738732
+            }
+          ]
+        },
+        "artifactRecomputation": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/canonical.pdf",
+            "recordedSha256": "e8a629a4b7b581c341b717c3fd656abcb5b03bc1b02cbde00d65da2e97b24c4b",
+            "recomputedSha256": "e8a629a4b7b581c341b717c3fd656abcb5b03bc1b02cbde00d65da2e97b24c4b",
+            "recordedByteLength": 11360,
+            "byteLengthOnDisk": 11360,
+            "recordedPageCount": 4,
+            "pdfinfoPages": 4,
+            "manifestPages": 4,
+            "contiguousFromOne": true,
+            "documentsInOrder": [
+              "primary_filing",
+              "instructions"
+            ],
+            "matched": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/boundary.pdf",
+            "recordedSha256": "47a65b128319816c120a3b8f8f29dadfc23dbf9fe7775585141296ecfb3cc7e0",
+            "recomputedSha256": "47a65b128319816c120a3b8f8f29dadfc23dbf9fe7775585141296ecfb3cc7e0",
+            "recordedByteLength": 11605,
+            "byteLengthOnDisk": 11605,
+            "recordedPageCount": 4,
+            "pdfinfoPages": 4,
+            "manifestPages": 4,
+            "contiguousFromOne": true,
+            "documentsInOrder": [
+              "primary_filing",
+              "instructions"
+            ],
+            "matched": true
+          }
+        ],
+        "byteReadBack": [
+          {
+            "fixture": "canonical",
+            "writesRecorded": 6,
+            "foundInExtractedText": 6,
+            "notFound": [],
+            "valuesReportedByFinalizer": 6,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "signatureLinesBlank": true
+          },
+          {
+            "fixture": "boundary",
+            "writesRecorded": 6,
+            "foundInExtractedText": 6,
+            "notFound": [],
+            "valuesReportedByFinalizer": 6,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "signatureLinesBlank": true
+          }
+        ],
+        "wordGeometry": [
+          {
+            "fixture": "canonical",
+            "pages": 4,
+            "words": 1056,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          },
+          {
+            "fixture": "boundary",
+            "pages": 4,
+            "words": 1058,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          }
+        ],
+        "stopConditions": {
+          "registry": [
+            "The threshold of three or more records from two or more BMC divisions is not met, in which case the ordinary route applies with one form per case.",
+            "Records fall outside the Boston Municipal Court Department.",
+            "The judge requests additional information about the listed cases.",
+            "A hearing is set."
+          ],
+          "instructionsSection": "When to stop and get help instead",
+          "approvedForLive": false,
+          "live": false,
+          "commercialRoutesOpened": 0
+        },
+        "lapseResolved": "No lapse is recorded: the MASTER_QUEUE row carries verificationLapsedBecause null and verifierSourceHold null; the receipt drift is the only reason this family was re-read."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

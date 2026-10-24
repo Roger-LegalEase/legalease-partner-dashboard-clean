@@ -14,6 +14,8 @@ import type {
   ScreeningAnswerValue
 } from "@/lib/expungement-ai/frontend/contracts";
 
+import { questionAnswerState, scalarAnswerText, uncertaintyState } from "@/lib/expungement-ai/question-answer-state";
+
 /** The "or unknown" / "prefer not to say" value shape used by open-text/number/date fields. */
 export type OrUnknownValue = { value?: string; unknown?: boolean };
 
@@ -23,10 +25,9 @@ export function isOrUnknownValue(value: AnswerValue | undefined): value is OrUnk
 
 /** Read an OrUnknown value safely from any stored answer. */
 export function readOrUnknown(value: AnswerValue | undefined): OrUnknownValue {
-  if (isOrUnknownValue(value)) {
-    return { value: typeof value.value === "string" ? value.value : undefined, unknown: value.unknown === true };
-  }
-  return {};
+  const text = scalarAnswerText(value);
+  if (isOrUnknownValue(value)) return { value: text ?? undefined, unknown: value.unknown === true };
+  return text === null ? {} : { value: text, unknown: uncertaintyState(text) !== null };
 }
 
 /**
@@ -35,24 +36,8 @@ export function readOrUnknown(value: AnswerValue | undefined): OrUnknownValue {
  * affordances, and it lets an anxious user who genuinely does not know still move forward.
  */
 export function hasAnswer(question: ProfileQuestion, value: AnswerValue | undefined): boolean {
-  switch (question.type) {
-    case "single_choice":
-    case "yes_no_unsure":
-    case "yes_no_prefer_not_to_say":
-    case "text":
-      return typeof value === "string" && value.trim().length > 0;
-    case "multi_select":
-      return Array.isArray(value) && value.length > 0;
-    case "date_or_unknown":
-    case "number_or_range":
-    case "text_or_unknown": {
-      const v = readOrUnknown(value);
-      return v.unknown === true || (typeof v.value === "string" && v.value.trim().length > 0);
-    }
-    default:
-      // Unknown/unsupported type: never block Continue (it renders a calm fallback instead).
-      return true;
-  }
+  const state = questionAnswerState(question, value);
+  return state === "known_valid" || state === "uncertain" || state === "declined";
 }
 
 /**
@@ -79,7 +64,7 @@ const UNKNOWN_WIRE_VALUE = "I am not sure";
  * a pure shape transform, not a routing decision.
  */
 export function toScreeningAnswers(
-  answers: Record<string, AnswerValue>
+  answers: Record<string, AnswerValue | boolean>
 ): Record<string, ScreeningAnswerValue> {
   const out: Record<string, ScreeningAnswerValue> = {};
   for (const [id, value] of Object.entries(answers)) {
@@ -89,10 +74,11 @@ export function toScreeningAnswers(
   return out;
 }
 
-function toWireValue(value: AnswerValue | undefined): ScreeningAnswerValue | undefined {
+function toWireValue(value: AnswerValue | boolean | undefined): ScreeningAnswerValue | undefined {
   if (value === undefined || value === null) return undefined;
   if (typeof value === "string") return value.trim() === "" ? undefined : value;
   if (typeof value === "number") return value;
+  if (typeof value === "boolean") return value;
   if (Array.isArray(value)) return value.length > 0 ? value : undefined;
   const orUnknown = readOrUnknown(value);
   if (orUnknown.unknown === true) return UNKNOWN_WIRE_VALUE;

@@ -1,3 +1,4 @@
+import { PacketFulfillmentNotProvenError } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { clinicPacketDtcAuthorized, SponsorCapacityRequiresCheckoutError } from "@/lib/expungement-ai/clinic-packet-funding";
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
@@ -143,6 +144,9 @@ function safeArtifact(artifact: { fileName: string; generatedAt: string; source:
 }
 
 function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
+  if (error instanceof PacketFulfillmentNotProvenError) {
+    return NextResponse.json({ error: "A packet is not available for this route yet. Your saved information remains available.", resultCode: "fulfillment_not_proven" }, { status: 403, headers: { "Cache-Control": "private, no-store" } });
+  }
   if (error instanceof SponsorCapacityRequiresCheckoutError) {
     return NextResponse.json({ error: error.message, outcome: "sponsor_capacity_exhausted", checkoutRequired: true }, { status: 409 });
   }

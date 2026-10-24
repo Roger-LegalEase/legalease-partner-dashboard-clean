@@ -15,36 +15,28 @@
  *
  * THREE THINGS ABOUT THESE FORMS SHAPED THE IMPLEMENTATION.
  *
- * First, THE PRINTED TEXT STREAM IS SCRAMBLED. Both forms interleave their glyph
- * runs, and JDF 612 additionally carries runs at a shifted encoding, so text
- * extracted from the content stream comes back as "0LVGHPHDQRU RI2 IIHQVH V"
- * for "Misdemeanor Offense(s) of" and "Distror Cicout nty CoCuarset 1u mber"
- * for "District or County Court Case Number". Every other family in this
- * factory checks its captions by finding the printed line at the widget's
- * recorded coordinate; on these two documents that check cannot be run, because
- * the words are not in the stream in the order they are on the paper.
- *
- * Saying so is the point. The alternative -- a fuzzy match loose enough to
- * accept "NumEer" as "Number" -- would be a check that passes on anything, and
- * a check that cannot fail is worse than an absent one because it reads as
- * evidence. So the caption claim rests on the OTHER thing these forms have, and
- * the absence is recorded in reports/caption-evidence.json with the scrambled
- * extraction beside each field, for the visual reviewer who can read the paper.
+ * First, THE PRINTED TEXT STREAM WAS SCRAMBLED, AND NO LONGER IS. The August
+ * 2024 revisions of both forms interleaved their glyph runs, so extracted text
+ * came back as "0LVGHPHDQRU RI2 IIHQVH V" for "Misdemeanor Offense(s) of". The
+ * July 1, 2025 revisions this build binds read back cleanly ("Colorado County:",
+ * "City, State, & Zip:"), so the printed line at each widget's coordinate is
+ * recorded as genuine caption evidence. censusOf() measures this per document
+ * (the form's printed title must read back literally on page 1) and the build
+ * refuses a clean-text claim the bytes do not support.
  *
  * Second, THE FIELD NAMES ARE AUTHORED AND MEANINGFUL. Colorado named these
- * widgets `County`, `Court Address`, `Case Number`, `∆`, `∆ DoB`, `Phone`,
- * `Email`, `CoS_Date`, `Sig1_Signature`, `6E.1`, `615.4A.2`. That is a
- * deliberate naming scheme keyed to the printed sections, and on a form whose
- * text cannot be read back it is the reliable channel -- which is the same
- * reasoning the shared semantics already applies when it prefers a field name
- * to a harvested caption for date components.
+ * widgets `County`, `Court Address`, `Case Number`, `∆`, `∆ DoB`, `∆ Phone`,
+ * `∆ Email`, `CoS_Date`, `Sig`, `3D.1`, `615.4A.2`. That is a deliberate
+ * naming scheme keyed to the printed sections -- which is the same reasoning
+ * the shared semantics already applies when it prefers a field name to a
+ * harvested caption for date components.
  *
  * Third, JDF 615 IS THE COURT'S ORDER AND SECTION 3 IS THE COURT'S FINDINGS.
- * Each of its five section-3 boxes begins "The Court finds", and the packet
+ * Each of its four section-3 boxes is a finding the court makes, and the packet
  * leaves every one of them blank: a proposed order that pre-ticked the finding
  * the judge is being asked to make would be drafting the ruling rather than
  * requesting it. The same reasoning leaves the eligibility election in section
- * 8 of JDF 612 to the participant: C.R.S. § 24-72-706 reaches both the
+ * 5 of JDF 612 to the participant: C.R.S. § 24-72-706 reaches both the
  * expressly eligible offences and the misdemeanor branch that turns on the
  * district attorney's position, and which one applies is a fact about this
  * conviction and that prosecutor, not a property of the route.
@@ -241,7 +233,18 @@ const ROUTE = Object.freeze({
   publicLabel: "Motion to seal conviction records, the petition-based route for a Colorado conviction",
   authority: "C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612, JDF 613, JDF 614, JDF 615 and conditional fee-waiver forms JDF 205/JDF 206",
   documents: [
-    { formNumber: "JDF-612", title: "Motion to Seal Conviction Records (County/District Court)", instrumentKind: "primary_filing" },
+    {
+      formNumber: "JDF-612", title: "Motion to Seal Conviction Records (County/District Court)", instrumentKind: "primary_filing",
+      sourcePath: "reference/co-jdf-2025-07-01/JDF612.pdf",
+      sha256: "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+      revision: "REV-2025-07-01", acroFieldCount: 64, pageCount: 5, printedTitle: "Motion to Seal Conviction Records",
+      acquisition: {
+        issuerUrl: "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
+        retrievedFrom: "https://web.archive.org/web/20251106084956id_/https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
+        originLastModified: "Tue, 01 Jul 2025 15:35:41 GMT",
+        why: "the issuer's live URL answered HTTP 403 on 2026-10-21; the archived capture's bytes equal the digest legal-design-track-registry.json records for JDF 612 R: July 1, 2025"
+      }
+    },
     {
       formNumber: "JDF-613", title: "Order Denying Request to Seal Conviction Records", instrumentKind: "proposed_denial_order",
       sourcePath: "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
@@ -255,7 +258,18 @@ const ROUTE = Object.freeze({
       revision: "REV-2024-08-07", acroFieldCount: 16, pageCount: 1,
       conditionDescription: "The court determines that a hearing is necessary; only caption sections A-C are completed before filing."
     },
-    { formNumber: "JDF-615", title: "Order to Seal Conviction Records", instrumentKind: "proposed_grant_order" },
+    {
+      formNumber: "JDF-615", title: "Order to Seal Conviction Records", instrumentKind: "proposed_grant_order",
+      sourcePath: "reference/co-jdf-2025-07-01/JDF615.pdf",
+      sha256: "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+      revision: "REV-2025-07-01", acroFieldCount: 21, pageCount: 3, printedTitle: "Order to Seal Conviction Records",
+      acquisition: {
+        issuerUrl: "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF615.pdf",
+        retrievedFrom: "https://web.archive.org/web/20251111134751id_/https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF615.pdf",
+        originLastModified: "Tue, 01 Jul 2025 15:51:14 GMT",
+        why: "no mounted custody held the July 1, 2025 revision; the archived capture's bytes equal the digest legal-design-track-registry.json and source-custody-census.json record for JDF 615 R: July 1, 2025"
+      }
+    },
     {
       formNumber: "JDF-205", title: "Motion to Waive Fees", instrumentKind: "conditional_fee_waiver_motion",
       sourcePath: "private/source-imports/user-upload-20260911/45b12f9ace73c369607a5b508d7010f2bc0eeaac1fa1a7357493d61dfb831f6b.pdf",
@@ -420,9 +434,9 @@ const AGENCY = (what) => SUPPLY(what);
 
 const FORM_FIELDS = {
   "JDF-612": {
-    /* --- Court, parties, case details (page 1) --------------------------- */
-    Group_CourtType: {
-      section: "Section A — Court", label: "District Court or County Court (selection)", selection: true,
+    /* --- Court, parties, case details, my information (page 1) ----------- */
+    Court: {
+      section: "Section A — Court", label: "County Court or District Court (selection)", selection: true,
       ...ELECTION("which court the conviction is in is a fact about your case, and § 24-72-706 sealing is filed in both; the form asks you to say which")
     },
     County: { section: "Section A — Court", label: "Colorado County", ...WRITE("matter.county") },
@@ -431,107 +445,99 @@ const FORM_FIELDS = {
       ...SUPPLY("the street address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory")
     },
     "Case Number": { section: "Section C — Case Details", label: "Case Number", ...WRITE("matter.case_number") },
-    Division: {
-      section: "Section C — Case Details", label: "Division",
-      ...PROTECT(COURT_OWNED, "the division is assigned by the court; the box beside it is marked on the form as being for court use")
-    },
-    Courtroom: {
-      section: "Section C — Case Details", label: "Courtroom",
-      ...PROTECT(COURT_OWNED, "the courtroom is assigned by the court; the box beside it is marked on the form as being for court use")
+    "D/C": {
+      section: "Section C — Case Details", label: "Division/Courtroom",
+      ...PROTECT(COURT_OWNED, "the division and courtroom are assigned by the court; the box beside it is marked on the form as being for court use")
     },
     "∆": { section: "Section B — Parties to the Case", label: "Defendant — Full Name", ...WRITE("participant.full_legal_name") },
-    "∆ DoB": { section: "Section D — My Information", label: "Birth Date", ...WRITE("participant.date_of_birth") },
-    Address: { section: "Section D — My Information", label: "Current Mailing Address (with city/state/zip)", ...WRITE("participant.full_mailing_address") },
-    Phone: { section: "Section D — My Information", label: "Phone", ...WRITE("participant.phone") },
-    Email: { section: "Section D — My Information", label: "Email", ...WRITE("participant.email") },
+    "∆ DoB": { section: "Section 2 — My Information", label: "Date of Birth", ...WRITE("participant.date_of_birth") },
+    "∆ Street Address": { section: "Section 2 — My Information", label: "Mailing Address", ...WRITE("participant.street_address") },
+    "∆ CSZ": { section: "Section 2 — My Information", label: "City, State, & Zip", ...WRITE("participant.city_state_zip") },
+    "∆ Phone": { section: "Section 2 — My Information", label: "Phone", ...WRITE("participant.phone") },
+    "∆ Email": { section: "Section 2 — My Information", label: "Email", ...WRITE("participant.email") },
+    /* The July 2025 revision adds these two questions. Intake asks neither, so
+     * both are the participant's to answer and nothing is ticked for them. */
+    Group_Interp: { section: "Section 2 — My Information", selection: true, label: "Whether you need an interpreter (selection)", ...ELECTION("only you can say whether you need an interpreter at court; the platform does not ask, so neither box is ticked for you") },
+    Language: { section: "Section 2 — My Information", label: "Interpreter language, if you need one", ...SUPPLY("the language you need an interpreter in, if you ticked Yes; leave it blank if you ticked No") },
+    Group_Event: { section: "Section 2 — My Information", selection: true, label: "Whether you want to attend court events in person or virtually (selection)", ...ELECTION("how you attend court events is your choice; the form says to switch it later with JDF 76, General Motion, filed at least 48 hours before an event") },
 
-    /* --- Section 6: the records to be sealed, and who holds them ---------- *
-     * Every line in this section sits on a widget Colorado marks HIDDEN: the
-     * form reveals each one with its own JavaScript when the checkbox that
-     * governs it is ticked. A value written into a hidden widget is invisible
-     * ink, so nothing here is written -- including the case number, which the
-     * packet holds and prints in the caption of the same page. It is carried to
-     * the participant with the reason stated, rather than reported as a write
-     * the paper does not show. Every AGENCY beside it is a case fact the
-     * platform does not hold at all, and the completeness contract refuses to
-     * let a court or clerk refusal class stand in front of one, so each is
-     * declared and disclosed by name. */
-    "6A.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "District or County Court records to be sealed (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
-    "6A.1": {
-      section: "Section 6 — Records to be Sealed", label: "Court case number of the records to be sealed",
-      ...SUPPLY("the number of the case you are asking to seal, which is the same number printed in the caption of this "
-        + "motion. Colorado hides this box until you tick the court box beside it, so nothing typed into it before then "
-        + "would appear on the paper; copy the number across once the box appears, or write it in by hand")
-    },
-    "6B.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "Prosecuting Attorney holds records (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
-    "6C.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "Sheriff's Department holds records (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
-    "6C.1": { section: "Section 6 — Records to be Sealed", label: "Sheriff's Department — Mailing Address", ...AGENCY("the mailing address of the Sheriff's Department that holds records in this case") },
-    "6D.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "Colorado Bureau of Investigation holds records (selection)", ...ELECTION("the form marks the Colorado Bureau of Investigation as required and prints its address for you; tick it") },
-    "6E.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "A law enforcement agency holds records (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
-    "6E.1": { section: "Section 6 — Records to be Sealed", label: "Law Enforcement agency — Name", ...AGENCY("the name of the law enforcement agency that arrested or cited you") },
-    "6E.2": { section: "Section 6 — Records to be Sealed", label: "Law Enforcement agency — that agency's own file number", ...AGENCY("that agency's own file number, which is usually different from the court case number") },
-    "6E.3": { section: "Section 6 — Records to be Sealed", label: "Law Enforcement agency — Mailing Address", ...AGENCY("that agency's mailing address") },
-    "6F.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "A second law enforcement agency holds records (selection)", ...ELECTION("tick this if a second law enforcement agency holds records in this case") },
-    "6F.1": { section: "Section 6 — Records to be Sealed", label: "Second law enforcement agency — Name", ...AGENCY("the name of any second law enforcement agency that holds records in this case") },
-    "6F.2": { section: "Section 6 — Records to be Sealed", label: "Second law enforcement agency — that agency's own file number", ...AGENCY("that second agency's own file number") },
-    "6F.3": { section: "Section 6 — Records to be Sealed", label: "Second law enforcement agency — Mailing Address", ...AGENCY("that second agency's mailing address") },
-    "6G.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "Another agency holds records (selection)", ...ELECTION("tick this if some other agency holds records in this case") },
-    "6G.1": { section: "Section 6 — Records to be Sealed", label: "Other agency — Name", ...AGENCY("the name of any other agency holding records in this case") },
-    "6G.2": { section: "Section 6 — Records to be Sealed", label: "Other agency — Mailing Address", ...AGENCY("that agency's mailing address") },
-    "6H.0": { section: "Section 6 — Records to be Sealed", selection: true, label: "A second other agency holds records (selection)", ...ELECTION("tick this if a second other agency holds records in this case") },
-    "6H.1": { section: "Section 6 — Records to be Sealed", label: "Second other agency — Name", ...AGENCY("the name of a second other agency holding records, if there is one") },
-    "6H.2": { section: "Section 6 — Records to be Sealed", label: "Second other agency — Mailing Address", ...AGENCY("that second other agency's mailing address") },
+    /* --- Section 3: the records to be sealed, and who holds them ---------- *
+     * The 2024 revision hid every line in this section until its checkbox was
+     * ticked, so nothing here could be written. The July 2025 revision hides
+     * none (the census reads the flags and the build asserts no write lands on
+     * a hidden widget), so the court case number the packet holds is written.
+     * Every AGENCY beside it is a case fact the platform does not hold, and the
+     * completeness contract refuses to let a court or clerk refusal class stand
+     * in front of one, so each is declared and disclosed by name. */
+    "3Z.0": { section: "Section 3 — Records to be Sealed", selection: true, label: "District or County Court records to be sealed (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
+    "3Z.1": { section: "Section 3 — Records to be Sealed", label: "District or County Court — Case Number", ...WRITE("matter.case_number") },
+    "3A.0": { section: "Section 3 — Records to be Sealed", selection: true, label: "Prosecuting Attorney holds records (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
+    "3B.0": { section: "Section 3 — Records to be Sealed", selection: true, label: "Sheriff's Department holds records (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
+    "3B.1": { section: "Section 3 — Records to be Sealed", label: "Sheriff's Department — Mailing Address", ...AGENCY("the mailing address of the Sheriff's Department that holds records in this case") },
+    "3C": { section: "Section 3 — Records to be Sealed", selection: true, label: "Colorado Bureau of Investigation holds records (selection)", ...ELECTION("the form marks the Colorado Bureau of Investigation as required and prints its address for you; tick it") },
+    "3D.0": { section: "Section 3 — Records to be Sealed", selection: true, label: "A law enforcement agency holds records (selection)", ...ELECTION("tick the courts and agencies that hold records in this case; you know which ones do") },
+    "3D.1": { section: "Section 3 — Records to be Sealed", label: "Law Enforcement agency — Agency Name", ...AGENCY("the name of the law enforcement agency that arrested or cited you") },
+    "3D.3": { section: "Section 3 — Records to be Sealed", label: "Law Enforcement agency — Agency Case Number", ...AGENCY("that agency's own case number, which is usually different from the court case number") },
+    "4D.2": { section: "Section 3 — Records to be Sealed", label: "Law Enforcement agency — Agency Mailing Address", ...AGENCY("that agency's mailing address") },
+    "3E.0": { section: "Section 3 — Records to be Sealed", selection: true, label: "A second law enforcement agency holds records (selection)", ...ELECTION("tick this if a second law enforcement agency holds records in this case") },
+    "3E.1": { section: "Section 3 — Records to be Sealed", label: "Second law enforcement agency — Agency Name", ...AGENCY("the name of any second law enforcement agency that holds records in this case") },
+    "3E.3": { section: "Section 3 — Records to be Sealed", label: "Second law enforcement agency — Agency Case Number", ...AGENCY("that second agency's own case number") },
+    "4E.2": { section: "Section 3 — Records to be Sealed", label: "Second law enforcement agency — Agency Mailing Address", ...AGENCY("that second agency's mailing address") },
+    "3F.0": { section: "Section 3 — Records to be Sealed", selection: true, label: "Another agency holds records (selection)", ...ELECTION("tick this if some other agency holds records in this case") },
+    "3F.1": { section: "Section 3 — Records to be Sealed", label: "Other agency — Name", ...AGENCY("the name of any other agency holding records in this case") },
+    "3F.2": { section: "Section 3 — Records to be Sealed", label: "Other agency — Mailing Address", ...AGENCY("that agency's mailing address") },
+    "3G.0": { section: "Section 3 — Records to be Sealed", selection: true, label: "A second other agency holds records (selection)", ...ELECTION("tick this if a second other agency holds records in this case") },
+    "3G.1": { section: "Section 3 — Records to be Sealed", label: "Second other agency — Name", ...AGENCY("the name of a second other agency holding records, if there is one") },
+    "3G.2": { section: "Section 3 — Records to be Sealed", label: "Second other agency — Mailing Address", ...AGENCY("that second other agency's mailing address") },
 
-    /* --- Section 7: what the conviction was, and when it ended ------------ *
+    /* --- Section 4: what the conviction was, and when it ended ------------ *
      * Every one of these is read off the court record: the offences, the
      * sentencing date, the date supervision ended. The platform holds none of
      * them, so each is declared REQUIRED_BEFORE_FILING and named to the
      * participant with the clerk of the convicting court as the place to get
-     * it. The three yes/no groups are sworn answers about this participant's
+     * it. The two yes/no groups are sworn answers about this participant's
      * own history and are theirs to make. */
-    "7A.0": { section: "Section 7 — Offence Information", selection: true, label: "Convicted of a petty offence (selection)", ...ELECTION("tick the kind of offence you were convicted of in this case") },
-    "7A.1": { section: "Section 7 — Offence Information", label: "Petty offence(s) you were convicted of", ...SUPPLY("the petty offence or offences you were convicted of in this case, exactly as they read on the court record") },
-    "7B.0": { section: "Section 7 — Offence Information", selection: true, label: "Convicted of a misdemeanor (selection)", ...ELECTION("tick the kind of offence you were convicted of in this case") },
-    "7B.1": { section: "Section 7 — Offence Information", label: "Misdemeanor offence(s) you were convicted of", ...SUPPLY("the misdemeanor offence or offences you were convicted of in this case, exactly as they read on the court record") },
-    "7C.0": { section: "Section 7 — Offence Information", selection: true, label: "Convicted of a felony (selection)", ...ELECTION("tick the kind of offence you were convicted of in this case") },
-    "7C.1": { section: "Section 7 — Offence Information", label: "Felony offence(s) you were convicted of", ...SUPPLY("the felony offence or offences you were convicted of in this case, exactly as they read on the court record") },
-    "7D": { section: "Section 7 — Offence Information", label: "Date sentenced", ...SUPPLY("the date you were sentenced in this case, from the court record") },
-    "7E": { section: "Section 7 — Offence Information", label: "Probation or parole supervision termination date", ...SUPPLY("the date your probation or parole supervision in this case ended; the supervising department or the clerk of the convicting court holds it") },
-    Group_7A: { section: "Section 7 — Offence Information", selection: true, label: "Whether any of these drug offences were committed before 1 October 2013 (selection)", ...ELECTION("this is a sworn answer about when your own offences happened; the form's note says the court determines eligibility for drug offences committed before that date by the offence's classification at the time of sealing") },
-    Group_7B: { section: "Section 7 — Offence Information", selection: true, label: "Whether the charges involved psilocybin or psilocin and the underlying act is no longer unlawful (selection)", ...ELECTION("this is a sworn answer about what your own charges involved") },
-    Group_7C: { section: "Section 7 — Offence Information", selection: true, label: "Whether you were a victim of human trafficking and committed the offence as a result (selection)", ...ELECTION("this is a sworn answer about your own history, and no held record establishes it") },
+    "4.1": { section: "Section 4 — Offence Information", selection: true, label: "Convicted of a petty offence (selection)", ...ELECTION("tick the kind of offence you were convicted of in this case") },
+    "4.2": { section: "Section 4 — Offence Information", label: "Petty offence(s) you were convicted of", ...SUPPLY("the petty offence or offences you were convicted of in this case, exactly as they read on the court record") },
+    "4.3": { section: "Section 4 — Offence Information", selection: true, label: "Convicted of a misdemeanor (selection)", ...ELECTION("tick the kind of offence you were convicted of in this case") },
+    "4.4": { section: "Section 4 — Offence Information", label: "Misdemeanor offence(s) you were convicted of", ...SUPPLY("the misdemeanor offence or offences you were convicted of in this case, exactly as they read on the court record") },
+    "4.5": { section: "Section 4 — Offence Information", selection: true, label: "Convicted of a felony (selection)", ...ELECTION("tick the kind of offence you were convicted of in this case") },
+    "4.6": { section: "Section 4 — Offence Information", label: "Felony offence(s) you were convicted of", ...SUPPLY("the felony offence or offences you were convicted of in this case, exactly as they read on the court record") },
+    "4.7": { section: "Section 4 — Offence Information", label: "Date sentenced", ...SUPPLY("the date you were sentenced in this case, from the court record") },
+    "4.8": { section: "Section 4 — Offence Information", label: "Probation or parole supervision termination date", ...SUPPLY("the date your probation or parole supervision in this case ended; the supervising department or the clerk of the convicting court holds it") },
+    Group_4A: { section: "Section 4 — Offence Information", selection: true, label: "Whether any of these drug offences were committed before 1 October 2013 (selection)", ...ELECTION("this is a sworn answer about when your own offences happened; the form's note says the court determines eligibility for drug offences committed before that date by the offence's classification at the time of sealing") },
+    Group_4B: { section: "Section 4 — Offence Information", selection: true, label: "Whether you were a victim of human trafficking and committed the offence as a result (selection)", ...ELECTION("this is a sworn answer about your own history, and no held record establishes it") },
 
-    /* --- Section 8: which branch of § 24-72-706 this motion is under ------ *
+    /* --- Section 5: which branch of § 24-72-706 this motion is under ------ *
      * The route is the petition-based conviction sealing route and the packet
      * states it. Which BRANCH of § 24-72-706 reaches this conviction turns on
      * the offence's own class and on whether this district attorney consents,
      * and neither is a property of the route: a packet that ticked one would be
      * swearing to a legal characterisation of a conviction it has not seen. */
-    Group_8B: { section: "Section 8 — Eligibility", selection: true, label: "Which branch of the sealing statute this motion is brought under (selection)", ...ELECTION("C.R.S. § 24-72-706 reaches both the offences it makes expressly eligible and the misdemeanor branch that turns on the prosecutor's position; which one reaches your conviction depends on its class and on this district attorney, and neither is settled by the route this packet was built for") },
-    Group_8B_1: { section: "Section 8 — Eligibility", selection: true, label: "Whether the district attorney consents, whether you are asking for a hearing on consent, or whether consent is refused (selection)", ...ELECTION("only you know what the district attorney has said, and the form asks you to state it") },
-    "8B.2": { section: "Section 8 — Eligibility", label: "Explain why your records should be sealed if the district attorney does not consent", ...SUPPLY("your own explanation of why the records should be sealed, in your words, if the district attorney does not consent. The platform does not write a sworn narrative for you") },
+    Group_5B: { section: "Section 5 — Eligibility", selection: true, label: "Which branch of the sealing statute this motion is brought under (selection)", ...ELECTION("C.R.S. § 24-72-706 reaches both the offences it makes expressly eligible and the misdemeanor branch that turns on the prosecutor's position; which one reaches your conviction depends on its class and on this district attorney, and neither is settled by the route this packet was built for") },
+    Group_5B_1: { section: "Section 5 — Eligibility", selection: true, label: "Whether the district attorney consents, whether you are asking for a hearing on consent, or whether consent is refused (selection)", ...ELECTION("only you know what the district attorney has said, and the form asks you to state it") },
+    "5B.2": { section: "Section 5 — Eligibility", label: "Explain why your records should be sealed if the district attorney does not consent", ...SUPPLY("your own explanation of why the records should be sealed, in your words, if the district attorney does not consent. The platform does not write a sworn narrative for you") },
 
-    /* --- Section 9: appeals, and section 10 ------------------------------- */
-    Group_9A: { section: "Section 9 — Other Proceedings", selection: true, label: "Whether the sealing of these records is the subject of any other pending proceeding (selection)", ...ELECTION("a sworn answer about proceedings you are party to; no held record establishes it") },
-    Group_9B: { section: "Section 9 — Other Proceedings", selection: true, label: "Whether this conviction was appealed (selection)", ...ELECTION("a sworn answer about your own case history; no held record establishes it") },
-    "9B.1": { section: "Section 9 — Other Proceedings", label: "Appeal — the number the appellate court gave the appeal", ...SUPPLY("the number the appellate court gave your appeal, if there was one; the appellate court clerk holds it") },
-    "9B.2": { section: "Section 9 — Other Proceedings", selection: true, label: "Which appellate court heard the appeal (selection)", ...ELECTION("you say which court heard your appeal; the form offers District Court, the Colorado Court of Appeals and the Colorado Supreme Court") },
-    "9B.3": { section: "Section 9 — Other Proceedings", label: "Appeal — what the appellate court decided", ...SUPPLY("what the appellate court decided, if there was an appeal") },
-    "9B.4": { section: "Section 9 — Other Proceedings", label: "Appeal — when the appellate court decided it", ...SUPPLY("when the appellate court decided the appeal, if there was one") },
-    Group_9C: { section: "Section 9 — Other Proceedings", selection: true, label: "Whether you have any pending criminal charges (selection)", ...ELECTION("a sworn answer about your own current charges; no held record establishes it") },
-    Group_10: { section: "Section 10 — Restitution, Fines, Fees", selection: true, label: "Whether restitution, fines, fees, costs and surcharges ordered in this case have been paid (selection)", ...ELECTION("a sworn answer about what you have paid; the platform holds no ledger of your case obligations") },
-    "11.1": { section: "Section 11 — Statement in Support", label: "Explain, in your own words, why the court should seal these records", ...SUPPLY("your own statement of why the court should seal these records. The platform does not write a sworn narrative for you") },
+    /* --- Sections 6 to 8 -------------------------------------------------- */
+    Group_9A: { section: "Section 6 — Case Process", selection: true, label: "Whether you believe the court should have automatically sealed this case under C.R.S. § 13-3-117 (selection)", ...ELECTION("a sworn answer about your own case; no held record establishes it") },
+    Group_9B: { section: "Section 6 — Case Process", selection: true, label: "Whether this conviction was appealed (selection)", ...ELECTION("a sworn answer about your own case history; no held record establishes it") },
+    "9B.1": { section: "Section 6 — Case Process", label: "Appeal — the number the appellate court gave the appeal", ...SUPPLY("the number the appellate court gave your appeal, if there was one; the appellate court clerk holds it") },
+    "9B.2": { section: "Section 6 — Case Process", selection: true, label: "Which appellate court heard the appeal (selection)", ...ELECTION("you say which court heard your appeal; the form offers District Court, the Colorado Court of Appeals and the Colorado Supreme Court") },
+    "9B.3": { section: "Section 6 — Case Process", label: "Appeal — what the appellate court decided", ...SUPPLY("what the appellate court decided, if there was an appeal") },
+    "9B.4": { section: "Section 6 — Case Process", label: "Appeal — when the appellate court decided it", ...SUPPLY("when the appellate court decided the appeal, if there was one") },
+    Group_9C: { section: "Section 6 — Case Process", selection: true, label: "Whether you still owe restitution (selection)", ...ELECTION("a sworn answer about what you still owe; the platform holds no ledger of your case obligations") },
+    Group_10: { section: "Section 7 — Criminal Record", selection: true, label: "Whether a verified copy of your criminal history record, dated within the last 20 days, is attached (selection)", ...ELECTION("you obtain and attach your own criminal history record; the form says that if it is not attached, a copy must be filed within ten days") },
+    "11.1": { section: "Section 8 — Harm or Adverse Consequences", label: "Explain how the harm to your privacy or the danger of unwarranted, adverse consequences outweighs the public interest in retaining the records", ...SUPPLY("your own statement, for a conviction other than a petty offence or petty drug offence, of how the harm to your privacy or the danger of unwarranted, adverse consequences outweighs the public interest in retaining the records. The platform does not write a sworn narrative for you") },
 
     /* --- Certificate of service and signature ---------------------------- */
     CoS_Date: { section: "Certificate of Service", label: "Certificate of Service — date of service, entered at signature", ...PROTECT(SIGNATURE, "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false") },
-    Group_CoS: { section: "Certificate of Service", selection: true, label: "Certificate of Service — how you sent it (selection)", ...ELECTION("you tick the method you actually used, at the time you serve the prosecuting attorney") },
-    CoS_Mail: { section: "Certificate of Service", label: "Certificate of Service — name and full address served by regular mail", ...PROTECT(SIGNATURE, "the certificate records who you actually served and is completed when you sign it, after service, not in advance") },
+    GroupCoS: { section: "Certificate of Service", selection: true, label: "Certificate of Service — how you sent it (selection)", ...ELECTION("you tick the method you actually used, at the time you serve the prosecuting attorney") },
+    CoS_Name: { section: "Certificate of Service", label: "Certificate of Service — name served by regular mail", ...PROTECT(SIGNATURE, "the certificate records who you actually served and is completed when you sign it, after service, not in advance") },
+    CoS_Address: { section: "Certificate of Service", label: "Certificate of Service — full address served by regular mail", ...PROTECT(SIGNATURE, "the certificate records where you actually served and is completed when you sign it, after service, not in advance") },
     CoS_Other: { section: "Certificate of Service", label: "Certificate of Service — other method, explained", ...PROTECT(SIGNATURE, "the certificate records how you actually served and is completed when you sign it, after service, not in advance") },
-    Sig1_Signature: { section: "Signature", label: "Your Signature", ...PROTECT(SIGNATURE, "you sign this yourself") },
-    Sig1_Date: { section: "Signature", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
-    Sig_LawyerSignature: { section: "Signature", label: "Counsel Signature (if any)", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
-    Sig_Esq: { section: "Signature", selection: true, label: "Counsel signature — Esq. (selection)", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
-    Sig_Bar: { section: "Signature", label: "Counsel attorney registration number", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") }
+    Sig: { section: "Signature", label: "Your Signature", ...PROTECT(SIGNATURE, "you sign this yourself") },
+    Sig_Date: { section: "Signature", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
+    Sig_Aty: { section: "Signature", label: "Counsel Signature (if any)", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") }
   },
 
   "JDF-613": {
@@ -619,45 +625,51 @@ const FORM_FIELDS = {
   },
 
   "JDF-615": {
-    /* --- A. Court, B. Parties, C. Case details, 2. Defendant -------------- */
-    Group_CourtType: {
-      section: "A. Court", label: "District Court or County Court (selection)", selection: true,
-      ...ELECTION("the proposed order names the same court the motion is filed in; tick the one your case is in")
+    /* --- A. Court, B. Parties, C. Case details, 2. Defendant -------------- *
+     * The July 2025 revision prints "The Court Completes the Rest of this
+     * Form" below the caption, which is what JDF 611 already directed. */
+    Dropdown1: {
+      section: "A. Court", label: "County Court or District Court (selection)", selection: true,
+      ...ELECTION("the proposed order names the same court the motion is filed in; choose the one your case is in")
     },
     County: { section: "A. Court", label: "Colorado County", ...WRITE("matter.county") },
     "Court Address": {
-      section: "A. Court", label: "Court Mailing Address",
+      section: "A. Court", label: "Court Address",
       ...SUPPLY("the mailing address of the same courthouse, copied from the motion")
     },
     "Case Number": { section: "C. Case Details", label: "Case Number", ...WRITE("matter.case_number") },
     Division: { section: "C. Case Details", label: "Division", ...PROTECT(COURT_OWNED, "assigned by the court; the box beside it is marked for court use") },
     Courtroom: { section: "C. Case Details", label: "Courtroom", ...PROTECT(COURT_OWNED, "assigned by the court; the box beside it is marked for court use") },
-    "∆": { section: "B. Parties to the Case", label: "Defendant — Full Name", ...WRITE("participant.full_legal_name") },
+    /* One AcroForm field, two widgets: the caption's "Defendant:" and 2(a)
+     * "Full Name:" below "The Court Completes the Rest of this Form". A value
+     * cannot reach the caption without inking the court's section. */
+    "∆": {
+      section: "B. Parties to the Case", label: "Defendant — Full Name (caption)",
+      ...SUPPLY("your full name on the caption's Defendant line, by hand. On this form the caption line and section 2(a) Full Name are one field, so the platform cannot fill the caption without writing into the part the court completes; leave 2(a) for the court")
+    },
     "∆ DoB": { section: "2. Defendant's Information", label: "By the Court — Birth Date", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
     "∆ Street Address": { section: "2. Defendant's Information", label: "By the Court — Mailing Address", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
-    "∆ City": { section: "2. Defendant's Information", label: "By the Court — City", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
-    "∆ State": { section: "2. Defendant's Information", label: "By the Court — State", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
-    "∆ Zip": { section: "2. Defendant's Information", label: "By the Court — Zip Code", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
+    "∆ CSZ": { section: "2. Defendant's Information", label: "By the Court — City, State, and Zip Code", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
 
     /* --- 3. The court's findings ------------------------------------------ *
-     * Each of these five boxes begins "The Court finds". They are the findings
-     * the judge is being asked to make, and a proposed order that pre-ticked
-     * one would be drafting the ruling rather than requesting it. */
+     * Each of these four boxes is a finding the judge is being asked to make,
+     * and a proposed order that pre-ticked one would be drafting the ruling
+     * rather than requesting it. */
     "615.3A.0": { section: "3. Court Findings", selection: true, label: "By the Court — finding that the motion is for sealing a petty offence or petty drug offence", ...PROTECT(COURT_OWNED, "this box states a finding the court makes; the packet asks for the order, it does not make the finding") },
     "615.3B.0": { section: "3. Court Findings", selection: true, label: "By the Court — finding that the motion is for sealing an eligible misdemeanor or felony", ...PROTECT(COURT_OWNED, "this box states a finding the court makes; the packet asks for the order, it does not make the finding") },
     "478.3C.0": { section: "3. Court Findings", selection: true, label: "By the Court — finding that the harm to privacy outweighs the public interest in retention", ...PROTECT(COURT_OWNED, "this box states a finding the court makes; the packet asks for the order, it does not make the finding") },
-    "478.3D.0": { section: "3. Court Findings", selection: true, label: "By the Court — finding that the conduct is no longer unlawful", ...PROTECT(COURT_OWNED, "this box states a finding the court makes; the packet asks for the order, it does not make the finding") },
     "478.3E.0": { section: "3. Court Findings", selection: true, label: "By the Court — finding that the defendant was a victim of human trafficking", ...PROTECT(COURT_OWNED, "this box states a finding the court makes; the packet asks for the order, it does not make the finding") },
 
     /* --- 4. What the order seals ----------------------------------------- */
-    "615.4A.1": { section: "4. Court Orders", label: "By the Court — Law Enforcement agency file number", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
+    "615.4A.0": { section: "4. Court Orders", label: "By the Court — Law Enforcement Agency", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
+    "615.4A.1": { section: "4. Court Orders", label: "By the Court — Law Enforcement agency case number", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
     "615.4A.2": { section: "4. Court Orders", label: "By the Court — arrest number", ...PROTECT(COURT_OWNED, "JDF 611 directs the filer to complete only sections A through C of JDF 615; the court completes the numbered order body") },
-    "478.4D": { section: "4. Court Orders", label: "By the Court — other orders", ...PROTECT(COURT_OWNED, "the decree is the court's; a proposed order that wrote the court's other orders would be drafting the judge's ruling") },
+    "4D.1": { section: "4. Court Orders", label: "By the Court — other orders", ...PROTECT(COURT_OWNED, "the decree is the court's; a proposed order that wrote the court's other orders would be drafting the judge's ruling") },
 
-    /* --- 5. So ordered ---------------------------------------------------- */
-    "478.5A": { section: "5. So Ordered", label: "By the Court — signature", ...PROTECT(COURT_OWNED, "the judge or magistrate signs their own order") },
-    "Group478.5B": { section: "5. So Ordered", selection: true, label: "By the Court — Judge or Magistrate (selection)", ...PROTECT(COURT_OWNED, "the officer who signs states which they are") },
-    "478.5C": { section: "5. So Ordered", label: "By the Court — Dated", ...PROTECT(COURT_OWNED, "the court dates its own order") }
+    /* --- So ordered ------------------------------------------------------- */
+    Sig: { section: "So Ordered", label: "By the Court — signature", ...PROTECT(COURT_OWNED, "the judge or magistrate signs their own order") },
+    Group_Sig: { section: "So Ordered", selection: true, label: "By the Court — Judge or Magistrate (selection)", ...PROTECT(COURT_OWNED, "the officer who signs states which they are") },
+    Sig_Date: { section: "So Ordered", label: "By the Court — Dated", ...PROTECT(COURT_OWNED, "the court dates its own order") }
   }
 };
 /* ---- fixtures ------------------------------------------------------------ */
@@ -687,15 +699,27 @@ const FIXTURES = {
     "matter.case_number": "2024CR0011882-SUPPLEMENTAL",
   }
 };
-function factsForFixture(fixtureName) {
+export function factsForFixture(fixtureName) {
   const fixture = FIXTURES[fixtureName];
+  const cityStateZip = `${fixture["participant.city"]}, ${fixture["participant.state"]} ${fixture["participant.zip"]}`;
   return {
     ...fixture,
-    "participant.full_mailing_address": `${fixture["participant.street_address"]}, ${fixture["participant.city"]}, ${fixture["participant.state"]} ${fixture["participant.zip"]}`
+    "participant.city_state_zip": cityStateZip,
+    "participant.full_mailing_address": `${fixture["participant.street_address"]}, ${cityStateZip}`
   };
 }
 
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
+
+/* Each form's own date instruction: JDF 205 prints DD/MM/YYYY, and the July 2025
+ * JDF 612 birth-date widget says "Use mm/dd/yyyy format". */
+const PRINTED_DATE_ORDER = { "JDF-205": { DoB: "day_month_year" }, "JDF-612": { "∆ DoB": "month_day_year" } };
+
+/* WRITE fields placed through the finalizer's single-fact narrative channel, as
+ * IA DCI-77 and AZ do. The shared descriptors read JDF 612's silent `3Z.1` as
+ * charge-table row 1 (and its label as the county), so the ordinary channel
+ * refuses the matter case number the form prints beside it. */
+const NAMED_FACT_WRITES = { "JDF-612": new Set(["3Z.1"]) };
 
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources() {
@@ -808,6 +832,9 @@ async function censusOf(source) {
     page: i + 1,
     lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), text: l.text }))
   }));
+  /* Measured, not declared: the form's printed title must read back literally. */
+  const textReadsCleanly = Boolean(source.printedTitle)
+    && (pageText[0]?.lines ?? []).some((l) => l.text.includes(source.printedTitle));
 
   const rows = [];
   const unmapped = [];
@@ -837,9 +864,9 @@ async function censusOf(source) {
       /*
        * WHETHER THE FORM SHOWS THIS WIDGET AT ALL.
        *
-       * JDF 612 ships twenty-three of its text widgets with the annotation
-       * Hidden flag set: Colorado reveals each one with form JavaScript when the
-       * checkbox that governs it is ticked. A value written into a hidden widget
+       * The August 2024 JDF 612 shipped twenty-three of its text widgets with
+       * the annotation Hidden flag set, revealed by form JavaScript when the
+       * checkbox governing each was ticked; the July 2025 revision ships none. A value written into a hidden widget
        * is invisible ink -- the finalizer reports the write, the flattened bytes
        * carry no appearance, and the paper is blank. That is worse than a blank
        * the packet admits to, so the flag is read here, from the pinned binary,
@@ -884,8 +911,8 @@ async function censusOf(source) {
       section: entry.section, effectiveLabel: entry.label,
       policy: entry.policy, fact: entry.fact ?? null,
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
-      // The scrambled extraction at this widget's own coordinate, kept as
-      // evidence of WHY the printed-caption check is unavailable on this form.
+      // The extraction at this widget's own coordinate: caption evidence where
+      // the document reads cleanly, and the scrambled text where it does not.
       printedTextAtCoordinate: (pageText.find((p) => p.page === (widgets[0]?.page ?? 1))?.lines ?? [])
         .filter((l) => widgets[0] && Math.abs(l.y - widgets[0].rect.y) <= 20)
         .sort((a, b) => Math.abs(a.y - widgets[0].rect.y) - Math.abs(b.y - widgets[0].rect.y))
@@ -895,7 +922,7 @@ async function censusOf(source) {
 
   const dictionaryKeys = new Set(Object.keys(spec));
   for (const r of rows) dictionaryKeys.delete(r.key);
-  return { rows, unmapped, stale: [...dictionaryKeys], pageText, pageCount: pages.length };
+  return { rows, unmapped, stale: [...dictionaryKeys], pageText, pageCount: pages.length, textReadsCleanly };
 }
 
 /* ---- render ---------------------------------------------------------------- */
@@ -915,8 +942,10 @@ async function renderDocument(source, census, fixtureName) {
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, unwritableFields,
+    narrativeAcrossFields: writable.filter((r) => NAMED_FACT_WRITES[source.formNumber]?.has(r.name))
+      .map((r) => ({ factId: r.fact, fields: [r.name] })),
     clearSourceCarriedTextValues: source.formNumber === "JDF-205" ? ["9A.8", "9B.8"] : [],
-    printedDateOrderByField: source.formNumber === "JDF-205" ? { DoB: "day_month_year" } : {},
+    printedDateOrderByField: PRINTED_DATE_ORDER[source.formNumber] ?? {},
     // JDF 205 gives Email a single 167.56pt widget. The boundary email is a
     // complete held fact and exceeds that widget under Helvetica at the 6pt
     // floor by about two points. Times-Roman is another PDF standard 14 font
@@ -1022,9 +1051,8 @@ async function byteProof(source, census, artifactBytes, report, fixtureName, sou
       const ink = text.join("").trim();
       if (written.has(r.name) && r.policy === "write") {
         const held = factsForFixture(fixtureName)[r.fact] ?? null;
-        const expected = source.formNumber === "JDF-205" && r.name === "DoB" && held
-          ? isoDateInPrintedOrder(held, "day_month_year", r.name)
-          : held;
+        const order = PRINTED_DATE_ORDER[source.formNumber]?.[r.name];
+        const expected = order && held ? isoDateInPrintedOrder(held, order, r.name) : held;
         glyphs += ink.length;
         actualWrites.push({
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
@@ -1083,7 +1111,9 @@ function mapFor(source, census, report) {
       printedLabel: r.effectiveLabel, printedLine: r.effectiveLabel,
       sectionHeading: r.section, regionHeading: r.effectiveLabel,
       effectiveLabel: r.effectiveLabel,
-      captionBasis: "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+      captionBasis: census.textReadsCleanly
+        ? "printed_line_at_widget_coordinate_plus_authored_acroform_field_name"
+        : "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
       printedTextAtCoordinate: r.printedTextAtCoordinate,
       document: source.formNumber
     };
@@ -1393,7 +1423,7 @@ function participantInstructions(maps, rbf, packetSet, guide) {
 
   out.push("## The Colorado Bureau of Investigation is not optional", "");
   out.push(
-    "JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipling St. STE 3000, Lakewood, CO 80215 "
+    "JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipling St., STE 3000, Lakewood, CO 80215 "
     + "— and marks it **required**. Tick it. The signed order is what reaches the CBI, so the agency list on the motion "
     + "is what decides who is bound by it.", ""
   );
@@ -1401,7 +1431,7 @@ function participantInstructions(maps, rbf, packetSet, guide) {
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
   out.push("2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.");
-  out.push("3. **Get the offence, sentencing and supervision facts from the court record.** Section 7 of JDF 612 asks what you were convicted of, when you were sentenced, and when supervision ended. The clerk of the convicting court holds all three; do not estimate them.");
+  out.push("3. **Get the offence, sentencing and supervision facts from the court record.** Section 4 of JDF 612 asks what you were convicted of, when you were sentenced, and when supervision ended. The clerk of the convicting court holds all three; do not estimate them.");
   out.push("4. **Serve a copy on the prosecuting attorney**, then complete the certificate of service on JDF 612 — the date, the method, and who you sent it to. Do it after you have served, not before.");
   out.push("5. **Sign JDF 612 yourself, and date it when you sign.** Neither is filled in for you.");
   out.push("6. **Submit JDF 612, JDF 613, JDF 614 and JDF 615 together, as JDF 611 directs.** Complete only sections A–C on JDF 613, JDF 614 and JDF 615.");
@@ -1430,6 +1460,7 @@ function participantInstructions(maps, rbf, packetSet, guide) {
   out.push("- **Every decision and signature field on JDF 613 and JDF 614.** The denial findings, hearing details, attendance direction, reasons, deadlines and judicial signatures all remain for the court.");
   out.push("- **Every finding, fee amount, installment term and signature field on JDF 206.** The court decides the fee-waiver motion and completes its own order.");
   out.push("- **Every numbered body on JDF 615.** JDF 611 directs the filer to complete only sections A–C; the court supplies the defendant-information repetitions, findings, record-recipient entries, other orders and signature.");
+  out.push("- **The Defendant line in the JDF 615 caption.** On this form it is the same field as section 2(a) Full Name, which the court completes, so filling one would fill both. Write your name on the caption line by hand.");
   out.push("");
 
   out.push("## Where self-help ends", "");
@@ -1441,7 +1472,7 @@ function participantInstructions(maps, rbf, packetSet, guide) {
   out.push(
     "This is a prepared set of official Colorado Judicial Department forms. It is not legal advice, it is not filed for "
     + "you, and it does not decide whether your conviction is eligible to be sealed. JDF 612 sets out the eligibility "
-    + "conditions in its own words, including the offences section 8 lists as not eligible and the branch that depends "
+    + "conditions in its own words, including the offences section 5 lists as not eligible and the branch that depends "
     + "on the district attorney's consent. Read them before you swear to them."
   );
   out.push("");
@@ -1490,6 +1521,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const writesOntoHidden = census.rows.filter((r) => r.policy === "write" && r.hiddenUntilTheFormRevealsIt === true);
     assert.equal(writesOntoHidden.length, 0,
       `${source.formNumber}: ${writesOntoHidden.length} write(s) land on a widget the form hides: ${JSON.stringify(writesOntoHidden.map((r) => r.key))}`);
+    if (source.printedTitle) {
+      assert.ok(census.textReadsCleanly,
+        `${source.formNumber}: page 1 does not read back "${source.printedTitle}"; the clean-text caption claim is false for these bytes`);
+    }
     if (source.acroFieldCount != null) {
       assert.equal(census.rows.length, source.acroFieldCount,
         `${source.formNumber}: censused ${census.rows.length} fields, the committed corpus index declares ${source.acroFieldCount}`);
@@ -1607,12 +1642,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     },
     requiredComponentsRendered: ["JDF-612", "JDF-613", "JDF-614", "JDF-615"],
     conditionalFeeWaiverPairRendered: ["JDF-205", "JDF-206"],
-    currentHeldJdf615Sha256: "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+    currentHeldJdf615Sha256: resolved.find((r) => r.formNumber === "JDF-615").sha256,
     olderUploadedJdf615Used: false,
     undelivered: [],
     supersessionBasis:
       "The historical incomplete packet and FAIL evidence remain preserved. This rebuilt set renders every form "
-      + "JDF 611 names from exact current source bytes, retains the newer held JDF 615, and includes the exact "
+      + "JDF 611 names from exact current source bytes, binds JDF 612 and JDF 615 at the issuer's R: July 1, 2025 revision, and includes the exact "
       + "JDF 205/JDF 206 pair for the governed fee-waiver condition."
   });
 
@@ -1626,7 +1661,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     allSourcesExact: true,
     documents: resolved.map((r) => ({
       sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
-      pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
+      pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind,
+      acquisition: r.acquisition
     })),
     /*
      * The manifest is bound here because the packet now quotes it to the
@@ -1650,7 +1686,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       requiredFormsRendered: packetSet.required.map((row) => row.officialFormId ?? row.requiredOfficialFormId),
       conditionalFeeWaiverFormsRendered: ["JDF-205", "JDF-206"],
       conditionalFeeWaiverRule: "Use JDF 205 and JDF 206 only when the participant cannot afford the filing fee and requests a waiver.",
-      currentHeldJdf615Preserved: "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647"
+      currentHeldJdf615Preserved: resolved.find((r) => r.formNumber === "JDF-615").sha256
     },
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
   });
@@ -1658,13 +1694,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/field-census.census-v1.json`, {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1", familyId: FAMILY_ID,
     captionBasis:
-      "These two forms interleave their glyph runs, so text extracted from the content stream comes back scrambled "
-      + "(\"Case NumEer\", \"Motion to -CSoeanvil ctNoinon Records\"). A printed-caption check cannot be run on them, and a "
-      + "match loose enough to accept the scrambled text would pass on anything. Captions here are the AcroForm field "
-      + "names Colorado authored, which are meaningful and section-keyed, plus the printed section heading. The scrambled "
-      + "extraction at each widget's own coordinate is recorded beside it as evidence, for the reviewer who reads the paper.",
+      "Recorded per document. JDF 612 and JDF 615 at R: July 1, 2025 read back cleanly, so the printed line at each "
+      + "widget's coordinate is genuine caption evidence beside the AcroForm field name Colorado authored. A document "
+      + "whose stream is scrambled keeps the field name plus the printed section heading, with the scrambled extraction "
+      + "recorded beside each field for the reviewer who reads the paper.",
     documents: censuses.map(({ source, census }) => ({
       documentId: source.formNumber, formNumber: source.formNumber, sourceSha256: source.sha256,
+      textReadsCleanly: census.textReadsCleanly,
       pageCount: census.pageCount, fieldCount: census.rows.length,
       corpusIndexDeclaresFieldCount: source.acroFieldCount,
       fields: census.rows.map((r) => ({
@@ -1680,17 +1716,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1", familyId: FAMILY_ID,
     finding:
-      "JDF 612 and JDF 615 interleave their glyph runs, and JDF 612 additionally carries runs at a shifted encoding. "
-      + "Text extracted from the content stream is scrambled at the character level -- \"0LVGHPHDQRU RI2 IIHQVH V\" for "
-      + "\"Misdemeanor Offense(s) of\" -- so no printed-caption check can be run against them.",
-    whyThisIsNotWorkedAround:
-      "A fuzzy match loose enough to accept \"NumEer\" as \"Number\" would pass on almost anything, and a check that "
-      + "cannot fail reads as evidence while proving nothing. The absence is recorded instead.",
+      "The August 2024 revisions of JDF 612 and JDF 615 interleaved their glyph runs, so extracted text was scrambled "
+      + "(\"0LVGHPHDQRU RI2 IIHQVH V\" for \"Misdemeanor Offense(s) of\"). The July 1, 2025 revisions this build binds read "
+      + "back cleanly; the build asserts each form's printed title reads back literally on page 1 before it says so.",
+    cleanTextByDocument: Object.fromEntries(censuses.map(({ source, census }) => [source.formNumber, census.textReadsCleanly])),
     whatTheCaptionClaimRestsOnHere:
-      "Colorado authored these widget names -- County, Court Address, Case Number, Phone, Email, CoS_Date, "
-      + "Sig1_Signature, 6E.1, 615.4A.2 -- and they are keyed to the printed sections. The dictionary and the widget set "
-      + "are asserted to match exactly in both directions, and every placement is rastered for a reviewer who can read "
-      + "the paper.",
+      "Colorado authored these widget names -- County, Court Address, Case Number, ∆ Phone, ∆ Email, CoS_Date, "
+      + "Sig, 3D.1, 615.4A.2 -- and they are keyed to the printed sections. On a document that reads cleanly the printed "
+      + "line at each widget's coordinate is recorded beside it. The dictionary and the widget set are asserted to match "
+      + "exactly in both directions, and every placement is rastered for a reviewer who can read the paper.",
     perField: censuses.flatMap(({ source, census }) => census.rows.map((r) => ({
       document: source.formNumber, field: r.key, page: r.page, rect: r.rect,
       labelThisBuildUses: r.effectiveLabel, section: r.section,
@@ -1853,29 +1887,29 @@ export async function runFamily(argv = process.argv.slice(2)) {
     required: true, granted: false, reviewedBy: null,
     note:
       "Every page of both fixtures is rastered for a human who did not build this family. It matters more than usual "
-      + "here: these two forms cannot be caption-checked from their own text stream, so a reviewer reading the paper is "
-      + "the check that a value sits under the heading it belongs to.",
+      + "here: JDF 612 and JDF 615 changed revision, and a reviewer reading the paper is the check that a value sits under "
+      + "the heading it belongs to.",
     whatToLookAt: [
-      "JDF 612 sections A, B, C and D: confirm the county, case number, defendant name, birth date, complete mailing "
-        + "address, phone and e-mail each sit under the heading they belong to. On JDF 613, JDF 614 and JDF 615, "
-        + "confirm only the A–C caption is populated and every numbered court body remains blank. The text stream is "
-        + "scrambled, so this visual check carries the placement evidence.",
-      "JDF 612 section 6: the agency boxes unticked apart from the Colorado Bureau of Investigation box the form itself "
-        + "ships ticked, and every line in the section blank — including the court case number line. Colorado hides "
-        + "those twenty-three widgets until the box governing each is ticked, so a blank line here is the form working "
-        + "as designed and NOT a value that failed to print. The case number does appear, in the caption of the same "
-        + "page.",
-      "JDF 612 section 7: the three offence-class boxes unticked, the offence lines blank, and the sentencing and "
-        + "supervision-termination dates blank.",
-      "JDF 612 section 8: neither eligibility branch ticked, none of the three consent options ticked, and the "
+      "JDF 612 sections A, B, C and 2: confirm the county, case number, defendant name, birth date, mailing address, "
+        + "city/state/zip, phone and e-mail each sit under the heading they belong to, the court type is not chosen, and "
+        + "the interpreter and court-attendance questions are unanswered. On JDF 613 and JDF 614, confirm only the A–C "
+        + "caption is populated and every numbered court body remains blank. On JDF 615, the county and case number are "
+        + "populated; the caption's Defendant line is blank because it is one field with section 2(a), which the court completes.",
+      "JDF 612 section 3: every box unticked, including the Colorado Bureau of Investigation box (the July 2025 form "
+        + "ships it unticked though it prints \"(Required)\"), the court case number written beside \"District or County "
+        + "Court\", and every agency line blank.",
+      "JDF 612 section 4: the three offence-class boxes unticked, the offence lines blank, the sentencing and "
+        + "supervision-termination dates blank, and both yes-or-no groups unticked.",
+      "JDF 612 section 5: neither eligibility branch ticked, none of the three consent options ticked, and the "
         + "explanation box blank.",
-      "JDF 612 sections 9, 10 and 11: every yes-or-no group unticked, the appeal lines blank, and the statement box blank.",
+      "JDF 612 sections 6, 7 and 8: every yes-or-no group unticked, the appeal lines blank, and the statement box blank.",
       "JDF 612 certificate of service and signature: no service date, no method, no recipient, no signature, no date, "
         + "and the counsel block blank.",
-      "JDF 615 section 3: all five court findings unticked. This is the one to look at hardest — each begins \"The Court "
-        + "finds\", and a tick there would be the packet making the judge's finding for them.",
-      "JDF 615 numbered body: birth date, address repetitions, all five court findings, agency file and arrest numbers, "
-        + "other orders, signature and date remain blank; neither Judge nor Magistrate is ticked. The A–C caption above it is populated."
+      "JDF 615 section 3: all four court findings unticked. This is the one to look at hardest — each is a finding the "
+        + "court makes, and a tick there would be the packet making the judge's finding for them.",
+      "JDF 615 numbered body: birth date, address repetitions, all four court findings, agency name, case and arrest "
+        + "numbers, other orders, signature and date remain blank, including 2(a) Full Name; neither Judge nor Magistrate "
+        + "is ticked."
     ],
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
     rasterPages: rasterPages.map((p) => ({ fixture: p.fixture, page: p.page, file: p.file, sha256: p.sha256 }))
@@ -1911,14 +1945,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-family-build-findings/v1", familyId: FAMILY_ID, blocking: [],
     findings: [
       {
-        finding: "JDF 612 and JDF 615 interleave their glyph runs, and JDF 612 additionally carries runs at a shifted encoding; extracted text is scrambled at the character level.",
+        finding: "The August 2024 revisions of JDF 612 and JDF 615 interleaved their glyph runs, so extracted text was scrambled. The July 1, 2025 revisions this build binds read back cleanly.",
         consequence:
-          "No printed-caption check can be run on either form. The captions rest on Colorado's own authored field names "
-          + "and the printed section headings; the scrambled extraction is recorded per field in "
-          + "reports/caption-evidence.json, and placement is left to the visual reviewer, who can read the paper."
+          "The build asserts each form's printed title reads back literally on page 1, and records the printed line at "
+          + "every widget's coordinate in reports/caption-evidence.json beside Colorado's authored field name. Placement is "
+          + "still rastered for the visual reviewer."
       },
       {
-        finding: "C.R.S. § 24-72-706 reaches a conviction by two branches, and section 8 of JDF 612 asks which one applies.",
+        finding: "C.R.S. § 24-72-706 reaches a conviction by two branches, and section 5 of JDF 612 asks which one applies.",
         consequence:
           "The branch is a participant election rather than a route-determined selection: it turns on the offence's own "
           + "class and on whether this district attorney consents, and a packet that ticked one would be swearing to a "
@@ -1926,13 +1960,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "in the field map, the source receipt and the participant instructions."
       },
       {
-        finding: "Section 3 of JDF 615 is the court's own findings — every box there begins \"The Court finds\".",
+        finding: "Section 3 of JDF 615 is the court's own findings, and the July 2025 revision prints \"The Court Completes the Rest of this Form\" above it.",
         consequence:
-          "All five are left blank under the court-owned refusal class. A proposed order that pre-ticked the finding the "
+          "All four are left blank under the court-owned refusal class. A proposed order that pre-ticked the finding the "
           + "judge is being asked to make would be drafting the ruling rather than requesting it."
       },
       {
-        finding: "Section 7 of JDF 612 asks what the conviction was, when sentence was imposed and when supervision ended, and the platform holds none of the three.",
+        finding: "Section 4 of JDF 612 asks what the conviction was, when sentence was imposed and when supervision ended, and the platform holds none of the three.",
         consequence:
           "Each is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, with the "
           + "clerk of the convicting court as the place to get it. None is estimated: a sentencing date guessed onto a "
@@ -1941,58 +1975,57 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         finding: "JDF 612 asks the movant for the agencies holding records, while JDF 615 repeats record-recipient fields inside the court's numbered order body.",
         consequence:
-          "The motion's agency names, file numbers and addresses are declared REQUIRED_BEFORE_FILING and named to the "
+          "The motion's agency names, case numbers and addresses are declared REQUIRED_BEFORE_FILING and named to the "
           + "participant. JDF 615's numbered body remains court-owned because JDF 611 directs the filer to complete only sections A–C."
       },
       {
         finding:
-          "JDF 612 ships with the Colorado Bureau of Investigation box already ticked, because the form marks that agency "
-          + "required. The finished artifact therefore draws a tick at a rectangle this map refuses.",
+          "JDF 612 R: July 1, 2025 prints the Colorado Bureau of Investigation as \"(Required)\" and ships its box (3C) "
+          + "unticked. The August 2024 revision shipped that box ticked.",
         consequence:
-          "The census reads each control's value from the pinned source, and the byte proof records ink at a control the "
-          + "source already carried as a documentAuthoredAppearance rather than as ink on a refused field. Reading it the "
-          + "other way would report a protected write this build never made. Nothing is softened: a control the source "
-          + "leaves empty that carries ink in the output is still a blocking finding."
+          "The box is a participant election, and the instructions tell the participant to tick it; this build does not "
+          + "tick it. The census still reads each control's value from the pinned source, so a source-carried default is "
+          + "recorded as a documentAuthoredAppearance rather than as ink on a refused field."
       },
       {
         finding:
-          "The MASTER_QUEUE row for this family names its two sources at paths in the nationwide recovery pool "
-          + "(LegalEase Colorado/forms/JDF-612__…, JDF-615__…), a custody whose entries the committed corpus index "
-          + "does not identify by form number.",
+          "No mounted custody held the July 1, 2025 revisions of JDF 612 and JDF 615 that legal-design-track-registry.json "
+          + "records as current. The issuer's live URL answered HTTP 403.",
         consequence:
-          "The build binds both forms from the Master Library instead, by exact form number and exact SHA-256 — "
-          + "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e for JDF 612 and "
-          + "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647 for JDF 615 — which are the same digests the "
-          + "queue pins. The committed corpus index records both digests in the Master Library custody as well as in the "
-          + "recovery pool, so this is one binary held in two custodies, not a substituted source. The custody that "
-          + "cannot be bound from is stated rather than worked around, and the source receipt records the path "
-          + "actually read. Corrected by lane FIX157 on 2026-09-10: the earlier wording called that custody one "
-          + "\"this container does not mount\", which is false of a container that has it — it is declared in the "
-          + "index's own custodies array and was mounted in the FIX157 lane worktree. What makes its entries "
-          + "unbindable is that they carry formNumber null and assetClass null."
+          `Both are bound from retained issuer bytes under reference/co-jdf-2025-07-01/ by exact SHA-256 — `
+          + `${resolved.find((r) => r.formNumber === "JDF-612").sha256} for JDF 612 and `
+          + `${resolved.find((r) => r.formNumber === "JDF-615").sha256} for JDF 615 — the digests the track registry records. `
+          + "The bytes came from Internet Archive captures of the issuer URLs; the source receipt records each capture."
       },
       {
         finding:
-          "JDF 612 ships TWENTY-THREE of its text widgets with the annotation Hidden flag set — 6A.1, 6C.1, 6E.1, 6E.2, "
-          + "6E.3, 6F.1, 6F.2, 6F.3, 6G.1, 6G.2, 6H.1, 6H.2, 7A.1, 7B.1, 7C.1, 8B.2, 9B.1, 9B.2, 9B.3, 9B.4, CoS_Mail, "
-          + "CoS_Other and Sig_Bar. Colorado reveals each one with the form's own JavaScript when the checkbox or radio "
-          + "group that governs it is ticked.",
+          "The August 2024 JDF 612 shipped twenty-three text widgets with the annotation Hidden flag set. The July 2025 "
+          + "revision ships none.",
         consequence:
-          "A value written into a hidden widget is invisible ink: the finalizer reports the write, the flattened bytes "
-          + "carry no appearance, and the paper is blank. This build measured that directly — a case-number write into "
-          + "6A.1 was reported by the finalizer and read back as no ink at the widget's own rectangle — so the census "
-          + "now reads the annotation flags from the pinned binary and the build ASSERTS that no write lands on a "
-          + "hidden widget. 6A.1 is carried to the participant instead, with the reason stated: the packet holds the "
-          + "case number and prints it in the caption of the same page, and the participant copies it across once the "
-          + "box is revealed. Claiming it as a write would have been the worst available outcome."
+          "The census still reads the flags from the pinned binary and the build asserts that no write lands on a hidden "
+          + "widget. Because 3Z.1, the court case number in section 3, is now visible, the case number the packet holds is "
+          + "written there; under the 2024 revision it was carried to the participant. The shared descriptors read the "
+          + "silent name 3Z.1 as charge-table row 1, so the build names the fact for that one field through the "
+          + "finalizer's single-fact narrative channel, the channel IA DCI-77 and AZ use for the same gap."
       },
       {
         finding:
-          "JDF 612 asks for one complete mailing-address line, while JDF 205 has separate street, city, state and ZIP fields.",
+          "JDF 612 R: July 1, 2025 asks for the address on two lines, \"Mailing Address:\" and \"City, State, & Zip:\", while "
+          + "JDF 205 has separate street, city, state and ZIP fields.",
         consequence:
-          "The shared semantic registry now binds only captions that expressly require city/state/ZIP to a derived "
-          + "participant.full_mailing_address value. JDF 612 receives the derived one-line postal address; JDF 205 "
-          + "receives the structured street, city, state and ZIP facts separately, so neither form omits or duplicates parts."
+          "JDF 612 receives participant.street_address and the composed participant.city_state_zip; JDF 205 receives the "
+          + "structured street, city, state and ZIP facts separately, so neither form omits or duplicates parts."
+      },
+      {
+        finding:
+          "The July 2025 JDF 612 renumbers its sections (6–12 become 3–9), removes the psilocybin question and the counsel "
+          + "Esq./registration fields, merges Division and Courtroom, splits the certificate-of-service recipient, and adds "
+          + "an interpreter question and a court-attendance choice. Earlier map labels for Group_9A, Group_9C and Group_10 "
+          + "named questions the form does not print there.",
+        consequence:
+          "The dictionary follows the 2025 widget set exactly, asserted in both directions. Group_9A, Group_9C and Group_10 "
+          + "now carry the questions the form prints (automatic sealing, restitution owed, criminal history attached). "
+          + "Intake asks no interpreter or attendance question, so both are participant elections left blank."
       },
       {
         finding:
@@ -2013,7 +2046,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     mattersForTheReviewersAttention: [
-      "reports/caption-evidence.json — these two forms cannot be caption-checked from their own text stream, so visual review carries more weight here than usual."
+      "reports/caption-evidence.json — JDF 612 and JDF 615 moved to their July 1, 2025 revisions; the printed line at each widget is recorded, and visual review confirms placement."
     ]
   });
 

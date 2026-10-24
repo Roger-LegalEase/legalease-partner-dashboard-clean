@@ -1,5 +1,6 @@
 import { workerStaticPacketBinding } from "@/lib/rcap/fulfillment/worker-static-authority";
 import "server-only";
+import { GA_PERSONALIZED_DELIVERY_ROUTE, gaPardonDocumentFacts } from "@/lib/rcap/render/ga-pardon-facts";
 import { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_ROUTE } from "@/lib/rcap/fulfillment/paid-consumer-successor";
 
 import { createHash } from "node:crypto";
@@ -55,7 +56,8 @@ export const PERSONALIZED_DELIVERY_ROUTE = "IL:felony-prostitution-relief";
  */
 const PERSONALIZED_DELIVERY_ROUTES: ReadonlySet<string> = new Set([
   PERSONALIZED_DELIVERY_ROUTE,
-  MS_PAID_SUCCESSOR_ROUTE
+  MS_PAID_SUCCESSOR_ROUTE,
+  GA_PERSONALIZED_DELIVERY_ROUTE
 ]);
 
 export function isPersonalizedDeliveryRoute(routeId: string): boolean {
@@ -109,6 +111,7 @@ export function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding
     || !/^[a-f0-9]{64}$/.test(input.verificationHash)) throw new Error("personalized render identity mismatch");
   const specification = composablePacketSpecificationFor(routeId);
   if (!specification) throw new Error("personalized specification unavailable");
+  const gaFacts = routeId === GA_PERSONALIZED_DELIVERY_ROUTE ? gaPardonDocumentFacts(snapshot) : null;
   const facts: Record<string, string> = {};
   // Verification owns the snapshot. Server-owned fields take precedence, and
   // only fields named by this document set reach the composer.
@@ -120,6 +123,12 @@ export function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding
     const value = answer && typeof answer === "object" && !Array.isArray(answer)
       ? ((answer as {unknown?: boolean}).unknown === true ? undefined : (answer as {value?: unknown}).value) : answer;
     if (typeof value === "string" || typeof value === "number") facts[factId] = String(value);
+  }
+  // Exact protected values fill only the declared participant-fact destinations.
+  // Missing, unknown or conflicting GA values refuse before composition.
+  if (gaFacts) {
+    delete facts.otn;
+    Object.assign(facts, gaFacts);
   }
   const packet = composeParticipantDeliveryPacket(specification, {
     routeKey: routeId, jurisdiction: snapshot.jurisdiction, pathwayId: snapshot.pathwayId ?? "",

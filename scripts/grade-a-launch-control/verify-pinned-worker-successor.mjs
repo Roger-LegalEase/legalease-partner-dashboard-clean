@@ -12,6 +12,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {isDeepStrictEqual} from 'node:util';
 import {applicationInputEquivalence,applicationInputManifest} from '../rcap-application-inputs.mjs';
 import {createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
 
@@ -19,6 +20,16 @@ export const PENDING='data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.
 export const PUBLICATION='data/rcap-render/worker-publication-evidence.json';
 export const CANDIDATE='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
 export const TOOLS='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
+// A pull-request candidate publication (publish-rcap-render-worker.yml, candidate_pull_request)
+// is admitted only as a rehearsal-only import: every identity check below still runs, and the
+// verdict never becomes a current release publication, so F1, hosted and production stay held.
+export const REHEARSAL_HELD='rehearsal-only candidate publication: not a release publication; F1, hosted and production gates stay held.';
+export function rehearsalContainment(e){
+ if(e.containedIn==='captain-release'){assert.notEqual(e.rehearsalOnly,true,'a release publication cannot be marked rehearsal-only');return false;}
+ assert.match(String(e.containedIn),/^pull\/[0-9]+$/,'containedIn must be captain-release or pull/<number>');
+ assert.equal(e.rehearsalOnly,true,`candidate publication ${e.containedIn} is admitted only as a rehearsal-only import`);
+ return true;
+}
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe',maxBuffer:64*1024*1024}).trim();
 const at=(root,sha,rel)=>JSON.parse(git(root,['show',`${sha}:${rel}`]));
@@ -33,15 +44,35 @@ export function assertCommittedPredecessor(root,base){
  if(predecessorCache.has(key))return {historyValid:true,current:false,productionAuthorized:false};
  // Never validate an old record against the new source/worktree. Use the
  // committed validator and evidence from its own clean historical snapshot.
+ // Legacy shared-clone chains need direct access to this repository's immutable objects.
+ const objects=git(root,['rev-parse','--path-format=absolute','--git-path','objects']);
+ const env={...process.env,GIT_ALTERNATE_OBJECT_DIRECTORIES:[process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES,JSON.stringify(objects)].filter(Boolean).join(path.delimiter)};
  const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-predecessor-'));
  try{
-  execFileSync('git',['clone','--quiet','--shared','--no-checkout',root,snapshot],{stdio:'pipe'});
+  execFileSync('git',['clone','--quiet','--shared','--no-checkout',root,snapshot],{stdio:'pipe',env});
+  // Local clones otherwise replace origin and lose the canonical remote-tracking ref.
+  git(snapshot,['remote','set-url','origin',git(root,['remote','get-url','origin'])]);
+  const canonicalRef='refs/remotes/origin/captain-release';
+  git(snapshot,['update-ref',canonicalRef,git(root,['rev-parse','--verify',`${canonicalRef}^{commit}`])]);
   git(snapshot,['checkout','--quiet','--detach',base]);
   const dependencies=path.join(root,'node_modules');
   if(fs.existsSync(dependencies))fs.symlinkSync(fs.realpathSync(dependencies),path.join(snapshot,'node_modules'));
   const historicalModule=new URL('./verify-historical-release.mjs',import.meta.url).href;
-  const code=`import fs from 'node:fs';const c=JSON.parse(fs.readFileSync('${CANDIDATE}'));if(c.forwardProduction||c.hostedAdmission){const {verifyHistoricalRelease}=await import(${JSON.stringify(historicalModule)});const r=await verifyHistoricalRelease(process.cwd(),c);if(!r.historyValid||r.current||r.productionAuthorized)throw Error(JSON.stringify(r));}else{const {verifyReleaseCandidateBinding}=await import('./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs');const r=verifyReleaseCandidateBinding(process.cwd(),c);if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));}console.log('HISTORICAL_PREDECESSOR_VALID');`;
-  const output=execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,encoding:'utf8',stdio:'pipe',maxBuffer:4*1024*1024});
+  const code=`import fs from 'node:fs';const c=JSON.parse(fs.readFileSync('${CANDIDATE}'));
+if(c.forwardProduction||c.hostedAdmission){
+ const {verifyHistoricalRelease}=await import(${JSON.stringify(historicalModule)});const r=await verifyHistoricalRelease(process.cwd(),c);
+ if(!r.historyValid||r.current||r.productionAuthorized)throw Error(JSON.stringify(r));
+}else{
+ const {verifyReleaseCandidateBinding}=await import('./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs');const r=verifyReleaseCandidateBinding(process.cwd(),c);
+ if(c.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'){
+  if(c.runtimeAccepted!==true||c.previewExecution!=='held'||c.productionAuthorized!==false||c.deploymentAuthorized!==false||c.clinicDispatchReady!==false||r.bindingVerified!==true||r.current!==false||r.productionAuthorized!==false||r.status!==c.status)throw Error(JSON.stringify(r));
+ }else if(c.status==='FORWARD_BOUND_HOSTED_PENDING'){
+  // A fully verified forward tuple preserves accepted runtime custody while hosted execution stays held.
+  if(c.runtimeAccepted!==true||c.previewExecution!=='held'||c.productionAuthorized!==false||c.deploymentAuthorized!==false||c.clinicDispatchReady!==false||r.bindingVerified!==true||r.current!==false||r.productionAuthorized!==false||r.status!==c.status)throw Error(JSON.stringify(r));
+ }else if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));
+}
+console.log('HISTORICAL_PREDECESSOR_VALID');`;
+  const output=execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,encoding:'utf8',stdio:'pipe',maxBuffer:4*1024*1024,env});
   assert(output.includes('HISTORICAL_PREDECESSOR_VALID'),'historical predecessor validation');
   predecessorCache.add(key);
   return {historyValid:true,current:false,productionAuthorized:false};
@@ -70,8 +101,6 @@ export function reviewedSourceFiles(root,{sourceSha,parent,sourceRangeBaseSha}){
   validSha(base);
   assert.equal(git(root,['rev-parse','--verify',`${base}^{commit}`]),base,'exact reviewed source-range commit');
   git(root,['merge-base','--is-ancestor',base,sourceSha]);
-  const deleted=git(root,['diff','--no-renames','--diff-filter=D','--name-only',base,sourceSha]);
-  assert.equal(deleted,'','reviewed source-range deletions cannot be represented by the source file manifest');
  }
  return git(root,['diff',...(explicit?['--no-renames']:[]),'--name-only',base,sourceSha]).split('\n').filter(Boolean);
 }
@@ -84,9 +113,10 @@ function sourcePlan(root,p){
  git(root,['merge-base','--is-ancestor',p.sourceCommit,'HEAD']);
  assert.equal(git(root,['rev-list','--parents','-n','1',p.sourceCommit]),`${p.sourceCommit} ${p.parent}`,'exact sole source parent');
  assert.deepEqual(p.supersededRecord,at(root,p.releaseBaseSha,PENDING),'entire committed predecessor');
- assert.equal(p.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root})));
+ assert.equal(p.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root,maxBuffer:64*1024*1024})));
  assertCommittedPredecessor(root,p.releaseBaseSha);
- const previous=at(root,p.releaseBaseSha,PUBLICATION);
+ const tools=read(root,TOOLS);
+ const previous=at(root,tools.successorInputs?p.sourceCommit:p.releaseBaseSha,PUBLICATION);
  assert.deepEqual(p.historicalWorker,{sourceSha:previous.sourceSha,digest:previous.immutableRegistryDigest,fingerprint:previous.workerInputFingerprint});
  const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:previous.sourceSha,acceptedDigest:previous.immutableRegistryDigest,candidateSha:p.sourceCommit});
  assert.equal(plan.rebuildRequired,true);assert.deepEqual(plan.missingCanonicalInputs,[]);
@@ -97,9 +127,19 @@ function sourcePlan(root,p){
  const reviewed=reviewedSourceFiles(root,{sourceSha:p.sourceCommit,parent:p.parent,
   ...(Object.hasOwn(p,'sourceRangeBaseSha')?{sourceRangeBaseSha:p.sourceRangeBaseSha}:{})}).sort();
  assert.deepEqual(Object.keys(p.files).sort(),reviewed,'complete reviewed source delta');
- for(const [rel,digest]of Object.entries(p.files))assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
+ for(const [rel,digest]of Object.entries(p.files)){
+  if(digest&&typeof digest==='object'){
+   assert.deepEqual(digest,{deleted:true,sha256:hash(execFileSync('git',['show',`${p.sourceRangeBaseSha??p.parent}:${rel}`],{cwd:root,maxBuffer:64*1024*1024}))},'exact deleted source custody: '+rel);
+   assert.equal(git(root,['ls-tree',p.sourceCommit,'--',rel]),'','deleted in approved source: '+rel);
+   assert.equal(fs.lstatSync(path.join(root,rel),{throwIfNoEntry:false}),undefined,'deleted source cannot reappear: '+rel);
+  }else assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
+ }
+ const runtime=tools.successorInputs?verifySuccessorResponsibilities(root,p,tools).runtimeFiles:{};
+ const controls=tools.successorInputs?tools.successorTools.files:{};
+ for(const [rel,digest]of Object.entries(controls))assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'frozen successor control: '+rel);
  if(Object.hasOwn(p,'sourceRangeBaseSha')&&reviewed.length){
-  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...reviewed]),'','reviewed source-range files cannot change after source approval');
+  const frozen=reviewed.filter(rel=>!Object.hasOwn(runtime,rel)&&!Object.hasOwn(controls,rel));
+  if(frozen.length)assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...frozen]),'','reviewed source-range files cannot change after source approval');
  }
  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'HEAD','--',...plan.canonicalInputs]),'','control history cannot change worker inputs');
  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...plan.canonicalInputs]),'','working worker inputs unchanged');
@@ -130,7 +170,10 @@ function runEvidence(root,e,workflowPath,runName,reviewed=read(root,TOOLS)){
  return {run,job,log};
 }
 function publication(root,p,reviewed=read(root,TOOLS)){
- const e=read(root,PUBLICATION),prior=at(root,p.releaseBaseSha,PUBLICATION);
+ const e=read(root,PUBLICATION),prior=at(root,reviewed.successorInputs?p.sourceCommit:p.releaseBaseSha,PUBLICATION);
+ let ancestor=prior;const releasePrior=at(root,p.releaseBaseSha,PUBLICATION);
+ while(ancestor&&!isDeepStrictEqual(ancestor,releasePrior))ancestor=ancestor.supersededPublication;
+ assert.deepEqual(ancestor,releasePrior,'committed release publication remains in the complete predecessor chain');
  assert.deepEqual(e.supersededPublication,prior,'full publication predecessor preserved');
  assert.deepEqual(e.supersededChain,prior.supersededChain,'retired source-binding anchors preserved');
  assert.equal(e.sourceSha,p.sourceCommit);assert.equal(e.imageTag,p.sourceCommit);validDigest(e.immutableRegistryDigest);
@@ -140,7 +183,7 @@ function publication(root,p,reviewed=read(root,TOOLS)){
  assert.equal(e.digestPinnedReference,`${e.imageRepository}@${e.immutableRegistryDigest}`);
  validSha(e.workflowSourceSha);git(root,['merge-base','--is-ancestor',e.workflowSourceSha,'HEAD']);
  git(root,['merge-base','--is-ancestor',e.sourceSha,e.workflowSourceSha]);
- assert.equal(e.containedIn,'captain-release');assert.equal(e.releaseIntegrationBranch,'captain-release');assert.equal(e.canonicalIntegrationBranch,'main');
+ rehearsalContainment(e);assert.equal(e.releaseIntegrationBranch,'captain-release');assert.equal(e.canonicalIntegrationBranch,'main');
  assert.equal(e.requestedIntegrationSha,p.sourceCommit);assert.equal(e.tagReplacementAuthorization,'');
  // The publication guard runs after the pinned-source checkout. Its actual
  // source bytes must be the same reviewed guard, not merely the tools copy.
@@ -157,7 +200,7 @@ function publication(root,p,reviewed=read(root,TOOLS)){
  const evidence=runEvidence(root,e,'.github/workflows/publish-rcap-render-worker.yml','Publish RCAP render worker',reviewed);
  assert(evidence.log.includes(e.sourceSha)&&evidence.log.includes(e.immutableRegistryDigest),'native build subject');
  assert.equal(e.dockerfilePath,'deploy/rcap-render-worker/Dockerfile');
- for(const [rel,digest]of [[e.dockerfilePath,e.dockerfileSha256],['package-lock.json',e.lockfileSha256]])assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
+ for(const [rel,digest]of [[e.dockerfilePath,e.dockerfileSha256],['package-lock.json',e.lockfileSha256]])assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
  assert.equal(typeof e.runtimeAccepted,'boolean');
  if(e.runtimeAccepted)acceptance(root,e,reviewed);else assert.equal(e.imageAcceptance,undefined,'unaccepted image cannot inherit acceptance');
  return e;
@@ -175,7 +218,7 @@ function acceptance(root,e,reviewed=read(root,TOOLS)){
  for(const [k,v]of Object.entries({runId:a.runId,jobId:a.jobId,workflowSourceSha:a.workflowSourceSha,sourceSha:e.sourceSha,digest:e.immutableRegistryDigest,readOnly:true,conclusion:'success'}))assert.equal(receipt[k],v,`receipt ${k}`);
 }
 export function verifyPinnedPublication(root){
- try{const p=read(root,PENDING);if(p.applicationSource===AUTHORIZED_FORWARD){const bound=verifyForwardProductionSuccessor(root,read(root,CANDIDATE));assert(bound.current,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}if(p.applicationSource==='pinned-source-forward'){const bound=verifyPinnedForwardBinding(root,read(root,CANDIDATE));assert(bound.bindingVerified,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}sourcePlan(root,p);assert.notEqual(p.publication,'pending','publication absent');const e=publication(root,p);return {current:true,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,runtimeAccepted:e.runtimeAccepted,reasons:[]};}
+ try{const p=read(root,PENDING);if(p.applicationSource===AUTHORIZED_FORWARD){const bound=verifyForwardProductionSuccessor(root,read(root,CANDIDATE));assert(bound.current,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}if(p.applicationSource==='pinned-source-forward'){const bound=verifyPinnedForwardBinding(root,read(root,CANDIDATE));assert(bound.bindingVerified,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}sourcePlan(root,p);assert.notEqual(p.publication,'pending','publication absent');const e=publication(root,p);const rehearsal=e.rehearsalOnly===true;return {current:!rehearsal,rehearsalOnly:rehearsal,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,runtimeAccepted:e.runtimeAccepted,reasons:rehearsal?[REHEARSAL_HELD]:[]};}
  catch(error){return {current:false,reasons:[error.message]};}
 }
 export function verifyPinnedSuccessor(root,p=read(root,PENDING)){
@@ -185,9 +228,10 @@ export function verifyPinnedSuccessor(root,p=read(root,PENDING)){
   assert(['AWAITING_WORKER_PUBLICATION','AWAITING_WORKER_ACCEPTANCE','SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'].includes(p.status));
   assert.equal(p.publication,published?'complete':'pending');assert.equal(p.acceptance,accepted?'complete':'pending');
   assert.equal(p.runtimeAccepted,accepted);assert.equal(p.workerRebuildRequired,!published);
-  if(published){const e=publication(root,p);assert.equal(e.runtimeAccepted,accepted);assert.equal(p.workerDigest,e.immutableRegistryDigest);}
+  let rehearsal=false;
+  if(published){const e=publication(root,p);rehearsal=e.rehearsalOnly===true;assert.equal(e.runtimeAccepted,accepted);assert.equal(p.workerDigest,e.immutableRegistryDigest);}
   else {assert.equal(p.workerDigest,null);assert.deepEqual(read(root,PUBLICATION),at(root,p.releaseBaseSha,PUBLICATION),'awaiting publication retains predecessor only');}
-  return {current:accepted,applicationSource:'pinned-source',status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:accepted,workerRebuildRequired:!published,releaseBaseSha:p.releaseBaseSha,previewExecution:'held',productionAuthorized:false,reasons:accepted?[]:['Publication and actual image acceptance are separate gates; all execution remains held.']};
+  return {current:accepted&&!rehearsal,rehearsalOnly:rehearsal,applicationSource:'pinned-source',status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:accepted,workerRebuildRequired:!published,releaseBaseSha:p.releaseBaseSha,previewExecution:'held',productionAuthorized:false,reasons:rehearsal?[REHEARSAL_HELD]:accepted?[]:['Publication and actual image acceptance are separate gates; all execution remains held.']};
  }catch(error){return {current:false,applicationSource:'pinned-source',status:'INVALID_PENDING_PUBLICATION',reasons:[error.message]};}
 }
 
@@ -211,7 +255,7 @@ export function verifyPinnedBinding(root,candidate,pending){
   else assert.deepEqual(Object.keys(manifest.files).sort(),controlDelta.filter(f=>!Object.keys(p.files).includes(f)).sort(),'entire control delta bound');
   for(const [rel,digest]of Object.entries(manifest.files)){
    assert(boundedControl(rel)||(tools.successorInputs&&previewControl(rel)),'bounded control paths');
-   assert.equal(hash(execFileSync('git',['show',`${tools.toolsSha}:${rel}`],{cwd:root})),digest,rel);
+   assert.equal(hash(execFileSync('git',['show',`${tools.toolsSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
    assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'working control bytes');
   }
   const allowed=new Set([PENDING,PUBLICATION,CANDIDATE,TOOLS,...Object.keys(manifest.files),...Object.keys(tools.successorInputs?.runtimeFiles??{}),...Object.keys(tools.successorInputs?.nativeFiles??{})]);
@@ -251,10 +295,14 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   const prior=at(root,p.releaseBaseSha,PENDING);
   assert.equal(prior.applicationSource,'pinned-source');assert.equal(prior.runtimeAccepted,true);
   assert.deepEqual(p.supersededRecord,prior,'accepted pending history preserved');
-  sourcePlan(root,prior);
-  const priorTools=at(root,p.releaseBaseSha,TOOLS);if(priorTools.successorInputs)verifySuccessorResponsibilities(root,prior,priorTools);
-  const e=publication(root,prior,at(root,p.releaseBaseSha,TOOLS));assert.equal(e.runtimeAccepted,true);
+  assertCommittedPredecessor(root,p.releaseBaseSha);
+  const priorTools=at(root,p.releaseBaseSha,TOOLS);
+  const e=publication(root,prior,priorTools);assert.equal(e.runtimeAccepted,true);
   assert.deepEqual(e,at(root,p.releaseBaseSha,PUBLICATION),'accepted worker evidence remains immutable');
+  const applicationDelta=git(root,['diff','--no-renames','--name-only',prior.sourceCommit,p.applicationSha]).split('\n').filter(Boolean);
+  const applicationFiles=applicationDelta.filter(rel=>!boundedControl(rel)&&!previewControl(rel));
+  // Application-owned CI/data changes retain their frozen identity in the tools tree.
+  if(applicationFiles.length)assert.equal(git(root,['diff','--name-only',p.applicationSha,p.toolsSha,'--',...applicationFiles]),'','frozen application successor bytes and modes');
   const expected={applicationSha:p.applicationSha,workerSourceSha:prior.workerSourceSha,
    workerDigest:prior.workerDigest,workerInputFingerprint:prior.workerInputFingerprint,toolsSha:p.toolsSha,
    publication:at(root,p.releaseBaseSha,CANDIDATE).publication,
@@ -262,7 +310,7 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   for(const [rel,record]of [[PENDING,p],[CANDIDATE,candidate],[TOOLS,tools]]) {
    assertForwardTuple(record,expected);
    assert.deepEqual(record.supersededRecord,at(root,p.releaseBaseSha,rel),'complete forward predecessor');
-   assert.equal(record.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${rel}`],{cwd:root})),'forward predecessor byte hash');
+   assert.equal(record.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),'forward predecessor byte hash');
   }
   git(root,['merge-base','--is-ancestor',p.applicationSha,p.toolsSha]);git(root,['merge-base','--is-ancestor',p.toolsSha,'HEAD']);
   assert(applicationInputEquivalence(root,p.applicationSha,'HEAD').equivalent,'current application inputs match frozen successor');
@@ -276,8 +324,8 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   const delta=git(root,['diff','--name-only',p.releaseBaseSha,p.toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/')).sort();
   assert.deepEqual(Object.keys(manifest.files).sort(),delta,'complete forward control manifest');
   for(const [rel,digest]of Object.entries(manifest.files)) {
-   if(priorTools.successorInputs)assert(boundedControl(rel)||previewControl(rel),'bounded forward control paths');
-   assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root})),digest,rel);
+   if(priorTools.successorInputs)assert(boundedControl(rel)||previewControl(rel)||applicationFiles.includes(rel),'bounded forward control paths or frozen application source');
+   assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),digest,rel);
    if(!corrected.has(rel))assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'current control bytes');
   }
   const allowed=new Set([PENDING,CANDIDATE,TOOLS,...corrected,...(candidate.hostedAdmission?.files??[]).map(f=>f.path)]);

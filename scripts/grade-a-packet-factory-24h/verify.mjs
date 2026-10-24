@@ -22,6 +22,7 @@ import {
   repairRowsJointlyDischargeFailure
 } from "./post-repair-reread.mjs";
 import { pathsOverlap } from "./path-ownership.mjs";
+import { pushedEquivalent, contentCommit, diffBase } from "./verifier-base-stand-ins.mjs";
 import { boundedRepairAuthorization } from "./bounded-repair-authorization.mjs";
 import { prepareMutationSubjects } from "./mutation-subjects.mjs";
 import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
@@ -150,17 +151,17 @@ function repairCompletionAfterVerdict(root, completions, substantive) {
   const base = substantive?.verifiedAtBase;
   const failed = substantive?.failedObligationNames ?? [];
   if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || !failed.length) return null;
-  try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: root, stdio: "ignore" }); }
+  try { execFileSync("git", ["cat-file", "-e", `${pushedEquivalent(base)}^{commit}`], { cwd: root, stdio: "ignore" }); }
   catch { return null; }
   const ordered = [];
   for (const candidate of completions.get(familyId) ?? []) {
     if (!hasExactlyNineZeroCounters(candidate.row.countersAfter)) continue;
     let priorDocument;
     try {
-      priorDocument = execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
+      priorDocument = execFileSync("git", ["show", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`],
         { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
     } catch {
-      try { execFileSync("git", ["cat-file", "-e", `${base}:${candidate.evidencePath}`], { cwd: root, stdio: "ignore" }); }
+      try { execFileSync("git", ["cat-file", "-e", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`], { cwd: root, stdio: "ignore" }); }
       catch { ordered.push(candidate); }
       continue; // Only a missing file proves new evidence; an unreadable file does not.
     }
@@ -253,12 +254,13 @@ function checkClaimHistoryAndPostRepairRereads(root, master, vr, rq, vf, check) 
     const repairCompletions = readRepairCompletions(root);
     const validBase = (base) => {
       if (!/^[0-9a-f]{7,40}$/.test(String(base ?? ""))) return false;
-      try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: root, stdio: "ignore" }); return true; }
+      try { execFileSync("git", ["cat-file", "-e", `${pushedEquivalent(base)}^{commit}`], { cwd: root, stdio: "ignore" }); return true; }
       catch { return false; }
     };
     const pathsChangedSince = (base, paths) => {
-      if (!validBase(base)) return false;
-      try { execFileSync("git", ["diff", "--quiet", base, "HEAD", "--", ...paths], { cwd: root, stdio: "ignore" }); return false; }
+      const from = diffBase(base, paths);
+      if (from === null || !validBase(base)) return false;
+      try { execFileSync("git", ["diff", "--quiet", from, "HEAD", "--", ...paths], { cwd: root, stdio: "ignore" }); return false; }
       catch (error) { return error?.status === 1; }
     };
     const hashOnDisk = (rel) => {
@@ -609,10 +611,10 @@ function run() {
     const passCoversStops = pass && /^[0-9a-f]{7,40}$/.test(String(pass.verifiedAtBase ?? ""))
       && typeof pass.evidencePath === "string"
       && fs.existsSync(path.join(ROOT, pass.evidencePath))
-      && gitOk(["merge-base", "--is-ancestor", pass.verifiedAtBase, "HEAD"])
+      && gitOk(["merge-base", "--is-ancestor", pushedEquivalent(pass.verifiedAtBase), "HEAD"])
       && stoppedRows.every(({ row, rowsPath }) => {
         try {
-          const before = JSON.parse(execFileSync("git", ["show", `${pass.verifiedAtBase}:${rowsPath}`],
+          const before = JSON.parse(execFileSync("git", ["show", `${contentCommit(pass.verifiedAtBase, rowsPath)}:${rowsPath}`],
             { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }));
           return (before.rows ?? []).some((prior) => JSON.stringify(prior) === JSON.stringify(row));
         } catch { return false; }
@@ -1908,6 +1910,15 @@ if (MUTATIONS) {
       .digest("hex"),
   });
 
+  const f32SourceBlock = () => {
+    const rows = (read(`${DIR}/VERIFIER_RETURNS.json`).rows ?? []).filter((r) =>
+      r.familyId === "SYNTHETIC-F32" && r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
+    const families = read(MASTER).families.filter((f) => f.familyId === "SYNTHETIC-F32");
+    if (rows.length !== 1 || families.length !== 1 || families[0].state !== "SOURCE_BLOCKED" || families[0].sourceReadiness?.ready !== false) {
+      throw new Error("F32 mutation requires its exact unresolved SOURCE_BLOCKED subject");
+    }
+    return rows[0];
+  };
   const cases = [
     { on: "active", id: "F1", name: "a family claimed by two builders is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].items.push(b[0].items[0]); return j; } },
     { on: "active", id: "F2", name: "two lanes owning one path is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].ownedPaths.push(b[0].ownedPaths[1]); return j; } },
@@ -2007,7 +2018,13 @@ if (MUTATIONS) {
     { on: "stale", id: "F26", name: "a legally blocked family handed to a builder is caught", mutate: (j) => { const legal = j.rows.find((r) => r.destination === "LEGAL"); const built = read(ACTIVE).assignments.find((x) => x.lane === "packet-build" && x.items.length); legal.familyId = built.items[0]; return j; } },
     { on: "stale", id: "F26", name: "dropping every legal finding is caught by the master queue still holding them", mutate: (j) => { j.rows = j.rows.map((r) => (r.destination === "LEGAL" ? { ...r, destination: "SOURCE" } : r)); return j; } },
     { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.find(c => c.laneKind === "independent-verification"); if (!v) throw new Error("F24 needs a grant schema"); j.claims.push({ ...v, lane: "VF99" }); return withClaimsDigest(j); } },
-    { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => { const ids=new Set(read(ACTIVE).assignments.flatMap(a=>a.items??[])); const index=j.claims.findIndex(c=>ids.has(c.subjectId)); if(index<0)throw new Error("F24 requires a dispatched grant");j.claims.splice(index,1);return withClaimsDigest(j); } },
+    { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => {
+      // Remove a grant F24 requires: the one whose kind, subject and operation a dispatch names, derived as F24
+      // derives them. A claim that merely shares a dispatched subject (an older released grant) is not that grant.
+      const dispatched = new Set(read(ACTIVE).assignments.flatMap((x) => (x.items ?? []).map((id) => `${x.itemKind === "sourceObligation" ? "source-obligation" : "packet-family"}::${id}::${x.itemKind === "sourceObligation" ? x.operation : x.lane}`)));
+      const index = j.claims.findIndex((c) => dispatched.has(`${c.subjectType}::${c.subjectId}::${c.operation}`));
+      if (index < 0) throw new Error("F24 requires a dispatched grant");
+      j.claims.splice(index, 1); return withClaimsDigest(j); } },
     /* Both of these ADD a grant, which moves claimsDigest, and F24 checks the
      * digest too. Without recomputing it the "caught" case would be caught for
      * the wrong reason and the "stays green" case could never stay green, so
@@ -2144,27 +2161,21 @@ if (MUTATIONS) {
         return j;
       } },
     { on: "master", id: "F32", name: "a current source block sent back to verification is caught", mutate: (j) => {
-        const returns = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8"));
-        const row = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
-        if (!row) throw new Error("F32 mutation requires a current BLOCKED_SOURCE verdict");
+        const row = f32SourceBlock();
         const family = j.families.find((f) => f.familyId === row.familyId);
         if (!family) throw new Error(`F32 mutation cannot find ${row.familyId} in the queue`);
         family.state = "VERIFY_PENDING";
         return j;
       } },
     { on: "active", id: "F32", name: "a current source block put into a verifier assignment is caught", mutate: (j) => {
-        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
-        const row = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
-        if (!row) throw new Error("F32 dispatch mutation requires a current BLOCKED_SOURCE verdict");
+        const row = f32SourceBlock();
         const lane = j.assignments.find((a) => a.lane === "independent-verification");
         if (!lane) throw new Error("F32 dispatch mutation requires an independent-verification assignment");
         lane.items = [...new Set([...(lane.items ?? []), row.familyId])];
         return j;
       } },
     { on: "ledger", id: "F32", name: "a current source block given a live reread claim is caught", mutate: (j) => {
-        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
-        const sourceBlock = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
-        if (!sourceBlock) throw new Error("F32 reread mutation requires a current BLOCKED_SOURCE verdict");
+        const sourceBlock = f32SourceBlock();
         let claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(sourceBlock.familyId));
         if (!claim) {
           // A blocked family correctly may never have received a verification

@@ -1,0 +1,51 @@
+name: RCAP KS 22-4908 controlling-record reservation
+
+# test-controlling-record-reservation.mjs holds the KS 22-4908 cover-sheet DOB reservation on the corpus reader path
+# (auditFamily, A1/A2). That case imports verify-packet-completeness.mjs, which refuses without the master-library
+# environment, so Onboarding (no corpus) cannot run the file. This job brings the corpus, as the factory and NV jobs do.
+on:
+  pull_request:
+    paths:
+      - .github/workflows/rcap-ks-4908-reservation.yml
+      - scripts/test-controlling-record-reservation.mjs
+      - scripts/rcap-packet-completeness/controlling-record-reservation.mjs
+      - scripts/rcap-packet-completeness/completeness-contract.mjs
+      - scripts/rcap-packet-completeness/verify-packet-completeness.mjs
+      - scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs
+      - data/record-clearing/legal-design-track-registry.json
+      - data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/**
+permissions:
+  contents: read
+jobs:
+  reservation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # verify-packet-completeness.mjs has required the corpus environment since 04e0a6ca5
+      # (2026-09-12); this step is the factory workflow's, verbatim. Last green run before it: 2026-09-08.
+      - name: Establish verified corpus environment
+        id: corpus_environment
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          corpus="$GITHUB_WORKSPACE/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+          if [ ! -d "$corpus" ]; then
+            test -n "$GH_TOKEN" || { echo "CORPUS_ENVIRONMENT_REFUSED: SOURCE_CORPUS_READ_TOKEN must read the pinned private source-artifacts release"; exit 1; }
+            bash scripts/rcap-corpus/bootstrap-private-corpus.sh
+          fi
+          export MASTER_LIBRARY_SOURCE_DIR="$corpus"
+          export RCAP_BUNDLE_EXTRACT="$corpus"
+          node --input-type=module -e 'import { requireMasterLibraryEnvironment } from "./scripts/lib/corpus-index-paths.mjs"; requireMasterLibraryEnvironment({repoRoot:process.cwd()});'
+          printf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Hold the KS 22-4908 reservation on the corpus reader path
+        run: node scripts/test-controlling-record-reservation.mjs

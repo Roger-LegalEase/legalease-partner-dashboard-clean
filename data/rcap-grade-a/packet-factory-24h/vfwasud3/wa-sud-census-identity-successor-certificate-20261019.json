@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-wa-sud-census-identity-successor/v1",
+  "familyId": "wa_vac_substance_use_disorder-set",
+  "routeKey": "obligation:track-only:WA:wa_vac_substance_use_disorder",
+  "purpose": "Admit the 2026-10-19 national census regeneration for the WA SUD custom mapping: the census bytes moved, the WA SUD route entry did not, and the receipt changed only by the census pin identity refresh. No other candidate file may change; this grants no verdict, raster or acceptance.",
+  "census": {
+    "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "priorSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+    "priorByteLength": 2629290,
+    "currentSha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+    "currentByteLength": 2635434,
+    "routeEntrySha256": "bbc191dc464458783446bd99419f7f9a73e6da869cdab2380d87ee141bec4179",
+    "routeEntryComparedAs": "canonicalJson (sorted keys) of the single routes[] entry whose routeKey is the WA SUD route"
+  },
+  "receipt": {
+    "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/source-receipt.json",
+    "priorSha256": "9ef386dbc29f567ec69b3c0cdd03ffbd6c7f4f1d4ff62a7adfd25a6b778f2dde",
+    "priorByteLength": 5619,
+    "currentSha256": "d18a840e5a47fbcdd3063b2b0c570fc47d995a4562f31976774d23bc3de53fd2",
+    "allowedChange": "the census pin in committedRecords: sha256, byteLength and an identityRefresh whose was.sha256 is the prior census; nothing else"
+  },
+  "reliesOnVerdicts": [
+    {
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud3/rows-vfwasud3-20261019-reverify-census-5e7fe802c.json",
+      "evidenceSha256": "31c222003c1ea5e3e5347145cb88ec3c4a312b4ae7bebeafd449b18feddd2b42",
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "lane": "VFWASUD3",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27"
+    }
+  ],
+  "layoutSuccessorExtended": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vfwasud2/wa-sud-layout-successor-certificate-20260913.json",
+    "sha256": "c5208f2fa1c8ea8b38937b481d141a6be690601f00b4c6eb0011dd3d0a6443bb"
+  },
+  "preparedBy": "CI agent (lead decision 2026-10-19: option 1)",
+  "preparedOn": "2026-10-19",
+  "reviewRequired": "Acceptance separate-lane review of this certificate before it is relied on",
+  "grantsNothing": true
+}

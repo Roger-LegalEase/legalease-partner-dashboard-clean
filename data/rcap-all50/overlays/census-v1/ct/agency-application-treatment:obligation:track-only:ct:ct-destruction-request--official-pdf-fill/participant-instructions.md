@@ -19,6 +19,7 @@ The platform wrote only the identity and contact facts it holds: full legal name
 
 Do not use this route until the clerk confirms the records are already erased and the three-year period has passed.
 Ask the clerk holding the erased records how it wants the request made. This packet deliberately does not draft a request against an unconfirmed format or destination.
+Service and notice: the committed Connecticut review states none for this request, so this guide adds none. Before you send it, ask that clerk's office whether anyone must be served or sent a copy.
 Stop and obtain counsel if the record is not erased, the clerk asks for something not established here, or any immigration matter is pending or possible.
 
 ## Protected items left blank

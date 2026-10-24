@@ -16,7 +16,7 @@ This packet carries more than one route. Use only the pages for the route that m
 | Clearing a first DUI | Section 63-11-30 carries its own first-offence DUI expungement provision, entirely separate from the ordinary misdemeanour route, and a DUI must never be routed through § 99-19-71(1). |
 | Underage drinking charges | Section 67-3-70 governs underage alcohol offences and carries its own expungement provision at subsection (6). |
 
-Every page states its own route in its footer. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
+Each document in this packet names its route in its title. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
 
 ## What is in this packet
 

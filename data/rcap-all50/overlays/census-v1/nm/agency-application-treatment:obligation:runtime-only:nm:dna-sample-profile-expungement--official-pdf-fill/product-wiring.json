@@ -40,16 +40,16 @@
     "sourceVersion": [],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692706",
-      "artifactId": "9956072095",
-      "boundToCanonicalSha256": "1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f",
+      "workflowRunId": "39430479568",
+      "jobId": "118656131485",
+      "artifactId": "12268367246",
+      "boundToCanonicalSha256": "e09efa5a584ec871e105bda77e90a689c009407997ab556f809837e1ddda9927",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
-      "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14"
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -59,7 +59,22 @@
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f",
+        "replacedByCanonicalSha256": "e09efa5a584ec871e105bda77e90a689c009407997ab556f809837e1ddda9927",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33923497915",
+          "jobId": "101187692706",
+          "artifactId": "9956072095",
+          "boundToCanonicalSha256": "1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -72,7 +87,7 @@
         "order": 1,
         "documentId": "agency_preparation_guide",
         "file": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f",
+        "sha256": "e09efa5a584ec871e105bda77e90a689c009407997ab556f809837e1ddda9927",
         "requirement": "required"
       }
     ]

@@ -1,31 +1,9 @@
 #!/usr/bin/env node
 import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
- * FABLE-PC composed-treatment builder — Delaware § 1017A juvenile expungement,
- * the branch where the AUTOMATIC process did not happen.
- *
- * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS, AND WHY THIS PACKET
- * CONTAINS NO COURT PETITION
- *
- * The compiled Delaware profile records the § 1017A route in six words that
- * decide this family: mandatory-eligible cases are expunged by the SBI
- * monthly WITH NO FILING. The committed route contract records the same
- * boundary from the other side — § 1017A eligible records run through the
- * automatic program, with a petition or correction path ONLY where the
- * automatic process did not occur.
- *
- * So the participant does not file, and this packet does not pretend they do.
- * It composes a request to the agency that runs the programme — the State
- * Bureau of Identification, which the compiled record reaches at
- * 302-739-5884 — and a guidance page saying what the process is, who runs
- * it, what the participant must do, what they must NOT do, and where the
- * question stops being an agency one.
- *
- * Composing a court petition here would have invented a form for an automatic
- * route. That is the specific failure this family was most at risk of.
- *
- * A built family is a built family. It is not verified, not approved, not
- * sellable, and this builder issues no verdict on its own packets.
+ * Delaware section 1017A correction inquiry for an eligible record that was
+ * not automatically expunged. Held adult SBI instructions do not establish
+ * this juvenile correction's destination, fees or service requirements.
  */
 const SPEC = {
   "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
@@ -36,8 +14,7 @@ const SPEC = {
   "legalName": "Delaware § 1017A automatic juvenile expungement — request and guidance where the automatic process did not occur",
   "routeName": "getting a Delaware § 1017A record expunged where the automatic programme has not reached it",
   "statutes": [
-    "10 Del. C. § 1017A",
-    "11 Del. C. § 4373A"
+    "10 Del. C. § 1017A"
   ],
   "routes": [
     {
@@ -58,11 +35,10 @@ const SPEC = {
     {
       "recordId": "compiled-profile:DE-delaware#juvenile-expungement-under-10-del-c-1017-1019-1017a",
       "path": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
-      "role": "the compiled Delaware pathway: that mandatory-eligible cases are expunged by the SBI monthly with no filing, and the SBI telephone number the record gives for a mandatory-expungement request",
+      "role": "the compiled Delaware juvenile row establishes section 1017A as automatic; shared adult SBI rows do not establish this correction's destination or fees",
       "mustContain": [
         "\"id\": \"juvenile-expungement-under-10-del-c-1017-1019-1017a\"",
-        "None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.",
-        "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees."
+        "Family Court expungement (juvenile) 10 Del. C. §§ 1017–1019 for juvenile records; § 1017A automatic since Aug 1,"
       ]
     },
     {
@@ -80,11 +56,11 @@ const SPEC = {
       "id": "de-1017a-automatic-failure-correction-agency-request-1",
       "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "role": "agency_request",
-      "title": "Request to the State Bureau of Identification - Delaware § 1017A automatic expungement that did not happen",
-      "description": "the written request to the agency that runs the automatic programme; this is NOT a court filing",
+      "title": "Request about a Delaware § 1017A automatic juvenile expungement that did not happen",
+      "description": "a correction inquiry for the office the participant confirms; not an official court petition",
       "condition": null,
       "body": [
-        "TO: The Delaware State Bureau of Identification (SBI). The compiled Delaware profile records a telephone number for mandatory-expungement requests: 302-739-5884.",
+        "TO: The office confirmed to handle this section 1017A correction.",
         "Exact office and postal address, confirmed with that office:",
         "{{DOTS}}",
         "",
@@ -96,15 +72,13 @@ const SPEC = {
         "",
         "REQUEST ABOUT A RECORD ELIGIBLE FOR AUTOMATIC EXPUNGEMENT UNDER 10 DEL. C. § 1017A",
         "",
-        "A. WHY I AM WRITING, AND WHAT THE COMMITTED RECORD ESTABLISHES",
+        "A. WHY I AM WRITING",
         "",
-        "The compiled Delaware profile records how this route works: \"None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.\"",
+        "The committed route contract records that section 1017A eligible records run through the automatic program, with a petition or correction path where the automatic process did not occur.",
         "",
-        "It records what to do when it has not happened: \"SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees.\"",
+        "No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request.",
         "",
-        "The committed route contract records the same boundary: \"§ 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect.\"",
-        "",
-        "This request is therefore made to the agency that runs the programme, and not to a court. No court petition is enclosed, because the committed records do not describe one as the first step here.",
+        "This packet is a correction inquiry. It does not supply an official petition or decide which process the receiving office requires. Confirm the required process before submitting it.",
         "",
         "B. MY MATTER",
         "",
@@ -162,6 +136,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "exact_office_postal_address",
+          "label": "Exact office and postal address, confirmed with that office",
+          "supply": "Contact the clerk of the Family Court that entered the adjudication to identify the office handling a section 1017A automatic-failure correction. Confirm the exact office name and postal address with that office and write them on the labelled line before sending. Do not guess an address.",
+          "why": "the held sources do not establish a destination; the participant must confirm the receiving office and postal address before sending"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_adjudication",
           "label": "Item C1 - adjudication this request is about",
           "supply": "the court, case number and date of the juvenile adjudication, copied from the record",
@@ -206,55 +187,45 @@ const SPEC = {
       "id": "de-1017a-automatic-failure-correction-process-guidance-2",
       "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "role": "filing_instructions",
-      "title": "What this route is, and why there is no court petition in this packet",
-      "description": "what the process is, who runs it, what you do, what you do NOT do, and how to check the outcome",
+      "title": "Delaware § 1017A automatic-failure correction: confirm the process before sending",
+      "description": "what the held juvenile route establishes, what remains unknown, and how to confirm the office, fees and service",
       "condition": null,
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "DELAWARE § 1017A AUTOMATIC JUVENILE EXPUNGEMENT, AND WHAT TO DO WHEN IT HAS NOT HAPPENED",
+        "DELAWARE § 1017A AUTOMATIC JUVENILE EXPUNGEMENT WHEN THE AUTOMATIC PROCESS DID NOT OCCUR",
         "",
-        "WHAT THIS ROUTE IS, AND WHO RUNS IT",
+        "WHAT THE HELD JUVENILE ROUTE ESTABLISHES",
         "",
-        "THE PARTICIPANT DOES NOT FILE THIS ONE. The compiled Delaware profile records it plainly: \"None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.\"",
+        "§ 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect.",
         "",
-        "The committed route contract records the same thing from the other side: \"§ 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect.\"",
+        "This packet concerns an eligible record that was not automatically expunged. It does not decide that your record is eligible. The section 1017 mandatory and section 1018 discretionary routes remain separate.",
         "",
-        "So the ordinary case is that nothing is filed and nothing is paid, and the record is expunged by the agency on its own schedule. This packet exists for the case where that did not happen.",
+        "WHERE TO ASK BEFORE SENDING",
         "",
-        "Who runs it: The Delaware State Bureau of Identification runs the automatic programme. The compiled profile records that mandatory-eligible cases are expunged by the SBI monthly with no filing, and records a telephone number — 302-739-5884 — for a mandatory-expungement request.",
+        "No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request.",
+        "",
+        "Complete the line labelled \"Exact office and postal address, confirmed with that office:\" on the request page with the confirmed office name and postal address before sending.",
         "",
         "WHAT YOU DO",
         "",
-        "- Check first, before doing anything else. If the record has already gone, there is nothing to ask for.",
-        "- If it is still there, use the request page in this packet, or telephone the SBI on 302-739-5884. The compiled profile records that if the person is eligible, the SBI sends a letter with instructions and any fees.",
-        "- Keep what you send and what you get back. If a court step becomes necessary later, that record is what shows the automatic route was tried.",
+        "Check whether the record is still there. If it has already been expunged, there is nothing to ask to correct.",
+        "Fill C1-C4 from your own records and answers. Sign and date the request personally only after checking it.",
+        "Confirm the receiving office and process before sending. If a court petition is needed, obtain the proper form and instructions; this inquiry is not a substitute.",
+        "Keep what you send and what you receive.",
         "",
-        "WHAT YOU DO NOT DO",
+        "WHAT IT COSTS AND WHETHER A WAIVER EXISTS",
         "",
-        "- **Do not file a court petition as your first step on this branch.** The committed records describe the § 1017A route as automatic, and describe a petition or correction path ONLY where the automatic process did not occur. Filing first asks a court to do what an agency does without being asked.",
-        "- Do not use the § 1018 discretionary petition for this. That is a different branch with its own family, and it is for a record the automatic programme was never going to reach.",
+        "No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying.",
         "",
-        "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
+        "SERVICE OR NOTICE",
         "",
-        "Nothing in this route is a court filing, so no filing fee arises from it. What the compiled record does state about money is this: \"SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees.\" The record states no amount, so the SBI is the office that tells you whether any fee applies, and 302-739-5884 is the number the record gives for reaching it.",
+        "The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required.",
         "",
-        "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
+        "WHEN TO STOP AND GET HELP",
         "",
-        "Nothing is served, because nothing is filed. The compiled record describes a request to an agency and a letter back from it.",
-        "",
-        "WHEN TO STOP AND GET HELP INSTEAD",
-        "",
-        "- the SBI says the record is not eligible and you believe it is;",
-        "- the SBI does not answer, or answers and nothing changes;",
-        "- the record is one the § 1017 mandatory branch or the § 1018 discretionary branch reaches instead — each is a different route with its own family;",
-        "- you are told a court petition is now needed, which is the point at which this stops being an agency question;",
-        "- any immigration question is involved.",
-        "",
-        "WHERE TO GO WHEN SELF-HELP STOPS",
-        "",
-        "The compiled Delaware profile gives one contact for this route by name and number: the State Bureau of Identification, 302-739-5884. Where the answer from that office does not resolve it, the question becomes a legal one and belongs with a lawyer or a legal-aid office.",
-        ""
+        "If the office says the record is ineligible and you disagree, does not answer, or answers without resolving the issue, contact a lawyer or a legal-aid office.",
+        "Get help if a court petition is required, if the record belongs to the section 1017 or section 1018 branch instead, or if an immigration question is involved."
       ],
       "writes": [
         {
@@ -283,50 +254,42 @@ const SPEC = {
     }
   },
   "composedFromNote": "the committed route contract (src/lib/legal-authority/routes/single-routes.json, DE:juvenile-expungement-under-10-del-c-1017-1019-1017a), the compiled Delaware profile pathway and the committed route-obligation census, each bound by SHA-256 and anchor-verified at build time",
-  "formIdentityNote": "No committed record names an official participant form for this branch, and the committed records describe the branch as AUTOMATIC: mandatory-eligible cases are expunged by the agency monthly with no filing. This packet therefore composes a request to that agency and a guidance page, and composes no court petition. Inventing a court form for an automatic route is the failure this family was most at risk of, and it was not made.",
-  "routeSelectionNote": "One route, and its instrument is not a pleading. The § 1017A branch is automatic; the composed pages state that, state who runs it, and state what the participant does where it has not happened. The § 1018 discretionary petition is a different branch with its own family in this same lane, and nothing here is its instrument.",
+  "formIdentityNote": "No held record names an official form or destination for a section 1017A automatic-failure correction. This packet composes a correction inquiry and guidance to confirm the required process; it does not supply an official court petition.",
+  "routeSelectionNote": "This is the section 1017A automatic-failure correction branch. The section 1017 mandatory and section 1018 discretionary branches remain separate; no adult SBI procedure is imported.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "statute": "10 Del. C. § 1017A",
-      "instrument": "a request to the State Bureau of Identification, with guidance — not a court petition",
-      "statedOn": "both composed pages, in their titles, bodies and footers"
+      "instrument": "a correction inquiry to the confirmed office, with process-confirmation guidance",
+      "statedOn": "both composed pages, in their titles and bodies; no page prints a route footer"
     }
   ],
   "obligationTable": [
     [
       "FILING_DESTINATION",
-      "**The participant does not file this one; the State Bureau of Identification runs it.** The compiled Delaware profile records that mandatory-eligible cases are expunged by the SBI monthly with no filing, and that the way to raise it is to contact the SBI on 302-739-5884. Where the automatic process did not occur, the committed contract records that a petition or correction path exists — and that is the point at which the question stops being an agency one. No court destination is asserted here, because no committed record establishes one for this branch."
+      "No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request."
     ],
     [
       "FEE_AND_WAIVER",
-      "Nothing here is a court filing, so no filing fee arises from it. The compiled profile states what happens on a request: if the person is eligible, the SBI sends a letter with instructions and any fees. The office that answers what any fee would be is the SBI, on 302-739-5884."
+      "No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying."
     ],
     [
       "SERVICE",
-      "**Nothing is served, because nothing is filed.** The compiled record describes a request to an agency and a letter back from it. There is no opposing party to serve on this branch."
+      "The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required."
     ],
     [
       "SELF_HELP_STOP",
-      "**Stop and get help if:** the SBI says the record is not eligible and you believe it is. **Stop and get help if:** the SBI does not answer, or answers and nothing changes. **Stop and get help if:** you are told a court petition is now needed — that is the point at which this stops being an agency question. **Stop and get help if:** the record belongs to the § 1017 mandatory branch or the § 1018 discretionary branch instead. **Stop and get help if:** any immigration question is involved."
+      "Stop and seek a lawyer or a legal-aid office if the office disputes eligibility, does not resolve the request, a court petition is required, the record belongs to a different juvenile branch, or an immigration question is involved."
     ]
   ],
   "instructionsIntro": [
-    "**This packet contains no court petition, and that is deliberate.** The committed records describe the Delaware § 1017A juvenile route as AUTOMATIC: eligible cases are expunged by the State Bureau of Identification monthly, with no filing. This packet is for the case where that has not happened.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Everything about your own record belongs to that record, so each item is a labelled dotted blank listed below."
+    "This packet concerns a Delaware section 1017A record where the automatic process did not occur. The held route contract allows a petition or correction path in that situation, but does not name the receiving office or establish a fee. Confirm the required process before using the request page.",
+    "The platform filled in your held name, date of birth, mailing address, telephone and email. You supply the record details and confirmed office/address; signatures and dates remain yours."
   ],
   "instrumentChoice": null,
   "recordSays": [
     [
-      "The compiled Delaware profile",
-      "None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing."
-    ],
-    [
-      "The compiled Delaware profile",
-      "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees."
-    ],
-    [
-      "The committed route contract",
+      "The committed juvenile route contract",
       "§ 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect."
     ]
   ],
@@ -337,54 +300,49 @@ const SPEC = {
     ]
   ],
   "steps": [
-    "**Check whether the record is still there.** If the automatic programme has already reached it, there is nothing to ask for.",
-    "**If it is still there, send the request page, or telephone the SBI on 302-739-5884.** The compiled record says that if you are eligible, the SBI sends a letter with instructions and any fees.",
-    "**Do not file a court petition first.** The committed records describe a petition or correction path only where the automatic process did not occur.",
-    "**Keep everything you send and everything you get back.**",
-    "**If the answer does not resolve it, take it to a lawyer or a legal-aid office.** That is where an agency question becomes a legal one."
+    "Check whether the record is still there; do not request correction of an expungement that already happened.",
+    "No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request.",
+    "Complete the labelled exact-office/postal-address blank with the confirmed office name and postal address before sending; complete C1-C4 from your own record and answers.",
+    "No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying.",
+    "The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required.",
+    "Check, sign and date your request personally. Keep copies of what you send and receive.",
+    "If the question is not resolved or a court petition is required, seek a lawyer or a legal-aid office."
   ],
   "deliberatelyBlank": [
-    "**Your signing line, and the date beside it.** A signature is yours alone, and a date written before you sign would be false.",
-    "**Any court caption.** There is none, because nothing here is filed in a court."
+    "Your signature and the date beside it: only you may complete them.",
+    "The exact office/postal address and C1-C4: supply these before sending as explained above."
   ],
   "notTold": [
-    "**Whether any fee attaches to an SBI mandatory-expungement request.** The compiled record says the SBI's letter states any fees; it does not state what they are. The SBI, on 302-739-5884, is the office that answers it."
+    "No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request.",
+    "No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying.",
+    "The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required."
   ],
   "stopConditions": [
-    "the SBI says the record is not eligible and you believe it is;",
-    "the SBI does not answer, or answers and nothing changes;",
-    "you are told a court petition is now needed;",
-    "the record belongs to the § 1017 mandatory branch or the § 1018 discretionary branch instead;",
+    "the office says the record is not eligible and you disagree;",
+    "the office does not answer, or answers and nothing changes;",
+    "you are told a court petition is required;",
+    "the record belongs to the section 1017 mandatory or section 1018 discretionary branch instead;",
     "any immigration question is involved."
   ],
-  "whatThisIsNot": "This is a request to an agency and a page of guidance. It is not a court petition — the committed records describe this branch as automatic, and no committed record names a form for it. It is not legal advice, it is not sent for you, and it does not make the State Bureau of Identification act.",
+  "whatThisIsNot": "This is a correction inquiry and guidance, not an official court petition, legal advice, an eligibility decision or a promise of action. It is not sent for you.",
   "receiptDoesNotEstablish": [
-    "that any Delaware juvenile record is eligible for the § 1017A automatic programme",
-    "that the State Bureau of Identification will act on a request made with these pages"
+    "that any Delaware juvenile record is eligible for the section 1017A automatic programme",
+    "which office receives this correction or what fees, waiver or service requirements apply"
   ],
   "buildFindings": [
     {
-      "finding": "The committed records describe this branch as AUTOMATIC: the compiled Delaware profile records that mandatory-eligible cases are expunged by the SBI monthly with no filing, and the committed contract records that a petition or correction path exists only where the automatic process did not occur.",
-      "consequence": "No court petition was composed. The packet is a request to the agency that runs the programme, plus a guidance page that says who runs it, what the participant does, and what the participant does NOT do. Composing a petition here would have invented a form for a route that has none."
-    },
-    {
-      "finding": "The compiled profile gives a specific reachable authority for this branch: the SBI, on 302-739-5884.",
-      "consequence": "It is named on both composed pages and in every one of the four participant-facing obligations that needs an authority. DET-FEE-AND-WAIVER-001 requires an office identified well enough to actually reach, and a telephone number is that."
-    },
-    {
-      "finding": "The MASTER_QUEUE row for this family carries the same overlay-directory naming as the petition families, and its implementationStrategy is custom_pleading.",
-      "consequence": "The strategy label describes how the pages are produced — composed from codified text rather than filled into an official PDF — and not that the output must be a pleading. The output here is a request and a guidance page, because that is what the committed records describe."
+      "finding": "The held juvenile route permits a petition or correction path when the automatic process did not occur, but names no receiving office or fee. Adult SBI rows apply to different statutes.",
+      "consequence": "The packet asks the participant to confirm the process with the clerk of the adjudicating Family Court and then the receiving office; it asserts neither an SBI destination nor an adult fee rule."
     }
   ],
   "counselQuestions": [
-    "This branch ships no court petition, on the ground that the committed records describe the route as automatic with a petition or correction path only where the automatic process did not occur. Confirm that reading.",
-    "The request page is addressed to the State Bureau of Identification on the compiled profile's own telephone number. Confirm the addressee."
+    "Confirm the required process and receiving office for a section 1017A record that was not automatically expunged."
   ],
   "reviewersAttention": [
-    "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
-    "THIS FAMILY SHIPS NO COURT PETITION, DELIBERATELY. Its sibling in this same lane, the § 1018 discretionary branch, does. A reviewer expecting a pleading here should read the build findings first."
+    "The exact office/postal address is declared REQUIRED_BEFORE_FILING and explained in the instructions. No participant fact, signature or date is invented.",
+    "Destination, cost and service uncertainty are explicit. The Family Court clerk is an office to ask, not an asserted recipient of this request."
   ],
-  "documentsHeading": "Documents you may need — nothing here is filed in a court"
+  "documentsHeading": "Documents you may need to identify the record and confirm the process"
 };
 
 /* ============================================================================

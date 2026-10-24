@@ -327,14 +327,25 @@ function drawPleadingDocument(
   const context: PleadingContext = {
     court: caption?.court ?? "",
     caseNumber: caption?.caseNumber ?? "",
-    title: caption?.title ?? entry.title,
+    title: caption?.continuationTitle ?? caption?.title ?? entry.title,
     pageNumber: 1,
     confidential: false
   };
   cursor.y = PAGE_HEIGHT - PLEADING_MARGIN;
   drawPleadingFooter(cursor.page, fonts, context);
 
-  for (const block of entry.blocks) {
+  for (const [index, block] of entry.blocks.entries()) {
+    const next = entry.blocks[index + 1];
+    if (block.kind === "pleading_identity_list" && block.keepWithNext && next?.kind === "pleading_paragraph") {
+      // Source-scoped grouping: the ruled execution line and its actor label
+      // are one structure, even when optional case identifiers add a line.
+      const lines = (text: string, indent = 0) => wrap(sanitize(text), fonts.pleadingBody, PLEADING_BODY_SIZE, PLEADING_CONTENT_WIDTH - indent).length;
+      const height = (block.number ? 24 : 0) + (block.introduction ? lines(block.introduction, 36) * PLEADING_LEADING + 8 : 0)
+        + block.items.reduce((sum, item) => sum + lines(`${block.listMarker === "none" ? "" : "(a) "}${item.label} ${item.value}`, 24) * PLEADING_LEADING
+          + (item.blank ? fonts.pleadingBody.heightAtSize(PLEADING_BODY_SIZE) + 16 : 3), 0)
+        + 8 + Math.max(40, lines(next.text, 36) * PLEADING_LEADING + 9);
+      ensurePleading(cursor, document, fonts, context, height);
+    }
     switch (block.kind) {
       case "pleading_caption":
         drawPleadingCaption(cursor, document, fonts, context, block);
@@ -381,6 +392,15 @@ function drawPleadingCaption(
     // The adopted caption takes more than one court line. Each is drawn as its
     // own line: prefix, a rule where the participant writes the value, suffix.
     for (const line of block.courtLines) {
+      if (block.wrapCourtLines && !line.blank) {
+        const text = [line.prefix, line.value?.toUpperCase(), line.suffix].filter(Boolean).join(" ");
+        for (const wrapped of wrap(sanitize(text), fonts.pleadingBold, PLEADING_BODY_SIZE, PLEADING_CONTENT_WIDTH)) {
+          ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+          cursor.page.drawText(wrapped, { x: PLEADING_MARGIN, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK });
+          cursor.y -= PLEADING_LEADING;
+        }
+        continue;
+      }
       let x = PLEADING_MARGIN;
       if (line.prefix) {
         cursor.page.drawText(sanitize(line.prefix), { x, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK });
@@ -423,12 +443,23 @@ function drawPleadingCaption(
         PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 20;
     }
     const docketLabel = block.caseNumberLabel ?? "CASE NO.";
-    cursor.page.drawText(sanitize(docketLabel), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
     const afterDocket = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${docketLabel} `, 12);
-    if (block.caseNumberBlank) {
-      cursor.page.drawLine({ start: { x: afterDocket, y: cursor.y - 2 }, end: { x: afterDocket + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+    if (block.caseNumberBlank && afterDocket + 240 > PLEADING_MARGIN + PLEADING_CONTENT_WIDTH) {
+      // Keep the source's full label and reserved writing width within the page.
+      for (const line of wrap(sanitize(docketLabel), fonts.pleadingBold, 12, PLEADING_CONTENT_WIDTH)) {
+        ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+        cursor.page.drawText(line, { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+        cursor.y -= PLEADING_LEADING;
+      }
+      ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+      cursor.page.drawLine({ start: { x: PLEADING_MARGIN, y: cursor.y - 2 }, end: { x: PLEADING_MARGIN + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
     } else {
-      cursor.page.drawText(sanitize(block.caseNumber), { x: afterDocket, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      cursor.page.drawText(sanitize(docketLabel), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      if (block.caseNumberBlank) {
+        cursor.page.drawLine({ start: { x: afterDocket, y: cursor.y - 2 }, end: { x: afterDocket + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+      } else {
+        cursor.page.drawText(sanitize(block.caseNumber), { x: afterDocket, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      }
     }
     cursor.y -= PLEADING_LEADING;
     /*
@@ -447,6 +478,29 @@ function drawPleadingCaption(
         cursor.page, fonts.pleadingBody, sanitize(`(${block.caseNumberInstruction})`), 9,
         PLEADING_CONTENT_WIDTH, cursor.y, 11
       );
+    }
+    if (block.optionalIdentifier) {
+      const identifier = block.optionalIdentifier;
+      if (identifier.blank) {
+        ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+        cursor.page.drawText(sanitize(identifier.label), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+        const start = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${sanitize(identifier.label)} `, 12);
+        cursor.page.drawLine({ start: { x: start, y: cursor.y - 2 }, end: { x: start + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+        cursor.y -= PLEADING_LEADING;
+      } else {
+        for (const line of wrap(sanitize(`${identifier.label} ${identifier.value}`), fonts.pleadingBold, 12, PLEADING_CONTENT_WIDTH)) {
+          ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+          cursor.page.drawText(line, { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+          cursor.y -= PLEADING_LEADING;
+        }
+      }
+    }
+    for (const field of block.blankFields ?? []) {
+      ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+      cursor.page.drawText(sanitize(field.label), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      const start = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${sanitize(field.label)} `, 12);
+      cursor.page.drawLine({ start: { x: start, y: cursor.y - 2 }, end: { x: Math.min(start + 240, PLEADING_MARGIN + PLEADING_CONTENT_WIDTH), y: cursor.y - 2 }, thickness: 0.75, color: INK });
+      cursor.y -= PLEADING_LEADING;
     }
     cursor.y -= 14;
     if (!matterFirst && block.matterTitle) {
@@ -660,19 +714,19 @@ function drawPleadingIdentityList(
    */
   const label = (text: string) => (/[.:?!]$/.test(text.trim()) ? text.trim() : `${text.trim()}:`);
   block.items.forEach((item, index) => {
-    const letter = String.fromCharCode(97 + index);
+    const marker = block.listMarker === "none" ? "" : `(${String.fromCharCode(97 + index)}) `;
     if (item.blank) {
       // A value the participant writes on the page. The label is printed and a
       // line is drawn for it, the same way a signature line is drawn: printing
       // "(a) Case number: " with nothing after it reads as a value the packet
       // failed to supply, and a line reads as the instruction it is.
-      drawPleadingText(cursor, document, fonts, context, `(${letter}) ${label(item.label)}`, { indent: 24 });
+      drawPleadingText(cursor, document, fonts, context, `${marker}${label(item.label)}`, { indent: 24 });
       cursor.y -= 6;
       drawBlankLine(cursor, fonts, 320);
       cursor.y -= 3;
       return;
     }
-    drawPleadingText(cursor, document, fonts, context, `(${letter}) ${label(item.label)} ${item.value}`, { indent: 24 });
+    drawPleadingText(cursor, document, fonts, context, `${marker}${label(item.label)} ${item.value}`, { indent: 24 });
     cursor.y -= 3;
   });
   cursor.y -= 8;
@@ -1051,8 +1105,18 @@ function drawProvenanceFooter(
   pageBreak(cursor, document);
   kicker(cursor, document, fonts, "About this packet");
   title(cursor, document, fonts, packet.packetFamilyLabel);
-  labelled(cursor, document, fonts, "Route", packet.routeKey, layout);
-  labelled(cursor, document, fonts, "Packet specification", `${packet.specificationId} v${packet.specificationVersion}`, layout);
+  // GA-02 permits a qualifying pardoned misdemeanor as well as a felony.
+  // The retained wire/specification IDs contain "pardoned-felony"; printing
+  // them on the participant's provenance page misstates that classification.
+  // Version and protected verification still identify the exact packet; the
+  // original route and specification IDs remain in its server-side contract.
+  if (packet.routeKey === "GA:restriction-and-sealing-of-a-pardoned-felony"
+    && packet.packetFamily === "ga-pardon-j7-set") {
+    labelled(cursor, document, fonts, "Packet version", packet.specificationVersion, layout);
+  } else {
+    labelled(cursor, document, fonts, "Route", packet.routeKey, layout);
+    labelled(cursor, document, fonts, "Packet specification", `${packet.specificationId} v${packet.specificationVersion}`, layout);
+  }
   labelled(cursor, document, fonts, "Prepared from verification", packet.verificationHash, layout);
   paragraph(cursor, document, fonts,
     "This packet was prepared from the answers you confirmed at final verification. If any of those answers change, "

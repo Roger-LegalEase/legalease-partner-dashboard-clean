@@ -27,14 +27,24 @@ function aliasPath(specifier) {
   return null;
 }
 
-function requireFor(mocks) {
+function requireFor(mocks, parent) {
   return (specifier) => {
     if (specifier in mocks) return mocks[specifier];
     // `server-only` is a build-time marker with no runtime behaviour to test.
     if (specifier === "server-only" || specifier === "client-only") return {};
     const aliased = aliasPath(specifier);
     if (aliased) return aliased.endsWith(".json") ? require(aliased) : loadTsFile(aliased, mocks);
-    return require(specifier);
+    // A production module's relative imports belong to that module, not this
+    // harness. Preserve real TypeScript dependencies instead of mocking them.
+    if (specifier.startsWith("./") || specifier.startsWith("../")) {
+      const base = path.resolve(path.dirname(parent), specifier);
+      for (const candidate of [base, `${base}.ts`, `${base}.tsx`, path.join(base, "index.ts")]) {
+        if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
+          return /\.tsx?$/.test(candidate) ? loadTsFile(candidate, mocks) : require(candidate);
+        }
+      }
+    }
+    return createRequire(parent)(specifier);
   };
 }
 
@@ -54,11 +64,19 @@ function loadTsFile(resolved, mocks) {
   const compiledFilename = `${resolved}.cjs`;
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
-  mod.require = requireFor(mocks);
-  mod._compile(transpiled, compiledFilename);
+  mod.require = requireFor(mocks, resolved);
   // Only dependencies loaded for real are cached. The module under test is
   // loaded fresh each time, because each case gives it different doubles.
+  // Cached before running, as Node does, so an import cycle
+  // (question-answer-state <-> ca-prop64-contact-answer) gets partial exports
+  // instead of recursing.
   REAL_MODULE_CACHE.set(resolved, mod.exports);
+  try {
+    mod._compile(transpiled, compiledFilename);
+  } catch (error) {
+    REAL_MODULE_CACHE.delete(resolved);
+    throw error;
+  }
   return mod.exports;
 }
 
@@ -362,7 +380,7 @@ for (const [label, options, expected] of [
 // A valid current sponsored context may pass without consumer payment, but
 // the trusted source's matter identity remains a separate mandatory gate.
 {
-  const grant = JSON.parse(read('data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'));
+  const grant = JSON.parse(read('data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json'));
   const env = {VERCEL_ENV:'preview',VERCEL_TARGET_ENV:'preview',RCAP_SPONSORED_PREVIEW_CHANNEL:grant.channel,
     RCAP_CONSUMER_DELIVERY_ROUTE_STATE:grant.routeState,NEXT_PUBLIC_SUPABASE_URL:`https://${grant.acceptanceProjectRef}.supabase.co`,
     RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:grant.participantUserIds.join(',')};

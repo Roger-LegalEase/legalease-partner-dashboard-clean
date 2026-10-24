@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX02",
+  "laneKind": "repair",
+  "baseSha": "0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f",
+  "branch": "codex/ms-component-set-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker, returning the completed bounded repair under Lead Claude's 2026-10-20T04:16Z assignment. This is not independent verification or a cloud-worker grant.",
+  "grantsAsserted": [],
+  "grantBasis": "ACTIVE_ASSIGNMENTS.json at 0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f dispatches ms-nonconv-set to FIX02. The claim ledger at that base records released=true. No claim is asserted or changed here. The existing FIX02 grant is released.",
+  "rows": [
+    {
+      "itemId": "ms-nonconv-set",
+      "familyId": "ms-nonconv-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "COMPONENT_SET"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf16/rows-vf16-20261020-reverify-a6ace3c7d.json",
+          "sha256": "66004efdca652c62bc1b1ea4bf1524c01a543b68296c6795d6af6b431d96d46b",
+          "lane": "VF16",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "a6ace3c7de8280d30ecdcfcce042b70672866a82",
+          "failedObligationNames": [
+            "COMPONENT_SET"
+          ],
+          "preserved": true
+        }
+      ],
+      "actualDefect": {
+        "COMPONENT_SET": "Document level PASS: the current specification names five documents; rendered-artifacts.json maps them onto six rendered components (cover_and_contents, primary_filing, proposed_order, certificate_of_service, attachment, instructions) and every heading was read on both fixtures: cover and contents 1-2, petition 3-5, verification 6, proposed order 7-8, confidential addendum 9, certificate of service 10, exhibit checklist 11, filing instructions 12-13; requiredComponentsMissing=0 measured here; ms-filing-and-next-steps is rendered inside the specification's 'supersededBy supplemental_guide only until that guide is assembled' clause (no guide assembled). Section level, resolved since 1b48eb358: the proposed order carries CERTIFIED TRUE COPY (p8, the clerk_certification_block body) and CONFIDENTIAL MCIC IDENTIFIER ADDENDUM (p9, the confidential_identifier_addendum body with the identifier fields); the petition carries the Introduction (COMES NOW, p3), the pleading_identity_list (p4: name used at the time of arrest, aliases, date of birth, Social Security Number masked XXX-XX-...., date of arrest, arresting agency, agency number, charge, code section, classification, race, sex) and PRAYER FOR RELIEF (p5, naming the arresting agency and the other recordkeeping agencies as blanks); the VERIFICATION (p6) refers to the 'foregoing Petition for Expunction of Record' and the petition is headed PETITION FOR EXPUNCTION OF RECORD (p3); the petition (p3), order (p7) and certificate (p10) captions print 'Plaintiff name exactly as shown on the docket: ........' instead of fixed text. Section level FAILS on two residuals, identical on both fixtures: (1) the VERIFICATION caption (p6) still prints the fixed plaintiff 'STATE OF MISSISSIPPI' above 'v. <petitioner>, PETITIONER' under its own note 'Write the same court, county or city and cause number as the petition's caption'; the specification's case_caption_plaintiff_name use is 'docket-exact plaintiff name in every court caption', so a municipal-court participant whose petition caption names the city files a verification captioned to the State: this is the fourth of the four captions the 1b48eb358 read named (pages 3, 5, 6, 8 then), three of which the repair fixed. (2) The proposed order (p7-8) renders neither the declared 'Order identity' pleading_identity_list ('The record subject to this Order is identified as follows:', 0 occurrences) nor the declared 'Certified transmission' paragraph (the Clerk forwards a certified copy bearing the seal with the court-approved MCIC identifier material to MCIC, the arresting agency and the other custodians, the confidential addendum incorporated; 'forward a certified' occurs once, in the petition's prayer on p5, not in the order); the order's Relief refers to 'the record of the case described in the petition' where the specification's Relief says 'the record of the arrest and charge identified above in Case No.', and the petition's new prayer asks the Court to direct the Clerk to forward the certified sealed copy and the MCIC material while the tendered order directs nothing of the kind (Step NINE, p12, has the participant obtain certified copies and deliver them). User outcome: the public order as tendered identifies the record only by cause number and petitioner name and does not order the transmission the petition prays for. Not counted as defects: Opening, Findings, Relief and Records direction are rendered as narrative paragraphs with the specification's substance in other words (THIS CAUSE came before the Court … would find that the case falls within Sec. 99-19-71(4); IT IS THEREFORE ORDERED that the record … is expunged, and that every person and agency keeping an official record … shall expunge it; fingerprints excepted; MCIC nonpublic first-offender record; SO ORDERED / ENTERED with the judicial officer's blank)."
+      },
+      "correction": "The verification now uses the same docket-exact plaintiff blank as the other court captions. The proposed order renders the current specification's Order identity list and Certified transmission paragraph, preserving confidential MCIC identifier handling, participant-owned blanks and protected signature/notary acts.",
+      "repairCommits": {
+        "authored": {
+          "ad4729307": "ad472930779062845aa7f84eb47be1e4f148831e"
+        },
+        "note": "The repair is ad472930779062845aa7f84eb47be1e4f148831e; the packet bytes measured here are committed at ad472930779062845aa7f84eb47be1e4f148831e. Commit ids name implementation provenance only; the dispatch base is baseSha above and the historical verdict remains preserved."
+      },
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "3725e7fed27b39f793c276c7970af50b4168930fd9df2928ac405f4401a04cf9",
+          "byteLength": 38363,
+          "pageCount": 13,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes, without rastering or rebuilding",
+          "changed": true,
+          "sha256BeforeRepair": "04589f0ae71ab57553de34fb71f37f1a3069b3095395821b6b0779a1a7cdb740",
+          "byteLengthBeforeRepair": 36981,
+          "pageCountBeforeRepair": 13
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "f269cf1560dca98fd31be75cff9a95f3160360da20bca62e953e847bd95d076e",
+          "byteLength": 38705,
+          "pageCount": 13,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes, without rastering or rebuilding",
+          "changed": true,
+          "sha256BeforeRepair": "f13708bc24ba8fbd1800831d7bb53f1844ad810e95d19554c75803dfe412e404",
+          "byteLengthBeforeRepair": 37323,
+          "pageCountBeforeRepair": 13
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/completeness-counters.json at ad472930779062845aa7f84eb47be1e4f148831e, sha256 8d48a68a049396b81ba4cf70c2fa3365ef48bf8bddbfb0646cc62f25ded1b89a. These are the native builder's nine counters (all numeric zero), retained from the completed repair evidence; this row does not assert an independent PASS_COMPLETE or a new raster.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true
+    }
+  ]
+}

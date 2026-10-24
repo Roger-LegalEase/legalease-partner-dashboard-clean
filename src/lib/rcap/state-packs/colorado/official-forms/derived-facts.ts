@@ -43,5 +43,17 @@ export function deriveDocumentFacts(spec: ColoradoFormSpec): ColoradoFactSet {
 export function mergeFacts(spec: ColoradoFormSpec, participantFacts: ColoradoFactSet): ColoradoFactSet {
   const offending = Object.keys(participantFacts).filter((key) => key.startsWith(DERIVED_FACT_PREFIX));
   if (offending.length > 0) throw new DerivedFactOverrideError(offending.sort());
-  return { ...participantFacts, ...deriveDocumentFacts(spec) };
+  const combined = participantFacts["matter.division_or_courtroom"];
+  const division = participantFacts["matter.division"];
+  const courtroom = participantFacts["matter.courtroom"];
+  // The 2025 caption combines two owned facts; it does not parse a saved free-text address.
+  const reuseCaption = spec.documentId === "JDF-612" && spec.revision === "REV-2025-07-01"
+    && (combined === undefined || (typeof combined === "string" && combined.trim() === ""))
+    && typeof division === "string" && division.trim() !== ""
+    && typeof courtroom === "string" && courtroom.trim() !== "";
+  return {
+    ...participantFacts,
+    ...(reuseCaption ? { "matter.division_or_courtroom": `${division.trim()} / ${courtroom.trim()}` } : {}),
+    ...deriveDocumentFacts(spec),
+  };
 }

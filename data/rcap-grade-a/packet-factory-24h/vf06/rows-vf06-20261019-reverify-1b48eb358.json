@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF06",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "ms-misd-1st-set": "NOT_GRANTED: no independent-verification lane holds ms-misd-1st-set"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "ms-misd-1st-set",
+      "lane": "VF06",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set run in this session from inside /tmp/ci-queue-b18 at 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR=/tmp/ci-queue-b18/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and PYTHONDONTWRITEBYTECODE=1: PASS_COMPLETE, exit 0, every counter printed 0; git status unchanged before and after (only the untracked private/ mount)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across source-receipt, product-wiring, production-field-map, rendered-artifacts and the MASTER_QUEUE row, and all four declare the single key obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1 identically. The composed pages print that key as the Route: footer on pages 2, 4, 5, 6 and 8 of both fixtures (read from pdftotext output here; it wraps at its own hyphen and reconstructs whole). Legal design is the memo track ms-misd-1st, which is the track the key names."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Both compositionSources recomputed from disk here. (1) data/record-clearing/legal-design-intake/MS.memo.json: pinned 6982ae0c\u2026/395826 B, current 01c4a958\u2026/399654 B (drifted). Drift read object-for-object from drift/MS.memo.json.pinned.6982ae0c against the current file: the memo's non-track metadata (schemaVersion, jurisdiction, memoVersion, submittedAt) is identical, 9 tracks on both sides, and the ONLY track that changed is tracks[0] ms-nonconv (rules.notarization rewritten from 'None on the archived models\u2026' to 'Required\u2026', rules.researchParticipantText added, the verification/notarization unresolvedQuestion removed and carried into a new researchResolvedQuestions block). This family's own track tracks[1] ms-misd-1st is byte-identical under a recursive sorted-key compare \u2014 same rules (filing, fees, feeWaiver, service, notice, notarization 'None on the archived models. Unresolved statewide; a simple truth statement is used.'), same components, same six selfHelpStopConditions, same six unresolvedQuestions. Unrelated track only. New pin to record: 01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2 / 399654 B. (2) legal-design-packet-set-manifests.json: pinned b28edfb9\u2026/3708050 B, current fee93664\u2026/3738732 B (drifted). packetSets['ms-misd-1st-set'] is identical pinned\u2192current under a recursive sorted-key compare, the record's non-packetSets metadata is identical, 497 entries on both sides, and the only changed entries are co_motion_seal_conviction-set, co_petition_seal_arrest-set, de_discretionary_family_court-set, de_discretionary_superior_court-set, il-seal-edu-set, va_exp_absolute_pardon-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set \u2014 none of them this family. The receipt's identicalAnchorSha256 values reproduce exactly against the CURRENT record under the receipt's own canonicalisation (recordGlobalMetadata eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead; packetSet:ms-misd-1st-set a597634135939f887e5d21148d3df9136ea750aaaa0f78999c947b21964ecb5d). New pin to record: fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732 B. Not re-pinned here. No official source is bound (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialSources empty, MASTER_QUEUE officialFormFamily NONE), so nothing depends on the unmounted Master Library. Nothing this family binds has moved; the whole-file pins are stale and that is recorded, not repaired, here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Five declared components (primary_filing, proposed_order, certificate_of_service, attachment, instructions) equal the five rendered and the five composedComponentsAuthoredByThisBuild; each is present under its own heading in both fixtures in declared order (PETITION\u2026, PROPOSED ORDER OF EXPUNGEMENT, CERTIFICATE OF SERVICE, EXHIBIT CHECKLIST, FILING INSTRUCTIONS), matching the memo track's components list. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Every value reports/actual-writes.json records was searched for by this lane in the pdftotext text of its fixture (whitespace and line-wrap hyphens normalised): canonical 9/9, boundary 9/9, none missing. The five participant prefills (name, date of birth, mailing address, telephone, email) are on the petition face and the name repeats in every caption. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "participant-instructions.md names each document and who holds it \u2014 certified judgment of conviction, docket sheet and zero-balance account sheet from the records office of the convicting court, the participant's own criminal history from the Mississippi Criminal Information Center \u2014 which is the memo track's supportingDocuments list, and names every dotted blank on the petition, order and certificate with what to write and which record answers it. The EXHIBIT CHECKLIST page says the same and warns not to attach an indictment that does not exist. requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "selectionControls=0 in the field map; the only marks on the face are the two PETITIONER'S INITIALS lines (nontraffic, first offender) and the manner-of-delivery boxes on the certificate, all unmarked and expressly the petitioner's own. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "incompleteRows=0 measured here; the packet carries no repeating row structure (repeatingRows=0 in the field map)."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites=0 measured here and refusedFieldsWithInk is empty in both fixtures. On the extracted text the petitioner's signature, date and initials lines, the order's SO ORDERED / ENTERED / JUDICIAL OFFICER block, the APPROVED AS TO FORM block and the certificate's date, manner marks and signature are all dotted leaders or empty boxes, each with its printed statement that nothing is signed, dated or completed for the petitioner or the Court."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Two PDFs on disk, both recorded, no unrecorded PDF. Recomputed here: canonical.pdf 96ae8c01ec97fe34edd03ded7d05e6eae45f56117073dad4366472b1afbfafd0 / 21725 B, boundary.pdf 2303197372173345c588ccafa3db9a9e67d637ebf2b9cba656ff376fc739f563 / 21902 B, both equal to reports/rendered-artifacts.json; pdfinfo reads 8 pages for each, equal to the recorded 8."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read from the page headings of the bytes, not from a manifest: pages 1-2 petition, 3-4 proposed order, 5 certificate of service, 6 exhibit checklist, 7-8 filing instructions, identical on both fixtures, equal entry for entry to the pageManifest in rendered-artifacts.json. 8 pages read by pdfinfo = 8 recorded."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox run here on both fixtures: canonical 2031 words, boundary 2039 words, 0 words outside the 612x792 page box, 0 same-band overlapping word pairs. The hyphenated route key wraps at its own hyphen and no word is severed. visualDefects=0 measured here. The central RASTER_QUEUE row reads RASTER_PASS (run 33973869055); no raster was produced in this lane."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Step Six of the printed FILING INSTRUCTIONS: file the petition, proposed order and certificate \"with the court in which the conviction was had\"; Step One tells the participant to identify which of Mississippi's four trial courts that is, and Step Three to call that court's records office first. The memo track's destination is \"Clerk of the court of conviction\" and rules.filing says \"File with the clerk of the justice, county, circuit or municipal court in which the conviction was had.\" The instructions name the court the route names."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Scored under DET-FEE-AND-WAIVER-001. The held record does not establish the figure: the memo track's rules.fees reads \"No amount is published here\u2026\", and whether \u00a7 99-19-72's $150 fee reaches this petition is a release_blocker unresolvedQuestion in the same track. The packet therefore states, on page 7 and again under WHAT THIS PACKET DOES NOT TELL YOU, that \u00a7 99-19-72 levies a fee, that no amount is published and why, names the pauper's-affidavit route for a participant who cannot pay, and names the records office of the convicting court as the office that answers both. A named checkable authority stands in for a figure no held source establishes; no figure is invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Named rule on the face: page 5 CERTIFICATE OF SERVICE records delivery of the petition and proposed order to the prosecuting authority (district attorney for a circuit case; county or municipal prosecuting attorney otherwise) at a stated mailing address, by United States mail or hand delivery, completed only when the copy goes out; Step Seven repeats it and warns that for a municipal case it is the city prosecutor. This is the memo track's rules.service and rules.notice word for word in substance."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The memo track holds six selfHelpStopConditions; page 8 prints all six under WHEN TO STOP AND GET HELP INSTEAD OF FILING (uncertain first-offender status or any prior conviction; any prior expunged case; possible traffic violation; DUI; municipal conviction alongside justice-court convictions; non-citizen), each directing the participant to a lawyer or legal-aid office. The page also states what the packet will not tell them (fee amount, notarization, local forms) and that it is not legal advice, not filed for them and no promise of relief. 6/6 held stops carried; nothing inverted."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 9/37 written, all nine counters zero, run here at 1b48eb358",
+        "sourceRecomputation": "2/2 compositionSources recomputed from disk; 2 whole-file pins drifted (MS.memo.json 6982ae0c\u219201c4a958, manifests b28edfb9\u2192fee93664); 0 controlling entries changed \u2014 the ms-misd-1st track and the ms-misd-1st-set manifest entry are object-identical pinned\u2192current; current hashes recorded as the new pins, not re-pinned",
+        "artifactRecomputation": "2/2 PDFs hash and size to rendered-artifacts.json; pdfinfo page counts 8/8",
+        "byteReadBack": "18/18 recorded write values found by this lane in pdftotext output (9 canonical, 9 boundary)",
+        "stopConditions": "6/6 memo selfHelpStopConditions printed on page 8 of both fixtures",
+        "lapseResolved": "no lapse is recorded on the MASTER_QUEUE row (lapse null); nothing to resolve",
+        "compositionSourcesRecomputed": [
+          {
+            "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+            "pinnedSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+            "pinnedByteLength": 395826,
+            "currentSha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+            "currentByteLength": 399654,
+            "exact": false
+          },
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinnedSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "pinnedByteLength": 3708050,
+            "currentSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+            "currentByteLength": 3738732,
+            "exact": false
+          }
+        ]
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

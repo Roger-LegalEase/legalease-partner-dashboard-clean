@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-targeted-review-content-successor/v1",
+  "familyId": "rcap-nv-custom-pleading",
+  "whatThisIs": "Append-forward successor to the footer-rerender record for a reviewed content repair. It chains the pair on disk to the footer successor pair: the declared pages gain exactly the declared lines, nothing is removed, every other page is text- and pixel-identical. It grants nothing.",
+  "reviewer": "CI & Factory Claude (author QA of the measurement; not an independent post-repair approval)",
+  "reviewDate": "2026-10-20",
+  "predecessor": {
+    "record": "data/rcap-grade-a/nv-route-footer-rerender-2026-10-20/review.json",
+    "packetCommit": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+    "canonicalSha256": "aed030107fe36b8a4b96a6e9809db821dbed96910eac78487bf772546a1d9d30",
+    "boundarySha256": "94dc8ffb9b290c954e394aaf937f529126f02591bbdeef1f73e11870a43e292e"
+  },
+  "successor": {
+    "builder": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
+    "builderFlags": [
+      "--no-raster"
+    ],
+    "byteLengths": {
+      "canonical": 122233,
+      "boundary": 124444
+    },
+    "canonicalSha256": "d46f9ea6099cbfca5978f4da3474dde5bb7615928fbe01b6cf3902f610d4e5ec",
+    "pageCountEach": 44,
+    "boundarySha256": "6b37e72da6ef11dd14cc103bb21ac5920b060b410b855dc626fd7e8ce3154b3d"
+  },
+  "cause": {
+    "repairCommit": "f08d9eb386d967d5d87a527c95c77950e3e7fd49",
+    "requirement": "data/record-clearing/legal-design-specifications.json participantFilingRequirements: NV 'Verified criminal history from the Nevada Central Repository', requiredBeforeFiling true, for both special routes",
+    "regression": "scripts/rcap-packet-recovery/test-nv-special-routes.mjs assertRecordRequirement + negative control \"missing verified record\""
+  },
+  "admittedDelta": {
+    "kind": "text-insertion-only",
+    "pages": [
+      4,
+      17
+    ],
+    "insertedLines": [
+      "Before filing, obtain verified criminal history from the Nevada Central Repository. Submit an",
+      "Identification File Request for State of Nevada Records of Criminal History with fingerprints and the",
+      "records fee to the Nevada Department of Public Safety, Records, Communications and Compliance",
+      "Division. Ask that office whether the NRS 179.245(9) sex-trafficking record-fee waiver applies. Separate",
+      "records charges do not change the no-fee submission rules for these special routes."
+    ]
+  },
+  "comparison": {
+    "tool": "scripts/rcap-packet-recovery/verify-nv-footer-rerender.py --content-successor",
+    "dpi": 100,
+    "rule": "declared pages: exactly insertedLines added, none removed; every other page text- and pixel-identical"
+  },
+  "independentVerdictStillCovers": false,
+  "stillRequired": [
+    "Fresh central raster of the content-successor PDFs (owner dispatch) at a pushed commit carrying them.",
+    "A fresh independent read of the content-successor bytes: the selected PASS predates the inserted paragraph, so a RASTER_PASS alone must not return the family to PROVEN."
+  ],
+  "terminalPromotionGranted": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0
+}

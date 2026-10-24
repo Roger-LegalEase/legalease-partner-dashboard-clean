@@ -89,7 +89,9 @@ const SELF_WRITTEN = [
   "SOURCE_CONVEYOR_ASSIGNMENTS.json",
   "STALE_LANE_RETURNS.json"
 ];
-const isSelfWritten = (rel) => SELF_WRITTEN.some((n) => rel.endsWith(`/${n}`));
+// This inventory repeats original source locators; it supplies no independent evidence.
+const isSelfWritten = (rel) => SELF_WRITTEN.some((n) => rel.endsWith(`/${n}`))
+  || rel === "data/rcap-grade-a/source-custody/generator-preflight-20261013/manifest.json";
 const URL_RE = /https:\/\/[^\s"'\\)]+\.pdf/gi;
 const CORROBORATION_THRESHOLD = 2;
 

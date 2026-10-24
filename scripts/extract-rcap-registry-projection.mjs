@@ -18,6 +18,7 @@
 // changes nothing; the committed projection stays authoritative.
 
 import fs from "node:fs";
+import assert from "node:assert/strict";
 import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -141,6 +142,40 @@ const projection = {
   declaredTrackCount: blobs.registry.trackCount ?? null,
   tracks,
 };
+
+// Keep the imported crosswalk intact except for the measured current-form locator.
+const successorPath = "data/rcap-ledger/registry-crosswalk-projection-co-2025-successor.json";
+const successor = JSON.parse(fs.readFileSync(path.join(rootDir, successorPath), "utf8"));
+const digest = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
+const trackDigest = (track) => digest(JSON.stringify(track));
+assert.equal(successor.schemaVersion, 1);
+assert.equal(successor.trackId, "co_motion_seal_conviction");
+assert.equal(commit, successor.importRoot.commit, "CO successor import commit changed");
+assert.equal(sha256[SOURCES.registry], successor.importRoot.registrySha256, "CO successor import registry changed");
+assert.equal(successor.sourceCorrection.registryPath, SOURCES.registry);
+const correctionBytes = git(["show", `${successor.sourceCorrection.commit}:${SOURCES.registry}`]);
+assert.equal(digest(correctionBytes), successor.sourceCorrection.registrySha256, "CO successor correction identity changed");
+const correctedTrack = JSON.parse(correctionBytes).tracks.find((track) => track.trackId === successor.trackId);
+assert.equal(trackDigest(correctedTrack), successor.sourceCorrection.trackSha256);
+const currentTrack = JSON.parse(fs.readFileSync(path.join(rootDir, SOURCES.registry), "utf8"))
+  .tracks.find((track) => track.trackId === successor.trackId);
+assert.deepEqual(currentTrack, correctedTrack, "CO track no longer matches its measured correction");
+assert.equal(digest(fs.readFileSync(path.join(rootDir, successor.officialSource.path))), successor.officialSource.sha256,
+  "CO official source identity changed");
+const projectedTrack = projection.tracks.find((track) => track.trackId === successor.trackId);
+assert.equal(trackDigest(projectedTrack), successor.importRoot.projectedTrackSha256, "CO imported projection changed");
+const expected = structuredClone(projectedTrack);
+expected.mechanismExcerpt = expected.mechanismExcerpt.replace("section 8", "section 5");
+expected.scopedOutStatements[0].text = expected.scopedOutStatements[0].text.replace("section 8", "section 5");
+const correctedProjection = {
+  ...projectedTrack,
+  mechanismExcerpt: String(currentTrack.mechanism).slice(0, 1400),
+  scopedOutStatements: scopedOutStatements(currentTrack),
+};
+assert.deepEqual(correctedProjection, expected, "CO correction exceeds the two section locators");
+assert.equal(trackDigest(correctedProjection), successor.resultingProjectedTrackSha256);
+Object.assign(projectedTrack, correctedProjection);
+projection.source.successors = [{ path: successorPath, sha256: digest(fs.readFileSync(path.join(rootDir, successorPath))) }];
 
 const serialized = `${JSON.stringify(projection, null, 2)}\n`;
 

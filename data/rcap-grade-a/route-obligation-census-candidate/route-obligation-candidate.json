@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
+    "sourceFingerprint": "sha256:9db910fe7025c7435a3729dcbaf635a5dcabe56c3d43cb816a0dbcc49a6df906",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -15,32 +15,32 @@
   },
   "counts": {
     "totalJurisdictions": 51,
-    "totalStatutoryLegalTracks": 502,
+    "totalStatutoryLegalTracks": 503,
     "totalLegalTrackUnits": 113,
     "totalRuntimeRoutes": 344,
-    "totalEffectiveServiceBranches": 17,
-    "totalEffectiveFailureDispositions": 20,
+    "totalEffectiveServiceBranches": 18,
+    "totalEffectiveFailureDispositions": 22,
     "totalUnattachedDecisionRoutes": 2,
     "totalResearchDecisionRoutes": 7,
     "totalCurrentDecisionRoutes": 9,
     "totalCrosswalkFidelityConflicts": 2,
     "totalDecisionFidelityConflicts": 2,
     "totalRouteKindAdjudications": 40,
-    "pendingRouteKindAdjudications": 39,
-    "appliedRouteKindAdjudications": 1,
+    "pendingRouteKindAdjudications": 38,
+    "appliedRouteKindAdjudications": 2,
     "totalRuntimeAuthorityDecisions": 74,
     "totalRuntimeAuthorityContractAssociations": 148,
     "runtimeAuthorityContractsWithoutCandidate": 12,
     "runtimeAuthorityRouteKeyRegistryGaps": 14,
     "ownerApprovedCandidateRoutes": 80,
     "ownerApprovedPacketFamilyIds": 15,
-    "totalTypedSourceEntities": 1005,
-    "totalCanonicalObligations": 708,
-    "totalCanonicalEntities": 708,
-    "totalDistinctParticipantActionBranches": 497,
-    "possibleCategoryA": 444,
-    "possibleCategoryB": 171,
-    "needsLegalReview": 93,
+    "totalTypedSourceEntities": 1009,
+    "totalCanonicalObligations": 710,
+    "totalCanonicalEntities": 710,
+    "totalDistinctParticipantActionBranches": 498,
+    "possibleCategoryA": 446,
+    "possibleCategoryB": 168,
+    "needsLegalReview": 96,
     "duplicateAliases": 0,
     "pendingAliasInstructions": 1,
     "pendingCensusPacketFamilies": 4,
@@ -50,7 +50,7 @@
     "hiddenParticipantFilingBranches": 87,
     "rawRouteContracts": 151,
     "effectiveRouteContracts": 148,
-    "branchSelectionParentsReplaced": 2
+    "branchSelectionParentsReplaced": 3
   },
   "routes": [
     {
@@ -606,6 +606,42 @@
         "effective-route-contract:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:NATIONAL-2026-08-28-B-LA-03",
         "failure-disposition:la_985_3_timing_contested:retained_counsel",
         "runtime-authority-decision:NATIONAL-2026-08-28-B-LA-03:route=LA:immediate-expungement-after-successful-court-program-completion-art-985-3:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL:effective-note=Report disposition RELEASE — PACKET; contested timing to counsel. Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible who successfully completed a court-ordered programme. A contested displacement leaves the route for individualized advocacy."
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — Prior written request for a pre-2007 incident; timeliness is not established.",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "trackId": "md_10103_legacy_police",
+      "runtimePathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "routeContractId": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "processActor": "attorney or professional",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — attorney or qualified legal-assistance handoff",
+      "destination": "attorney or qualified legal-assistance referral",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/single-routes.json#MD:police-record-expungement-when-no-charge-was-filed-under-10-103"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_failure_disposition:retained_counsel",
+      "currentCommercialState": "FAILURE_DISPOSITION_NOT_COMMERCIAL_AUTHORITY",
+      "legalDecisionRecordIds": [
+        "LD-MD-03"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:LD-MD-03",
+        "failure-disposition:legacy-existing-request-help:retained_counsel",
+        "runtime-authority-decision:LD-MD-03:route=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE:effective-note=Do not display the 60-day agency processing period as a participant wait."
       ],
       "missingImplementationWork": [],
       "possibleCategory": "B_LEGITIMATE_EXCLUSION",
@@ -3311,10 +3347,10 @@
       "trackId": null,
       "runtimePathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "routeContractId": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
-      "processActor": "attorney or professional",
-      "participantCanInitiate": false,
-      "participantFacingInstrument": "no participant filing — attorney or qualified legal-assistance handoff",
-      "destination": "attorney or qualified legal-assistance referral",
+      "processActor": "not recorded — combined automatic BCA and Cannabis Expungement Board mechanisms",
+      "participantCanInitiate": null,
+      "participantFacingInstrument": "not recorded — current route combines automatic and Board-review treatments",
+      "destination": "not recorded — exact automatic and Board-review destinations require separate identities",
       "currentOutputStrategy": "process_guidance",
       "packetFamilyId": null,
       "packetSetId": null,
@@ -3335,14 +3371,15 @@
         "launch-graph:operationallySellable=false",
         "route-contract:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247:LD-NV-04:referral",
         "runtime-authority-decision:LD-NV-04:route=NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET:effective-note=Do not transplant NRS 176A.245/.265/.295 timing into NRS 176.211.",
-        "runtime-service-disposition:paid_packet_intended"
+        "runtime-service-disposition:paid_packet_intended",
+        "unadopted-closure-contradiction:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247:proposal-authority=null:decidedOn=null"
       ],
       "missingImplementationWork": [],
-      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
-      "possibleCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "possibleCategory": "NEEDS_LEGAL_REVIEW",
+      "possibleCategoryBReason": null,
       "classificationConfidence": "high",
-      "requiresLegalReview": false,
-      "legalReviewQuestion": null
+      "requiresLegalReview": true,
+      "legalReviewQuestion": "Must NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?"
     },
     {
       "routeKey": "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
@@ -3544,9 +3581,6 @@
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json#path-k-human-trafficking-vacatur-expungement",
         "crosswalk:unregistered_relief_mechanism_registry_gap",
         "route-contract:PA:path-k-human-trafficking-vacatur-expungement:LD-PA-03:guidance_status",
-        "route-kind-adjudication:pending:PA:path-k-human-trafficking-vacatur-expungement:LD-PA-03",
-        "route-kind-contract-evidence:PA:path-k-human-trafficking-vacatur-expungement:outcomeMode participant_packet, packetFamily \"Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet\", statute 18 Pa.C.S. § 3019",
-        "route-kind-evaluator-evidence:PA:path-k-human-trafficking-vacatur-expungement:not a user-filed court petition:prior=guidance_only:conclusive=true",
         "runtime-authority-decision:LD-PA-03:route=PA:path-k-human-trafficking-vacatur-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=ROUTE-SPECIFIC COURT EXPUNGEMENT OR VACATUR PACKET:effective-note=ARD completion and dismissal are distinct facts and should both be captured.",
         "runtime-service-disposition:product_scope_exclusion"
       ],
@@ -3761,10 +3795,10 @@
       "trackId": null,
       "runtimePathwayId": "juvenile-trafficking-expungement",
       "routeContractId": "SD:juvenile-trafficking-expungement",
-      "processActor": "attorney or professional",
-      "participantCanInitiate": false,
-      "participantFacingInstrument": "no participant filing — attorney or qualified legal-assistance handoff",
-      "destination": "attorney or qualified legal-assistance referral",
+      "processActor": "not recorded — combined automatic BCA and Cannabis Expungement Board mechanisms",
+      "participantCanInitiate": null,
+      "participantFacingInstrument": "not recorded — current route combines automatic and Board-review treatments",
+      "destination": "not recorded — exact automatic and Board-review destinations require separate identities",
       "currentOutputStrategy": "process_guidance",
       "packetFamilyId": null,
       "packetSetId": null,
@@ -3785,14 +3819,15 @@
         "launch-graph:operationallySellable=false",
         "route-contract:SD:juvenile-trafficking-expungement:LD-SD-02:referral",
         "runtime-authority-decision:LD-SD-02:route=SD:juvenile-trafficking-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=JUVENILE TRAFFICKING PETITION OR SIS STATUS/CORRECTION GUIDANCE:effective-note=Do not preserve the prior blanket attorney-referral treatment for an otherwise complete § 26-7A-115.1 intake.",
-        "runtime-service-disposition:paid_packet_intended"
+        "runtime-service-disposition:paid_packet_intended",
+        "unadopted-closure-contradiction:SD:juvenile-trafficking-expungement:proposal-authority=null:decidedOn=null"
       ],
       "missingImplementationWork": [],
-      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
-      "possibleCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "possibleCategory": "NEEDS_LEGAL_REVIEW",
+      "possibleCategoryBReason": null,
       "classificationConfidence": "high",
-      "requiresLegalReview": false,
-      "legalReviewQuestion": null
+      "requiresLegalReview": true,
+      "legalReviewQuestion": "Must SD:juvenile-trafficking-expungement be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?"
     },
     {
       "routeKey": "obligation:runtime-only:UT:path-k-pardon-based-expungement",
@@ -4357,6 +4392,55 @@
       "missingImplementationWork": [],
       "possibleCategory": "B_LEGITIMATE_EXCLUSION",
       "possibleCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — Pre-October 1, 2007 incident: historical request mechanism only; no current new entry.",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "trackId": "md_10103_legacy_police",
+      "runtimePathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "routeContractId": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "processActor": "participant",
+      "participantCanInitiate": true,
+      "participantFacingInstrument": "Pre-October 1, 2007 incident: historical request mechanism only; no current new entry. (participant_agency_application)",
+      "destination": {
+        "kind": "agency",
+        "name": "The law enforcement unit holding the record, then the District Court on denial",
+        "detail": "Stage 1 is an agency request; stage 2 is a District Court application on DC-CR-071. Neither stage is enterable, because the statutory 8-year request window has closed."
+      },
+      "currentOutputStrategy": "participant_agency_application",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/single-routes.json#MD:police-record-expungement-when-no-charge-was-filed-under-10-103"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:agency_application",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-MD-03"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:LD-MD-03",
+        "failure-disposition:legacy-new-entry-closed:implementation_tracking",
+        "merged-exact-selector:[\"date_before\",\"arrest_date\",\"2007-10-01\"]",
+        "runtime-authority-decision:LD-MD-03:route=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE:effective-note=Do not display the 60-day agency processing period as a participant wait.",
+        "service-branch:agency-request:agency_application"
+      ],
+      "missingImplementationWork": [
+        "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
+        "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
+        "Implement the participant-facing agency application workflow without representing it as a court petition.",
+        "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
+        "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
+        "Wire the explicit route-contract service branch independently from its parent outcome."
+      ],
+      "possibleCategory": "A_MUST_FULFILL",
+      "possibleCategoryBReason": null,
       "classificationConfidence": "high",
       "requiresLegalReview": false,
       "legalReviewQuestion": null
@@ -6385,7 +6469,7 @@
       "routeContractId": null,
       "processActor": "court",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: JDF-477; proposed_order: JDF-478",
+      "participantFacingInstrument": "primary_filing: JDF-477; proposed_order: JDF-478; required_filing: co_motion_seal_nonconviction-notice-3; proposed_order: co_motion_seal_nonconviction-second-order-4",
       "destination": {
         "kind": "court",
         "name": "The court that handled the underlying case",
@@ -6771,7 +6855,7 @@
         "detail": "Court-controlled, with a clerk intake step through the Criminal Division Seal Team."
       },
       "currentOutputStrategy": "custom_pleading",
-      "packetFamilyId": null,
+      "packetFamilyId": "dc_correct_misattributed_arrest-set",
       "packetSetId": "dc_correct_misattributed_arrest-set",
       "requiredSourceIds": [
         "packet-spec-source:DC-HOW-TO-SEAL-OR-EXPUNGE-YOUR-CRIMINAL-RECOR",
@@ -6783,11 +6867,13 @@
       "existingArtifactIds": [],
       "currentServiceDisposition": "missing_from_compiled_runtime",
       "currentCommercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
-      "legalDecisionRecordIds": [],
+      "legalDecisionRecordIds": [
+        "DC-MISATTRIBUTED-ARREST-UNTRANSCRIBED-COMPONENT-2026-09-21"
+      ],
       "currentImplementationEvidence": [
         "authority-ledger:source_pinning:source_pinning",
         "legal-design:legal_design_approved_with_limitations",
-        "packet-specification:data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json#dc-correct-misattributed-arrest:historical=true",
+        "packet-specification:data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json#dc-correct-misattributed-arrest:historical=false",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
       ],
       "missingImplementationWork": [
@@ -6943,7 +7029,7 @@
       "routeContractId": null,
       "processActor": "court",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: FORM-281; continuation: FORM-281E; cover_sheet: de_discretionary_family_court-cover-sheet-3",
+      "participantFacingInstrument": "primary_filing: FORM-281; continuation: FORM-281E; proposed_order: FORM-283; cover_sheet: de_discretionary_family_court-cover-sheet-3",
       "destination": {
         "kind": "court",
         "name": "Family Court of the State of Delaware",
@@ -7987,7 +8073,7 @@
       "routeContractId": null,
       "processActor": "clerk",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: EXP-AD Request; attachment: EXP-AD Case List; proposed_order: EXP-AD Order Granting; fee_waiver: FW-CIV-APPLICATION",
+      "participantFacingInstrument": "primary_filing: EXP-AD Request; attachment: EXP-AD Case List; proposed_order: EXP-AD Order Granting; proposed_order: EXP-AD Order Denying; fee_waiver: FW-CIV-APPLICATION; proposed_order: FW-CIV-ORDER",
       "destination": {
         "kind": "clerk",
         "name": "Circuit clerk of the county of arrest or charge",
@@ -9997,7 +10083,7 @@
       "routeContractId": null,
       "processActor": "clerk",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: AOC-CR-287; instructions: AOC-CR-287-INSTRUCTIONS; fee_waiver: AOC-CV-226; participant_instructions: nc_146_dismissal_petition-participant-instructions-4; district_attorney_alternative_filing: AOC-CR-295",
+      "participantFacingInstrument": "primary_filing: AOC-CR-287; instructions: AOC-CR-287-INSTRUCTIONS; fee_waiver: AOC-G-106; participant_instructions: nc_146_dismissal_petition-participant-instructions-4; district_attorney_alternative_filing: AOC-CR-295; supplemental_financial_affidavit: AOC-CV-226",
       "destination": {
         "kind": "clerk",
         "name": "Clerk of superior court, county where the charge was brought",
@@ -13766,7 +13852,8 @@
         "Draft or complete the exact official-form field map for every required official form or companion.",
         "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-        "Obtain completed-output legal approval for the exact packet family; this census creates no approval."
+        "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
+        "Record and test each local filing, fee, venue, or delivery variation."
       ],
       "possibleCategory": "A_MUST_FULFILL",
       "possibleCategoryBReason": null,
@@ -14356,6 +14443,49 @@
       "classificationConfidence": "low",
       "requiresLegalReview": true,
       "legalReviewQuestion": "Does human-trafficking-victim-vacatur-w-s-6-2-708 contain a participant-initiated self-help filing, or only guidance for a process controlled by not recorded?"
+    },
+    {
+      "routeKey": "obligation:track-only:WY:wy_traffick_6_2_708",
+      "jurisdiction": "WY",
+      "publicLabel": "Human-trafficking victim vacatur — W.S. 6-2-708",
+      "statuteOrAuthority": "not recorded",
+      "trackId": "wy_traffick_6_2_708",
+      "runtimePathwayId": null,
+      "routeContractId": null,
+      "processActor": "court",
+      "participantCanInitiate": true,
+      "participantFacingInstrument": "composed pleading for wy_traffick_6_2_708",
+      "destination": {
+        "kind": "court",
+        "name": "The Wyoming court that entered the conviction",
+        "detail": "The person convicted files a custom Motion to Vacate Conviction under Wyo. Stat. § 6-2-708(c) under the original case caption in the court where the conviction was entered. The custom title implements the statutory motion; Wyoming publishes no form with that title. Recorded 2026-09-06 from the research handoff."
+      },
+      "currentOutputStrategy": "custom_pleading",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "not_represented_in_runtime",
+      "currentCommercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+      "legalDecisionRecordIds": [],
+      "currentImplementationEvidence": [
+        "legal-design:undefined",
+        "runtime:design approval is not output approval"
+      ],
+      "missingImplementationWork": [
+        "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
+        "Add an exact runtime representation or record an approved exclusion; the legal-design track is not represented in compiled runtime.",
+        "Create an exact packet-family and packet-set identity or an explicit composed-pleading treatment.",
+        "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
+        "Implement or confirm the composed pleading and every required companion component.",
+        "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
+        "Obtain completed-output legal approval for the exact packet family; this census creates no approval."
+      ],
+      "possibleCategory": "A_MUST_FULFILL",
+      "possibleCategoryBReason": null,
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
     },
     {
       "routeKey": "obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
@@ -15174,8 +15304,8 @@
         "source-url:https://www.azleg.gov/arsDetail/?title=13"
       ],
       "existingArtifactIds": [],
-      "currentServiceDisposition": "not_recorded_in_sellable_closure",
-      "currentCommercialState": "NO_GRADE_A_FULFILLMENT_RECORD",
+      "currentServiceDisposition": "paid_packet_intended",
+      "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
       "legalDecisionRecordIds": [
         "LEGAL-DESIGN-2026-07-30-AZ-01"
       ],
@@ -15183,19 +15313,24 @@
         "authority-ledger:implementation:implementation",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/AZ-arizona.json#notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
         "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "route-contract-packet-family-label:Arizona Petition for Notation of Clearance under § 13-4051",
         "route-contract:AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051:LEGAL-DESIGN-2026-07-30-AZ-01:participant_packet",
+        "route-kind-adjudication:pending:AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051:LEGAL-DESIGN-2026-07-30-AZ-01",
+        "route-kind-contract-evidence:AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051:outcomeMode participant_packet, packetFamily \"Arizona Petition for Notation of Clearance under § 13-4051\", statute Ariz. Rev. Stat. § 13-4051",
+        "route-kind-evaluator-evidence:AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051:not a user-filed court petition:prior=needs_more_info:conclusive=false",
         "runtime-authority-decision:LEGAL-DESIGN-2026-07-30-AZ-01:route=AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=SUPERIOR COURT PETITION PACKET:effective-note=A.R.S. § 13-4051 states no waiting period and no filing deadline. It is a notation of clearance, not a sealing under § 13-911, not a set-aside under § 13-905 and not a marijuana expungement under § 36-2862; none of those pathways may serve it and it may not serve them.",
+        "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
       ],
       "missingImplementationWork": [
         "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
+        "Complete product wiring for the pending contract-versus-evaluator route-kind adjudication and verify that the participant-facing result presents the exact contract packet without creating commercial authority.",
         "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
         "Implement or confirm the composed pleading and every required companion component.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-        "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-        "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
+        "Obtain completed-output legal approval for the exact packet family; this census creates no approval."
       ],
       "possibleCategory": "A_MUST_FULFILL",
       "possibleCategoryBReason": null,
@@ -15307,8 +15442,8 @@
         "source-url:https://selfhelp.courts.ca.gov/find-forms"
       ],
       "existingArtifactIds": [],
-      "currentServiceDisposition": "not_recorded_in_sellable_closure",
-      "currentCommercialState": "NO_GRADE_A_FULFILLMENT_RECORD",
+      "currentServiceDisposition": "paid_packet_intended",
+      "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
       "legalDecisionRecordIds": [
         "LEGAL-DESIGN-2026-07-30-CA-01"
       ],
@@ -15316,10 +15451,12 @@
         "authority-ledger:authority_clearance:authority_clearance",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CA-california.json#dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
         "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "route-contract-packet-family-label:California CR-180 box 3 petition for dismissal under § 1203.4a",
         "route-contract:CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a:LEGAL-DESIGN-2026-07-30-CA-01:participant_packet",
         "runtime-authority-decision:LEGAL-DESIGN-2026-07-30-CA-01:route=CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=JUDICIAL COUNCIL FORM PACKET (CR-180 BOX 3):effective-note=Operative 1 January 2023 as amended by SB 1106 (2022). The one-year period runs from the conviction and must not be confused with the probation-completion clock of § 1203.4; the § 1203.4a(f) fifteen-day prosecutor notice on an infraction is a court notice period and never a participant eligibility clock.",
+        "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
         "source-relationship:ca-1203-4a-primary-filing-1:unchecked",
         "source-relationship:ca-1203-4a-proof-of-service-3:unchecked",
@@ -15333,8 +15470,7 @@
         "Implement or confirm the composed pleading and every required companion component.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
         "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-        "Record and test each local filing, fee, venue, or delivery variation.",
-        "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
+        "Record and test each local filing, fee, venue, or delivery variation."
       ],
       "possibleCategory": "A_MUST_FULFILL",
       "possibleCategoryBReason": null,
@@ -15663,7 +15799,7 @@
       "routeContractId": null,
       "processActor": "court",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: JDF-612; proposed_order: JDF-615; required_filing: co_motion_seal_conviction-notice-3; proposed_order: co_motion_seal_conviction-second-order-4",
+      "participantFacingInstrument": "primary_filing: JDF-612; proposed_order: JDF-615; required_filing: JDF-614; proposed_order: JDF-613; conditional_filing: co_motion_seal_conviction-jdf-205-206-fee-waiver-5",
       "destination": {
         "kind": "court",
         "name": "The court where the conviction records are located, in the existing criminal case",
@@ -15723,7 +15859,7 @@
       "routeContractId": null,
       "processActor": "court",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: JDF-417; proposed_order: JDF-417-ORDER; required_filing: co_petition_seal_arrest-jdf-419-3; required_filing: co_petition_seal_arrest-jdf-435-4; conditional_filing: co_petition_seal_arrest-jdf-205-206-fee-waiver-5",
+      "participantFacingInstrument": "primary_filing: JDF-417; proposed_order: JDF-417-ORDER; required_filing: JDF-419; required_filing: JDF-435; conditional_filing: co_petition_seal_arrest-jdf-205-206-fee-waiver-5",
       "destination": {
         "kind": "court",
         "name": "District court of the district where the arrest and criminal-record information is located",
@@ -15904,8 +16040,8 @@
         "source-url:https://portal.ct.gov/cleanslate/petition-for-cannabis-erasure"
       ],
       "existingArtifactIds": [],
-      "currentServiceDisposition": "not_recorded_in_sellable_closure",
-      "currentCommercialState": "NO_GRADE_A_FULFILLMENT_RECORD",
+      "currentServiceDisposition": "paid_packet_intended",
+      "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
       "legalDecisionRecordIds": [
         "LEGAL-DESIGN-2026-07-30-CT-01"
       ],
@@ -15913,10 +16049,12 @@
         "authority-ledger:source_pinning:source_pinning",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CT-connecticut.json#petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
         "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "route-contract-packet-family-label:Connecticut § 54-142v petition for erasure of cannabis conviction records",
         "route-contract:CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v:LEGAL-DESIGN-2026-07-30-CT-01:participant_packet",
         "runtime-authority-decision:LEGAL-DESIGN-2026-07-30-CT-01:route=CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=SUPERIOR COURT PETITION PACKET (NO OFFICIAL FORM):effective-note=C.G.S. § 54-142v states no waiting period. It is the petition branch; the automatic branch is § 54-142u and is already represented by CT:cannabis-conviction-erasure, which the E4-R2 crosswalk resolution adjudication binds to track ct-cannabis-auto. Neither branch may serve the other, and § 54-142d decriminalised conduct is a third mechanism served by neither.",
+        "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
       ],
       "missingImplementationWork": [
@@ -15925,8 +16063,7 @@
         "Implement or confirm the composed pleading and every required companion component.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
         "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-        "Record and test each local filing, fee, venue, or delivery variation.",
-        "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
+        "Record and test each local filing, fee, venue, or delivery variation."
       ],
       "possibleCategory": "A_MUST_FULFILL",
       "possibleCategoryBReason": null,
@@ -16203,17 +16340,17 @@
         "grade-a-filing-artifact-sha256:d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
         "grade-a-fixture:DC:dc_actual_innocence_expungement_16_803:sha256:7d11ef42af635b79be1e9ad77c05d6a08099caa1b31a07dd86b6052caed49ab5",
         "grade-a-output-artifact-sha256:d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
-        "grade-a-packet-specification:dc-actual-innocence-expungement:sha256:a66e9b44315db4cfcbbb103630e210c3a43ffd4bfac6d2a8049bbe208b38d0c8"
+        "grade-a-packet-specification:dc-actual-innocence-expungement:sha256:b91addb76b035b337e2e80bdb4728ac16eaf55233ed328c64e36e963b8d23bcd"
       ],
       "currentServiceDisposition": "paid_packet_intended",
-      "currentCommercialState": "GRADE_A_COMPLETE_PACKET_PROVEN_COMMERCIALLY_ELIGIBLE",
+      "currentCommercialState": "GRADE_A_STALE_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [],
       "currentImplementationEvidence": [
         "authority-ledger:source_pinning:source_pinning",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json#dc_actual_innocence_expungement_16_803",
         "crosswalk:direct_runtime_representation",
         "grade-a-commercial-disposition:grade-a-dc-dc_actual_innocence_expungement_16_803-v1:paid_packet_intended",
-        "grade-a-projection:COMPLETE_PACKET_PROVEN:commercially_eligible",
+        "grade-a-projection:STALE:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "packet-specification:data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json#dc-actual-innocence-expungement:historical=false",
@@ -16438,7 +16575,7 @@
       "routeContractId": null,
       "processActor": "court",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: CIV_EXP_02_A; continuation: CIV_EXP_02_B; proposed_order: CIV_EXP_04_A; cover_sheet: de_discretionary_superior_court-cover-sheet-4",
+      "participantFacingInstrument": "primary_filing: CIV_EXP_02_A; continuation: CIV_EXP_02_B; proposed_order: CIV_EXP_04_A",
       "destination": {
         "kind": "court",
         "name": "Superior Court of the State of Delaware, Prothonotary",
@@ -18641,13 +18778,13 @@
         "source-url:https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=350&ChapterID=5"
       ],
       "existingArtifactIds": [
-        "grade-a-filing-artifact-sha256:7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+        "grade-a-filing-artifact-sha256:d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
         "grade-a-fixture:IL:felony-prostitution-relief:sha256:e206bbd41e54f9dfb14c07c7bdc99e34851ae8ffcb6e4cabb527064eec858a83",
-        "grade-a-output-artifact-sha256:7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+        "grade-a-output-artifact-sha256:d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
         "grade-a-packet-specification:il-felony-prostitution-relief:sha256:7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa"
       ],
       "currentServiceDisposition": "paid_packet_intended",
-      "currentCommercialState": "GRADE_A_REVOKED_NOT_COMMERCIALLY_ELIGIBLE",
+      "currentCommercialState": "GRADE_A_STALE_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [
         "LD-IL-04"
       ],
@@ -18657,7 +18794,7 @@
         "completed-output-counsel-family:rcap-il-guidance-implementation:approved_by_decision_owner",
         "crosswalk:direct_runtime_representation",
         "grade-a-commercial-disposition:grade-a-il-felony-prostitution-relief-v1:paid_packet_intended",
-        "grade-a-projection:REVOKED:not_commercially_eligible",
+        "grade-a-projection:STALE:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "multi-track-runtime-edge:per-track-treatment-preserved:il-prostitution-j-auto",
@@ -18708,13 +18845,13 @@
         "source-url:https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=350&ChapterID=5"
       ],
       "existingArtifactIds": [
-        "grade-a-filing-artifact-sha256:7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+        "grade-a-filing-artifact-sha256:d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
         "grade-a-fixture:IL:felony-prostitution-relief:sha256:e206bbd41e54f9dfb14c07c7bdc99e34851ae8ffcb6e4cabb527064eec858a83",
-        "grade-a-output-artifact-sha256:7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+        "grade-a-output-artifact-sha256:d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
         "grade-a-packet-specification:il-felony-prostitution-relief:sha256:7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa"
       ],
       "currentServiceDisposition": "paid_packet_intended",
-      "currentCommercialState": "GRADE_A_REVOKED_NOT_COMMERCIALLY_ELIGIBLE",
+      "currentCommercialState": "GRADE_A_STALE_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [
         "LD-IL-04"
       ],
@@ -18723,7 +18860,7 @@
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/IL-illinois.json#felony-prostitution-relief",
         "crosswalk:direct_runtime_representation",
         "grade-a-commercial-disposition:grade-a-il-felony-prostitution-relief-v1:paid_packet_intended",
-        "grade-a-projection:REVOKED:not_commercially_eligible",
+        "grade-a-projection:STALE:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "multi-track-runtime-edge:per-track-treatment-preserved:il-prostitution-j-vacate",
@@ -19495,6 +19632,9 @@
         "packet-specification:data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json#ks-municipal-arrest-record-expungement-under-12-4516a:historical=true",
         "route-contract-packet-family-label:Kansas Municipal Arrest Record Expungement Petition under § 12-4516a",
         "route-contract:KS:municipal-arrest-record-expungement-under-12-4516a:LEGAL-DESIGN-2026-08-02-KS-02:participant_packet",
+        "route-kind-adjudication:applied:KS:municipal-arrest-record-expungement-under-12-4516a:LEGAL-DESIGN-2026-08-02-KS-02",
+        "route-kind-contract-evidence:KS:municipal-arrest-record-expungement-under-12-4516a:outcomeMode participant_packet, packetFamily \"Kansas Municipal Arrest Record Expungement Petition under § 12-4516a\", statute Kan. Stat. Ann. § 12-4516a",
+        "route-kind-evaluator-evidence:KS:municipal-arrest-record-expungement-under-12-4516a:not a user-filed court petition:prior=guidance_only:conclusive=true",
         "runtime-authority-decision:LEGAL-DESIGN-2026-08-02-KS-02:route=KS:municipal-arrest-record-expungement-under-12-4516a:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=MUNICIPAL COURT PETITION PACKET:effective-note=K.S.A. 12-4516a states no waiting period. A state-law arrest runs under K.S.A. 22-2410 in the district court, and a municipal conviction or fulfilled diversion runs under K.S.A. 12-4516; neither may be served here.",
         "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
@@ -20132,8 +20272,8 @@
         "source-url:https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf"
       ],
       "existingArtifactIds": [],
-      "currentServiceDisposition": "not_recorded_in_sellable_closure",
-      "currentCommercialState": "NO_GRADE_A_FULFILLMENT_RECORD",
+      "currentServiceDisposition": "paid_packet_intended",
+      "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
       "legalDecisionRecordIds": [
         "LEGAL-DESIGN-2026-08-06-KY-01",
         "LWD-2026-08-29-KY-218A-276",
@@ -20143,10 +20283,12 @@
         "authority-ledger:authority_clearance:authority_clearance",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/KY-kentucky.json#void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
         "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "route-contract-packet-family-label:Kentucky KRS 218A.276 motion to void and seal, with AOC-334 tendered as the proposed order",
         "route-contract:KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276:LEGAL-DESIGN-2026-08-06-KY-01:participant_packet",
         "runtime-authority-decision:LEGAL-DESIGN-2026-08-06-KY-01:route=KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=CIRCUIT COURT MOTION PACKET WITH AOC-334 PROPOSED ORDER:effective-note=Effective 2012-04-11. Void-and-seal turns on completion of treatment, probation or sentence and carries no independent elapsed period; it is available once in a lifetime and reaches only the three KRS 218A.276(1) possession offences. The KRS 431.078 and KRS 431.073 expungement clocks are different mechanisms and may not be imported.",
+        "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
         "source-relationship:ky_void_seal_marijuana_synthetic_salvia-proposed-order-2:unchecked"
       ],
@@ -20155,8 +20297,7 @@
         "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
         "Implement or confirm the composed pleading and every required companion component.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-        "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-        "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
+        "Obtain completed-output legal approval for the exact packet family; this census creates no approval."
       ],
       "possibleCategory": "A_MUST_FULFILL",
       "possibleCategoryBReason": null,
@@ -21335,14 +21476,10 @@
       "trackId": "ma-expunge-mj",
       "runtimePathwayId": "marijuana-only-expungement",
       "routeContractId": "MA:marijuana-only-expungement",
-      "processActor": "clerk",
+      "processActor": "not recorded — combined automatic BCA and Cannabis Expungement Board mechanisms",
       "participantCanInitiate": null,
-      "participantFacingInstrument": "no filing — process guidance: Marijuana-only expungement",
-      "destination": {
-        "kind": "clerk",
-        "name": "Clerk's office of the court connected to the record",
-        "detail": "The court shall order expungement within 30 days of filing. This is the only hard deadline on a Massachusetts court in the chapter."
-      },
+      "participantFacingInstrument": "not recorded — current route combines automatic and Board-review treatments",
+      "destination": "not recorded — exact automatic and Board-review destinations require separate identities",
       "currentOutputStrategy": "process_guidance",
       "packetFamilyId": null,
       "packetSetId": null,
@@ -21371,20 +21508,18 @@
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "route-contract:MA:marijuana-only-expungement:LD-MA-02:guidance_status",
-        "route-kind-adjudication:pending:MA:marijuana-only-expungement:LD-MA-02",
-        "route-kind-contract-evidence:MA:marijuana-only-expungement:outcomeMode participant_packet, packetFamily \"Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼\", statute Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
-        "route-kind-evaluator-evidence:MA:marijuana-only-expungement:not a user-filed court petition:prior=needs_more_info:conclusive=false",
         "runtime-authority-decision:LD-MA-02:route=MA:marijuana-only-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT SEALING/EXPUNGEMENT PACKET:effective-note=Never apply § 100A's conviction-sealing waits to § 100C nonconvictions or the special marijuana route.",
         "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
-        "source-relationship:ma-expunge-mj-primary-filing-1:unchecked"
+        "source-relationship:ma-expunge-mj-primary-filing-1:unchecked",
+        "unadopted-closure-contradiction:MA:marijuana-only-expungement:proposal-authority=null:decidedOn=null"
       ],
       "missingImplementationWork": [],
       "possibleCategory": "NEEDS_LEGAL_REVIEW",
       "possibleCategoryBReason": null,
       "classificationConfidence": "high",
       "requiresLegalReview": true,
-      "legalReviewQuestion": "Which expressly identified actor controls the no-filing guidance pathway marijuana-only-expungement?"
+      "legalReviewQuestion": "Must MA:marijuana-only-expungement be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?"
     },
     {
       "routeKey": "obligation:track-pathway:MA:ma-seal-admin:adult-conviction-sealing-under-m-g-l-c-276-100a",
@@ -21562,60 +21697,6 @@
       "classificationConfidence": "high",
       "requiresLegalReview": false,
       "legalReviewQuestion": null
-    },
-    {
-      "routeKey": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "jurisdiction": "MD",
-      "publicLabel": "Clearing police records from an arrest before October 2007",
-      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103; Md. Rule 4-503.3; Md. Rule 4-503.4",
-      "trackId": "md_10103_legacy_police",
-      "runtimePathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "routeContractId": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "processActor": "agency",
-      "participantCanInitiate": true,
-      "participantFacingInstrument": "no filing — process guidance",
-      "destination": {
-        "kind": "agency",
-        "name": "The law enforcement unit holding the record, then the District Court on denial",
-        "detail": "Stage 1 is an agency request; stage 2 is a District Court application on DC-CR-071. Neither stage is enterable, because the statutory 8-year request window has closed."
-      },
-      "currentOutputStrategy": "process_guidance",
-      "packetFamilyId": "rcap-md-guidance-implementation",
-      "packetSetId": "md_10103_legacy_police-set",
-      "requiredSourceIds": [
-        "compiled-profile:src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
-        "compiled-source-ref:section:181-196; section:9-28; section:39-52; overview:9-28; corpus-unit:9; corpus-unit:29; corpus-unit:66; corpus-unit:4",
-        "route-contract:src/lib/legal-authority/routes/single-routes.json#MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
-        "source-url:https://mdcourts.gov/legalhelp/expungement",
-        "source-url:https://mdcourts.gov/rules",
-        "source-url:https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105"
-      ],
-      "existingArtifactIds": [],
-      "currentServiceDisposition": "paid_packet_intended",
-      "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
-      "legalDecisionRecordIds": [
-        "LD-MD-03"
-      ],
-      "currentImplementationEvidence": [
-        "authority-ledger:implementation:implementation",
-        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MD-maryland.json#police-record-expungement-when-no-charge-was-filed-under-10-103",
-        "completed-output-counsel-family:rcap-md-guidance-implementation:approved_by_decision_owner",
-        "crosswalk:direct_runtime_representation",
-        "exact-mechanism-conflict:track=md_10103_legacy_police:track-treatment=process_guidance:contract=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:contract-outcome=agency_application",
-        "launch-graph:operationallySellable=false",
-        "legal-design:legal_design_approved_with_limitations",
-        "route-contract-packet-family-label:Maryland § 10-103 Written Request to the Police Agency",
-        "route-contract:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:LD-MD-03:agency_application",
-        "runtime-authority-decision:LD-MD-03:route=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE:effective-note=Do not display the 60-day agency processing period as a participant wait.",
-        "runtime-service-disposition:paid_packet_intended",
-        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
-      ],
-      "missingImplementationWork": [],
-      "possibleCategory": "NEEDS_LEGAL_REVIEW",
-      "possibleCategoryBReason": null,
-      "classificationConfidence": "high",
-      "requiresLegalReview": true,
-      "legalReviewQuestion": "Does exact legal-design track md_10103_legacy_police control as a no-filing or unavailable-current-stage treatment, or does effective contract MD:police-record-expungement-when-no-charge-was-filed-under-10-103 establish a distinct participant-filed cohort that must be represented separately?"
     },
     {
       "routeKey": "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1",
@@ -23483,14 +23564,14 @@
         "source-url:https://law.justia.com/codes/mississippi/"
       ],
       "existingArtifactIds": [
-        "grade-a-filing-artifact-sha256:7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "grade-a-filing-artifact-sha256:c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
         "grade-a-fixture:MS:additional-justice-court-misdemeanor-relief-9-11-15-3:sha256:0ed90f68746d8c0b9a5cd690374dfc859f933d9cbb6a1bd42a482abc8df62c7c",
         "grade-a-fixture:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6:sha256:9b7b0fa2393e16fd2a0bc57f69e4d0364d91565fe0340c4b8301a8d404fe5076",
-        "grade-a-output-artifact-sha256:7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "grade-a-output-artifact-sha256:c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
         "grade-a-packet-specification:ms-additional-misdemeanor-relief:sha256:e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064"
       ],
       "currentServiceDisposition": "paid_packet_intended",
-      "currentCommercialState": "GRADE_A_REVOKED_NOT_COMMERCIALLY_ELIGIBLE",
+      "currentCommercialState": "GRADE_A_STALE_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [
         "LD-MS-01",
         "legal-question:Q-018"
@@ -23500,7 +23581,7 @@
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MS-mississippi.json#additional-justice-court-misdemeanor-relief-9-11-15-3",
         "crosswalk:direct_runtime_representation",
         "grade-a-commercial-disposition:grade-a-ms-additional-justice-court-misdemeanor-relief-9-11-15-3-v1:paid_packet_intended",
-        "grade-a-projection:REVOKED:not_commercially_eligible",
+        "grade-a-projection:STALE:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "packet-specification:data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json#ms-additional-misdemeanor-relief:historical=false",
@@ -23557,10 +23638,10 @@
         "source-url:https://law.justia.com/codes/mississippi/"
       ],
       "existingArtifactIds": [
-        "grade-a-filing-artifact-sha256:7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "grade-a-filing-artifact-sha256:c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
         "grade-a-fixture:MS:additional-justice-court-misdemeanor-relief-9-11-15-3:sha256:0ed90f68746d8c0b9a5cd690374dfc859f933d9cbb6a1bd42a482abc8df62c7c",
         "grade-a-fixture:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6:sha256:9b7b0fa2393e16fd2a0bc57f69e4d0364d91565fe0340c4b8301a8d404fe5076",
-        "grade-a-output-artifact-sha256:7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "grade-a-output-artifact-sha256:c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
         "grade-a-packet-specification:ms-additional-misdemeanor-relief:sha256:e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064"
       ],
       "currentServiceDisposition": "non_filing_guidance",
@@ -23620,14 +23701,14 @@
         "source-url:https://law.justia.com/codes/mississippi/"
       ],
       "existingArtifactIds": [
-        "grade-a-filing-artifact-sha256:7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "grade-a-filing-artifact-sha256:c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
         "grade-a-fixture:MS:additional-justice-court-misdemeanor-relief-9-11-15-3:sha256:0ed90f68746d8c0b9a5cd690374dfc859f933d9cbb6a1bd42a482abc8df62c7c",
         "grade-a-fixture:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6:sha256:9b7b0fa2393e16fd2a0bc57f69e4d0364d91565fe0340c4b8301a8d404fe5076",
-        "grade-a-output-artifact-sha256:7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "grade-a-output-artifact-sha256:c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
         "grade-a-packet-specification:ms-additional-misdemeanor-relief:sha256:e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064"
       ],
       "currentServiceDisposition": "paid_packet_intended",
-      "currentCommercialState": "GRADE_A_REVOKED_NOT_COMMERCIALLY_ELIGIBLE",
+      "currentCommercialState": "GRADE_A_STALE_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [
         "LD-MS-01",
         "legal-question:Q-018"
@@ -23637,7 +23718,7 @@
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MS-mississippi.json#additional-municipal-court-misdemeanor-relief-21-23-7-6",
         "crosswalk:direct_runtime_representation",
         "grade-a-commercial-disposition:grade-a-ms-additional-municipal-court-misdemeanor-relief-21-23-7-6-v1:paid_packet_intended",
-        "grade-a-projection:REVOKED:not_commercially_eligible",
+        "grade-a-projection:STALE:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "packet-specification:data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json#ms-additional-misdemeanor-relief:historical=false",
@@ -23702,21 +23783,25 @@
         "source-url:https://law.justia.com/codes/mississippi/"
       ],
       "existingArtifactIds": [
-        "grade-a-filing-artifact-sha256:413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+        "grade-a-filing-artifact-sha256:9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
         "grade-a-fixture:ms-nonconviction-clinic-demo-participant-a:sha256:a0dbb755fcad8e0916d26913e56219a2c2d5a52479b7f01492055000b79325b6",
-        "grade-a-output-artifact-sha256:413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
-        "grade-a-packet-specification:ms-nonconviction-expungement-99-19-71-4:sha256:3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f"
+        "grade-a-output-artifact-sha256:9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+        "grade-a-packet-specification:ms-nonconviction-expungement-99-19-71-4:sha256:23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126"
       ],
       "currentServiceDisposition": "paid_packet_intended",
       "currentCommercialState": "GRADE_A_INCOMPLETE_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [
-        "LD-MS-01"
+        "LD-MS-01",
+        "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260914",
+        "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920",
+        "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3",
+        "MS-NONCONV-SPONSORED-PREVIEW-20260925"
       ],
       "currentImplementationEvidence": [
         "authority-ledger:staging_acceptance:staging_acceptance",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MS-mississippi.json#non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
         "crosswalk:direct_runtime_representation",
-        "grade-a-commercial-disposition:grade-a-ms-non-conviction-expungement-clinic-demo-v1:paid_packet_intended",
+        "grade-a-commercial-disposition:grade-a-ms-nonconv-paid-consumer-successor-20260920:paid_packet_intended",
         "grade-a-projection:INCOMPLETE:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
@@ -23729,8 +23814,6 @@
       ],
       "missingImplementationWork": [
         "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-        "Close Grade-A proof gap: final_verification: state is unbound",
-        "Close Grade-A proof gap: official_sources: no official source is bound to this route",
         "Close Grade-A proof gap: provider: a provider identity, renderer version and image digest are required",
         "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
         "Implement or confirm the composed pleading and every required companion component.",
@@ -24089,9 +24172,13 @@
       "requiredSourceIds": [
         "compiled-profile:src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
         "compiled-source-ref:section:90-95; corpus-unit:38",
+        "packet-spec-source:EXT-ADOPT-01-standing-external-counsel-adoption",
         "packet-spec-source:ND-profile:corpus-unit:38",
         "packet-spec-source:ND-profile:section:90-95",
+        "packet-spec-source:auth-2026-08-19-owner-legal-approval-completed-output",
         "packet-spec-source:nd-marijuana-first-offense-seal-set@1.0.0",
+        "packet-spec-source:rcap-nd-custom-pleading:canonical-four-components",
+        "packet-spec-source:rcap-nd-custom-pleading:production-field-map",
         "packet-specification:data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json#nd-first-offense-possession-sealing",
         "source-url:https://ndlegis.gov/cencode/t19c03-1.pdf",
         "source-url:https://www.ndcourts.gov/Media/Default/legal-resources/legal-self-help/other-forms/Sealing%20Criminal%20Records%20Research%20Guide.pdf"
@@ -24210,14 +24297,10 @@
       "trackId": "ne-expunge-le-error",
       "runtimePathwayId": "law-enforcement-error-expungement",
       "routeContractId": "NE:law-enforcement-error-expungement",
-      "processActor": "court",
-      "participantCanInitiate": false,
-      "participantFacingInstrument": "no filing — process guidance: Expungement for a law-enforcement error",
-      "destination": {
-        "kind": "court",
-        "name": "Clerk of the district court",
-        "detail": "Filed as a district court civil matter. The county attorney is the respondent and must be served. Nebraska is a statewide statute: only the venue rule is county-referenced, so the geographic scope is statewide and not county-specific."
-      },
+      "processActor": "not recorded — combined automatic BCA and Cannabis Expungement Board mechanisms",
+      "participantCanInitiate": null,
+      "participantFacingInstrument": "not recorded — current route combines automatic and Board-review treatments",
+      "destination": "not recorded — exact automatic and Board-review destinations require separate identities",
       "currentOutputStrategy": "process_guidance",
       "packetFamilyId": null,
       "packetSetId": null,
@@ -24248,14 +24331,15 @@
         "route-contract:NE:law-enforcement-error-expungement:LD-NE-05:guidance_status",
         "runtime-authority-decision:LD-NE-05:route=NE:law-enforcement-error-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=ERROR PETITION OR SET-ASIDE APPLICATION:effective-note=Results copy must say that a set-aside does not erase the Nebraska record.",
         "runtime-service-disposition:paid_packet_intended",
-        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "unadopted-closure-contradiction:NE:law-enforcement-error-expungement:proposal-authority=null:decidedOn=null"
       ],
       "missingImplementationWork": [],
-      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
-      "possibleCategoryBReason": "AUTOMATIC",
+      "possibleCategory": "NEEDS_LEGAL_REVIEW",
+      "possibleCategoryBReason": null,
       "classificationConfidence": "high",
-      "requiresLegalReview": false,
-      "legalReviewQuestion": null
+      "requiresLegalReview": true,
+      "legalReviewQuestion": "Must NE:law-enforcement-error-expungement be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?"
     },
     {
       "routeKey": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing",
@@ -24983,14 +25067,10 @@
       "trackId": "nj_clean_slate",
       "runtimePathwayId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
       "routeContractId": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
-      "processActor": "court",
+      "processActor": "not recorded — combined automatic BCA and Cannabis Expungement Board mechanisms",
       "participantCanInitiate": null,
-      "participantFacingInstrument": "no filing — process guidance: Clean-slate expungement",
-      "destination": {
-        "kind": "court",
-        "name": "Superior Court, Criminal Division",
-        "detail": "Filed through the eCourts Expungement System or on the Judiciary kit forms, which carry a dedicated Clean Slate checkbox on Form A-Continued."
-      },
+      "participantFacingInstrument": "not recorded — current route combines automatic and Board-review treatments",
+      "destination": "not recorded — exact automatic and Board-review destinations require separate identities",
       "currentOutputStrategy": "process_guidance",
       "packetFamilyId": null,
       "packetSetId": null,
@@ -25027,14 +25107,15 @@
         "source-relationship:nj_clean_slate-order-for-hearing-3:unchecked",
         "source-relationship:nj_clean_slate-primary-filing-1:unchecked",
         "source-relationship:nj_clean_slate-proposed-order-4:unchecked",
-        "source-relationship:nj_clean_slate-statements-accompanying-petition-2:unchecked"
+        "source-relationship:nj_clean_slate-statements-accompanying-petition-2:unchecked",
+        "unadopted-closure-contradiction:NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3:proposal-authority=null:decidedOn=null"
       ],
       "missingImplementationWork": [],
       "possibleCategory": "NEEDS_LEGAL_REVIEW",
       "possibleCategoryBReason": null,
       "classificationConfidence": "high",
       "requiresLegalReview": true,
-      "legalReviewQuestion": "Which expressly identified actor controls the no-filing guidance pathway clean-slate-petition-under-n-j-s-a-2c-52-5-3?"
+      "legalReviewQuestion": "Must NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3 be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?"
     },
     {
       "routeKey": "obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
@@ -25379,8 +25460,8 @@
         "source-url:https://www.rccd.nv.gov/siteassets/content/feesforms/sealing-of-criminal-history-records-general-information.pdf"
       ],
       "existingArtifactIds": [],
-      "currentServiceDisposition": "not_recorded_in_sellable_closure",
-      "currentCommercialState": "NO_GRADE_A_FULFILLMENT_RECORD",
+      "currentServiceDisposition": "paid_packet_intended",
+      "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
       "legalDecisionRecordIds": [
         "LEGAL-DESIGN-2026-08-06-NV-01"
       ],
@@ -25388,10 +25469,12 @@
         "authority-ledger:authority_clearance:authority_clearance",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NV-nevada.json#removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
         "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "route-contract-packet-family-label:Nevada NRS 179A.160 written application for removal from the Central Repository",
         "route-contract:NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160:LEGAL-DESIGN-2026-08-06-NV-01:agency_application",
         "runtime-authority-decision:LEGAL-DESIGN-2026-08-06-NV-01:route=NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AGENCY APPLICATION PACKET, TWO RECIPIENTS:effective-note=NRS 179A.160(1) permits the application at any time after the favourable disposition is final and states no waiting period. It is a repository remedy, not a court sealing order: NRS 179.245 and NRS 179.255 remain separate court petitions and this route may not stand in for either.",
+        "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
       ],
       "missingImplementationWork": [
@@ -25400,8 +25483,7 @@
         "Implement the participant-facing agency application workflow without representing it as a court petition.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
         "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-        "Record and test each local filing, fee, venue, or delivery variation.",
-        "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
+        "Record and test each local filing, fee, venue, or delivery variation."
       ],
       "possibleCategory": "A_MUST_FULFILL",
       "possibleCategoryBReason": null,
@@ -27122,7 +27204,7 @@
       ],
       "existingArtifactIds": [],
       "currentServiceDisposition": "legal_decision_fidelity_conflict:overbroad_1_c_route_and_packet_scope",
-      "currentCommercialState": "GRADE_A_INCOMPLETE_NOT_COMMERCIALLY_ELIGIBLE",
+      "currentCommercialState": "GRADE_A_SUPERSEDED_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [
         "LD-OR-01",
         "LWD-2026-08-29-OR-PACKET-SCOPE",
@@ -27136,7 +27218,7 @@
         "crosswalk:direct_runtime_representation",
         "current-grade-a-artifacts-do-not-resolve-the-new-disposition-scope-conflict",
         "grade-a-commercial-disposition:grade-a-or-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c-v1:paid_packet_intended",
-        "grade-a-projection:INCOMPLETE:not_commercially_eligible",
+        "grade-a-projection:SUPERSEDED:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "lawrence-decision-source:data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json:sha256:adade2b0f82f39a406c59ef863148edbb090973e3397a0e5e1694df5ca0fb987",
         "lawrence-decision:LWD-2026-08-29-OR-PACKET-SCOPE:separate-option-2-and-option-3-configurations",
@@ -27232,14 +27314,10 @@
       "trackId": "or_conviction_setaside",
       "runtimePathwayId": "marijuana-specific-set-aside-redesignation",
       "routeContractId": "OR:marijuana-specific-set-aside-redesignation",
-      "processActor": "court",
-      "participantCanInitiate": false,
-      "participantFacingInstrument": "no filing — process guidance: Marijuana-specific set-aside and redesignation",
-      "destination": {
-        "kind": "court",
-        "name": "Oregon circuit court where the conviction was entered",
-        "detail": "A motion filed with the circuit court, served on the prosecuting attorney who prosecuted the offence, with a full set of fingerprints forwarded to the Department of State Police. Under ORS 137.225(2)(b) the prosecuting attorney provides a copy of the motion and notice of the hearing date to the victim, if any, at the victim's last-known address, and under ORS 137.225(3)(a) the court allows the victim to make a statement at any hearing. The clerk forwards a certified copy of the order to the agencies the court directs, and a certified copy must go to the Department of Corrections when the order concerns a conviction."
-      },
+      "processActor": "not recorded — combined automatic BCA and Cannabis Expungement Board mechanisms",
+      "participantCanInitiate": null,
+      "participantFacingInstrument": "not recorded — current route combines automatic and Board-review treatments",
+      "destination": "not recorded — exact automatic and Board-review destinations require separate identities",
       "currentOutputStrategy": "process_guidance",
       "packetFamilyId": null,
       "packetSetId": null,
@@ -27279,14 +27357,15 @@
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
         "source-relationship:or_conviction_setaside-primary-filing-1:unchecked",
         "source-relationship:or_conviction_setaside-proposed-order-2:unchecked",
-        "source-relationship:or_conviction_setaside-record-gathering-instructions-5:unchecked"
+        "source-relationship:or_conviction_setaside-record-gathering-instructions-5:unchecked",
+        "unadopted-closure-contradiction:OR:marijuana-specific-set-aside-redesignation:proposal-authority=null:decidedOn=null"
       ],
       "missingImplementationWork": [],
-      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
-      "possibleCategoryBReason": "AUTOMATIC",
+      "possibleCategory": "NEEDS_LEGAL_REVIEW",
+      "possibleCategoryBReason": null,
       "classificationConfidence": "high",
-      "requiresLegalReview": false,
-      "legalReviewQuestion": null
+      "requiresLegalReview": true,
+      "legalReviewQuestion": "Must OR:marijuana-specific-set-aside-redesignation be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?"
     },
     {
       "routeKey": "obligation:track-pathway:PA:pa_490_nonconviction:path-a-non-conviction-expungement",
@@ -29983,23 +30062,21 @@
       "routeContractId": null,
       "processActor": "court",
       "participantCanInitiate": true,
-      "participantFacingInstrument": "primary_filing: va_exp_absolute_pardon-primary-filing-1; records_checklist: va_exp_absolute_pardon-records-checklist-2; filing_instructions: va_exp_absolute_pardon-filing-instructions-3",
+      "participantFacingInstrument": "status_verification_instructions: va_exp_absolute_pardon-primary-filing-1; records_checklist: va_exp_absolute_pardon-records-checklist-2; followup_checklist: va_exp_absolute_pardon-filing-instructions-3",
       "destination": {
         "kind": "court",
         "name": "Clerk of the circuit court of the locality of conviction",
         "detail": "No petition is prescribed. The order issues on the court's receipt of the pardon copy transmitted under § 2.2-402. What the participant can do, and what this packet generates, is a written transmittal and request asking the court to enter the mandatory order and confirming that the pardon has been transmitted."
       },
       "currentOutputStrategy": "custom_pleading",
-      "packetFamilyId": "va_exp_absolute_pardon-set",
+      "packetFamilyId": null,
       "packetSetId": "va_exp_absolute_pardon-set",
       "requiredSourceIds": [
         "compiled-profile:src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
         "compiled-source-ref:pathways:73-114",
-        "packet-spec-source:OWN-ADOPT-2026-09-02-BATCH-53",
-        "packet-spec-source:VA.memo:va_exp_absolute_pardon",
-        "packet-spec-source:va_exp_absolute_pardon-set-production-field-map@census-v1",
-        "packet-spec-source:va_exp_absolute_pardon-set-rendered-artifacts@census-v1",
-        "packet-spec-source:va_exp_absolute_pardon-set@1.0.0",
+        "packet-spec-source:CC1474@07-26#85ac8ea0",
+        "packet-spec-source:owner-relayed-VA-01-20261013",
+        "packet-spec-source:va_exp_absolute_pardon-set@1.1.0",
         "packet-specification:data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json#va-absolute-pardon-expungement",
         "source-url:https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
         "source-url:https://www.norfolkcircuitcourt.us/record-expungement/"
@@ -30008,6 +30085,7 @@
       "currentServiceDisposition": "paid_packet_intended",
       "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
       "legalDecisionRecordIds": [
+        "VA-REGIME-1-CAPTION-AND-ADVERTISED-DEAD-END-2026-09-21",
         "register-question:Q-045",
         "report-question:Q-038"
       ],
@@ -30017,7 +30095,7 @@
         "crosswalk:direct_runtime_representation",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
-        "packet-specification:data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json#va-absolute-pardon-expungement:historical=false",
+        "packet-specification:data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json#va-absolute-pardon-expungement:historical=true",
         "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
       ],
@@ -31701,17 +31779,17 @@
         "grade-a-filing-artifact-sha256:3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
         "grade-a-fixture:WY:felony-conviction-expungement-w-s-7-13-1502:sha256:f00a7e5813762642d8fcfd89654a806979191f509bcf9d3a13ac9396f12a5470",
         "grade-a-output-artifact-sha256:3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
-        "grade-a-packet-specification:wy-felony-conviction-expungement:sha256:97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f"
+        "grade-a-packet-specification:wy-felony-conviction-expungement:sha256:95bc696ccf22b11be045d36da1a8343898cfdb732363f60b1e1730a7d7137902"
       ],
       "currentServiceDisposition": "paid_packet_intended",
-      "currentCommercialState": "GRADE_A_COMPLETE_PACKET_PROVEN_COMMERCIALLY_ELIGIBLE",
+      "currentCommercialState": "GRADE_A_STALE_NOT_COMMERCIALLY_ELIGIBLE",
       "legalDecisionRecordIds": [],
       "currentImplementationEvidence": [
         "authority-ledger:authority_clearance:authority_clearance",
         "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WY-wyoming.json#felony-conviction-expungement-w-s-7-13-1502",
         "crosswalk:direct_runtime_representation",
         "grade-a-commercial-disposition:grade-a-wy-felony-conviction-expungement-w-s-7-13-1502-v1:paid_packet_intended",
-        "grade-a-projection:COMPLETE_PACKET_PROVEN:commercially_eligible",
+        "grade-a-projection:STALE:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "packet-specification:data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json#wy-felony-conviction-expungement:historical=false",
@@ -35991,6 +36069,7 @@
         "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
         "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
+        "Record and test each local filing, fee, venue, or delivery variation.",
         "Wire this explicit unit as a distinct branch so the parent route cannot hide or collapse it."
       ],
       "possibleCategory": "A_MUST_FULFILL",
@@ -36241,6 +36320,7 @@
         "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
         "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
         "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
+        "Record and test each local filing, fee, venue, or delivery variation.",
         "Wire this explicit unit as a distinct branch so the parent route cannot hide or collapse it."
       ],
       "possibleCategory": "A_MUST_FULFILL",

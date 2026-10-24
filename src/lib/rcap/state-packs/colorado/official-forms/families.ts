@@ -59,9 +59,8 @@ export const SPECIFIED_FAMILIES: readonly SpecifiedFamily[] = [
  * Every family whose render receipt named
  * `scripts/rcap-official-forms/lanes/d3a-regenerate.mjs`.
  *
- * Listed here rather than discovered by scanning, so a family that later
- * acquires a real renderer drops off this list by being edited out of it and
- * not by a scan quietly finding nothing.
+ * This is the historical cohort. A retained current source has its own
+ * renderer receipt; it does not rewrite the other families' historical record.
  */
 export const DANGLING_RENDERER_FAMILIES: readonly string[] = [
   "jdf-2363-form-form-en",

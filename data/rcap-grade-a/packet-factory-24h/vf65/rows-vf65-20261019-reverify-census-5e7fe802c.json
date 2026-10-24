@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF65",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "rcap-ga-guidance-implementation": "ALREADY_RELEASED: rcap-ga-guidance-implementation at 2026-09-11T08:01:40.900Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "rcap-ga-guidance-implementation": "LIMB_2_NO_SERVICE_WITH_BASIS"
+  },
+  "rows": [
+    {
+      "itemId": "rcap-ga-guidance-implementation",
+      "lane": "VF65",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family rcap-ga-guidance-implementation run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (MASTER_LIBRARY_SOURCE_DIR set, PYTHONDONTWRITEBYTECODE=1): PASS_COMPLETE, 6/17 written, all nine counters as printed by that run. Caveat measured here: visualDefects=0 does not detect unrendered markup. 8 literal '**' emphasis spans per fixture were measured outside that counter and are scored under CLIPPING_AND_OVERLAP."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across the seven family records and the MASTER_QUEUE row. routeKey obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66 is declared identically by receipt, product-wiring, field map and MASTER_QUEUE and resolves to one C1 census entry (O.C.G.A. \u00a7 42-8-66). The guide and factual record name \u00a7 42-8-66 throughout and present themselves as the pre-consent guidance stage of that route, not as its petition."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: 3/3 non-census committedRecords exact (legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 / 16830109 B; 2026-08-28-controlling-decisions.json e00332bc05795533067dbe9dba43d36b14a362b7450449e9ac8a67e8c8f92f47 / 11907 B; national-report-2026-08-28.json 918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b / 37333 B). Census pin f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes; CURRENT census eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes. The bound entry obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66 is identical object-for-object between pinned and current; metadata excluding sourceFingerprint identical; worklist not pinned; no official form bound. Controlling decision CLD-2026-08-28-GA-RFO and processGuidanceSpecs[ga-rfo] are present in the exact bytes."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Guidance deliverable: 2 declared components, ga-rfo-participant-factual-record-1 and ga-rfo-process-guidance-2, are in the field map, the rendered componentSet and both manifests in order. The route's petition componentry (the contract's ten petition-family components) does not apply to this pre-consent stage; the controlling decision and the MASTER_QUEUE treatment reconciliation assign it to the separate post-consent family, and the packet says so."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "canonical 6/6; boundary 6/6 identity and contact values read back from the artifact bytes by this lane (12/12); 0 not found."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "Scored as 'required before anyone can act' for a guidance deliverable. The 9 declared blanks (C1-C9, the guidance specification's nine generationRequirements) are each named in participant-instructions.md. The specification's required actions (obtain the sentencing record and plea paperwork from the clerk of the convicting court; check the sentencing date against it) are both stated, and the conditional criminal-history report is named with its sources. A scan of every dotted blank found none undeclared. requiredFactsNotCollected=0, unclassifiedBlanks=0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls. The route's stage gate is stated as the record states it: written prosecutorial consent is a prerequisite; silence, refusal, an unanswered request and 'no known objection' are not consent; the post-consent petition and the post-2026-07-01 order branch are separate. requiredOptionsMissing=0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "Does not apply in substance: the guidance deliverable has no repeating row structure. incompleteRows=0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "2 protected blanks (record signature, date), empty in both fixtures. No prosecutor consent, court caption or order content is written; protectedWrites=0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, 0 unrecorded, 0 missing. Recomputed here: boundary.pdf d239a09c3f370c130f80b4df8ab8d52d747aaf482f83a821a0840077cb9a3167 / 14338 B, 5 pages (record 5); canonical.pdf a20096ba7ee519ce80e24c7085bfa92e4be974997b2e09cb3e967f0fd2175406 / 14183 B, 5 pages (record 5); all match the record. Recorded for the lead: product-wiring.json has acceptanceReceipt null (no central RASTER_PASS bound to the current canonical), build-status reads RASTER_LOCAL_PENDING_CENTRAL, and none of the nine digests in the selected VF65 row (base f31a8a4d) equals either current fixture. These bytes have never been independently verified before this reading."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures: pdfinfo 5 pages, equal to the record; factual record pages 1-2 then guidance pages 3-5, contiguous and in declared order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "detail": "Geometry is clean on bbox (boundary.pdf: 1350 words, 0 outside the page box, 0 same-band overlapping pairs; canonical.pdf: 1344 words, 0 outside the page box, 0 same-band overlapping pairs), but both fixtures print unrendered markdown emphasis markers as visible glyphs on guidance pages 3-5 (boundary.pdf: 8 spans on 10 lines; canonical.pdf: 8 spans on 10 lines). Examples: '**NOTHING IN THIS PRE-CONSENT PACKET IS FILED, AND THIS STAGE GENERATES NO PETITION.**', '- **Do not approach the prosecuting attorney for consent by yourself.**', '**The repository establishes this one, and the answer is that there is no fee.**'. Canonical page 3 rendered here at 70 dpi shows the asterisks on the page. The builder meant bold, and the participant gets raw markup on the statements the packet most wants read. VF02 failed the DE family under this obligation at 588f9e74 for the same literal '**' class, and that family now prints none. visualDefects=0 in the verifier run does not detect markup leaks."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Applies as the route's destination statement, since nothing is filed at this stage. The census and the guidance specification record 'The prosecuting attorney first, then the convicting court'; the packet states both in that order, says consent is sought from the prosecuting attorney before anything is filed and the petition then goes to the convicting court, and puts the consent approach outside self-help as the record does."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Held and stated: the guidance specification records 'There shall be no filing fee charged for a petition filed pursuant to O.C.G.A. \u00a7 42-8-66, per \u00a7 42-8-66(h)' and 'none needed \u2014 the statute prohibits a filing fee', and the route contract records no filing fee. The packet quotes both and does not delegate the answer. Costs of record products are stated as not established, naming the clerk of the convicting court and the sheriff/police/GCIC sources. Met on the 'states that no fee is charged, sourced' limb."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative statement with its mechanism: 'Nothing is served before the consented filing stage', because no filing occurs before written consent. This matches the specification ('Not reached. Nothing is served because nothing is filed without consent'). Post-consent service is assigned to the separate petition family."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against processGuidanceSpecs[ga-rfo].stopConditions (6) and CLD-2026-08-28-GA-RFO. Carried: always at the consent stage; the prosecutor declines or is silent; eligibility turns on what was said at sentencing; immigration; the handoff to an attorney or legal-aid desk; and the four named Georgia desks. The packet adds the route contract's contested-evidentiary-hearing exit. The decision's post-July-1-2026 order branch is carried as implementation tracking, not a second petition. No inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 6/17 written, all nine counters zero as printed (run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27); markup leak measured outside the counters",
+        "sourceRecomputation": "3/3 non-census committedRecords exact; census pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes, CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes; bound entry identical object-for-object; metadata (excluding sourceFingerprint) identical; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo pages equal recorded pages; no central RASTER_PASS bound to the current canonical",
+        "byteReadBack": "12/12 written values read back from the artifact bytes (canonical 6/6; boundary 6/6)",
+        "stopConditions": "6/6 specification stop conditions carried (including the four named desks), plus the contract's contested-hearing exit; no inversion",
+        "lapseResolved": "PARTLY. The census-pin lapse (f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes against C1 eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes) is content-neutral: the bound entry did not move and SOURCE_IDENTITY holds. The family's verification is NOT restored, because this reading at C1 fails CLIPPING_AND_OVERLAP and the selected VF65 PASS was read on other bytes. No pin was changed here."
+      },
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

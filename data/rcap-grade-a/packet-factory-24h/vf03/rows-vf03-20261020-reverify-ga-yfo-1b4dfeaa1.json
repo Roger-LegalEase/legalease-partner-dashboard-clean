@@ -1,0 +1,197 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF03",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+  "verifier": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route": "CLAIM_OK VF03 composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route (independent-verification, grant set b15f165126c84d71)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "lane": "VF03",
+      "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "verifiedAt": "2026-10-20T12:39:26Z",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route', run by measure-family.mjs in a detached worktree at base 1b4dfeaa14dbf4facf145fd408069acba22d4b32: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 6/16 written, counter line parsed from that run (facts.json verifierRun). The counters are all zero; requiredComponentsMissing counts the field map's declared set only, and the failure below is measured against the controlling record's component list."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+          "sha256": "e00332bc05795533067dbe9dba43d36b14a362b7450449e9ac8a67e8c8f92f47",
+          "byteLength": 11907,
+          "matchesReceipt": true
+        },
+        {
+          "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+          "byteLength": 37333,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": false,
+          "receiptPin": {
+            "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "byteLength": 2629290
+          },
+          "pinnedBlobRecoveredAt": "a3ca119bd",
+          "ownEntryUnmoved": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+          "byteLength": 10525,
+          "pageCount": 4,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "3c7ea1d4d7a4f492d64623e0b23bbf89b30a1de3651de68f84ba7c679e27a705",
+          "byteLength": 10708,
+          "pageCount": 4,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:runtime-only:GA:youthful-first-offender-restriction-route is declared identically by source-receipt, product-wiring, production-field-map and the MASTER_QUEUE row; familyIdAgrees true. It resolves in the current census at routes[51] (trackId null, legalDecisionRecordIds CLD-2026-08-28-GA-RFO and LD-GA-01). The census presentation (\u00a7 42-8-62.1, p0.json routes[2]) is recorded there as a held route-presentation conflict, and the receipt binds the census for identity only; the substance comes from CLD-2026-08-28-GA-RFO, whose pathways list names this legacy key, and from the effective route record GA:retroactive-first-offender-treatment-under-42-8-66, whose notes say the legacy id is 'preserved and aliased rather than renamed'. Every page heading prints the \u00a7 42-8-66 petition and the packet says it is not a \u00a7 42-8-62.1 petition."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 1b4dfeaa14dbf4facf145fd408069acba22d4b32: 2026-08-28-controlling-decisions.json e00332bc\u2026/11907 and national-report-2026-08-28.json 918bc661\u2026/37333 equal the receipt pins. route-obligation-candidate.json is now eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9/2635434 against the receipt pin f6fc0814\u2026/2629290 (the only drifted record); the pinned blob was recovered from history (a3ca119bd, sha256 equal to the pin) and this route's object compared object-for-object: routes[50] pinned and routes[51] now are IDENTICAL. The CURRENT digest is the pin this row verified against; the receipt on disk is not edited by this lane."
+        },
+        "COMPONENT_SET": {
+          "result": "FAIL",
+          "detail": "COMPONENT_SET: the owner decision this packet binds (LA-IMM-01, recorded as controlling decision CLD-2026-08-28-GA-RFO in 2026-08-28-controlling-decisions.json, and projected into the bound effective route record national-report-2026-08-28.json routes[3] packetComponents) says 'The packet should include' ten items. Five are participant-obtained records and are disclosed under 'Documents you must obtain before filing' (written consent/joinder/endorsement; judgment, sentence and disposition records; original-eligibility evidence; branch evidence; rehabilitation and interests-of-justice exhibits). Four are packet-prepared documents that are neither rendered nor disclosed as something the participant obtains: (1) the proposed order, which LA-IMM-01 also requires to 'expressly address the current restriction and court-record sealing duties' for a discharge entered on or after July 1, 2026; (2) the hearing-request election; (3) the certificate of service or local notice document; (4) the post-order restriction, sealing and verification instructions. Both fixtures (canonical 61ebc643\u2026/10525, boundary 3c7ea1d4\u2026/10708, 4 pages) render only ga-retroactive-first-offender-42-8-66-petition-1 (pp1-2) and -filing-instructions-2 (pp3-4). The packet's own filing-instructions page 3 lists all ten under 'WHAT THE COMMITTED ROUTE RECORD SAYS THE PACKET SHOULD INCLUDE', and participant-instructions.md step 4 tells the participant to 'Include the written-consent document, proposed order, hearing-request election, certificate of service or local notice document, \u2026 and post-order instructions', but nothing in the packet supplies them or says where they come from. The route record's own deliveryGates (ga_42_8_66_petition_family_build) list 'proposed order component', 'hearing-election component', 'service or local-notice component' and 'supporting-record checklist component' as build items. requiredComponentsMissing 0 counts only the field map's two declared components, so the counter cannot see this."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 6 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (facts.json readBack 6/6 both, 0 glyphs outside measured write boxes): name (caption and B), date of birth, printed name, mailing address, telephone and email. Canonical: Jordan Avery Reyes, 1991-04-17, 42 Magnolia Street, Springfield 62704, 555-0142, jordan.reyes@example.org. Boundary: Maria-Alejandra O'Shaughnessy-Whitfield, 1968-12-31, the long Fort Saint Clairsville address (wraps inside the margin on page 2), (228) 555-0199 ext. 4417 and the long email. knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map lists 8 requiredBeforeFiling items on the petition: C1 the written-consent attachment, C2 the court and county of conviction, the original case number in the caption, and C3-C7 (judgment/sentence/disposition, original eligibility, applicable \u00a7 42-8-66 branch, prior felony or First Offender history, qualifying-order status and date). These cover the route record's seven requiredFacts, and every one is a row of the instructions' 'The items you must supply' table (everyRequiredBeforeFilingItemIsDisclosed true). The consent gate is stated as a filing prerequisite on pages 1 and 3. requiredFactsNotCollected 0, unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "The controlling decision's three branches (consent present and no qualifying order; consent absent or disputed \u2192 attorney or prosecutor handoff; qualifying order already granted on or after 2026-07-01 \u2192 implementation and verification tracking, no second petition) print on filing-instructions page 3 and in the instructions' route table. The branch facts are labelled blanks (C1, C5, C7); production-field-map has 0 selection controls and 0 canonical refusals. requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "One petition in one original criminal matter; no repeating structure is declared (repeatingRows 0). incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "2 protectedBlanks: the petitioner's signature and its date. Both print as empty dotted lines in both fixtures with 'Nothing on this page is signed or dated for the petitioner'; the consent attachment line is a participant blank, and the instructions say the build does not manufacture consent. protectedWrites 0. (A proposed order would add court-only lines; its absence is scored under COMPONENT_SET.)"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf 61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61/10525 B and boundary.pdf 3c7ea1d4d7a4f492d64623e0b23bbf89b30a1de3651de68f84ba7c679e27a705/10708 B. Both equal reports/rendered-artifacts.json and the RASTER_QUEUE row (RASTER_PASS, coverage complete). No unrecorded PDFs."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Each fixture is 4 pages by pdfinfo: pages 1-2 the petition (title, court-of-conviction blank, Georgia caption, original case number, A gate, B petitioner, C facts C3-C7, D request, signature and contact block), pages 3-4 the filing instructions, in componentSet order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox via measure-family: 0 words outside the page box and 0 same-band overlapping word pairs in either fixture (769 / 774 words). Read on the 80-dpi renders (canonical-sheet.png, boundary-sheet.png): every line sits inside the margins and no text collides. visualDefects 0."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The controlling decision records 'The participant files in the court of conviction' and the route record notes 'Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number.' The petition (A), filing-instructions 'WHERE TO FILE' and the instructions' FILING_DESTINATION row say exactly that, and the court and county are a disclosed participant blank (C2) (A1: the repository answer first)."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Held (A1): LA-IMM-01 'The statute does not impose a filing fee', and the route record's timing 'imposes no elapsed wait and no filing fee'. The packet says 'O.C.G.A. Sec. 42-8-66 imposes no filing fee; no fee waiver is needed.' Both limbs are answered from the held record; nothing is denied that a held record states (A4)."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "The held records name a 'certificate of service or local notice document' as a packet item but state no recipient, method or timing. The packet says exactly that and names the clerk of the court of conviction as the authority for the local notice and service requirement, with 'do not guess' (DET-FEE-AND-WAIVER-001 appliesTo SERVICE). The statement is honest and consistent; the missing certificate-of-service document itself is scored under COMPONENT_SET."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "LA-IMM-01's self-help boundary has six stops: consent absent or disputed; original eligibility uncertain; prior felony or First Offender history unclear; prosecutor withdraws consent; contested evidentiary hearing; immigration, firearm, federal or licensing consequences. All six print on filing-instructions page 4 and in the instructions' stop list, and the route record's exclusions (silence or 'no known objection' is not consent; withdrawn consent defeats the filing) print on pages 1 and 3."
+        }
+      },
+      "observations": [
+        {
+          "what": "Bare route key printed on participant pages",
+          "detail": "Pages 2 and 4 of both fixtures end 'Route: obligation:runtime-only:GA:youthful-first-offender-restriction-route' (the known PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class). Recorded, not scored."
+        },
+        {
+          "what": "Earlier PASS reads measured declared-versus-rendered only",
+          "detail": "vf06 (726a49dfe), vf10 (d210669f0, COMPONENT_SET PASS within a SOURCE_IDENTITY FAIL) and vf12 (21d53521f) scored COMPONENT_SET on the field map's two declared components; none measured the controlling ten-item list. vf05 at 88d688b8b failed it for a different reason (the \u00a7 42-8-62.1 build). The bytes have not changed since ae0a6c6e3; this is a first measurement against LA-IMM-01's list, not a new byte change."
+        },
+        {
+          "what": "Route ratification status (lead's scoping)",
+          "detail": "route-ratification-registry.json records GA:youthful-first-offender-restriction-route as status held_guidance ('Lawrence first-pass hold; show substantive guidance only for this release'), and OWNER_ADOPTION_REQUEST_PENDING lists the family's completed-output adoption as still owed. Neither changes the obligations scored here."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv05-ga-yfo-vf03/",
+        "claimCanAssert": "claim-can-assert.log (CLAIM_OK VF03, grant set b15f165126c84d71)",
+        "verifierRun": "facts.json verifierRun, measure.log",
+        "sourceRecomputation": "facts.json sourceIdentity, sources.txt (census pinned vs now; controlling decision; national route record)",
+        "sources": "sources.txt, owner-decisions-ga-rfo.txt (LA-IMM-01 full text, post-approval audit, pending adoption, ratification), component-and-prior.txt, prior-component-history.txt, participant-instructions-1b4dfeaa1.md",
+        "byteReadBack": "canonical.txt, boundary.txt, facts.json readBack",
+        "wordGeometry": "facts.json geometry",
+        "renders": "canonical-p-1..4.png, boundary-p-1..4.png (pdftoppm -r 80), canonical-sheet.png, boundary-sheet.png",
+        "rasterBinding": "artifacts-blanks-raster.txt"
+      },
+      "failedObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

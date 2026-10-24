@@ -26,6 +26,9 @@ import { fileURLToPath } from "node:url";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, RESULT_CLASSES, REFUSAL_CLASSES, classifyField, classifyBlank, rowKeyOf } from "./completeness-contract.mjs";
 import { hasDeclaredMoPacketSet } from "./mo-declared-packet-discovery.mjs";
 import { verifyParticipantLaterCompletionSourceStage } from "./nj-participant-later-completion.mjs";
+import { verifyControllingReservation, RESERVATION_REGISTRY_PATH } from "./controlling-record-reservation.mjs";
+import { createNyCompletionVerifier, nyCompletionInventoryProblems } from "./ny-16059-source-conditions.mjs";
+import { createCaProp64ActorVerifier, caProp64ActorInventoryProblems } from "./ca-prop64-source-actors.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 requireMasterLibraryEnvironment({ repoRoot: ROOT });
@@ -99,6 +102,18 @@ const normalizeRow = (row, document = null) => ({
   role: row.role ?? null,
   owner: row.owner ?? null,
   sourceActorEvidence: row.sourceActorEvidence ?? null,
+  ...(row.nyCompletion && ["NY-CPL-160.59-APPLICATION", "NY-CPL-160.59-COD-REQUEST", "NY-CPL-160.59-PRO-SE-PACKET"].includes(row.documentId ?? document)
+    ? { nyCompletion: structuredClone(row.nyCompletion) } : {}),
+  ...(row.completionActor && [
+    "CA-CR-400-PROP-64-PETITION-APPLICATION",
+    "CA-CR-401-PROP-64-PROOF-OF-SERVICE",
+    "CA-CR-403-PROP-64-ORDER",
+  ].includes(row.documentId) ? {
+    completionActor: row.completionActor,
+    completionStage: row.completionStage,
+    conditionDescription: row.conditionDescription,
+    completionObligationId: row.completionObligationId,
+  } : {}),
   page: row.page ?? row.widgets?.[0]?.page ?? row.widgets?.[0]?.pageIndex ?? null,
   document: row.documentId ?? row.formNumber ?? document,
   factId: row.factId ?? row.fact ?? null,
@@ -143,6 +158,8 @@ const normalizeRow = (row, document = null) => ({
       requiredBeforeFilingDeclared: Object.hasOwn(row, "requiredBeforeFiling"),
       routeDeterminedDeclared: Object.hasOwn(row, "routeDetermined"),
     } : {}),
+    // A serialized reservation is a claim, never a proof; the loop below re-verifies it.
+    ...(row.controllingReservation ? { controllingReservation: { ...row.controllingReservation, verified: false } } : {}),
     /*
      * Forwarded for the same reason as the two keys below, and found the same
      * way. The contract refuses a declared required-before-filing field when
@@ -401,6 +418,8 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   }
 
   for (const {counter, ...detail} of gaPre2013ActorInventoryProblems(familyId, fieldMap)) note(counter, detail);
+  for (const {counter, ...detail} of nyCompletionInventoryProblems(familyId, fieldMap, census)) note(counter, detail);
+  for (const {counter, ...detail} of caProp64ActorInventoryProblems(familyId, fieldMap, census)) note(counter, detail);
 
   // ---- what the platform actually holds for this family --------------------------
   //
@@ -433,21 +452,36 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   // service is the prosecutor's. Matching them across documents reported six
   // correctly-declared blanks as facts the packet already held.
   const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  // And within one document, to the field's own AcroForm group, because one form
+  // prints the same label for different people: CR-400's filer and court blocks
+  // both print "STREET ADDRESS:", and CR-401's filer and server both print "Name".
+  // Matching across those groups read the court's address and the server's name
+  // as facts the packet held once the filer's were written. The group is the
+  // parent in the field's own indexed name, fixed by the official PDF; any other
+  // name is not a form path and keeps the document scope.
+  const fieldGroup = (name) => /^[^.]+\[\d+\](\.[^.]+\[\d+\])+$/.test(String(name ?? "")) ? String(name).replace(/\.[^.]+$/, "") : "";
   const writtenInDocument = new Map();
   for (const w of writes) {
     const doc = String(w.document ?? "");
-    if (!writtenInDocument.has(doc)) writtenInDocument.set(doc, new Set());
+    if (!writtenInDocument.has(doc)) writtenInDocument.set(doc, new Map());
     // A footer/section heading is shared page context, not a fact identity.
     // Exact field names, specific printed labels and fact ids still bind.
     const specificLabel = normLabel(w.label) !== normLabel(w.sectionHeading) ? w.label
       : normLabel(w.printedLabel) !== normLabel(w.sectionHeading) ? w.printedLabel : null;
     for (const key of [normLabel(specificLabel), normLabel(w.name)]) {
-      if (key.length >= 4) writtenInDocument.get(doc).add(key);
+      if (key.length < 4) continue;
+      const here = writtenInDocument.get(doc);
+      if (!here.has(key)) here.set(key, new Set());
+      here.get(key).add(String(w.name ?? ""));
     }
   }
   const writtenBeside = (blank) => {
-    const here = writtenInDocument.get(String(blank.document ?? "")) ?? new Set();
-    return here.has(normLabel(blank.label)) || here.has(normLabel(blank.name));
+    const here = writtenInDocument.get(String(blank.document ?? "")) ?? new Map();
+    const group = fieldGroup(blank.name);
+    // Across groups, the same leaf field repeated in another page's header (Page1 caption CaseNumber[0], Page2 PxCaption CaseNumber[0]) is the same fact.
+    const leaf = (n) => String(n ?? "").split(".").pop().replace(/\[\d+\]$/, "").toLowerCase();
+    const binds = (key) => [...(here.get(key) ?? [])].some((n) => { const g = fieldGroup(n); return !g || !group || g === group || leaf(n) === leaf(blank.name); });
+    return binds(normLabel(blank.label)) || binds(normLabel(blank.name));
   };
 
   const instructionsPath = path.join(ROOT, `${dir}/participant-instructions.md`);
@@ -457,28 +491,48 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   // ---- every blank earns its blankness ------------------------------------------
   const blankLedger = [];
   const verifyActor = createGaPre2013ActorVerifier({root: ROOT, directory: dir, familyId, fieldMap, census, receipt, rendered});
+  const verifyCaActor = createCaProp64ActorVerifier({familyId, fieldMap, census, receipt, instructions,
+    sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR});
+  const verifyNyCompletion = createNyCompletionVerifier({ familyId, fieldMap, census, receipt, instructions,
+    sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR, fixtureAudit: true });
   const sourceActorMeasurements = [];
   const sourceStageMeasurements = [];
+  const controllingReservationMeasurements = [];
+  // Every write any fixture carries, from the map and from the bytes, for the reservation's UNWRITTEN condition.
+  const fixtureWrites = [
+    ...(fieldMap?.maps ?? []).flatMap((m) => [...(m.canonicalWrites ?? []), ...(m.boundaryWrites ?? [])]).map((w) => ({ document: w.document ?? w.documentId, field: w.field })),
+    ...(actualWrites?.documents ?? []).flatMap((d) => (d.actualWrites ?? []).map((w) => ({ document: w.document ?? d.documentId, field: w.field })))
+  ];
   for (const blank of blanks) {
     const sourceStage = blank.declared?.sourceStage
       ? verifyParticipantLaterCompletionSourceStage({
         familyId, blank, fieldMap, census, receipt, instructions,
         sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR,
       }) : null;
+    const claim = blank.declared?.controllingReservation;
+    const controllingReservation = claim
+      ? verifyControllingReservation({
+        root: ROOT, claim, blank, fixtureWrites, instructions,
+        registrySha256: receipt?.committedRecords?.find((r) => r.pathInRepository === RESERVATION_REGISTRY_PATH)?.sha256,
+        documentTitle: receipt?.documents?.find((d) => d.componentId === claim.componentId)?.officialTitle,
+      }) : null;
+    if (controllingReservation?.verified === true) controllingReservationMeasurements.push({ field: blank.id, document: blank.document, basis: controllingReservation.basis });
     const declared = {
       ...blank.declared,
       sourcePresentation: verifySourcePresentation(blank, { census, receipt, fieldMap, actualWrites, rendered }),
       ...(sourceStage ? { sourceStage } : {}),
+      ...(controllingReservation ? { controllingReservation } : {}),
       factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
         || writtenBeside(blank)
     };
     const actor = verifyActor(blank);
+    const caActor = verifyCaActor(blank, declared);
     if (actor?.verified && !sourceActorMeasurements.some(m => m.sourceSha256 === actor.sourceSha256)) sourceActorMeasurements.push(actor);
-    const verdict = actor?.verified === true
+    const verdict = verifyNyCompletion(blank, declared) ?? caActor ?? (actor?.verified === true
       ? {disposition: "PROTECTED_FIELD", fieldClass: "EXACT_SOURCE_OFFICIAL_ACTOR", basis: actor.basis}
       : actor?.verified === false
         ? {disposition: "UNCLASSIFIED_BLANK", fieldClass: "EXACT_SOURCE_OFFICIAL_ACTOR", basis: actor.failure}
-        : classifyBlank(blank, blank.reason, blank.refusalClass, declared);
+        : classifyBlank(blank, blank.reason, blank.refusalClass, declared));
     if (verdict.disposition === "PARTICIPANT_LATER_COMPLETION"
       && sourceStage?.verified === true) sourceStageMeasurements.push({
       documentId: sourceStage.documentId,
@@ -557,8 +611,25 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
      */
     const readings = [glyphs, appearances].filter((n) => typeof n === "number");
     const visible = readings.reduce((a, b) => a + b, 0);
-    if (readings.length > 0 && typeof reported === "number" && reported > 0 && visible === 0) {
-      note("invisibleWrites", { fixture: artifact.fixture, reportedByFinalizer: reported, glyphsInOutput: glyphs, appearancesInOutput: appearances, why: "the finalizer reported values but the output bytes carry no glyph and no flattened appearance" });
+    /*
+     * An appearance is not ink. A reader that also counts the appearances that
+     * paint nothing (appearancesThatPaintNothingReadFromOutputBytes) lets the
+     * rule tell "appearances present" from "ink present": when every flattened
+     * appearance paints nothing, the finalizer's values reached no page, however
+     * many appearances the bytes carry. The glyph count is not consulted: the
+     * reader counts every glyph an appearance draws, whitespace included, and an
+     * appearance that paints nothing draws only whitespace, so a whitespace-only
+     * write is as invisible as an empty one. A record without that reading keeps
+     * the sum rule above.
+     */
+    const paintNothing = artifact.appearancesThatPaintNothingReadFromOutputBytes ?? null;
+    const nothingPainted = typeof paintNothing === "number" && typeof appearances === "number"
+      && appearances > 0 && paintNothing === appearances;
+    if (readings.length > 0 && typeof reported === "number" && reported > 0 && (visible === 0 || nothingPainted)) {
+      note("invisibleWrites", { fixture: artifact.fixture, reportedByFinalizer: reported, glyphsInOutput: glyphs, appearancesInOutput: appearances, ...(nothingPainted ? { appearancesThatPaintNothing: paintNothing } : {}),
+        why: nothingPainted
+          ? "the finalizer reported values but every flattened appearance in the output bytes paints nothing (no visible glyph and no other painting operator)"
+          : "the finalizer reported values but the output bytes carry no glyph and no flattened appearance" });
     }
     const outsideBoxes = artifact.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes;
     if (typeof outsideBoxes === "number" && outsideBoxes > 0) {
@@ -777,6 +848,7 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
     },
     ...(sourceActorMeasurements.length ? {sourceActorMeasurements} : {}),
     ...(sourceStageMeasurements.length ? {sourceStageMeasurements} : {}),
+    ...(controllingReservationMeasurements.length ? {controllingReservationMeasurements} : {}),
     outputApprovalStatus: approval?.status ?? null,
     sourceCurrentness: currentness,
     // Not truncated. A completeness record that elides findings is the same

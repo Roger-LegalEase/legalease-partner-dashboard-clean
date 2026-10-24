@@ -534,12 +534,37 @@ function independentSourceFiles() {
   ]).sort();
 }
 
+// Written independently of the generator's DERIVED_VIEW_PROJECTIONS: the derived fulfillment-authority
+// views enter the fingerprint as the fields the census reads, not as their bookkeeping-laden bytes.
+const independentList = (value) => Array.isArray(value) ? value : value == null ? [] : [value];
+const INDEPENDENT_DERIVED_VIEWS = {
+  "data/rcap-grade-a/fulfillment-authority-registry.json": (doc) => doc.records.map((record) => ({
+    recordId: record.recordId ?? null, jurisdiction: record.jurisdiction ?? null, pathwayId: record.pathwayId ?? null,
+    serviceDisposition: record.serviceDisposition ?? null,
+    fixture: record.fixture ? { fixtureId: record.fixture.fixtureId ?? null, sha256: record.fixture.sha256 ?? null } : null,
+    artifactSha256: record.artifactValidation?.artifactSha256 ?? null,
+    packetCompleteness: record.packetCompleteness ? {
+      specificationId: record.packetCompleteness.specificationId ?? null,
+      specificationSha256: record.packetCompleteness.specificationSha256 ?? null,
+      filingFormatArtifactSha256: record.packetCompleteness.filingFormatArtifact?.sha256 ?? null,
+      companionArtifacts: independentList(record.packetCompleteness.companionArtifacts).map((artifact) => ({ componentId: artifact?.componentId ?? null, sha256: artifact?.sha256 ?? null }))
+    } : null,
+    approvedOrPassText: /approved|pass/i.test(flattenStrings([record.outputLegalApproval, record.finalVerification]).join(" \n "))
+  })),
+  "data/rcap-grade-a/fulfillment-authority-projection.json": (doc) => doc.routes.map((route) => ({
+    routeId: route.routeId ?? null, state: route.state ?? null, commercialStatus: route.commercialStatus ?? null, missingProof: route.missingProof ?? null
+  })),
+  "data/rcap-grade-a/fulfillment-observation-snapshot.json": () => null
+};
+
 function independentSourceFingerprint(files) {
   const digest = crypto.createHash("sha256");
   for (const file of files) {
     digest.update(file);
     digest.update("\0");
-    digest.update(fs.readFileSync(path.join(ROOT, file)));
+    const project = INDEPENDENT_DERIVED_VIEWS[file];
+    const bytes = fs.readFileSync(path.join(ROOT, file));
+    digest.update(project ? JSON.stringify(project(JSON.parse(bytes.toString("utf8")))) : bytes);
     digest.update("\0");
   }
   return `sha256:${digest.digest("hex")}`;

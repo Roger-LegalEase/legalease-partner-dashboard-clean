@@ -46,6 +46,13 @@ export function PacketGenerateButton({
         router.refresh();
         return;
       }
+      if (response?.status === 403 && body?.resultCode === "fulfillment_not_proven") {
+        setRetryAllowed(false);
+        setRefusal("Your payment is preserved. A packet is not available for this route yet. Your saved information remains available.");
+        setStatus("error");
+        setWatching(false);
+        return;
+      }
       checks++;
       if (body?.packetStatus === "failed" || !response?.ok || checks >= 60) {
         setRetryAllowed(body?.packetStatus !== "failed" || body.retryable === true);

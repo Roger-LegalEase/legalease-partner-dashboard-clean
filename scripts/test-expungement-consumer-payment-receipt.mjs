@@ -461,9 +461,12 @@ const { PaymentsView } = loadTs("src/components/expungement-ai/BriefcaseViews.ts
   "lucide-react": { ArrowRight: icon, Check: icon, CreditCard: icon, Download: icon, LifeBuoy: icon, ShieldCheck: icon },
   "@/components/expungement-ai/WilmaBubble": { WilmaBubble: icon },
   "@/lib/expungement-ai/frontend/briefcase-presentation": {},
+  // 97d6f01bc localized matter titles; a title that is not the route label stays literal, as here.
+  "@/lib/expungement-ai/packet-display-copy": { packetMatterTitleCopy: (item) => ({ en: item.title }) },
   "@/components/expungement-ai/LocalizationProvider": {
     LocalizedText: ({ fallback }) => React.createElement("span", null, fallback),
-    LocalizedRuntimeText: ({ children }) => children
+    LocalizedRuntimeText: ({ children }) => children,
+    LocalizedCopy: ({ en }) => React.createElement("span", null, en)
   }
 });
 const htmlFor = paymentHistory => renderToStaticMarkup(React.createElement(PaymentsView, { items: [{

@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { courtFacingRows } from './court-facing-rows.mjs';
+import { WA_ACCEPTED_RENDERER, verifyWaAcceptedRenderer } from './wa-sud-accepted-renderer.mjs';
 import { sanitizePdfText as sharedSanitize } from './composed-family-host.mjs';
 import { stripMarkdownEmphasis } from './composed-page-markdown.mjs';
 import { createTokenSplitter, fitsByFontMetrics } from './split-token.mjs';
@@ -55,12 +56,31 @@ function functions(source, file) {
   }
   return found;
 }
+// Exact accepted non-renderer deltas since the baseline. Each accepted text must
+// occur exactly once and is put back to its baseline text before the whole-source
+// equality below, so any other change still fails it.
+const ACCEPTED_SOURCE_DELTAS = {
+  // MS VF16 (codex/ms-vf16-20261019 10fc49ed1, Acceptance ACCEPT 2026-10-19):
+  // fixture-specific byteProof writes; counselQuestionsSettled passthrough.
+  'scripts/rcap-custom-pleading/composed-family-host.mjs': [
+    ['    for (const w of map[fixtureName + "Writes"] ?? map.canonicalWrites ?? []) {\n',
+      '    for (const w of map.canonicalWrites ?? []) {\n'],
+    ['    mattersForTheReviewersAttention: family.reviewerAttention,\n    ...(family.counselQuestionsSettled ? { counselQuestionsSettled: family.counselQuestionsSettled } : {})\n',
+      '    mattersForTheReviewersAttention: family.reviewerAttention\n']
+  ]
+};
 const paths = execFileSync('git', ['ls-files','scripts'], {encoding:'utf8'}).trim().split('\n').filter(p => p.endsWith('.mjs'));
 const hosts = [];
+let acceptedUnchangedHosts = 0;
 for (const file of paths) {
   const source = fs.readFileSync(file,'utf8');
   const current = functions(source,file);
   if (!current.renderComposedPdf) continue;
+  if (file === WA_ACCEPTED_RENDERER) {
+    verifyWaAcceptedRenderer(source);
+    acceptedUnchangedHosts++;
+    continue;
+  }
   const oldSource = execFileSync('git',['show',`${baseline}:${file}`],{encoding:'utf8',maxBuffer:10e6});
   const old = functions(oldSource,file);
   // AST-normalize only the one wrapper; every other byte in the renderer stays identical.
@@ -71,11 +91,16 @@ for (const file of paths) {
   const unwrapped=current.renderComposedPdf.slice(0,call.getStart(ast))+call.arguments[0].getText(ast)+current.renderComposedPdf.slice(call.end);
   assert.equal(unwrapped,old.renderComposedPdf,`${file}: no geometry/content/rendering change outside the shared boundary`);
   assert.equal(current.sanitizePdfText,old.sanitizePdfText);
-  const restoredSource = source.replace(/^import \{ courtFacingRows \} from [^\n]+\n/m, '').replace(current.renderComposedPdf, old.renderComposedPdf);
+  let restoredSource = source.replace(/^import \{ courtFacingRows \} from [^\n]+\n/m, '').replace(current.renderComposedPdf, old.renderComposedPdf);
+  for (const [accepted, baselineText] of ACCEPTED_SOURCE_DELTAS[file] ?? []) {
+    assert.equal(restoredSource.split(accepted).length - 1, 1, `${file}: each accepted delta must occur exactly once`);
+    restoredSource = restoredSource.replace(accepted, () => baselineText);
+  }
   assert.equal(restoredSource, oldSource, `${file}: all non-composed code, including official PDF filling, must be unchanged`);
   hosts.push({file,current,old});
 }
-assert.ok(hosts.length >= 98);
+assert.equal(acceptedUnchangedHosts, 1);
+assert.ok(hosts.length + acceptedUnchangedHosts >= 98);
 const deps = {PDFDocument,StandardFonts,rgb,stampDeterministic,stripMarkdownEmphasis,createTokenSplitter,fitsByFontMetrics,assert,courtFacingRows,KEEP_ON_ONE_PAGE:'\uE000PAGE-BREAK\uE000'};
 const compile = f => {
   const render = new Function(...Object.keys(deps),`${f.constants}\n${f.helpers}\n${f.sanitizePdfText}\n${f.renderComposedPdf}\nreturn ${f.rendererName ?? "renderComposedPdf"};`)(...Object.values(deps));

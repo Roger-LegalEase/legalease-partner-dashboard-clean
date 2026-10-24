@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 /**
  * PF21 deterministic overlay builder for FDLE40-025, Florida's five-page
  * juvenile-diversion-expunction application packet.
@@ -172,6 +173,7 @@ const sanitize = (text) => String(text).replaceAll("‑", "-").replaceAll("–",
   .replaceAll("“", "\"").replaceAll("”", "\"").replaceAll("§", "Sec. ");
 
 function writeJson(rel, value) {
+  if (path.basename(rel) === "source-receipt.json") value = preserveIdentityRefresh(fs, path.join(ROOT, rel), value);
   const absolute = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(absolute), { recursive: true });
   fs.writeFileSync(absolute, `${JSON.stringify(value, null, 2)}\n`);

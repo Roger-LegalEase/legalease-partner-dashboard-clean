@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF07",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "lane": "VF07",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:nd-nonconviction-auto-close-verify run here at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR set: PASS_COMPLETE, 42/49 written, all nine counters printed 0. The builder's reports/completeness-counters.json was read only as the thing being checked; it agrees."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The two routeKeys (...nd_still_public_day_62:written_clerk_correction_request and ...nd_still_public_day_62:original_case_enforcement_motion) are declared as the same set in all four route-bearing records (order differs, membership identical) and each occurs exactly once in route-obligation-candidate.json (routes[16] and routes[15]: trackId nd-nonconviction-auto-close-verify, routeContractId ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05, destinations 'clerk of the original court' and 'court in the original criminal case', requiredSourceIds = the LA-IMM-03 decision and the route contract, both of which this family binds) and 3 times each in canonical-route-universe.json. Every delivered page prints the routeKey it serves."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Three committedRecords, no official-source binaries. Recomputed here: src/lib/legal-authority/routes/national-report-2026-08-28.json sha256 918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b / 37333 B = pin (exact; 6/6 build-script anchors present, routes[1] is the ND contract with failureDisposition nd_still_public_day_62); data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json sha256 5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2 / 22372 B = pin (exact; 6/6 anchors; decisions[15] is ND-NONCONVICTION-61-DAY-AUTO-CLOSE, disposition LEGAL_CLEAR, familyIds = this family). data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json drifted: pinned 0aad88ef.../184365 B, now 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B. Re-verified against current bytes: the controlling LA-IMM-03 section is immediateAssignments[2] (heading 'LA-IMM-03 - North Dakota `nd-nonconviction-auto-close-verify`'); its completeSectionText (2024 chars; the record's own reportSection.sha256 c0597a358429647b...) is byte-identical between the pinned blob and the current file; all 6 build-script anchors present. New pin for that record: sha256 63fe0b16..., byteLength 184885. The receipt's note that the route contract's generic disposition-date wording is superseded by the LEGAL_CLEAR order-entry rule was checked: the packet uses order entry throughout."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "4 declared components (clerk_correction_request, enforcement_motion, proposed_order, filing_instructions) = 4 composedComponentsAuthoredByThisBuild = 4 in the rendered componentSet = 4 instrumentKinds in product-wiring; componentConditions record the motion as after-the-request only and the proposed order as travelling with the motion. Page manifest of both fixtures: request 1-2, motion 3-4, proposed order 5, instructions 6-7; the first line of each page read from the bytes agrees. requiredComponentsMissing=0 here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "42 actual writes per fixture, 84 in all, every one located by me in pdftotext -layout output of its fixture's bytes (84/84, 0 missing): participant identity, court name and location, case number, whole-case disposition, order-entry date, raw day 61, Rule 45 adjusted expiration, first-check date, deadline method, calendar source, appeal gate, statutory-exception gate, check date, public-access evidence, and on the motion the office response. The date arithmetic was re-derived with GNU date: canonical order entered 2025-08-01, +61 days excluding entry = 2025-10-01 (a Wednesday, no extension), first check 2025-10-02 (Thursday); boundary 2025-08-04, +61 = 2025-10-04 (Saturday) extended to Monday 2025-10-06, first check Tuesday 2025-10-07; all six written values match. knownRequiredFieldsMissing=0 and requiredFactsNotCollected=0 here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFiling is empty by design: the eligibility gate's unknownGateBehavior is STOP_NO_PACKET, so every case fact on the pages is a collected, verified value rather than a blank. The instructions name the three things to obtain before filing with their source (the entered order and complete disposition record from the office of the original court; verified ND calendar coverage for day 61 through the next business day; dated public-access evidence from the public case search no earlier than the first-check date), and state the gates that stop the branch. Nothing the repository holds is withheld: no committed record holds a court address, fee or delivery method for these instruments (see FEE_AND_WAIVER, SERVICE)."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls; routeSelectionsMade is empty because the two instruments are a recorded sequence, not an election: the motion page prints 'USE THIS PAGE ONLY AFTER THE WRITTEN REQUEST' and the instructions table says when each page is the participant's. No printed election anywhere. requiredOptionsMissing=0 here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "0 repeating-row structures in the field map; incompleteRows=0 here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "7 protected blanks: request signature and date, motion signature and date (signature_or_date_participant_completion), and the proposed order's decision line, signature and date (court_prosecutor_clerk_or_agency_owned). refusedFieldsWithInk=[] in both fixtures; the proposed order prints 'ORDERS that .....', 'DATED .....' and an unsigned line with '(The court signs here if, and only if, it grants the motion.)'. protectedWrites=0 here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, 2 recorded, 0 unrecorded, 0 missing. Recomputed here: canonical.pdf sha256 042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2 / 17097 B; boundary.pdf sha256 db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d / 17490 B; both equal to reports/rendered-artifacts.json. The acceptance receipt (RASTER_PASS, run 34628970364) binds canonical 042abebb..., the current bytes, and the superseded receipt/verification for the earlier 61bedade... bytes are recorded as superseded. 14 raster PNGs are present under raster/. The prior PASS_COMPLETE_INDEPENDENT row (vf01/rows-vf01-20260911-nd-binding-final.json, base 5ec5b9d) names the same canonical hash."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "pdfinfo reads 7 pages for both fixtures = recorded pageCount 7 = manifest length 7. Manifest packetPage runs 1..7 contiguous with the four components contiguous and in declared order; the first line of every page, read from the bytes, confirms request (1-2), motion (3-4), proposed order (5), filing instructions (6-7) in both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox run here: canonical 1327 words, boundary 1346 words; 0 words outside the page box and 0 same-band overlapping word pairs in either fixture. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both fixtures; visualDefects=0 here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census destinations are 'clerk of the original court' (request) and 'court in the original criminal case' (motion); the LA-IMM-03 decision says the request goes to the clerk of the original court and the motion is filed in the original criminal case. The request page is addressed from collected facts 'To: the office of the District Court, South Central Judicial District for Burleigh County, North Dakota' (boundary: East Central Judicial District, Cass County) and the motion and proposed order are captioned in that court with the case number; instructions steps 3-4 say the same. No committed record holds a clerk's street address or delivery method, and the packet names the office of that court as the authority to ask rather than inventing one."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on limb 3. The filing-instructions page prints 'Ask the office of that court whether a filing fee applies - no committed record this packet is built from states one', and the instructions repeat it under 'What this packet does not tell you'; the office is specific per packet because the court name and county are written on every page. A2/A3 check of held sources: the route contract, the LA-IMM-03 decision and the LEGAL_CLEAR decision state no fee; the compiled ND profile's only 12-60.1-05 fee line is 'no filing fee may be charged' for the Petition to Close Nonconviction Records (the pre-2025-08-01 petition branch, 'court closes within 10 days'), a different filing from the enforcement motion in the original criminal case, so under A3 it does not establish this route's answer. The written request is correspondence to the clerk and the packet asks nothing for it. No figure is invented and no waiver procedure is claimed."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "The determination extends the named-checkable-authority form to SERVICE where no held source establishes a rule. Measured: the route contract and both decisions state no service step for either instrument; the ND profile's 'petition and proposed order must be served on the prosecuting official' is keyed to the chapter 12-60.1 sealing petition with its 45-day hearing, a different filing (A3). The packet states that delivery of the request and motion is not established by the committed records and names the office of the court in the original criminal case (named per packet) as the authority: 'Ask that office how it accepts delivery, and use that method' on the instructions page, repeated in participant-instructions.md. Noted and not scored: the 2026-09-06 owner-relayed research record proposes proof of service under N.D.R.Ct. 3.2 and N.D.R.Crim.P. 47 and 49 for the motion; it is marked createsApproval false and not counsel, is not a held source under A2, and the packet neither adopts nor contradicts it."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the route contract's failureDisposition and exclusions (nd_eligibility_contested -> attorney_or_prosecutor, 'A contested eligibility question is individualized advocacy'; nd_agency_history_error -> separate agency challenge, 'the two must not be presented as one step'; 'No individualized notice may be promised'), the LA-IMM-03 decision ('contested eligibility goes to counsel'; 'Pre-August 1, 2025 dispositions remain on the official petition route') and the LEGAL_CLEAR rule (order-entry anchor, 2025-08-01 cutoff, statutory exceptions, whole-case treatment and appeal gates). The delivered instructions page prints six stops (eligibility contested; order entered before 2025-08-01; any whole-case, appeal, exception, calendar or public-access gate unknown; first-check date not arrived or record not public; agency history still shows the matter; immigration), 'Take it to a lawyer' for contested eligibility, and 'No individualized notice is promised' is stated in the instructions. Every stop the records hold is carried; no inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 42/49 written, all nine counters zero, run here at f3ff92ac2",
+        "sourceRecomputation": "3/3 committedRecords recomputed from disk: route contract 918bc661.../37333 B exact, LEGAL_CLEAR record 5e3b6fb6.../22372 B exact, national legal decisions drifted 0aad88ef.../184365 B to 63fe0b16.../184885 B with the controlling LA-IMM-03 section byte-identical; 18/18 build-script anchors present in the current bytes",
+        "artifactRecomputation": "2/2 PDFs hash and byte-length to rendered-artifacts.json; pdfinfo 7 pages each",
+        "byteReadBack": "84/84 written values (42 per fixture) located by this lane in pdftotext output of the fixture bytes; the six derived dates re-derived with GNU date and matching; 0 refused fields with ink; 0 glyphs outside measured write boxes",
+        "stopConditions": "6/6 stop conditions held by the route contract, LA-IMM-03 and the LEGAL_CLEAR rule carried on the delivered instructions page with the attorney handoff for contested eligibility and the separate-agency-challenge separation",
+        "lapseResolved": "BOUND_SOURCE_DRIFTED on 2026-08-28-national-legal-decisions.json only; the other two pins are exact. The pinned blob (drift/2026-08-28-national-legal-decisions.json.pinned.0aad88ef, sha256 recomputed equal to the pin) and the current file differ by +21/-16 lines, all in the open-question register (Q-057 reworded, Q-058 added, count 37 to 38) and in memoSha256 values of other tracks; the three strings carrying this family's key (trackId, heading, completeSectionText of immediateAssignments[2]) are identical in both. Re-verified against current bytes; the new pin is sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, byteLength 184885. This row records the pin; it does not edit the receipt."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

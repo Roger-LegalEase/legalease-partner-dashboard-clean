@@ -1,0 +1,332 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+  "verifier": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "rcap-hi-custom-pleading": "ALREADY_RELEASED: rcap-hi-custom-pleading at 2026-09-10T23:54:07.869Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "rcap-hi-custom-pleading",
+      "lane": "VF01",
+      "worker": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+      "verifiedAt": "2026-10-20T23:11:13Z",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading, run by review-evidence/ci-factory/vf-reverify-f3ff92ac2/measure-family.mjs in the worktree /tmp/legalease-reviewer2-20261020 detached at 92ff5d4366f64de3c1efaed70a1100e37acd9773: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 35/220 written; every counter printed 0 (hi-facts.json verifierRun)."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025,
+          "matchesReceipt": true
+        },
+        {
+          "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf (HCJDC-159B)",
+          "sha256": null,
+          "byteLength": null,
+          "pinnedSha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "pinnedByteLength": 181711,
+          "matchesReceipt": null,
+          "why": "bytes not readable on this machine (custody-probe.txt)"
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "pdf": "assembly",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
+          "byteLength": 945081,
+          "pageCount": 20,
+          "recordExact": true,
+          "rasterReceipt": "bound by RASTER_PASS run 34476556218 (RASTER_QUEUE row)"
+        },
+        {
+          "fixture": "boundary",
+          "pdf": "assembly",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28",
+          "byteLength": 945443,
+          "pageCount": 20,
+          "recordExact": true,
+          "rasterReceipt": "bound by RASTER_PASS run 34476556218 (RASTER_QUEUE row)"
+        },
+        {
+          "fixture": "canonical",
+          "pdf": "hi-first-time-drug-offender",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+          "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413",
+          "byteLength": 189723,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "canonical",
+          "pdf": "hi-marijuana-three-grams",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+          "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a",
+          "byteLength": 189750,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "canonical",
+          "pdf": "hi-pre-2004-drug-offender",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+          "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0",
+          "byteLength": 189885,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "canonical",
+          "pdf": "hi-first-time-property-offender",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+          "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427",
+          "byteLength": 189735,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "canonical",
+          "pdf": "hi-under-21-dui",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+          "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea",
+          "byteLength": 189739,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "boundary",
+          "pdf": "hi-first-time-drug-offender",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+          "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52",
+          "byteLength": 189793,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "boundary",
+          "pdf": "hi-marijuana-three-grams",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+          "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de",
+          "byteLength": 189823,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "boundary",
+          "pdf": "hi-pre-2004-drug-offender",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+          "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc",
+          "byteLength": 189949,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "boundary",
+          "pdf": "hi-first-time-property-offender",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+          "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718",
+          "byteLength": 189805,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        },
+        {
+          "fixture": "boundary",
+          "pdf": "hi-under-21-dui",
+          "file": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+          "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a",
+          "byteLength": 189808,
+          "pageCount": 4,
+          "recordExact": true,
+          "rasterReceipt": "notRenderedByThisGate in the RASTER_QUEUE row; pixel-identical at 50 dpi to its assembly pages (route-raster-compare-92ff5d436.json)"
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Five route keys, identical as a set in product-wiring, source-receipt, production-field-map and the MASTER_QUEUE row; familyId agrees across them (hi-facts.json routeIdentity). Each of the 10 per-route PDFs carries its own route's pages only (order-and-anchors-92ff5d436.json: manifest component order = that route's slice of componentSet), and every composed page prints its route as the label, not the key (\"Route: First-time drug offender expungement - HRS 706-622.5(4)\" etc.; printedRouteLineCarriesTheLabelNotTheKey true)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The committed record binds exactly: data/record-clearing/legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 / 16781025 B equals its receipt pin (hi-facts.json sourceIdentity). The one official source cannot be recomputed from bytes here: the receipt binds HCJDC 159(b) Rev. 06/03/2026 \"LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf\" at 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a / 181711 B, and those bytes are under no mounted custody on this machine (custody-probe.txt: the receipt path, the custody census materializedAt path and two custody roots tried, all absent; private/Nationwide Record Clearing and the Nationwide Recovery Pool hold only LegalEase Kansas; no 181711-byte file under private/; none in git). The custody census lists it SOURCE_PRESENT_AND_REVERIFIED with the same digest and size, and every attached page names the form digest in the manifest and prints its identity anchors (Expungement Application, HCJDC 159(b) Rev. 06/03/2026, the HCJDC address), but a census row and printed anchors are not a recomputation. Per the lane rule as the lead applied it (2026-10-20T22:39:54Z), this family is BLOCKED_SOURCE until Storage restores the bytes."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "declared = rendered = 15 components (per route: stage-one motion, proposed order, and the attached HCJDC 159(b) application), in the field map, rendered set and both assembly fixtures; each per-route PDF carries its route's three; selectionControls 0, requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Every value reports/actual-writes.json records was read back from pdftotext of its fixture: canonical 35/35, boundary 35/35, 0 not found, 0 non-whitespace glyphs outside the measured write boxes, no refused field inked (hi-facts.json readBack); the per-route PDFs carry the identical page text (route-vs-assembly-92ff5d436.json). The full legal name prints in the caption, fact a. and the order of every route; date of birth, home and mailing address, phone and email print on the attached form. The form's \"Current Legal Name (Last, First, Middle)\" line is left blank by design and disclosed: the platform holds the name as one string with no surname marked (reports/blanks-left-for-the-participant.json), so it is a required-before-filing item, not an unwritten known fact."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map requiredBeforeFilingCount 125 = 125 entries; every disclosureLabel is found verbatim in participant-instructions.md, and every composed-page printedContext is found on its own page in both fixtures. The 90 non-verbatim printedContexts (9 per attached form x 5 routes x 2 fixtures) are the field map's descriptive names for the official form's own printed blanks (Other Names Used, the Sex M/F marks, the conviction-paragraph initials, the five checklist boxes), each present on the form as printed (text-claims-92ff5d436.json, visual read). unclassifiedBlanks 0, requiredFactsNotCollected 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "detail": "The selection itself is right: no election box is printed, selectionControls 0, requiredOptionsMissing 0, and the instructions' route table tells the participant which set is whose and to use only that set. But the record states where each route is shown, and that statement is false for these bytes. production-field-map.json routeSelectionNote says \"No election box is printed anywhere. Each route's pages state their own statute in the title, the body and the footer, and the participant instructions carry a table saying which set is whose.\" and routeSelectionsMade[0-4].statedOnEveryPageOfThisRoute are all true. The attached official HCJDC 159(b) page of every route (assembly pp [4, 8, 12, 16, 20] in both fixtures; p4 of each of the 10 per-route PDFs) prints no route footer: 0 lines starting \"route\" in any form and 0 route-label lines; its bottom 72 pt band carries only the form's own HCJDC address; its title is \"Expungement Application\" and its body is the same form text on every route, listing all four statutes, so it states no single route's statute (route-statements-92ff5d436.json). The 15 composed pages do print \"Route: <label> - HRS <statute>\" in the bottom band (y 754 of 792) and name the statute in the body. \"In the title\" also overstates for each motion's continuation page (assembly pp [2, 6, 10, 14, 18]), which has no title. Under the lead's 2026-10-20T22:31:31Z ruling (the route-footer class: a record that promises a page statement the bytes do not carry is scored), this fails ROUTE_OPTIONS. The repair is text-only and leaves the PDFs byte-identical."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure; repeatingRows 0 and incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Viewed on all 40 pages: the defendant's signature and date, the server's signature, the judge's date, signature and printed name, the court's findings, the form's initials boxes, its applicant Signature and Date lines and the LEAVE BLANK; HCJDC USE ONLY box carry no ink in either fixture. refusedFieldsWithInk empty and protectedWrites 0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Twelve PDFs, all recorded, none unrecorded or missing. Recomputed: canonical.pdf fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136 / 945081 B, boundary.pdf 66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28 / 945443 B (20 pages each) and the 10 per-route PDFs (4 pages each) all equal reports/rendered-artifacts.json, pdfinfo = recorded pages (route-statements-92ff5d436.json). Raster: RASTER_PASS run 34476556218 (job 102869652480, artifact id not recorded) is the committed acceptanceReceipt and the RASTER_QUEUE row binds it to canonical fee2da64 and boundary 66fb5be1, these exact assembly bytes (packetCommitSha 36ecdb7e2); the queue row lists the 10 per-route PDFs as notRenderedByThisGate. This reviewer rendered all 12 locally (pdftoppm): each per-route page is pixel-identical at 50 dpi to its assembly page, and all 40 assembly pages were viewed at 150 dpi (view/)."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Every PDF's manifest runs packetPage 1..n contiguously and its component order equals componentSet (assembly) or that route's slice of it (per-route PDFs): motion pp1-2, proposed order p3, attached application p4 for each route (order-and-anchors-92ff5d436.json); confirmed against each page heading in the visual read."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: 0 words outside the page box in either fixture. measure-family.mjs counts 75 (canonical) and 95 (boundary) same-band overlapping word pairs; every one is on an attached HCJDC form page and has a printed underscore rule on one side, i.e. a written value sitting on the form's own blank line (overlap-92ff5d436.json; 15/19 per per-route PDF, same class). Visual read at 150 dpi (view/): all 40 assembly pages legible, inside margins, no collision or clipping; the boundary's long name, address and email fit."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Two-stage, and both are named. Stage one: the motion is filed in the participant's own existing penal case, in the court that entered the judgment (instructions and motion caption; the registry records that venue follows the offence and is a participant input, so the court is a labelled blank read from the participant's own record). Stage two: the Hawaii Criminal Justice Data Center, Attn: Expungement, 465 South King Street, Room 102, Honolulu, HI 96813, printed on the form and repeated in the instructions; the registry destination \"The sentencing court, then the Hawaii Criminal Justice Data Center\" is stated in substance."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Each track's registry fees and feeWaiver rules are quoted verbatim in the instructions (text-claims-92ff5d436.json): no fee is prescribed for the stage-one motion, with clerk cost practice named as open, and Haw. R. Penal P. Form B named for waiver; stage two: the form prints $35 first-time, $50 non-first-time, $10 non-refundable, $20 duplicate, money order or cashier's check only."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Each track's registry service and notice rules are quoted verbatim in the instructions; the motion prints Haw. R. Penal P. 49(a) (\"all written submissions to the court shall be served upon each of the parties promptly after filing\") and a certificate of service on the prosecuting attorney under 49(c), with the served office, address, date, manner and signature left for the participant."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Every registry selfHelpStopConditions and selfHelpBoundaries entry for all five tracks is quoted verbatim in the instructions' stop section (text-claims-92ff5d436.json), including the per-route exclusions (another charge from the same facts, a post-July-2004 sentence for HRS 706-622.8, any commercial licence for the DUI-under-21 route) and the federal/military/other-jurisdiction and immigration stops."
+        }
+      },
+      "observations": [
+        {
+          "what": "Builder vocabulary on a court-filed motion",
+          "detail": "Each route's motion continuation page (assembly pp2, 6, 10, 14, 18) prints \"Each dotted blank above is read by the defendant from their own court record. The controlling record states that LegalEase does not obtain or review that record, and this build has written nothing into those blanks.\" Copy, not scored (lead ruling on the A9 notes; NV and DE precedent)."
+        },
+        {
+          "what": "Participant guidance on the judge's order",
+          "detail": "Each proposed order (pp3, 7, 11, 15, 19) ends \"The defendant should ask the clerk for a signed copy of this order once it is entered. The stage-two Expungement Application in this packet cannot be submitted without a copy of it.\" Copy, not scored."
+        },
+        {
+          "what": "Internal register in participant-instructions.md",
+          "detail": "The quoted-record section says its sentences \"are written for the people who build and review packets, not for you\", and the closing line says the packet \"is review evidence produced by a build lane ... not approved for participant delivery\". Recorded, not scored."
+        },
+        {
+          "what": "The prepared note repair keeps \"in the title\"",
+          "detail": "review-evidence/lead-hi-note/hi-note-builder.patch (sha256 0c6f5e2e...) limits the note to \"Each route's composed pages state their own statute in the title, the body and the footer\", names the 159(b) page as printing no route footer, and sets statedOnEveryPageOfThisRoute false. Each motion's continuation page (pp2, 6, 10, 14, 18) has no title; the statute is in its body and footer. Resolved: the lead adopted a page-true wording 2026-10-20T23:00:14Z (see repairNeededAfterSourceRestored; hi-wording-continuation-titles-92ff5d436.txt)."
+        },
+        {
+          "what": "Current Legal Name left blank on the form",
+          "detail": "The form asks Last, First, Middle; the platform holds one name string, so the line is a disclosed required-before-filing item although the name itself is known. Not scored (classified, not unwritten)."
+        }
+      ],
+      "evidence": {
+        "reviewEvidenceDir": "review-evidence/reviewer2/hi-vf01-92ff5d436/",
+        "measurement": "review-evidence/reviewer2/hi-vf01-92ff5d436/hi-facts.json",
+        "files": {
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/hi-facts.json": "3013096d45e5924338d56645aca15a40ec7f6f4c16f8bc5d74871ad0aabd6dd5",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/hi-measure.log": "83f92bc36f853e610de8a4b1f0865a91a154f8613a2fef93eea7ea6cb48fc3a5",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/custody-probe.txt": "258ddc654714c29a8200aa6907c388181d22d066080fda8be76d638f3842ef14",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/measure-route-statements.py": "9a06fceb88edb1852edba28d01eb7749beb4519f4f99bea90ac34df3085e1b93",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/route-statements-92ff5d436.json": "970a27527f49d54bb2b10c9daf7ee1dc7dc3f7ba4565b08927adcede0b6ac9a3",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/text-claims.py": "74fb6dfb887aae330b20604abfa5db7a5b9e3a20626150de0c2aea238282d45f",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/text-claims-92ff5d436.json": "09861eb8c1dbebd2a93f93009737045652eef13dc6829e47148a785b4bfecbc9",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/overlap.py": "89e824fd926625d38ff5b92671407218112d66ac805d85caef1a9f40b9eac9ff",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/overlap-92ff5d436.json": "f628d1215c651f09a8219caeb67b32d9db84211ba3963e7063e9807ae9351ff1",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/route-vs-assembly.py": "0c3cac53191b8043c980c9eb95dd2f39b1aa0cddb34965c058ede0ae76430001",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/route-vs-assembly-92ff5d436.json": "bfbd726bb628da2a75b50b6712d5079a5b8ff22effad66b3788c17a7984fe7bd",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/route-raster-compare.py": "fb6f3625bb712e58fd4d62b581c71100e1cddd8af10e95a602dc0818f3aa9e63",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/route-raster-compare-92ff5d436.json": "d65176049de74f31e822f53310f8ceae3c94df2270dc26db8543146b6a808306",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/order-and-anchors.py": "390d652a9279947e463c208ccd5e30ef352381d7b71f8830bbbcbdab2fc417e6",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/order-and-anchors-92ff5d436.json": "c572a8bd6a1ab1f8ed866c9202524e7c2025e694a82fad71314d26c0f40caff9",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/make-sheets.py": "ba082a80c9ab4ff7bf2d7845f965e6f99e9d2e7ec8ffe8798f6ab925c0a0751b",
+          "review-evidence/reviewer2/hi-vf01-92ff5d436/head.txt": "a06b33d05d522dfb71d2ad44fda9a6bbb23d3e760e1953cbc4ecbddbeca038f0"
+        },
+        "visualReview": "review-evidence/reviewer2/hi-vf01-92ff5d436/view/ (10 sheets, all 40 assembly pages at 150 dpi, viewed by this reviewer)",
+        "rasterReceipt": "RASTER_PASS run 34476556218 (job 102869652480, artifact id not recorded) is the committed acceptanceReceipt and the RASTER_QUEUE row binds it to canonical fee2da64 and boundary 66fb5be1, these exact assembly bytes (packetCommitSha 36ecdb7e2); the queue row lists the 10 per-route PDFs as notRenderedByThisGate. This reviewer rendered all 12 locally (pdftoppm): each per-route page is pixel-identical at 50 dpi to its assembly page, and all 40 assembly pages were viewed at 150 dpi (view/).",
+        "claimState": "VF01 claim on this family released 2026-09-10T23:54:07.869Z in the 92ff5d436 ledger; the assembler records ALREADY_RELEASED",
+        "ruling": "LEAD_TO_REVIEWER2 2026-10-20T22:31:31Z (HI route-footer claim scored, ROUTE_OPTIONS, option (a) FIX-only, writer the lead) and the 22:39:54Z amendment (bound source unreadable -> BLOCKED_SOURCE; no repair-assignment file; name the custody restore)"
+      },
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "blockedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "currentCustodyBlocker": {
+        "familyId": "rcap-hi-custom-pleading",
+        "documentId": "HCJDC-159B",
+        "stopClass": "SOURCE_CUSTODY_UNAVAILABLE",
+        "expectedSourceSha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+        "expectedByteLength": 181711,
+        "actualSourceSha256": null,
+        "sourcePath": "private/Nationwide Record Clearing/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf (custody census materializedAt); receipt resolvedAbsolutePath .../Nationwide_Recovery_Pool_2026-09-02/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+        "liftCondition": "Storage restores the bytes under a mounted custody and a fresh VF01 read recomputes 1cb4f3ac... / 181711 B from them (requested by the lead 2026-10-20T22:39:54Z)"
+      },
+      "repairNeededAfterSourceRestored": "ROUTE_OPTIONS: the lead's FIX-only note repair (prepared, uncommitted: review-evidence/lead-hi-note/hi-note-builder.patch, range lead/hi-note-20261020) setting routeSelectionNote to the wording the lead adopted 2026-10-20T23:00:14Z, \"Each route's composed motion and order state their own statute in their first-page title and in the body of every page; the attached official HCJDC 159(b) Expungement Application page names no single route.\" (true page by page at 92ff5d436: hi-wording-continuation-titles-92ff5d436.txt), and statedOnEveryPageOfThisRoute false; PDFs stay byte-identical, no A9. Then a fresh VF01 read.",
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

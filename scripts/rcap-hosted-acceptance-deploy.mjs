@@ -24,6 +24,7 @@
 // Secrets are sent in the authenticated REST request body and are never
 // echoed or written to the evidence bundle.
 
+import {CONFIGURED_SANDBOX_PHASE,configuredSandboxOverrides} from './rcap-configured-sandbox-preview-contract.mjs';
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -49,10 +50,12 @@ const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
+const configuredSandboxEnv = process.env.PHASE_INPUT === CONFIGURED_SANDBOX_PHASE ? configuredSandboxOverrides(process.env) : null;
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
 const ISOLATED_CLINIC_PREVIEW = process.env.HOSTED_ISOLATED_CLINIC_PREVIEW === "true";
 if (ISOLATED_CLINIC_PREVIEW && !MISSISSIPPI_PREVIEW_MODE) throw new Error("DEPLOY_CLINIC_PURPOSE_MISMATCH");
+if (process.env.PHASE_INPUT === "replace_preview" && (ROUTE_STATE || SCOPE_IDS || CLINIC_DEMO_MODE || ISOLATED_CLINIC_PREVIEW)) throw new Error("DEPLOY_CANDIDATE_PREVIEW_MUST_BE_CLOSED");
 const CLINIC_DEMO_PASSWORD = (process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? "").trim();
 const LEGAL_AID_EMAIL = (() => {
   const apiKey = (process.env.HOSTED_LEGAL_AID_RESEND_API_KEY ?? "").trim();
@@ -226,7 +229,7 @@ if (aliasesBefore.includes(RETURN_ALIAS_HOST)) {
 // it is reused. The intended configuration is recorded as deployment metadata
 // and compared, which is what stops a redeploy-with-Stripe from silently
 // resolving to the earlier no-Stripe deployment and reporting success.
-const STRIPE_CONFIGURED = Boolean(process.env.HOSTED_STRIPE_TEST_SECRET && process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET);
+const STRIPE_CONFIGURED = process.env.PHASE_INPUT !== "replace_preview" && Boolean(process.env.HOSTED_STRIPE_TEST_SECRET && process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET);
 const ROUTE_STATE_TAG = ROUTE_STATE || "disabled";
 // The sandbox catalog Product this Preview is built to sell. It is baked in at
 // creation like every other environment variable, so it belongs in the reuse
@@ -282,6 +285,7 @@ async function findReusableDeployment() {
       d.meta?.rcapApplicationSha === APPLICATION_SHA &&
       Object.entries(FROZEN_WORKER_METADATA).every(([key,value]) => d.meta?.[key] === value) &&
       d.meta?.rcapAcceptanceProjectRef === PROJECT_REF &&
+      (process.env.PHASE_INPUT !== "replace_preview" || (d.meta?.rcapClosedPreview === "true" && d.meta?.rcapPartnerOnboardingEnabled === "true")) &&
       d.meta?.rcapStripeConfigured === String(STRIPE_CONFIGURED) &&
       d.meta?.rcapCatalogProduct === CATALOG_PRODUCT_TAG &&
       d.meta?.rcapRouteState === ROUTE_STATE_TAG &&
@@ -383,6 +387,25 @@ if (ISOLATED_CLINIC_PREVIEW) {
 // Public at build time, server-only at runtime. The delivery flag is passed
 // ONLY when ROUTE_STATE is explicitly set; the default deployment carries no
 // flag at all, so the control's own default (disabled) applies.
+// Candidate staging cannot inherit payment, legacy billing or outbound delivery authority.
+const closedPreviewEnv = process.env.PHASE_INPUT === "replace_preview" ? {
+  RCAP_PARTNER_ONBOARDING_ENABLED: "true",
+  RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "disabled",
+  RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "",
+  RCAP_SPONSORED_PREVIEW_CHANNEL: "",
+  STRIPE_SECRET_KEY: "",
+  STRIPE_WEBHOOK_SECRET: "",
+  STRIPE_LEGACY_WEBHOOK_SECRET: "",
+  OPENAI_API_KEY: "",
+  UPSTASH_REDIS_REST_URL: "",
+  UPSTASH_REDIS_REST_TOKEN: "",
+  ENABLE_PARTNER_EMAIL_DELIVERY: "false",
+  EXPUNGEMENT_EMAIL_PROVIDER: "",
+  RESEND_API_KEY: "",
+  INTERNAL_ADMIN_ACCESS_TOKEN: "",
+  LEGALEASE_OS_EVENTS_ENABLED: "false",
+  LEGALEASE_OS_EVENTS_ENDPOINT: ""
+} : {};
 const runtimeEnv = {
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
@@ -416,9 +439,13 @@ const runtimeEnv = {
     RESEND_API_KEY: LEGAL_AID_EMAIL.apiKey,
     PARTNER_EMAIL_FROM: LEGAL_AID_EMAIL.from
   } : {}),
-  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
+  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
+  ...closedPreviewEnv,
+  ...(configuredSandboxEnv?.runtime ?? {})
 };
 const buildEnv = {
+  ...closedPreviewEnv,
+  ...(process.env.PHASE_INPUT === "replace_preview" ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "", VERCEL_ANALYZE_BUILD_OUTPUT: "1" } : {}),
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: keys.anon,
@@ -434,7 +461,8 @@ const buildEnv = {
   // affected. Trimming the bundle instead would mean editing src/ — a new
   // application freeze, a new worker image, and a re-run of both required
   // checks, to change nothing a participant can observe.
-  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
+  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
+  ...(configuredSandboxEnv?.build ?? {})
 };
 
 // A live Stripe key must never reach this environment, and the check is on the
@@ -456,12 +484,13 @@ const buildEnv = {
     ? { configured: true, provider: "resend", valuesRecorded: false }
     : { configured: false, note: "no nonproduction email provider supplied; follow-up messages are saved, not sent" };
   evidence.stripe = {
-    mode: stripeSecret ? "test key supplied" : "no key supplied; the placeholder cannot transact",
-    webhookSigningSecretSupplied: Boolean(stripeWebhook)
+    mode: process.env.PHASE_INPUT === "replace_preview" ? "closed candidate Preview; Stripe credentials are absent" : stripeSecret ? "test key supplied" : "no key supplied; the placeholder cannot transact",
+    webhookSigningSecretSupplied: process.env.PHASE_INPUT !== "replace_preview" && Boolean(stripeWebhook)
   };
 }
 
 const deploymentMeta = {
+  ...(process.env.PHASE_INPUT === "replace_preview" ? { rcapClosedPreview: "true", rcapPartnerOnboardingEnabled: "true" } : {}),
   ...FROZEN_WORKER_METADATA,
   ...(ISOLATED_CLINIC_PREVIEW ? { rcapPreviewPurpose: "mississippi_clinic" } : {}),
   rcapApplicationSha: APPLICATION_SHA,

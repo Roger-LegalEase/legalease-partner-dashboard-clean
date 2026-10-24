@@ -1,149 +1,87 @@
 {
   "schemaVersion": 2,
   "specificationId": "va-absolute-pardon-expungement",
-  "specificationVersion": "1.0.0",
+  "specificationVersion": "1.1.0",
   "routeKey": "VA:regime-1-expungement-available-now",
   "jurisdiction": "VA",
   "pathwayId": "regime-1-expungement-available-now",
   "pathwayLabel": "Regime 1 — Expungement (§ 19.2-392.2), available now",
   "packetFamily": "va_exp_absolute_pardon-set",
-  "packetFamilyLabel": "Virginia Absolute-Pardon Expungement (CC-1472 petition, and the subsection (I) court duty)",
+  "packetFamilyLabel": "Virginia absolute-innocence-pardon implementation",
   "trackId": "va_exp_absolute_pardon",
   "packetSetId": "va_exp_absolute_pardon-set",
-  "packetSetVersion": "1.0.0",
+  "packetSetVersion": "1.1.0",
   "profileId": "VA",
   "profileVersion": "2026-06-19-source-conversion-1",
   "legalSectionsBound": false,
   "generatedBy": "route-productization worker from existing owner-approved records; no new registry",
   "derivedFrom": [
-    "data/record-clearing/legal-design-intake/VA.memo.json#va_exp_absolute_pardon",
     "data/record-clearing/legal-design-packet-set-manifests.json#va_exp_absolute_pardon-set",
-    "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json",
-    "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json",
-    "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json#OWN-ADOPT-2026-09-02-BATCH-53",
-    "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json#va_exp_absolute_pardon-set",
-    "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf (official Form CC-1472; identified by the audit workbook Sources tab, not ingested here)"
+    "LegalEase_Legal_Decision_Review_2026-10-13(1).md#VA-01 sha256:4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2"
   ],
-  "specificationNote": "This specification binds the one Virginia runtime route for Va. Code 19.2-392.2(I) and models its two branches separately: the court duty on statutory transmission under 2.2-402, which requires no participant filing, and the participant-initiated petition, which is governed by official Form CC-1472. It does not substitute CC-1473, which is captioned to subsection (A). It previously placed a custom 'Transmittal and Request' in the participant slot; that is superseded by CC-1472 and recorded under supersession. It grants no fulfillment or commercial authority.",
+  "specificationNote": "Owner-relayed v3 section7 adopts CC1474rev07/26 and exact seven factual context/nonrequirement treatments. Exact source is privately recovered; portable URL/digest/custody metadata is available. Existing custom and CC1472 ancestry remain historical. Applicable actual guidance/source/context/save/purpose/output-consumer acceptance remains; geometry only if a demonstrated applicable generated output requires it. legalSectionsBound stays false/process_guidance; no participant petition or official act is manufactured.",
   "statutoryAuthority": {
-    "primary": "Va. Code § 19.2-392.2(I); Va. Code § 19.2-392.2(K); Va. Code § 19.2-392.2(L); Va. Code § 2.2-402",
+    "primary": "Va. Code 19.2-392.2(I); Va. Code 2.2-402(E)",
     "sourceUrl": "https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
-    "ruleStatement": "Va. Code 19.2-392.2(I): upon receiving a copy pursuant to 2.2-402 of an absolute pardon for the commission of a crime that a person did not commit, the court shall enter an order requiring expungement of the police and court records relating to the charge and conviction; the order states that expungement is ordered under this subsection and is then treated as provided in subsection (K). That court duty is branch A and needs no petition. Where the participant is instead pursuing the filing path, the Supreme Court of Virginia publishes CC-1472 as the petition for this same subsection, and that is branch B.",
+    "ruleStatement": "For an absolute pardon for a crime the person did not commit, the Secretary of the Commonwealth transmits the pardon to the proper circuit court. Upon receipt under 2.2-402, the court shall enter an order requiring expungement of the relevant records. This is not the ordinary acquittal/dismissal petition. Transmission to State Police remains a court/clerk act.",
     "reliefIsMandatoryOnMotion": false,
+    "effectiveVersionThrough": "2026-11-30",
     "doNotImport": [
-      "Do not use CC-1473 or import the subsection (A) acquittal-or-dismissal petition procedure into this subsection (I) route.",
-      "Do not import subsection (D)'s Commonwealth notice period into this route; CC-1472's own service requirement is a copy on the Commonwealth's Attorney, which is a different thing.",
-      "Do not represent this packet as obtaining, classifying, or applying for the pardon itself.",
-      "Do not make the branch B petition a prerequisite to the branch A court duty.",
-      "Do not state or imply a fee exemption. Subsection (I) contains none, and CC-1472's own checklist says to file with all applicable fees and costs."
+      "Do not make a participant petition a prerequisite to the statutory court duty.",
+      "Do not select CC-1472, CC-1473 or CC-1474A as a substitute without the applicable actual source and adopted treatment.",
+      "Do not invent participant signature, fee, service or contact requirements from the ordinary petition procedure.",
+      "Do not use the separately published December 1, 2026 statutory version for this adopted review."
     ]
   },
   "sourceIdentities": [
     {
-      "sourceId": "VA.memo:va_exp_absolute_pardon",
-      "kind": "legal_design_intake_track",
-      "verification": "present_in_repository",
-      "location": "data/record-clearing/legal-design-intake/VA.memo.json",
-      "note": "The approved track supplies the mechanism, destination, components, participant actions, fee and service treatment, and self-help stops."
+      "sourceId": "owner-relayed-VA-01-20261013",
+      "kind": "owner_relayed_counsel_adoption",
+      "verification": "register_hash_verified_owner_confirmed_supersession",
+      "location": "LegalEase_Legal_Decision_Review_2026-10-13(1).md",
+      "sha256": "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2",
+      "note": "Mechanism adopted; does not authenticate any current court-hosted form or certify rendered output."
     },
     {
-      "sourceId": "va_exp_absolute_pardon-set@1.0.0",
-      "kind": "owner_approved_packet_set_manifest",
+      "sourceId": "va_exp_absolute_pardon-set@1.1.0",
+      "kind": "adopted_procedure_manifest",
       "verification": "present_in_repository",
-      "location": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "note": "The manifest supplies the exact three component ids, roles, requirements, strategies, and order."
+      "location": "data/record-clearing/legal-design-packet-set-manifests.json"
     },
     {
-      "sourceId": "va_exp_absolute_pardon-set-production-field-map@census-v1",
-      "kind": "production_field_map",
-      "verification": "present_in_repository",
-      "location": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json"
-    },
-    {
-      "sourceId": "va_exp_absolute_pardon-set-rendered-artifacts@census-v1",
-      "kind": "rendered_artifact_manifest",
-      "verification": "present_in_repository",
-      "location": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json"
-    },
-    {
-      "sourceId": "OWN-ADOPT-2026-09-02-BATCH-53",
-      "kind": "owner_exact_digest_adoption",
-      "verification": "present_in_repository",
-      "location": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
-      "note": "Limited family-level legal-design adoption of the exact canonical and boundary hashes; grants no runtime or commercial authority."
-    },
-    {
-      "sourceId": "VA-CC-1472",
-      "kind": "official_form",
-      "verification": "identified_not_ingested",
-      "location": "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf",
-      "note": "Identified by the audit workbook's Sources tab and confirmed against the current Virginia Courts CC-1472 instructions. The binary was not readable from this environment, so its geometry is unmeasured and the component refuses until it is ingested."
+      "sourceId": "CC1474@07-26#85ac8ea0",
+      "kind": "official_court_source_candidate",
+      "verification": "asserted_by_ingestion",
+      "location": "https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf",
+      "sha256": "85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656",
+      "note": "Exact officialURL/digest; portable custody record data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json. Private acquisitiona902 preserved; source candidate identity only, no geometry/output acceptance."
     }
   ],
   "requiredFacts": [
     {
       "factId": "participant_full_legal_name",
-      "use": "requester identity on CC-1472 and the packet components",
+      "use": "Identify the person whose actual absolute innocence pardon and case records are being verified.",
       "inRegistryRequiredInputs": true,
       "ownership": "participant"
     },
     {
-      "factId": "date_of_birth",
-      "use": "requester identity on CC-1472",
-      "inRegistryRequiredInputs": false,
-      "gapNote": "The current approved field map writes this participant-held fact even though the factory-v2 required-input list does not name it separately.",
-      "ownership": "participant"
-    },
-    {
-      "factId": "mailing_address",
-      "use": "requester contact block on CC-1472",
-      "inRegistryRequiredInputs": false,
-      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the address separately.",
-      "ownership": "participant"
-    },
-    {
-      "factId": "phone_number",
-      "use": "requester contact block on CC-1472",
-      "inRegistryRequiredInputs": false,
-      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the telephone separately.",
-      "ownership": "participant"
-    },
-    {
-      "factId": "email_address",
-      "use": "requester contact block on CC-1472",
-      "inRegistryRequiredInputs": false,
-      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the email separately.",
-      "ownership": "participant"
-    },
-    {
-      "factId": "full_name_at_time_of_arrest",
-      "use": "CC-1472 element 6",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant",
-      "gapNote": "Required by the official form; not separately named in the factory-v2 required-input list."
-    },
-    {
       "factId": "charges_to_be_expunged",
-      "use": "CC-1472 element 7, with related case numbers where available",
+      "use": "Identify the actual offenses and cases covered by the pardon; bind any implementation or correction output only to a verified receiving-court instrument.",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
     },
     {
       "factId": "final_disposition_dates_and_courts",
-      "use": "CC-1472 element 8",
+      "use": "Retain actual disposition and conviction-court facts separately; confirm proper court receipt and implementation without inventing an ordinary petition venue or official field.",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
     }
   ],
   "finalVerificationRequirements": [
-    "The pardon document itself says both that it is an absolute pardon and that it is for a crime the participant did not commit.",
-    "Every charge, disposition and pardon entry on CC-1472 is copied from the pardon order, circuit-court case file and the participant's own CCRE record rather than from memory.",
-    "CC-1472 elements 10 to 13 are completed and signed personally by the petitioner or the petitioner's attorney, with the role selected.",
-    "CC-1472 elements 14 to 16 are left for the clerk and carry no participant-authored content.",
-    "The court case number at element 1 is either copied from a real record or left blank for the clerk; it is never synthesised.",
-    "A copy of the absolute-pardon order is attached, and CC-1416 is included only where that clerk requires it.",
-    "A copy of the petition and its attachments is served on the Commonwealth's Attorney for the county or city of filing.",
-    "Branch A is not converted into a filing requirement: where the court has received the pardon copy under Va. Code 2.2-402, no petition is needed to obtain the order."
+    "Obtain the actual absolute pardon and confirm that it concerns a crime the person did not commit.",
+    "Identify the offenses and cases covered by the pardon, the conviction court and accurate case identifiers; preserve discrepancies for correction.",
+    "Confirm the proper receiving circuit court and the status of the Secretary of the Commonwealth’s transmission and the court’s receipt and implementation. The Secretary transmits the pardon; the circuit court carries out expungement. Transmission to State Police remains a court/clerk act.",
+    "If implementation is missing or inaccurate, supply the pardon and accurate case information for implementation or correction. Verify the receiving court’s actual implementation document and instructions where needed before assigning any participant signature, contact field, fee or service step."
   ],
   "fieldOwnership": {
     "participantOwnedFacts": [
@@ -159,52 +97,58 @@
       "route_key",
       "packet_family"
     ],
-    "participantAtSigningFields": [
+    "participantAtSigningFields": [],
+    "participantAtServiceFields": [],
+    "prosecutorOwnedFields": [],
+    "courtOwnedFields": [
+      "receiving_court_expungement_order",
+      "clerk_transmission_to_state_police"
+    ],
+    "retainedHistoricalParticipantAtSigningFields": [
       "primary_filing.cc1472_element_10_date_signed",
       "primary_filing.cc1472_element_11_signature_and_role",
       "primary_filing.cc1472_element_12_printed_name",
       "primary_filing.cc1472_element_13_address_and_telephone_and_role"
     ],
-    "participantAtServiceFields": [
+    "retainedHistoricalParticipantAtServiceFields": [
       "primary_filing.cc1472_element_17_filing_and_service_checklist"
-    ],
-    "prosecutorOwnedFields": [],
-    "courtOwnedFields": [
-      "primary_filing.cc1472_element_14_hearing_date_and_time",
-      "primary_filing.cc1472_element_15_clerk_signature_date",
-      "primary_filing.cc1472_element_16_clerk_signature"
     ]
   },
   "documents": [
     {
       "documentId": "primary_filing",
-      "role": "primary_filing",
-      "title": "Petition for Expungement Filed in a Circuit Court - Absolute Pardon (Form CC-1472)",
+      "role": "implementation_instrument",
+      "title": "Identified CC1474 court-owned order — source/context treatment; applicable actual consumer/output unverified",
       "order": 1,
-      "outputStrategy": "official_pdf_fill",
-      "presentation": "pleading",
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
       "requirement": "required",
       "manifestComponentId": "va_exp_absolute_pardon-primary-filing-1",
       "sections": [],
       "documentContract": {
-        "instrumentClass": "participant_filing",
-        "preparedBy": "participant",
-        "signer": "participant",
-        "recipient": "court",
-        "formApplicability": "official_form_required",
+        "instrumentClass": "court_generated",
+        "preparedBy": "court",
+        "signer": "judge",
+        "recipient": "unresolved",
+        "formApplicability": "unresolved",
         "caseMode": "unresolved",
         "executionType": "signature",
-        "serviceTreatment": "participant_serves",
+        "serviceTreatment": "unresolved",
         "orderTreatment": "no_proposed_order",
-        "privacyTreatment": "masked_on_public_filing",
+        "privacyTreatment": "unresolved",
         "localVariant": "unresolved",
+        "captionTreatment": "official_form_controls",
         "unresolvedReasons": {
-          "caseMode": "the specification requires no case or cause number and the recorded filing action does not say which case this is filed into: \"File the original CC-1472 with the clerk of the circuit court of the county or city in which the charge was di\"",
-          "localVariant": "no source read states whether a local form or practice controls this component."
+          "formApplicability": "Identified adopted order source; any actual local implementation requirement and current case applicability remains separately verified, not a new participant filing mandate.",
+          "caseMode": "Reconcile actual receiving-court/case identifiers; no new matter number inferred.",
+          "recipient": "Actual court/clerk implementation routing remains source/case specific.",
+          "serviceTreatment": "Clerk forwarding to StatePolice is retained as an official act, not participant service.",
+          "privacyTreatment": "Source identification does not establish current confidential/public-copy treatment.",
+          "localVariant": "Exact actual receiving-court treatment remains unverified."
         }
       },
-      "officialFormId": "CC-1472",
-      "officialFormNote": "The substance of this component is CC-1472 itself. Nothing is authored into it here, and the custom 'Transmittal and Request' that previously occupied this slot is superseded rather than reshaped."
+      "officialFormId": null,
+      "officialFormNote": "No current official form is selected by VA-01."
     },
     {
       "documentId": "records_checklist",
@@ -222,27 +166,26 @@
         }
       ],
       "documentContract": {
-        "instrumentClass": "attachment",
+        "instrumentClass": "participant_guidance",
         "preparedBy": "participant",
         "signer": "none",
-        "recipient": "court",
+        "recipient": "participant",
         "formApplicability": "not_a_filing",
         "caseMode": "unresolved",
-        "executionType": "signature",
-        "serviceTreatment": "participant_serves",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
         "orderTreatment": "no_proposed_order",
-        "privacyTreatment": "masked_on_public_filing",
-        "localVariant": "unresolved",
-        "unresolvedReasons": {
-          "caseMode": "the specification requires no case or cause number and the recorded filing action does not say which case this is filed into: \"File the original CC-1472 with the clerk of the circuit court of the county or city in which the charge was di\"",
-          "localVariant": "no source read states whether a local form or practice controls this component."
-        }
-      }
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": null,
+        "captionTreatment": "not_applicable"
+      },
+      "officialFormId": null,
+      "officialFormNote": "No current official form is selected by VA-01."
     },
     {
       "documentId": "filing_instructions",
-      "role": "filing_instructions",
-      "title": "Filing Instructions",
+      "role": "followup_checklist",
+      "title": "Receipt and implementation follow-up",
       "order": 3,
       "outputStrategy": "process_guidance",
       "presentation": "guidance",
@@ -280,173 +223,77 @@
         "signer": "none",
         "recipient": "participant",
         "formApplicability": "not_a_filing",
-        "caseMode": "existing_case",
+        "caseMode": "unresolved",
         "executionType": "none",
         "serviceTreatment": "no_service",
         "orderTreatment": "no_proposed_order",
         "privacyTreatment": "no_sensitive_identifiers",
-        "localVariant": "unresolved",
-        "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
-        }
-      }
+        "localVariant": null,
+        "captionTreatment": "not_applicable"
+      },
+      "officialFormId": null,
+      "officialFormNote": "No current official form is selected by VA-01."
     }
   ],
   "filingDestination": {
-    "statement": "Branch B: file the original CC-1472 with the clerk of the circuit court of the county or city in which the charge or charges were disposed of, with a copy of the absolute-pardon order attached. Branch A requires no filing: the court's receipt of the pardon copy under Va. Code 2.2-402 is itself the trigger.",
-    "office": "Clerk of the circuit court of the county or city where the charge was disposed of",
-    "newCaseOrExisting": "unresolved",
-    "whyUnresolved": "CC-1472 element 1 is a court case number the clerk may provide or complete when the petitioner does not know it, and CC-1416 is a cover sheet for filing civil actions where the clerk requires one. Neither source read states whether the petition opens a new civil case or is docketed into the existing criminal case, so it is recorded as unresolved rather than assumed.",
-    "branchANote": "court_receipt_of_pardon_copy",
-    "sourceOfRule": "Va. Code 19.2-392.2(I) and 2.2-402; current CC-1472 instructions"
+    "court": "Proper receiving circuit court for the actual pardon/case",
+    "venueRule": "Confirm the conviction court and statutory transmission/receipt; do not infer an ordinary petition venue.",
+    "filingMethod": "No participant petition method established; verify actual implementation or correction instructions where needed."
   },
   "feeAndWaiver": {
     "feeIdentified": false,
     "feeExemptionEstablished": false,
-    "statement": "File CC-1472 with all applicable fees and costs, as its own checklist directs. Va. Code 19.2-392.2(I) contains no fee-exemption language, and no other current source read here establishes an exemption for this petition. The amount is set by the clerk of the filing court and is confirmed with that clerk.",
-    "doNotDo": "Do not record a zero amount, and do not tell the participant that this petition is free of charge or exempt from fees. The absence of a stated fee in the subsection is not an exemption.",
-    "waiverApplicable": "unresolved",
-    "waiverStatement": "No source read here states whether a fee waiver is available for this petition.",
-    "sourceOfRule": "Current CC-1472 instructions, filing checklist; Va. Code 19.2-392.2(I)"
+    "statement": "No participant filing fee or exemption is established by this adopted mechanism; verify only an actually applicable receiving-court requirement.",
+    "doNotDo": "Do not import ordinary petition fees or assert a fee exemption."
   },
   "serviceAndNotice": {
-    "serviceRequired": true,
-    "statement": "Branch B: serve a copy of the completed CC-1472, including its attachments, on the Commonwealth's Attorney for the county or city in which the petition is filed. Branch A prescribes no service, because it involves no filing. Subsection (D)'s twenty-one-day Commonwealth notice period belongs to a different petition route and is not imported.",
-    "servedParty": "Commonwealth's Attorney for the county or city of filing",
-    "certificateOfServiceIncluded": false,
-    "whyNoCertificate": "CC-1472 carries its own filing and service checklist at element 17. No source read here states that a separate certificate-of-service instrument is required, so none is invented.",
-    "sourceOfRule": "Current CC-1472 instructions, copies and service"
+    "serviceRequired": "unestablished",
+    "servedParty": null,
+    "statement": "The Secretary transmits the pardon; subsequent State Police transmission is a court/clerk act. No ordinary participant service duty is established.",
+    "doNotDo": "Do not certify service not performed or import ordinary petition notice."
   },
   "copyRequirements": {
-    "statement": "The original CC-1472 goes to the court and one copy is served on the Commonwealth's Attorney for the county or city of filing.",
-    "originalPlusCopies": "original to the court, one served copy",
-    "sourceOfRule": "Current CC-1472 instructions, copies"
+    "originalPlusCopies": "Supply the actual pardon and accurate case identifiers for implementation or correction where needed; no prescribed participant filing copies established."
   },
   "postFilingTimeline": [
     {
-      "step": "Branch A: the circuit court receives a copy of the absolute pardon under Va. Code 2.2-402.",
-      "timing": "no participant filing is involved"
-    },
-    {
-      "step": "Branch B: the petitioner files CC-1472 with the clerk and serves a copy on the Commonwealth's Attorney.",
-      "timing": "when the participant is pursuing the filing path"
-    },
-    {
-      "step": "The court enters the subsection (I) expungement order, which states that expungement is ordered under that subsection.",
-      "timing": "no separate waiting period is stated in subsection (I)"
-    },
-    {
-      "step": "A copy of the order is forwarded to the Department of State Police under subsection (K), which validates record accuracy rather than eligibility.",
-      "timing": "after entry of the order"
+      "step": "Confirm Secretary transmission and circuit-court receipt and implementation.",
+      "timing": "Use actual recorded status; no deadline invented."
     }
   ],
   "hearingAndObjectionStops": [
     {
-      "situation": "The pardon is not absolute, or does not say the participant did not commit the crime.",
-      "whatItMeans": "This subsection (I) route does not apply; the packet does not classify or obtain a pardon.",
-      "stopAndGetHelp": true
-    },
-    {
-      "situation": "The court has received the pardon copy and has still not entered the order.",
-      "whatItMeans": "The duty under subsection (I) is the court's. Take the pardon and the court's response to a lawyer or legal-aid office rather than assuming a petition is required.",
-      "stopAndGetHelp": true
-    },
-    {
-      "situation": "The clerk asks for a fee, a cover sheet or a filing step this packet does not describe.",
-      "whatItMeans": "Filing mechanics vary by court. Follow the clerk and do not treat this packet as overriding them.",
-      "stopAndGetHelp": false
-    },
-    {
-      "situation": "A hearing is set at CC-1472 element 14.",
-      "whatItMeans": "That line is the clerk's. If a hearing is set, take the petition and the notice to a lawyer or legal-aid office.",
-      "stopAndGetHelp": true
-    },
-    {
-      "situation": "The participant is still seeking the pardon itself or has an immigration question.",
-      "whatItMeans": "Those issues are outside this packet's self-help scope.",
-      "stopAndGetHelp": true
+      "trigger": "Court receipt, implementation status or covered case is uncertain or inconsistent.",
+      "whatItMeans": "Verify the actual implementation or correction procedure rather than assuming a petition is required."
     }
   ],
   "attachments": [
     {
       "attachmentId": "absolute-pardon-order",
-      "title": "Copy of the order granting the absolute pardon",
-      "requirement": "required",
-      "obtainedFrom": "Office of the Secretary of the Commonwealth",
-      "whyNeeded": "CC-1472 requires it as the petition's supporting basis at element 9, and the court's receipt of the pardon copy under Va. Code 2.2-402 is the trigger for the subsection (I) court duty.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "attachmentId": "cc-1416-civil-cover-sheet",
-      "title": "Form CC-1416, Cover Sheet for Filing Civil Actions",
+      "description": "Actual absolute innocence pardon supplied for implementation or correction where needed.",
       "requirement": "conditional",
-      "condition": "only where the clerk of the filing court requires it",
-      "obtainedFrom": "Clerk of the circuit court of the county or city of filing",
-      "whyNeeded": "The CC-1472 instructions call for it where that clerk requires one.",
-      "doNotDo": "Do not include it unconditionally and do not omit it silently. Confirm with the clerk.",
-      "requiredBeforeFiling": false
-    },
-    {
-      "attachmentId": "circuit-court-case-file",
-      "title": "Circuit-court case file, or the district-court record held by that locality's circuit court",
-      "requirement": "required",
-      "obtainedFrom": "Clerk of the circuit court of the locality where the case was disposed of",
-      "whyNeeded": "The petitioner copies the exact charge, disposition date and disposing court onto CC-1472 elements 7 and 8 from this record.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "attachmentId": "participant-ccre-record",
-      "title": "The participant's own Virginia criminal-history record",
-      "requirement": "required",
-      "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
-      "whyNeeded": "The petitioner checks the disposition against this record and corrects the petition if the records disagree.",
-      "requiredBeforeFiling": true
+      "condition": "Needed to verify or correct implementation; not a newly invented petition attachment rule."
     }
   ],
   "participantChecklist": [
     {
-      "id": "confirm-pardon-words",
-      "text": "Confirm from the pardon document itself that it says both absolute pardon and that the crime was one you did not commit.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "id": "check-whether-a-filing-is-needed",
-      "text": "Check first whether the court has already received the pardon copy from the Secretary of the Commonwealth. If it has, the court must enter the expungement order without a petition from you.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "id": "copy-case-and-pardon-facts",
-      "text": "Fill CC-1472 elements 4 to 9 from the pardon order, the court file and your CCRE record; do not guess.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "id": "leave-clerk-fields-blank",
-      "text": "Leave the court case number blank if you do not know it, and leave the hearing date and clerk signature lines entirely to the clerk.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "id": "sign-and-date",
-      "text": "Sign and date CC-1472 personally, or have your attorney sign, and select which role signed.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "id": "attach-pardon-order",
-      "text": "Attach a copy of the order granting the absolute pardon.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "id": "ask-about-cc-1416-and-fees",
-      "text": "Ask the clerk whether that court requires a CC-1416 cover sheet, and what fees and costs apply.",
-      "requiredBeforeFiling": true
-    },
-    {
-      "id": "serve-commonwealths-attorney",
-      "text": "Serve a copy of the petition and its attachments on the Commonwealth's Attorney for the county or city where you file.",
+      "id": "implementation-check-1",
+      "text": "Obtain the actual absolute pardon and confirm that it concerns a crime the person did not commit.",
       "requiredBeforeFiling": false
     },
     {
-      "id": "file-with-circuit-court-clerk",
-      "text": "File the original with the clerk of the circuit court of the county or city where the charge was disposed of.",
+      "id": "implementation-check-2",
+      "text": "Identify the offenses and cases covered by the pardon, the conviction court and accurate case identifiers; preserve discrepancies for correction.",
+      "requiredBeforeFiling": false
+    },
+    {
+      "id": "implementation-check-3",
+      "text": "Confirm the proper receiving circuit court and the status of the Secretary of the Commonwealth’s transmission and the court’s receipt and implementation. The Secretary transmits the pardon; the circuit court carries out expungement. Transmission to State Police remains a court/clerk act.",
+      "requiredBeforeFiling": false
+    },
+    {
+      "id": "implementation-check-4",
+      "text": "If implementation is missing or inaccurate, supply the pardon and accurate case information for implementation or correction. Verify the receiving court’s actual implementation document and instructions where needed before assigning any participant signature, contact field, fee or service step.",
       "requiredBeforeFiling": false
     }
   ],
@@ -497,150 +344,43 @@
     ],
     "commercialRoutesOpened": 0,
     "productionTouched": false,
-    "artifactStatus": "SUPERSEDED_FOR_THE_PARTICIPANT_BRANCH",
-    "artifactStatusNote": "The census-v1 family directory and its canonical and boundary fixtures below are the superseded custom output. They are retained as historical evidence of what was adopted, and their hashes are still the true hashes of those bytes. They are not evidence for CC-1472, they are not rolled forward, and they must not be regenerated to imitate the official form."
+    "artifactStatus": "HISTORICAL_EVIDENCE_ONLY",
+    "artifactStatusNote": "All original hashes, byte lengths, page counts and ownership remain historical evidence. These are not current implementation-instrument or official-form acceptance."
   },
   "branchModel": {
-    "whyTwoBranches": "Va. Code 19.2-392.2(I) and Virginia Form CC-1472 are both current and they do not conflict. The statute imposes a duty on the court; the form is the vehicle for the person who has to ask. A single instrument cannot serve both, and collapsing them is what this specification previously did.",
     "branchA": {
       "name": "Court-automatic, on statutory transmission",
       "trigger": "the circuit court receives a copy of the absolute pardon under Va. Code 2.2-402",
       "rule": "Upon that receipt, for a crime the person did not commit, the court shall enter an order requiring expungement of the police and court records relating to the charge and conviction, stating that it is ordered under subsection (I); the order is then treated under subsection (K).",
       "participantFilingRequired": false,
       "preserved": true,
-      "doNotDo": "Do not require a participant petition in order to trigger this branch, and do not present the CC-1472 petition as a universal prerequisite to relief. The trigger here is the court's receipt of the pardon copy, not a filing."
+      "doNotDo": "Do not require a participant petition or treat the court/clerk acts as completed by the participant."
     },
-    "branchB": {
-      "name": "Participant-initiated petition on CC-1472",
-      "trigger": "the participant, or the participant's attorney, is pursuing the filing path",
-      "governingInstrument": "Virginia Form CC-1472, Petition for Expungement Filed in a Circuit Court - Absolute Pardon",
-      "participantFilingRequired": true,
-      "doNotDo": "Do not author a custom substitute for CC-1472. Virginia publishes the form for this exact subsection, so a custom document here is a substitution, not a gap-fill."
+    "implementationFollowup": {
+      "name": "Verify receipt and implementation or correct a discrepancy",
+      "trigger": "The actual pardon/case or court receipt/implementation status needs verification or correction.",
+      "participantFilingRequired": "unestablished",
+      "governingInstrument": "Identified CC1474rev07/26 court expungement order; source acquired, current application/field/output connection still unverified. No newly sworn participant petition.",
+      "doNotDo": "Do not manufacture a newly sworn ordinary acquittal/dismissal petition."
     }
   },
   "officialForm": {
-    "officialFormId": "CC-1472",
-    "title": "Petition for Expungement Filed in a Circuit Court - Absolute Pardon",
-    "issuer": "Supreme Court of Virginia / Virginia's Judicial System",
-    "sourceUrl": "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf",
-    "instructionsUrl": "https://www.vacourts.gov/static/forms/circuit/cc1472inst.pdf",
-    "citedSubsection": "Va. Code 19.2-392.2 I",
-    "identifiedBy": "ExpungementAI_Custom_Pleading_Release_Audit.xlsx, Sources tab, row VA: \"Virginia Form CC-1472 - Petition for Expungement After Absolute Pardon\", audit use \"Hard reclassification: official form for absolute-pardon route.\" Workbook sha256 38fe4f058d1c06efdfbc60da82c5f0ff53e87adb4af257a8a3f84f1afdfe4df1, verified on receipt.",
-    "elementInventory": {
-      "whatThisIs": "The element set and its ownership, transcribed from the current official CC-1472 instructions. This is a semantic inventory, not an overlay. It states which elements exist, who prepares each, and which may be left blank. It states no coordinate.",
-      "participantPrepared": [
-        {
-          "element": 1,
-          "name": "Court case number",
-          "mayRemainBlank": true,
-          "note": "The instructions expressly allow the clerk or deputy clerk to provide or complete it when the petitioner does not know it. Never synthesise one."
-        },
-        {
-          "element": 2,
-          "name": "Circuit court name",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 3,
-          "name": "Street address of the court",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 4,
-          "name": "Petitioner name",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 5,
-          "name": "Petitioner date of birth",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 6,
-          "name": "Full name used at the time of arrest",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 7,
-          "name": "Specific charge or charges to be expunged, with related case numbers where available",
-          "mayRemainBlank": false,
-          "note": "Related case numbers are recorded where available; their absence does not block the petition."
-        },
-        {
-          "element": 8,
-          "name": "Date or dates of final disposition and the court or courts that disposed of the charge or charges",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 9,
-          "name": "Supporting basis: the attached absolute-pardon order, and any additional facts on the lines provided",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 10,
-          "name": "Date signed",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 11,
-          "name": "Signature of the petitioner or the petitioner's attorney, with the role selected",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 12,
-          "name": "Printed name of the signer",
-          "mayRemainBlank": false
-        },
-        {
-          "element": 13,
-          "name": "Address and telephone number of the petitioner or attorney, with the role selected",
-          "mayRemainBlank": false
-        }
-      ],
-      "clerkPrepared": [
-        {
-          "element": 14,
-          "name": "Hearing date and time"
-        },
-        {
-          "element": 15,
-          "name": "Date of the clerk or deputy clerk signature"
-        },
-        {
-          "element": 16,
-          "name": "Signature of the clerk or deputy clerk"
-        }
-      ],
-      "clerkFieldRule": "Elements 14 to 16 are prepared by the clerk or deputy clerk. The product must never author them and must never prepopulate participant-controlled data into them.",
-      "participantChecklistElement": {
-        "element": 17,
-        "name": "Filing and service checklist"
-      }
-    },
-    "packageMechanics": {
-      "original": "The original CC-1472 goes to the court.",
-      "service": "A copy is served on the Commonwealth's Attorney for the county or city in which the petition is filed.",
-      "requiredAttachment": "A copy of the order granting the absolute pardon is attached.",
-      "conditionalAttachment": "A completed CC-1416, Cover Sheet for Filing Civil Actions, if the clerk of that court requires it.",
-      "venue": "The circuit court of the county or city in which the charge or charges were disposed of.",
-      "feesAndCosts": "Filed with all applicable fees and costs. No exemption is established for this petition."
-    },
-    "overlayGeometry": {
-      "status": "NOT_MEASURED",
-      "why": "No coordinate map exists for CC-1472 in this repository and none was authored. Every production-field-map in this program records coordinates measured against an exact form binary, with the overlay profile, field census and option geometry that produced them; the build refuses when those were measured against a different binary. The CC-1472 binary was not readable from this environment, so authoring coordinates would be inventing the one thing that map is forbidden to invent.",
-      "consequence": "This component cannot compose until the form is ingested and its geometry measured. It refuses, which is the correct answer while the form is unbound."
-    }
+    "status": "NOT_VERIFIED",
+    "officialFormId": "CC-1474",
+    "reason": "Adopted v3 section7 identifies revision07/26; exact privately acquired source85ac8ea0 is available. Current map/population/case/output remain unverified; this field is source identity only and does not activate official-form rendering.",
+    "sourceUrl": "https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf",
+    "sourceSha256": "85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656",
+    "revision": "07/26",
+    "custodyReceipt": "data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json"
   },
   "unboundLegalSections": [
-    "officialFormGeometry",
-    "caseMode",
-    "feeAndWaiver",
-    "localVariant"
+    "Actual qualifying pardon/receivingcourt/coveredcases and effective statutory version",
+    "Applicable current source/guidance/context/nonrequirement/save/purpose/output-consumer acceptance; geometry only if demonstrated applicable generated output requires it"
   ],
-  "whyIncomplete": "A packet may not be composed from this specification while legalSectionsBound is false. The participant instrument is now CC-1472, and CC-1472 has not been ingested here: no measured overlay geometry exists for it, the fee set by the filing clerk is not established, and the case number is a clerk-completable blank rather than a known value. The specification exists so the family binding is real and checkable, not so the route can advance without the form it now depends on.",
+  "whyIncomplete": "Current factual context/nonrequirement and applicable existing source/guidance/save/purpose/output-consumer treatment still requires affected acceptance. Actual qualifying pardon, proper receivingcourt, coveredcases and effectiveversion remain case facts. Source availability is resolved. Geometry is required only if a demonstrated applicable generated output requires it; this is not a participant court-order generation task.",
   "supersession": {
-    "what": "The custom 'Transmittal and Request' primary filing is superseded for the participant branch by official Form CC-1472.",
-    "why": "Virginia publishes CC-1472 for this exact subsection. A custom document in that slot is a substitution for an official form, which is Defect Register D-012.",
+    "what": "VA-01 supersedes the unsupported current CC-1472 participant-petition premise with the statutory implementation mechanism.",
+    "why": "Exact owner-relayed adopted October13 VA-01 limits form claims; current CC-1472 role remains unestablished.",
     "priorBinding": {
       "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
       "postApprovalAuditVerdict": "COVERED_BY_EXISTING_APPROVAL",
@@ -648,16 +388,782 @@
     },
     "priorApprovalStatus": "HISTORICAL_EVIDENCE_ONLY",
     "priorApprovalScope": "OWN-ADOPT-2026-09-02-BATCH-53 remains valid evidence of what was adopted for the superseded custom output at its exact recorded hashes. It does not reach CC-1472, and it is not rolled forward onto the successor.",
-    "newEvidenceRequired": "The official-form mapping requires its own applicable QA evidence: the ingested CC-1472 binary, measured overlay geometry, and a fresh acceptance. None of that is asserted here.",
-    "doNotDo": "Do not regenerate a custom equivalent of CC-1472, and do not roll the old approval or its hashes forward onto the official-form successor."
+    "newEvidenceRequired": "Where implementation or correction needs a document, obtain and verify the actual receiving circuit court’s implementation instrument and instructions for the covered pardon/case; establish exact identity, actors, field destinations and output acceptance. Do not select a substitute form.",
+    "doNotDo": "Do not invent a petition or substitute source. Do not regenerate historical artifacts or roll any historical approval forward onto a current instrument."
   },
-  "clerkOwnedElements": {
-    "elements": [
-      14,
-      15,
-      16
+  "clerkOwnedElements": [],
+  "procedureAdoption": {
+    "decisionId": "VA-01",
+    "disposition": "MODIFY",
+    "evidenceKind": "owner_relayed_counsel_adoption",
+    "registerName": "Pasted text(20261016-012933).txt section7",
+    "registerSha256": "3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b",
+    "supersededRegisterSha256": "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2",
+    "authority": [
+      "Va. Code 19.2-392.2(I)",
+      "Va. Code 2.2-402(E)"
     ],
-    "rule": "CC-1472 elements 14 to 16 (hearing date and time, date of clerk signature, clerk or deputy clerk signature) are prepared by the clerk or deputy clerk. The product never authors them and never prepopulates participant-controlled data into them."
+    "appliesThrough": "2026-11-30",
+    "mechanism": {
+      "transmissionActor": "Secretary of the Commonwealth",
+      "implementationActor": "receiving circuit court",
+      "policeTransmissionActor": "court/clerk"
+    },
+    "participantPetitionEstablished": false,
+    "documentAcceptance": "NOT_VERIFIED",
+    "historicalApprovalScope": "Earlier VA01/CC1472/custom-output evidence is preserved. Owner-relayed v3 adopts CC1474revision07/26 and seven fact treatments, not unseen finished output or court execution.",
+    "englishCopy": "An absolute pardon based on innocence follows a different process from an ordinary dismissal or acquittal petition. We need the pardon and case information to confirm that the court has carried out that process.",
+    "sourceLimits": [
+      "CC1474revision07/26 exact privately reviewed source identity is available at SHA85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656. CI checks portable metadata consistency, not private PDF bytes. Actual consumer/output acceptance remains; geometry only if demonstrated applicable generated output requires it.",
+      "CC1473 ordinary subsectionA and CC1474A access procedure remain distinct; do not substitute.",
+      "Use the statutory version effective for the actual action; do not import the December1,2026 version prematurely.",
+      "Do not create a participant petition, mandatory signature/fee/service or third-party upload gate. Judicial findings/execution/clerk certification stay official acts."
+    ],
+    "remainingSourceRequirement": "Source location/form/revision is resolved. Actual qualifying pardon/receivingcourt/cases/effectiveversion and applicable current source/guidance/context/nonrequirement/save/purpose/output-consumer acceptance remain. Geometry only if an actually applicable generated output requires it; no new participant court-order duty.",
+    "relatedContactObligation": "GA15-DECLARED_COMPONENT_PURPOSE_CURRENT_OFFICIAL_OUTPUT_UNBOUND",
+    "originalFactDispositions": [
+      {
+        "assertionId": "FAIL-1d5c156e9080d8e0c10c",
+        "factId": "date_of_birth",
+        "disposition": "No CC-1474 destination. Use only for genuinely needed pardon/case identity matching; do not create a court-order DOB field.",
+        "officialFormDestination": null,
+        "participantPetitionRequired": false,
+        "historicalRawAnswerPreserved": true,
+        "actualOutputAcceptance": "NOT_VERIFIED"
+      },
+      {
+        "assertionId": "FAIL-c51b156e4e789fb5258d",
+        "factId": "mailing_address",
+        "disposition": "Correspondence information only; no CC-1474 destination or new participant filing requirement.",
+        "officialFormDestination": null,
+        "participantPetitionRequired": false,
+        "historicalRawAnswerPreserved": true,
+        "actualOutputAcceptance": "NOT_VERIFIED"
+      },
+      {
+        "assertionId": "FAIL-7741ca998d4ebc329173",
+        "factId": "phone_number",
+        "disposition": "Contact information only; no CC-1474 destination and not an expungement-eligibility condition.",
+        "officialFormDestination": null,
+        "participantPetitionRequired": false,
+        "historicalRawAnswerPreserved": true,
+        "actualOutputAcceptance": "NOT_VERIFIED"
+      },
+      {
+        "assertionId": "FAIL-71980e94e226f0150146",
+        "factId": "email_address",
+        "disposition": "No CC-1474 destination or presumed electronic-service consent; retain independent contact choice.",
+        "officialFormDestination": null,
+        "participantPetitionRequired": false,
+        "historicalRawAnswerPreserved": true,
+        "actualOutputAcceptance": "NOT_VERIFIED"
+      },
+      {
+        "assertionId": "FAIL-e37b5260716f7f609b94",
+        "factId": "full_name_at_time_of_arrest",
+        "disposition": "Match the actual pardon and case identity, preserving necessary aliases. Do not automatically copy an historical alias into the CC-1474 subject-name caption.",
+        "officialFormDestination": null,
+        "participantPetitionRequired": false,
+        "historicalRawAnswerPreserved": true,
+        "actualOutputAcceptance": "NOT_VERIFIED"
+      },
+      {
+        "assertionId": "FAIL-4ff4dbb566801032326a",
+        "factId": "charges_to_be_expunged",
+        "disposition": "Identify only actual offenses and case numbers covered by the qualifying pardon. The CC-1474 page-two charge/offense/case-number lines are the logical destination; coordinates/population are not yet accepted.",
+        "officialFormDestination": "CC-1474 page2: LIST CHARGE(S)/OFFENSE(S) INCLUDING CIRCUIT COURT AND DISTRICT COURT CASE NUMBERS, IF KNOWN",
+        "participantPetitionRequired": false,
+        "historicalRawAnswerPreserved": true,
+        "actualOutputAcceptance": "NOT_VERIFIED"
+      },
+      {
+        "assertionId": "FAIL-3219c8b753dcf9bfb9f2",
+        "factId": "final_disposition_dates_and_courts",
+        "disposition": "Use verified proper receiving-court and case information. A verified receiving city/county may supply the circuit-court caption after reconciliation; the original conviction/disposition date must not become the new judge/order or clerk-forwarding date.",
+        "officialFormDestination": null,
+        "participantPetitionRequired": false,
+        "historicalRawAnswerPreserved": true,
+        "actualOutputAcceptance": "NOT_VERIFIED"
+      }
+    ],
+    "currentInstrument": {
+      "officialFormId": "CC-1474",
+      "revision": "07/26",
+      "sourceUrl": "https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf",
+      "sha256": "85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656",
+      "pages": 2,
+      "custodyReceipt": "data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json",
+      "scope": "Portable source URL/digest/revision metadata; actual factual-context/nonrequirement and applicable guidance/consumer/output acceptance NOT_VERIFIED. Geometry only if a demonstrated applicable generated output requires it."
+    }
   },
-  "specificationSha256": "e1d5648c2b9df801ef80466f99fca6b361771f7106144c334f1823994a5bf96c"
+  "historicalSupersededSpecification": {
+    "status": "HISTORICAL_EVIDENCE_ONLY",
+    "sourceCommit": "38e5f204fa5c3151ee73af58301a2a3772791a49",
+    "priorFileSha256": "6b420997ef1c3638f80694e95ec2a9d35e8695962808f91ae305b409960d7a9c",
+    "record": {
+      "schemaVersion": 2,
+      "specificationId": "va-absolute-pardon-expungement",
+      "specificationVersion": "1.0.1",
+      "routeKey": "VA:regime-1-expungement-available-now",
+      "jurisdiction": "VA",
+      "pathwayId": "regime-1-expungement-available-now",
+      "pathwayLabel": "Regime 1 — Expungement (§ 19.2-392.2), available now",
+      "packetFamily": "va_exp_absolute_pardon-set",
+      "packetFamilyLabel": "Virginia Absolute-Pardon Expungement (CC-1472 petition, and the subsection (I) court duty)",
+      "trackId": "va_exp_absolute_pardon",
+      "packetSetId": "va_exp_absolute_pardon-set",
+      "packetSetVersion": "1.0.0",
+      "profileId": "VA",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "legalSectionsBound": false,
+      "generatedBy": "route-productization worker from existing owner-approved records; no new registry",
+      "derivedFrom": [
+        "data/record-clearing/legal-design-intake/VA.memo.json#va_exp_absolute_pardon",
+        "data/record-clearing/legal-design-packet-set-manifests.json#va_exp_absolute_pardon-set",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json#OWN-ADOPT-2026-09-02-BATCH-53",
+        "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json#va_exp_absolute_pardon-set",
+        "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf (official Form CC-1472; identified by the audit workbook Sources tab, not ingested here)"
+      ],
+      "specificationNote": "This specification binds the one Virginia runtime route for Va. Code 19.2-392.2(I) and models its two branches separately: the court duty on statutory transmission under 2.2-402, which requires no participant filing, and the participant-initiated petition, which is governed by official Form CC-1472. It does not substitute CC-1473, which is captioned to subsection (A). It previously placed a custom 'Transmittal and Request' in the participant slot; that is superseded by CC-1472 and recorded under supersession. It grants no fulfillment or commercial authority. October 12, 2026 source correction: CC-1472 instructions (11/15), elements 5-8 and 13, supply the six semantic destinations. They contain no email element; email_address is therefore removed from requiredFacts, while its historical participant ownership and stored values remain preserved. No new official geometry, rendered-placement proof or legal release approval is asserted. Prior content digest: e1d5648c2b9df801ef80466f99fca6b361771f7106144c334f1823994a5bf96c.",
+      "statutoryAuthority": {
+        "primary": "Va. Code § 19.2-392.2(I); Va. Code § 19.2-392.2(K); Va. Code § 19.2-392.2(L); Va. Code § 2.2-402",
+        "sourceUrl": "https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
+        "ruleStatement": "Va. Code 19.2-392.2(I): upon receiving a copy pursuant to 2.2-402 of an absolute pardon for the commission of a crime that a person did not commit, the court shall enter an order requiring expungement of the police and court records relating to the charge and conviction; the order states that expungement is ordered under this subsection and is then treated as provided in subsection (K). That court duty is branch A and needs no petition. Where the participant is instead pursuing the filing path, the Supreme Court of Virginia publishes CC-1472 as the petition for this same subsection, and that is branch B.",
+        "reliefIsMandatoryOnMotion": false,
+        "doNotImport": [
+          "Do not use CC-1473 or import the subsection (A) acquittal-or-dismissal petition procedure into this subsection (I) route.",
+          "Do not import subsection (D)'s Commonwealth notice period into this route; CC-1472's own service requirement is a copy on the Commonwealth's Attorney, which is a different thing.",
+          "Do not represent this packet as obtaining, classifying, or applying for the pardon itself.",
+          "Do not make the branch B petition a prerequisite to the branch A court duty.",
+          "Do not state or imply a fee exemption. Subsection (I) contains none, and CC-1472's own checklist says to file with all applicable fees and costs.",
+          "Do not require email for CC-1472: the official instruction inventory has no email destination. Preserve legacy email values without printing them on an invented form line."
+        ]
+      },
+      "sourceIdentities": [
+        {
+          "sourceId": "VA.memo:va_exp_absolute_pardon",
+          "kind": "legal_design_intake_track",
+          "verification": "present_in_repository",
+          "location": "data/record-clearing/legal-design-intake/VA.memo.json",
+          "note": "The approved track supplies the mechanism, destination, components, participant actions, fee and service treatment, and self-help stops."
+        },
+        {
+          "sourceId": "va_exp_absolute_pardon-set@1.0.0",
+          "kind": "owner_approved_packet_set_manifest",
+          "verification": "present_in_repository",
+          "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "note": "The manifest supplies the exact three component ids, roles, requirements, strategies, and order."
+        },
+        {
+          "sourceId": "va_exp_absolute_pardon-set-production-field-map@census-v1",
+          "kind": "production_field_map",
+          "verification": "present_in_repository",
+          "location": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json"
+        },
+        {
+          "sourceId": "va_exp_absolute_pardon-set-rendered-artifacts@census-v1",
+          "kind": "rendered_artifact_manifest",
+          "verification": "present_in_repository",
+          "location": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json"
+        },
+        {
+          "sourceId": "OWN-ADOPT-2026-09-02-BATCH-53",
+          "kind": "owner_exact_digest_adoption",
+          "verification": "present_in_repository",
+          "location": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+          "note": "Limited family-level legal-design adoption of the exact canonical and boundary hashes; grants no runtime or commercial authority."
+        },
+        {
+          "sourceId": "VA-CC-1472",
+          "kind": "official_form",
+          "verification": "identified_not_ingested",
+          "location": "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf",
+          "note": "Identified by the audit workbook's Sources tab and confirmed against the current Virginia Courts CC-1472 instructions. The binary was not readable from this environment, so its geometry is unmeasured and the component refuses until it is ingested."
+        },
+        {
+          "sourceId": "VA-CC-1472-INSTRUCTIONS-20261012",
+          "kind": "official_form_instructions",
+          "verification": "identified_not_ingested",
+          "location": "https://www.vacourts.gov/static/forms/circuit/cc1472inst.pdf",
+          "note": "Official text retrieved through web on 2026-10-12: revision 11/15, preparation elements 1-13 participant/attorney, 14-16 clerk, 17 participant checklist; element 13 is signer address/telephone, with no email field. Direct PDF retrieval returned403; screenshot retrieval404. This establishes semantic ownership only, not current form binary or measured geometry."
+        }
+      ],
+      "requiredFacts": [
+        {
+          "factId": "participant_full_legal_name",
+          "use": "requester identity on CC-1472 and the packet components",
+          "inRegistryRequiredInputs": true,
+          "ownership": "participant"
+        },
+        {
+          "factId": "date_of_birth",
+          "use": "CC-1472 element 5: petitioner date of birth; participant or attorney prepares this record-identity fact.",
+          "inRegistryRequiredInputs": false,
+          "gapNote": "The current approved field map writes this participant-held fact even though the factory-v2 required-input list does not name it separately.",
+          "ownership": "participant"
+        },
+        {
+          "factId": "mailing_address",
+          "use": "CC-1472 element 13: address of the actual signer, with petitioner/attorney role identified. Reuse the participant mailing address only when the participant is the signer; do not substitute a helper address.",
+          "inRegistryRequiredInputs": false,
+          "gapNote": "Signer preparation at element 13 is separate from later execution of the signature. The existing participant value is not evidence of attorney identity or contact. No universal eligibility requirement is established.",
+          "ownership": "participant"
+        },
+        {
+          "factId": "phone_number",
+          "use": "CC-1472 element 13: telephone of the actual signer, with petitioner/attorney role identified. Reuse the participant telephone only when the participant is the signer; do not substitute a helper telephone.",
+          "inRegistryRequiredInputs": false,
+          "gapNote": "Signer preparation at element 13 is separate from later execution of the signature. The existing participant value is not evidence of attorney identity or contact. No universal eligibility requirement is established.",
+          "ownership": "participant"
+        },
+        {
+          "factId": "full_name_at_time_of_arrest",
+          "use": "CC-1472 element 6: full name used at arrest, separately from current petitioner name.",
+          "inRegistryRequiredInputs": false,
+          "ownership": "participant",
+          "gapNote": "Required by the official form; not separately named in the factory-v2 required-input list."
+        },
+        {
+          "factId": "charges_to_be_expunged",
+          "use": "CC-1472 element 7: specific charges, with related case numbers where available; retain the connection to each charge.",
+          "inRegistryRequiredInputs": false,
+          "ownership": "participant"
+        },
+        {
+          "factId": "final_disposition_dates_and_courts",
+          "use": "CC-1472 element 8: each final disposition date and disposing court; separate from the filing court caption and court street address at elements 2 and 3.",
+          "inRegistryRequiredInputs": false,
+          "ownership": "participant"
+        }
+      ],
+      "finalVerificationRequirements": [
+        "The pardon document itself says both that it is an absolute pardon and that it is for a crime the participant did not commit.",
+        "Every charge, disposition and pardon entry on CC-1472 is copied from the pardon order, circuit-court case file and the participant's own CCRE record rather than from memory.",
+        "CC-1472 elements 10 to 13 are completed and signed personally by the petitioner or the petitioner's attorney, with the role selected.",
+        "CC-1472 elements 14 to 16 are left for the clerk and carry no participant-authored content.",
+        "The court case number at element 1 is either copied from a real record or left blank for the clerk; it is never synthesised.",
+        "A copy of the absolute-pardon order is attached, and CC-1416 is included only where that clerk requires it.",
+        "A copy of the petition and its attachments is served on the Commonwealth's Attorney for the county or city of filing.",
+        "Branch A is not converted into a filing requirement: where the court has received the pardon copy under Va. Code 2.2-402, no petition is needed to obtain the order."
+      ],
+      "fieldOwnership": {
+        "participantOwnedFacts": [
+          "participant_full_legal_name",
+          "date_of_birth",
+          "mailing_address",
+          "phone_number",
+          "email_address"
+        ],
+        "serverOwnedRouteFacts": [
+          "jurisdiction",
+          "pathway_id",
+          "route_key",
+          "packet_family"
+        ],
+        "participantAtSigningFields": [
+          "primary_filing.cc1472_element_10_date_signed",
+          "primary_filing.cc1472_element_11_signature_and_role",
+          "primary_filing.cc1472_element_12_printed_name",
+          "primary_filing.cc1472_element_13_address_and_telephone_and_role"
+        ],
+        "participantAtServiceFields": [
+          "primary_filing.cc1472_element_17_filing_and_service_checklist"
+        ],
+        "prosecutorOwnedFields": [],
+        "courtOwnedFields": [
+          "primary_filing.cc1472_element_14_hearing_date_and_time",
+          "primary_filing.cc1472_element_15_clerk_signature_date",
+          "primary_filing.cc1472_element_16_clerk_signature"
+        ]
+      },
+      "documents": [
+        {
+          "documentId": "primary_filing",
+          "role": "primary_filing",
+          "title": "Petition for Expungement Filed in a Circuit Court - Absolute Pardon (Form CC-1472)",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "presentation": "pleading",
+          "requirement": "required",
+          "manifestComponentId": "va_exp_absolute_pardon-primary-filing-1",
+          "sections": [],
+          "documentContract": {
+            "instrumentClass": "participant_filing",
+            "preparedBy": "participant",
+            "signer": "participant",
+            "recipient": "court",
+            "formApplicability": "official_form_required",
+            "caseMode": "unresolved",
+            "executionType": "signature",
+            "serviceTreatment": "participant_serves",
+            "orderTreatment": "no_proposed_order",
+            "privacyTreatment": "masked_on_public_filing",
+            "localVariant": "unresolved",
+            "unresolvedReasons": {
+              "caseMode": "the specification requires no case or cause number and the recorded filing action does not say which case this is filed into: \"File the original CC-1472 with the clerk of the circuit court of the county or city in which the charge was di\"",
+              "localVariant": "no source read states whether a local form or practice controls this component."
+            }
+          },
+          "officialFormId": "CC-1472",
+          "officialFormNote": "The substance of this component is CC-1472 itself. Nothing is authored into it here, and the custom 'Transmittal and Request' that previously occupied this slot is superseded rather than reshaped."
+        },
+        {
+          "documentId": "records_checklist",
+          "role": "records_checklist",
+          "title": "Records Checklist",
+          "order": 2,
+          "outputStrategy": "process_guidance",
+          "presentation": "guidance",
+          "requirement": "required",
+          "manifestComponentId": "va_exp_absolute_pardon-records-checklist-2",
+          "sections": [
+            {
+              "heading": "Records to obtain",
+              "kind": "attachments"
+            }
+          ],
+          "documentContract": {
+            "instrumentClass": "attachment",
+            "preparedBy": "participant",
+            "signer": "none",
+            "recipient": "court",
+            "formApplicability": "not_a_filing",
+            "caseMode": "unresolved",
+            "executionType": "signature",
+            "serviceTreatment": "participant_serves",
+            "orderTreatment": "no_proposed_order",
+            "privacyTreatment": "masked_on_public_filing",
+            "localVariant": "unresolved",
+            "unresolvedReasons": {
+              "caseMode": "the specification requires no case or cause number and the recorded filing action does not say which case this is filed into: \"File the original CC-1472 with the clerk of the circuit court of the county or city in which the charge was di\"",
+              "localVariant": "no source read states whether a local form or practice controls this component."
+            }
+          }
+        },
+        {
+          "documentId": "filing_instructions",
+          "role": "filing_instructions",
+          "title": "Filing Instructions",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "presentation": "guidance",
+          "requirement": "required",
+          "manifestComponentId": "va_exp_absolute_pardon-filing-instructions-3",
+          "sections": [
+            {
+              "heading": "Where to send the packet",
+              "kind": "filing_destination"
+            },
+            {
+              "heading": "Fee and waiver",
+              "kind": "fee_and_waiver"
+            },
+            {
+              "heading": "Service and notice",
+              "kind": "service_and_notice"
+            },
+            {
+              "heading": "What happens next",
+              "kind": "post_filing_timeline"
+            },
+            {
+              "heading": "When to stop and get help",
+              "kind": "hearing_and_objection_stops"
+            },
+            {
+              "heading": "Before sending",
+              "kind": "participant_checklist"
+            }
+          ],
+          "documentContract": {
+            "instrumentClass": "participant_guidance",
+            "preparedBy": "participant",
+            "signer": "none",
+            "recipient": "participant",
+            "formApplicability": "not_a_filing",
+            "caseMode": "existing_case",
+            "executionType": "none",
+            "serviceTreatment": "no_service",
+            "orderTreatment": "no_proposed_order",
+            "privacyTreatment": "no_sensitive_identifiers",
+            "localVariant": "unresolved",
+            "unresolvedReasons": {
+              "localVariant": "no source read states whether a local form or practice controls this component."
+            }
+          }
+        }
+      ],
+      "filingDestination": {
+        "statement": "Branch B: file the original CC-1472 with the clerk of the circuit court of the county or city in which the charge or charges were disposed of, with a copy of the absolute-pardon order attached. Branch A requires no filing: the court's receipt of the pardon copy under Va. Code 2.2-402 is itself the trigger.",
+        "office": "Clerk of the circuit court of the county or city where the charge was disposed of",
+        "newCaseOrExisting": "unresolved",
+        "whyUnresolved": "CC-1472 element 1 is a court case number the clerk may provide or complete when the petitioner does not know it, and CC-1416 is a cover sheet for filing civil actions where the clerk requires one. Neither source read states whether the petition opens a new civil case or is docketed into the existing criminal case, so it is recorded as unresolved rather than assumed.",
+        "branchANote": "court_receipt_of_pardon_copy",
+        "sourceOfRule": "Va. Code 19.2-392.2(I) and 2.2-402; current CC-1472 instructions"
+      },
+      "feeAndWaiver": {
+        "feeIdentified": false,
+        "feeExemptionEstablished": false,
+        "statement": "File CC-1472 with all applicable fees and costs, as its own checklist directs. Va. Code 19.2-392.2(I) contains no fee-exemption language, and no other current source read here establishes an exemption for this petition. The amount is set by the clerk of the filing court and is confirmed with that clerk.",
+        "doNotDo": "Do not record a zero amount, and do not tell the participant that this petition is free of charge or exempt from fees. The absence of a stated fee in the subsection is not an exemption.",
+        "waiverApplicable": "unresolved",
+        "waiverStatement": "No source read here states whether a fee waiver is available for this petition.",
+        "sourceOfRule": "Current CC-1472 instructions, filing checklist; Va. Code 19.2-392.2(I)"
+      },
+      "serviceAndNotice": {
+        "serviceRequired": true,
+        "statement": "Branch B: serve a copy of the completed CC-1472, including its attachments, on the Commonwealth's Attorney for the county or city in which the petition is filed. Branch A prescribes no service, because it involves no filing. Subsection (D)'s twenty-one-day Commonwealth notice period belongs to a different petition route and is not imported.",
+        "servedParty": "Commonwealth's Attorney for the county or city of filing",
+        "certificateOfServiceIncluded": false,
+        "whyNoCertificate": "CC-1472 carries its own filing and service checklist at element 17. No source read here states that a separate certificate-of-service instrument is required, so none is invented.",
+        "sourceOfRule": "Current CC-1472 instructions, copies and service"
+      },
+      "copyRequirements": {
+        "statement": "The original CC-1472 goes to the court and one copy is served on the Commonwealth's Attorney for the county or city of filing.",
+        "originalPlusCopies": "original to the court, one served copy",
+        "sourceOfRule": "Current CC-1472 instructions, copies"
+      },
+      "postFilingTimeline": [
+        {
+          "step": "Branch A: the circuit court receives a copy of the absolute pardon under Va. Code 2.2-402.",
+          "timing": "no participant filing is involved"
+        },
+        {
+          "step": "Branch B: the petitioner files CC-1472 with the clerk and serves a copy on the Commonwealth's Attorney.",
+          "timing": "when the participant is pursuing the filing path"
+        },
+        {
+          "step": "The court enters the subsection (I) expungement order, which states that expungement is ordered under that subsection.",
+          "timing": "no separate waiting period is stated in subsection (I)"
+        },
+        {
+          "step": "A copy of the order is forwarded to the Department of State Police under subsection (K), which validates record accuracy rather than eligibility.",
+          "timing": "after entry of the order"
+        }
+      ],
+      "hearingAndObjectionStops": [
+        {
+          "situation": "The pardon is not absolute, or does not say the participant did not commit the crime.",
+          "whatItMeans": "This subsection (I) route does not apply; the packet does not classify or obtain a pardon.",
+          "stopAndGetHelp": true
+        },
+        {
+          "situation": "The court has received the pardon copy and has still not entered the order.",
+          "whatItMeans": "The duty under subsection (I) is the court's. Take the pardon and the court's response to a lawyer or legal-aid office rather than assuming a petition is required.",
+          "stopAndGetHelp": true
+        },
+        {
+          "situation": "The clerk asks for a fee, a cover sheet or a filing step this packet does not describe.",
+          "whatItMeans": "Filing mechanics vary by court. Follow the clerk and do not treat this packet as overriding them.",
+          "stopAndGetHelp": false
+        },
+        {
+          "situation": "A hearing is set at CC-1472 element 14.",
+          "whatItMeans": "That line is the clerk's. If a hearing is set, take the petition and the notice to a lawyer or legal-aid office.",
+          "stopAndGetHelp": true
+        },
+        {
+          "situation": "The participant is still seeking the pardon itself or has an immigration question.",
+          "whatItMeans": "Those issues are outside this packet's self-help scope.",
+          "stopAndGetHelp": true
+        }
+      ],
+      "attachments": [
+        {
+          "attachmentId": "absolute-pardon-order",
+          "title": "Copy of the order granting the absolute pardon",
+          "requirement": "required",
+          "obtainedFrom": "Office of the Secretary of the Commonwealth",
+          "whyNeeded": "CC-1472 requires it as the petition's supporting basis at element 9, and the court's receipt of the pardon copy under Va. Code 2.2-402 is the trigger for the subsection (I) court duty.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "attachmentId": "cc-1416-civil-cover-sheet",
+          "title": "Form CC-1416, Cover Sheet for Filing Civil Actions",
+          "requirement": "conditional",
+          "condition": "only where the clerk of the filing court requires it",
+          "obtainedFrom": "Clerk of the circuit court of the county or city of filing",
+          "whyNeeded": "The CC-1472 instructions call for it where that clerk requires one.",
+          "doNotDo": "Do not include it unconditionally and do not omit it silently. Confirm with the clerk.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "attachmentId": "circuit-court-case-file",
+          "title": "Circuit-court case file, or the district-court record held by that locality's circuit court",
+          "requirement": "required",
+          "obtainedFrom": "Clerk of the circuit court of the locality where the case was disposed of",
+          "whyNeeded": "The petitioner copies the exact charge, disposition date and disposing court onto CC-1472 elements 7 and 8 from this record.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "attachmentId": "participant-ccre-record",
+          "title": "The participant's own Virginia criminal-history record",
+          "requirement": "required",
+          "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+          "whyNeeded": "The petitioner checks the disposition against this record and corrects the petition if the records disagree.",
+          "requiredBeforeFiling": true
+        }
+      ],
+      "participantChecklist": [
+        {
+          "id": "confirm-pardon-words",
+          "text": "Confirm from the pardon document itself that it says both absolute pardon and that the crime was one you did not commit.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "id": "check-whether-a-filing-is-needed",
+          "text": "Check first whether the court has already received the pardon copy from the Secretary of the Commonwealth. If it has, the court must enter the expungement order without a petition from you.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "id": "copy-case-and-pardon-facts",
+          "text": "Fill CC-1472 elements 4 to 9 from the pardon order, the court file and your CCRE record; do not guess.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "id": "leave-clerk-fields-blank",
+          "text": "Leave the court case number blank if you do not know it, and leave the hearing date and clerk signature lines entirely to the clerk.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "id": "sign-and-date",
+          "text": "Sign and date CC-1472 personally, or have your attorney sign, and select which role signed.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "id": "attach-pardon-order",
+          "text": "Attach a copy of the order granting the absolute pardon.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "id": "ask-about-cc-1416-and-fees",
+          "text": "Ask the clerk whether that court requires a CC-1416 cover sheet, and what fees and costs apply.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "id": "serve-commonwealths-attorney",
+          "text": "Serve a copy of the petition and its attachments on the Commonwealth's Attorney for the county or city where you file.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "id": "file-with-circuit-court-clerk",
+          "text": "File the original with the clerk of the circuit court of the county or city where the charge was disposed of.",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "artifactBinding": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading",
+        "unitOfDelivery": "single_route_family_assembly",
+        "obligationRouteKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+        "componentBindings": [
+          {
+            "documentId": "primary_filing",
+            "manifestComponentId": "va_exp_absolute_pardon-primary-filing-1",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "documentId": "records_checklist",
+            "manifestComponentId": "va_exp_absolute_pardon-records-checklist-2",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "documentId": "filing_instructions",
+            "manifestComponentId": "va_exp_absolute_pardon-filing-instructions-3",
+            "pages": [
+              4,
+              5
+            ]
+          }
+        ],
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+            "byteLength": 14666,
+            "pageCount": 5
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+            "byteLength": 14860,
+            "pageCount": 5
+          }
+        ],
+        "commercialRoutesOpened": 0,
+        "productionTouched": false,
+        "artifactStatus": "SUPERSEDED_FOR_THE_PARTICIPANT_BRANCH",
+        "artifactStatusNote": "The census-v1 family directory and its canonical and boundary fixtures below are the superseded custom output. They are retained as historical evidence of what was adopted, and their hashes are still the true hashes of those bytes. They are not evidence for CC-1472, they are not rolled forward, and they must not be regenerated to imitate the official form."
+      },
+      "branchModel": {
+        "whyTwoBranches": "Va. Code 19.2-392.2(I) and Virginia Form CC-1472 are both current and they do not conflict. The statute imposes a duty on the court; the form is the vehicle for the person who has to ask. A single instrument cannot serve both, and collapsing them is what this specification previously did.",
+        "branchA": {
+          "name": "Court-automatic, on statutory transmission",
+          "trigger": "the circuit court receives a copy of the absolute pardon under Va. Code 2.2-402",
+          "rule": "Upon that receipt, for a crime the person did not commit, the court shall enter an order requiring expungement of the police and court records relating to the charge and conviction, stating that it is ordered under subsection (I); the order is then treated under subsection (K).",
+          "participantFilingRequired": false,
+          "preserved": true,
+          "doNotDo": "Do not require a participant petition in order to trigger this branch, and do not present the CC-1472 petition as a universal prerequisite to relief. The trigger here is the court's receipt of the pardon copy, not a filing."
+        },
+        "branchB": {
+          "name": "Participant-initiated petition on CC-1472",
+          "trigger": "the participant, or the participant's attorney, is pursuing the filing path",
+          "governingInstrument": "Virginia Form CC-1472, Petition for Expungement Filed in a Circuit Court - Absolute Pardon",
+          "participantFilingRequired": true,
+          "doNotDo": "Do not author a custom substitute for CC-1472. Virginia publishes the form for this exact subsection, so a custom document here is a substitution, not a gap-fill."
+        }
+      },
+      "officialForm": {
+        "officialFormId": "CC-1472",
+        "title": "Petition for Expungement Filed in a Circuit Court - Absolute Pardon",
+        "issuer": "Supreme Court of Virginia / Virginia's Judicial System",
+        "sourceUrl": "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf",
+        "instructionsUrl": "https://www.vacourts.gov/static/forms/circuit/cc1472inst.pdf",
+        "citedSubsection": "Va. Code 19.2-392.2 I",
+        "identifiedBy": "ExpungementAI_Custom_Pleading_Release_Audit.xlsx, Sources tab, row VA: \"Virginia Form CC-1472 - Petition for Expungement After Absolute Pardon\", audit use \"Hard reclassification: official form for absolute-pardon route.\" Workbook sha256 38fe4f058d1c06efdfbc60da82c5f0ff53e87adb4af257a8a3f84f1afdfe4df1, verified on receipt.",
+        "elementInventory": {
+          "whatThisIs": "The element set and its ownership, transcribed from the current official CC-1472 instructions. This is a semantic inventory, not an overlay. It states which elements exist, who prepares each, and which may be left blank. It states no coordinate.",
+          "participantPrepared": [
+            {
+              "element": 1,
+              "name": "Court case number",
+              "mayRemainBlank": true,
+              "note": "The instructions expressly allow the clerk or deputy clerk to provide or complete it when the petitioner does not know it. Never synthesise one."
+            },
+            {
+              "element": 2,
+              "name": "Circuit court name",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 3,
+              "name": "Street address of the court",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 4,
+              "name": "Petitioner name",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 5,
+              "name": "Petitioner date of birth",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 6,
+              "name": "Full name used at the time of arrest",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 7,
+              "name": "Specific charge or charges to be expunged, with related case numbers where available",
+              "mayRemainBlank": false,
+              "note": "Related case numbers are recorded where available; their absence does not block the petition."
+            },
+            {
+              "element": 8,
+              "name": "Date or dates of final disposition and the court or courts that disposed of the charge or charges",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 9,
+              "name": "Supporting basis: the attached absolute-pardon order, and any additional facts on the lines provided",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 10,
+              "name": "Date signed",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 11,
+              "name": "Signature of the petitioner or the petitioner's attorney, with the role selected",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 12,
+              "name": "Printed name of the signer",
+              "mayRemainBlank": false
+            },
+            {
+              "element": 13,
+              "name": "Address and telephone number of the petitioner or attorney, with the role selected",
+              "mayRemainBlank": false
+            }
+          ],
+          "clerkPrepared": [
+            {
+              "element": 14,
+              "name": "Hearing date and time"
+            },
+            {
+              "element": 15,
+              "name": "Date of the clerk or deputy clerk signature"
+            },
+            {
+              "element": 16,
+              "name": "Signature of the clerk or deputy clerk"
+            }
+          ],
+          "clerkFieldRule": "Elements 14 to 16 are prepared by the clerk or deputy clerk. The product must never author them and must never prepopulate participant-controlled data into them.",
+          "participantChecklistElement": {
+            "element": 17,
+            "name": "Filing and service checklist"
+          }
+        },
+        "packageMechanics": {
+          "original": "The original CC-1472 goes to the court.",
+          "service": "A copy is served on the Commonwealth's Attorney for the county or city in which the petition is filed.",
+          "requiredAttachment": "A copy of the order granting the absolute pardon is attached.",
+          "conditionalAttachment": "A completed CC-1416, Cover Sheet for Filing Civil Actions, if the clerk of that court requires it.",
+          "venue": "The circuit court of the county or city in which the charge or charges were disposed of.",
+          "feesAndCosts": "Filed with all applicable fees and costs. No exemption is established for this petition."
+        },
+        "overlayGeometry": {
+          "status": "NOT_MEASURED",
+          "why": "No coordinate map exists for CC-1472 in this repository and none was authored. Every production-field-map in this program records coordinates measured against an exact form binary, with the overlay profile, field census and option geometry that produced them; the build refuses when those were measured against a different binary. The CC-1472 binary was not readable from this environment, so authoring coordinates would be inventing the one thing that map is forbidden to invent.",
+          "consequence": "This component cannot compose until the form is ingested and its geometry measured. It refuses, which is the correct answer while the form is unbound."
+        }
+      },
+      "unboundLegalSections": [
+        "officialFormGeometry",
+        "caseMode",
+        "feeAndWaiver",
+        "localVariant"
+      ],
+      "whyIncomplete": "A packet may not be composed from this specification while legalSectionsBound is false. The participant instrument is now CC-1472, and CC-1472 has not been ingested here: no measured overlay geometry exists for it, the fee set by the filing clerk is not established, and the case number is a clerk-completable blank rather than a known value. The specification exists so the family binding is real and checkable, not so the route can advance without the form it now depends on.",
+      "supersession": {
+        "what": "The custom 'Transmittal and Request' primary filing is superseded for the participant branch by official Form CC-1472.",
+        "why": "Virginia publishes CC-1472 for this exact subsection. A custom document in that slot is a substitution for an official form, which is Defect Register D-012.",
+        "priorBinding": {
+          "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+          "postApprovalAuditVerdict": "COVERED_BY_EXISTING_APPROVAL",
+          "scope": "The exact existing family documents and canonical and boundary artifact hashes recorded below; no runtime, technical, payment, sponsorship, or production authority."
+        },
+        "priorApprovalStatus": "HISTORICAL_EVIDENCE_ONLY",
+        "priorApprovalScope": "OWN-ADOPT-2026-09-02-BATCH-53 remains valid evidence of what was adopted for the superseded custom output at its exact recorded hashes. It does not reach CC-1472, and it is not rolled forward onto the successor.",
+        "newEvidenceRequired": "The official-form mapping requires its own applicable QA evidence: the ingested CC-1472 binary, measured overlay geometry, and a fresh acceptance. None of that is asserted here.",
+        "doNotDo": "Do not regenerate a custom equivalent of CC-1472, and do not roll the old approval or its hashes forward onto the official-form successor."
+      },
+      "clerkOwnedElements": {
+        "elements": [
+          14,
+          15,
+          16
+        ],
+        "rule": "CC-1472 elements 14 to 16 (hearing date and time, date of clerk signature, clerk or deputy clerk signature) are prepared by the clerk or deputy clerk. The product never authors them and never prepopulates participant-controlled data into them."
+      },
+      "specificationSha256": "b1ca5efc07c82a3ff81e77c039fb89ca773271cc69946d8c4506197e1da3a3f2"
+    }
+  },
+  "specificationSha256": "1ed7f663d61191e856bad72031d12466b30ca5e00818c6adc10ec0757a441364"
 }

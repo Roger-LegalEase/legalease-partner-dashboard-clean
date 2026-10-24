@@ -1,0 +1,2044 @@
+{
+ "measuredAt": "a2c9cb04d054fe59574e14134230c494c084f184",
+ "method": "nc-spec.mjs: public witness or reviewer synthetic witness; evaluate() with four deltas; packetCollectionFor at packetPlanForPathway inputs with empty answers",
+ "members": [
+  {
+   "state": "DC",
+   "route": "dc_actual_innocence_expungement_16_803",
+   "group": "GA17",
+   "questionRecordId": "Q-269179a67ce87233db32",
+   "fact": "record_type",
+   "profileHash": "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830",
+   "witness": {
+    "kind": "PUBLIC",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "actual_innocence_basis": "The offense did not occur",
+     "age_at_offense": "30",
+     "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+     "court_requirements_completed": "yes",
+     "dc_offense_severity_group": "Not in Offense Severity Group 1, 2, or 3",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pending_cases": "No",
+     "possible_pathway_context": "Actual-innocence expungement by motion under D.C. Code § 16-803",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "dc_actual_innocence_expungement_16_803",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "dc.waiting_rule_not_executed",
+     "hasPacketPlan": true
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "dc_actual_innocence_expungement_16_803",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "dc.source_fact_unknown",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "dc.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "dc.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "retained paid answers",
+     "answers": {
+      "ownership_scope": "Yes",
+      "jurisdiction_scope": "State or local",
+      "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "offense_level": "Misdemeanor",
+      "possible_pathway_context": "Actual-innocence expungement by motion under D.C. Code § 16-803",
+      "age_at_offense": "25",
+      "court_requirements_completed": "Yes",
+      "resolved_timing_bucket": "At least 5 years ago",
+      "sentence_completion_date": "2018-01-01",
+      "disposition_date": "2018-01-01",
+      "court": "Superior Court of the District of Columbia",
+      "charge": "Source fixture charge",
+      "actual_innocence_basis": "The offense was committed by someone else / wrong person"
+     },
+     "profileVersion": "2026-06-19-source-conversion-1",
+     "pathwayId": "dc_actual_innocence_expungement_16_803",
+     "resultCode": "packet_ready_with_caution",
+     "paymentAllowed": true,
+     "reason": "dc.compiled_rule_match.route-dc_actual_innocence_expungement_16_803",
+     "hasPacketPlan": true
+    }
+   ],
+   "planRequiredInputIds": [
+    "age_at_offense",
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "participant_full_legal_name",
+    "pathway_id",
+    "record_type",
+    "sentence_completion_date",
+    "actual_innocence_basis",
+    "dc_offense_severity_group",
+    "date_of_birth",
+    "mailing_address",
+    "phone_number",
+    "email_address"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "age_at_offense": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "derived",
+     "source": "derived_from:mailing_address+phone_number+email_address",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "conditional",
+     "source": "dc_innocence_category_history",
+     "optional": true
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "actual_innocence_basis": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "dc_offense_severity_group": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "date_of_birth": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "mailing_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "phone_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "email_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    }
+   },
+   "specHash": "e996552f778a29335da79c309cf319b8fcd4560a47c6db15b4a77a454372dc83",
+   "baseModel": {
+    "missingInputIds": [
+     "charge",
+     "court",
+     "date_of_birth",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type"
+    ],
+    "builderRequired": [
+     "charge",
+     "court",
+     "date_of_birth",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type"
+    ],
+    "requiredQuestions": [
+     "actual_innocence_basis",
+     "age_at_offense",
+     "case_outcome",
+     "charge",
+     "contact_information",
+     "court",
+     "date_of_birth",
+     "dc_offense_severity_group",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "offense_level",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type",
+     "sentence_completion_date"
+    ]
+   },
+   "authority": {
+    "allowed": false,
+    "state": "STALE"
+   },
+   "retainedDraft": {
+    "pathwayId": "dc_actual_innocence_expungement_16_803",
+    "resultCode": "packet_ready_with_caution",
+    "paymentAllowed": true,
+    "missingInputIds": [
+     "date_of_birth",
+     "dc_offense_severity_group",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type",
+     "sentence_completion_date"
+    ],
+    "builderRequired": [
+     "date_of_birth",
+     "dc_offense_severity_group",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type",
+     "sentence_completion_date"
+    ]
+   }
+  },
+  {
+   "state": "GA",
+   "route": "restriction-and-sealing-of-a-pardoned-felony",
+   "group": "GA17",
+   "questionRecordId": "Q-261c55d6fca7e08a1d53",
+   "fact": "record_type",
+   "profileHash": "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef",
+   "witness": {
+    "kind": "SYNTHETIC_REVIEWER_SEARCHED",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "case_outcome": "Pardoned conviction",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "Restriction and sealing of a pardoned felony",
+     "prior_relief": "Yes",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ]
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+     "resultCode": "needs_more_info",
+     "paymentAllowed": false,
+     "reason": "ga.pardon_classification",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+     "resultCode": "needs_more_info",
+     "paymentAllowed": false,
+     "reason": "ga.pardon_classification",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ga.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ga.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "arrest_date",
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "county",
+    "court",
+    "criminal_history",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "pending_cases",
+    "prior_relief",
+    "record_type",
+    "residency_or_location",
+    "sentence_completion_date",
+    "mailing_address",
+    "phone_number",
+    "email_address",
+    "case_number",
+    "otn",
+    "participant_narrative",
+    "prosecuting_authority",
+    "service_method",
+    "ga_pardoned_offense_section",
+    "ga_pardon_date"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "arrest_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "derived",
+     "source": "derived_from:mailing_address+phone_number+email_address",
+     "optional": null
+    },
+    "county": {
+     "collection": "prepay_confirmation",
+     "source": "distinct_record_question_contract",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "distinct_record_question_contract",
+     "optional": null
+    },
+    "criminal_history": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "conditional",
+     "source": "ga_pardon_exact_record_category_context",
+     "optional": null
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "pending_cases": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "prior_relief": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "mailing_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "phone_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "email_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "case_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "otn": {
+     "collection": "conditional",
+     "source": "packet_specification_optional_generation",
+     "optional": true
+    },
+    "participant_narrative": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "prosecuting_authority": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "service_method": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    },
+    "ga_pardoned_offense_section": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "ga_pardon_date": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    }
+   },
+   "specHash": "189730913a14c05abfa818fafbf3849714ca3439b55d097b73a53bbac082c67f",
+   "baseModel": {
+    "missingInputIds": [],
+    "builderRequired": [],
+    "requiredQuestions": []
+   },
+   "authority": {
+    "allowed": false,
+    "state": "NO_RECORD"
+   }
+  },
+  {
+   "state": "GA",
+   "route": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+   "group": "GA17",
+   "questionRecordId": "Q-454f8f18cea8461fc1bc",
+   "fact": "record_type",
+   "profileHash": "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef",
+   "witness": {
+    "kind": "PUBLIC",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "SB 288 misdemeanor-conviction restriction and sealing",
+     "prior_relief": "Yes",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ]
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "ga.waiting_rule_not_executed",
+     "hasPacketPlan": true
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "ga.source_fact_unknown",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ga.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ga.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "arrest_date",
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "county",
+    "court",
+    "criminal_history",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "pending_cases",
+    "prior_relief",
+    "record_type",
+    "residency_or_location",
+    "sentence_completion_date",
+    "mailing_address",
+    "phone_number",
+    "email_address",
+    "case_number",
+    "otn",
+    "participant_narrative",
+    "prosecuting_authority",
+    "service_method"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "arrest_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "derived",
+     "source": "derived_from:mailing_address+phone_number+email_address",
+     "optional": null
+    },
+    "county": {
+     "collection": "render_required",
+     "source": "route_override",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "criminal_history": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "conditional",
+     "source": "ga_sb288_category_history",
+     "optional": true
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "pending_cases": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "prior_relief": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "conditional",
+     "source": "ga_sb288_location_history",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "mailing_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "phone_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "email_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "case_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "otn": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "participant_narrative": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    },
+    "prosecuting_authority": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "service_method": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    }
+   },
+   "specHash": "7a568c20fa4099ee03bceb3cafd31b306e534d0a3b306c37afb1bb72a65c8ec3",
+   "baseModel": {
+    "missingInputIds": [
+     "arrest_date",
+     "case_number",
+     "charge",
+     "county",
+     "court",
+     "criminal_history",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "otn",
+     "participant_full_legal_name",
+     "phone_number",
+     "prosecuting_authority",
+     "record_type"
+    ],
+    "builderRequired": [
+     "arrest_date",
+     "case_number",
+     "charge",
+     "county",
+     "court",
+     "criminal_history",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "otn",
+     "participant_full_legal_name",
+     "phone_number",
+     "prosecuting_authority",
+     "record_type"
+    ],
+    "requiredQuestions": [
+     "arrest_date",
+     "case_number",
+     "case_outcome",
+     "charge",
+     "contact_information",
+     "county",
+     "court",
+     "criminal_history",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "offense_level",
+     "otn",
+     "pardon_status",
+     "participant_full_legal_name",
+     "participant_narrative",
+     "pending_cases",
+     "phone_number",
+     "prior_relief",
+     "prosecuting_authority",
+     "record_type",
+     "sentence_completion_date",
+     "service_method"
+    ]
+   },
+   "authority": {
+    "allowed": false,
+    "state": "NO_RECORD"
+   }
+  },
+  {
+   "state": "IL",
+   "route": "criminal-identity-theft-mistaken-identity-relief",
+   "group": "GA17",
+   "questionRecordId": "Q-5bf2bfb3d4bfaebe6171",
+   "fact": "record_type",
+   "profileHash": "b16978a1748ee80363763340a864f5ea8a2a5160bb8f76093440c02beda70afd",
+   "witness": {
+    "kind": "PUBLIC",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "age_at_offense": "30",
+     "case_outcome": "Arrest or citation with no charge filed",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "Criminal identity-theft / mistaken-identity relief",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ],
+     "trafficking_status": "No"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "criminal-identity-theft-mistaken-identity-relief",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "il.waiting_rule_not_executed",
+     "hasPacketPlan": true
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "criminal-identity-theft-mistaken-identity-relief",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "il.source_fact_unknown",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "il.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "il.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "age_at_offense",
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "record_type",
+    "residency_or_location",
+    "sentence_completion_date",
+    "trafficking_status",
+    "mailing_address",
+    "phone_number",
+    "email_address",
+    "date_of_birth",
+    "identity_theft_report_and_mismatched_identifiers",
+    "arrest_circuit",
+    "automatic_seal_status",
+    "arrest_circuit_court"
+   ],
+   "baseBucket": {
+    "collection": "render_required",
+    "source": "profile_required_input"
+   },
+   "baseOtherFacts": {
+    "age_at_offense": {
+     "collection": "prepay_confirmation",
+     "source": "materialization_protection",
+     "optional": null
+    },
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "derived",
+     "source": "derived_from:mailing_address+phone_number+email_address",
+     "optional": null
+    },
+    "court": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "conditional",
+     "source": "il_identity_category_history",
+     "optional": true
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "conditional",
+     "source": "il_identity_location_history",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "trafficking_status": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "mailing_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "phone_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "email_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "date_of_birth": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "identity_theft_report_and_mismatched_identifiers": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    },
+    "arrest_circuit": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    },
+    "automatic_seal_status": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    },
+    "arrest_circuit_court": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    }
+   },
+   "specHash": "e2407963972350e6bca336f1efd55d1e26a2eb51055f8f3cb4c6696ecd474c2b",
+   "baseModel": {
+    "missingInputIds": [
+     "charge",
+     "court",
+     "date_of_birth",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type"
+    ],
+    "builderRequired": [
+     "charge",
+     "court",
+     "date_of_birth",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type"
+    ],
+    "requiredQuestions": [
+     "age_at_offense",
+     "arrest_circuit",
+     "arrest_circuit_court",
+     "automatic_seal_status",
+     "case_outcome",
+     "charge",
+     "contact_information",
+     "court",
+     "date_of_birth",
+     "disposition_date",
+     "email_address",
+     "identity_theft_report_and_mismatched_identifiers",
+     "mailing_address",
+     "offense_level",
+     "pardon_status",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type",
+     "sentence_completion_date",
+     "trafficking_status"
+    ]
+   },
+   "authority": {
+    "allowed": false,
+    "state": "NO_RECORD"
+   }
+  },
+  {
+   "state": "IL",
+   "route": "felony-prostitution-relief",
+   "group": "GA17",
+   "questionRecordId": "Q-1ae6c0a67948d46499fd",
+   "fact": "record_type",
+   "profileHash": "b16978a1748ee80363763340a864f5ea8a2a5160bb8f76093440c02beda70afd",
+   "witness": {
+    "kind": "PUBLIC",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "age_at_offense": "30",
+     "case_outcome": "Arrest or citation with no charge filed",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "Felony-prostitution relief",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ],
+     "trafficking_status": "No"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "felony-prostitution-relief",
+     "resultCode": "guidance_only",
+     "paymentAllowed": false,
+     "reason": "il.prostitution_record_conflict",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "felony-prostitution-relief",
+     "resultCode": "guidance_only",
+     "paymentAllowed": false,
+     "reason": "il.source_fact_unknown",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "il.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "il.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "age_at_offense",
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "record_type",
+    "residency_or_location",
+    "sentence_completion_date",
+    "trafficking_status",
+    "mailing_address",
+    "phone_number",
+    "email_address",
+    "conviction_county",
+    "case_number",
+    "conviction_date",
+    "conviction_as_worded",
+    "adverse_consequences"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "age_at_offense": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "derived",
+     "source": "derived_from:mailing_address+phone_number+email_address",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "conditional",
+     "source": "il_prostitution_category_history",
+     "optional": true
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "trafficking_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "mailing_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "phone_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "email_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "conviction_county": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "case_number": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "conviction_date": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "conviction_as_worded": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "adverse_consequences": {
+     "collection": "external_actor",
+     "source": "packet_specification_field_ownership",
+     "optional": null
+    }
+   },
+   "specHash": "57a02cd4a796ba6f76f15dcb54b72d57ef89260e89d4b8e55178b096f244af66",
+   "baseModel": {
+    "missingInputIds": [],
+    "builderRequired": [],
+    "requiredQuestions": []
+   },
+   "authority": {
+    "allowed": false,
+    "state": "STALE"
+   }
+  },
+  {
+   "state": "NV",
+   "route": "probation-or-specialty-court-dismissal-set-aside-sealing",
+   "group": "GA17",
+   "questionRecordId": "Q-5ccf7411659316d7432d",
+   "fact": "record_type",
+   "profileHash": "964eecfe7a5c3ffd4bae54636520141ff20d25c904401b4eab6941de5d3dd651",
+   "witness": {
+    "kind": "PUBLIC",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "case_outcome": "Arrest or citation with no charge filed",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "nv_176a_charge_class": "Yes — battery constituting domestic violence, or driving under the influence",
+     "nv_176a_disposition_class": "I was discharged from probation",
+     "nv_176a_excluded_charge_class": "Yes — one of those was the charge",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "Probation or specialty-court dismissal / set-aside sealing",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
+     "resultCode": "likely_not_eligible",
+     "paymentAllowed": false,
+     "reason": "nv.nv_176a_subsection_3_not_eligible",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "nv.source_fact_unknown",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "nv.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "nv.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "arrest_date",
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "criminal_history",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "pending_cases",
+    "record_type",
+    "residency_or_location",
+    "date_of_birth",
+    "mailing_address",
+    "phone_number",
+    "email_address",
+    "nv_176a_excluded_charge_class",
+    "nv_176a_charge_class",
+    "nv_176a_disposition_class"
+   ],
+   "baseBucket": {
+    "collection": "render_required",
+    "source": "profile_required_input"
+   },
+   "baseOtherFacts": {
+    "arrest_date": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "derived",
+     "source": "derived_from:mailing_address+phone_number+email_address",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "criminal_history": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "conditional",
+     "source": "nv_program_category_history",
+     "optional": true
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "pending_cases": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "conditional",
+     "source": "nv_program_location_history",
+     "optional": null
+    },
+    "date_of_birth": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "mailing_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "phone_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "email_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "nv_176a_excluded_charge_class": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "nv_176a_charge_class": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "nv_176a_disposition_class": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    }
+   },
+   "specHash": "94ed0589dab1e02886759605f2eac2afd4baf7bb3f0a1f6d4f18fcb24603182c",
+   "baseModel": {
+    "missingInputIds": [],
+    "builderRequired": [],
+    "requiredQuestions": []
+   },
+   "authority": {
+    "allowed": false,
+    "state": "NO_RECORD"
+   }
+  },
+  {
+   "state": "SD",
+   "route": "suspended-imposition-of-sentence-sealing",
+   "group": "GA17",
+   "questionRecordId": "Q-ed913e13baeea013621d",
+   "fact": "record_type",
+   "profileHash": "a1d4f1e781a618726d83137b3905ec17ab394dbc31f94aee23273746ec8331c1",
+   "witness": {
+    "kind": "PUBLIC",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "age_at_offense": "30",
+     "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "Suspended-imposition-of-sentence sealing",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "trafficking_status": "No"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "suspended-imposition-of-sentence-sealing",
+     "resultCode": "guidance_only",
+     "paymentAllowed": false,
+     "reason": "sd.guidance_only_no_user_filed_court_petition",
+     "hasPacketPlan": true
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "suspended-imposition-of-sentence-sealing",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "sd.source_fact_unknown",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "sd.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "sd.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "age_at_offense",
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "disposition_date",
+    "financial_obligations",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "record_type",
+    "residency_or_location",
+    "sentence_completion_date",
+    "trafficking_status",
+    "mailing_address",
+    "phone_number",
+    "email_address",
+    "sd_sis_record_correction_stage"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "age_at_offense": {
+     "collection": "prepay_confirmation",
+     "source": "materialization_protection",
+     "optional": null
+    },
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "derived",
+     "source": "derived_from:mailing_address+phone_number+email_address",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "financial_obligations": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "conditional",
+     "source": "sd_sis_category_history",
+     "optional": true
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "conditional",
+     "source": "sd_sis_location_history",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "trafficking_status": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "mailing_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "phone_number": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "email_address": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "sd_sis_record_correction_stage": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    }
+   },
+   "specHash": "7a6064a51c32017d01888cce0e439f3f3d7fe946bdaac5900a866319dee4e2df",
+   "baseModel": {
+    "missingInputIds": [
+     "charge",
+     "court",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type",
+     "sd_sis_record_correction_stage"
+    ],
+    "builderRequired": [
+     "charge",
+     "court",
+     "disposition_date",
+     "email_address",
+     "mailing_address",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type",
+     "sd_sis_record_correction_stage"
+    ],
+    "requiredQuestions": [
+     "age_at_offense",
+     "case_outcome",
+     "charge",
+     "contact_information",
+     "court",
+     "disposition_date",
+     "email_address",
+     "financial_obligations",
+     "mailing_address",
+     "offense_level",
+     "pardon_status",
+     "participant_full_legal_name",
+     "phone_number",
+     "record_type",
+     "sd_sis_record_correction_stage",
+     "sentence_completion_date",
+     "trafficking_status"
+    ]
+   },
+   "authority": {
+    "allowed": false,
+    "state": "NO_RECORD"
+   }
+  },
+  {
+   "state": "VA",
+   "route": "regime-1-expungement-available-now",
+   "group": "GA17",
+   "questionRecordId": "Q-979dc4b69087b8d8c904",
+   "fact": "record_type",
+   "profileHash": "8b9e5e8eb7100788dae197f75a552d4e831918fc11d5fa74218652c1f8a7ca1c",
+   "witness": {
+    "kind": "PUBLIC",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "identity_error": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "Regime 1 — Expungement (§ 19.2-392.2), available now",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ],
+     "trafficking_status": "No"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "regime-1-expungement-available-now",
+     "resultCode": "needs_more_info",
+     "paymentAllowed": false,
+     "reason": "va.record_origin_unknown",
+     "hasPacketPlan": true
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "pathwayId": "regime-1-expungement-available-now",
+     "resultCode": "needs_more_info",
+     "paymentAllowed": false,
+     "reason": "va.record_origin_unknown",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "va.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "va.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "disposition_date",
+    "identity_error",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "record_type",
+    "residency_or_location",
+    "trafficking_status"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "prepay_confirmation",
+     "source": "materialization_protection",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "identity_error": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_category": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "packet_specification_required_fact",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "unresolved",
+     "source": "unresolved_route_rule_scope",
+     "optional": null
+    },
+    "trafficking_status": {
+     "collection": "conditional",
+     "source": "va_three_routes_victim_status_retained_context",
+     "optional": null
+    }
+   },
+   "specHash": "1a86cdc4709753cb09fa4753a700f18a37feb4b9a6094a46f2db2e6244fe501e",
+   "baseModel": {
+    "missingInputIds": [
+     "charge",
+     "contact_information",
+     "court",
+     "disposition_date",
+     "offense_category",
+     "participant_full_legal_name",
+     "record_type",
+     "residency_or_location",
+     "va_record_origin"
+    ],
+    "builderRequired": [
+     "charge",
+     "contact_information",
+     "court",
+     "disposition_date",
+     "offense_category",
+     "participant_full_legal_name",
+     "record_type",
+     "residency_or_location"
+    ],
+    "requiredQuestions": [
+     "case_outcome",
+     "charge",
+     "contact_information",
+     "court",
+     "disposition_date",
+     "identity_error",
+     "offense_category",
+     "offense_level",
+     "pardon_status",
+     "participant_full_legal_name",
+     "record_type",
+     "residency_or_location",
+     "trafficking_status"
+    ]
+   },
+   "authority": {
+    "allowed": false,
+    "state": "NO_RECORD"
+   }
+  }
+ ]
+}

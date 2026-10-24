@@ -18,6 +18,7 @@ The platform wrote only the identity and contact facts it holds: full legal name
 
 ## Route boundary
 
+Nothing in this preparation guide is served on anyone. Submit the challenge using ALEA/ACJIC's or the originating agency's procedure, not as a court filing. The held sources do not establish who must receive a copy or notice. Before submitting, ask that agency's records unit whether anyone else must receive a copy or notice and how.
 Use this route only when the record is wrong, incomplete, misleading, or assigned to the wrong person. An accurate arrest that the participant wants expunged belongs to a different Alabama route.
 Confirm the receiving agency's current procedure before sending anything. Keep every submission, delivery record, response, denial, appeal, final decision, and the date it was received.
 A disputed material fact or a final agency denial is an attorney handoff. This packet does not prepare or open the separate circuit-court appeal.

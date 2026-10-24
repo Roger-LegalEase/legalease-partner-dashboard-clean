@@ -327,12 +327,42 @@ function sourceInputFiles() {
   ]);
 }
 
-function sourceFingerprint(files) {
+/*
+ * The derived fulfillment-authority views are rewritten on every proof re-bind (evidence digests,
+ * verification dates, versions, history), and hashing their bytes moved the fingerprint, and every
+ * receipt pinning the census, on changes this census cannot see. They enter the fingerprint as the
+ * fields buildOutputs() reads from them (traced 2026-10-19; test-census-derived-view-fingerprint.mjs
+ * fails when a read falls outside this projection). outputLegalApproval and finalVerification are read
+ * only through the approved|pass text test, so they enter as that result. The observation snapshot is
+ * not read and enters by path alone.
+ */
+export const DERIVED_VIEW_PROJECTIONS = {
+  "data/rcap-grade-a/fulfillment-authority-registry.json": (doc) => doc.records.map((r) => ({
+    recordId: r.recordId ?? null, jurisdiction: r.jurisdiction ?? null, pathwayId: r.pathwayId ?? null,
+    serviceDisposition: r.serviceDisposition ?? null,
+    fixture: r.fixture ? { fixtureId: r.fixture.fixtureId ?? null, sha256: r.fixture.sha256 ?? null } : null,
+    artifactSha256: r.artifactValidation?.artifactSha256 ?? null,
+    packetCompleteness: r.packetCompleteness ? {
+      specificationId: r.packetCompleteness.specificationId ?? null,
+      specificationSha256: r.packetCompleteness.specificationSha256 ?? null,
+      filingFormatArtifactSha256: r.packetCompleteness.filingFormatArtifact?.sha256 ?? null,
+      companionArtifacts: asArray(r.packetCompleteness.companionArtifacts).map((a) => ({ componentId: a?.componentId ?? null, sha256: a?.sha256 ?? null }))
+    } : null,
+    approvedOrPassText: /approved|pass/i.test(textOf(r.outputLegalApproval, r.finalVerification))
+  })),
+  "data/rcap-grade-a/fulfillment-authority-projection.json": (doc) => doc.routes.map((r) => ({
+    routeId: r.routeId ?? null, state: r.state ?? null, commercialStatus: r.commercialStatus ?? null, missingProof: r.missingProof ?? null
+  })),
+  "data/rcap-grade-a/fulfillment-observation-snapshot.json": () => null
+};
+
+export function sourceFingerprint(files) {
   const digest = crypto.createHash("sha256");
   for (const file of files) {
     digest.update(file);
     digest.update("\0");
-    digest.update(fs.readFileSync(path.join(ROOT, file)));
+    const project = DERIVED_VIEW_PROJECTIONS[file];
+    digest.update(project ? JSON.stringify(project(readJson(file))) : fs.readFileSync(path.join(ROOT, file)));
     digest.update("\0");
   }
   return `sha256:${digest.digest("hex")}`;

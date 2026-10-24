@@ -1,0 +1,448 @@
+{
+  "schemaVersion": "rcap-unreachable-verifier-bases/v1",
+  "purpose": "Explicit ordering input for extract-verifier-returns.mjs. Each row below declared a verifiedAtBase that exists in no reachable history (worker commits never pushed; GitHub returns 422 for every one), so git cannot order it against other reads. The commit that first added the row's evidence file is the latest point its read can have happened, and is used as the stand-in base for ordering only. Verdicts, evidence and lanes are untouched; a fresh read whose base descends from the stand-in supersedes the row as usual.",
+  "recordedAt": "2026-10-18",
+  "recordedBy": "integrating lead, PR #268",
+  "reviewedBy": "independent extractor review (ACCEPT_WITH_CONDITIONS -> explicit committed record requested)",
+  "verifiedAgainst": "gh api repos/Roger-LegalEase/legalease-partner-dashboard-clean/commits/<sha> -> 422 for each base; git cat-file -e fails in the unshallowed checkout",
+  "rows": [
+    {
+      "verifiedAtBase": "ec913f1b613da6bc4918b149efa03f54b95974c6",
+      "lane": "vf68",
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-closed-proof-final.json",
+      "standInBase": "a29ae2469a08b43ead1f5ec4cb07acf15251dad6",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "6dc2b67cae9d466ad9244ccff7b937b5319cd36f",
+      "lane": "vf68",
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-requirements-final.json",
+      "standInBase": "301d44f366eb9177d15d609ddb3493dbca730703",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+      "lane": "vf01",
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-binding-final.json",
+      "standInBase": "9f661a50b5baf01d03c428fbb9bb5dbb2b083576",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+      "lane": "vf62",
+      "familyId": "de_mandatory_expungement-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json",
+      "standInBase": "fa725990afd46b4da5e61ff12e608f9028b456c9",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
+      "lane": "vf02",
+      "familyId": "de_pardon_expungement-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-restored.json",
+      "standInBase": "cc2bd5505e5599e35d28897da1a6525438ac77b7",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "7dc4c078409979b5aa480d83fbd4294332d4bbdb",
+      "lane": "vf01",
+      "familyId": "fl-10yr-bridge-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-fl-bridge-current.json",
+      "standInBase": "d429f991c4b35fd9c1d632f05cbfa04211e6f6eb",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf01",
+      "familyIds": [
+        "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+        "mn_petition_609a02_subd3-set",
+        "rcap-tn-custom-pleading",
+        "wv_conv_nonviolent_felony-set"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 4,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf02",
+      "familyIds": [
+        "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+        "census-pending-family:ME:juvenile-sealing",
+        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "ct-decriminalized-set",
+        "dc_yra_set_aside-set",
+        "rcap-nv-custom-pleading",
+        "rcap-wi-custom-pleading"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 7,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf04",
+      "familyIds": [
+        "az_wrongful_arrest_clearance-set",
+        "id_felony_reduction-set",
+        "id_set_aside_dismissal-set"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 3,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf05",
+      "familyIds": [
+        "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+        "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 2,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf06",
+      "familyIds": [
+        "rcap-nd-custom-pleading"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 1,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf07",
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "rcap-ms-custom-pleading",
+        "rcap-ok-custom-pleading",
+        "rcap-wv-custom-pleading"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 4,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf08",
+      "familyIds": [
+        "rcap-ks-custom-pleading",
+        "rcap-wa-custom-pleading-clean-tracks"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 2,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf53",
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 1,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf65",
+      "familyIds": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 1,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vf67",
+      "familyIds": [
+        "ks-21-6614-conviction-set",
+        "ks-21-6614-diversion-set",
+        "ks-21-6614-prostitution-coercion-set"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 3,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vfct1",
+      "familyIds": [
+        "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+        "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 3,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vffl1",
+      "familyIds": [
+        "fl-juvenile-diversion-set"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vffl1/rows-vffl1-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 1,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vfncfinal1",
+      "familyIds": [
+        "nc_auto_146_a4_agency_followup-set"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfncfinal1/rows-vfncfinal1-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 1,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vfok1",
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfok1/rows-vfok1-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 1,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    },
+    {
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "lane": "vfwasud3",
+      "familyIds": [
+        "wa_vac_substance_use_disorder-set"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwasud3/rows-vfwasud3-20261019-reverify-census-5e7fe802c.json",
+      "rowCount": 1,
+      "standInBase": "02d8c062c590312dde7732f55cde00fa6d52af42",
+      "standInKind": "pushed_parent_tree_with_overrides",
+      "treeOverrides": {
+        "commit": "7a5fae3201a68e312b1796d70ee2506d146124a1",
+        "paths": [
+          "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/duplicate-and-alias-report.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/jurisdiction-summary.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json",
+          "docs/rcap/grade-a/route-obligation-census/CAPTAIN_INTEGRATION_REQUEST.md",
+          "docs/rcap/grade-a/route-obligation-census/NATIONAL_ROUTE_OBLIGATION_CENSUS.md"
+        ]
+      }
+    }
+  ],
+  "grantsNothing": true,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "amendments": [
+    {
+      "at": "2026-10-19",
+      "by": "CI agent (lead decision: fix forward, no dangling ref pushed)",
+      "what": "The 35 census-landing reads (15 lane returns) declare verifiedAtBase 5e7fe802c, the CI agent's local census commit before its rebase onto 877a2d8fc; it was never pushed, so a GitHub checkout cannot order them (factory run 39320137545). Each file is one entry with rowCount; the stand-in is the pushed commit that first added the file. Found by Acceptance (review-evidence/acceptance/batch23-unreachable-base/). Amended the same day (second reader, factory run 39323049979): the stand-in is 5e7fe802c's pushed parent 02d8c062c, whose tree equals 5e7fe802c's except the 8 census outputs it regenerated, which are byte-identical at the pushed re-cut commit 7a5fae320 (treeOverrides). The entry therefore stands in for content as well as ordering, and every reader resolves it through verifier-base-stand-ins.mjs."
+    }
+  ]
+}

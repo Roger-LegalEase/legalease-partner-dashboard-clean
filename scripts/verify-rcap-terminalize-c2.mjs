@@ -966,10 +966,20 @@ async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
   // Canonical, boundary and multiline must pass QA AND trip zero invention or
   // protected-field signals. The negative must trip the signals it declares.
   const code = doc.config?.jurisdictionCode;
+  let reviewedDiversionEvidence = "";
+  if (trackId === "tn_pretrial_diversion") {
+    // The dated exclusions were independently reviewed at d7e25574c; the old coded pack omits them.
+    const memo = fs.readFileSync(path.join(rootDir, "data/record-clearing/legal-design-intake/TN.memo.json"), "utf8");
+    if (crypto.createHash("sha256").update(memo).digest("hex") !== "1107fa8b8ce6380ce5f0c9e900233413a56378c9053ac5efc51ba6d3b34f0b5c") {
+      throw new Error("Reviewed Tennessee diversion evidence changed; independent source review is required.");
+    }
+    reviewedDiversionEvidence = JSON.parse(memo).tracks.find((track) => track.trackId === trackId)
+      .participantInputs.find((input) => input.key === "sexualOffence").question;
+  }
   const evidence =
     stateEvidenceText(code) +
     JSON.stringify(doc.provenance?.registryAuthority ?? []) +
-    JSON.stringify(doc.provenance?.registryExcerpt ?? "");
+    JSON.stringify(doc.provenance?.registryExcerpt ?? "") + reviewedDiversionEvidence;
 
   for (const name of ["canonical", "boundary", "multiline"]) {
     const r = results[name];

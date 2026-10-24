@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX03",
+  "laneKind": "repair",
+  "baseSha": "0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f",
+  "branch": "codex/ms-component-set-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker, returning the completed bounded repair under Lead Claude's 2026-10-20T04:16Z assignment. This is not independent verification or a cloud-worker grant.",
+  "grantsAsserted": [],
+  "grantBasis": "ACTIVE_ASSIGNMENTS.json at 0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f dispatches nd-deferred-imposition-records-set to FIX03. The claim ledger at that base records released=false. No claim is asserted or changed here. Lead owns release of the live FIX03 grant before factory admission.",
+  "rows": [
+    {
+      "itemId": "nd-deferred-imposition-records-set",
+      "familyId": "nd-deferred-imposition-records-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "SERVICE"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20261019-reverify-1b48eb358.json",
+          "sha256": "9202c39700843c2b1dc44286a8a7d25046dde728e363c66fbea9ff8338b42c97",
+          "lane": "VF04",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+          "failedObligationNames": [
+            "SERVICE"
+          ],
+          "preserved": true
+        }
+      ],
+      "actualDefect": {
+        "SERVICE": "The held record (memo track rules.service and rules.notice) reads \"None stated by the rule or the statute\", so no held source establishes a service duty and the packet must either state affirmatively that nobody is served, with the mechanism, or name a checkable authority for the question. Verification unit: met — page 1 states \"On this unit NOTHING IS FILED, because the court acts under a term of its own order.\" Motion unit: silent — neither fixture nor participant-instructions.md says who, if anyone, receives a copy of the § 12.1-32-07.1 motion filed in the existing criminal case, by what method, or that nobody does, and no office is named for that question; the words serve/service do not occur in any participant-facing record of this family. Under the standard applied in this lane (VF11 standardApplied.SERVICE and DET-FEE-AND-WAIVER-001: silence does not meet it) the motion unit fails. VF04 passed this obligation on a different formulation (\"the packet imposes no invented service duty, matching that record\"); this is a standard-application difference on unchanged bytes, flagged for the lead rather than decided quietly. The repair is one sentence on the motion page and in the instructions: either the service treatment the record establishes (none is held) or the clerk of court of the sentencing court as the office that answers whether the state's attorney must receive a copy."
+      },
+      "correction": "The motion page and participant instructions now state: No held source states a service duty for this motion. Ask the clerk of court of the sentencing court whether the state's attorney must receive a copy. The correction names the source-supported office without inventing a service duty; the verification unit and legal-effect explanation remain intact.",
+      "repairCommits": {
+        "authored": {
+          "bd9e11f75": "bd9e11f7520f704eb767ebaa12e18fe6888ed654"
+        },
+        "reCutOnto": "3bcd0d66e95c8076872f2cb2f7d9925242365312",
+        "reCut": {
+          "5ab238bc3": "5ab238bc3645834e248dc6f844f72eb9618416c0"
+        },
+        "note": "The repair is bd9e11f7520f704eb767ebaa12e18fe6888ed654; the packet bytes measured here are committed at 5ab238bc3645834e248dc6f844f72eb9618416c0. Commit ids name implementation provenance only; the dispatch base is baseSha above and the historical verdict remains preserved."
+      },
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "acb65ea57cee08f26a4503a5648ec1bb542c56e49dee4c88dc04c9416ad14bf8",
+          "byteLength": 12769,
+          "pageCount": 4,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes, without rastering or rebuilding",
+          "changed": true,
+          "sha256BeforeRepair": "8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1",
+          "byteLengthBeforeRepair": 12744,
+          "pageCountBeforeRepair": 4
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "17254b3a88eff883620f5864fcadf7b644e28b67f5de3ad527dd02dc6f953c7a",
+          "byteLength": 12960,
+          "pageCount": 4,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes, without rastering or rebuilding",
+          "changed": true,
+          "sha256BeforeRepair": "c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29",
+          "byteLengthBeforeRepair": 12930,
+          "pageCountBeforeRepair": 4
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading/reports/completeness-counters.json at 5ab238bc3645834e248dc6f844f72eb9618416c0, sha256 effc5d9e4fdaf2cb1572f5bb34daec048d2da4d7899d5597f6e35d36423ee83e. These are the native builder's nine counters (all numeric zero), retained from the completed repair evidence; this row does not assert an independent PASS_COMPLETE or a new raster.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true
+    }
+  ]
+}

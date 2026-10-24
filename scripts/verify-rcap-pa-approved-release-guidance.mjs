@@ -23,6 +23,10 @@ const reclassifications = JSON.parse(fs.readFileSync(
   path.join(root, "data/rcap-ledger/sellable-pathway-reclassifications.json"),
   "utf8"
 ));
+const ratificationRegistry = JSON.parse(fs.readFileSync(
+  path.join(root, "data/record-clearing/legal-decisions/route-ratification-registry.json"),
+  "utf8"
+));
 const authorityManifest = JSON.parse(fs.readFileSync(
   path.join(
     root,
@@ -45,6 +49,7 @@ const APPROVED_GUIDANCE = new Map([
 
 const profileById = new Map(profile.pathways.map((pathway) => [pathway.id, pathway]));
 const manifestById = new Map(authorityManifest.flows.map((flow) => [flow.flowId, flow]));
+const registryByKey = new Map(ratificationRegistry.routes.map((entry) => [entry.routeKey, entry]));
 const reclassificationByKey = new Map(
   reclassifications.reclassifications.map((record) => [record.pathwayKey, record])
 );
@@ -70,10 +75,16 @@ for (const [flowId, pathwayId] of APPROVED_GUIDANCE) {
     `${flowId}: runtime reason contains no stale hold language`
   );
 
+  // Since 8cd6b6385 the compiled block is a projection of the ratification registry
+  // (generate-route-ratification-projections.mjs): registry status approved_release_guidance
+  // compiles to approved_release_behavior, and lawrence_review repeats that label. The decision
+  // itself is asserted: guidance only, no packet, no payment.
   const pathway = profileById.get(pathwayId);
+  assert.equal(registryByKey.get(`PA:${pathwayId}`)?.status, "approved_release_guidance", `${flowId}: registry decision`);
+  assert.equal(pathway?.lawrenceRatification?.projectedFrom, "route-ratification-registry", `${flowId}: compiled block is the registry projection`);
   assert.equal(
     pathway?.lawrenceRatification?.lawrence_review,
-    "approved_release_guidance_only",
+    "approved_release_behavior",
     `${flowId}: compiled approval state`
   );
   assert.equal(pathway?.lawrenceRatification?.status, "approved_release_behavior");
@@ -102,15 +113,17 @@ for (const [flowId, pathwayId] of APPROVED_GUIDANCE) {
 }
 
 const pathA = profileById.get("path-a-non-conviction-expungement");
-assert.equal(pathA?.lawrenceRatification?.lawrence_review, "approved_release_packet");
+assert.equal(registryByKey.get("PA:path-a-non-conviction-expungement")?.status, "ratified_deployable");
+assert.equal(pathA?.lawrenceRatification?.lawrence_review, "ratified_deployable");
 assert.equal(pathA?.lawrenceRatification?.status, "ratified_deployable");
 assert.equal(pathA?.lawrenceRatification?.packet_capable, true);
 assert.equal(pathA?.lawrenceRatification?.payment_allowed_when_engine_confirms, true);
 
+// J's ratification lives only in a compiled snapshot that no counsel decision records. The registry
+// keeps it as stale_snapshot_only, which projects into nothing; any live status for J is Roger's/counsel's.
 const pathJ = profileById.get("path-j-clean-slate-automatic-limited-access");
-assert.equal(pathJ?.lawrenceRatification?.lawrence_review, "approved_automatic_no_filing");
-assert.equal(pathJ?.lawrenceRatification?.status, "approved_release_behavior");
-assert.equal(pathJ?.lawrenceRatification?.packet_capable, false);
-assert.equal(pathJ?.lawrenceRatification?.payment_allowed_when_engine_confirms, false);
+assert.equal(registryByKey.get("PA:path-j-clean-slate-automatic-limited-access")?.status, "stale_snapshot_only");
+assert.ok(pathJ, "path J stays in the compiled profile");
+assert.equal(pathJ.lawrenceRatification, undefined, "path J carries no projected ratification");
 
-console.log("verify-rcap-pa-approved-release-guidance: GREEN (9 guidance; A packet/review fallback; J automatic)");
+console.log("verify-rcap-pa-approved-release-guidance: GREEN (9 guidance; A packet/review fallback; J stale snapshot, unprojected)");

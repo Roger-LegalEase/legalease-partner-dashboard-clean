@@ -93,7 +93,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
  * reload. It is deliberately not a marketing-only affordance: it stays on the
  * app bar, where the task is.
  */
-function LocaleSwitch({ light = false }: { light?: boolean }) {
+export function LocaleSwitch({ light = false }: { light?: boolean }) {
   const { locale, setLocale, t: translate } = useLocalization();
   const buttonClass = light
     ? "min-h-10 rounded-md px-2 text-sm font-semibold text-[#5A6275] hover:bg-[#F1F4F9] aria-pressed:text-[#0B1320]"

@@ -43,7 +43,7 @@ export function clinicWorkerContext({ preview, participantUserId, partnerSlug, e
 export function currentClinicWorkerContext(input) {
   const candidate = requireCurrentReleaseCandidate();
   const binding = JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'));
-  const grant = JSON.parse(fs.readFileSync('data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'));
+  const grant = JSON.parse(fs.readFileSync('data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json'));
   return clinicWorkerContext(input, { candidate, binding, grant });
 }
 

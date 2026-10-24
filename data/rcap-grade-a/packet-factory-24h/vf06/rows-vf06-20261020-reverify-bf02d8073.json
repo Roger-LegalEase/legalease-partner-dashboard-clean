@@ -1,0 +1,287 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF06",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "bf02d807328f4edfe1ff2541127563bb8b371086",
+  "verifier": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "rcap-nd-custom-pleading": "GRANTED_ELSEWHERE_BUT_RELEASED: rcap-nd-custom-pleading is recorded on VF11, not VF06, and VF11 RELEASED it at 2026-09-05T11:12:05.873Z. No lane is executing it. Captain can hand it over with: --transfer VF11 VF06 rcap-nd-custom-pleading --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "rcap-nd-custom-pleading",
+      "lane": "VF06",
+      "worker": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "bf02d807328f4edfe1ff2541127563bb8b371086",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nd-custom-pleading run by measure-family.mjs in a detached worktree at base bf02d8073 (PASS_COMPLETE, 48/175 written); the counter line parsed from that run."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Measured here: product-wiring.json, source-receipt.json, production-field-map.json and the MASTER_QUEUE row declare the identical five ND route keys (felony, misdemeanor and pardoned conviction sealing; DUI record sealing; first-offense marijuana possession sealing); familyId agrees across every record (measure-family.mjs familyIdAgrees true)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Measured here, at bf02d8073, as the owner's re-admission read for the census-landing lapse (vf06 @5e7fe802c failed only this obligation). custom_pleading from codified text: no official form binary is bound and none is claimed; the receipt binds three committed records. Recomputed from bytes: legal-design-track-registry.json b62ae691\u2026 (16781025 B) exact and legal-design-specifications.json 10b02286\u2026 (16830109 B) exact; route-obligation-candidate.json pinned f6fc0814\u2026 / 2629290 B is now eeabd8b9\u2026 / 2635434 B. The pinned blob was recovered from history (a3ca119bd) and the family's five route entries compared object-for-object with the current file: four identical (felony, misdemeanor, pardoned, DUI); obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing changed in exactly one field, requiredSourceIds 8 \u2192 12, nothing removed, four added: packet-spec-source:EXT-ADOPT-01-standing-external-counsel-adoption, packet-spec-source:auth-2026-08-19-owner-legal-approval-completed-output, packet-spec-source:rcap-nd-custom-pleading:canonical-four-components, packet-spec-source:rcap-nd-custom-pleading:production-field-map \u2014 all four present in data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json (specificationVersion 1.1.0, from 2a0584984 'Connect ND first-offense packet to retained four-component family', 2026-10-14, an ancestor of this base); census metadata identical except sourceFingerprint; the worklist is not pinned. The grown source set binds this family's own already-committed four-component outputs and the standing owner/external-counsel adoptions; it moves no statutory source. The receipt on disk is not edited by this read; the census re-pin (adapter apply) is CI's with this row as its measured re-verification."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Measured here: rendered-artifacts.json declares the 19 components (four per conviction route, three for DUI and marijuana) and all 19 render, in order, across the 35 pages of each fixture; the fresh run measured requiredComponentsMissing 0. Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). "
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Measured here: every value actual-writes.json records as written was found in pdftotext output of each fixture's own bytes, canonical 48/48 and boundary 48/48; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0; refusedFieldsWithInk []; the fresh run measured invisibleWrites 0 and knownRequiredFieldsMissing 0. Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). "
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). That read checked all 83 required-before-filing items of reports/blanks-left-for-the-participant.json against participant-instructions.md; the fresh run here measured requiredFactsNotCollected 0 and unclassifiedBlanks 0 on the same bytes."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). Each of the five pleadings is authored for one statutory branch and prints no election control (rendered-artifacts selectionControls 0); the fresh run measured requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "Measured here: the fresh run measured incompleteRows 0 (rendered-artifacts repeatingRows 0). Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). "
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). Every proposed order carries 'EVERY DECISION ON THIS PAGE IS THE COURT'S' with its ORDERS, DATED and signature lines blank; refusedFieldsWithInk [] in both fixtures here; the fresh run measured protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Measured here: canonical.pdf sha256 2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522 (85218 B, 35 pages) and boundary.pdf sha256 52464ec12db3294f7d66003f4398d87c6753c4b4ef46db4ca5be9d0e5f381e8d (86861 B, 35 pages) recomputed = reports/rendered-artifacts.json; the same digests the d7e293f81 read named; no unrecorded or missing PDF."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Measured here: pdfinfo 35 = recorded 35 pages in both fixtures; rendered-artifacts packets[] component order matches the 19 rendered components. Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). "
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured here with pdftotext -bbox: canonical 7412 words, boundary 7449 words, 0 outside the page box, 0 same-band overlapping pairs; the builder's byte proof records 0 glyphs outside write boxes; the fresh run measured visualDefects 0. Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). Geometry reading; the family's standing raster state is unchanged."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). participant-instructions.md carries a FILING_DESTINATION row per route and each FILING INSTRUCTIONS page names the district court of the county of conviction, unchanged bytes."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). A FEE_AND_WAIVER row per route; where the record establishes no figure the packet says so and directs the participant to the clerk; DET-FEE-AND-WAIVER-001 as applied then; unchanged bytes."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). A SERVICE row per route and dedicated Proof of Service components naming the prosecuting attorney for the three conviction-sealing sets; unchanged bytes."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Carried from the accepted VF06 read at d7e293f81 (vf06/rows.json, PASS_COMPLETE_INDEPENDENT) under the owner's re-admission rule: the inputs that obligation reads are byte-identical since that read \u2014 fixtures canonical 2fd78d89\u2026 (85218 B, 35 pages) and boundary 52464ec1\u2026 (86861 B, 35 pages), participant-instructions.md, production-field-map.json and the reports are unchanged between d7e293f81 and bf02d8073 (the only family files that moved are product-wiring.json, 6 lines, and source-receipt.json's identityRefresh entries). participant-instructions.md's per-route SELF_HELP_STOP rows and 'When to stop and get help' section, repeated on the delivered pages; approval-request unchanged (no live approval)."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok   rcap-nd-custom-pleading                        PASS_COMPLETE                48/175 written | 1 famil(ies) audited \u00b7 1 PASS_COMPLETE | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "officialSourcesBound": 0,
+          "masterLibraryBytesBound": false,
+          "committedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinnedSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "pinnedByteLength": 16781025,
+              "nowSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "nowByteLength": 16781025,
+              "exact": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "pinnedSha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "pinnedByteLength": 16830109,
+              "nowSha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "nowByteLength": 16830109,
+              "exact": true
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "pinnedSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "pinnedByteLength": 2629290,
+              "nowSha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+              "nowByteLength": 2635434,
+              "exact": false
+            }
+          ],
+          "censusRouteComparison": [
+            {
+              "route": "obligation:track-only:ND:nd-seal-felony-conviction",
+              "identical": true
+            },
+            {
+              "route": "obligation:track-only:ND:nd-seal-misdemeanor-conviction",
+              "identical": true
+            },
+            {
+              "route": "obligation:track-only:ND:nd-seal-pardoned-conviction",
+              "identical": true
+            },
+            {
+              "route": "obligation:track-pathway:ND:nd-dui-record-seal:dui-record-sealing-under-the-separate-dui-statute",
+              "identical": true
+            },
+            {
+              "route": "obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing",
+              "identical": false,
+              "changedFields": [
+                "requiredSourceIds"
+              ],
+              "requiredSourceIds": {
+                "pinned": 8,
+                "now": 12,
+                "added": [
+                  "packet-spec-source:EXT-ADOPT-01-standing-external-counsel-adoption",
+                  "packet-spec-source:auth-2026-08-19-owner-legal-approval-completed-output",
+                  "packet-spec-source:rcap-nd-custom-pleading:canonical-four-components",
+                  "packet-spec-source:rcap-nd-custom-pleading:production-field-map"
+                ],
+                "removed": []
+              }
+            }
+          ],
+          "pinnedCensusBlobRecoveredAt": "a3ca119bd",
+          "grownRequiredSourceIdsSpecification": {
+            "path": "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+            "specificationVersion": "1.1.0",
+            "introducedAt": "2a0584984"
+          }
+        },
+        "artifactRecomputation": [
+          {
+            "file": "boundary.pdf",
+            "sha256": "52464ec12db3294f7d66003f4398d87c6753c4b4ef46db4ca5be9d0e5f381e8d",
+            "byteLength": 86861,
+            "recordedSha256": "52464ec12db3294f7d66003f4398d87c6753c4b4ef46db4ca5be9d0e5f381e8d",
+            "recordedByteLength": 86861,
+            "recordedPages": 35,
+            "pdfinfoPages": 35,
+            "hashMatches": true
+          },
+          {
+            "file": "canonical.pdf",
+            "sha256": "2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522",
+            "byteLength": 85218,
+            "recordedSha256": "2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522",
+            "recordedByteLength": 85218,
+            "recordedPages": 35,
+            "pdfinfoPages": 35,
+            "hashMatches": true
+          }
+        ],
+        "byteReadBack": [
+          {
+            "fixture": "canonical",
+            "valuesReportedByFinalizer": 48,
+            "actualWrites": 48,
+            "readBackFound": 48,
+            "notFound": [],
+            "reportedInvisible": null,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "addedGlyphsReadFromOutputBytes": 874
+          },
+          {
+            "fixture": "boundary",
+            "valuesReportedByFinalizer": 48,
+            "actualWrites": 48,
+            "readBackFound": 48,
+            "notFound": [],
+            "reportedInvisible": null,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "addedGlyphsReadFromOutputBytes": 2020
+          }
+        ],
+        "wordGeometry": [
+          {
+            "file": "boundary.pdf",
+            "words": 7449,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          },
+          {
+            "file": "canonical.pdf",
+            "words": 7412,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          }
+        ],
+        "readmission": {
+          "rule": "Roger 2026-10-20 priority (2): re-admit without rebuild where unchanged accepted output's applicability is demonstrated",
+          "acceptedRead": "vf06/rows.json PASS_COMPLETE_INDEPENDENT @d7e293f81",
+          "familyFilesChangedSince": [
+            "product-wiring.json (selected verdict pointer vf12 FAIL -> vf06 PASS @d7e293f81, 6 lines)",
+            "source-receipt.json (identityRefresh entries from the census landing; pins of the two non-census records exact today)"
+          ],
+          "unchangedSince": [
+            "fixtures/canonical.pdf",
+            "fixtures/boundary.pdf",
+            "participant-instructions.md",
+            "production-field-map.json",
+            "reports/*"
+          ]
+        },
+        "lapseResolved": {
+          "previousVerdict": "FAIL_REPAIR_REQUIRED at 5e7fe802c (vf06/rows-vf06-20261019-reverify-census-5e7fe802c.json), failed obligation SOURCE_IDENTITY only: census pin lapsed, requiredSourceIds 8 -> 12",
+          "thisRead": "SOURCE_IDENTITY re-measured at bf02d8073 with the grown set named; the fourteen other obligations re-measured where the tools measure and carried on byte-identical inputs otherwise"
+        },
+        "claimAssertion": "GRANTED_ELSEWHERE_BUT_RELEASED: recorded on VF11, released 2026-09-05T11:12:05Z; filed under VF06, the lane holding the current verdict (as for fl-administrative-set)",
+        "measuredAt": "2026-10-20T02:29:11Z",
+        "factsFiles": [
+          "review-evidence/acceptance/nd-custom-pleading-reread-20261020/facts-rcap-nd-custom-pleading.json",
+          "review-evidence/acceptance/nd-custom-pleading-reread-20261020/facts-source-identity.json"
+        ]
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

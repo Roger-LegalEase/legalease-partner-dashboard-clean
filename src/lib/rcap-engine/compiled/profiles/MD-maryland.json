@@ -1085,12 +1085,86 @@
         ],
         "serviceBranches": [
           {
+            "id": "agency-request",
+            "when": "Pre-October 1, 2007 incident: historical request mechanism only; no current new entry.",
+            "selector": {
+              "operator": "date_before",
+              "factId": "arrest_date",
+              "value": "2007-10-01",
+              "requiredProvenance": "screening_answer",
+              "requiredPhase": "PRELIMINARY_SCREENING"
+            },
+            "outcomeMode": "agency_application",
+            "packetFamily": null,
+            "stage": "single_stage",
+            "note": "MD.memo md_10103_legacy_police: new-entry windows closed no later than October 2015; prior requests need individual review, not fresh DC-CR-071 filing."
+          },
+          {
             "id": "automatic-status-correction-guidance",
             "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MD-03",
             "outcomeMode": "automatic_relief",
             "packetFamily": null,
             "stage": "automatic",
-            "note": "LD-MD-03 states this route's output treatment as \"AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+            "note": "MD.memo md_10103_1_automatic: actual release without charge, automatic agency process; no participant application.",
+            "selector": {
+              "operator": "all",
+              "conditions": [
+                {
+                  "operator": "date_on_or_after",
+                  "factId": "arrest_date",
+                  "value": "2007-10-01",
+                  "requiredProvenance": "screening_answer",
+                  "requiredPhase": "PRELIMINARY_SCREENING"
+                },
+                {
+                  "operator": "equals",
+                  "factId": "md_10103_released_without_charge",
+                  "value": "yes",
+                  "requiredProvenance": "screening_answer",
+                  "requiredPhase": "PRELIMINARY_SCREENING"
+                }
+              ]
+            }
+          }
+        ],
+        "failureDisposition": [
+          {
+            "id": "legacy-existing-request-help",
+            "when": "Prior written request for a pre-2007 incident; timeliness is not established.",
+            "selector": {
+              "operator": "all",
+              "conditions": [
+                {
+                  "operator": "date_before",
+                  "factId": "arrest_date",
+                  "value": "2007-10-01",
+                  "requiredProvenance": "screening_answer",
+                  "requiredPhase": "PRELIMINARY_SCREENING"
+                },
+                {
+                  "operator": "equals",
+                  "factId": "md_10103_prior_written_request",
+                  "value": "yes",
+                  "requiredProvenance": "screening_answer",
+                  "requiredPhase": "PRELIMINARY_SCREENING"
+                }
+              ]
+            },
+            "disposition": "retained_counsel",
+            "note": "Help reviewing the existing request and response; no fresh denial-court filing."
+          },
+          {
+            "id": "legacy-new-entry-closed",
+            "when": "Pre-2007 incident: all historical new-entry windows closed by October 2015.",
+            "selector": {
+              "operator": "date_before",
+              "factId": "arrest_date",
+              "value": "2007-10-01",
+              "requiredProvenance": "screening_answer",
+              "requiredPhase": "PRELIMINARY_SCREENING"
+            },
+            "disposition": "implementation_tracking",
+            "note": "Eight years remains a historical filing deadline, not a modern automatic-relief wait or bar."
           }
         ],
         "notes": "For an arrest or detention on or after October 1, 2007 with no charge filed, § 10-103.1 requires automatic expungement within the statutory agency period; if the automatic action did not occur, give agency correction and escalation guidance rather than a court packet unless the statute's review mechanism is invoked."

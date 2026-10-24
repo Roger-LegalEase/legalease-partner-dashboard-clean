@@ -160,6 +160,8 @@ export function makeAgencyGuidanceFamily(config) {
 
 const FAMILY_ID = "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge";
 
+const SERVICE_DISCLOSURE = "Nothing in this preparation guide is served on anyone. Submit the challenge using ALEA/ACJIC's or the originating agency's procedure, not as a court filing. The held sources do not establish who must receive a copy or notice. Before submitting, ask that agency's records unit whether anyone else must receive a copy or notice and how.";
+
 const FAMILY = makeAgencyGuidanceFamily({
   familyId: FAMILY_ID,
   buildScript: "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -179,6 +181,7 @@ const FAMILY = makeAgencyGuidanceFamily({
   composedFrom: "the committed Alabama research-track decision, counsel determination, legal-design memo, and exact census route record, each hashed into source-receipt.json at build time",
   formIdentityNote: "No private source byte is bound to this PF17 family. The output is plainly labelled as a preparation guide and is not assigned an Alabama form number.",
   sections: [
+    { heading: "Who must receive a copy or notice?", paragraphs: [SERVICE_DISCLOSURE] },
     {
       heading: "Use this route only for a record error",
       paragraphs: [
@@ -203,6 +206,7 @@ const FAMILY = makeAgencyGuidanceFamily({
     { id: "current_agency_process", label: "Current agency submission method and destination", what: "the current form, address or portal, attachments, and fee if any", authority: "ALEA/ACJIC or the originating agency", why: "no held source establishes the current submission mechanics or fee" }
   ],
   instructions: [
+    SERVICE_DISCLOSURE,
     "Use this route only when the record is wrong, incomplete, misleading, or assigned to the wrong person. An accurate arrest that the participant wants expunged belongs to a different Alabama route.",
     "Confirm the receiving agency's current procedure before sending anything. Keep every submission, delivery record, response, denial, appeal, final decision, and the date it was received.",
     "A disputed material fact or a final agency denial is an attorney handoff. This packet does not prepare or open the separate circuit-court appeal."

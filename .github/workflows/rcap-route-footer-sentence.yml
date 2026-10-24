@@ -1,0 +1,35 @@
+name: RCAP Route-Footer Sentence
+
+# Holds what each family says about route footers (participant instructions, field-map routeSelectionNote/statedOn)
+# to its fixture PDFs, both ways. Any overlay's statement, fixture or page manifest can change the answer, so all trigger it.
+# The workflow file is in its own paths, so it always runs on a PR that adds or changes it.
+on:
+  pull_request:
+    paths:
+      - .github/workflows/rcap-route-footer-sentence.yml
+      - scripts/test-route-footer-sentence.mjs
+      - scripts/rcap-custom-pleading/court-facing-rows.mjs
+      - data/rcap-all50/overlays/census-v1/**/participant-instructions.md
+      - data/rcap-all50/overlays/census-v1/**/production-field-map.json
+      - data/rcap-all50/overlays/census-v1/**/fixtures/*.pdf
+      - data/rcap-all50/overlays/census-v1/**/reports/rendered-artifacts.json
+permissions:
+  contents: read
+jobs:
+  route-footer-sentence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install poppler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Hold the route-footer sentence to the fixture PDFs
+        run: node scripts/test-route-footer-sentence.mjs

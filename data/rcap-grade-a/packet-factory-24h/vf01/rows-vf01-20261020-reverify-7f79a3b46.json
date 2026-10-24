@@ -1,0 +1,140 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF01",
+ "laneKind": "independent-verification",
+ "generatedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+ "verifier": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+ "claimAssertions": {
+  "census-pending-family:ME:juvenile-sealing": "CLAIM_OK VF01 census-pending-family:ME:juvenile-sealing (independent-verification, grant set 9847b635d80a9fc0)"
+ },
+ "obligationSet": [
+  "ROUTE_IDENTITY",
+  "SOURCE_IDENTITY",
+  "COMPONENT_SET",
+  "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING",
+  "ROUTE_OPTIONS",
+  "REPEATING_ROWS",
+  "PROTECTED_FIELDS",
+  "ARTIFACTS",
+  "PAGE_ORDER",
+  "CLIPPING_AND_OVERLAP",
+  "FILING_DESTINATION",
+  "FEE_AND_WAIVER",
+  "SERVICE",
+  "SELF_HELP_STOP"
+ ],
+ "standardApplied": {
+  "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+  "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+  "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+  "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+  "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+  "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+  "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+ },
+ "rows": [
+  {
+   "itemId": "census-pending-family:ME:juvenile-sealing",
+   "lane": "VF01",
+   "worker": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+   "verifiedAt": "2026-10-20T08:42:20Z",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'census-pending-family:ME:juvenile-sealing', run by this verifier at base 7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba: '1 famil(ies) audited · 1 PASS_COMPLETE', with the counter line parsed from that run. reports/completeness-counters.json was read only as the thing being checked, and it agrees."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "The single routeKey obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition is present in source-receipt, product-wiring, production-field-map and the MASTER_QUEUE row (state VERIFY_PENDING). It resolves in the current census at routes[40] with packetFamilyId census-pending-family:ME:juvenile-sealing, routeContractId ME:juvenile-sealing, runtimePathwayId juvenile-sealing and trackId null. The route contract ME:juvenile-sealing (ruleId ME-15-MRS-3308C-AUTOMATIC-VS-THREE-YEAR-PETITION) names packetFamily 'Maine Juvenile Sealing Petition under 15 M.R.S. § 3308-C'."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Recomputed from disk here, all exact (sha256 and byteLength):\n- census route-obligation-candidate.json eeabd8b9…/2635434;\n- single-routes.json 1bd1efb0…/102577;\n- legal-design-track-registry.json b62ae691…/16781025;\n- ME-maine.json f33ef12f…/156951;\n- the official JV-043 binary (reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf) 79d0e40d…/173449. The receipt's byteLength now says 173449 (2409a9ef3), which resolves the 5e7fe802c FAIL.\nCensus identityRefresh (1617d7de3) verified independently. Blob d87bf672 hashes to the old pin f6fc0814…/2629290. Under the stated canonicalisation, the route anchor (4a5339b3…) and the census metadata excluding sourceFingerprint (dc6cae03…) are identical in the old and current bytes.\nallSourcesExact: true holds as written.\nNon-blocking observation: participant-instructions.md line 68 prints the build-time single-routes.json SHA 6ca51b6d…, the receipt's identityRefresh 'was' value from 2026-10-16. Codex's repair test retains it deliberately (scripts/test-me-juvenile-service.mjs:42,87). The binding of record is the receipt, and it is exact; the nine items printed under it match the current contract bytes word for word."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "The route contract declares packetComponents ['Petition under § 3308-C', 'Final discharge proof']. rendered-artifacts componentSet is ['petition'] (JV-043) in both fixtures. The discharge proof is a participant_obtained_record, listed in the instructions' component table and under 'Documents you must obtain first' with where to get it. No CR-218, CR-289 or automatic-branch component appears. requiredComponentsMissing 0, measured here."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "All 7 written values are read back from pdftotext -layout of each fixture's bytes: caption name, date of birth, printed name, two mailing-address lines, telephone and email. Canonical: Casey Lorraine Thibodeau, 11/06/2004. Boundary: Jean-Baptiste Ouellette-Michaud III, 01/09/1998, with long address, telephone and email values. actual-writes valuesReportedByFinalizer is 7 for each fixture. knownRequiredFieldsMissing 0."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "The 5 requiredBeforeFiling blanks in reports/blanks-left-for-the-participant.json are Check Box1-3 (gender), Docket No and Location Town. Each is a row in the instructions' 'The items you must supply' table, with what to write. The two participant-obtained records are named with the office that supplies them. The 9 'Everything the committed record requires' items match the current contract word for word: 7 requiredFacts, timing.anchorText (with a label prefix) and notes. everyRequiredBeforeFilingItemIsDisclosed true."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "No route-determined selection control. The branch election (three-year petition vs automatic) is stated first, with the instruction to stop on the automatic branch. The gender boxes are participant facts, left unmarked; the rendered pages show all three empty. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "JV-043 has no repeating row structure (one petition, one case). incompleteRows 0, measured here."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "protectedBlanks: the Date mm/dd/yyyy field and the unnamed signature widget petition.undefined. refusedFieldsWithInk is 0 in both fixtures. The 80-dpi renders show the date and signature lines empty in both. protectedWrites 0."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "Recomputed here, both matching reports/rendered-artifacts.json and the RASTER_QUEUE row (RASTER_PASS reused): canonical.pdf fa7bd28a1f28cfb3…/168354 B and boundary.pdf 69618b989b84945c…/168440 B. No unrecorded PDFs."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "Each fixture is one page by pdfinfo (letter, unencrypted). The pageManifest is packetPage 1 = petition, JV-043 sourcePage 1, sourceSha256 79d0e40d…, and the page face reads 'JV-043, Rev. 12/21 Page 1 of 1'."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "pdftotext -bbox: canonical 214 words, boundary 221 words; 0 outside the page box and 0 overlapping word pairs in either. The renders show the longest boundary values (name, address, email) inside their lines. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in both. visualDefects 0."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "The census destination is 'not recorded'. The instructions name the Juvenile Court, quote JV-043's 'hereby petitions the Juvenile Court…' sentence (it is on the form face), and say to write the town of the District Court that handled the case, as the case caption names it. That names the court the route names without inventing a location."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "DET-FEE-AND-WAIVER-001 clause 3, as narrowed by A3. ME-maine.json's $60 feeRules line is keyed to civil post-judgment motions and CR-218/CR-289, a sibling route, so it does not answer for JV-043. The packet says no bound record states a fee or that there is none, quotes no figure, and names the clerk of the court being filed in. It names CV-067 and CV-191, whose titles are verbatim in ME-maine.json, for a participant who cannot pay."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "Repaired since the 5e7fe802c FAIL (6182e4fb3, accepted in review-evidence/6182e4fb3). JV-043 line 20 on both fixtures prints 'You are required to provide a copy of this petition to the prosecuting attorney’s office.' The instructions now name that copy at line 41 ('Provide a copy of the petition to the prosecuting attorney’s office. JV-043 expressly requires that copy'), at step 6 and in 'What this packet does not tell you' (method and deadline: ask the Juvenile Court clerk). There is no remaining denial of a service requirement, so the A4 internal-consistency rule is satisfied. Notarization: none stated; the form carries a plain signature line."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Measured against LD-ME-03 and the contract exclusions. 'When to stop and get help' carries:\n- the wrong branch (Class D/E/civil-type);\n- a later adjudication or conviction;\n- a pending proceeding;\n- three years not run, or the discharge date unknown;\n- firearm prohibitions ('firearm prohibitions are not removed by sealing.', verbatim in ME-maine.json);\n- 'erases the record';\n- immigration.\nThe packet does not send an automatic-branch participant to file. Track me-seal-gen's 'Never use 'expungement' in Maine participant copy' holds: the word does not occur in the instructions or either fixture. 'Maine seals; it does not expunge' is the track's own wording."
+    }
+   },
+   "evidence": {
+    "verifierRun": "review-evidence/acceptance/vf-reads-7f79a3b46/me/completeness.log",
+    "sourceRecomputation": "me/source-recompute.txt, me/census-anchor.txt",
+    "requirementsMatch": "me/requirements-match.txt",
+    "quotes": "me/quotes-and-route.txt: 14 of 15 quoted strings trace to ME-maine.json, single-routes.json, the census or the JV-043 face; the 15th is the packet's own section heading. ME-maine.json stores U+0019 where U+2019 was meant (\"juvenile\\u0019s\"), and the packet prints an apostrophe.",
+    "byteReadBack": "me/canonical.txt, me/boundary.txt (pdftotext -layout)",
+    "wordGeometry": "me/*.bbox.html",
+    "renders": "me/canonical-p-1.png, me/boundary-p-1.png (pdftoppm -r 80)",
+    "claimAssertion": "CLAIM_OK VF01 census-pending-family:ME:juvenile-sealing (independent-verification, grant set 9847b635d80a9fc0)",
+    "priorRead": "vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json FAIL_REPAIR_REQUIRED [SOURCE_IDENTITY, SERVICE]; both resolved here",
+    "rasterReuse": "RASTER_PASS reused; canonical and boundary digests equal the current bytes"
+   },
+   "failedObligationNames": [],
+   "commercialRoutesOpened": false,
+   "overlayDirectoriesModified": false,
+   "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+  }
+ ]
+}

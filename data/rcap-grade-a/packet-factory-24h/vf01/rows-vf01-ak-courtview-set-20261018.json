@@ -1,0 +1,217 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "generatedAt": "2026-10-18T02:45:16Z",
+  "familyId": "ak-courtview-set",
+  "verifiedAtBase": "c197cd820e532933dc453c4f498f862da3d6078b",
+  "executionMode": "local worktree /workspaces/legalease-question-corrections-20261011, not Codex Cloud; return left uncommitted for Captain integration",
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 'ak-courtview-set'",
+    "result": "CLAIM_OK VF01 ak-courtview-set (independent-verification, grant set 8f8bb608a954d0fc)",
+    "exitCode": 0,
+    "ledgerGeneratedAtCommit": "298d613d6b88e4926db4b5974f2f00ed2f992d78",
+    "claimedBeforeReading": true,
+    "released": false,
+    "releaseNote": "Not released by this lane; Captain releases centrally after integration."
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'ak-courtview-set' --minimum-captain-sha 298d613d6b88e4926db4b5974f2f00ed2f992d78 (MASTER_LIBRARY_SOURCE_DIR and RCAP_BUNDLE_EXTRACT = private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1)",
+    "finalLine": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/13 passed, 5 failed, 4 not applicable",
+    "failedChecks": {
+      "clone_is_complete": "the preflight reports 'the clone is shallow'; a direct `git rev-parse --is-shallow-repository` in this linked worktree prints false. Environment-only.",
+      "worktree_clean": "3 untracked paths that predate this lane and are outside the family: data/rcap-grade-a/source-custody/court-source-handoff-20261013/ny-historical-application-physical-custody.json, scripts/rcap-corpus/__pycache__/, supabase/.temp/. Environment-only.",
+      "master_library_complete": "the local mount holds 5/499 files (NY and OR only). Environment-only.",
+      "corpus_matches_committed_index": "23 of 24 sampled entries absent from the partial local mount, 0 mismatched. Environment-only.",
+      "family_sources_bind": "fails on the partial mount because TF-810 is not in it. When re-run with MASTER_LIBRARY_SOURCE_DIR pointed at a scratch mount holding only the official TF-810 bytes (sha256 c5e55ce0…, retrieved 2026-10-17 from https://public.courts.alaska.gov/web/forms/docs/tf-810.pdf per TF-810-RETRIEVAL-RECEIPT-v1.json), it prints 'ok family_sources_bind 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index)'."
+    },
+    "familyDefect": false,
+    "honestStatement": "The environment gate is not READY here. Every failed check is a gap in this local environment (partial corpus mount, 3 untracked files that are not this lane's, a linked-worktree quirk). None changes how this family's committed bytes measure. The one family-relevant check, family_sources_bind, passes once the official TF-810 bytes are mounted."
+  },
+  "rows": [
+    {
+      "itemId": "ak-courtview-set",
+      "familyId": "ak-courtview-set",
+      "jurisdiction": "AK",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "status": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAt": "2026-10-18T02:45:16Z",
+      "verifiedAtBase": "c197cd820e532933dc453c4f498f862da3d6078b",
+      "actualHeadAtReview": "c197cd820e532933dc453c4f498f862da3d6078b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "familyDirectoryCleanAtBase": "git diff --quiet HEAD -- <familyDirectory> exits 0, so `git show <verifiedAtBase>:<path>` equals the on-disk bytes for every path below",
+      "reviewTrigger": "a20f854e9 (re-applying 776226524) added one guide sentence and the matching build-script lines: 'If the clerk agrees, the result is removal from CourtView's public index. It does not erase the court file, your criminal-history record, or copies held in private databases.' No fixture, raster or field-map byte moved; the last fixture commit is still 968c82269.",
+      "routeKeys": [
+        "obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The worklist group ak-courtview-set (packet-family-build-worklist.json sha256 386c05dd…) names one route, obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40, with trackId ak-courtview. canonical-route-universe.json links trackRouteKey track:AK:ak-courtview to that pathway as a direct_runtime_representation. source-receipt.json, production-field-map.json and the guide footer carry track:AK:ak-courtview. product-wiring.json and MASTER_QUEUE carry the obligation key. familyId is 'ak-courtview-set' in every record. The product pins this exact field map (src/lib/expungement-ai/ak-courtview-contact.ts mapSha256 bc5d5037…, equal to the recomputed hash)."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "SHA-256 recomputed from the official TF-810 bytes: c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582, 85386 bytes, 1 page, 23 AcroFields. This equals source-receipt.json, the pageManifest sourceSha256 in rendered-artifacts.json, and all three committed corpus-index entries for TF-810 (master_library, d_source_packs, nationwide_recovery_pool). The bytes are the 2026-10-17 public download from public.courts.alaska.gov (Last-Modified 12 May 2025). The preflight's family_sources_bind check passes against them. Not measured: the full Master Library copy, because it is not mounted here."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The route names one component, component:ak-courtview-primary-filing-2, the TF-810 primary filing. Both fixtures render it: 1 page each, and the page content stream is 'q' + the source page content + 'Q' followed by 23 flattened widget placements. The process guidance is participant-instructions.md, which is present. requiredComponentsMissing = 0."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Decoded from the flattened appearance XObjects of each fixture. Five values are drawn at their exact widget origins, and each BBox equals the source widget rect. Canonical: name 'Jordan Avery Reyes', email, address, phone, case number 3AN-19-04217CR. Boundary: the same five fields with long values; the name 'Maria-Alejandra O’Shaughnessy-Whitfield' encodes the apostrophe as WinAnsi 0x92 and the committed raster shows it. A pixel diff against the source renders shows ink in exactly those five rects. knownRequiredFieldsMissing = 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "production-field-map.json declares 2 items: partyNames (Case Name) and rule (Ground 10 rule or statute number). participant-instructions.md names both, with page 1 and the printed label, in 'The items you must supply'. Both rects carry no ink in either fixture. requiredFactsNotCollected = 0."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "routeDeterminedSelections is empty, with a stated reason. Which printed ground applies (1 through 10, plus the sub-reasons under grounds 2 and 3) depends on how the case ended. Even within AS 22.35.030, grounds 1, 2 and 3 depend on the case. So no election follows from the route alone. All 14 checkbox widgets are classified PARTICIPANT_ELECTION_GENUINE, and each is disclosed in 'The choices that are yours'. requiredOptionsMissing = 0."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "TF-810 has no repeating rows. The 23 fields are 6 single-line text fields, 14 checkboxes and 3 text fields at the foot. incompleteRows = 0."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "In both fixtures the signature and dateSigned appearances carry an empty Tj string. All 14 checkbox appearances are an empty 'q Q'. The clerk's block (the Response boxes, Date sent to requestor and the initials) has no widget in the source. Diffing 144-dpi renders of the source and each fixture finds 0 changed pixels outside the five write rects. protectedWrites = 0."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Recomputed from the committed bytes, and each equals reports/rendered-artifacts.json. tf810-canonical-filled.pdf: ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83, 66667 bytes. tf810-boundary-filled.pdf: 03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e, 66782 bytes. raster/tf810-canonical/page-01/page.png: da7f6d8b…e8e312. raster/tf810-boundary/page-01/page.png: e6419562…a875. product-wiring.json's RASTER_PASS receipt (run 33495068504) is bound to the current canonical hash ac2111fa…."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each fixture is 1 page at 612x792, the same as the source. The pageManifest maps packet page 1 to TF-810 source page 1, and the page content contains the source page content verbatim (sha256 7ad7a31b…)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every drawn string fits inside its appearance clip box (1 to w-1, 1 to h-1), measured with Helvetica AFM widths at the drawn size. Boundary address at 8.5pt: right edge 300.15 against a clip of 307.5. Email at 6pt: 166.64 against 176.18. Phone at 6.5pt: 73.40 against 78.63. Name at 11pt: 205.23 against 217.62. The pixel diff finds 0 changed pixels outside the write rects. Visually, the committed Chromium rasters are legible and nothing overlaps a printed caption. visualDefects = 0, invisibleWrites = 0."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide says to file 'with the clerk's office of your local Alaska trial court — the court named in the case number'. The form itself says 'you may file this request form at your local trial court', and the worklist filingDestination is 'the local trial court … where the case is maintained'."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide says: 'Any filing fee is not stated here, because it is not established in any source this packet holds … Ask the clerk.' The worklist records filingFee and feeWaiverTreatment as not_recorded, and the form prints no fee. No figure is invented, and the question goes to a named authority. Sibling AK court-form families ak-tf800-set and ak-tf805-set passed with the same wording. Advisory: the guide says nothing separately about a waiver."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Read from the official form's face: TF-810 has no certificate of service, no 'serve a copy' direction and no opposing party. Its own routing is internal: 'Instructions to Court Clerk: Email this request and final disposition order to the HelpDesk', then a response block 'Date sent to requestor'. The guide states that complete path (file at the clerk's office; the clerk's block is the court's), and nowhere tells the participant to serve anyone. No service is owed. Advisory, not a defect: the guide never says outright that nobody needs to be served, unlike its siblings ak-correct-record and ak-mistaken-identity. One line would close that gap. For transparency: an earlier VF01 (VF-SRC-A) read failed this obligation for that silence, and vf18 reversed it on the same basis. This lane read both only after taking its own measurement of the form."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "'What this packet is not' says it is not legal advice, it is not filed for you, and it does not decide whether your case comes off the public index. The guide points sealing or confidentiality requests to TF-800 and name-only removal to TF-805, and says the platform does not supply the attachments for grounds 4 and 9. Every ground, the signature and the date are left to the participant, and the clerk's block is left to the court. The new sentence adds a limit on the result: the court file, criminal-history record and private copies are not erased."
+        }
+      },
+      "guideConsistencyReview": {
+        "sentence": "If the clerk agrees, the result is removal from **CourtView's public index**. It does not erase the court file, your criminal-history record, or copies held in private databases.",
+        "consistentWithOfficialForm": true,
+        "basis": [
+          "The form title is 'Request to Exclude Case from Online Public Index (CourtView)' and the clerk's response options are 'Case removed from online public index' / 'Case not removed from online public index'. The guide's result is exactly that.",
+          "The form's preamble says court records are public unless a statute or rule seals them or makes them confidential, and that public cases appear in CourtView unless an exception applies. It sends anyone who wants a case 'confidential or sealed' to TF-800. So removal from the index leaves the court file in place, which supports 'does not erase the court file'.",
+          "Nothing on TF-810 reaches the DPS criminal-history repository or private databases, so those two limits are accurate. The DPS record is a separate route (agency-application-treatment …ak-correct-record).",
+          "'If the clerk agrees' matches the form, where the clerk handles the request and fills in the Response, date sent and initials. It also matches adoption §8: 'Leave the clerk's determination to the clerk.'"
+        ],
+        "consistentWithFamilySources": "The sentence follows OWNER-RELAYED-ADOPTION-v3 §8, which the build script cites: 'Describe its result as removal from CourtView's public index, not erasure of every court file, criminal-history record, or private database.' The controlling text is local, outside the repo: sha256 3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b; adoption record sha256 30de30a75097c4bce4410db0b58bff1b74cb57a47f57db1a95848925d0f95a65.",
+        "internalContradictions": "None. The guide also says 'There is no judge's order on it', 'it does not decide whether your case comes off the public index', the title 'Getting a closed case off the public court index', the TF-800 sealing redirect, and that ground 9 cases are already sealed. None of these conflicts with removal from the index only. The build script emits the same sentence, so a rebuild would reproduce the guide.",
+        "advisories": [
+          "Adoption §8 also requires an informed participant email choice, because TF-810 says that giving an email consents to receiving court and party documents there. The packet writes participant.email. The product question ak_tf810_contact_email (src/lib/expungement-ai/ak-courtview-contact.ts, sha256 c63fea76…) shows that consequence and says no account email is copied automatically. The guide does not repeat it. This lane did not verify the product path end to end.",
+          "Step 2 says 'Tick the one ground that is true of your case'. The form does not limit a request to one ground. This is a wording matter, not a contradiction."
+        ]
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "countersMeasuredHere": "Measured from the source and fixture bytes: 23 source fields = 5 writes + 2 REQUIRED_BEFORE_FILING + 2 PROTECTED + 14 PARTICIPANT_ELECTION_GENUINE, with 0 unclassified. Cross-checked by the focused test below.",
+      "focusedTest": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ak-courtview-set'",
+        "exitCode": 0,
+        "result": "ok ak-courtview-set PASS_COMPLETE 5/23 written; 1 famil(ies) audited · 1 PASS_COMPLETE; all nine counters 0",
+        "wroteNothing": "git status unchanged after the run"
+      },
+      "rasterState": "RASTER_PASS (product-wiring.json receipt, run 33495068504, bound to canonical ac2111fa…; fixture bytes unchanged since)",
+      "packetBindings": [
+        { "fixture": "tf810-canonical", "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf", "sha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83", "byteLength": 66667, "pageCount": 1 },
+        { "fixture": "tf810-boundary", "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf", "sha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e", "byteLength": 66782, "pageCount": 1 }
+      ],
+      "evidenceRead": [
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/participant-instructions.md", "sha256": "80a58c94c3d43cfa7fcd4007d315554e72b5108ec4c91124fd2390d90955b915" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/source-receipt.json", "sha256": "c2694048f0eafa77b1f636d5b97fd9ab7187f3702821ad2d8ad58355ed266408" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json", "sha256": "bc5d50377fc550c27440c2e23ccd24ca440333578b7118735725edce167c3f0e" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/reports/rendered-artifacts.json", "sha256": "15285dfa69e5799c6fdbb2bfbdc604c48470e3074451c00851ce6f4aae02e464" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/product-wiring.json", "sha256": "8a78b1fdb733de3ce527dccd7493b45c3e5971ccf4f84113c09948f9f3b420b5" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/build-status.json", "sha256": "80e96b36f745a0141b4895d95c1a239c287337a9ade8d724fc4621b78ec2e3bc" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/build-findings.json", "sha256": "5227d30439ab0ddab9179ac72859da693bd1bb0e27164b3b1becb39b68465f2a" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/approval-request.json", "sha256": "341694612363fbe662c8548ca590b7cb541172601f6bbae5a6cb88a842944c82" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/field-census.census-v1.json", "sha256": "551d5b48c675a2846eeee196ef5d7694c45ad4d108e7b1d402448514bc93acdd" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/reports/actual-writes.json", "sha256": "c96448de2af0de308363911ab489ada46c250a22759704b9f411bc4291f4f107" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/reports/blanks-left-for-the-participant.json", "sha256": "646edaae3712f512238f36f4933f881cbc5d801bbeb933faa71b070d059d858c" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/reports/completeness-counters.json", "sha256": "f09d3302c2b117a3533bcffbd1cf3fb33c1d54cef16478b0bc41d98e18451eb2", "note": "builder's own count; read only to compare, not relied on" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/raster/tf810-canonical/page-01/page.png", "sha256": "da7f6d8b132aa6b9c603fcf4f14991c53df13776589250810bd2d6ca45e8e312" },
+        { "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/raster/tf810-boundary/page-01/page.png", "sha256": "e641956235b0ee7890ba30bb87d67f3a9f39b158075e1864a224603702d7a875" },
+        { "path": "scripts/build-census-v1-ak-courtview-set.mjs", "sha256": "180285583df02787256fc0c1ecf2c4df3ebc7a0e4bb35699cd80bd0b42e2d957" },
+        { "path": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json", "sha256": "386c05ddf3427e766a12bcf926ae4442e910f440694dc15efd5c3187b3e85cd8" },
+        { "path": "data/rcap-all50/local-source-corpus-index.json", "sha256": "7f1ec4f76fa6d33bc3459916f9b84cdb723c88d8c846668c1a0fb97a01698d55" },
+        { "path": "src/lib/expungement-ai/ak-courtview-contact.ts", "sha256": "c63fea76da2897372c258b41347220adc162bb7c085a0af0be1d5c5cb5344de6" }
+      ],
+      "localEvidenceNotCommitted": [
+        { "what": "official TF-810 bytes (custody copy of the 2026-10-17 public download)", "path": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/source-custody-ak-tf810-20261017/tf-810.official.pdf", "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582" },
+        { "what": "retrieval receipt", "path": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/source-custody-ak-tf810-20261017/TF-810-RETRIEVAL-RECEIPT-v1.json", "sha256": "a66e8d10a05959c34f53eb1649f6c0008137e7ea12b8ec34afeb9d165b244346" },
+        { "what": "OWNER-RELAYED-ADOPTION-v3 record (§8 AK TF810)", "path": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/checkpoints/active-assignments-20261012-v1/counsel-adoption-20261013/OWNER-RELAYED-ADOPTION-v3.json", "sha256": "30de30a75097c4bce4410db0b58bff1b74cb57a47f57db1a95848925d0f95a65" },
+        { "what": "adoption controlling text, section 8", "sha256": "3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b" },
+        { "what": "this lane's byte measurement (hashes, AcroForm census, content-prefix check)", "sha256": "5c1d6ef7074f53aa77a8c071d5166880d7d316b7ca6eef6297109305cc47c911", "script_sha256": "84d82c4df168f88f697174fb60b804e31f95a64633de89ca4c299da9b5b35407" },
+        { "what": "this lane's appearance-decode and clip-fit measurement", "sha256": "0ed22aa4d2c91943849794192cf7cd3406dfac45ee68bbea6b1bd92b1d666c9a", "script_sha256": "be4968bebf82bd60f24bbc993b333b5debfaedc9eac0d7c5904a29fc48d879d6" },
+        { "what": "this lane's source-vs-fixture pixel diff (poppler 144 dpi, used only as a measuring tool)", "script_sha256": "9693f5651f111a73b6ed85fb31634726b6b106942524d2dfdb285a8c2123324d", "result": "canonical and boundary: changed pixels only inside name/email/address/phoneNo/caseNo; 0 outside" },
+        { "what": "preflight output", "sha256": "e7a88fecf1a28a3024657d237d99e450822737b02f9ee05f17fe1de214673bfb" },
+        { "what": "focused test output", "sha256": "7f20cf35e735ab8a93984b38966a78f96cd0371cff5be20a5419075b2bbdcbef" }
+      ],
+      "independence": {
+        "builtThisFamily": false,
+        "wroteTheGuideChange": false,
+        "priorViewOfFamily": false,
+        "buildOrRegenerationPerformed": false,
+        "priorVerdictsReadAfterMeasuring": [
+          "data/rcap-grade-a/packet-factory-24h/vf18/rows.json (PASS_COMPLETE_INDEPENDENT at 321650b5)",
+          "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json (earlier VF01/VF-SRC-A SERVICE FAIL)"
+        ]
+      },
+      "finalAcceptance": true,
+      "terminalClosureGranted": false,
+      "commercialAuthorityGranted": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "overlayDirectoriesModified": 0
+    }
+  ]
+}

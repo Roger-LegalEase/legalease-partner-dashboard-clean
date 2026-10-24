@@ -19,6 +19,8 @@ The platform filled only identity, contact, and arrest-record facts held in the 
 
 Give the completed applicant section and the supporting official records to the head of the arresting agency or designee, or the State Attorney or designee. That official decides whether to endorse the request and completes every field in the endorsement section. Do not fill, select, sign, or date that section yourself.
 
+No one is served with this application. It is submitted to the Florida Department of Law Enforcement, and the written endorsement is obtained directly from the head of the arresting agency or designee, or the State Attorney or designee, who completes the endorsement section; the committed record states no service requirement.
+
 ## Stop conditions
 
 Stop automated self-help if the official declines to endorse, disputes a material fact, the issue requires advocacy rather than a factual application, or any immigration matter is pending or possible.

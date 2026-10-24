@@ -282,3 +282,33 @@ literal substring of the digest-bound guide, read in content-stream order, by
   guidance-instructed component, not rendered.
 - Independent visual review of the four caption overlays; counsel review of both
   routes; the JDF 612 hard gate; JDF 302 for the juvenile route.
+
+## 2026-10-21 successor — JDF 612 and 615 retained at R: July 1, 2025
+
+The earlier sections are historical audit observations. Exact retained source
+bytes now bind JDF 612 (`4a45070b…`, 737,628 bytes) and JDF 615
+(`184a33fa…`, 1,054,204 bytes). Their former source records and PDF Git identities
+remain in `source-record.json`; no 2024 artifact is relabeled as a 2025 artifact.
+
+| Current JDF 612 measurement | Count or identity |
+|---|---|
+| Total source fields | **64** |
+| Specified writable | **61** |
+| Protected execution fields | **3** |
+| Unmapped | 0 |
+| **Realized in the retained artifact** (distinct fields across fixtures) | **48** |
+| Specification digest | `c1c43c376664bf1d0a747a0cba9ec78a841267fc755a488c5eb18056813c4fe7` |
+| Specification version | `co-jdf-612-binding/2026-10-21.1` |
+
+The executable Colorado pipeline uses the 2025 source's measured geometry.
+Canonical, boundary and negative fixtures write 39, 46 and 2 fields respectively.
+The boundary's two overlong case-number writes are refused at the existing
+readable font floor, recorded explicitly, and not counted as delivered values.
+The three execution fields remain blank. The original 2024 contact sheet is
+historical evidence, not current proof. JDF 417's existing source and artifacts
+are unchanged.
+
+These are author implementation measurements. Independent review of the new PDF
+bytes remains pending. This successor creates no Grade-A admission, counsel
+approval, payment permission or deployment authority. The current packet builder
+and this lineage must land together; the Lead owns that integration.

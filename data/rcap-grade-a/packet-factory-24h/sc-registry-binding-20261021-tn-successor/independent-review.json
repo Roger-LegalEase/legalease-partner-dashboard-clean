@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-sc-guidance-registry-successor-review/v1",
+  "familyId": "rcap-sc-custom-pleading",
+  "reviewedAt": "2026-10-21T08:30:02Z",
+  "status": "PASS",
+  "runtimeBehaviorUnchanged": true,
+  "authorSession": "/root",
+  "reviewerSession": "/root/reviewer3-output-63",
+  "reviewerIdentity": {
+    "role": "Reviewer3, independent technical reviewer for PR #268",
+    "kind": "AI agent: a Claude Code session (13a8d10d-6beb-4b10-833b-5cf4494e2cc9, mailbox REVIEWER3_TO_LEAD), not a human and not an attorney",
+    "implementationAuthor": "Codex (/root); no Reviewer3 code is in the reviewed implementation"
+  },
+  "commercialRoutesOpened": 0,
+  "failures": [],
+  "baselineCommit": "a91c6b41deaafd1d6f5a93c69869fb0e965f21e2",
+  "from": {
+    "path": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+    "byteLength": 16781025
+  },
+  "to": {
+    "path": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "5e200d1520e15c36a9d0b70b982cefbdb42848704e318445940c599b1818649e",
+    "byteLength": 16782784
+  },
+  "changedTrackIds": [
+    "tn_pretrial_diversion",
+    "tn_judicial_diversion",
+    "tn_eligible_conviction",
+    "tn_two_offense"
+  ],
+  "trackCount": 503,
+  "preservedScTrackIds": [
+    "sc_17_22_950_summary",
+    "sc_17_1_40_general_sessions",
+    "sc_pti_17_22_150",
+    "sc_aep",
+    "sc_tep",
+    "sc_conditional_discharge_44_53_450",
+    "sc_34_11_90e_check",
+    "sc_22_5_910",
+    "sc_22_5_920_yoa",
+    "sc_22_5_930_drug",
+    "sc_56_5_750f",
+    "sc_17_1_65_handgun"
+  ],
+  "reviewedImplementation": {
+    "commit": "e9f3b6bf443799422ecc9121b462742ed649d3dc",
+    "path": "scripts/grade-a-packet-factory-24h/sc-runtime-successor.mjs",
+    "sha256": "49faa4be0a285cbf65b32f81a59f9e4ab4b4f0988ccdd3a8d3304c2fde62324a",
+    "byteLength": 8909
+  },
+  "whatWasChecked": [
+    "from equals the one registry binding in SC's measured bindings (saved-guidance-repair-measurements-20260914.json, passBinding true) and is blob 98c89f71a at baselineCommit",
+    "to equals the registry bytes at d7e25574c and a7cf13aaa (blob 1caabb57e)",
+    "same 503 track ids in the same order; global metadata identical; only the four changedTrackIds differ; every SC track and every other track is deeply equal",
+    "the loader at reviewedImplementation re-derives each of these claims from bytes and refuses each false claim (real-byte probe, reviewer evidence)"
+  ],
+  "acceptanceGranted": false,
+  "newLegalApproval": false,
+  "humanProfessionalApprovalClaimed": false,
+  "scope": "Technical identity of one registry move only. No legal or content approval, human or attorney certification, commercial route, deployment or publication authority.",
+  "whatThisDoesNotEstablish": "It does not review the TN legal content of the four changed tracks, does not re-approve SC guidance, does not rebind any other pin that the registry move lapsed (for example generator-preflight records[27] or the moduleClosure pins of the two edited modules), and does not make generate.mjs or the factory convergence pass on its own.",
+  "evidence": "output/nationwide-correction-execution-20261011/review-evidence/reviewer3/tn-sc-successor/ (PREP-registry-facts.json, probe results, VERDICT)"
+}

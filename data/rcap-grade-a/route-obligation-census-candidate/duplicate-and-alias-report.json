@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
+    "sourceFingerprint": "sha256:9db910fe7025c7435a3729dcbaf635a5dcabe56c3d43cb816a0dbcc49a6df906",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -22,14 +22,14 @@
     "totalSupersessionFindings": 4,
     "oneTrackMultipleRuntimeRepresentationSignals": 25,
     "multipleTracksOneRuntimeCollapseSignals": 25,
-    "mergedServiceFailureSelectorSignals": 2,
+    "mergedServiceFailureSelectorSignals": 3,
     "mergedTrackServiceBranchSignals": 1,
     "mergedDecisionFailureSignals": 2,
     "mergedResearchRepresentationSignals": 2,
     "crosswalkFidelityConflicts": 2,
     "decisionFidelityConflicts": 2,
     "routeKindAdjudications": 40,
-    "pendingRouteKindAdjudications": 39,
+    "pendingRouteKindAdjudications": 38,
     "heldRoutePresentationConflicts": 1,
     "hiddenParticipantBranches": 87,
     "legalTracksWithoutRuntime": 204,
@@ -8538,6 +8538,14 @@
       "failureDispositionId": "mo_311_326_judgment_ambiguous",
       "canonicalObligationKey": "obligation:service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:judgment_ambiguous",
       "interpretation": "Exact selector representations merged into one terminal condition; both typed source rows remain accounted."
+    },
+    {
+      "contractRouteKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "selectorIdentity": "[\"date_before\",\"arrest_date\",\"2007-10-01\"]",
+      "serviceBranchId": "agency-request",
+      "failureDispositionId": "legacy-new-entry-closed",
+      "canonicalObligationKey": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+      "interpretation": "Exact selector representations merged into one terminal condition; both typed source rows remain accounted."
     }
   ],
   "mergedTrackServiceBranchSignals": [
@@ -8659,7 +8667,7 @@
         "obligation:track-pathway:NY:ny_160_50_nonconviction:automatic-non-conviction-sealing-under-cpl-160-50-160-55"
       ],
       "sourceFile": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-      "sourceSha256": "sha256:0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+      "sourceSha256": "sha256:63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
       "sourceProvenance": "Current research decision ny_160_55_violation separates § 160.55 treatment from the approved ny_160_50_nonconviction legal track, while the compiled pathway label and contract combine both sections.",
       "fidelityDisposition": "OVERBROAD_COMPILED_SCOPE_RETAINED_ONLY_FOR_160_50_REPRESENTATION_WITH_160_55_SEPARATELY_ACCOUNTED",
       "requiredPatch": "Split or narrow the compiled/runtime identity so the § 160.50 legal track does not purport to govern § 160.55; wire the separately governed § 160.55 branches only through the controlling approval process."
@@ -8717,6 +8725,22 @@
       "evidence": "Generated. The contract for AL:human-trafficking-victim-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Human-trafficking-victim expungement\" and do not. Today the route returns needs_more_info. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
       "canonicalObligationKeys": [
         "obligation:track-pathway:AL:al-trafficking:human-trafficking-victim-expungement"
+      ],
+      "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
+    },
+    {
+      "routeKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "status": "pending",
+      "adjudicatedOn": null,
+      "decisionId": "LEGAL-DESIGN-2026-07-30-AZ-01",
+      "contractSays": "outcomeMode participant_packet, packetFamily \"Arizona Petition for Notation of Clearance under § 13-4051\", statute Ariz. Rev. Stat. § 13-4051",
+      "heuristicSaid": "not a user-filed court petition",
+      "priorResultCode": "needs_more_info",
+      "priorResultCodeIsConclusive": false,
+      "proposedResultCode": "unmeasured until adjudicated",
+      "evidence": "Generated. The contract for AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051 declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Notation of clearance after a wrongful arrest, indictment or charge\" and do not. A generated answer set reaches needs_more_info — the run stops before the guidance branch, so this run does not measure the disagreement's effect. Adjudicating this row means reading the contract's own statement, running the route with real answers, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
+      "canonicalObligationKeys": [
+        "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
       ],
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },
@@ -8810,6 +8834,29 @@
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },
     {
+      "routeKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "status": "applied",
+      "adjudicatedOn": "2026-10-12",
+      "decisionId": "LEGAL-DESIGN-2026-08-02-KS-02",
+      "contractSays": "outcomeMode participant_packet, packetFamily \"Kansas Municipal Arrest Record Expungement Petition under § 12-4516a\", statute Kan. Stat. Ann. § 12-4516a",
+      "heuristicSaid": "not a user-filed court petition",
+      "priorResultCode": "guidance_only",
+      "priorResultCodeIsConclusive": true,
+      "proposedResultCode": "needs_more_info",
+      "evidence": "PR268 GA21 bounded implementation. Read LEGAL-DESIGN-2026-08-02-KS-02 outcomeMode participant_packet and its named municipal arrest petition, KS.memo ks-12-4516a-municipal-arrest controllingAuthority/destination/components, and K.S.A.12-4516a(a)-(b). The statute and adopted contract explicitly describe a petition; no legal interpretation or new commercial approval is needed to correct the keyword heuristic. Actual prechange municipal arrest, dismissal and acquittal fixtures return guidance_only_no_user_filed_court_petition. Actual candidate returns needs_more_info / route_identified_packet_not_yet_available with paymentAllowed=false. The same expected result is tested for all three municipal nonconviction outcomes under all optional labels and reversed route/rule order in scripts/test-ks-municipal-factual-boundaries.mjs. The former legacy guidance result is retained in scripts/fixtures/ks-scope-legacy-baseline.json; its precise correction is asserted separately. Local instrument and completed-artifact review delivery gates, legal-only approval and commercialPosture remain unchanged.",
+      "historicalPendingObservation": {
+        "status": "pending",
+        "priorResultCode": "needs_more_info",
+        "priorResultCodeIsConclusive": false,
+        "proposedResultCode": "unmeasured until adjudicated",
+        "evidence": "Generated. The contract for KS:municipal-arrest-record-expungement-under-12-4516a declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Municipal arrest record expungement\" and do not. A generated answer set reaches needs_more_info — the run stops before the guidance branch, so this run does not measure the disagreement's effect. Adjudicating this row means reading the contract's own statement, running the route with real answers, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist."
+      },
+      "canonicalObligationKeys": [
+        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "censusDisposition": "APPLIED_SOURCE_RECORD_PRESERVED_NO_NEW_AUTHORITY_GRANTED"
+    },
+    {
       "routeKey": "KY:juvenile-petition-610330",
       "status": "pending",
       "adjudicatedOn": null,
@@ -8871,22 +8918,6 @@
       "evidence": "Generated. The contract for LA:immediate-expungement-after-successful-court-program-completion-art-985-3 declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Immediate expungement after successful court-program completion (Art. 985.3)\" and do not. Today the route returns needs_more_info. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
       "canonicalObligationKeys": [
         "obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3"
-      ],
-      "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
-    },
-    {
-      "routeKey": "MA:marijuana-only-expungement",
-      "status": "pending",
-      "adjudicatedOn": null,
-      "decisionId": "LD-MA-02",
-      "contractSays": "outcomeMode participant_packet, packetFamily \"Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼\", statute Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
-      "heuristicSaid": "not a user-filed court petition",
-      "priorResultCode": "needs_more_info",
-      "priorResultCodeIsConclusive": false,
-      "proposedResultCode": "unmeasured until adjudicated",
-      "evidence": "Generated. The contract for MA:marijuana-only-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Marijuana-only expungement\" and do not. Today the route returns needs_more_info. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
-      "canonicalObligationKeys": [
-        "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement"
       ],
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },
@@ -9147,22 +9178,6 @@
       "evidence": "Generated. The contract for PA:path-g-underage-drinking-conviction-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Path G — Underage-drinking conviction expungement\" and do not. Today the route returns guidance_only. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
       "canonicalObligationKeys": [
         "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
-      ],
-      "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
-    },
-    {
-      "routeKey": "PA:path-k-human-trafficking-vacatur-expungement",
-      "status": "pending",
-      "adjudicatedOn": null,
-      "decisionId": "LD-PA-03",
-      "contractSays": "outcomeMode participant_packet, packetFamily \"Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet\", statute 18 Pa.C.S. § 3019",
-      "heuristicSaid": "not a user-filed court petition",
-      "priorResultCode": "guidance_only",
-      "priorResultCodeIsConclusive": true,
-      "proposedResultCode": "unmeasured until adjudicated",
-      "evidence": "Generated. The contract for PA:path-k-human-trafficking-vacatur-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Path K — Human-trafficking vacatur / expungement\" and do not. Today the route returns guidance_only. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
-      "canonicalObligationKeys": [
-        "obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement"
       ],
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },

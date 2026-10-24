@@ -144,7 +144,7 @@ export const INTAKE_FIELDS: IntakeFieldSpec[] = [
   { key: "is_us_citizen", section: "personal", label: "Are you a U.S. citizen?", control: "radio", options: YES_NO,
     help: "If you answer No or are not sure, MVLP reviews your status privately. You will not be asked to sign a statement that you are a citizen.",
     source: { label: "Are you a U.S. Citizen?", control: "radio_group", requiredReported: true, options: ["Yes", "No"] },
-    product: { requirement: "required", category: "observed", note: "Source choices preserved; a No answer routes to confidential review instead of the citizenship statement." } },
+    product: { requirement: "required", category: "adaptation", allowUnknown: true, note: "Source Yes/No choices preserved. The existing unknown answer state carries uncertainty to confidential review, as the product helper promises; it is neither a citizen nor a noncitizen answer." } },
   { key: "gender", section: "personal", label: "Do you identify as a:", control: "radio",
     options: [{ value: "man", label: "Man" }, { value: "woman", label: "Woman" }, { value: "prefer_not_to_say", label: "Prefer not to say", adaptation: true }],
     source: { label: "Do you identify as a:", control: "radio_group", requiredReported: true, options: ["Man", "Woman"] },
@@ -263,8 +263,8 @@ export const INTAKE_STATEMENTS: IntakeStatement[] = [
     key: "noncitizen_review_acknowledgment", version: "mvlp-v1",
     title: "Confidential status review",
     text: "I answered that I am not a U.S. citizen, or I am not sure. I understand that MVLP will review my status privately to decide whether it can help me, and that I am not being asked to sign a statement that I am a citizen.",
-    appliesWhen: (answers) => answerValue(answers, "is_us_citizen") === "no",
-    source: { observed: false, note: "Product adaptation: a person answering No is never asked to sign the citizenship statement; the answer is routed to confidential MVLP review." },
+    appliesWhen: (answers) => answerValue(answers, "is_us_citizen") === "no" || answers.is_us_citizen?.state === "unknown",
+    source: { observed: false, note: "Product adaptation: a person answering No or explicitly unsure is never asked to sign the citizenship statement; the distinct answer state is routed to confidential MVLP review." },
     category: "adaptation"
   },
   {

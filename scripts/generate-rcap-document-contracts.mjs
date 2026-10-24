@@ -154,7 +154,7 @@ function packetSetManifestsByTrack() {
 }
 
 /** A description that says the requirement was not established, rather than stating one. */
-const NOT_ESTABLISHED = /not established|none required|does not state|no source|none on the archived|not applicable/i;
+const NOT_ESTABLISHED = /not established|none required|does not state|no source|none on the archived|none identified in the statute|not applicable/i;
 /** A description that records genuine ambiguity, which must stay unresolved. */
 const AMBIGUOUS = /does not clearly state|unclear|unresolved|confirm with the clerk/i;
 
@@ -170,7 +170,9 @@ function executionFrom(set) {
   const actions = set.participantActionRequired ?? [];
   const notarize = actions.find((a) => a.kind === "notarize");
   const sign = actions.find((a) => a.kind === "sign");
-  const signStatesVerification = /verif/i.test(String(sign?.description ?? ""));
+  const signDescription = String(sign?.description ?? "");
+  const signStatesVerification = /verif/i.test(signDescription)
+    && !/\bno verification\b|\bwithout verification\b|verification is not required/i.test(signDescription);
   if (notarize && !NOT_ESTABLISHED.test(String(notarize.description ?? ""))) {
     // An unsettled NOTARISATION question does not make EXECUTION unresolved when
     // the signing action already establishes verification. Wyoming is the case:
@@ -195,6 +197,10 @@ function serviceFrom(set) {
   const description = String(serve.description ?? "");
   if (AMBIGUOUS.test(description)) {
     return [UNRESOLVED, `who serves is not settled for this route: "${description.slice(0, 120)}"`];
+  }
+  if (/the court causes notice to be given/i.test(description)
+    && /the participant does not serve/i.test(description)) {
+    return ["court_causes_notice", null];
   }
   if (/\bclerk\b/i.test(description) && !/by the (petitioner|participant|movant)/i.test(description)) {
     return ["clerk_serves", null];

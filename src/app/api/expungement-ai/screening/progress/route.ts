@@ -1,3 +1,8 @@
+import { SD_SIS_FACT_IDS, SD_SIS_ROUTE, southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
+import { WY_1502_FACT_IDS, WY_1502_ROUTE, wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
+import { CT_PETITION_FACT_IDS, CT_PETITION_ROUTE, ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { MS_EXACT_TIMING_FACT_IDS } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { NextRequest, NextResponse } from "next/server";
 import { isDeepStrictEqual } from "node:util";
 import { createHash } from "node:crypto";
@@ -11,6 +16,7 @@ import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import { selectScreeningQuestionIds } from "@/lib/rcap-engine/screening-question-selection";
+import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 
 export const dynamic = "force-dynamic";
 const privateHeaders = ONBOARDING_PRIVATE_RESPONSE_HEADERS;
@@ -39,8 +45,34 @@ export async function PUT(request: NextRequest) {
     if (!profile || body.profileVersion !== profile.profileVersion || !body.answers || typeof body.answers !== "object" || Array.isArray(body.answers))
       return NextResponse.json({error: "The screening questions changed. Reload before continuing."}, {status: 409, headers: privateHeaders});
     const answers = serializeScreeningAnswers(body.answers as Record<string, AnswerValue>);
-    const ids = selectScreeningQuestionIds(profile, projectPublicProfile(profile), toScreeningAnswers(deserializeScreeningAnswers(answers)));
-    if (typeof body.currentQuestionId !== "string" || !ids.includes(body.currentQuestionId) || Object.keys(answers).some(id => !ids.includes(id)))
+    const publicProfile = projectPublicProfile(profile);
+    const ids = selectScreeningQuestionIds(profile, publicProfile, toScreeningAnswers(deserializeScreeningAnswers(answers)));
+    // A saved unresolved completion answer leaves the correction screen plan
+    // once explicitly answered. Keep that existing case fact; this permits no
+    // new hidden fields and grants no session or matter authority.
+    const retainedCompletionIds = new Set(publicProfile.questions.filter(question =>
+      ["financial_obligations", "sentence_completion_date"].includes(question.id)
+      && question.type === "yes_no_unsure"
+      && Object.prototype.hasOwnProperty.call(draft.row.answers ?? {}, question.id)
+      && questionAnswerState(question, answers[question.id]) === "known_valid").map(question => question.id));
+    const retainedTimingIds = new Set(publicProfile.questions.filter(question => profile.jurisdiction.code === "MS"
+      && MS_EXACT_TIMING_FACT_IDS.some(id => id === question.id)
+      && Object.hasOwn(draft.row.answers ?? {}, question.id)
+      && isDeepStrictEqual(answers[question.id], draft.row.answers[question.id])).map(question => question.id));
+    // A changed service request can hide a previously answered record fact.
+    // Preserve only the identical stored value for this state's exact controls;
+    // this never permits inserting or changing a currently hidden answer.
+    const retainedCtRecordIds = new Set(ctPetitionContext(profile, CT_PETITION_ROUTE)
+      ? CT_PETITION_FACT_IDS.filter(id => Object.hasOwn(draft.row.answers ?? {}, id)
+        && isDeepStrictEqual(answers[id], draft.row.answers[id])) : []);
+    const retainedReliefIds = new Set(convictionReliefQuestions(profile.jurisdiction.code)
+      .filter(question => Object.hasOwn(draft.row.answers ?? {}, question.id)
+        && isDeepStrictEqual(answers[question.id], draft.row.answers[question.id])).map(question => question.id));
+    const retainedRecordIds = new Set((southDakotaSisContext(profile, SD_SIS_ROUTE) ? SD_SIS_FACT_IDS
+      : wy1502Context(profile, WY_1502_ROUTE) ? WY_1502_FACT_IDS : []).filter(id => Object.hasOwn(draft.row.answers ?? {}, id)
+        && isDeepStrictEqual(answers[id], draft.row.answers[id])));
+    if (typeof body.currentQuestionId !== "string" || !ids.includes(body.currentQuestionId)
+      || Object.keys(answers).some(id => !ids.includes(id) && !retainedCompletionIds.has(id) && !retainedTimingIds.has(id) && !retainedReliefIds.has(id) && !retainedRecordIds.has(id) && !retainedCtRecordIds.has(id)))
       return NextResponse.json({error: "The saved answers do not match these screening questions."}, {status: 400, headers: privateHeaders});
     // An exact retry is a read, including a lost-response retry. A different
     // tab's update cannot silently overwrite the saved draft.

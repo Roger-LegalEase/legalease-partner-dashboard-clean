@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF08",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "lane": "VF08",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this family> run read-only in /tmp/ci-queue-23bb at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR exported: PASS_COMPLETE, 7/23 written, all nine counters printed as 0"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days is declared identically by product-wiring.json, source-receipt.json, production-field-map.json and the MASTER_QUEUE row, and familyId agrees across 7 records (wiring, receipt, field map, rendered-artifacts, actual-writes, counters, queue). It resolves in the committed route-obligation census at routes[27] (destination 'district court in the judicial district where the arrest occurred', instrument 'custom civil petition for mandatory mistaken-identity expungement and proposed order', legalDecisionRecordIds research-track-decision:co_mistaken_identity_expungement). The printed route trailer on canonical and boundary pages 2, 3 and 5 reassembles character-for-character to the key with nothing left over, breaking on the key's own underscore ('participant_court_petition_' / 'after_90_days')."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "1 committed record bound. The receipt pins data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json at 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef / 184365 B; the file on disk at f3ff92ac2 hashes 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B, so the whole-file pin had lapsed. Re-verified here: the controlling decision is researchTrackDecisions[6] (trackId co_mistaken_identity_expungement, reportSection heading 'Colorado \u2014 co_mistaken_identity_expungement', lines 1356-1392 of the source report), and that object is deep-equal between the recovered pinned blob and the current file (canonical-JSON sha256 prefix 301a886a08272f10 on both sides). Its holding is what the packet implements: a mandatory agency-first procedure under C.R.S. \u00a7 24-72-702; if the agency fails to petition within 90 days the person may file in the same district court; 'No filing fee or other expungement cost may be charged'; product disposition OUTPUT: CUSTOM NO-FEE DISTRICT-COURT PETITION, PRECONDITION: AGENCY MISTAKEN-IDENTITY FINDING + NO CHARGES, VENUE: JUDICIAL DISTRICT OF ARREST, NO FINDING / DISPUTE: AGENCY REQUEST, THEN ATTORNEY HANDOFF. The whole-file drift between the pinned blob and the current bytes was located by a key-by-key deep comparison of the two parsed JSON documents: it is confined to questionDecisions[0..5,9..15].memoSha256 (13 Kentucky, Louisiana, North Dakota and Nebraska intake-memo digests) and scope.registerOpenQuestions / scope.registerQuestionsOutOfReportScope (Q-057's reason reworded, Q-058 added), introduced by commit 66be051f4 on 2026-09-19. The pinned blob was recovered from git history and rehashes to 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes; the current file hashes to 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 at 184885 bytes. None of the changed paths touches this family. New pin recorded for this record: sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, byteLength 184885. The receipt file itself still carries the old pin; this row does not edit it."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "3 components declared (primary_filing, proposed_order, filing_instructions) = 3 in rendered-artifacts.json componentSet = 3 in the receipt's composedComponentsAuthoredByThisBuild; the page manifest places them contiguously in declared order in both fixtures (pages 1-2, 3, 4-5), confirmed against the first line of each page extracted here. Every content item the controlling decision lists for the custom petition is on the delivered pages: the agency finding and no-charge proof (paragraph 3 attachments), arrest date / agency / identifiers / case-incident number (paragraph 2), the expired 90-day deadline (paragraph 2), the complete record-custodian list (paragraph 4), the proposed mandatory expungement order (page 3), and post-order distribution and verification (STEPS SIX to EIGHT). No component from another route appears."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "7 written values per fixture (petitioner_name on three documents, date_of_birth, mailing_address, telephone, email); 7/7 read back from pdftotext output of each fixture's bytes in the facts measurement and seen by me in the extracted text of both fixtures ('Jordan Avery Reyes' / '1991-04-17' / '42 Larkspur Street, Denver, CO 80202' and the boundary persona's longer values). 0 reported invisible; knownRequiredFieldsMissing 0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 10 = 10 items listed in production-field-map.json; 10 of 10 disclosureLabel strings found in participant-instructions.md by exact string match run here; blanks-left-for-the-participant.json agrees (everyRequiredBeforeFilingItemIsDisclosed true). The three documents to obtain (agency finding, proof that no charges were filed, arrest paperwork) are each named with the office that supplies them."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls in the field map; no election control of any kind on the 5 delivered pages of either fixture (the statutory ground is stated in the title and body); requiredOptionsMissing 0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "0 repeating-row structures in the field map; the custodian list is four plain dot-leader lines; incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "6 protected blanks recorded (primary_filing.case_number, petitioner_signature, signature_date; proposed_order.order_decision, order_signature, order_date). Every DATE / SIGNATURE / DATED / ORDERS-that line in both fixtures was read from the extracted text and carries only dot leaders (3 such lines per fixture, 0 with ink); actual-writes refusedFieldsWithInk is empty in both fixtures; protectedWrites 0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded in rendered-artifacts.json, both rehashed here with sha256sum: canonical.pdf 34f8c54501970c7567897d9dfe1e6d17497971f675ba6e7101da28e8efc85739 / 13303 B, boundary.pdf c5f17a31df94a9860720e5e659ede20cd5327482021880cc0d366c90ec04c9d4 / 13547 B; both equal the recorded sha256 and byteLength. 0 mismatches, 0 unrecorded PDFs, 0 recorded PDFs missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Page manifest runs 1..5 in both fixtures with components contiguous and in declared order; pdfinfo reads 5 pages from each fixture's bytes = recorded pageCount 5; the first line of each page (petition, petition continued, proposed order, filing instructions, filing instructions continued) matches the manifest's component for that page."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Word geometry recomputed here with pdftotext -bbox: canonical 1049 words, boundary 1052 words; 0 words outside the 612x792 page box; 0 same-band overlapping word pairs; minimum margins 72.0 pt left, 71.5 pt right, 64.5 pt top, 79.6 pt bottom. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both fixtures; visualDefects 0 measured here. The route trailer breaks on the key's own underscore on every page it prints."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The decision records 'the person may file the petition in the same district court' and VENUE: JUDICIAL DISTRICT OF ARREST; the census records 'district court in the judicial district where the arrest occurred'. The packet names it on the delivered pages three times (caption 'DISTRICT COURT, ...... JUDICIAL DISTRICT' with the parenthetical that it is the judicial district where the arrest occurred; paragraph 1 'files this petition in the same district court'; STEP FIVE 'File ... with the district court of the judicial district where the arrest occurred') and in participant-instructions.md step 5."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the sourced no-fee limb. The controlling decision states 'No filing fee or other expungement cost may be charged' and records OUTPUT: CUSTOM NO-FEE DISTRICT-COURT PETITION. The packet states it four times in the delivered bytes (title block 'NO FILING FEE OR OTHER EXPUNGEMENT COST MAY BE CHARGED', paragraph 5, STEP FIVE 'Pay nothing', 'No fee is asked anywhere in it') and in participant-instructions.md. No held source contradicts it: the compiled Colorado profile (src/lib/rcap-engine/compiled/profiles/CO-colorado.json) contains 0 occurrences of 'mistaken' and 0 of '24-72-702', the census names no requiredSourceIds for this route, and the route has no track-registry entry. No waiver route is owed where the statute bars the charge."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "No held source establishes a service rule for this route: the decision's serviceWorkflow and filingVehicle arrays are both empty, the compiled Colorado profile does not address the route at all, and the census names no required source. The packet does not invent one; it states that how the petition must be delivered and how certified copies of the order are obtained are not established by the committed record, and names the office of the district court of the judicial district where the arrest occurred as the authority that answers both (participant-instructions.md 'What this packet does not tell you'; delivered STEP FIVE 'Ask the district court's office how it accepts filings'). Post-order distribution is stated affirmatively with its mechanism: a certified copy delivered to each custodian on the participant's list with dated proof (STEPS SIX to EIGHT). Observation carried from the prior lane and still true at f3ff92ac2: no delivered page carries a heading on who must be served; the unestablished-rule disclosure lives in participant-instructions.md and the delivered page carries only the how-it-accepts-filings line. Scored at packet level per DET-FEE-AND-WAIVER-001 A2, so a PASS; moving the disclosure onto the filing-instructions page would close the gap without adding a legal claim."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The decision's stop conditions are the precondition (an actual agency finding with no charges filed), 'not a general vehicle for litigating innocence', 'if there is no agency finding, the first output should be a written request for investigation and finding', and NO FINDING / DISPUTE: AGENCY REQUEST, THEN ATTORNEY HANDOFF. The delivered page 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' carries six stops: no agency finding (recorded first output is the agency request, not this petition), charges were filed, the 90-day deadline has not expired, the finding or no-charge status is disputed, trying to establish innocence without a finding, any immigration question; participant-instructions.md adds that the recorded escalation for a dispute is a lawyer, and STEP EIGHT sends a custodian's non-compliance to a lawyer. 'WHAT THIS PACKET IS NOT' states it is not legal advice, not filed for you and not a promise the court will act; signatures, signature dates and every deciding line of the order are refused. 3/3 held stops carried; nothing in the packet sends the participant into a posture the record holds as a stop."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 7/23 written, all nine counters zero (run here at f3ff92ac2)",
+        "sourceRecomputation": "1/1 committed record re-verified: whole-file pin lapsed (0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef -> 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373); controlling decision researchTrackDecisions[6] deep-equal between pinned blob and current bytes; new pin 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B",
+        "artifactRecomputation": "2/2 PDFs rehashed here and equal to rendered-artifacts.json (34f8c545... 13303 B; c5f17a31... 13547 B); pdfinfo 5 pages each",
+        "byteReadBack": "14/14 written values (7 per fixture) read back from the fixture bytes; 0 reported invisible; 0 non-whitespace glyphs outside measured write boxes",
+        "stopConditions": "3/3 stops held by the controlling decision carried on the delivered page and in participant-instructions.md; the packet's additions (charges filed, deadline not expired, immigration) do not contradict it",
+        "lapseResolved": "The receipt's SHA-256 pin on 2026-08-28-national-legal-decisions.json no longer matched disk. The pinned blob was recovered from git history (last at commit 66be051f4^) and rehashes exactly to the pinned value; the current file was parsed and compared key-by-key against it; every difference lies in questionDecisions[*].memoSha256 and scope.register* and none lies in researchTrackDecisions[6]; the controlling section's completeSectionText, productDisposition and reportSection.sha256 (b2ea2b45...) are identical on both sides. The anchor the packet names has not left the source, so this is a re-pin, not a rebuild. New pin: 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

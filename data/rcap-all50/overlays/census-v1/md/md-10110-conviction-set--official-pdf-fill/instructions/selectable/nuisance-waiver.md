@@ -54,7 +54,7 @@ Help: Maryland Court Help Center, 410-260-1392. Bring the docket, dispositions, 
 
 ## Source notes and scope
 
-Authorities checked September 7, 2026: Criminal Procedure 10-110, 10-105 and 10-107; actual 072B/089/MDJ-008 source faces and Judiciary fee-waiver instructions. Sources are official retained bytes, not replacement form drawings. This build grants no runtime or commercial authority.
+Authorities checked September 7, 2026: Criminal Procedure 10-110, 10-105 and 10-107; actual 089/MDJ-008 source faces and Judiciary fee-waiver instructions. Actual 072B source face checked October 21, 2026. Sources are official retained bytes, not replacement form drawings. This build grants no runtime or commercial authority.
 
 https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-110
 

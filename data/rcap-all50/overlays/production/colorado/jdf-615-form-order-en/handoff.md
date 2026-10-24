@@ -1,3 +1,11 @@
+## 2026-10-21 current-source successor
+
+Current source: `reference/co-jdf-2025-07-01/JDF615.pdf`, SHA256 `184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26`, 21 fields. The source record retains the exact superseded record and names historical evidence by source hash and commit. The legacy overlay continues to write no fields; its current census/classification/protected-fields reports cover 21 fields. Caption-only packet completion belongs to the separately reviewed census builder. The repeated defendant field crosses the caption and court section; this overlay does not write either widget.
+
+Independent review remains pending. No commercial, counsel or filing approval is asserted.
+
+## Historical 2024 handoff (verbatim below)
+
 # CO — JDF-615 — Order to Seal Conviction Records
 
 Family `jdf-615-form-order-en` in `colorado`, built by lane D3A on factory `d0-remediated-v1`.

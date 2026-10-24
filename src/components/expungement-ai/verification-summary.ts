@@ -1,4 +1,14 @@
-import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+import { NY_TRANSACTION_ASSOCIATIONS_ID, NY_TRANSACTION_ASSOCIATIONS_VERSION, formatNyTransactionAssociations } from "@/lib/expungement-ai/ny-16059-transaction-facts";
+import { NY_FUTURE_ID, NY_FUTURE_CONTRACT, formatNyFutureApplications, nyFutureIntent } from "@/lib/expungement-ai/ny-16059-future-applications";
+import { NY_SEALING_HISTORY_ID, NY_SEALING_HISTORY_CONTRACT, formatNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
+import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
+import { NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_VENUE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, formatNyCourtCaseRecords, parseNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
+import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
+import { questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
+import { maskedSensitiveAnswer, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
+import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
+import { EXPUNGEMENT_COPY, resolveRuntimeText } from "@/lib/expungement-ai/localization";
 
 type VerificationFactSource = "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "serverFacts";
 type CanonicalVerificationFact = {
@@ -8,6 +18,7 @@ type CanonicalVerificationFact = {
   value: unknown;
   source: VerificationFactSource;
   systemContext: boolean;
+  purpose?: { en: string; es: string };
 };
 
 type CanonicalVerificationContextFact = {
@@ -30,6 +41,10 @@ export type VerificationSummaryRow = {
   value: string;
   source: VerificationFactSource;
   editId: string | null;
+  /** Display-only Spanish; canonical labels, values and manifest keys stay intact. */
+  labelEs?: string;
+  valueEs?: string;
+  purpose?: { en: string; es: string };
 };
 
 export type VerificationContextRow = {
@@ -83,6 +98,9 @@ export function verificationSummary(model: {
   initialAnswers: Record<string, AnswerValue>;
   serverFacts: Record<string, AnswerValue>;
   builderQuestions: Array<{ id: string }>;
+  /** Existing owner edit policy, supplied by the protected server page. */
+  editableInputIds?: readonly string[];
+  questions?: Array<ReviewQuestion>;
   verificationSummary?: unknown;
   verificationContext?: unknown;
   verificationManifest?: unknown;
@@ -127,25 +145,52 @@ export function verificationSummary(model: {
     || !sourceFactsMatch(facts, "packetAnswers", model.packetAnswers)
     || !sourceFactsMatch(facts, "serverFacts", model.serverFacts)) return null;
 
-  const editableIds = new Set(model.builderQuestions.map((question) => question.id));
+  const editableIds = new Set(model.editableInputIds ?? model.builderQuestions.map((question) => question.id));
+  const questionById = new Map(model.questions?.map((question) => [question.id, question]));
   const rows = facts.map((fact): VerificationSummaryRow => ({
     key: fact.key,
     id: fact.id,
     label: fact.label,
-    value: displayAnswer(fact.value),
+    value: fact.id === "social_security_number" ? maskedSensitiveAnswer(fact.value) : displayVerificationAnswer(fact.value,
+      questionById.get(fact.id)?.prompt === fact.label ? questionById.get(fact.id) : undefined),
+    ...reviewAnswerPresentation(fact, questionById.get(fact.id), model.stateCode),
     source: fact.source,
-    editId: !fact.systemContext
-      && (fact.source === "prefilledAnswers" || fact.source === "packetAnswers")
+    ...(fact.purpose ? { purpose: { ...fact.purpose } } : {}),
+    editId: fact.id === "social_security_number_last_four" && requiresMcicIdentifierAuthority(model.stateCode, model.pathwayId) ? "social_security_number" : !fact.systemContext
+      && (fact.source === "prefilledAnswers" || fact.source === "packetAnswers"
+        // This existing NY correction remains owner-editable when its original
+        // answer is still held in screening history. Keep all other screening
+        // facts read-only; the protected server policy must also allow this ID.
+        || fact.source === "screeningAnswers" && isNy16059Packet(model.stateCode, model.pathwayId)
+          && fact.id === "ny_16059_grouping")
       && editableIds.has(fact.id)
       ? fact.id
       : null
   }));
+  const filingQuestion = questionById.get(NY_FILING_CASE_ID);
+  const filingAnswer = facts.find(fact => fact.id === NY_FILING_CASE_ID)?.value;
+  const cases = parseNyCourtCaseRecords(facts.find(fact => fact.id === NY_CASE_RECORDS_ID)?.value);
+  if (isNy16059Packet(model.stateCode, model.pathwayId) && filingQuestion
+    && questionAnswerState(filingQuestion, filingAnswer) === "known_valid" && cases?.some(record => `case:${record.id}` === scalarAnswerText(filingAnswer))) {
+    for (const row of rows) if ([NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, ...NY_VENUE_FACT_IDS].includes(row.id)) {
+      const priorEn = row.value, priorEs = row.valueEs ?? priorEn;
+      row.value = `Saved from an earlier different-court choice; not used for the current filing destination. ${priorEn}`;
+      row.valueEs = `Guardado de una selección anterior de otro tribunal; no se usa para el destino de presentación actual. ${priorEs}`;
+    }
+  }
+  if (isNy16059Packet(model.stateCode, model.pathwayId) && nyFutureIntent(Object.fromEntries(facts.map(fact => [fact.id, fact.value]))) === false) {
+    for (const row of rows) if ([NY_FUTURE_ID, "ny_16059_future_case_numbers", "ny_16059_future_court"].includes(row.id)) {
+      const priorEn = row.value, priorEs = row.valueEs ?? priorEn;
+      row.value = `Saved from earlier future plans; not used while your current intention is No. ${priorEn}`;
+      row.valueEs = `Guardado de planes futuros anteriores; no se usa mientras su intención actual sea No. ${priorEs}`;
+    }
+  }
   const contextRows: VerificationContextRow[] = [
     ...rows.filter((row) => SYSTEM_FACT_KEYS.has(row.key)).map(({ key, label, value }) => ({ key, label, value })),
     ...contextFacts.map((fact) => ({
       key: fact.key,
       label: fact.label,
-      value: displayAnswer(fact.value)
+      value: displayVerificationAnswer(fact.key === "dependencies" ? displayDependencies(fact.value) : fact.value)
     }))
   ];
 
@@ -157,13 +202,27 @@ export function verificationSummary(model: {
   };
 }
 
+/** History remains in protected authority; generic review context is not an archive viewer. */
+function displayDependencies(value: unknown): unknown {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+  const dependencies = Object.fromEntries(Object.entries(value).filter(([key]) => !["packetDerivations", "semanticAnswerHistory", "recordFactConfirmations", "accountContactSources", "courtCompletionImplications"].includes(key)));
+  const contact = dependencies.contactRepresentation;
+  if (!contact || typeof contact !== "object" || Array.isArray(contact)) return dependencies;
+  return { ...dependencies, contactRepresentation: Object.fromEntries(Object.entries(contact).filter(([key]) => key !== "legacyAnswers")) };
+}
+
 function readCanonicalFacts(value: unknown): CanonicalVerificationFact[] | null {
   if (!Array.isArray(value) || value.length === 0) return null;
   const facts: CanonicalVerificationFact[] = [];
   for (const candidate of value) {
     if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) return null;
     const fact = candidate as Record<string, unknown>;
-    if (!hasExactKeys(fact, ["id", "key", "label", "source", "systemContext", "value"])
+    const hasPurpose = Object.hasOwn(fact, "purpose");
+    const purpose = fact.purpose;
+    if (hasPurpose && (!purpose || typeof purpose !== "object" || Array.isArray(purpose)
+      || !hasExactKeys(purpose as Record<string, unknown>, ["en", "es"])
+      || Object.values(purpose).some(text => typeof text !== "string" || text.trim().length === 0))) return null;
+    if (!hasExactKeys(fact, ["id", "key", "label", "source", "systemContext", "value", ...(hasPurpose ? ["purpose"] : [])])
       || typeof fact.id !== "string" || fact.id.length === 0
       || typeof fact.label !== "string" || fact.label.length === 0
       || typeof fact.source !== "string" || !SOURCES.includes(fact.source as VerificationFactSource)
@@ -248,8 +307,25 @@ function canonicalize(value: unknown): unknown {
   return Object.fromEntries(Object.keys(record).sort().map((key) => [key, canonicalize(record[key])]));
 }
 
-function displayAnswer(value: unknown) {
+export function displayVerificationAnswer(value: unknown, question?: ReviewQuestion) {
+  if (question?.id === NY_FUTURE_ID && question.type === "future_applications" && question.answerContract === NY_FUTURE_CONTRACT) return formatNyFutureApplications(value, "en", question.futureApplicationReferences);
+  if (question?.id === NY_SEALING_HISTORY_ID && question.type === "sealing_history" && question.answerContract === NY_SEALING_HISTORY_CONTRACT) return formatNySealingHistory(value, "en", question.prior16058ApplicationKnown);
+  if (question && CA_CONTACT_IDS.includes(question.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return formatCaContact(question.id, value, "en");
+  if (question?.id === NY_TRANSACTION_ASSOCIATIONS_ID && question.type === "transaction_associations" && question.answerContract === NY_TRANSACTION_ASSOCIATIONS_VERSION) return formatNyTransactionAssociations(value, "en");
+  if (question?.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return formatNyCourtCaseRecords(value, "en");
   if (value === undefined || value === null || value === "") return "Missing";
+  if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) return "I’m not sure";
+  if (question && ["single_choice", "multi_select", "yes_no_unsure", "yes_no_prefer_not_to_say"].includes(question.type)) {
+    const options = question.type === "yes_no_unsure" ? ["Yes", "No", "I am not sure"]
+      : question.type === "yes_no_prefer_not_to_say" ? ["Yes", "No", "Prefer not to say"] : question.options ?? [];
+    const scalar = typeof value === "boolean" ? value ? "Yes" : "No"
+      : value && typeof value === "object" && !Array.isArray(value) && "value" in value ? value.value : value;
+    const values = Array.isArray(value) && question.type === "multi_select" ? value : [scalar];
+    if (values.length > 0 && values.every((entry) => typeof entry === "string" && options.includes(entry))) {
+      return values.map((entry) => question.optionDisplay?.[entry as string]?.label ?? entry).join(", ");
+    }
+  }
+  if (question && [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID].includes(question.id)) return "Review this choice against the current case list";
   if (Array.isArray(value)) return value.length > 0
     ? value.map((entry) => typeof entry === "object" ? JSON.stringify(canonicalize(entry)) : String(entry)).join(", ")
     : "None";
@@ -260,10 +336,48 @@ function displayAnswer(value: unknown) {
     }
     return JSON.stringify(canonicalize(value));
   }
-  const labels: Record<string, string> = {
-    gt_10_years: "More than 10 years ago",
-    yes: "Yes",
-    no: "No"
-  };
-  return labels[String(value)] ?? String(value);
+  return String(value);
+}
+
+type ReviewQuestion = Pick<ProfileQuestion, "id" | "type" | "prompt" | "translations" | "optionDisplay" | "options" | "answerContract" | "prior16058ApplicationKnown" | "futureApplicationReferences">;
+
+function exactProfileSpanish(english: string, state: string, id: string, part: string): string {
+  const entry = EXPUNGEMENT_COPY[`profile.${state}.${id}.${part}`];
+  return entry?.en === english ? entry.es ?? english : english;
+}
+
+/** Localize source-bound labels/choices, never names, narratives or quoted record text. */
+export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "id" | "label" | "value">, question: ReviewQuestion | undefined, state: string): { labelEs?: string; valueEs?: string } {
+  // A same-ID prompt with changed meaning is insufficient translation authority.
+  if (!question || question.id !== fact.id || question.prompt !== fact.label) return {};
+  const labelEs = question.translations?.es?.prompt ?? exactProfileSpanish(question.prompt, state, question.id, "prompt");
+  if (fact.id === "social_security_number") {
+    const masked = maskedSensitiveAnswer(fact.value);
+    return { labelEs, valueEs: masked === "Sensitive value hidden" ? resolveRuntimeText("es", masked) : masked };
+  }
+  const value = fact.value;
+  if (state === "CA" && CA_CONTACT_IDS.includes(fact.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return { labelEs, valueEs: formatCaContact(fact.id, value, "es") };
+  if (state === "NY" && fact.id === NY_FUTURE_ID && question.type === "future_applications" && question.answerContract === NY_FUTURE_CONTRACT) return { labelEs, valueEs: formatNyFutureApplications(value, "es", question.futureApplicationReferences) };
+  if (state === "NY" && fact.id === NY_SEALING_HISTORY_ID && question.type === "sealing_history" && question.answerContract === NY_SEALING_HISTORY_CONTRACT) return { labelEs, valueEs: formatNySealingHistory(value, "es", question.prior16058ApplicationKnown) };
+  if (state === "NY" && fact.id === NY_TRANSACTION_ASSOCIATIONS_ID && question.type === "transaction_associations" && question.answerContract === NY_TRANSACTION_ASSOCIATIONS_VERSION) return { labelEs, valueEs: formatNyTransactionAssociations(value, "es") };
+  if (state === "NY" && fact.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return { labelEs, valueEs: formatNyCourtCaseRecords(value, "es") };
+  if (value === null || value === undefined || value === "") return { labelEs, valueEs: resolveRuntimeText("es", "Missing") };
+  if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) {
+    return { labelEs, valueEs: resolveRuntimeText("es", "I am not sure") };
+  }
+  if (!["single_choice", "multi_select", "yes_no_unsure", "yes_no_prefer_not_to_say"].includes(question.type)) return { labelEs };
+  const options = question.type === "yes_no_unsure" ? ["Yes", "No", "I am not sure"]
+    : question.type === "yes_no_prefer_not_to_say" ? ["Yes", "No", "Prefer not to say"] : question.options ?? [];
+  const scalar = typeof value === "boolean" ? value ? "Yes" : "No"
+    : value && typeof value === "object" && !Array.isArray(value) && "value" in value ? value.value : value;
+  const values = Array.isArray(value) && question.type === "multi_select" ? value : [scalar];
+  if (!values.length) return { labelEs, valueEs: resolveRuntimeText("es", "None") };
+  if (!values.every((entry) => typeof entry === "string" && options.includes(entry))) return [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID].includes(question.id) ? { labelEs, valueEs: "Revise esta selección con la lista actual de casos" } : { labelEs };
+  return { labelEs, valueEs: values.map((entry) => {
+    const option = entry as string;
+    const display = question.optionDisplay?.[option];
+    return display?.translations?.es?.label ?? (display?.label
+      ? exactProfileSpanish(display.label, state, question.id, `option.${option}.label`)
+      : resolveRuntimeText("es", option));
+  }).join(", ") };
 }

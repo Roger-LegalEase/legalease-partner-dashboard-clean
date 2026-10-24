@@ -40,7 +40,7 @@ Court help: Maryland Court Help Center, 410-260-1392. Bring your docket, disposi
 
 ## Official sources and packet contents
 
-CC-DC-CR-072A, revision 09/2025: the held official form is the one-page filing in this packet. The other pages are participant instructions. No new petition template was drawn.
+CC-DC-CR-072A, revision 10/01/2026: the held official form is the one-page filing in this packet. The other pages are participant instructions. No new petition template was drawn.
 
 Maryland Criminal Procedure 10-105 (instrument, waiting periods, venue, service, objections and compliance), 10-105.1 (automatic expungement), 10-107 (unit rule), and Maryland Rule 4-510 (custodian compliance).
 
@@ -54,4 +54,4 @@ https://www.mdcourts.gov/guideandfile
 
 https://www.mdcourts.gov/helpcenter/inperson/dc
 
-Source and legal-page checks: September 7, 2026. A later law or form edition needs revalidation. This renderer does not enable live delivery, payment, or a commercial route.
+Source and legal-page checks: CC-DC-CR-072A form face October 21, 2026; statutes and legal pages September 7, 2026. A later law or form edition needs revalidation. This renderer does not enable live delivery, payment, or a commercial route.

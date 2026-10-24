@@ -13,7 +13,7 @@ const OUT_REL = "data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--o
 const FAMILY_ID = "il-exp-supervision-set";
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFDropdown, PDFTextField, StandardFonts } = require("pdf-lib");
+const { PDFDocument, PDFCheckBox, PDFDropdown, PDFName, PDFTextField, StandardFonts } = require("pdf-lib");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
@@ -24,9 +24,43 @@ const SOURCES = [
   { documentId: "FW-CIV-APPLICATION", sourceId: "official-form:FW-CIV-APPLICATION", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf", sha256: "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5", componentKinds: ["fee_waiver"] }
 ];
 
+/*
+ * Ported from build-census-v1-il-exp-qualprob-set.mjs (Reviewer
+ * VERDICT-il-exp-supervision.md, 2026-10-21): the four faults that sibling
+ * already repaired, on this route's own election and abbreviation.
+ *
+ * The Outcome cell is derived from the route, never from a fixture. Request
+ * page 2's legend "Outcome Abbreviations for Expungement" prints "S
+ * Supervision Successfully Completed"; "Dismissed" is not on it and
+ * contradicts the Section 9 election on the same Request.
+ */
+const ROUTE_OUTCOME = {
+  code: "S",
+  meaning: "Supervision Successfully Completed",
+  printedLegend: "Outcome Abbreviations for Expungement, EXP-AD Request page 2",
+  derivedFrom: "route",
+  consistentWith: "9 - For at least one case, I received a sentence of supervision"
+};
+
+// The route's own elections, exhaustively. Item 12 is No: Request page 4 prints
+// "If you are only requesting to expunge cases, check the 'No' box in Section 12",
+// and this route carries no sealing limb.
+const ELECTIONS = {
+  "Page 1 - Request to Expunge Records": { state: "Yes", why: "item 1: this route asks the court to expunge" },
+  "12 - Seal Records": { state: "No", why: "item 12: this route carries no sealing authority, and Request page 4 says a filer requesting only expungement checks the No box" },
+  "9 - For at least one case, I received a sentence of supervision": { state: "Yes", why: "item 9: the supervision expungement ground this route is built for" }
+};
+
+// Request page 2 is this route's active table; page 4 is the sealing branch this
+// route does not run. The two tables' captions differ only by a "4 - " prefix on
+// some columns, so an ungated predicate writes both.
+const ACTIVE_REQUEST_PAGE = 2;
+
+// The charge is an offence the Request itself prints under Section 9, never a
+// direction to the participant standing where the charge goes.
 const FIXTURES = {
-  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Charge exactly as shown on the court disposition", arrestDate: "03/12/2021", outcome: "Dismissed", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
-  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Complete charge exactly as printed on the certified disposition", arrestDate: "11/29/2023", outcome: "Acquitted or dismissed as certified", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
+  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Driving without insurance", arrestDate: "03/12/2021", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
+  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Driving with registration suspended for non-insurance, with an extended statutory description that materially exceeds one line", arrestDate: "11/29/2023", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
 };
 
 function resolveSources() {
@@ -61,13 +95,15 @@ function requestTableField(name) {
   return match ? Number(match[1]) : null;
 }
 
-function knownValue(documentId, name, fixture) {
+function knownValue(documentId, name, page, fixture) {
   const key = name.toLowerCase();
-  if (documentId === "EXP-AD Request" && /arrest or case number - 1$/i.test(name)) return [fixture.caseNumber, "matter.case_number"];
-  if (documentId === "EXP-AD Request" && /arresting agency - 1$/i.test(name)) return [fixture.arrestAgency, "matter.arresting_agency"];
-  if (documentId === "EXP-AD Request" && /list all charges.* - 1$/i.test(name)) return [fixture.charge, "matter.charge"];
-  if (documentId === "EXP-AD Request" && /date of arrest - 1$/i.test(name)) return [fixture.arrestDate, "matter.arrest_date"];
-  if (documentId === "EXP-AD Request" && /(?:outcome.*|4 - outcome) - 1$/i.test(name)) return [fixture.outcome, "matter.outcome"];
+  if (documentId === "EXP-AD Request" && page === ACTIVE_REQUEST_PAGE) {
+    if (/arrest or case number - 1$/i.test(name)) return [fixture.caseNumber, "matter.case_number"];
+    if (/arresting agency - 1$/i.test(name)) return [fixture.arrestAgency, "matter.arresting_agency"];
+    if (/list all charges.* - 1$/i.test(name)) return [fixture.charge, "matter.charge"];
+    if (/date of arrest - 1$/i.test(name)) return [fixture.arrestDate, "matter.arrest_date"];
+    if (/(?:outcome.*|4 - outcome) - 1$/i.test(name)) return [ROUTE_OUTCOME.code, "matter.outcome"];
+  }
   if (documentId === "EXP-AD Case List" && name === "arrest1") return [fixture.caseNumber, "matter.case_number"];
   if (documentId === "EXP-AD Order Granting" && name === "arrest/case number 1") return [fixture.caseNumber, "matter.case_number"];
   if (/county/.test(key) && name === "1 - County") return [fixture.county, "matter.filing_county"];
@@ -93,11 +129,18 @@ function attorneyField(name) {
   return /lawyer|attorney|law firm|client name/.test(name.toLowerCase());
 }
 
-function selectedCheckbox(documentId, name) {
-  if (documentId !== "EXP-AD Request") return false;
-  return name === "Page 1 - Request to Expunge Records"
-    || name === "9 - For at least one case, I received a sentence of supervision"
-    || name === "P6 - Completing this form myself checkbox2";
+/**
+ * Select one widget state of a checkbox field. PDFCheckBox.check() can only
+ * write the FIRST widget's on state (/Yes), so item 12's /No is unreachable
+ * through it. Taken from build-census-v1-il-exp-qualprob-set.mjs.
+ */
+function selectCheckboxState(field, state) {
+  const target = PDFName.of(state);
+  const widgets = field.acroField.getWidgets();
+  const offered = widgets.map((widget) => widget.getOnValue());
+  assert.ok(offered.some((value) => value === target), `${field.getName()} offers no widget state ${state} (offers ${offered.map(String).join(", ")})`);
+  field.acroField.dict.set(PDFName.of("V"), target);
+  for (const widget of widgets) widget.setAppearanceState(widget.getOnValue() === target ? target : PDFName.of("Off"));
 }
 
 function participantSelfControl(documentId, name) {
@@ -105,8 +148,9 @@ function participantSelfControl(documentId, name) {
     || (documentId === "FW-CIV-APPLICATION" && name === "Last - Completing this form myself checkbox");
 }
 
-function optionalUnusedSlot(documentId, name) {
-  if (documentId === "EXP-AD Request") return (requestTableField(name) ?? 0) > 1;
+function optionalUnusedSlot(documentId, name, page) {
+  // Every row of the inactive sealing table on Request page 4 stays blank, row 1 included.
+  if (documentId === "EXP-AD Request") return requestTableField(name) !== null && (page !== ACTIVE_REQUEST_PAGE || requestTableField(name) > 1);
   if (documentId === "EXP-AD Case List") return /^arrest(?:[2-9]|[1-5]\d)$/.test(name);
   return false;
 }
@@ -149,9 +193,13 @@ async function fillDocument(source, fixtureName, fixture) {
       continue;
     }
     if (field instanceof PDFCheckBox) {
-      if (selectedCheckbox(source.documentId, name) || participantSelfControl(source.documentId, name)) {
+      const election = source.documentId === "EXP-AD Request" ? ELECTIONS[name] : undefined;
+      if (election) {
+        selectCheckboxState(field, election.state);
+        writes.push({ ...base, effectiveLabel: name, factId: "route.selection", drawnText: election.state, isSelectionControl: true, routeDetermined: true, routeReason: election.why });
+      } else if (participantSelfControl(source.documentId, name)) {
         field.check();
-        writes.push({ ...base, effectiveLabel: name, factId: participantSelfControl(source.documentId, name) ? "participant.self_represented" : "route.selection", isSelectionControl: true, routeDetermined: true });
+        writes.push({ ...base, effectiveLabel: name, factId: "participant.self_represented", isSelectionControl: true, routeDetermined: true });
       } else if (protectedField(source.documentId, name, page)) {
         refusals.push({ ...base, effectiveLabel: `Court or later-completion control: ${name}`, reason: "Court, clerk, or later-completion field; never prefilled", refusalClass: "court_prosecutor_clerk_or_agency_owned", role: "court" });
       } else refusals.push({ ...base, effectiveLabel: `Participant choice: ${name}`, reason: "A participant election or financial fact not determined by this packet route", refusalClass: "participant_sworn_narrative_or_legal_election", isSelectionControl: true, routeDetermined: false });
@@ -162,10 +210,10 @@ async function fillDocument(source, fixtureName, fixture) {
       refusals.push({ ...base, effectiveLabel: `Court or later-completion field: ${name}`, reason: clerkCaseNumber(name) ? "The form reserves this case number for the Circuit Clerk" : "Signature, judge, clerk, or post-filing field; never prefilled", refusalClass: clerkCaseNumber(name) ? "court_prosecutor_clerk_or_agency_owned" : "signature_or_date_participant_completion", role: clerkCaseNumber(name) ? "court" : "protected" });
       continue;
     }
-    const known = knownValue(source.documentId, name, fixture);
+    const known = knownValue(source.documentId, name, page, fixture);
     if (known) {
-      writes.push({ ...base, effectiveLabel: name, factId: known[1], ...setComplete(field, known[0], font) });
-    } else if (optionalUnusedSlot(source.documentId, name)) {
+      writes.push({ ...base, effectiveLabel: name, factId: known[1], ...(known[1] === "matter.outcome" ? { outcomeDerivedFrom: ROUTE_OUTCOME.derivedFrom, outcomeMeaning: ROUTE_OUTCOME.meaning, printedLegend: ROUTE_OUTCOME.printedLegend } : {}), ...setComplete(field, known[0], font) });
+    } else if (optionalUnusedSlot(source.documentId, name, page)) {
       refusals.push({ ...base, effectiveLabel: `Unused additional-record slot: ${name}`, reason: "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.", completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT", factAvailable: false, routeDetermined: false, role: "participant" });
     } else if (attorneyField(name)) {
       refusals.push({ ...base, effectiveLabel: `Attorney field: ${name}`, reason: "Attorney-only; the fixture is self-represented", role: "attorney" });
@@ -255,8 +303,10 @@ function assertDeliveredPacket() {
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
   assert.equal(writes.filter((row) => /List all charges/i.test(row.fieldName) && row.factId === "matter.case_number").length, 0,
     "charge cells must never receive the case number");
-  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && /List all charges.* - 1$/i.test(row.fieldName) && row.factId === "matter.charge").length, 2,
-    "the first complete row on each Request table must receive the charge");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && /List all charges.* - 1$/i.test(row.fieldName) && row.factId === "matter.charge").length, 1,
+    "only the active expungement table's first row receives the charge");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && row.page !== ACTIVE_REQUEST_PAGE && requestTableField(row.fieldName) !== null).length, 0,
+    "the sealing table on Request page 4 must stay wholly blank on an expungement-only route");
   assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && / - (?:[2-9]|10)$/.test(row.fieldName) && /Arrest|charges|Outcome/i.test(row.fieldName)).length, 0,
     "unused Request rows must remain wholly blank");
   assert.equal(writes.filter((row) => row.documentId === "EXP-AD Case List" && /^arrest[2-5]$/.test(row.fieldName)).length, 0,
@@ -271,6 +321,25 @@ function assertDeliveredPacket() {
   const fieldMap = JSON.parse(fs.readFileSync(path.join(OUT, "production-field-map.json"), "utf8"));
   assert.equal(fieldMap.refusals.filter((row) => /^\d+ - Case Number$/.test(row.fieldName) && row.refusalClass === "court_prosecutor_clerk_or_agency_owned").length, 4,
     "all four clerk-assigned case-number captions must be declared protected");
+
+  // The four faults Reviewer found on 2026-10-21, asserted as qualprob asserts them.
+  const selection = new Map(writes.filter((row) => row.isSelectionControl).map((row) => [row.fieldName, row]));
+  assert.equal(selection.get("Page 1 - Request to Expunge Records")?.drawnText, "Yes", "item 1 must be answered Yes on an expungement route");
+  assert.equal(selection.get("12 - Seal Records")?.drawnText, "No", "item 12 must be answered No: this route carries no sealing authority");
+  assert.equal(fieldMap.refusals.filter((row) => row.fieldName === "12 - Seal Records").length, 0,
+    "item 12 is route-determined, not a participant refusal");
+  assert.equal(selection.get("9 - For at least one case, I received a sentence of supervision")?.drawnText, "Yes",
+    "the supervision ground must be elected");
+  for (const row of writes) {
+    assert.ok(!/^(?:Complete |Charge )?(?:the )?charge exactly as (?:shown|printed)/i.test(String(row.drawnText ?? "")),
+      `a direction to the participant reached ${row.fieldId}: ${row.drawnText}`);
+  }
+  const outcomes = writes.filter((row) => row.factId === "matter.outcome");
+  assert.equal(outcomes.length, 1, "exactly one Outcome cell is written");
+  assert.equal(outcomes[0].drawnText, "S", "the Outcome cell must carry the printed abbreviation S, which is what Section 9 elects");
+  assert.equal(outcomes[0].outcomeDerivedFrom, "route", "the Outcome must be derived from the route, not from a fixture literal");
+  assert.equal(writes.filter((row) => /^(?:dismissed|acquitted or dismissed as certified)$/i.test(String(row.drawnText ?? ""))).length, 0,
+    "a dismissal outcome contradicts the supervision election");
 }
 
 function selfTest() {

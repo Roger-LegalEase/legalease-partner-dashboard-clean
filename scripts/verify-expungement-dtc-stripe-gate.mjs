@@ -19,6 +19,7 @@ const sources = {
   reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
   verificationAction: readOptional("src/components/expungement-ai/PacketVerificationAction.tsx"),
   verificationClient: readOptional("src/components/expungement-ai/packet-verification-client.ts"),
+  packetInformationRoute: read("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts"),
   checkoutButton: read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"),
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   paymentAdapter: read("src/lib/expungement-ai/payment-adapter.ts"),
@@ -169,11 +170,21 @@ function stripeBoundaryViolations(input) {
     require(input.packetInformationBuilder.includes("Save and leave") && input.packetInformationBuilder.includes("Review packet facts"), "The protected builder must preserve save/resume/review actions.");
     require(input.briefcaseViews.includes("BriefcasePresentationItem") && !input.briefcaseViews.includes("ConsumerBriefcaseItem"), "Briefcase overview must consume only the sanitized presentation type.");
     require(input.reviewPage.includes("decorateBriefcaseItemForPresentation") && input.reviewPage.includes("<PacketVerificationAction"), "Final review must use the protected presentation and explicit-verification components.");
-    require(input.verificationClient.includes("body: JSON.stringify({ answers, verify: true })"), "The protected client must send the exact explicit-verification POST payload.");
+    require(
+      input.verificationClient.includes("body: JSON.stringify({ answers, verify: true, expectedRevision })")
+        && input.packetInformationRoute.includes('if (parsed.expectedRevision === null) {\n    return NextResponse.json({ ok: false, error: "expected_revision_required" }, { status: 428 });\n  }')
+        && input.packetInformationRoute.includes('if (parsed.expectedRevision !== protectedRead.value.revision) {\n    return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });\n  }'),
+      "The protected client must send the exact explicit-verification POST payload."
+    );
     require(input.reviewPage.includes("initiallyVerified={initiallyVerified}") && input.reviewPage.includes('const initiallyVerified = item?.verificationStatus === "verified" && reviewSafety.safe;'), "The review action must derive its initial state from protected verification status and current review safety.");
     require(input.reviewPage.includes('packetReady={item.artifact.status === "ready"}'), "The review action must derive packet readiness from protected artifact readiness.");
     require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentState === "paid" ? "paid" : "consumer"}'), "The review action mode must derive from protected payment state.");
-    require(input.verificationAction.includes("nextActions.checkout") && input.verificationAction.includes('label="Pay $50 and generate my packet"'), "The verified consumer action must own the approved matter-bound payment action.");
+    require(
+      input.verificationAction.includes(`{nextActions.checkout ? (
+            <ConsumerCheckoutButton briefcaseItemId={itemId} label={copy("Pay $50 and generate my packet", "Pagar $50 y generar mi paquete")} />
+          ) : null}`),
+      "The verified consumer action must own the approved matter-bound payment action."
+    );
     require(input.verificationClient.includes("if (!verified)") && input.verificationClient.includes("checkout: !packetReady"), "Explicit verification must gate Checkout and immutable Ready must suppress duplicate Checkout.");
   } else {
     require(input.reviewPage.includes("<ConsumerCheckoutButton"), "Only final review may expose the approved matter-bound payment action before protected UI integration.");

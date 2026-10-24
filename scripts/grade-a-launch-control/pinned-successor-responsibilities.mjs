@@ -32,12 +32,20 @@ export function successorResponsibilities(root,{releaseBaseSha,sourceSha,toolsSh
  assert.equal(publication.sourceSha,sourceSha);assert.equal(publication.runtimeAccepted,true);assert.equal(publication.imageAcceptance?.conclusion,'success');assert.equal(publication.imageAcceptance?.sourceSha,sourceSha);assert.equal(publication.imageAcceptance?.digest,publication.immutableRegistryDigest);assert.match(publication.immutableRegistryDigest,/^sha256:[0-9a-f]{64}$/);
  const native=publicationNativeFiles(publication);
  const appDelta=git(root,['diff','--no-renames','--name-only',sourceSha,applicationSha]).split('\n').filter(Boolean);
- assert.equal(git(root,['diff','--no-renames','--diff-filter=D','--name-only',releaseBaseSha,toolsSha]),'','successor deletions are not representable');
+ const sourceChanged=new Set(git(root,['diff','--no-renames','--name-only',sourceSha,toolsSha]).split('\n').filter(Boolean));
+ for(const [p,entry]of Object.entries(reviewedFiles))if(entry?.deleted===true){
+  for(const sha of [sourceSha,applicationSha,toolsSha])assert.equal(git(root,['ls-tree',sha,'--',p]),'','deleted source cannot reappear in successor: '+p);
+  assert.equal(fs.lstatSync(path.join(root,p),{throwIfNoEntry:false}),undefined,'deleted source cannot reappear in worktree: '+p);
+ }
+ for(const p of git(root,['diff','--no-renames','--diff-filter=D','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(Boolean)){
+  assert.equal(reviewedFiles[p]?.deleted,true,'successor deletion requires reviewed source custody: '+p);
+  assert.equal(git(root,['ls-tree',sourceSha,'--',p]),'','deletion belongs to the approved source: '+p);
+ }
  for(const p of appDelta)assert(runtimeAuthority.has(p)||Object.hasOwn(native,p),'authorized runtime successor contains only runtime authority and native publication evidence: '+p);
  const runtimeFiles={},nativeFiles={},controlFiles={};
  const inputs=new Set(applicationInputManifest(root,applicationSha).files.map(f=>f.path));
  for(const p of git(root,['diff','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(Boolean)){
-  if(Object.hasOwn(reviewedFiles,p))continue;
+  if(Object.hasOwn(reviewedFiles,p)&&(reviewedFiles[p]?.deleted||!sourceChanged.has(p)))continue;
   let accounted=false;
   if(runtimeAuthority.has(p)||inputs.has(p)&&Object.hasOwn(native,p)){assert.equal(hash(blob(root,toolsSha,p)),hash(blob(root,applicationSha,p)),p+' frozen application input');runtimeFiles[p]=hash(blob(root,applicationSha,p));accounted=true;}
   if(Object.hasOwn(native,p)){const b=blob(root,applicationSha,p);assert.equal(b.length,native[p].bytes);assert.equal(hash(b),native[p].sha256);assert.equal(hash(blob(root,toolsSha,p)),hash(b));nativeFiles[p]=native[p];accounted=true;}

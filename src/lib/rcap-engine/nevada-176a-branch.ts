@@ -136,6 +136,17 @@ export const NEVADA_176A_ROUTE_SAFETY_FACT_IDS: readonly string[] = [
   ...NEVADA_176A_BRANCH_FACT_IDS
 ];
 
+/** These predicates belong to the adopted probation-program family, not every
+ * Nevada remedy. Keep them while the route is unknown and on their own route;
+ * an independently selected sibling route does not consume them. Saved answers
+ * remain intact so returning to the program route restores its full gates.
+ */
+export function nevada176AQuestionApplies(jurisdiction: string, pathwayId: string | undefined, questionId: string): boolean {
+  return jurisdiction !== "NV" || !pathwayId
+    || !NEVADA_176A_ROUTE_SAFETY_FACT_IDS.includes(questionId)
+    || `NV:${pathwayId}` === NEVADA_176A_ROUTE_KEY;
+}
+
 /**
  * The three questions, as the profile publishes them.
  *

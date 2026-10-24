@@ -34,11 +34,10 @@ const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-
 const {
   PACKET_COLLECTION_SECTIONS,
   PACKET_SECTION_STATUSES,
-  resolvePacketCollection,
   prepayGateFactIds
 } = await import("../src/lib/expungement-ai/packet-collection.ts");
 const { routeSafetyGateFactIds } = await import("../src/lib/expungement-ai/packet-route-safety.ts");
-const { routeCollectionOverrideFor, baselineCarriedFactIds } = await import("../src/lib/expungement-ai/packet-collection-overrides.ts");
+const { baselineCarriedFactIds } = await import("../src/lib/expungement-ai/packet-collection-overrides.ts");
 const packetInformation = await import("../src/lib/expungement-ai/packet-information.ts");
 const presentation = await import("../src/lib/expungement-ai/briefcase-presentation-authority.ts");
 const { renderPreflight } = await import("../src/lib/expungement-ai/render-preflight.ts");
@@ -117,19 +116,12 @@ for (const profile of getAllJurisdictionProfiles()) {
     resolutions.push({
       routeKey,
       requiredInputIds: plan.requiredInputIds,
-      resolution: resolvePacketCollection({
+      resolution: packetInformation.packetCollectionFor({
         jurisdiction,
         pathwayId: pathway.id,
         requiredInputIds: plan.requiredInputIds,
         serverFacts: { jurisdiction, pathway_id: pathway.id },
-        screeningAnswers: {},
-        specification: packetSpecificationFor(routeKey) ?? null,
-        routeDecidingFactIds: new Set([
-          ...routeDecidingFactIds(profile, pathway),
-          ...routeSafetyGateFactIds(jurisdiction, pathway.id)
-        ]),
-        baselineCarriedFactIds: baselineCarriedFactIds(routeKey),
-        override: routeCollectionOverrideFor(routeKey)
+        screeningAnswers: {}
       })
     });
   }
@@ -145,7 +137,9 @@ const unreconciled = resolutions.filter(({ requiredInputIds, resolution }) => {
 check(unreconciled.length === 0, `every required fact resolves to exactly one disposition on every route (${unreconciled.length} route(s) do not reconcile)`);
 
 const withUnresolved = resolutions.filter(({ resolution }) => resolution.unresolvedRequiredFacts.length > 0);
-check(withUnresolved.length === 0, `no route has a required fact the existing authority cannot classify (${withUnresolved.length})`);
+const unresolvedFacts = withUnresolved.flatMap(({ routeKey, resolution }) => resolution.unresolvedRequiredFacts.map((factId) => `${routeKey}|${factId}`));
+check(unresolvedFacts.length === 0, `empty-answer operational fixture has ${unresolvedFacts.length} unresolved required facts on ${withUnresolved.length} routes; GA-14 remains open until their authority is established`);
+for (const fact of unresolvedFacts) console.log(`  unresolved: ${fact}`);
 
 // ---------------------------------------------------------------------------
 // 3. No participant is ever asked for a field another actor owns.
@@ -273,16 +267,12 @@ check(
 
 const msPlan = packetPlanForPathway(msProfile, MS_PATHWAY);
 const msServerFacts = { jurisdiction: "MS", pathway_id: MS_PATHWAY };
-const resolveMs = (extra) => resolvePacketCollection({
+const resolveMs = (extra) => packetInformation.packetCollectionFor({
   jurisdiction: "MS",
   pathwayId: MS_PATHWAY,
   requiredInputIds: msPlan.requiredInputIds,
   serverFacts: msServerFacts,
   screeningAnswers: msAnswers,
-  specification: packetSpecificationFor(`MS:${MS_PATHWAY}`),
-  routeDecidingFactIds: msDeciding,
-  baselineCarriedFactIds: msBaseline,
-  override: routeCollectionOverrideFor(`MS:${MS_PATHWAY}`),
   ...extra
 });
 const beforeAnswering = prepayGateFactIds(resolveMs({}));

@@ -136,7 +136,7 @@ try {
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/assist`);
     await page.locator('select[name="eventStaffId"]').selectOption({ index: 1 });
     await page.locator('input[name="consent"]').check();
-    await page.getByRole("button", { name: "Start assisted nationwide screening", exact: true }).click();
+    await page.getByRole("button", { name: "Start screening with assistance", exact: true }).click();
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/screening/ms`);
     await expectText(page, "Shared-device privacy is active");
     result.clinicEntry = clinicEntry;

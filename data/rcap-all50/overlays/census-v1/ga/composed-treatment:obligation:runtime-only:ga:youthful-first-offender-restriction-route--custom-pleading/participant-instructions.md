@@ -22,10 +22,16 @@ Consent withdrawn before the order is entered defeats the filing. A contested ev
 
 ## What is in this packet
 
-| Component | What it is |
+The packet supplies the documents below. You obtain the records listed under Documents you must obtain before filing.
+
+| Supplied document | What it is |
 | --- | --- |
-| `ga-retroactive-first-offender-42-8-66-petition-1` | the controlling § 42-8-66 participant petition, available only after verified written prosecutorial consent and only before the court grants the qualifying order |
-| `ga-retroactive-first-offender-42-8-66-filing-instructions-2` | the consent gate, the filing path, both non-filing branches, the source-required packet checklist, fee, venue and self-help stops |
+| Petition - Retroactive First Offender Treatment, Exoneration and Discharge under § 42-8-66 | the controlling § 42-8-66 participant petition, available only after verified written prosecutorial consent and only before the court grants the qualifying order |
+| Filing Instructions - Georgia § 42-8-66 Retroactive First Offender Petition | the consent gate, the filing path, both non-filing branches, the source-required packet checklist, fee, venue and self-help stops |
+| Proposed Order - Retroactive First Offender Treatment, Exoneration and Discharge under § 42-8-66 | supplied proposed order in the original criminal matter; all judicial decisions, directions, signature and entry date remain for the court |
+| Hearing-Request Election - § 42-8-66 Petition | supplied hearing-request election; the petitioner chooses and signs, with neither choice preselected |
+| Certificate of Service or Local Notice - § 42-8-66 Petition | supplied service or local notice document; confirm the local procedure with the court clerk and record only acts actually completed |
+| After the Order - Restriction, Sealing, Distribution and Verification | supplied post-order instructions; use the entered order to confirm implementation, not to request relief a second time |
 
 ## Where this is filed, what it costs, and who must be served
 
@@ -72,12 +78,38 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C6 - prior felony or prior First Offender history | Any prior felony or prior First Offender history, supported by verified records |
 | Item C7 - qualifying order status and date | Whether a qualifying order has already been granted and, if so, its date, copied from a verified record |
 
+### ga-retroactive-first-offender-42-8-66-proposed-order-3 — Proposed Order - Retroactive First Offender Treatment, Exoneration and Discharge under § 42-8-66
+
+| The blank on the document | What to write |
+| --- | --- |
+| Court of conviction and county | The court of conviction and its county, copied from the original criminal record |
+| Original criminal case number in the caption | The original criminal case number, copied from the court record; use an ancillary number only if the receiving clerk requires one |
+
+### ga-retroactive-first-offender-42-8-66-hearing-request-4 — Hearing-Request Election - § 42-8-66 Petition
+
+| The blank on the document | What to write |
+| --- | --- |
+| Court of conviction and county | The court of conviction and its county, copied from the original criminal record |
+| Original criminal case number in the caption | The original criminal case number, copied from the court record; use an ancillary number only if the receiving clerk requires one |
+| Choose one: request or do not request a hearing | Mark exactly one hearing-request option. |
+
+### ga-retroactive-first-offender-42-8-66-service-notice-5 — Certificate of Service or Local Notice - § 42-8-66 Petition
+
+| The blank on the document | What to write |
+| --- | --- |
+| Court of conviction and county | The court of conviction and its county, copied from the original criminal record |
+| Original criminal case number in the caption | The original criminal case number, copied from the court record; use an ancillary number only if the receiving clerk requires one |
+| Documents provided | Identify the documents actually provided, as required by the clerk-confirmed procedure. |
+| Recipient name and delivery destination | Confirm the recipient with the clerk of the court of conviction and record the actual recipient. |
+| Method of service or notice | Confirm the method and timing with the clerk of the court of conviction and record the method actually used. |
+| Printed name of person completing service or notice | The name of the person who actually completed service or notice under the local procedure. |
+
 ## What you do, in order
 
 1. **Check for an already-granted qualifying order first.** If one was granted on or after July 1, 2026, do not generate a second merits or sealing petition; move to restriction, sealing, agency distribution and verification tracking.
 2. **Obtain verified written prosecutorial consent, joinder or a signed consent endorsement.** Without that document, do not file; use an attorney or prosecutor handoff.
 3. **Complete every labelled petition item from verified records.** If original eligibility, the applicable § 42-8-66 branch, or prior felony or First Offender history is uncertain, stop self-help.
-4. **Assemble the source-required materials.** Include the written-consent document, proposed order, hearing-request election, certificate of service or local notice document, judgment/sentence/disposition records, eligibility and branch evidence, rehabilitation and interests-of-justice exhibits, and post-order instructions.
+4. **Assemble the supplied packet and the records you obtain.** The packet supplies the petition, proposed order, hearing-request election, certificate of service or local notice document, filing instructions and post-order instructions. You obtain the verified written-consent document, judgment/sentence/disposition records, original eligibility and branch evidence, and rehabilitation and interests-of-justice exhibits. Complete the supplied documents as directed; leave all judicial decisions and signing lines for the court.
 5. **Preserve the original criminal caption and case number** unless the receiving clerk requires an ancillary number, and confirm the local service or notice procedure with the clerk of the court of conviction.
 6. **Sign and date the petition personally, then file it in the court of conviction.** A hearing follows if the petitioner or prosecutor requests one or the court wants one.
 
@@ -86,6 +118,8 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 - **Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.
 - **The court of conviction, original case number and every matter-specific fact.** Copy each from verified records; this build does not guess them.
 - **The written-consent attachment line.** The verified document must exist before filing; this build does not manufacture or replace prosecutorial consent.
+- **The court decision, findings, restriction, sealing and distribution directions, judicial signature and order date.** Only the court completes those parts of the proposed order.
+- **The hearing election and service or local notice details.** Choose your hearing option; confirm the local procedure with the clerk of the court of conviction. Record and sign only acts actually completed.
 
 ## What this packet does not tell you
 

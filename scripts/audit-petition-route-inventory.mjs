@@ -24,8 +24,10 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { evaluatorRouteSet as sharedEvaluatorRouteSet } from "./lib/route-ratification.mjs";
+import { larIdRegistry } from "./lib/lar-ids.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -36,6 +38,8 @@ const JSON_OUT = path.join(ROOT, "data/expungement-ai/reports/petition-route-inv
 const LAR_JSON_OUT = path.join(ROOT, "data/expungement-ai/reports/legal-action-required.json");
 const MD_OUT = path.join(ROOT, "docs/expungement-ai/PETITION_ROUTE_INVENTORY.md");
 const LAR_MD_OUT = path.join(ROOT, "docs/expungement-ai/LEGAL_ACTION_REQUIRED.md");
+// --check: regenerate in memory and compare to the committed outputs (headCommit aside); write nothing.
+const CHECK = process.argv.includes("--check");
 const CORRECTIONS_A_CLOSURE_PATH = path.join(ROOT, "data/expungement-ai/corrections-a/closure.json");
 const CORRECTIONS_A_SERVICE_BEHAVIOR = new Map(
   JSON.parse(fs.readFileSync(CORRECTIONS_A_CLOSURE_PATH, "utf8")).routes
@@ -68,11 +72,9 @@ const ADMIN_APPLICATION_ROUTES = parseRouteSet("ADMINISTRATIVE_APPLICATION_PACKE
 const SPECIAL_TIMING_KEYS = new Set([...evalSrc.matchAll(/key === "([A-Z]{2}:[^"]+)"/g)].map((m) => m[1]));
 
 function headCommit() {
-  try {
-    const head = fs.readFileSync(path.join(ROOT, ".git/HEAD"), "utf8").trim();
-    if (head.startsWith("ref: ")) return fs.readFileSync(path.join(ROOT, ".git", head.slice(5)), "utf8").trim().slice(0, 40);
-    return head.slice(0, 40);
-  } catch { return "unknown"; }
+  // git, not .git/HEAD: in a linked worktree .git is a file and the old read gave "unknown".
+  try { return execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); }
+  catch { return "unknown"; }
 }
 
 const profileFiles = fs.readdirSync(PROFILES_DIR).filter((f) => f.endsWith(".json")).sort();
@@ -254,10 +256,10 @@ const BLOCKER_EFFORT = {
   gate_build: 4, intake_fix: 5, packet_form_work: 6, legal_action_required: 7
 };
 
-let larSeq = 0;
+const larIds = larIdRegistry(fs.existsSync(LAR_JSON_OUT) ? JSON.parse(fs.readFileSync(LAR_JSON_OUT, "utf8")) : {});
 const larItems = [];
 function openLar(route, { missingItemType, exactMissingItem, whyItMatters, engineeringBlocked, legalReviewRequired, sourceRequested, suggestedSourceType, priority }) {
-  const id = `LAR-${String(++larSeq).padStart(3, "0")}`;
+  const id = larIds.idFor({ jurisdiction: route.jurisdictionCode, routeId: route.pathwayId, missingItemType, exactMissingItem });
   larItems.push({
     id, priority, jurisdiction: route.jurisdictionCode, routeId: route.pathwayId, routeName: route.pathwayLabel,
     currentClassification: route.bucket, missingItemType, exactMissingItem, whyItMatters,
@@ -585,13 +587,24 @@ const report = {
   bucketCounts, acceptance, paidJurisdictions, zeroPaidWithBuildable, summaries, routes
 };
 
+const outputs = new Map([
+  [METADATA_OUT, JSON.stringify(metadata, null, 2) + "\n"],
+  [JSON_OUT, JSON.stringify(report, null, 2) + "\n"],
+  [LAR_JSON_OUT, JSON.stringify({ generatedAt: "derived", headCommit: headCommit(), openItems: larItems.length, items: larItems, resolvedItems: larIds.resolvedItems() }, null, 2) + "\n"],
+  [MD_OUT, renderInventoryMd(report)],
+  [LAR_MD_OUT, renderLarMd(larItems)]
+]);
+if (CHECK) {
+  const withoutHead = (text) => text.replace(/"headCommit": "[^"]*"/g, '"headCommit": ""').replace(/> Head commit `[^`]*`/g, "> Head commit ``");
+  const stale = [...outputs].filter(([file, text]) => !fs.existsSync(file) || withoutHead(fs.readFileSync(file, "utf8")) !== withoutHead(text))
+    .map(([file]) => path.relative(ROOT, file));
+  for (const file of stale) console.error(`STALE ${file}: committed bytes differ from the generator (headCommit aside); run node scripts/audit-petition-route-inventory.mjs`);
+  console.log(stale.length ? `petition-route inventory --check: ${stale.length} stale output(s)` : `petition-route inventory --check: ${outputs.size} outputs current`);
+  process.exit(stale.length || !Object.values(acceptance).every(Boolean) ? 1 : 0);
+}
 fs.mkdirSync(path.dirname(JSON_OUT), { recursive: true });
 fs.mkdirSync(path.dirname(MD_OUT), { recursive: true });
-fs.writeFileSync(METADATA_OUT, JSON.stringify(metadata, null, 2) + "\n");
-fs.writeFileSync(JSON_OUT, JSON.stringify(report, null, 2) + "\n");
-fs.writeFileSync(LAR_JSON_OUT, JSON.stringify({ generatedAt: "derived", headCommit: headCommit(), openItems: larItems.length, items: larItems }, null, 2) + "\n");
-fs.writeFileSync(MD_OUT, renderInventoryMd(report));
-fs.writeFileSync(LAR_MD_OUT, renderLarMd(larItems));
+for (const [file, text] of outputs) fs.writeFileSync(file, text);
 
 // --------------------------------------------------------------------------- console
 const acceptanceOk = Object.values(acceptance).every(Boolean);

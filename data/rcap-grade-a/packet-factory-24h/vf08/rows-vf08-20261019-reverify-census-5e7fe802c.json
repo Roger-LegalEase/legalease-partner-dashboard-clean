@@ -1,0 +1,371 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF08",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "rcap-ks-custom-pleading": "GRANTED_ELSEWHERE_BUT_RELEASED: rcap-ks-custom-pleading is recorded on VF09, not VF08, and VF09 RELEASED it at 2026-09-04T19:12:30.630Z. No lane is executing it. Captain can hand it over with: --transfer VF09 VF08 rcap-ks-custom-pleading --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.",
+    "rcap-wa-custom-pleading-clean-tracks": "GRANTED_ELSEWHERE_BUT_RELEASED: rcap-wa-custom-pleading-clean-tracks is recorded on VF03, not VF08, and VF03 RELEASED it at 2026-09-05T11:12:06.286Z. No lane is executing it. Captain can hand it over with: --transfer VF03 VF08 rcap-wa-custom-pleading-clean-tracks --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "rcap-ks-custom-pleading": "LIMB_2_NO_SERVICE_WITH_BASIS",
+    "rcap-wa-custom-pleading-clean-tracks": "LIMB_1_ON_9_95_240_LIMB_2_ON_10_97_060"
+  },
+  "rows": [
+    {
+      "itemId": "rcap-ks-custom-pleading",
+      "lane": "VF08",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "PYTHONDONTWRITEBYTECODE=1 MASTER_LIBRARY_SOURCE_DIR=/tmp/ci-census-landing/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading run by this verifier (through measure-family.mjs) at base 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: 'ok rcap-ks-custom-pleading PASS_COMPLETE 14/56 written'; the counter line was parsed from that run, not read from reports/completeness-counters.json (read only as the thing being checked; it agrees)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. Both routeKeys (obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516; obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a) are declared identically, in the same order, by source-receipt, product-wiring and production-field-map and equal the MASTER_QUEUE row; both resolve in the CURRENT census (routes[394], routes[395]) with packetFamilyId rcap-ks-custom-pleading and trackIds ks-12-4516-municipal / ks-12-4516a-municipal-arrest. Each page's footer prints its own route label (printedRouteLineCarriesTheLabelNotTheKey), and the labels map one-to-one to the keys."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All 3 committedRecords recomputed from disk here (sha256 + byteLength). Exact: legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 (16781025 B); legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 (16830109 B). Drifted whole-file pin: route-obligation-candidate.json pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B, recovered as drift/route-obligation-candidate.json.pinned.f6fc0814) -> CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516: routes[391] (pinned) / routes[394] (current) IDENTICAL (canonical digest 01a3b7246ab09b57b080adfb95aac4ee85ba09de3621315c0802e5d9b1610b7d in both). obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a: routes[392] (pinned) -> routes[395] (current) CHANGED in exactly one field, currentImplementationEvidence (13 -> 16 entries, 0 removed, 3 added: route-kind-adjudication:applied:KS:municipal-arrest-record-expungement-under-12-4516a:LEGAL-DESIGN-2026-08-02-KS-02 | route-kind-contract-evidence:KS:municipal-arrest-record-expungement-under-12-4516a:outcomeMode participant_packet, packetFamily \"Kansas Municipal Arrest Record Expungement Petition under \u00a7 12-4516a\", statute Kan. Stat. Ann. \u00a7 12-4516a | route-kind-evaluator-evidence:KS:municipal-arrest-record-expungement-under-12-4516a:not a user-filed court petition:prior=guidance_only:conclusive=true). The three strings are emitted by generate-national-route-obligation-census.mjs (lines 2507-2509) from data/rcap-ledger/route-kind-adjudications.json, whose row for KS:municipal-arrest-record-expungement-under-12-4516a was set to status 'applied' on 2026-10-12 (commit 5399ea24a): the evaluator's pre-contract keyword heuristic had called this route 'not a user-filed court petition' and returned guidance_only; the adjudication corrects that to the contract's participant_packet petition. Every other field of the entry - statuteOrAuthority, trackId, runtimePathwayId, routeContractId, processActor, participantCanInitiate, participantFacingInstrument, destination, currentOutputStrategy, packetFamilyId, packetSetId, requiredSourceIds, legalDecisionRecordIds, currentServiceDisposition, currentCommercialState, missingImplementationWork, possibleCategory, requiresLegalReview - is identical. currentImplementationEvidence is implementation state, not packet content; the change records the runtime coming into line with the petition this packet already is, and touches nothing the packet relies on (canonical digest pinned 0d2a707f2f559b109cbd746ea9a96ea72dc2d94863437d351047eeb7b93f690b, current 553a508ee7d2f1b31fd06e990eb88b681ae63eb85e39f809f6a25cfaf6427719). Not substantive; no report-before-re-pin flag. Census metadata other than sourceFingerprint identical. The worklist is not pinned by this receipt. Both tracks carry identical rules and stop conditions in the registry and KS.memo.json. No official document byte is bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT). The current census digest is recorded here for the lead's re-pin; nothing re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Declared six components, three per route (primary filing, proposed order, process guidance for 12-4516; the same for 12-4516a); rendered-artifacts componentSet and both fixtures' document lists match in that order. The specifications require primary_filing and proposed_order for each track; the process-guidance pages are the declared companions. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "14/14 written values read back from the pdftotext output of each fixture's bytes (name, date of birth, mailing address, telephone, email on each petition; name on each order and guidance page); builder reports 14 in each. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The 28 REQUIRED_BEFORE_FILING blanks (C1-C16 on the 12-4516 petition, C1-C12 on the 12-4516a petition) are each named in participant-instructions.md with the question to answer, including the conditional C12 diverting authority and C12 best-interests account. The six documents to obtain (municipal case information, any local form, the local fee, the disposition record) are named with the clerk or city website as source. The petition captions' 'IN THE .... COURT' line is not a field-map field; it prints its own guidance ('The convicting Kansas municipal court - see the filing instructions'), so it is disclosed on the page itself."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls. The route choice is presented as a table ('Which pages in this packet are yours') with each route's statutory condition and a stop if both could fit; the 12-4516a ground (mistaken identity, no probable cause, not guilty, pre-2014 ordinance, best interests of justice) is a participant-supplied answer (C8), as the KS profile records it is the participant's own choice. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "incompleteRows=0 measured here; no repeating row structure."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "14 protected blanks: on each petition the case number, signature and signature date; on each proposed order the case number, the decision line, the court's signing line and date. refusedFieldsWithInk empty in both fixtures; the proposed orders print 'EVERY DECISION ON THIS PAGE IS THE COURT'S'. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded: canonical.pdf 0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74 (37304 B) and boundary.pdf e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7 (37721 B), SHA-256 and byte length recomputed here and matching; 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read page by page with pdftotext, both fixtures: 12-4516 petition pages 1-4, proposed order page 5, filing instructions pages 6-7; 12-4516a petition pages 8-10, proposed order page 11, filing instructions pages 12-13. Contiguous, in declared order, each page footed with its own route label; recorded pageCount 13 equals pdfinfo for both."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over 13 pages per fixture: 0 words outside the page box and 0 same-band overlapping word pairs in either fixture; builder nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census and registry name 'The convicting Kansas municipal court' (12-4516) and 'The Kansas municipal court where the ordinance charge was brought' (12-4516a), filed with the municipal court clerk, with the charter-ordinance (Wichita) caveat. The instructions and each route's filing-instructions page state exactly those destinations, venues and caveat."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Sourced in the record's words. 12-4516: a municipal court may prescribe a fee as costs, K.S.A. 12-4516(g)(2), no statewide figure; waiver: none identified, local practice. 12-4516a: fee may be prescribed, K.S.A. 12-4516a(b), except no fee for a person arrested as a result of identity theft under K.S.A. 21-6107; waiver: none beyond that statutory exemption, which the packet states as its packet instruction requires. Both name the municipal court clerk as who answers the amount ('Ask the clerk what that court charges')."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative rule with its mechanism, for both routes: 'The court causes notice to be given. The participant does not serve.' and the court sets a hearing and notifies the prosecuting attorney and the arresting law enforcement agency, K.S.A. 12-4516(g)(1) / 12-4516a(b). Matches the registry and KS.memo.json rules exactly."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against tracks ks-12-4516-municipal and ks-12-4516a-municipal-arrest in KS.memo.json and the registry (decision records LEGAL-DESIGN-2026-08-02-KS-01/-02). All 6 + 6 memo selfHelpStopConditions and the shared post-generation handoff are carried verbatim in participant-instructions.md and on each route's filing-instructions page, as are all 3 + 3 packetInstructions. No inversion: nothing sends the participant into a contested hearing, an opposed petition or a charter-ordinance court as self-help."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok rcap-ks-custom-pleading PASS_COMPLETE 14/56 written | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "currentCensusDigest": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "currentCensusByteLength": 2635434,
+          "pinnedCensusDigest": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "pinnedCensusByteLength": 2629290,
+          "censusEntries": [
+            {
+              "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+              "pinnedIndex": 391,
+              "currentIndex": 394,
+              "identical": true,
+              "canonicalDigestBoth": "01a3b7246ab09b57b080adfb95aac4ee85ba09de3621315c0802e5d9b1610b7d"
+            },
+            {
+              "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+              "pinnedIndex": 392,
+              "currentIndex": 395,
+              "identical": false,
+              "pinnedCanonicalDigest": "0d2a707f2f559b109cbd746ea9a96ea72dc2d94863437d351047eeb7b93f690b",
+              "currentCanonicalDigest": "553a508ee7d2f1b31fd06e990eb88b681ae63eb85e39f809f6a25cfaf6427719",
+              "changedFields": [
+                "currentImplementationEvidence"
+              ],
+              "addedEntries": [
+                "route-kind-adjudication:applied:KS:municipal-arrest-record-expungement-under-12-4516a:LEGAL-DESIGN-2026-08-02-KS-02",
+                "route-kind-contract-evidence:KS:municipal-arrest-record-expungement-under-12-4516a:outcomeMode participant_packet, packetFamily \"Kansas Municipal Arrest Record Expungement Petition under \u00a7 12-4516a\", statute Kan. Stat. Ann. \u00a7 12-4516a",
+                "route-kind-evaluator-evidence:KS:municipal-arrest-record-expungement-under-12-4516a:not a user-filed court petition:prior=guidance_only:conclusive=true"
+              ],
+              "removedEntries": [],
+              "substantive": false,
+              "why": "implementation-state field; emitted from data/rcap-ledger/route-kind-adjudications.json row status 'applied' (2026-10-12, commit 5399ea24a) correcting the evaluator heuristic to the contract's participant_packet petition; destination, requiredSourceIds, statute, instrument and every other field unchanged"
+            }
+          ],
+          "censusMetadataExSourceFingerprintIdentical": true,
+          "worklistPinned": false,
+          "committedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "recordId": "legal-design-track-registry:ks-12-4516-municipal+ks-12-4516a-municipal-arrest",
+              "pinnedSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "pinnedByteLength": 16781025,
+              "recomputedSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "byteLengthOnDisk": 16781025,
+              "exact": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "recordId": "legal-design-specifications:ks-12-4516-municipal+ks-12-4516a-municipal-arrest",
+              "pinnedSha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "pinnedByteLength": 16830109,
+              "recomputedSha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "byteLengthOnDisk": 16830109,
+              "exact": true
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "recordId": "route-obligation-census:2-route(s)",
+              "pinnedSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "pinnedByteLength": 2629290,
+              "recomputedSha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+              "byteLengthOnDisk": 2635434,
+              "exact": false
+            }
+          ],
+          "officialSourcesBound": 0,
+          "summary": "2/3 committedRecords exact; route-obligation-candidate.json drifted f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81->eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B): 12-4516 entry identical, 12-4516a entry changed only in currentImplementationEvidence (+3 route-kind adjudication strings), not packet content; no official document bytes bound"
+        },
+        "artifactRecomputation": {
+          "pdfs": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+              "recordedSha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+              "recomputedSha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+              "recordedByteLength": 37721,
+              "byteLengthOnDisk": 37721,
+              "recordedPageCount": 13,
+              "pdfinfoPages": 13,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+              "recordedSha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+              "recomputedSha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+              "recordedByteLength": 37304,
+              "byteLengthOnDisk": 37304,
+              "recordedPageCount": 13,
+              "pdfinfoPages": 13,
+              "matched": true
+            }
+          ],
+          "wordGeometry": [
+            {
+              "file": "boundary.pdf",
+              "words": 3457,
+              "wordsOutsidePageBox": 0,
+              "sameBandOverlappingWordPairs": 0
+            },
+            {
+              "file": "canonical.pdf",
+              "words": 3449,
+              "wordsOutsidePageBox": 0,
+              "sameBandOverlappingWordPairs": 0
+            }
+          ]
+        },
+        "byteReadBack": [
+          {
+            "fixture": "canonical",
+            "writesRecorded": 14,
+            "foundInExtractedText": 14,
+            "notFound": [],
+            "valuesReportedByFinalizer": 14,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          },
+          {
+            "fixture": "boundary",
+            "writesRecorded": 14,
+            "foundInExtractedText": 14,
+            "notFound": [],
+            "valuesReportedByFinalizer": 14,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        ],
+        "stopConditions": {
+          "memoTracks": [
+            "KS.memo.json ks-12-4516-municipal",
+            "KS.memo.json ks-12-4516a-municipal-arrest"
+          ],
+          "memoStops": 12,
+          "carried": 12,
+          "handoffCarried": true,
+          "packetInstructionsCarried": "6/6",
+          "inversions": 0
+        },
+        "lapseResolved": "MASTER_QUEUE row: verificationLapsedBecause null, verifierSourceHold null. The census pin lapsed with C1 5e7fe802c (pre-classified CENSUS_ENTRY_CHANGED_REREAD). This reading answers it: one entry identical, the other changed only in implementation evidence that the packet does not rely on, census metadata identical; SOURCE_IDENTITY holds against the current digest recorded above. Nothing re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "lane": "VF08",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (MASTER_LIBRARY_SOURCE_DIR set, PYTHONDONTWRITEBYTECODE=1): PASS_COMPLETE, 20/48 written, all nine counters as printed by that run. Caveat measured here: the verifier counts unclassifiedBlanks only over declared fields. A scan of every dotted blank found 2 undeclared labelled blanks per fixture (the 'IN THE ... COURT' court-name line on petition page 1 and on proposed-order page 4), which that counter cannot see. They are scored under REQUIRED_BEFORE_FILING."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across the seven family records and the MASTER_QUEUE row. Both routeKeys (obligation:track-only:WA:wa_vac_post_probation_9_95_240; obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060) are declared identically by receipt, product-wiring, field map and MASTER_QUEUE, each resolves to one C1 census entry, and each component's footer prints the key of its own route. RCW 9.95.240 and RCW 10.97.060 are stated in their instruments' titles and bodies."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: 2/2 non-census committedRecords exact (legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 / 16781025 B; legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 / 16830109 B). Census pin f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes; CURRENT census eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes. Both bound entries were compared object-for-object pinned vs current: identical. Metadata excluding sourceFingerprint identical; worklist not pinned; no official form bound."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "8 components, matching the track registry packetSets: for 9.95.240 a primary filing, proposed order, records checklist and filing instructions; for 10.97.060 a primary filing, records checklist, expectation-setting page and accuracy-remedy guidance. All are in the field map, the rendered componentSet and both 17-page manifests, in declared order and grouped by route."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "canonical 20/20; boundary 20/20 written values read back from the artifact bytes by this lane (40/40); 0 not found. The VF11 contradiction at 88d688b8 (C1/C2 left blank beside a printed name and date of birth) does not reproduce: C1 prints the known name with a blank for other names, and C2 prints the date of birth."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "21 declared blanks (C1, C3-C13, both cause-number captions, C1 and C3-C8 on the WSP request) are each named in participant-instructions.md, and the cause-number misstatement VF11 failed is fixed. But the 'IN THE ............ COURT' court-name line on the petition (page 1) and on the proposed order (page 4) of both fixtures is a labelled dotted blank the participant must complete before filing. It is not in production-field-map.json (the petition and order maps declare case_number and order_case_number, but no caption-court field) and carries no disposition. It is absent from both 'items you must supply' tables. participant-instructions.md mentions it only under 'Things the platform deliberately left blank' as 'The court's own caption styling ... ask that clerk how it styles the court-name line if you are unsure', which classes a participant-completed item as platform-left and never says to write the sentencing court's name there. The verifier's unclassifiedBlanks=0 is computed over declared fields only. VF11 failed exactly this class on AZ at 79f886f2, and AZ and IL both now declare their caption-court line."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls; two routes, each with its own instrument set, page footer and statutory ground, and a 'Which pages in this packet are yours' table whose instrument names state the situation (an older conviction after probation, or a case that did not end in conviction). requiredOptionsMissing=0. Observation, not scored: that table's 'When it is yours' column carries the record's opening sentences rather than the conditions."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure; incompleteRows=0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "7 protected blanks (petition signature and date; the proposed order's decision line, signing line and date; the request signature and date), each empty in both fixtures; protectedWrites=0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, 0 unrecorded, 0 missing. Recomputed here: boundary.pdf 587838be98adfff4f4f0e4e91d56aab08897551380ee1411b9e528e1b3bad471 / 46776 B, 17 pages (record 17); canonical.pdf 78910c462040fbed6980384c0eb342b44eb8ec80d09eceb3ef97783ae119b050 / 46258 B, 17 pages (record 17); all match. product-wiring.json carries a central RASTER_PASS (run 33950997948) bound to the current canonical SHA-256."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures: pdfinfo 17 pages, equal to the record. The manifest runs 9.95.240 pages 1-9 (petition 1-3, order 4, checklist 5-6, instructions 7-9) then 10.97.060 pages 10-17 (request 10-12, checklist 13-14, expectation 15-16, remedy 17), contiguous and in declared order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured here with pdftotext -bbox: boundary.pdf: 4676 words, 0 outside the page box, 0 same-band overlapping pairs; canonical.pdf: 4672 words, 0 outside the page box, 0 same-band overlapping pairs. No literal markup. Boundary page 12 rendered here at 60 dpi: the signature and contact block that VF09 failed as split across a page break at ba5dc7e5 now sits whole on one page, with the long address wrapped inside the margins. Remaining page-break effects are typographic only (a heading at a page foot; C1 and C10 labels whose blanks begin on the next page), and no value is split. visualDefects=0."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "9.95.240: the census and the registry record 'Clerk of the sentencing court' and the packet states it (caption note, checklist, filing page, instructions table). 10.97.060: the census and the registry record the Washington State Patrol, an agency request with no court, and the packet states it on the request, the checklist and in the instructions."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "9.95.240: nothing held establishes the court filing fee (the registry and packet-set manifest record 'Not established at source ... directs the participant to ask the clerk' and the waiver as 'Not established'; the census requiredSourceIds are statute URLs). The packet states both non-statements and points to the clerk, named as Clerk of the sentencing court. 10.97.060: the registry records no fee for the request itself, the WSP record-product prices with a verify-live instruction, and the no-fee in-person review; the packet states all three. Met on both routes."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "9.95.240: the named rule is stated: 'Serve the prosecutor's office for the sentencing court and file proof of service', and notice to the prosecuting attorney. 10.97.060: the affirmative non-service statement with its mechanism is stated: 'none. The request is submitted to the WSP', with no notice or objection process."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against both registry tracks. 9.95.240: all 12 selfHelpStopConditions carried verbatim on the filing page. 10.97.060: all 7 stop conditions carried verbatim on the expectation-setting page, plus the 'What LegalEase cannot complete' boundary, and the refusal remedy is routed to counsel on page 17. The registry packetInstructions (vacation is not expungement; firearm rights; recidivist counting; the 9.95.240(1) proviso; the fingerprint-card record) are carried. No inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 20/48 written, all nine counters zero as printed (run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27); 2 undeclared labelled blanks per fixture found outside that count",
+        "sourceRecomputation": "2/2 non-census committedRecords exact; census pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes, CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes; both bound entries identical object-for-object; metadata (excluding sourceFingerprint) identical; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo pages equal recorded pages (17)",
+        "byteReadBack": "40/40 written values read back from the artifact bytes (canonical 20/20; boundary 20/20)",
+        "stopConditions": "12/12 (RCW 9.95.240) and 7/7 (RCW 10.97.060) registry stop conditions carried verbatim; no inversion",
+        "lapseResolved": "PARTLY. The census-pin lapse (f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes against C1 eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes) is content-neutral: both bound entries did not move and SOURCE_IDENTITY holds. The family's verification is NOT restored, because this reading at C1 fails REQUIRED_BEFORE_FILING. No pin was changed here."
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

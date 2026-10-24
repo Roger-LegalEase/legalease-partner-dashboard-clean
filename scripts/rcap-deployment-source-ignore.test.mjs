@@ -44,13 +44,13 @@ for (const entry of ['artifacts/', '!data/', 'data/**', '../data/', '/data/../',
   });
 }
 
-test('the original hosted pruning loses authority; corrected generic pruning preserves the exact eleven reads', () => {
+test('the original hosted pruning loses authority; corrected generic pruning preserves the exact 23 reads', () => {
   const source = fs.readFileSync(path.join(root, 'src/lib/rcap/fulfillment/paid-consumer-successor.ts'), 'utf8');
   const targets = [...new Set([...source.matchAll(/['"](data\/[^'"\n]+\.(?:json|pdf))['"]/g)].map(match => match[1]))];
-  assert.equal(targets.length, 11);
-  const original = policy.replace('/artifacts/', 'artifacts/');
+  assert.equal(targets.length, 23);
+  const original = policy.replace(/^\/artifacts\/?$/m, 'artifacts/');
   const oldIgnored = gitIgnored(original, targets);
-  assert.equal(oldIgnored.size, 3);
+  assert.equal(oldIgnored.size, 4);
   assert.ok([...oldIgnored].every(file => file.endsWith('.pdf')));
   const currentIgnored = gitIgnored(policy, targets);
   assert.equal(currentIgnored.size, 0);
@@ -63,7 +63,7 @@ test('the original hosted pruning loses authority; corrected generic pruning pre
       }
       const result = loadMsPaidConsumerSuccessor(pruned);
       if (label === 'original') assert.equal(result, null);
-      else assert.equal(result?.decisionId, 'MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3');
+      else assert.equal(result?.decisionId, 'MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20261019-V4');
     } finally { fs.rmSync(pruned, { recursive: true, force: true }); }
   }
 });

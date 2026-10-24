@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {pdfPageCount} from './de-guidance-binding.mjs';
+import {pushedEquivalent, contentCommit} from './verifier-base-stand-ins.mjs';
 
 export const WA_SUD_FAMILY = 'wa_vac_substance_use_disorder-set';
 export const WA_SUD_ROUTE = 'obligation:track-only:WA:wa_vac_substance_use_disorder';
@@ -12,6 +13,11 @@ export const WA_SUD_REVIEW = 'data/rcap-grade-a/packet-factory-24h/vfwasud1/rows
 export const WA_SUD_REVIEW_SHA256 = '2763787f73e340e1443e4fc8c2c6f420daf7d7d776a3bdbbcca4e327854de4c7';
 const DECISION_PATH = 'data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json';
 const DECISION_ID = 'WA-SUD-VACATUR-CUSTOM-96060-6';
+// A census regeneration that leaves the WA SUD route entry identical, reviewed separately; see censusIdentitySuccessor.
+export const WA_SUD_CENSUS_SUCCESSOR_CERTIFICATE = 'data/rcap-grade-a/packet-factory-24h/vfwasud3/wa-sud-census-identity-successor-certificate-20261019.json';
+const CENSUS_SUCCESSOR_CERTIFICATE_SHA256 = '8b78e4cd6878b6b8a77d669b303510e34238269fa235a408e98bb8381b9a183b';
+const CENSUS = 'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
+export const canonicalJson = (value) => JSON.stringify(value, (_k, v) => v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)) : v);
 export const WA_SUD_LAYOUT_CERTIFICATE = 'data/rcap-grade-a/packet-factory-24h/vfwasud2/wa-sud-layout-successor-certificate-20260913.json';
 const LAYOUT_CERTIFICATE_SHA256 = 'c5208f2fa1c8ea8b38937b481d141a6be690601f00b4c6eb0011dd3d0a6443bb';
 const CANDIDATE = '6632fd3b9471791d3748e895fdb00a54c7448c8d';
@@ -44,7 +50,7 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
   const json = p => JSON.parse(read(p));
   const atBase = (base, p, bytes) => {
     assert.match(base ?? '', /^[a-f0-9]{40}$/);
-    assert.equal(hash(git(['show', `${base}:${p}`])), hash(bytes), `Review/publication bytes changed: ${p}`);
+    assert.equal(hash(git(['show', `${contentCommit(base, p)}:${p}`])), hash(bytes), `Review/publication bytes changed: ${p}`);
   };
   assert.deepEqual(input.routes.map(r => r.routeKey), [WA_SUD_ROUTE], 'WA SUD route scope changed');
   assert.deepEqual(input.executionReclassification, HISTORICAL_MAPPING, 'WA SUD owner mapping instruction changed');
@@ -77,7 +83,7 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
   } else {
     // Mapping remains valid after a subsequent independent visual/final read,
     // including a negative read. Never replace that read's verdict with PASS.
-    git(['merge-base', '--is-ancestor', row.verifiedAtBase, selected.verifiedAtBase]);
+    git(['merge-base', '--is-ancestor', pushedEquivalent(row.verifiedAtBase), pushedEquivalent(selected.verifiedAtBase)]);
     const next = json(selected.evidencePath);
     assert.equal(next.laneKind, 'independent-verification');
     const matches = next.rows.filter(r => (r.familyId ?? r.itemId) === WA_SUD_FAMILY);
@@ -87,6 +93,52 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
     assert.equal(later.verdict, selected.verdict);
     assert.equal((later.lane ?? next.lane).toLowerCase(), selected.lane.toLowerCase());
   }
+  /*
+   * CENSUS IDENTITY SUCCESSOR. When the census has moved since the mapping's
+   * candidate, the move is admitted only through a reviewed certificate that
+   * binds the prior and current census bytes, shows the WA SUD route entry
+   * identical in both, and allows exactly one receipt change: the census pin's
+   * identity refresh. Every other candidate file must still be unchanged.
+   */
+  const receiptPath = `${WA_SUD_DIRECTORY}/source-receipt.json`;
+  const priorCensus = git(['show', `${CANDIDATE}:${CENSUS}`]);
+  let censusMove = null;
+  if (hash(read(CENSUS)) !== hash(priorCensus)) {
+    const certificateBytes = read(WA_SUD_CENSUS_SUCCESSOR_CERTIFICATE);
+    assert.equal(hash(certificateBytes), CENSUS_SUCCESSOR_CERTIFICATE_SHA256, 'Unrecognized census identity successor certificate');
+    const c = JSON.parse(certificateBytes);
+    assert.equal(c.familyId, WA_SUD_FAMILY); assert.equal(c.routeKey, WA_SUD_ROUTE);
+    assert.equal(c.census.path, CENSUS);
+    assert.equal(c.census.priorSha256, hash(priorCensus), 'Census successor names a different prior census');
+    const currentCensus = read(CENSUS);
+    assert.equal(c.census.currentSha256, hash(currentCensus), 'Census successor names a different current census');
+    const entry = (bytes) => JSON.parse(bytes).routes.filter((r) => r.routeKey === WA_SUD_ROUTE);
+    const before = entry(priorCensus), after = entry(currentCensus);
+    assert.equal(before.length, 1); assert.equal(after.length, 1);
+    assert.equal(hash(Buffer.from(canonicalJson(before[0]))), c.census.routeEntrySha256, 'WA SUD route entry differs from the certified one');
+    assert.equal(hash(Buffer.from(canonicalJson(after[0]))), c.census.routeEntrySha256, 'WA SUD route entry changed with the census');
+    for (const v of c.reliesOnVerdicts) {
+      assert.equal(hash(read(v.evidencePath)), v.evidenceSha256, `Relied-on census verdict evidence changed: ${v.evidencePath}`);
+      const rows = JSON.parse(read(v.evidencePath)).rows.filter((r) => (r.familyId ?? r.itemId) === WA_SUD_FAMILY);
+      assert.equal(rows.length, 1); assert.equal(rows[0].verdict, v.verdict); assert.equal(rows[0].verifiedAtBase, v.verifiedAtBase);
+    }
+    assert.equal(c.receipt.path, receiptPath);
+    censusMove = { priorSha256: c.census.priorSha256, currentSha256: c.census.currentSha256, priorCensus, currentCensus, receipt: c.receipt };
+  }
+  // The receipt may differ from its binding only by the census pin's identity refresh this certificate covers.
+  const receiptMoveAllowed = (boundSha256, bytes, priorBytes) => {
+    if (!censusMove || censusMove.receipt.priorSha256 !== boundSha256 || censusMove.receipt.currentSha256 !== hash(bytes)) return false;
+    assert.equal(hash(priorBytes), boundSha256);
+    const before = JSON.parse(priorBytes), after = JSON.parse(bytes);
+    const at = after.committedRecords.findIndex((r) => r.pathInRepository === CENSUS);
+    assert(at >= 0 && before.committedRecords[at]?.pathInRepository === CENSUS, 'Census pin moved within the receipt');
+    const pin = after.committedRecords[at];
+    assert.equal(pin.sha256, censusMove.currentSha256); assert.equal(pin.byteLength, censusMove.currentCensus.length);
+    assert.equal(pin.identityRefresh?.was?.sha256, censusMove.priorSha256, 'Census pin refresh does not name the prior census');
+    const strip = (doc) => { const d = structuredClone(doc); const r = d.committedRecords[at]; delete r.sha256; delete r.byteLength; delete r.identityRefresh; return canonicalJson(d); };
+    assert.equal(strip(after), strip(before), 'Receipt changed beyond the census pin identity refresh');
+    return true;
+  };
   // Keep the original approval immutable. A separately reviewed layout successor
   // can bind changed bytes; it grants neither a visual PASS nor final acceptance.
   let bindingRow = row, candidate = CANDIDATE, expectedPages = 10;
@@ -117,9 +169,9 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
     }
     candidate = certificate.candidateCommit;
     assert.equal(bindingRow.candidateCodeCommit, candidate);
-    git(['merge-base', '--is-ancestor', row.verifiedAtBase, candidate]);
-    git(['merge-base', '--is-ancestor', candidate, bindingRow.verifiedAtBase]);
-    git(['merge-base', '--is-ancestor', bindingRow.verifiedAtBase, selected.verifiedAtBase]);
+    git(['merge-base', '--is-ancestor', pushedEquivalent(row.verifiedAtBase), candidate]);
+    git(['merge-base', '--is-ancestor', candidate, pushedEquivalent(bindingRow.verifiedAtBase)]);
+    git(['merge-base', '--is-ancestor', pushedEquivalent(bindingRow.verifiedAtBase), pushedEquivalent(selected.verifiedAtBase)]);
     assert.deepEqual(certificate.currentCandidateBindings, bindingRow.currentCandidateBindings);
     assert.deepEqual(certificate.currentArtifacts, bindingRow.currentArtifacts);
     const allowed = new Set([
@@ -146,6 +198,15 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
   assert.deepEqual(bindings.map(b => b.path).sort(), originalBindings.map(b => b.path).sort());
   for (const b of bindings) {
     const bytes = read(b.path);
+    if (b.path === receiptPath && hash(bytes) !== b.sha256) {
+      const bound = git(['show', `${candidate}:${b.path}`]);
+      assert(receiptMoveAllowed(b.sha256, bytes, bound), `Custom candidate changed: ${b.path}`);
+      // The reviews read the receipt before its refresh: the bound bytes stand at every base.
+      atBase(candidate, b.path, bound);
+      atBase(bindingRow.verifiedAtBase, b.path, bound);
+      atBase(selected.verifiedAtBase, b.path, bound);
+      continue;
+    }
     assert.equal(hash(bytes), b.sha256, `Custom candidate changed: ${b.path}`);
     assert.equal(bytes.length, b.bytes);
     atBase(candidate, b.path, bytes);
@@ -161,6 +222,15 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
   assert.equal(receipt.committedRecords.length, 5);
   for (const source of receipt.committedRecords) {
     const bytes = read(source.pathInRepository);
+    if (source.pathInRepository === CENSUS && censusMove) {
+      // The certified move: the receipt pins either census, the bytes on disk are the current one.
+      assert.equal(hash(bytes), censusMove.currentSha256, `Custom authority changed: ${CENSUS}`);
+      assert([censusMove.priorSha256, censusMove.currentSha256].includes(source.sha256), `Custom authority changed: ${CENSUS}`);
+      atBase(row.verifiedAtBase, CENSUS, censusMove.priorCensus);
+      const atSelected = git(['show', `${contentCommit(selected.verifiedAtBase, CENSUS)}:${CENSUS}`]);
+      assert([censusMove.priorSha256, censusMove.currentSha256].includes(hash(atSelected)), `Review/publication bytes changed: ${CENSUS}`);
+      continue;
+    }
     assert.equal(hash(bytes), source.sha256, `Custom authority changed: ${source.pathInRepository}`);
     assert.equal(bytes.length, source.byteLength);
     atBase(row.verifiedAtBase, source.pathInRepository, bytes);

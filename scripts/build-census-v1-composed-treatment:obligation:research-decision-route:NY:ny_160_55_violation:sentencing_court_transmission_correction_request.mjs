@@ -296,7 +296,7 @@ const SPEC = {
       "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
       "statute": "N.Y. Crim. Proc. Law § 160.55",
       "instrument": "a written request to the sentencing court, with process guidance — not a petition",
-      "statedOn": "both composed pages, in their titles, bodies and footers"
+      "statedOn": "both composed pages, in their titles and bodies; no page prints a route footer"
     }
   ],
   "obligationTable": [

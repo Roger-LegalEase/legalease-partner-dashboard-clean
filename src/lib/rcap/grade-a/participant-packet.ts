@@ -3,6 +3,7 @@ import type { PacketSpecification } from "@/lib/rcap/grade-a/packet-specificatio
 import {
   composeIlProstitutionJVacateParticipantPacket
 } from "@/lib/rcap/grade-a/families/il-prostitution-j-vacate-set";
+import { composeNdFirstOffenseParticipantPacket } from "@/lib/rcap/grade-a/families/nd-first-offense-possession-set";
 
 /**
  * One entry point for composing a participant's own copy of a packet.
@@ -31,8 +32,10 @@ const PARTICIPANT_FAMILY_COMPOSERS: ReadonlyMap<string, ParticipantPacketCompose
 ]);
 
 /** True when this family composes its participant copy through its own composer. */
-export function hasParticipantFamilyComposer(packetFamily: string): boolean {
-  return PARTICIPANT_FAMILY_COMPOSERS.has(packetFamily);
+export function hasParticipantFamilyComposer(packetFamily: string, routeKey?: string): boolean {
+  return PARTICIPANT_FAMILY_COMPOSERS.has(packetFamily)
+    || packetFamily === "rcap-nd-custom-pleading"
+      && (routeKey === undefined || routeKey === "ND:first-offense-possession-sealing");
 }
 
 /**
@@ -43,6 +46,12 @@ export function composeParticipantDeliveryPacket(
   specification: PacketSpecification,
   matter: GradeAMatter
 ): GradeAPacket {
+  // This multi-route family is connected only for its exact retained
+  // first-offense component set. Every sibling keeps its existing composer.
+  if (specification.packetFamily === "rcap-nd-custom-pleading"
+    && specification.routeKey === "ND:first-offense-possession-sealing") {
+    return composeNdFirstOffenseParticipantPacket(specification, matter);
+  }
   const familyComposer = PARTICIPANT_FAMILY_COMPOSERS.get(specification.packetFamily);
   return familyComposer
     ? familyComposer(specification, matter)

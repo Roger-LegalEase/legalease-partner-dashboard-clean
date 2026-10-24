@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF07",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimLedger": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/review-evidence/lead-batch29/a9-claims/claim-ledger.json",
+  "claimAssertions": {
+    "ms-nonconv-set": "CLAIM_OK VF07 ms-nonconv-set (independent-verification, grant set 1c6319b6441f6094)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "ms-nonconv-set",
+      "lane": "VF07",
+      "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T14:16:13Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node review-evidence/ci-factory/vf-reverify-f3ff92ac2/measure-family.mjs (verify-packet-completeness.mjs --family ms-nonconv-set) in /tmp/legalease-reviewer-20261020 detached at 0116da97daa896e517323f18c01a1a33de0ceaee: PASS_COMPLETE 12/99 written"
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+          "sha256Prefix": "01c4a9586cf2",
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "sha256Prefix": "fee93664c979",
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+          "sha256Prefix": "23426df251aa",
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "3725e7fed27b39f793c276c7970af50b4168930fd9df2928ac405f4401a04cf9",
+          "byteLength": 38363,
+          "pageCount": 13,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "f269cf1560dca98fd31be75cff9a95f3160360da20bca62e953e847bd95d076e",
+          "byteLength": 38705,
+          "pageCount": 13,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId ms-nonconv-set agrees across source-receipt, production-field-map and MASTER_QUEUE, all on obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal; the census carries the same routeKey (routes[458]) with packetFamilyId ms-nonconv-set. product-wiring uses its product route id MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal for the same route."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at the base: 3/3 receipt compositionSources equal their pins (memo 01c4a958, manifests fee93664, specification 23426df2). rendered-artifacts.json and product-wiring bind the current fixture bytes 3725e7fe/f269cf15."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "declared = rendered = cover_and_contents, primary_filing, proposed_order, certificate_of_service, attachment, instructions (requiredComponentsMissing 0). Both section-level residuals of the a6ace3c7d read are closed on both fixtures: (1) the VERIFICATION caption (p6) now prints \"Plaintiff name exactly as shown on the docket\", like the petition, order and certificate (4 captions, 0 fixed STATE OF MISSISSIPPI); (2) the proposed order renders \"The record subject to this Order is identified as follows:\" with the identity list (p7), and \"IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material\" to MCIC, the arresting agency and additional custodians, incorporating the confidential addendum (p8), matching the petition's prayer."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 12 recorded writes per fixture read back from pdftotext of the fixture bytes (12/12 both); the boundary differs from the canonical only in participant data (name, DOB, address, telephone, email)."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map requiredBeforeFilingCount 62, each a labelled dotted blank filled from the record; participant-instructions.md lists them by component, and the exhibit checklist (p11) names Exhibit A/B and the conditional indictment copy."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade []; the four statutory disposition categories of 99-19-71(4) are participant marks with none pre-marked (p4 \"Mark EXACTLY ONE ... nothing is marked for you\"), and \"passed/retired to the file\" is a stop."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating structure is declared (repeatingRows 0); the order lists the arresting agency, sheriff and other custodians as separate blanks."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Petitioner signatures and dates, the notarial certificate (venue, jurat, notary signature, commission, seal), the judicial officer, the prosecutor approval-as-to-form and the clerk certification are blank with explicit never-pre-signed notes; protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Recomputed here: canonical 3725e7fe.../38363 B and boundary f269cf15.../38705 B, 13 pages each by pdfinfo, equal to rendered-artifacts.json and to A9 run 39430402490 (RASTER_PASS, rendered at ce21144762a49aae1e3c9c126c1ca4f4c34ab755, both pins bound, every PNG sha256 recomputed from the downloaded bytes)."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Each fixture: cover and contents 1-2, petition 3-5, verification 6, proposed order 7-8, confidential MCIC addendum 9, certificate of service 10, exhibit checklist 11, filing instructions 12-13, matching the contents list on p1."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: 0 words outside the page box and 0 same-band overlapping pairs on either fixture; every one of the 26 A9 pages of run 39430402490 viewed: legible, inside margins, no overlap, long boundary values wrap."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Census destination: clerk of the court in which the case was pending. Filing instructions STEP ONE/SIX and every caption direct the petition, order and certificate to \"the court in which the case was pending\" (justice, county, circuit or municipal, with county or city)."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "DET-FEE-AND-WAIVER-001 prong 3 and owner Q4 (DO NOT PUBLISH AN UNCONFIRMED FEE): STEP SIX (p12) \"No fee amount is published in this packet: whether Sec. 99-19-72's fee reaches a subsection (4) petition at all is a recorded open question ... ask the court's records office for the amount, and for any pauper's-affidavit route\"; p13 names \"The records office of the court that heard the case\" as the authority; participant-instructions.md line 126 says the same. No figure anywhere."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Named rule and mechanism: STEP SEVEN delivers the petition and proposed order to the prosecuting authority contemporaneously with filing (city prosecutor for a municipal case), the certificate of service (p10) records recipient, address, mail or hand delivery and date when the copy actually goes out, and excludes the confidential addendum from the service copy; the 99-19-71(2)(b) ten-day notice is expressly not imported."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "p13 \"WHEN TO STOP AND GET HELP\": ambiguous disposition, court moved, nonadjudication/pretrial intervention/drug court, related pending charge, codefendant open case, DA declines approval as to form, non-citizen."
+        }
+      },
+      "observations": [
+        {
+          "what": "Census status drift (not bound)",
+          "detail": "The census entry for this route differs from a3ca119bd only in legalDecisionRecordIds (adds the MS-NONCONV paid-consumer successor and sponsored-preview decisions), existingArtifactIds, missingImplementationWork and currentImplementationEvidence; this receipt does not bind the census."
+        },
+        {
+          "what": "Synthetic-review note on the addendum",
+          "detail": "p9 says \"This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery.\" Recorded, not scored."
+        },
+        {
+          "what": "Historical raster receipt in product-wiring",
+          "detail": "product-wiring acceptanceReceipt still cites run 34058277654 bound to 732e7f47/87e4bf90; the current bytes are bound by A9 run 39430402490 once the lead admits it."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv17-ms-nonconv-prestage/read-0116da97d/",
+        "measure": "facts.json, measure.log",
+        "text": "text/canonical.txt, text/boundary.txt",
+        "renders": "renders/ (60 dpi)",
+        "raster": "review-evidence/reviewer/rv01-ms-raster-39430402490/RV01-RV16-REVIEW-39430402490.json",
+        "priorRead": "data/rcap-grade-a/packet-factory-24h/vf16/rows-vf16-20261020-reverify-a6ace3c7d.json (FAIL COMPONENT_SET, both residuals now closed)"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

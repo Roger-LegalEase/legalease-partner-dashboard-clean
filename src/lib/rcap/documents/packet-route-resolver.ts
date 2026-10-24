@@ -159,7 +159,7 @@ export type PacketRouteResolution = {
     obligationRouteKey?: string;
     legalApprovalEstablished?: boolean;
     legalApprovalRecordId?: string;
-    postApprovalChangeAuditEstablished?: false;
+    postApprovalChangeAuditEstablished?: boolean;
     nextGate?: string;
   };
 };
@@ -796,7 +796,9 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
       sellable: false,
       creditConsumable: false,
       reason: exactProductization
-        ? exactProductization.legalApproval
+        ? exactProductization.postApprovalChangeAudit
+          ? `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. The exact DC current-composer source audit ${exactProductization.postApprovalChangeAudit.path} is bound; separate fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
+          : exactProductization.legalApproval
           ? `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Owner legal approval ${exactProductization.legalApproval.legalDecisionRecordId} is preserved, but a post-approval substantive-change audit is not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
           : `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Current owner legal approval and a post-approval change audit are not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
         : `${jurisdiction} ${pathwayId} builds through the shared packet factory from packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here.`,
@@ -816,7 +818,7 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
               ...(exactProductization.legalApproval
                 ? { legalApprovalRecordId: exactProductization.legalApproval.legalDecisionRecordId }
                 : {}),
-              postApprovalChangeAuditEstablished: false as const,
+              postApprovalChangeAuditEstablished: exactProductization.postApprovalChangeAudit !== null,
               obligationRouteKey: exactProductization.obligationRouteKey,
               nextGate: exactProductization.nextGate
             }

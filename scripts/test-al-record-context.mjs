@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {register} from 'node:module';
+import {pathToFileURL} from 'node:url';
+const root=process.cwd(),read=p=>JSON.parse(fs.readFileSync(root+'/'+p));
+register(pathToFileURL(root+'/scripts/lib/ts-esm-loader.mjs'));
+const H=await import('../src/lib/expungement-ai/al-record-context.ts');
+const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
+const {packetSpecificationFor}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
+const profile=getProfileByJurisdiction('AL');
+const families=['al-misd-conviction-set','al-pardoned-felony-set','al-trafficking-set','al-misd-nonconviction-90-set','al-felony-nonconviction-90-set','al-misd-dwop-set','al-felony-dwop-set','al-diversion-set'];
+const base='data/rcap-all50/overlays/census-v1/al/';
+const maps=families.map(f=>read(base+fs.readdirSync(base).find(n=>n.startsWith(f+'--'))+'/production-field-map.json'));
+const source={memo:read('data/record-clearing/legal-design-intake/AL.memo.json'),maps,decision:read('data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json')};
+const options=['Arrest or charge','Court case','Conviction','Juvenile matter','I am not sure'];
+const question={id:'record_type',stage:'packet_information',type:'single_choice',required:true,prompt:'What type of record is this?',options,translations:{es:{prompt:'¿Qué tipo de registro es este?'}}};
+let checks=0;const check=(name,fn)=>{try{fn();checks++;}catch(e){e.message=name+': '+e.message;throw e;}};
+for(const route of H.AL_RECORD_CONTEXT_ROUTES){
+ const spec=packetSpecificationFor('AL:'+route);
+ check('exact four-route source guard '+route,()=>{assert.equal(spec,undefined);assert(H.alRecordIsContext(profile,route,spec,source));});
+ for(const key of ['memo','decision','maps'])for(const value of [null,{},[]])check('source drift '+key,()=>assert(!H.alRecordIsContext(profile,route,spec,{...source,[key]:value})));
+ for(let i=0;i<maps.length;i++)check('individual canonical map drift '+i,()=>{const changed=structuredClone(maps);changed[i].unreviewedChange=true;assert(!H.alRecordIsContext(profile,route,spec,{maps:changed}));});
+ for(let i=0;i<maps.length;i++)check('missing canonical map slot refused '+i,()=>{const sparse=structuredClone(maps);delete sparse[i];assert.equal(sparse.length,maps.length);assert(!H.alRecordIsContext(profile,route,spec,{maps:sparse}));});
+ for(const mutate of [p=>p.jurisdiction.code='AK',p=>p.profileVersion='changed',p=>p.source.sourceCorpusSha256='changed',p=>p.pathways.find(x=>x.id===route).triggerFields.push('record_type')])check('profile drift',()=>{const p=structuredClone(profile);mutate(p);assert(!H.alRecordIsContext(p,route,spec));});
+ check('new registered specification refuses inherited exception',()=>assert(!H.alRecordIsContext(profile,route,{routeKey:'AL:'+route})));
+ check('optional EN ES descriptor preserves canonical options and input',()=>{const before=structuredClone(question),q=H.alRecordContextQuestion(question,profile,route,spec);assert.notEqual(q,question);assert.deepEqual(question,before);assert.equal(q.required,false);assert.deepEqual(q.options,options);assert.equal(q.type,'single_choice');assert.equal(q.stage,'packet_information');assert(q.prompt.includes('optional history'));assert(q.translations.es.prompt.includes('historial opcional'));assert(q.helperText.includes('does not establish'));assert(q.translations.es.helperText.includes('No establece'));});
+ for(const mutate of [q=>q.id='case_outcome',q=>q.stage='screening',q=>q.type='multi_choice',q=>q.prompt='New meaning',q=>q.options.reverse()])check('descriptor drift stays identical',()=>{const q=structuredClone(question);mutate(q);assert.strictEqual(H.alRecordContextQuestion(q,profile,route,spec),q);});
+}
+for(const route of [null,'',...profile.pathways.map(p=>p.id).filter(id=>!H.AL_RECORD_CONTEXT_ROUTES.includes(id))])check('sibling and absent route unchanged',()=>{assert(!H.alRecordIsContext(profile,route,undefined));assert.strictEqual(H.alRecordContextQuestion(question,profile,route,undefined),question);});
+for(const map of maps)check('retained canonical map has no taxonomy destination',()=>assert(!JSON.stringify(map).includes('record_type')));
+check('trafficking actual official vehicle, not directory-name inference',()=>{const approval=read(base+'al-trafficking-set--custom-pleading/approval-request.json');assert.equal(approval.implementationStrategy,'official_pdf_fill');assert(approval.components.some(c=>c.documentId==='CR-65'));assert.equal(approval.strategyRecordDisagreement.masterQueueAndWorklistSay,'custom_pleading');});
+check('specific participant attestations retained, never menu alias',()=>{const d=source.decision.decisions.find(x=>x.id==='AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS'||x.decisionId==='AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS');assert(d);assert(JSON.stringify(d).includes('attestation'));});
+console.log(JSON.stringify({status:'PASS_STAGED_HELPER_ONLY',checks,noConsumerClosure:true,noDatabase:true,noRender:true,qualifiedSpanishReview:'pending',historicalVF59TerminalAcceptanceClaimed:false}));

@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF05",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+  "verifier": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "rcap-wv-custom-pleading": "ALREADY_RELEASED: rcap-wv-custom-pleading at 2026-09-06T19:32:29.423Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "rcap-wv-custom-pleading",
+      "lane": "VF05",
+      "worker": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+      "verifiedAt": "2026-10-20T22:42:55Z",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-wv-custom-pleading', run by measure-family.mjs in the detached worktree /tmp/legalease-reviewer2-20261020 at base 92ff5d4366f64de3c1efaed70a1100e37acd9773: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 18/56 written; every counter printed 0 (wv-facts.json verifierRun)."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-specifications.json",
+          "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+          "byteLength": 16830109,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "51c4941b11cd25af2810119b919fdb45320718440afc7567fa427cba2d4e28a5",
+          "byteLength": 35845,
+          "pageCount": 12,
+          "recordExact": true,
+          "rasterReceipt": "Committed product-wiring binding.acceptanceReceipt: RASTER_PASS, run 34051987934, job 101537539640, artifactId null, boundToCanonicalSha256 51c4941b... (equal to the recomputed canonical), coversTheWholeFamily true. The receipt names no boundary digest and records no artifact id; this reviewer did not download or re-check that artifact. The visual read here is a local pdftoppm -r 150 render of these exact bytes (VIEW-NOTES.json)."
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "4e79ef98ff350e36a285cc1cf1db3f16fa40c7e3a373cca85f00af36c460964f",
+          "byteLength": 36823,
+          "pageCount": 13,
+          "recordExact": true,
+          "rasterReceipt": "Committed product-wiring binding.acceptanceReceipt: RASTER_PASS, run 34051987934, job 101537539640, artifactId null, boundToCanonicalSha256 51c4941b... (equal to the recomputed canonical), coversTheWholeFamily true. The receipt names no boundary digest and records no artifact id; this reviewer did not download or re-check that artifact. The visual read here is a local pdftoppm -r 150 render of these exact bytes (VIEW-NOTES.json)."
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "One routeKey, obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief, declared identically by product-wiring, source-receipt, production-field-map and the MASTER_QUEUE row; familyId agrees (wv-facts.json routeIdentity). field map componentRoutes maps all 5 components to it, and the key the PDFs print on their route lines (canonical pp[4, 6, 8, 9, 12], boundary pp[4, 6, 9, 10, 13]) is the same key."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 92ff5d4366f64de3c1efaed70a1100e37acd9773: data/record-clearing/legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 / 16781025 B; data/record-clearing/legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 / 16830109 B; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B each equal the source-receipt pins (the census pin was refreshed to the current eeabd8b9 digest in b6d6bb96d, so no pin has lapsed and no drift comparison is needed). Anchor statements verified: 26, 3, 1. No official form or corpus bytes are bound (officialSources []); queueSourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "declared = rendered = 5 components (primary-filing-1, supporting-affidavit-2, certificate-of-service-3, records-checklist-4, filing-instructions-5), in the field map, the rendered set and both fixtures; requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Every value reports/actual-writes.json records was read back from pdftotext of its fixture: canonical 18/18, boundary 18/18, 0 not found, 0 non-whitespace glyphs outside the measured write boxes, no refused field inked (wv-facts.json readBack). Name and date of birth print in the petition (B and C1/C2, p2) and the affidavit (B, p5); name in each caption; printed name, mailing address, telephone and email in the petition, affidavit and certificate contact blocks. In the boundary fixture the long address wraps its ZIP to its own line and the extension and long email fit (VIEW-NOTES.json)."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map requiredBeforeFilingCount 30 = 30 entries: the case number and judicial division in each of the three captions, petition items C3-C14, the jurat county, affidavit items A1-A5 and the six certificate recipient lines. All 30 disclosureLabel strings are in participant-instructions.md, and each item prints its label with an empty dotted blank on its page of both fixtures (check-text.json). requiredFactsNotCollected 0, unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "detail": "production-field-map.json routeSelectionsMade[0].statedOn says the route selection is stated on \"the composed pages for this route, in their titles, bodies and footers\". No page of either fixture prints a footer: on all 25 pages 0 words start in the bottom 72 pt band (measure-route-statements.json). The route statement is a body line, \"Route:\" plus the wrapped internal key, printed once at the close of each component's text (canonical pp[4, 6, 8, 9, 12], boundary pp[4, 6, 9, 10, 13]) at y 253.0-685.5 pt of 792, and no continuation page carries one. On the affidavit it is not even the last thing on the page: canonical p6 prints 8 text lines below it (SIGNATURE OF AFFIANT, DATE, the oath note and the jurat); in the boundary fixture the route line closes p6 and the signature/date and jurat stand alone on p7, which carries no route statement. The routeSelectionNote makes a second claim the bytes do not carry: \"One route, one instrument set: every composed page states this route's statutory ground in its own title and body, and no election control exists on any composed page.\" Canonical pp[2, 3, 4, 6, 8, 11, 12] and boundary pp[2, 3, 4, 6, 7, 9, 12, 13] are continuation pages with no title at all, and the certificate of service (canonical pp7-8, boundary pp8-9) cites no statute on either page (0 occurrences of 60A-4-407; it cites only the Sec. 61-11-26(e) service practice) and names the ground only by subject in its title. Under the lead's 2026-10-20T21:32:51Z ruling and its 22:31:31Z WV ruling as amended at 22:39:54Z, a record that promises a page statement the bytes do not carry is scored here. selectionControls 0 and requiredOptionsMissing 0: no election is left unmade; the failure is the record's claims only."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure (the C, A and recipient items are standalone label-and-blank pairs); repeatingRows 0 and incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Empty in both fixtures (check-text.json): DATE/SIGNATURE OF PETITIONER on the petition and the certificate, SIGNATURE OF AFFIANT and DATE, the jurat day/month/year and the officer line, and the hearing date the court sets. The certificate says not to sign or date it until both deliveries happen; no court caption content is written for the court. refusedFieldsWithInk empty and protectedWrites 0 measured here; in the visual read no ink sits on any of these blanks."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Two PDFs on disk, both recorded, none unrecorded or missing. Recomputed: canonical.pdf 51c4941b11cd25af2810119b919fdb45320718440afc7567fa427cba2d4e28a5 / 35845 B, boundary.pdf 4e79ef98ff350e36a285cc1cf1db3f16fa40c7e3a373cca85f00af36c460964f / 36823 B, equal to reports/rendered-artifacts.json; pdfinfo 12 and 13 pages = recorded. Raster: Committed product-wiring binding.acceptanceReceipt: RASTER_PASS, run 34051987934, job 101537539640, artifactId null, boundToCanonicalSha256 51c4941b... (equal to the recomputed canonical), coversTheWholeFamily true. The receipt names no boundary digest and records no artifact id; this reviewer did not download or re-check that artifact. The visual read here is a local pdftoppm -r 150 render of these exact bytes (VIEW-NOTES.json). A deterministic rebuild with the current builder does not reproduce these bytes: the lead's no-edit --no-raster rebuild at 92ff5d436 writes canonical ac35af7e... and boundary f35492b0..., because the current renderer no longer prints the internal 'Route: <routeKey>' trailer (5 'Route:' lines per committed fixture, 0 in the rebuilt ones; review-evidence/lead-wv-statedon/pdf-before.txt, pdf-baseline-rebuild.txt, *.committed.txt, *.rebuilt.txt; measured by the lead, not rebuilt here). This row reads the committed bytes."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures follow the pageManifest: petition, supporting affidavit, certificate of service, records checklist, filing instructions, each contiguous and in the declared order (canonical first pages [1, 5, 7, 9, 10], boundary [1, 5, 8, 10, 11]); each component's first-page title names it (PETITION / SUPPORTING AFFIDAVIT / CERTIFICATE OF SERVICE / RECORDS CHECKLIST / FILING INSTRUCTIONS)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: canonical 3705 words, boundary 3719 words, 0 outside the page box, 0 same-band overlapping pairs (wv-facts.json geometry). Visual read of all 25 pages (method a, VIEW-NOTES.json): legible, inside the margins, no overlap or clipping."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The filing instructions (canonical p10, boundary p11) say WHERE IT GOES: \"Clerk of the court that entered the conditional discharge order\", file with the clerk of the court that deferred proceedings and placed the participant on probation once six months have run from the expiration of probation, with the venue rule from Sec. 60A-4-407(b); every caption names the same clerk. 4 of the field map's 6 FILING_DESTINATION sentences print verbatim on the PDF and all 6 in participant-instructions.md; the two not verbatim on the PDF are its framing sentence (the page prints the destination as its own line) and \"Filing as recorded: File the application, affidavit and certificate of service with the clerk ...\", which says the same thing."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "All 4 field-map FEE_AND_WAIVER sentences print verbatim on the filing instructions page of both fixtures and in the instructions: Sec. 60A-4-407 charges no fee; subsection (c) court costs remain; whether a circuit clerk charges a civil filing fee is not established; no fee waiver stated."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "All 4 field-map SERVICE sentences print verbatim on the filing instructions page (WHO MUST BE SERVED) of both fixtures and in the instructions: serve the county prosecuting attorney and the supervising probation office; no statutory notice window. The certificate of service carries a separate recipient block for each office."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "All 9 field-map \"Stop and get help if\" conditions print in WHEN TO STOP AND GET HELP INSTEAD OF FILING (canonical p12, boundary p13) and in the instructions (check-text.json stops 9/9/9)."
+        }
+      },
+      "observations": [
+        {
+          "what": "Internal record and builder vocabulary on filed and participant pages",
+          "detail": "Petition A (p1, filed): 'Read at source on 2026-08-06, subsection (b) supplies the relief this track generates'. Affidavit A (p5, sworn and filed) and the certificate of service: 'The committed track registry for this route records ...'. Filing instructions (canonical p11): 'What LegalEase can prepare: ...' and 'Before drafting anything for these tracks, confirm the Judiciary form index. If drafting proves necessary, the section 61-11-26(d) petition contents list is the right model ...', which is drafting guidance, not participant guidance. Stop list: 'LegalEase must not generate any assertion ...' and 'The initial packet still generates.' Copy, not scored (lead ruling on the A9 notes; DE and NV precedent)."
+        },
+        {
+          "what": "Date of birth printed automatically",
+          "detail": "The platform-held date of birth prints on the filed petition (p2, B and C2) and the sworn affidavit (p5, B) in both fixtures. This is the A28 data-protection question the lead sent to Roger on 2026-10-20T22:29:19Z (for KS 4908). Not scored until it is answered; recorded so the answer reaches this family too."
+        },
+        {
+          "what": "Boundary affidavit signature page stands alone",
+          "detail": "In the boundary fixture the affidavit text ends on p6 and p7 carries only SIGNATURE OF AFFIANT/DATE, the oath note and the jurat, with no caption, title or sworn text. Canonical keeps them on p6 with the text. Layout, not scored. The repair range rebuilds both PDFs, so the fresh read and A9 after its push should look at this page again."
+        },
+        {
+          "what": "Route key printed on filed pages",
+          "detail": "The internal key obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief prints after \"Route:\" on the petition, affidavit, certificate, checklist and filing instructions, and the filing instructions list internal component ids under THE PAGES IN THIS SET (PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class, recorded, not scored). The instructions print it in their _Route(s):_ line. The current renderer no longer prints these trailers (lead-wv-statedon/ no-edit rebuild)."
+        },
+        {
+          "what": "requiredBeforeFiling page metadata",
+          "detail": "Every one of the 30 requiredBeforeFiling entries says page 1, but C8-C14 print on the petition's pp2-3, A2-A5 on the affidavit's second page and the second recipient's method line on the certificate's second page. Record metadata, not scored."
+        },
+        {
+          "what": "Spelling and case",
+          "detail": "'offence' and 'offense' are mixed; '60A-4-407(B)' is upper-case in the petition and affidavit headings and the petition D heading, '(b)' in the bodies. Layout: petition C8 question at the foot of p2 with its blank on p3. Not scored."
+        }
+      ],
+      "evidence": {
+        "reviewEvidenceDir": "review-evidence/reviewer2/wv-vf05-92ff5d436/",
+        "measurement": "review-evidence/reviewer2/wv-vf05-92ff5d436/wv-facts.json (measure-family.mjs at 92ff5d436)",
+        "files": {
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/measure-route-statements.py": "0a7f70e46210212f6d729f267b30ad8d91475bcc737bf7a639b1c47b6f60d1fb",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/measure-route-statements.json": "b9692a17956ff7fa5a244f68b6a55e75fbc802a2026517e01aa976982a51f67c",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/check-text.py": "81aa4c019251151bfb4732887d06392fc2acfe6a7d3a01edfcbe7ebd37562566",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/check-text.json": "0a0f637768dd8109dfccd4611da55f5ff18aa564c331d0d7ef62aacc78ca5ea2",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/canonical.txt": "fe406e60fc92bc73b461a1c6f84e83134c1711b36e0adb3414fb12ec964999f8",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/boundary.txt": "a164782897c53c85afe7ec143a9e4413d054490d17d1c91395b25f9f838f9b43",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/pdf-sha256.txt": "ba4405f95b637ac48c63b7975c6c84f98870383567f6b95f59face3f43a5e860",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/production-field-map-92ff5d436.json": "5efd16624a9295a1ca02211c68d178aa769843ca72e46dae231bc8ee0083afc8",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/participant-instructions-92ff5d436.md": "f1050a0a5081c93d049cb2309e48d8e4731a37bea5b394571f0b653baec2ccd0",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/product-wiring-92ff5d436.json": "eae1ddd2bb86dabc473c8609362900f5772fe006122721a409ad17d4cc612d63",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/rendered-artifacts-92ff5d436.json": "62d6c55ed0ddd861d44f1939055838ff3039dcc051492fb3e01bb62269cefc83",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/family-tree.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/VIEW-NOTES.json": "c2a12fdc44016d0ec975b49abf7a254cb76ace1311d522cd236a0fa9e6a7d30d",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/make-sheets.py": "c04895f06fc7f93ec3ba43b8adbb10911bdf6d73df1dd5fe8e00298f19f70101",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/claim-assert.txt": "7b41f90f2ff15139b97250283849c8d712bbdccba8168dbef21c9e3d4bb90d81",
+          "review-evidence/reviewer2/wv-vf05-92ff5d436/wv-facts.json": "1cf0ba5ab007e94b3b48424be20750f0a7fa9722ed57cff937b70d56ee31ec62"
+        },
+        "rasterReceipt": "Committed product-wiring binding.acceptanceReceipt: RASTER_PASS, run 34051987934, job 101537539640, artifactId null, boundToCanonicalSha256 51c4941b... (equal to the recomputed canonical), coversTheWholeFamily true. The receipt names no boundary digest and records no artifact id; this reviewer did not download or re-check that artifact. The visual read here is a local pdftoppm -r 150 render of these exact bytes (VIEW-NOTES.json).",
+        "visualReview": "review-evidence/reviewer2/wv-vf05-92ff5d436/VIEW-NOTES.json (method a, all 25 pages; sheets in view/)",
+        "priorPass": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20261019-reverify-census-5e7fe802c.json (PASS_COMPLETE_INDEPENDENT at 5e7fe802c; since then only source-receipt.json moved, the census pin refresh b6d6bb96d)",
+        "claimState": "claim.mjs --assert VF05 at 92ff5d436: ALREADY_RELEASED: rcap-wv-custom-pleading at 2026-09-06T19:32:29.423Z",
+        "rebuildEvidence": "review-evidence/lead-wv-statedon/ (the lead's no-edit rebuild at 92ff5d436: committed 51c4941b/4e79ef98 -> rebuilt ac35af7e/f35492b0)",
+        "ruling": "LEAD_TO_REVIEWER2 2026-10-20T21:32:51Z (statedOn route-footer class scored, ROUTE_OPTIONS), 22:31:31Z (WV scored, writer the lead) and the 22:39:54Z AMEND (the repair is a CONTENT rebuild, not FIX-only)"
+      },
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

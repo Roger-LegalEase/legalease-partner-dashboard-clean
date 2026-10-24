@@ -7,7 +7,8 @@
  * route a delivery test should exercise: a test that invents authority for a
  * convenient fixture proves nothing about what this product may sell.
  *
- * Exercising it means answering it. The route's collection asks for 47 facts,
+ * Exercising it means answering it. The route's current collection determines
+ * the required facts,
  * and the verification hash is taken over all of them, so a fixture that
  * supplies a handful and hand-writes a snapshot is not this route — it is a
  * shape that resembles it. Everything here therefore goes through the same
@@ -23,8 +24,8 @@
  * is answered honestly, which is the correct failure.
  *
  * The values are synthetic but internally consistent: one misdemeanor charge,
- * dismissed in Hinds County in 2015, with the exhibits, service details and
- * agency identifiers the Mississippi petition needs. Where the route asks a
+ * dismissed in Hinds County in 2015, with separately stated record facts and
+ * an explicitly synthetic identifier-delivery prerequisite. Where the route asks a
  * question the participant would answer "no" to, it says no, rather than
  * saying whatever makes a check pass.
  */
@@ -63,18 +64,16 @@ export const MS_NONCONVICTION_PACKET_ANSWERS = {
   participant_full_legal_name: "Acceptance Consumer",
   residency_or_location: said("Jackson, Mississippi"),
   aliases: said("None"),
-  date_of_birth: said("1985-04-02"),
-  social_security_number: said("000-00-0000"),
+  date_of_birth: "1985-04-02",
+  social_security_number: "900-12-3456", // Explicitly synthetic, not an issued SSN.
   race: said("Declined to state"),
   sex: said("Declined to state"),
   mailing_address: said("100 Acceptance Way, Jackson, MS 39201"),
   phone_number: said("601-555-0134"),
   email_address: said("acceptance.consumer@example.test"),
-  contact_information: "100 Acceptance Way, Jackson, MS 39201",
 
   // Your case
   charge: said("Synthetic misdemeanor charge"),
-  pathway_id: said(PATHWAY),
   record_type: "Arrest or charge",
   name_used_at_arrest: said("Acceptance Consumer"),
   charge_legal_citation: said("Miss. Code Ann. 97-17-41"),
@@ -83,7 +82,7 @@ export const MS_NONCONVICTION_PACKET_ANSWERS = {
   arrest_date: said("2014-11-03"),
   arrest_location: said("Jackson, Hinds County, Mississippi"),
   arresting_agency: said("Jackson Police Department"),
-  release_confirmed: said("Yes, released the same day on bond"),
+  release_confirmed: "Yes",
   offense_category: said("Misdemeanor"),
   offense_level: "Misdemeanor",
   case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -92,6 +91,11 @@ export const MS_NONCONVICTION_PACKET_ANSWERS = {
   // Court and case number
   county: said("Hinds County"),
   court: said("Hinds County Circuit Court"),
+  // These are separately stated record facts, not inferred aliases.
+  court_name: "Hinds County Circuit Court",
+  court_type: "Circuit Court",
+  filing_location: "Hinds County, Mississippi",
+  charge_classification: "Misdemeanor",
   case_caption_plaintiff_name: said("State of Mississippi"),
   case_caption_defendant_name: said("Acceptance Consumer"),
   case_number: said("2014-0451-CR"),
@@ -99,8 +103,8 @@ export const MS_NONCONVICTION_PACKET_ANSWERS = {
 
   // Outcome and dates
   disposition_date: said("2015-01-15"),
-  statutory_disposition_category: said("Dismissed"),
-  disposition_record_wording: said("Nolle prosequi entered on the State's motion"),
+  statutory_disposition_category: "Charges dropped",
+  disposition_record_wording: "Charges dropped as shown on the synthetic disposition order",
 
   // Sentence or program completion
   nonadjudication_or_diversion: said("No"),
@@ -112,21 +116,21 @@ export const MS_NONCONVICTION_PACKET_ANSWERS = {
   // Other cases and prior relief
   pending_cases: "No",
   prior_relief: "No",
-  trafficking_status: "No",
+  // Charged conduct is independent of survivor/victimhood circumstances.
+  ms_charged_trafficking_distribution_manufacture: "No",
   open_co_defendant_matter: said("No"),
 
   // Required documents
   release_date_or_record_source: said("Hinds County Sheriff's Department release record, 2014-11-03"),
   other_recordkeeping_agencies: said("Mississippi Criminal Information Center"),
-  certified_disposition_exhibit_status: said("Obtained from the Hinds County Circuit Clerk"),
-  docket_sheet_exhibit_status: said("Obtained from the Hinds County Circuit Clerk"),
 
   // Filing details
   prosecuting_authority_name: said("Hinds County District Attorney"),
   prosecuting_authority_service_address: said("407 E Pascagoula St, Jackson, MS 39205"),
-  service_address_confirmation_status: said("Confirmed against the district attorney's published address"),
-  mcic_identifier_delivery_method: said("Certified mail to the Mississippi Criminal Information Center"),
-  mcic_identifier_method_confirmation_source: said("Mississippi Department of Public Safety filing instructions"),
+  // A labeled QA assumption exercises the existing delivery prerequisite;
+  // it is not an actual clerk confirmation or approval of a delivery channel.
+  mcic_identifier_delivery_method: "Court-approved MCIC identifier sheet",
+  mcic_identifier_method_confirmation_source: "Confirmed by Synthetic County Clerk on 2026-10-10",
   personal_impact_confirmed: said("Yes"),
   personal_impact_statement: said("The record has repeatedly cost me housing and employment opportunities.")
 };

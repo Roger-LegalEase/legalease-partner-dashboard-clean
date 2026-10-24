@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF12",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine; the assertions were run against the grant ledger ledger-cf419c9e1.json (sha256 14fabc409ca99dfa5c6e216f7bb1ec3d7ee8ff4269f183b0051142ca65853c72), the claim ledger committed at the pushed head cf419c9e115183c0778074daa5a4f99e4f4eac49; batch30 applies no VF claim operation to this family (lead 2026-10-20T16:44:11Z, CI F34 16:31:26Z), so this is the no-live-claim case",
+  "claimAssertions": {
+    "rcap-nv-custom-pleading": "ALREADY_RELEASED: rcap-nv-custom-pleading at 2026-09-08T16:39:50.077Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "rcap-nv-custom-pleading",
+      "lane": "VF12",
+      "worker": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T14:32:27Z",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<full Edition 1 corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading, run by measure-family.mjs in the detached worktree /tmp/legalease-reviewer2-20261020 at base 0116da97daa896e517323f18c01a1a33de0ceaee: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 76/244 written; every counter printed 0 (facts.json verifierRun)."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-specifications.json",
+          "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+          "byteLength": 16830109,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json",
+          "sha256": "7dcc809cca812fe308aecac03a94e1b2d4f9c9afc49b42231e1c8f03db025566",
+          "byteLength": 2354,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "aed030107fe36b8a4b96a6e9809db821dbed96910eac78487bf772546a1d9d30",
+          "byteLength": 121357,
+          "pageCount": 44,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "94dc8ffb9b290c954e394aaf937f529126f02591bbdeef1f73e11870a43e292e",
+          "byteLength": 123571,
+          "pageCount": 44,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Six routeKeys (track-only nv_seal_decrim, nv_seal_multi, nv_seal_pardon; track-pathway nv_seal_conviction, nv_seal_nonconviction, nv_seal_reentry) are declared identically by product-wiring, source-receipt, production-field-map and the MASTER_QUEUE row (facts.json routeIdentity). Each resolves in the current census (routes[245], [246], [247], [486], [488], [490]) with packetFamilyId rcap-nv-custom-pleading and outputStrategy custom_pleading. No route key is printed on any of the 88 PDF pages (the A9 review saw no route footer); participant-instructions.md prints them in its '_Route(s):_' footer (PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class, observation only, not scored)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 0116da97daa896e517323f18c01a1a33de0ceaee: all 4 bound committed records equal their receipt pins by sha256 and byte length (data/record-clearing/legal-design-track-registry.json b62ae691\u2026 / 16781025 B; data/record-clearing/legal-design-specifications.json 10b02286\u2026 / 16830109 B; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json eeabd8b9\u2026 / 2635434 B; data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json 7dcc809c\u2026 / 2354 B); no pin has drifted, so no historical blob recovery was needed (facts.json sourceIdentity). NV-SPECIAL-ROUTE-PROCEDURE-2026-09-07 (data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json) is among them and controls nv_seal_decrim and nv_seal_pardon where the older shared records conflict. queueSourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT; no corpus bytes are bound."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "declared = rendered = 28 components (facts.json componentSet): for each of the six routes a primary filing, proposed order, declaration and verification, and filing instructions, plus a prosecutor stipulation on the four ordinary routes (multi, conviction, nonconviction, reentry). legal-design-specifications customPleadingSpecs[184-207] also list a stipulation-5 for decrim and pardon; NV-SPECIAL-ROUTE-PROCEDURE-2026-09-07 implementation says 'remove mandatory prosecutor stipulation from these two routes', and the packet says so (p4 and p17 'The statutes do not make a prosecutor stipulation a required component of these two special routes'). Every component prints under its own heading. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Every value reports/actual-writes.json records was read back from pdftotext of its fixture: canonical 76/76, boundary 76/76, 0 non-whitespace glyphs outside the measured write boxes, no refused field inked (facts.json readBack). The boundary persona's long name, address (1188 Upper Tallahatchie Crossing Road, Apartment 14B, Fort Saint Clairsville 39501-2214), phone and email were seen wrapping inside the margin on every page that prints them in the A9 visual review of these exact bytes. knownRequiredFieldsMissing 0, invisibleWrites 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "REQUIRED_BEFORE_FILING (decrim + pardon routes): legal-design-specifications.json participantFilingRequirements[629] (trackId nv_seal_pardon) and [630] (trackId nv_seal_decrim) list 'Verified criminal history from the Nevada Central Repository' as requirement 'required', requiredBeforeFiling true, citing NRS 179.245(2)(a) and 179.255(3)(a). The packet drops it for both routes: participant-instructions.md lines 106-107 ('Documents you must obtain before filing') say 'This ordinary-route attachment condition is not imposed on the NRS 179.271 request or NRS 179.273 petition', and the route pages leave it out. In both fixtures (canonical aed03010.../121357, boundary 94dc8ffb.../123571, 44 pages each), p4 'WHAT TO PREPARE' (decrim) names only the conviction record and the decriminalizing authority, and p17 'WHAT TO PREPARE' (pardon) names only proof of the pardon; neither page, nor p1-p5 or p14-p18, asks for the Central Repository criminal history. The bound decision NV-SPECIAL-ROUTE-PROCEDURE-2026-09-07 (sha256 7dcc809c...) does not supersede this requirement: its supersedesOnly names only the inherited prosecutor-first, prosecutor-stipulation, ordinary 30-day notice and filing-fee assertions, and its implementation says 'retain real proof-of-pardon and decriminalization record requirements'. The 'not imposed' scoping comes from the builder (scripts/rcap-packet-recovery/nv-special-routes.mjs line 161, commit 2c6db066e), not from a decision. Lead ruling 2026-10-20T14:30:47Z (LEAD_TO_REVIEWER2.md): registry [629]/[630] control; dropping the requirement needs a successor legal decision, which is Roger's. Ordinary routes unaffected: the field map's 84/84 disclosure labels are found verbatim in participant-instructions.md and the ordinary routes keep the attachment (fieldmap-and-census.txt); requiredFactsNotCollected 0 counts only declared fields, so the counter cannot see this."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "selectionControls 0: no route is chosen for the participant; instructions 'What you do, in order' step 5 'Submit only the pages for the confirmed route', and each route's set is self-contained with its own filing instructions. requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure (C-items are standalone dotted-blank pairs); repeatingRows 0 and incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "84 protected blanks recorded (refusal classes signature_or_date_participant_completion and court_prosecutor_clerk_or_agency_owned); protectedWrites 0 measured here and refusedFieldsWithInk empty in both fixtures. In the A9 visual of these bytes every DATE / SIGNATURE line, every ORDERS that / DATED / court signature line, every stipulation line and every notarial block is a blank dotted line; stipulation pages print 'THIS PAGE IS NOT THE PETITIONER'S TO COMPLETE' and orders 'EVERY DECISION ON THIS PAGE IS THE COURT'S'."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Two PDFs on disk, both recorded, no unrecorded PDF and none missing. Recomputed here: canonical.pdf aed030107fe36b8a4b96a6e9809db821dbed96910eac78487bf772546a1d9d30 / 121357 B, boundary.pdf 94dc8ffb9b290c954e394aaf937f529126f02591bbdeef1f73e11870a43e292e / 123571 B, both equal to reports/rendered-artifacts.json and to the RASTER_PASS receipt of A9 run 39430452712 (packetCommitSha dbb9b021cb74fb13fa38e39355f3d8e3a68b238f; family directory unchanged dbb9b021c..0116da97d). pdfinfo 44 pages each = recorded 44."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "rendered-artifacts pageManifest, identical in both fixtures: decrim p1-5, multi p6-13, pardon p14-18, conviction p19-28, nonconviction p29-36, reentry p37-44, each route ordered petition/request, proposed order, declaration, stipulation where present, filing instructions; read against each page's heading in the A9 review (all 88 pages viewed). 44 pages read = 44 recorded."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox run here: canonical 11768 words, boundary 11822 words, 0 words outside the 612x792 page box, 0 same-band overlapping word pairs (facts.json geometry). The A9 raster of these exact bytes (run 39430452712, 44+44 pages, every PNG sha256 recomputed) was viewed by this reviewer with no defect and ink inside the paper at min L 1.0in, T 0.89in, R 0.92in, B 1.1in (review-evidence/reviewer2/nv-a9-39430452712/RV16-REVIEW-39430452712.json). visualDefects 0."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Ordinary routes: each filing-instructions page and the instructions routing table quote the registry destination 'The district attorney's or city attorney's office first, then the clerk of the appropriate court' with its venue, matching the census destinations; every caption's court line says which court to write and that the prosecutor's office receives the packet first. Special routes: p4 'Submit the written request directly to the clerk of a court in which you were convicted of the offense. Do not make prosecutor consent or a stipulation a prerequisite to submission'; p17 'submit it with proof of the pardon directly to the clerk of a court in which you were convicted. Do not submit it for prosecutorial preapproval', per NV-SPECIAL-ROUTE-PROCEDURE-2026-09-07 (which supersedes the census's inherited prosecutor-first entry for exactly these two routes)."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Scored under DET-FEE-AND-WAIVER-001 (A1-A4). Ordinary routes: p12, p27, p35, p43 quote the registry rules.fees and rules.feeWaiver for their track ('County-dependent ...'; conviction adds 'Reno Municipal Court charges a filing fee'; 'Every fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9)'; 'County fee-waiver applications otherwise'), the held answer stated (A2). Special routes: p4 'No court or agency of criminal justice may charge a fee for submission of this request under NRS 179.271(2)' and p17 the same under NRS 179.273(5), each with 'Separate records or independent services may have their own charges', per the special-route record. A4: every fee/free/$/cost/charge/waiv/pay hit in both the PDF and the instructions was attributed (fee-hits.txt); the special-route no-fee statements are confined to submission and the ordinary-route statements to their tracks; no contrary claim."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Ordinary routes: 'Service as recorded: The signed order is served on every agency named in it and goes to the Central Repository under NRS 179.275', with notice 'The prosecuting agency receives the packet before filing. If the prosecutor stipulates, or fails to object within 30 days, the court may seal without a hearing' (p12, p27, p35-36, p43; registry rules.service and rules.notice). Decrim: p4 the court sends written notice to the prosecuting office, 10 judicial days to object, and p5 'Under NRS 179.275 a copy goes to the Central Repository and each record custodian named in the order'. Pardon: p17 'NRS 179.273(3) expressly excludes prosecuting-attorney or criminal-justice-agency review ... No prosecutor stipulation, prosecutor signature, or 30-day prosecutor response period', and p18 'Ask the court how it transmits the sealing action to the Central Repository and affected custodians' (the destinations of the registry rule, with the court named as the authority on the mechanism; NRS 179.275 is not cited on this route; see observations)."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Ordinary routes: every registry selfHelpStopConditions entry for nv_seal_multi (9/9), nv_seal_conviction (11/11), nv_seal_nonconviction (10/10) and nv_seal_reentry (9/9) prints on the route's own PDF pages and in the instructions (stop-conditions.txt, matched here). Special routes: p5 and p18 print route-specific stops (traffic offence, partial decriminalization, conviction not predating the law, uncertain law or scope; conditional/ambiguous or non-Board pardon, missing proof or mismatched charges; objection, hearing, denial or disputed scope; immigration and firearm; federal/out-of-state/military/tribal records); the registry's inherited decrim/pardon entries all print in participant-instructions.md, the prosecutor-stipulation, offence-category, clean-period and multi-county ones scoped 'For the ordinary ... route, as applicable ... The NRS 179.271 and 179.273 routes instead use their own route-specific boundaries'."
+        }
+      },
+      "observations": [
+        {
+          "what": "Special-route repository attachment carve-out",
+          "detail": "participant-instructions.md lines 106-107 say the verified Central Repository criminal history 'is not imposed on the NRS 179.271 request or NRS 179.273 petition', while legal-design-specifications participantFilingRequirements[629] (nv_seal_pardon) and [630] (nv_seal_decrim) still list it as required, citing NRS 179.245(2)(a) and 179.255(3)(a). Scored as the special-route record's correction (same-day 2026-09-07 commits 2c6db066e and 3794a1a1a; prior selected vf02 PASS at 5e7fe802c). Flagged to the lead as a legal-record question, not scored. Superseded 2026-10-20T14:30:47Z by the lead's ruling: scored as the REQUIRED_BEFORE_FILING FAIL, not an observation."
+        },
+        {
+          "what": "Pardon route does not cite NRS 179.275",
+          "detail": "p18 'Ask the court how it transmits the sealing action to the Central Repository and affected custodians' carries the registry service rule's destinations without its citation, while decrim (p5) and the ordinary routes cite NRS 179.275. Copy consideration, not scored."
+        },
+        {
+          "what": "Builder vocabulary and internal review language on participant/filed pages",
+          "detail": "[C# - cvs/ncv/sea/mlt/rnt \u2026] labels; component ids on p5/p13/p18/p28/p36/p44; p19/p26 'the eligibility engine must model both'; p22 'which the internal reference omits entirely'; p37/p43 'The controlling review approves the track'; p13/p27/p36/p43 'It must be surfaced wherever a fee is mentioned'; p36 'Warn declination-route participants'. Classes, not scored."
+        },
+        {
+          "what": "Layout",
+          "detail": "Headings left at the page bottom on p12, p19 and p29; the reentry signature block sits alone at the top of p39; p6->p7 carries one word. Both fixtures. Not scored."
+        },
+        {
+          "what": "Instructions stop list duplicates",
+          "detail": "The general stop list carries an unscoped 'Offense category \u2026' line (US spelling) after the scoped ordinary-route version, so it reads as applying to the special routes too. Conservative; not scored."
+        }
+      ],
+      "evidence": {
+        "reviewEvidenceDir": "review-evidence/reviewer2/rv17-nv-custom-pleading/read-0116da97d/",
+        "files": [
+          "facts.json",
+          "fee-hits.txt",
+          "fieldmap-and-census.txt",
+          "measure.log",
+          "rows",
+          "stop-conditions.txt"
+        ],
+        "rasterReceipt": "A9 run 39430452712, RASTER_PASS, packetCommitSha dbb9b021cb74fb13fa38e39355f3d8e3a68b238f (visual review: review-evidence/reviewer2/nv-a9-39430452712/RV16-REVIEW-39430452712.json)",
+        "supersedes": "superseded/nv-custom-pleading.staged-PASS-20261020T142121Z.json (staged PASS, never committed; flipped on the lead's ruling)"
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF12",
+ "worker": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "assignmentCount": 1,
+ "assignments": [
+  {
+   "itemId": "rcap-nv-custom-pleading",
+   "lane": "VF12",
+   "assignedBy": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading",
+   "failedObligationNames": [
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "decisiveDefect": "REQUIRED_BEFORE_FILING (decrim + pardon routes): legal-design-specifications.json participantFilingRequirements[629] (trackId nv_seal_pardon) and [630] (trackId nv_seal_decrim) list 'Verified criminal history from the Nevada Central Repository' as requirement 'required', requiredBeforeFiling true, citing NRS 179.245(2)(a) and 179.255(3)(a). The packet drops it for both routes: participant-instructions.md lines 106-107 ('Documents you must obtain before filing') say 'This ordinary-route attachment condition is not imposed on the NRS 179.271 request or NRS 179.273 petition', and the route pages leave it out. In both fixtures (canonical aed03010.../121357, boundary 94dc8ffb.../123571, 44 pages each), p4 'WHAT TO PREPARE' (decrim) names only the conviction record and the decriminalizing authority, and p17 'WHAT TO PREPARE' (pardon) names only proof of the pardon; neither page, nor p1-p5 or p14-p18, asks for the Central Repository criminal history. The bound decision NV-SPECIAL-ROUTE-PROCEDURE-2026-09-07 (sha256 7dcc809c...) does not supersede this requirement: its supersedesOnly names only the inherited prosecutor-first, prosecutor-stipulation, ordinary 30-day notice and filing-fee assertions, and its implementation says 'retain real proof-of-pardon and decriminalization record requirements'. The 'not imposed' scoping comes from the builder (scripts/rcap-packet-recovery/nv-special-routes.mjs line 161, commit 2c6db066e), not from a decision. Lead ruling 2026-10-20T14:30:47Z (LEAD_TO_REVIEWER2.md): registry [629]/[630] control; dropping the requirement needs a successor legal decision, which is Roger's.",
+   "repairScope": "Unless a successor legal decision from Roger removes the requirement: stop exempting the NRS 179.271 request and NRS 179.273 petition from the verified Central Repository criminal history. In nv-special-routes.mjs (line 161) drop the 'not imposed on the NRS 179.271 request or NRS 179.273 petition' scoping. List the record as a document to obtain for nv_seal_decrim and nv_seal_pardon, per participantFilingRequirements[629]/[630], with who holds it and the NRS 179.245(9) waiver. Add it to the decrim (p4) and pardon (p17) 'WHAT TO PREPARE' pages. Keep every other special-route correction (no prosecutor-first, no stipulation, no 30-day notice, no submission fee). The rebuild changes the bytes, so a new raster is owed.",
+   "grantsNothing": "Assignment only; opens no route."
+  }
+ ],
+ "grantsNothing": "Assignments only; this file opens no route, sets no price and authorises no promotion."
+}

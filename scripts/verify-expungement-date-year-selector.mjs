@@ -1,23 +1,21 @@
-import fs from "node:fs";
-import path from "node:path";
-
-const source = fs.readFileSync(path.join(process.cwd(), "src/components/expungement-ai/screening/QuestionField.tsx"), "utf8");
-const failures = [];
-const assert = (condition, message) => { if (!condition) failures.push(message); };
-
-assert(source.includes("function DateOrUnknownField"), "date_or_unknown must render the custom date field.");
-assert(source.includes("Month") && source.includes("Day") && source.includes("Year"), "Date field must expose month/day/year controls.");
-assert(source.includes("Array.from({ length: 90 }"), "Date field must expose an old-case year selector.");
-assert(source.includes("toIsoDate"), "Date field must map controls to ISO date.");
-assert(source.includes("const [draftParts, setDraftParts] = useState") && source.includes("draftParts[id]"), "Date field must retain partial month/day/year selections per question between controlled renders.");
-assert(source.includes("const nextParts = {") && source.includes("...parts"), "Each date selection must merge with the previously selected date parts.");
-assert(source.includes("value={parts.month}") && source.includes("value={parts.day}") && source.includes("value={parts.year}"), "Month/day/year controls must render the retained partial date.");
-assert(source.includes('return `${year}-${month}-${day}`'), "Date answer must remain YYYY-MM-DD.");
-assert(source.includes("Number.isNaN(date.getTime())"), "Invalid dates must be blocked.");
-
-if (failures.length) {
-  console.error("Expungement.ai date year selector verifier failed:");
-  for (const failure of failures) console.error(`- ${failure}`);
-  process.exit(1);
+import assert from "node:assert/strict";
+import { register } from "node:module";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+const { CalendarDateField } = await import("../src/components/expungement-ai/screening/fields/CalendarDateField.tsx");
+const { questionAnswerState } = await import("../src/lib/expungement-ai/question-answer-state.ts");
+// The old source-string check required a 90-year cutoff and component-local drafts.
+// The contract is usable calendar input, honest validity and retained partial data.
+for (const [value, year] of [["1890-02-28", "1890"], ["2000-02-29", "2000"], ["2001-02-", "2001"]]) {
+  const html = renderToStaticMarkup(createElement(CalendarDateField, { id: "birth", value: { value }, onChange() {} }));
+  assert.match(html, new RegExp(`value="${year}"`));
+  assert.match(html, /value="02" selected=""/);
+  assert.match(html, /Month/); assert.match(html, /Day/); assert.match(html, /Year/);
 }
-console.log("Expungement.ai date year selector verifier passed.");
+const question = { id: "date_of_birth", type: "date" };
+assert.equal(questionAnswerState(question, "2001-02-", "2026-10-11"), "invalid");
+assert.equal(questionAnswerState(question, "2001-02-29", "2026-10-11"), "invalid");
+assert.equal(questionAnswerState(question, "2000-02-29", "2026-10-11"), "known_valid");
+assert.equal(questionAnswerState(question, "2026-10-12", "2026-10-11"), "invalid");
+console.log("Calendar control source render and date validation passed; protected save/recovery and interactive browser coverage remain separate.");
