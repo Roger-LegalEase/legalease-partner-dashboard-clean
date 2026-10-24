@@ -1,3 +1,4 @@
+import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode} from './rcap-clinic-setup-admin-code.mjs';
 import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError, captureClinicEntryResponse, assertClinicEntryAccepted, clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
 import crypto from "node:crypto";
 import {downstreamClosureSql,assertDownstreamClosure} from "./rcap-clinic-downstream-closure.mjs";
@@ -47,10 +48,11 @@ const partnerSlug = process.env.RCAP_BROWSER_PARTNER_SLUG?.trim() || "we-must-vo
 const clinicEventId = process.env.RCAP_BROWSER_CLINIC_EVENT_ID?.trim() || "";
 const clinicEventSlug = process.env.RCAP_BROWSER_CLINIC_EVENT_SLUG?.trim() || "";
 const clinicEventName = process.env.RCAP_BROWSER_CLINIC_EVENT_NAME?.trim() || "";
-const clinicAccessCode = process.env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim() || "";
+let clinicAccessCode = process.env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim() || "";
 const bypassSecret = process.env.RCAP_BROWSER_VERCEL_BYPASS_SECRET?.trim() || "";
 const clinicMode = Boolean(clinicEventSlug);
 const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
+const issueClinicCode = clinicSetupOnly && process.env.RCAP_BROWSER_ISSUE_CLINIC_CODE === "1";
 if (clinicSetupOnly) assertClinicSetupInput(process.env);
 const result = { schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
@@ -61,7 +63,7 @@ const evidenceDir = path.resolve(
 if (process.env.RCAP_BROWSER_ALLOW_MUTATION !== "1") {
   fail("RCAP_BROWSER_ALLOW_MUTATION=1 is required because this proof claims one sponsored screening result into the synthetic user's Briefcase.");
 }
-if (clinicMode && (!validUuid(clinicEventId) || !clinicEventName || clinicAccessCode.length < 8)) {
+if (clinicMode && (!validUuid(clinicEventId) || !clinicEventName || (!issueClinicCode && clinicAccessCode.length < 8))) {
   fail("Clinic mode requires an exact event id, slug, name, and 8+ character access code.");
 }
 fs.mkdirSync(evidenceDir, { recursive: true });
@@ -90,6 +92,46 @@ async function runJourney() {
   const executablePath = process.env.RCAP_BROWSER_CHROMIUM?.trim();
   if (executablePath) launchOptions.executablePath = executablePath;
   browser = await chromium.launch(launchOptions);
+  if (issueClinicCode) {
+    const admin=await browser.newContext(); await attachBypass(admin);
+    let codePosts=0,blocked=false;
+    await admin.route('**/*',async route=>{
+      const request=route.request();const pathname=new URL(request.url()).pathname;
+      if (!clinicAdminCodeRequestAllowed(request.method(),request.url())
+        || (request.method()==='POST'&&pathname.endsWith('/access-codes')&&++codePosts>1)) {
+        blocked=true;return route.abort('blockedbyclient');
+      }
+      return route.fallback();
+    });
+    const adminPage=await admin.newPage();
+    const call=async (pathname,body)=>{
+      const response=await adminPage.evaluate(async ({pathname,body})=>{
+        const response=await fetch(pathname,{method:body?'POST':'GET',credentials:'same-origin',
+          ...(body?{headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{})});
+        return {status:response.status,json:await response.json().catch(()=>null)};
+      },{pathname,body});
+      assert.equal(blocked,false,'test-admin context blocked an out-of-scope request');return response;
+    };
+    try {
+      const codePath=`/api/clinic/events/${CLINIC_SETUP.event}/access-codes`;
+      const rawCode=await issueClinicSetupCode({
+        normalLogin:async()=>{
+          await adminPage.goto(new URL('/expungement-ai/sign-in?mode=signin&next=%2Fpartner%2Fclinic',baseUrl).href);
+          const auth=await signIn(adminPage,CLINIC_CODE_ADMIN.email,password);
+          assert.equal(auth?.user?.id,CLINIC_CODE_ADMIN.id,'normal test-admin identity mismatch');
+          await adminPage.waitForURL(url=>url.pathname==='/partner/clinic');
+          await adminPage.getByRole('heading',{name:'Clinic Mode administration',exact:true}).waitFor();
+          return {id:auth.user.id,partnerAdminVisible:true};
+        },
+        readWorkspace:()=>call(`/api/clinic/events/${CLINIC_SETUP.event}`),now:()=>Date.now(),
+        createCode:body=>call(codePath,body),
+        saveAttempt:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-attempt.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'}),
+        saveResult:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-result.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'}),
+        saveVerified:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-verified.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'})
+      });
+      clinicAccessCode=rawCode; process.env.RCAP_BROWSER_CLINIC_ACCESS_CODE=rawCode;
+    } finally {await admin.close();}
+  }
 
   const context = await browser.newContext({
     viewport: { width: 1440, height: 1000 },

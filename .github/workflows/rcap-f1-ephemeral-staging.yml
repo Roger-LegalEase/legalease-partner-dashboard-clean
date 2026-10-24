@@ -158,7 +158,7 @@ jobs:
       - name: Install locked runner dependencies without application build
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify the setup-only stop and request boundaries before credentials
-        run: node --test scripts/rcap-clinic-setup-only-boundary.test.mjs
+        run: node --test scripts/rcap-clinic-setup-only-boundary.test.mjs scripts/rcap-clinic-setup-admin-code.test.mjs
       - name: Enter existing Clinic and claim one new screening result
         env:
           RCAP_BROWSER_CLINIC_SETUP_ONLY: '1'
@@ -170,7 +170,7 @@ jobs:
           RCAP_BROWSER_WORKER_DIGEST: sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af
           RCAP_BROWSER_EMAIL: mvl-demo-participant-a@rcap-acceptance.test
           RCAP_BROWSER_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
-          RCAP_BROWSER_CLINIC_ACCESS_CODE: ${{ secrets.HOSTED_CLINIC_DEMO_ACCESS_CODE }}
+          RCAP_BROWSER_ISSUE_CLINIC_CODE: '1'
           RCAP_BROWSER_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           RCAP_BROWSER_VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           RCAP_BROWSER_PARTNER_SLUG: mvl-demo

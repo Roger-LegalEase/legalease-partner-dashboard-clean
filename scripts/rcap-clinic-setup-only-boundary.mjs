@@ -18,8 +18,10 @@ export function assertClinicSetupInput(env) {
     RCAP_BROWSER_CLINIC_EVENT_ID:CLINIC_SETUP.event, RCAP_BROWSER_CLINIC_EVENT_SLUG:CLINIC_SETUP.slug,
     RCAP_BROWSER_PARTNER_SLUG:'mvl-demo', RCAP_BROWSER_ALLOW_MUTATION:'1'
   })) assert.equal(env[key],value,`Clinic setup refuses ${key} mismatch`);
-  for (const key of ['RCAP_BROWSER_PASSWORD','RCAP_BROWSER_CLINIC_ACCESS_CODE','RCAP_BROWSER_VERCEL_TOKEN','RCAP_BROWSER_VERCEL_BYPASS_SECRET'])
+  for (const key of ['RCAP_BROWSER_PASSWORD','RCAP_BROWSER_VERCEL_TOKEN','RCAP_BROWSER_VERCEL_BYPASS_SECRET'])
     assert.ok(env[key]?.trim(),`existing ${key} required before browser effects`);
+  if (env.RCAP_BROWSER_ISSUE_CLINIC_CODE==='1') assert.equal(env.RCAP_BROWSER_CLINIC_SETUP_ONLY,'1');
+  else assert.ok(env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim(),'existing RCAP_BROWSER_CLINIC_ACCESS_CODE required before browser effects');
 }
 export function clinicSetupRequestAllowed(method, address) {
   const url=new URL(address);

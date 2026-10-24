@@ -42,7 +42,8 @@ test('registered workflow isolates existing secrets and exact current target wit
   assert.equal('clinic_setup_only'.startsWith('hosted_'),false);
   const job=workflow.jobs.clinic_setup_only;assert.equal(job.if,"inputs.mode == 'clinic_setup_only'");
   const step=job.steps.find(s=>s.name==='Enter existing Clinic and claim one new screening result');
-  const env={...step.env};for(const key of ['RCAP_BROWSER_PASSWORD','RCAP_BROWSER_CLINIC_ACCESS_CODE','RCAP_BROWSER_VERCEL_TOKEN','RCAP_BROWSER_VERCEL_BYPASS_SECRET'])env[key]='mock-existing-custody';
+  const env={...step.env};for(const key of ['RCAP_BROWSER_PASSWORD','RCAP_BROWSER_VERCEL_TOKEN','RCAP_BROWSER_VERCEL_BYPASS_SECRET'])env[key]='mock-existing-custody';
+  assert.equal(env.RCAP_BROWSER_ISSUE_CLINIC_CODE,'1');assert.equal(env.RCAP_BROWSER_CLINIC_ACCESS_CODE,undefined);
   assertClinicSetupInput(env);assert.equal(step.run,'node scripts/verify-rcap-commercial-browser.mjs');
   const serialized=JSON.stringify(job);
   assert.ok(!/SUPABASE_ACCESS_TOKEN|SERVICE_ROLE|STRIPE_SECRET|FLY_API_TOKEN|docker |npm run build|clinic-preview-seed/.test(serialized));
