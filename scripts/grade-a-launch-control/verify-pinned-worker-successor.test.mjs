@@ -253,3 +253,89 @@ test('successor custody preserves deleted source and separately binds narrow run
   console.log(JSON.stringify({scope:'SYNTHETIC RESPONSIBILITY CUSTODY ONLY',realHistoricalFixtureBytes:deleted.length,refusals,nativeExecuted:false,authorityCreated:false}));
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+// These tiny committed validators exercise the historical result gate only;
+// actual e869 native custody is checked separately by its complete validator.
+test('historical predecessor gate admits only fully verified held forward results and preserves legacy results',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-held-predecessor-gate-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ const candidate={status:'FORWARD_BOUND_HOSTED_PENDING',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,deploymentAuthorized:false,clinicDispatchReady:false};
+ const result={status:candidate.status,bindingVerified:true,current:false,productionAuthorized:false};
+ const commit=(c,r)=>{
+  fs.mkdirSync(path.dirname(path.join(root,CANDIDATE)),{recursive:true});
+  fs.writeFileSync(path.join(root,CANDIDATE),JSON.stringify(c));
+  fs.writeFileSync(path.join(root,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'),`export function verifyReleaseCandidateBinding(){return ${JSON.stringify(r)}}`);
+  git(['add','--',CANDIDATE,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs']);git(['commit','--quiet','--allow-empty','-m','SYNTHETIC historical result gate']);
+  const sha=git(['rev-parse','HEAD']);git(['update-ref','refs/remotes/origin/captain-release',sha]);return sha;
+ };
+ try{
+  git(['init','--quiet']);git(['config','user.name','Synthetic Test']);git(['config','user.email','synthetic@example.test']);
+  git(['remote','add','origin','https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean.git']);
+  fs.mkdirSync(path.join(root,'scripts/grade-a-launch-control'),{recursive:true});
+  assert.equal(assertCommittedPredecessor(root,commit(candidate,result)).historyValid,true);
+  for(const [key,value]of [['runtimeAccepted',false],['previewExecution','ready'],['productionAuthorized',true],['deploymentAuthorized',true],['clinicDispatchReady',true],['status','FORGED']])
+   assert.throws(()=>assertCommittedPredecessor(root,commit({...candidate,[key]:value},result)),undefined,`candidate ${key}`);
+  for(const [key,value]of [['bindingVerified',false],['bindingVerified',undefined],['current',true],['productionAuthorized',true],['status','INVALID_FORWARD_BINDING'],['status','FORGED']])
+   assert.throws(()=>assertCommittedPredecessor(root,commit(candidate,{...result,[key]:value})),undefined,`validator ${key}`);
+  assert.equal(assertCommittedPredecessor(root,commit({...candidate,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'},{...result,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'})).historyValid,true);
+  assert.equal(assertCommittedPredecessor(root,commit({status:'CURRENT'},{current:true,status:'CURRENT'})).historyValid,true);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+// Tiny synthetic repositories reproduce Git transport depth, not native release evidence.
+test('shared historical clones retain same-repository objects beyond legacy alternate depth',()=>{
+ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-historical-object-depth-'));
+ const root=path.join(temp,'repo objects: "quoted"'),audit=path.join(temp,'audit.jsonl'),linked=path.join(temp,'linked-checkout');
+ fs.mkdirSync(root);const git=(cwd,args)=>execFileSync('git',args,{cwd,encoding:'utf8',stdio:'pipe'}).trim();
+ const candidate=path.join(root,CANDIDATE),validator='scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
+ let previous=null;const generations=[];let linkedCreated=false;
+ const legacy=String.raw`import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';
+export function verifyReleaseCandidateBinding(root,c){
+ assert.equal(fs.readFileSync(path.join(root,'generation.txt'),'utf8'),c.marker,'own committed snapshot must be checked');
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ fs.appendFileSync(c.audit,JSON.stringify({head:git(['rev-parse','HEAD']),marker:c.marker,root})+'\n');
+ if(c.predecessor){
+  const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'synthetic-legacy-predecessor-'));
+  try{
+   execFileSync('git',['clone','--quiet','--shared','--no-checkout',root,snapshot],{stdio:'pipe'});
+   execFileSync('git',['checkout','--quiet','--detach',c.predecessor],{cwd:snapshot,stdio:'pipe'});
+   const code="import fs from 'node:fs';const {verifyReleaseCandidateBinding}=await import('./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs');const c=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));const r=verifyReleaseCandidateBinding(process.cwd(),c);if(!r.current||r.status!=='CURRENT')throw Error('Invalid synthetic predecessor');";
+   execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,stdio:'pipe'});
+  }finally{fs.rmSync(snapshot,{recursive:true,force:true});}
+ }
+ return {current:true,status:'CURRENT'};
+}`;
+ function commitGeneration(){
+  const marker='generation-'+generations.length;
+  fs.mkdirSync(path.dirname(candidate),{recursive:true});fs.mkdirSync(path.dirname(path.join(root,validator)),{recursive:true});
+  fs.writeFileSync(candidate,JSON.stringify({status:'CURRENT',marker,predecessor:previous,audit}));
+  fs.writeFileSync(path.join(root,validator),legacy);fs.writeFileSync(path.join(root,'generation.txt'),marker);
+  git(root,['add','--',CANDIDATE,validator,'generation.txt']);git(root,['commit','--quiet','-m','SYNTHETIC generation']);
+  previous=git(root,['rev-parse','HEAD']);generations.push(previous);git(root,['update-ref','refs/remotes/origin/captain-release',previous]);return previous;
+ }
+ try{
+  git(root,['init','--quiet']);git(root,['config','user.name','Synthetic Test']);git(root,['config','user.email','synthetic@example.test']);git(root,['remote','add','origin','https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean.git']);
+  for(let i=0;i<12;i++)commitGeneration();
+  git(root,['tag','-a','retained-old-source','-m','SYNTHETIC annotated tag',generations[0]]);
+  const beforeEnv=process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES;
+  for(const isLinked of [false,true]){
+   let checkout=root;
+   if(isLinked){commitGeneration();git(root,['worktree','add','--quiet','--detach',linked,previous]);linkedCreated=true;checkout=linked;}
+   fs.writeFileSync(audit,'');
+   assert.equal(assertCommittedPredecessor(checkout,previous).historyValid,true);
+   const rows=fs.readFileSync(audit,'utf8').trim().split('\n').map(line=>JSON.parse(line));
+   assert.deepEqual(rows.map(row=>row.head),[...generations].reverse(),'every committed generation runs in its own snapshot');
+   assert.equal(new Set(rows.map(row=>row.root)).size,generations.length);
+   assert.equal(process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES,beforeEnv,'caller environment is unchanged');
+   assert.equal(git(checkout,['cat-file','-t','retained-old-source']),'tag');
+  }
+  const forged=JSON.parse(fs.readFileSync(candidate));forged.marker='forged snapshot';fs.writeFileSync(candidate,JSON.stringify(forged));
+  git(root,['add','--',CANDIDATE]);git(root,['commit','--quiet','-m','SYNTHETIC invalid own-snapshot marker']);
+  const invalid=git(root,['rev-parse','HEAD']);git(root,['update-ref','refs/remotes/origin/captain-release',invalid]);
+  assert.throws(()=>assertCommittedPredecessor(root,invalid),/Command failed/,'object access cannot bypass committed validation');
+  console.log(JSON.stringify({scope:'SYNTHETIC shared-clone transport only',normalGenerations:12,linkedGenerations:13,invalidOwnSnapshotRefused:true}));
+ }finally{
+  if(linkedCreated)git(root,['worktree','remove',linked]);
+  fs.rmSync(temp,{recursive:true,force:true});
+ }
+});
