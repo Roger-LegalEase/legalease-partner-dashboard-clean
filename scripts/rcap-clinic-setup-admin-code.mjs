@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {CLINIC_SETUP,clinicSetupRequestAllowed} from './rcap-clinic-setup-only-boundary.mjs';
+import {CLINIC_SETUP,clinicSetupRequestAllowed,clinicSetupSafePathname} from './rcap-clinic-setup-only-boundary.mjs';
 export const CLINIC_CODE_ADMIN=Object.freeze({
   id:'bf40fd9f-cdb7-4530-be79-5b31f0f13eb1',email:'mvl-demo-admin@rcap-acceptance.test',
   oldCodeId:'77000000-0000-4000-8000-000000000057',requestId:'aca01bff-cd19-4c75-b1dc-630588d3680d'
@@ -53,4 +53,21 @@ export async function issueClinicSetupCode(io) {
   assert.equal(historical?.maxUses,2);assert.equal(historical.usesCount,2);
   await io.saveVerified({...safe,httpStatus:201,codeId,status:'verified_unredeemed'});
   return code;
+}
+
+export async function requireClinicAdminControls(page) {
+  const controls=page.locator('#clinic-codes');
+  const failure=page.getByRole('heading',{name:/^(Clinic event unavailable|Clinic access denied|Application error|Server error)/i}).first();
+  const ready=await Promise.race([
+    controls.waitFor({state:'visible',timeout:15000}).then(()=>true),
+    failure.waitFor({state:'visible',timeout:15000}).then(()=>false)
+  ]);
+  assert.equal(ready,true,'Scoped Clinic event page reports an error; no code request was made');
+}
+export async function captureClinicAdminFailure(page,diagnostic,env) {
+  diagnostic.currentPathname=clinicSetupSafePathname(page.url(),env);
+  const heading=page.getByRole('heading',{name:/^(Clinic event unavailable|Clinic access denied|Application error|Server error)/i}).first();
+  const title=await heading.innerText({timeout:1000}).catch(()=>null);
+  const known=title?.match(/^(Clinic event unavailable|Clinic access denied|Application error|Server error)/i)?.[1];
+  diagnostic.inlineError=known?known.toLowerCase().replaceAll(' ','_'):diagnostic.inlineError??'unclassified_admin_page_failure';
 }

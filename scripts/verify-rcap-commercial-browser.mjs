@@ -1,4 +1,4 @@
-import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode} from './rcap-clinic-setup-admin-code.mjs';
+import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure} from './rcap-clinic-setup-admin-code.mjs';
 import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError, captureClinicEntryResponse, assertClinicEntryAccepted, clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
 import crypto from "node:crypto";
 import {downstreamClosureSql,assertDownstreamClosure} from "./rcap-clinic-downstream-closure.mjs";
@@ -104,23 +104,41 @@ async function runJourney() {
       return route.fallback();
     });
     const adminPage=await admin.newPage();
+    const adminPath=`/partner/clinic/${CLINIC_SETUP.event}`;
+    result.adminDiagnostics={httpStatus:null,currentPathname:null,inlineError:null,requestFailures:[],roleEvidence:'unknown'};
+    adminPage.on('response',response=>{
+      if (response.request().method()==='GET'&&response.request().isNavigationRequest()&&new URL(response.url()).pathname===adminPath)
+        result.adminDiagnostics.httpStatus=response.status();
+    });
+    adminPage.on('requestfailed',request=>result.adminDiagnostics.requestFailures.push({method:request.method(),
+      pathname:clinicSetupSafePathname(request.url(),process.env),error:request.failure()?.errorText?.match(/(?:net::)?ERR_[A-Z_]+/)?.[0]??'request failed'}));
     const call=async (pathname,body)=>{
       const response=await adminPage.evaluate(async ({pathname,body})=>{
         const response=await fetch(pathname,{method:body?'POST':'GET',credentials:'same-origin',
           ...(body?{headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{})});
         return {status:response.status,json:await response.json().catch(()=>null)};
       },{pathname,body});
-      assert.equal(blocked,false,'test-admin context blocked an out-of-scope request');return response;
+      assert.equal(blocked,false,'test-admin context blocked an out-of-scope request');
+      if (!body) {
+        const event=response.json?.workspace?.event;
+        if (response.status===200&&response.json?.success===true&&event?.id===CLINIC_SETUP.event&&event.partnerSlug==='mvl-demo')
+          result.adminDiagnostics.roleEvidence='scoped_partner_admin_controls_and_authenticated_exact_event_api';
+        else result.adminDiagnostics.inlineError=`Authenticated event access was not verified (HTTP ${response.status})`;
+      }
+      return response;
     };
     try {
       const codePath=`/api/clinic/events/${CLINIC_SETUP.event}/access-codes`;
       const rawCode=await issueClinicSetupCode({
         normalLogin:async()=>{
-          await adminPage.goto(new URL('/expungement-ai/sign-in?mode=signin&next=%2Fpartner%2Fclinic',baseUrl).href);
+          await adminPage.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(adminPath)}`,baseUrl).href);
           const auth=await signIn(adminPage,CLINIC_CODE_ADMIN.email,password);
           assert.equal(auth?.user?.id,CLINIC_CODE_ADMIN.id,'normal test-admin identity mismatch');
-          await adminPage.waitForURL(url=>url.pathname==='/partner/clinic');
-          await adminPage.getByRole('heading',{name:'Clinic Mode administration',exact:true}).waitFor();
+          await adminPage.waitForURL(url=>url.pathname===adminPath);
+          assert.equal(result.adminDiagnostics.httpStatus,200,'Scoped Clinic event page did not load successfully');
+          await requireClinicAdminControls(adminPage);
+          result.adminDiagnostics.currentPathname=clinicSetupSafePathname(adminPage.url(),process.env);
+          result.adminDiagnostics.roleEvidence='scoped_partner_admin_event_controls';
           return {id:auth.user.id,partnerAdminVisible:true};
         },
         readWorkspace:()=>call(`/api/clinic/events/${CLINIC_SETUP.event}`),now:()=>Date.now(),
@@ -130,6 +148,9 @@ async function runJourney() {
         saveVerified:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-verified.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'})
       });
       clinicAccessCode=rawCode; process.env.RCAP_BROWSER_CLINIC_ACCESS_CODE=rawCode;
+    } catch(error) {
+      await captureClinicAdminFailure(adminPage,result.adminDiagnostics,process.env);
+      throw error;
     } finally {await admin.close();}
   }
 
