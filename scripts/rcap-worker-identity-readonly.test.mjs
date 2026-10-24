@@ -34,7 +34,7 @@ for(const [label,token,expected] of [
  });
 }
 test('malformed credential is refused before any network request',()=>{
- for(const value of [undefined,'','   ','FlyV1 missing\\nInjected: value','invalid multiple words']){
+ for(const value of [undefined,'','   ','FlyV1 missing'+String.fromCharCode(10)+'Injected: value','invalid multiple words']){
    assert.throws(()=>flyReadOnlyAuthorizationHeader(value),/credential/i);
  }
 });
