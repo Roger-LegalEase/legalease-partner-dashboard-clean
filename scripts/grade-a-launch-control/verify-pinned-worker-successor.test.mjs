@@ -253,3 +253,31 @@ test('successor custody preserves deleted source and separately binds narrow run
   console.log(JSON.stringify({scope:'SYNTHETIC RESPONSIBILITY CUSTODY ONLY',realHistoricalFixtureBytes:deleted.length,refusals,nativeExecuted:false,authorityCreated:false}));
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+// These tiny committed validators exercise the historical result gate only;
+// actual e869 native custody is checked separately by its complete validator.
+test('historical predecessor gate admits only fully verified held forward results and preserves legacy results',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-held-predecessor-gate-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ const candidate={status:'FORWARD_BOUND_HOSTED_PENDING',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,deploymentAuthorized:false,clinicDispatchReady:false};
+ const result={status:candidate.status,bindingVerified:true,current:false,productionAuthorized:false};
+ const commit=(c,r)=>{
+  fs.mkdirSync(path.dirname(path.join(root,CANDIDATE)),{recursive:true});
+  fs.writeFileSync(path.join(root,CANDIDATE),JSON.stringify(c));
+  fs.writeFileSync(path.join(root,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'),`export function verifyReleaseCandidateBinding(){return ${JSON.stringify(r)}}`);
+  git(['add','--',CANDIDATE,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs']);git(['commit','--quiet','--allow-empty','-m','SYNTHETIC historical result gate']);
+  const sha=git(['rev-parse','HEAD']);git(['update-ref','refs/remotes/origin/captain-release',sha]);return sha;
+ };
+ try{
+  git(['init','--quiet']);git(['config','user.name','Synthetic Test']);git(['config','user.email','synthetic@example.test']);
+  git(['remote','add','origin','https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean.git']);
+  fs.mkdirSync(path.join(root,'scripts/grade-a-launch-control'),{recursive:true});
+  assert.equal(assertCommittedPredecessor(root,commit(candidate,result)).historyValid,true);
+  for(const [key,value]of [['runtimeAccepted',false],['previewExecution','ready'],['productionAuthorized',true],['deploymentAuthorized',true],['clinicDispatchReady',true],['status','FORGED']])
+   assert.throws(()=>assertCommittedPredecessor(root,commit({...candidate,[key]:value},result)),undefined,`candidate ${key}`);
+  for(const [key,value]of [['bindingVerified',false],['bindingVerified',undefined],['current',true],['productionAuthorized',true],['status','INVALID_FORWARD_BINDING'],['status','FORGED']])
+   assert.throws(()=>assertCommittedPredecessor(root,commit(candidate,{...result,[key]:value})),undefined,`validator ${key}`);
+  assert.equal(assertCommittedPredecessor(root,commit({...candidate,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'},{...result,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'})).historyValid,true);
+  assert.equal(assertCommittedPredecessor(root,commit({status:'CURRENT'},{current:true,status:'CURRENT'})).historyValid,true);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});

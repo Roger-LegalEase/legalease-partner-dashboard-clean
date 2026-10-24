@@ -63,6 +63,9 @@ if(c.forwardProduction||c.hostedAdmission){
  const {verifyReleaseCandidateBinding}=await import('./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs');const r=verifyReleaseCandidateBinding(process.cwd(),c);
  if(c.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'){
   if(c.runtimeAccepted!==true||c.previewExecution!=='held'||c.productionAuthorized!==false||c.deploymentAuthorized!==false||c.clinicDispatchReady!==false||r.bindingVerified!==true||r.current!==false||r.productionAuthorized!==false||r.status!==c.status)throw Error(JSON.stringify(r));
+ }else if(c.status==='FORWARD_BOUND_HOSTED_PENDING'){
+  // A fully verified forward tuple preserves accepted runtime custody while hosted execution stays held.
+  if(c.runtimeAccepted!==true||c.previewExecution!=='held'||c.productionAuthorized!==false||c.deploymentAuthorized!==false||c.clinicDispatchReady!==false||r.bindingVerified!==true||r.current!==false||r.productionAuthorized!==false||r.status!==c.status)throw Error(JSON.stringify(r));
  }else if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));
 }
 console.log('HISTORICAL_PREDECESSOR_VALID');`;
