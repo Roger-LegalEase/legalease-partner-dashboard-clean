@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DTC, hash, payAndQueue, verifyDelivery, matterQuery } from './rcap-hosted-existing-dtc-continuation.mjs';
+import { DTC, hash, payAndQueue, verifyDelivery, matterQuery, runtime, preflightPaymentReceipts } from './rcap-hosted-existing-dtc-continuation.mjs';
 const clone = x => structuredClone(x);
 const jobId = '11111111-1111-4111-8111-111111111111';
 function fixture() {
@@ -26,7 +26,7 @@ function fixture() {
     output_storage_path: `packet-artifacts/consumer/${jobId}/${jobId}/${hash(bytes)}.pdf` };
   const calls = []; let completed = false;
   const io = {
-    verifyTarget: async () => calls.push('target'), readMatter: async () => state,
+    preflightPayment: async () => calls.push('preflight'), verifyTarget: async () => calls.push('target'), readMatter: async () => state,
     app: async (url, actor, body) => {
       calls.push([url,actor,body]);
       if (url.endsWith('/checkout')) return { status:200, json: { briefcaseItemId:DTC.item, amountCents:5000, currency:'usd', mode:'stripe', alreadyPaid:false, paymentPending:false, checkoutSessionId:session.id, checkoutUrl:session.url } };
@@ -116,4 +116,40 @@ test('fixed case readback is read only and omits packet answers',()=>{
   const query=matterQuery();assert.ok(query.startsWith('begin transaction read only;'));
   assert.ok(query.includes(DTC.item));assert.ok(!/\b(insert|update|delete)\b/i.test(query));
   assert.ok(!query.includes('draft_snapshot'));assert.ok(!query.includes('ssn'));
+});
+
+// Exercise the actual runtime adapter with a mocked existing browser helper; no remote request.
+test('runtime refuses missing bypass credential before any Checkout and passes existing credential to helper', async()=>{
+  const fs = await import('node:fs/promises'); const os = await import('node:os'); const path = await import('node:path');
+  const scratch = await fs.mkdtemp(path.join(os.tmpdir(),'d132-adapter-test-'));
+  const stateFile=path.join(scratch,'state.json');
+  await fs.writeFile(stateFile,JSON.stringify({cookies:[{name:'_vercel_jwt',value:'mock-platform-cookie'}]}));
+  const env={STRIPE_SECRET_KEY:'sk_test_MOCKONLY',SUPABASE_ACCESS_TOKEN:'mock',SUPABASE_ANON_KEY:'mock',VERCEL_TOKEN:'mock',
+    DTC_OWNER_EMAIL:'mock-owner@rcap-acceptance.test',DTC_OWNER_PASSWORD:'mock',DTC_STRANGER_EMAIL:'mock-stranger@rcap-acceptance.test',DTC_STRANGER_PASSWORD:'mock'};
+  // Existing persistent directory only; runtime construction writes no evidence files here.
+  const config={outputDir:process.cwd(),protectionStateFile:stateFile};
+  let observed=null; const checkoutBrowser=async options=>{observed=options;return {completed:true};};
+  const originalFetch=globalThis.fetch;
+  try {
+    globalThis.fetch=async url=>{
+      assert.equal(url,`https://${DTC.project}.supabase.co/auth/v1/token?grant_type=password`);
+      return new Response(JSON.stringify({user:{id:DTC.owner},access_token:'mock-session'}),{status:200});
+    };
+    await assert.rejects(runtime(config,env,{checkoutBrowser}),/VERCEL_AUTOMATION_BYPASS_SECRET/);
+    const io=await runtime(config,{...env,VERCEL_AUTOMATION_BYPASS_SECRET:'mock-existing-bypass'},{checkoutBrowser});
+    await io.completeCheckout({checkoutUrl:'https://checkout.stripe.com/mock',expectedReturnUrl:DTC.origin});
+    assert.equal(observed.previewProtectionBypassSecret,'mock-existing-bypass');
+    assert.equal(observed.sessionCookies[0].name,'_vercel_jwt');assert.equal(observed.screenshotDir,null);
+  } finally {globalThis.fetch=originalFetch;await fs.rm(scratch,{recursive:true});}
+});
+for(const label of ['checkout-created','provider-paid','queued','payment-attempt']) test(`actual prior ${label} receipt stops before target or Checkout`,async()=>{
+  const fs=await import('node:fs/promises');const os=await import('node:os');const path=await import('node:path');
+  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'d132-receipt-test-'));
+  try {
+    await fs.writeFile(path.join(dir,`${label}.private.json`),'{}');
+    const f=fixture();f.io.preflightPayment=()=>preflightPaymentReceipts(dir,(name,value)=>
+      fs.writeFile(path.join(dir,`${name}.private.json`),JSON.stringify(value),{flag:'wx'}));
+    await assert.rejects(payAndQueue(f,f.io));assert.equal(f.calls.length,0);
+    assert.equal(await fs.readFile(path.join(dir,`${label}.private.json`),'utf8'),'{}');
+  } finally {await fs.rm(dir,{recursive:true});}
 });

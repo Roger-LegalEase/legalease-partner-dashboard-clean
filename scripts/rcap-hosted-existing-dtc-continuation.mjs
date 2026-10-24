@@ -67,8 +67,17 @@ function assertJob(job, session, id) {
   requireEqual(job.consumer_verification_hash, session.metadata.verification_hash);
 }
 
+export async function preflightPaymentReceipts(outputDir, save) {
+  for (const label of ['checkout-created', 'provider-paid', 'queued']) {
+    try { await fs.access(path.join(outputDir, `${label}.private.json`)); }
+    catch (error) { if (error.code === 'ENOENT') continue; throw error; }
+    throw new Error('prior payment receipt requires diagnosis before any Checkout request');
+  }
+  await save('payment-attempt', { item: DTC.item });
+}
+
 export async function payAndQueue({ stage, baseline }, io) {
-  assertStage(stage, baseline); await io.verifyTarget(stage);
+  assertStage(stage, baseline); await io.preflightPayment(); await io.verifyTarget(stage);
   const before = await io.readMatter(); assertMatter(before, baseline);
   assert.notEqual(before.payment_status, 'paid', 'existing payment requires explicit recovery, never another purchase');
   requireEqual(before.checkout_session_id, null, 'stored Checkout requires recovery before continuation');
@@ -182,12 +191,12 @@ from public.consumer_briefcase_items b join public.consumer_packet_verifications
 where b.id='${DTC.item}'; commit;`;
 }
 
-async function runtime(config, env) {
+export async function runtime(config, env, { checkoutBrowser } = {}) {
   const { default: Stripe } = await import('stripe');
-  const { completeHostedCheckout } = await import('./rcap-stripe-checkout-browser.mjs');
+  const completeHostedCheckout = checkoutBrowser ?? (await import('./rcap-stripe-checkout-browser.mjs')).completeHostedCheckout;
   const { resolveHostedVercelIdentity, hostedVercelScopedUrl } = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
   assert.match(env.STRIPE_SECRET_KEY ?? '', /^sk_test_/);
-  for (const key of ['SUPABASE_ACCESS_TOKEN', 'SUPABASE_ANON_KEY', 'VERCEL_TOKEN', 'DTC_OWNER_EMAIL', 'DTC_OWNER_PASSWORD', 'DTC_STRANGER_EMAIL', 'DTC_STRANGER_PASSWORD']) assert.ok(env[key], `${key} required from existing authorized custody`);
+  for (const key of ['SUPABASE_ACCESS_TOKEN', 'SUPABASE_ANON_KEY', 'VERCEL_TOKEN', 'VERCEL_AUTOMATION_BYPASS_SECRET', 'DTC_OWNER_EMAIL', 'DTC_OWNER_PASSWORD', 'DTC_STRANGER_EMAIL', 'DTC_STRANGER_PASSWORD']) assert.ok(env[key], `${key} required from existing authorized custody`);
   assert.ok(path.isAbsolute(config.outputDir) && !config.outputDir.startsWith('/tmp/'), 'unique evidence must remain persistent');
   await fs.mkdir(config.outputDir, { recursive: true, mode: 0o700 });
   assert.ok(!(await fs.realpath(config.outputDir)).startsWith('/tmp/'), 'persistent output cannot resolve into scratch');
@@ -234,6 +243,7 @@ async function runtime(config, env) {
   const readMatter = () => sqlOne(matterQuery());
   return {
     save, app, readMatter,
+    preflightPayment: () => preflightPaymentReceipts(config.outputDir, save),
     async verifyTarget(stage) {
       const identity = await resolveHostedVercelIdentity();
       const response = await fetch(hostedVercelScopedUrl(`/v13/deployments/${stage.deploymentId}`, identity), {
@@ -261,7 +271,7 @@ async function runtime(config, env) {
     session: id => stripe.checkout.sessions.retrieve(id), lineItems: id => stripe.checkout.sessions.listLineItems(id),
     paymentIntent: id => { assert.match(id ?? '', /^pi_/); return stripe.paymentIntents.retrieve(id); },
     event: id => stripe.events.retrieve(id),
-    async completeCheckout(options) { return completeHostedCheckout({ ...options, email: env.DTC_OWNER_EMAIL,
+    async completeCheckout(options) { return completeHostedCheckout({ ...options, email: env.DTC_OWNER_EMAIL, previewProtectionBypassSecret: env.VERCEL_AUTOMATION_BYPASS_SECRET,
       sessionCookies: [...platform, ...(accounts.get('owner') ?? await login('owner'))], screenshotDir: null }); },
     async waitPaid() {
       for (let attempt=0; attempt<30; attempt++) {
