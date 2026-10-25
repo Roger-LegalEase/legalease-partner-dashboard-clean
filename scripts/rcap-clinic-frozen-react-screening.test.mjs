@@ -13,9 +13,9 @@ const transport=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-cl
 const diagnostic=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-live-screening-progress.mjs')).href);
 const runtime=frozenScreeningRuntime({repo:dependencyRoot});
 const proof={application:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',hostedJourneyCompleted:false,actualDatabaseProof:false,
- boundaries:runtime.boundaries,cases:[]};
+ boundaries:runtime.boundaries,frameworkPins:runtime.frameworkPins,cases:[]};
 
-async function withFixture(options,run) {
+async function withFixture({waitForInitialQuestion=true,...options},run) {
  const site=await startFrozenReactScreeningSite({runtime,...options});
  const launch={headless:true,executablePath:process.env.RCAP_BROWSER_CHROMIUM??'/usr/bin/google-chrome'};
  const browser=await chromium.launch(launch).catch(async error=>{await site.close();throw error;});
@@ -29,7 +29,7 @@ async function withFixture(options,run) {
   page.on('pageerror',error=>errors.push(error.message));
   const completion=page.waitForResponse(response=>transport.matchesOriginalResponse(response,'completion',config),{timeout:60000}).then(response=>({response}),()=>null);
   await page.goto(site.origin+'/clinic/local-screening-fixture/screening/ms');
-  await page.getByRole('heading',{name:'Are you asking about your own record?',exact:true}).waitFor();
+  if(waitForInitialQuestion)await page.getByRole('heading',{name:'Are you asking about your own record?',exact:true}).waitFor();
   await run({site,page,completion,config});
   assert.deepEqual(errors,[],'Real React component emitted page errors');
   await context.close();
@@ -114,9 +114,42 @@ test('frozen actual progress POST handles empty answers and every existing synth
  }finally{await site.close();}
 });
 
+test('installed Next announcer reproduces the legacy loading alert failure while the screening helper awaits the real question',{timeout:120000},async()=>{
+ let releaseInitialProgress;
+ const initialProgressGate=new Promise(resolve=>{releaseInitialProgress=resolve;});
+ try {
+  await withFixture({initialProgressGate,waitForInitialQuestion:false},async fixture=>{
+   const {page,site}=fixture;
+   const announcer=page.locator('next-route-announcer').locator('#__next-route-announcer__');
+   await announcer.waitFor({state:'visible'});
+   assert.equal(await announcer.getAttribute('role'),'alert');
+   assert.equal(await announcer.getAttribute('aria-live'),'assertive');
+   assert.equal(await announcer.evaluate(node=>node.getRootNode().host.localName),'next-route-announcer');
+   assert.equal(await page.getByRole('heading',{name:'Are you asking about your own record?',exact:true}).isVisible(),false);
+   const legacyAlertVisible=await page.getByRole('alert').first().isVisible();
+   assert.throws(()=>assert.equal(legacyAlertVisible,false,'Screening reported an error; no retry or invented answer'),/Screening reported an error/);
+   let settled=false;
+   const screening=helper.runMississippiScreening(page).then(value=>({value}),error=>({error})).finally(()=>{settled=true;});
+   try {
+    await site.initialProgressRequested;
+    assert.deepEqual((await helper.screeningAlertDetails(page)).map(alert=>alert.source),['next_route_announcer']);
+    assert.equal(settled,false,'Helper must wait during the held initial progress response');
+    releaseInitialProgress();
+    const result=await screening;if(result.error)throw result.error;
+    await confirmResult(fixture,result.value);
+    assert.deepEqual(result.value.answeredQuestionIds,['ownership_scope','jurisdiction_scope','case_outcome','offense_level','possible_pathway_context','court_requirements_completed','resolved_timing_bucket']);
+    assert.deepEqual(result.value.omittedQuestionIds,['ms_program_order']);
+    assert.equal(site.state.pendingCalls,0);assert.equal(site.state.claimCalls,0);
+    proof.cases.push({id:'actual_next_announcer_loading_gate',legacyBroadAlertRejected:true,heldInitialProgress:true,actualNextVersion:runtime.frameworkPins.nextVersion,...result.value});
+   }finally{releaseInitialProgress();await screening;}
+  });
+ }finally{releaseInitialProgress();}
+});
+
 test('actual React refuses the real progress handler version error before evaluation or saving',{timeout:120000},async()=>{
  await withFixture({progressFault:'invalid_version_after_initial'},async fixture=>{
-  await assert.rejects(helper.runMississippiScreening(fixture.page),/Screening reported an error/);
+  await assert.rejects(helper.runMississippiScreening(fixture.page),/Screening application alert/);
+  assert.ok((await helper.screeningAlertDetails(fixture.page)).some(alert=>alert.source==='application'));
   await fixture.page.getByRole('alert').filter({hasText:'We could not load the next question.'}).waitFor({state:'visible'});
   assert.equal(fixture.site.state.progressCalls,2,'Initial plan plus one failed Continue; no retry');
   assert.deepEqual(fixture.site.state.progressResponses.at(-1),{httpStatus:409,error:'profile_version_mismatch'});
@@ -184,9 +217,9 @@ test.after(()=>{
 });
 
 test('complete read-only browser collector traverses its real guard and observer against original HTTP handlers, and retains later refusal',{timeout:120000},async()=>{
- for(const outcome of ['success','refusal','transport_failure']) {
+ for(const outcome of ['success','refusal','transport_failure','ui_refusal']) {
   const refused=outcome==='refusal';
-  const site=await startFrozenReactScreeningSite({runtime,progressFault:refused?'invalid_version_after_initial':null});
+  const site=await startFrozenReactScreeningSite({runtime,progressFault:refused?'invalid_version_after_initial':outcome==='ui_refusal'?'invalid_version_react_initial':null});
   let requests=0;
   const browserType={launch:async options=>{
    const native=await chromium.launch(options);
@@ -197,7 +230,7 @@ test('complete read-only browser collector traverses its real guard and observer
      if(key==='fetch')return options=>{
       const url=new URL(target.request().url());
       assert.equal(url.origin,'https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app');
-      assert.ok(['/api/expungement-ai/profiles/MS','/api/expungement-ai/screening/progress'].includes(url.pathname));
+      assert.ok(['/api/expungement-ai/profiles/MS','/api/expungement-ai/screening/progress','/expungement-ai/screening/ms','/_next/static/clinic-fixture.js'].includes(url.pathname));
       requests++;
       if(outcome==='transport_failure'&&requests===3)throw Error('local upstream transport failure');
       return target.fetch({...options,url:site.origin+url.pathname});
@@ -212,10 +245,14 @@ test('complete read-only browser collector traverses its real guard and observer
    if(refused) {
     assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,409);assert.equal(result.observed,'application_refusal');
     assert.equal(result.responseObservations.at(-1).errorCode,'profile_version_mismatch');assert.equal(requests,3);
+   }else if(outcome==='ui_refusal') {
+    assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,409);assert.equal(result.observed,'application_refusal');
+    assert.equal(result.reactInitialization.responseObservations.at(-1).errorCode,'profile_version_mismatch');assert.equal(requests,14);
+    assert.ok(result.reactInitialization.alertDetails.some(a=>a.source==='application'));
    }else if(outcome==='transport_failure') {
     assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,null);assert.equal(result.observed,'transport_failure');
     assert.equal(result.responseObservations.at(-1).httpStatus,null);assert.equal(requests,3);assert.equal(site.state.progressCalls,1);
-   }else {diagnostic.assertClinicProgressEvidence(result);assert.equal(requests,10);}
+   }else {diagnostic.assertClinicProgressEvidence(result);assert.equal(requests,14);assert.equal(result.reactInitialization.firstQuestionId,'ownership_scope');assert.ok(result.reactInitialization.alertDetails.some(a=>a.source==='next_route_announcer'));}
    assertNoDownstream(site);assert.deepEqual(runtime.sideEffects,{databaseCalls:0,cookieCalls:0});
    assert(!JSON.stringify(result).includes('local-fixture-only'));
    proof.cases.push({id:'full_collector_'+outcome,transportAttempts:requests,httpRequests:outcome==='transport_failure'?requests-1:requests,actualHandlers:true,livePreview:false,downstreamEffects:0});

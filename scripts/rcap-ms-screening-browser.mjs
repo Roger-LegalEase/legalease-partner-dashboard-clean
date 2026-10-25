@@ -41,17 +41,31 @@ export async function answerMississippiChoice(page,choice) {
  await page.getByRole('button',{name:/^Continue(?:\s|$)/}).click();
 }
 
-export async function screeningFailureDiagnostics(page,{observations=[],stages=[]}={}) {
- const known=[...MISSISSIPPI_SCREENING_CHOICES.map(q=>q.prompt),
+const publicScreeningCopy=[...MISSISSIPPI_SCREENING_CHOICES.map(q=>q.prompt),
   'Something went wrong loading these questions.',
   "We could not load this state's screening questions correctly, so we stopped rather than show you something unreliable. Please try again in a moment.",
-  'We could not load the next question. Your answers are still here; try continuing again.'];
- const project=text=>{const found=known.filter(copy=>text.includes(copy));return found.length?found:['unrecognized text redacted'];};
- const alerts=await page.locator('[role="alert"]:visible').allInnerTexts().catch(()=>[]);
+  'We could not load the next question. Your answers are still here; try continuing again.',
+  'LegalEase Partner Dashboard','Expungement.ai | Free guided record-clearing check'];
+const publicText=text=>{if(text==='')return [''];const found=publicScreeningCopy.filter(copy=>text.includes(copy));return found.length?found:['unrecognized text redacted'];};
+export async function screeningAlertDetails(page) {
+ const details=[];
+ for(const alert of await page.getByRole('alert').all()) {
+  if(!await alert.isVisible())continue;
+  const framework=await alert.evaluate(node=>{
+   const root=node.getRootNode();
+   return node.tagName==='DIV'&&node.id==='__next-route-announcer__'&&node.getAttribute('aria-live')==='assertive'
+    &&root instanceof ShadowRoot&&root.mode==='open'&&root.host.tagName==='NEXT-ROUTE-ANNOUNCER';
+  });
+  details.push({source:framework?'next_route_announcer':'application',visible:true,text:publicText(await alert.innerText())});
+ }
+ return details;
+}
+export async function screeningFailureDiagnostics(page,{observations=[],stages=[]}={}) {
+ const alertDetails=await screeningAlertDetails(page);
  const headings=await page.locator('h1:visible,h2:visible,h3:visible').allInnerTexts().catch(()=>[]);
  const path=new URL(page.url()).pathname;
  const pathname=['/','/clinic/local-screening-fixture/screening/ms','/clinic/mississippi-volunteer-lawyers-demo/screening/ms','/expungement-ai/screening/ms'].includes(path)?path:/^\/briefcase\/matters\/[a-f0-9-]{36}$/.test(path)?'/briefcase/matters/[matter-id]':'[unrecognized_path]';
- return {pathname,alerts:alerts.map(project),headings:headings.map(project),
+ return {pathname,alerts:alertDetails.filter(a=>a.source==='application').map(a=>a.text),alertDetails,headings:headings.map(publicText),
   apiObservations:observations.filter(o=>['profile','progress','evaluation','completion','pending','claim'].includes(o.operation)).slice(-10),
   apiStages:stages.filter(o=>['profile','progress','evaluation','completion','pending','claim'].includes(o.operation)).slice(-10)};
 }
@@ -69,6 +83,8 @@ export async function runMississippiScreening(page,diagnostics={}) {
   for(let step=0;step<=MISSISSIPPI_SCREENING_CHOICES.length;step++) {
    const deadline=Date.now()+45000;let shown=null;
    while(Date.now()<deadline) {
+    const alerts=await screeningAlertDetails(page);
+    assert.deepEqual(alerts.filter(a=>a.source==='application'),[],'Screening application alert; no retry or invented answer');
     if(await resultHeading.isVisible()) {
      assert.ok(evaluationStatuses.length&&evaluationStatuses.at(-1)>=200&&evaluationStatuses.at(-1)<300,'Result requires a successful original evaluation response');
      requireOriginalResponse(evaluations.at(-1),'evaluation');
@@ -76,8 +92,6 @@ export async function runMississippiScreening(page,diagnostics={}) {
     }
     for(const choice of remaining.values())if(await heading(page,choice.prompt).isVisible()){shown=choice;break;}
     if(shown)break;
-    const alert=page.getByRole('alert');
-    assert.equal(await alert.first().isVisible(),false,'Screening reported an error; no retry or invented answer');
     await page.waitForTimeout(100);
    }
    assert.ok(shown,'No supported remaining question or accepted result appeared');

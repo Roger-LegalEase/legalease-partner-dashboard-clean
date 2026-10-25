@@ -73,6 +73,12 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
  const publicProfile=load('src/lib/rcap-engine/public-profile-projection.ts').projectPublicProfile(profile);
  const selection=load('src/lib/rcap-engine/screening-question-selection.ts').selectScreeningQuestionIds;
  const evaluate=load('src/lib/expungement-ai/authoritative-screening-result.ts').evaluateAuthoritativeScreeningResult;
+ const nextVersion=JSON.parse(read('package-lock.json')).packages['node_modules/next'].version;
+ assert.equal(nativeRequire('next/package.json').version,nextVersion,'Installed Next must match the frozen application lock');
+ const announcerModule='next/dist/client/components/app-router-announcer.js';
+ const announcerSha256='70aac21e21d9acbfa4086f98742e44aa6e601ee018b6db643e421bd5ec870615';
+ assert.equal(sha(fs.readFileSync(nativeRequire.resolve(announcerModule))),announcerSha256,'Installed Next announcer source changed');
+ const frameworkPins={nextVersion,announcerModule,announcerSha256};
  let browserBundle;
  const buildBrowserBundle=()=>{
   if(browserBundle)return browserBundle;
@@ -86,7 +92,7 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
    '@/lib/analytics/client':`exports.trackFunnelEvent=()=>{};`,
    'server-only':``
   };
-  const entry=`const R=require('react');const{createRoot}=require('react-dom/client');const{LocalizationProvider}=require('@/components/expungement-ai/LocalizationProvider');const{ScreeningFlow}=require('@/components/expungement-ai/screening/ScreeningFlow');window.__screeningFixture={navigation:null};createRoot(document.getElementById('root')).render(R.createElement(LocalizationProvider,null,R.createElement(ScreeningFlow,{state:'MS',initialSessionId:${JSON.stringify(FIXTURE_SESSION_ID)},partnerDisplayName:'Synthetic Clinic fixture'})));`;
+  const entry=`const R=require('react');const{createRoot}=require('react-dom/client');const{LocalizationProvider}=require('@/components/expungement-ai/LocalizationProvider');const{ScreeningFlow}=require('@/components/expungement-ai/screening/ScreeningFlow');const{AppRouterAnnouncer}=require('next/dist/client/components/app-router-announcer.js');window.__screeningFixture={navigation:null};createRoot(document.getElementById('root')).render(R.createElement(R.Fragment,null,R.createElement(AppRouterAnnouncer,{tree:[]}),R.createElement(LocalizationProvider,null,R.createElement(ScreeningFlow,{state:'MS',initialSessionId:${JSON.stringify(FIXTURE_SESSION_ID)},partnerDisplayName:'Synthetic Clinic fixture'}))));`;
   const add=(key,body,relative=null,packageFile=null)=>{
    if(ids.has(key))return ids.get(key);
    const id=modules.length;ids.set(key,id);modules.push(null);
@@ -95,13 +101,14 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
     const specifier=match[1];if(Object.hasOwn(deps,specifier))continue;
     if(Object.hasOwn(stubs,specifier))deps[specifier]=add('stub:'+specifier,stubs[specifier]);
     else if(specifier.startsWith('@/')||relative&&specifier.startsWith('.')) {
-     const target=resolveSource(specifier,relative??'src/fixture.js');
+     const target=resolveSource(specifier,relative??'src/_next/static/clinic-fixture.js');
      deps[specifier]=target.endsWith('.json')?add(target,'module.exports='+read(target)+';'):add(target,read(target),target);
     } else {
      assert.ok(!specifier.startsWith('node:'),'Node dependency cannot enter browser fixture');
      const requireAt=packageFile?createRequire(packageFile):nativeRequire;
      const target=requireAt.resolve(specifier);
      const bytes=fs.readFileSync(target,'utf8');
+     if(specifier===announcerModule)assert.equal(sha(bytes),announcerSha256);
      deps[specifier]=add(target,target.endsWith('.json')?'module.exports='+bytes+';':bytes,null,target);
     }
    }
@@ -110,30 +117,33 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
   const entryId=add('fixture-entry',entry);
   return browserBundle=`(function(){const process={env:{NODE_ENV:'production'}};const definitions={${modules.map((m,i)=>`${i}:[function(module,exports,require){\n${m.code}\n},${JSON.stringify(m.deps)}]`).join(',\n')}};const cache={};function load(id){if(cache[id])return cache[id].exports;const module={exports:{}};cache[id]=module;const[run,deps]=definitions[id];run(module,module.exports,name=>{if(!Object.hasOwn(deps,name))throw Error('Unmapped browser dependency '+name);return load(deps[name]);});return module.exports;}load(${entryId});})();`;
  };
- return {profile,publicProfile,profileGET,progressPOST,screeningAnswers,sideEffects,select:answers=>selection(profile,publicProfile,answers),evaluate,buildBrowserBundle,
-  sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Next router navigation port','Next Link/Image rendering ports','Decorative icons and Wilma omitted; analytics disabled','Packet availability flags fixed false: fixture cannot grant fulfillment','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
+ return {frameworkPins,profile,publicProfile,profileGET,progressPOST,screeningAnswers,sideEffects,select:answers=>selection(profile,publicProfile,answers),evaluate,buildBrowserBundle,
+  sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Installed frozen-lock-version Next AppRouterAnnouncer with pinned source; Next router navigation port','Next Link/Image rendering ports','Decorative icons and Wilma omitted; analytics disabled','Packet availability flags fixed false: fixture cannot grant fulfillment','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
 }
 
-export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null}={}) {
+export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null}={}) {
  assert.ok(runtime);assert.ok(['engine','omit_optional','early_result','reverse_timing'].includes(planMode));
- assert.ok(progressFault===null||progressFault==='invalid_version_after_initial');
+ assert.ok(progressFault===null||['invalid_version_after_initial','invalid_version_react_initial'].includes(progressFault));
  const state={requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
+ let notifyInitialProgress;
+ const initialProgressRequested=new Promise(resolve=>{notifyInitialProgress=resolve;});
  const bundle=runtime.buildBrowserBundle();
  const send=(response,status,body)=>{response.writeHead(status,{'content-type':'application/json','cache-control':'no-store'});response.end(JSON.stringify(body));};
  const forward=async(response,actual)=>{response.writeHead(actual.status,Object.fromEntries(actual.headers));response.end(Buffer.from(await actual.arrayBuffer()));};
  const server=http.createServer(async(request,response)=>{
   try {
    const url=new URL(request.url,`http://${request.headers.host}`);
-   if(url.pathname==='/fixture.js'){response.writeHead(200,{'content-type':'application/javascript','cache-control':'no-store'});return response.end(bundle);}
+   if(url.pathname==='/_next/static/clinic-fixture.js'){response.writeHead(200,{'content-type':'application/javascript','cache-control':'no-store'});return response.end(bundle);}
    if(request.method==='GET'&&url.pathname.startsWith('/api/expungement-ai/profiles/'))return forward(response,await runtime.profileGET(new Request(url),{params:Promise.resolve({state:decodeURIComponent(url.pathname.split('/').at(-1))})}));
-   if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end('<!doctype html><html lang="en"><body><div id="root"></div><script src="/fixture.js"></script></body></html>');}
+   if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end('<!doctype html><html lang="en"><body><div id="root"></div><script src="/_next/static/clinic-fixture.js"></script></body></html>');}
    assert.equal(request.method,'POST');let raw='';for await(const chunk of request)raw+=chunk;
    let body;try{body=JSON.parse(raw);}catch{body=null;}
    state.requests.push({path:url.pathname,method:request.method,answerIds:body?.answers&&typeof body.answers==='object'?Object.keys(body.answers):[]});
    if(url.pathname==='/api/expungement-ai/screening/progress') {
     state.progressCalls++;
+    if(state.progressCalls===1){notifyInitialProgress();if(initialProgressGate)await initialProgressGate;}
     // Explicit malformed-request test port; the original handler owns its refusal.
-    const handlerBody=progressFault&&state.progressCalls>1?JSON.stringify({...body,profileVersion:'fixture-invalid-version'}):raw;
+    const handlerBody=progressFault&&state.progressCalls>(progressFault==='invalid_version_react_initial'?9:1)?JSON.stringify({...body,profileVersion:'fixture-invalid-version'}):raw;
     const actual=await runtime.progressPOST(new Request(url,{method:'POST',headers:request.headers,body:handlerBody}));
     const payload=await actual.clone().json().catch(()=>null);
     state.progressResponses.push({httpStatus:actual.status,error:payload?.error??null});
@@ -171,6 +181,6 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
   }catch(error){return send(response,500,{error:'fixture_handler_failure'});}
  });
  server.listen(0,'127.0.0.1');await once(server,'listening');const origin=`http://127.0.0.1:${server.address().port}`;
- return {origin,state,sourcePins:runtime.sourcePins,boundaries:runtime.boundaries,
+ return {origin,state,initialProgressRequested,sourcePins:runtime.sourcePins,boundaries:runtime.boundaries,
   async close(){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}};
 }

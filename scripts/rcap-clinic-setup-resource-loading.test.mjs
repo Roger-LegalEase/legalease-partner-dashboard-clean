@@ -292,3 +292,24 @@ test('native screening diagnostics retain an in-flight progress phase and actual
   assert.ok(stages.some(value=>value.stage==='response_body'));assert.ok(observations[0].accepted);
  }finally{release();await browser.close();await service.close();}
 });
+
+test('framework exclusion never hides simultaneous application alerts or a copied announcer ID',{timeout:30000},async()=>{
+ const browser=await chromium.launch(browserOptions());
+ try {
+  for(const order of ['framework_first','application_first','copied_id']) {
+   const page=await browser.newPage();await page.setContent('<h1>Are you asking about your own record?</h1>');
+   await page.evaluate(order=>{
+    const application=document.createElement('div');application.role='alert';application.textContent='We could not load the next question. Your answers are still here; try continuing again.';
+    if(order==='copied_id'){application.id='__next-route-announcer__';application.ariaLive='assertive';document.body.append(application);return;}
+    const host=document.createElement('next-route-announcer'),shadow=host.attachShadow({mode:'open'}),notice=document.createElement('div');
+    notice.id='__next-route-announcer__';notice.role='alert';notice.ariaLive='assertive';notice.style.cssText='position:absolute;height:1px;width:1px;clip:rect(0 0 0 0)';shadow.append(notice);
+    document.body.append(...(order==='framework_first'?[host,application]:[application,host]));
+   },order);
+   await assert.rejects(runMississippiScreening(page),error=>{
+    assert.match(error.message,/Screening application alert/);assert.equal(error.screeningDiagnostics.alerts.length,1);
+    assert.equal(error.screeningDiagnostics.alertDetails.filter(a=>a.source==='application').length,1);return true;
+   });
+   await page.close();
+  }
+ }finally{await browser.close();}
+});

@@ -15,7 +15,7 @@ function frameContext(request) {
         &&mode.length===1&&mode[0]==='signin'&&[...url.searchParams.keys()].every(key=>['mode','next'].includes(key))?'sign_in':null;
     }
     if(url.search)return null;
-    return ['/partner/clinic',adminPath,entryPath,entryPath+'/assist',entryPath+'/screening/ms','/briefcase'].includes(url.pathname)
+    return ['/partner/clinic',adminPath,entryPath,entryPath+'/assist',entryPath+'/screening/ms','/expungement-ai/screening/ms','/briefcase'].includes(url.pathname)
       || /^\/briefcase\/(?:matters\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(url.pathname)?'clinic_page':null;
   } catch{return null;}
 }
