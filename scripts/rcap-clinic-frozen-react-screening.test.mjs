@@ -27,10 +27,13 @@ async function withFixture({waitForInitialQuestion=true,...options},run) {
   await context.route('**/*',route=>new URL(route.request().url()).origin===site.origin?route.fallback():route.abort());
   const page=await context.newPage();page.setDefaultTimeout(10000);
   page.on('pageerror',error=>errors.push(error.message));
+  const profileResponse=page.waitForResponse(response=>transport.matchesOriginalResponse(response,'profile',config));
   const completion=page.waitForResponse(response=>transport.matchesOriginalResponse(response,'completion',config),{timeout:60000}).then(response=>({response}),()=>null);
   await page.goto(site.origin+'/clinic/local-screening-fixture/screening/ms');
+  const profile=transport.requireOriginalResponse(await profileResponse,'profile').profile;
+  assert.ok(profile,'Original public profile metadata must be captured before answering');
   if(waitForInitialQuestion)await page.getByRole('heading',{name:'Are you asking about your own record?',exact:true}).waitFor();
-  await run({site,page,completion,config});
+  await run({site,page,completion,config,profile});
   assert.deepEqual(errors,[],'Real React component emitted page errors');
   await context.close();
  }finally{await browser.close();await site.close();}
@@ -40,13 +43,25 @@ async function reachOptional(page) {
  for(const id of ['ownership_scope','jurisdiction_scope','case_outcome','offense_level'])await helper.answerMississippiChoice(page,choice(id));
  const optional=page.locator('[data-optional-pathway-help]');await optional.waitFor({state:'visible'});return optional;
 }
+async function assertUppercaseProgramOrder(page) {
+ const prompt=page.locator('#q-ms_program_order-prompt');await prompt.waitFor({state:'visible'});
+ const badge=prompt.locator(':scope > span');
+ assert.equal(await badge.textContent(),'Optional');
+ assert.equal(await badge.evaluate(node=>getComputedStyle(node).textTransform),'uppercase');
+ assert.match(await prompt.innerText(),/OPTIONAL$/);
+ const rendered=await prompt.innerText();
+ assert.throws(()=>assert.match(rendered,/Optional$/),'Legacy rendered-text assertion must fail under shipped badge CSS');
+}
 async function confirmResult({site,page,completion},observed) {
  assert.ok(site.state.requests.every(request=>!request.answerIds.includes('ms_program_order')),'Normal optional continuation must not invent a program-order answer');
  assert.ok(observed.omittedQuestionIds.includes('ms_program_order'),'Actual engine program-order screen must be traversed without an answer');
  assert.equal(site.state.evaluations.length,1,'Original real evaluator called once');
  assert.ok(['packet_ready','packet_ready_with_caution'].includes(site.state.evaluations[0].resultCode),'Do not manufacture a positive outcome for a UI plan case');
+ assert.deepEqual(runtime.authorityReadFailures,[],'Original evaluate must not silently substitute missing source files');
  const result=await completion;assert.ok(result,'Completion response not observed');transport.requireOriginalResponse(result.response,'completion');
  await helper.mississippiResultHeading(page).waitFor({state:'visible'});
+ await page.locator('[data-partner-context="saved"]').filter({hasText:/^Your partner program information is saved\. Packet coverage is confirmed before preparation\.$/}).waitFor({state:'visible'});
+ await helper.saveScreeningResultButton(page).waitFor({state:'visible'});
  for(const id of observed.answeredQuestionIds)assert.ok(runtime.publicProfile.questions.some(question=>question.id===id),`Helper reported a non-profile question ID: ${id}`);
 }
 async function saveAndClaim({site,page,config}) {
@@ -114,6 +129,27 @@ test('frozen actual progress POST handles empty answers and every existing synth
  }finally{await site.close();}
 });
 
+test('original evaluate POST preserves actual availability, source-owned route identity and refusal statuses',{timeout:120000},async()=>{
+ const site=await startFrozenReactScreeningSite({runtime,publicMode:true});
+ const input={jurisdiction:'MS',profileVersion:runtime.publicProfile.profileVersion,matterId:'matter-frozen-evaluation-fixture',answers:runtime.screeningAnswers};
+ const call=body=>fetch(site.origin+'/api/expungement-ai/evaluate',{method:'POST',headers:{'content-type':'application/json'},body:typeof body==='string'?body:JSON.stringify(body)});
+ try {
+  const accepted=await call(input);assert.equal(accepted.status,200);const value=await accepted.json();
+  assert.equal(value.jurisdiction,'MS');assert.equal(value.profileVersion,input.profileVersion);assert.equal(value.matterId,input.matterId);
+  assert.ok(['packet_ready','packet_ready_with_caution'].includes(value.resultCode));
+  assert.equal(typeof value.consumerPacketAvailable,'boolean');assert.equal(typeof value.sponsoredPacketAvailable,'boolean');
+  assert.ok(runtime.authorityReads.includes('data/rcap-grade-a/fulfillment-authority-registry.json'),'Availability must read the actual pinned registry, not an empty fallback');
+  assert.deepEqual(runtime.authorityReadFailures,[],'All actual static reads must resolve to frozen pinned blobs');
+  for(const [body,status,error] of [['{',400,'invalid_json'],[{},400,'invalid_request'],[{...input,jurisdiction:'ZZ'},404,'unsupported_jurisdiction'],[{...input,profileVersion:'invalid-fixture-version'},409,'profile_version_mismatch'],[{...input,selectedTrackId:'invented'},400,'route_identity_is_server_owned']]) {
+   const refused=await call(body);assert.equal(refused.status,status);assert.equal((await refused.json()).error,error);
+  }
+  assert.equal(site.state.pendingCalls,0);assert.equal(site.state.claimCalls,0);assert.equal(site.state.savedMatter,null);
+  assert.ok(site.state.requests.every(request=>request.path==='/api/expungement-ai/evaluate'));
+  assert.deepEqual(runtime.sideEffects,{databaseCalls:0,cookieCalls:0});
+  proof.cases.push({id:'actual_evaluate_wrapper',actualHandlers:true,availabilityFromPinnedRegistry:true,refusalStatuses:[400,400,404,409,400],businessWrites:0});
+ }finally{await site.close();}
+});
+
 test('installed Next announcer reproduces the legacy loading alert failure while the screening helper awaits the real question',{timeout:120000},async()=>{
  let releaseInitialProgress;
  const initialProgressGate=new Promise(resolve=>{releaseInitialProgress=resolve;});
@@ -129,7 +165,7 @@ test('installed Next announcer reproduces the legacy loading alert failure while
    const legacyAlertVisible=await page.getByRole('alert').first().isVisible();
    assert.throws(()=>assert.equal(legacyAlertVisible,false,'Screening reported an error; no retry or invented answer'),/Screening reported an error/);
    let settled=false;
-   const screening=helper.runMississippiScreening(page).then(value=>({value}),error=>({error})).finally(()=>{settled=true;});
+   const screening=helper.runMississippiScreening(page,{profile:fixture.profile}).then(value=>({value}),error=>({error})).finally(()=>{settled=true;});
    try {
     await site.initialProgressRequested;
     assert.deepEqual((await helper.screeningAlertDetails(page)).map(alert=>alert.source),['next_route_announcer']);
@@ -148,7 +184,7 @@ test('installed Next announcer reproduces the legacy loading alert failure while
 
 test('actual React refuses the real progress handler version error before evaluation or saving',{timeout:120000},async()=>{
  await withFixture({progressFault:'invalid_version_after_initial'},async fixture=>{
-  await assert.rejects(helper.runMississippiScreening(fixture.page),/Screening application alert/);
+  await assert.rejects(helper.runMississippiScreening(fixture.page,{profile:fixture.profile}),/Screening application alert/);
   assert.ok((await helper.screeningAlertDetails(fixture.page)).some(alert=>alert.source==='application'));
   await fixture.page.getByRole('alert').filter({hasText:'We could not load the next question.'}).waitFor({state:'visible'});
   assert.equal(fixture.site.state.progressCalls,2,'Initial plan plus one failed Continue; no retry');
@@ -163,8 +199,9 @@ test('frozen actual React collapsed optional help connects the shared helper to 
   const optional=await reachOptional(fixture.page);
   assert.equal(await optional.getByRole('button',{name:'Show optional help',exact:true}).getAttribute('aria-expanded'),'false');
   assert.equal(await optional.getByRole('radio',{name:choice('possible_pathway_context').option,exact:true}).isVisible(),false);
-  const observed=await helper.runMississippiScreening(fixture.page);await confirmResult(fixture,observed);await saveAndClaim(fixture);
-  assert.deepEqual(observed.answeredQuestionIds,['possible_pathway_context','court_requirements_completed','resolved_timing_bucket']);
+  await helper.answerMississippiChoice(fixture.page,choice('possible_pathway_context'));await assertUppercaseProgramOrder(fixture.page);
+  const observed=await helper.runMississippiScreening(fixture.page,{profile:fixture.profile});await confirmResult(fixture,observed);await saveAndClaim(fixture);
+  assert.deepEqual(observed.answeredQuestionIds,['court_requirements_completed','resolved_timing_bucket']);
   assert.deepEqual(observed.omittedQuestionIds,['ms_program_order']);
   assert.deepEqual(fixture.site.state.plans.at(-1).questionIds,['ownership_scope','jurisdiction_scope','case_outcome','offense_level','possible_pathway_context','ms_program_order','court_requirements_completed','resolved_timing_bucket']);
   proof.cases.push({id:'collapsed',...observed,plans:fixture.site.state.plans.map(plan=>plan.questionIds),pendingCalls:1,claimCalls:1});
@@ -179,14 +216,34 @@ test('frozen actual React pre-expanded and filtered optional help stays open and
   assert.ok(!fixture.site.state.plans.at(-1).answerIds.includes('possible_pathway_context'),'Opening/searching must not write an optional answer');
   assert.equal(await optional.getByRole('button',{name:'Hide optional help',exact:true}).getAttribute('aria-expanded'),'true');
   assert.equal(await optional.getByRole('radio',{name:choice('possible_pathway_context').option,exact:true}).isVisible(),false);
-  const observed=await helper.runMississippiScreening(fixture.page);await confirmResult(fixture,observed);
+  await helper.answerMississippiChoice(fixture.page,choice('possible_pathway_context'));await assertUppercaseProgramOrder(fixture.page);
+  const observed=await helper.runMississippiScreening(fixture.page,{profile:fixture.profile});await confirmResult(fixture,observed);await saveAndClaim(fixture);
   proof.cases.push({id:'preexpanded_filtered',...observed,plans:fixture.site.state.plans.map(plan=>plan.questionIds)});
+ });
+});
+
+for(const mutation of ['required','context_only','missing_metadata','wrong_question','missing_badge','misplaced_badge','checked_answer'])test(`program-order omission refuses ${mutation} before Continue without inventing facts`,{timeout:120000},async()=>{
+ await withFixture({},async fixture=>{
+  const {page,site}=fixture;await reachOptional(page);await helper.answerMississippiChoice(page,choice('possible_pathway_context'));
+  await assertUppercaseProgramOrder(page);
+  const profile=structuredClone(fixture.profile),question=profile.questions.find(q=>q.id==='ms_program_order');
+  assert.ok(question);assert.equal(question.required,false);assert.equal(question.contextOnly,false);
+  if(mutation==='required')question.required=true;
+  if(mutation==='context_only')question.contextOnly=true;
+  if(mutation==='wrong_question')question.id='unreviewed_question';
+  if(mutation==='missing_badge')await page.locator('#q-ms_program_order-prompt > span').evaluate(node=>node.remove());
+  if(mutation==='misplaced_badge')await page.locator('#q-ms_program_order-prompt > span').evaluate(node=>document.body.appendChild(node));
+  if(mutation==='checked_answer')await page.locator('[role="radiogroup"][aria-labelledby="q-ms_program_order-prompt"]').getByRole('radio').first().check();
+  const progressCalls=site.state.progressCalls;
+  await assert.rejects(helper.answerMississippiChoice(page,choice('ms_program_order'),{profile:mutation==='missing_metadata'?undefined:profile}));
+  assert.equal(site.state.progressCalls,progressCalls,'Refused omission must not press Continue');assertNoDownstream(site);
+  proof.cases.push({id:'optional_refusal_'+mutation,downstreamEffects:0});
  });
 });
 
 for(const planMode of ['omit_optional','early_result','reverse_timing'])test(`frozen actual React conditional plan ${planMode} uses real projected controls and evaluator, without waiting for omitted questions`,{timeout:120000},async()=>{
  await withFixture({planMode},async fixture=>{
-  const observed=await helper.runMississippiScreening(fixture.page);await confirmResult(fixture,observed);
+  const observed=await helper.runMississippiScreening(fixture.page,{profile:fixture.profile});await confirmResult(fixture,observed);
   if(planMode==='omit_optional')assert.ok(!observed.answeredQuestionIds.includes('possible_pathway_context'));
   if(planMode==='early_result')assert.ok(!observed.answeredQuestionIds.includes('court_requirements_completed'));
   if(planMode==='reverse_timing') {
@@ -201,7 +258,7 @@ for(const planMode of ['omit_optional','early_result','reverse_timing'])test(`fr
 
 test('frozen actual React save/claim refusal preserves the result and never fabricates a Briefcase destination',{timeout:120000},async()=>{
  await withFixture({claimRefused:true},async fixture=>{
-  const observed=await helper.runMississippiScreening(fixture.page);await confirmResult(fixture,observed);
+  const observed=await helper.runMississippiScreening(fixture.page,{profile:fixture.profile});await confirmResult(fixture,observed);
   const claim=fixture.page.waitForResponse(response=>transport.matchesOriginalResponse(response,'claim',fixture.config));
   await helper.saveScreeningResultButton(fixture.page).click();
   const response=await claim;assert.equal(response.status(),409);assert.throws(()=>transport.requireOriginalResponse(response,'claim'));
@@ -218,9 +275,9 @@ test.after(()=>{
 
 test('complete read-only browser collector traverses its real guard and observer against original HTTP handlers, and retains later refusal',{timeout:120000},async()=>{
  assert.equal(installed('next/dist/server/app-render/get-asset-query-string.js').getAssetQueryString({sharedContext:{clientAssetToken:'fixture-immutable-token'}},true),'?dpl=fixture-immutable-token');
- for(const outcome of ['success','refusal','transport_failure','ui_refusal','asset_refusal']) {
+ for(const outcome of ['success','refusal','transport_failure','ui_refusal','asset_refusal','final_contract_failure']) {
   const refused=outcome==='refusal';
-  const site=await startFrozenReactScreeningSite({runtime,progressFault:refused?'invalid_version_after_initial':outcome==='ui_refusal'?'invalid_version_react_initial':null,queryAssets:true,assetFault:outcome==='asset_refusal'});
+  const site=await startFrozenReactScreeningSite({runtime,progressFault:refused?'invalid_version_after_initial':outcome==='ui_refusal'?'invalid_version_react_initial':null,queryAssets:true,assetFault:outcome==='asset_refusal',publicMode:true,evaluationFault:outcome==='final_contract_failure'?'non_packet_result':null});
   let requests=0;
   const browserType={launch:async options=>{
    const native=await chromium.launch(options);
@@ -231,7 +288,7 @@ test('complete read-only browser collector traverses its real guard and observer
      if(key==='fetch')return options=>{
       const url=new URL(target.request().url());
       assert.equal(url.origin,'https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app');
-      assert.ok(['/api/expungement-ai/profiles/MS','/api/expungement-ai/screening/progress','/expungement-ai/screening/ms','/_next/static/chunks/clinic-fixture.js','/_next/static/chunks/clinic-fixture.css','/_next/static/media/fixture.ttf','/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/_next/image'].includes(url.pathname));
+      assert.ok(['/api/expungement-ai/profiles/MS','/api/expungement-ai/screening/progress','/api/expungement-ai/evaluate','/expungement-ai/screening/ms','/_next/static/chunks/clinic-fixture.js','/_next/static/chunks/clinic-fixture.css','/_next/static/media/fixture.ttf','/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/_next/image'].includes(url.pathname));
       requests++;
       if(outcome==='transport_failure'&&requests===3)throw Error('local upstream transport failure');
       return target.fetch({...options,url:site.origin+url.pathname+url.search});
@@ -258,12 +315,26 @@ test('complete read-only browser collector traverses its real guard and observer
    }else if(outcome==='transport_failure') {
     assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,null);assert.equal(result.observed,'transport_failure');
     assert.equal(result.responseObservations.at(-1).httpStatus,null);assert.equal(requests,3);assert.equal(site.state.progressCalls,1);
-   }else {diagnostic.assertClinicProgressEvidence(result);assert.ok(requests>=17&&requests<=20);
+   }else if(outcome==='final_contract_failure') {
+    assert.equal(result.status,'BLOCKED');assert.equal(result.reactInitialization.status,'BLOCKED');
+    assert.equal(result.reactInitialization.evaluation.resultCode,'guidance_only');
+    assert.deepEqual(result.reactInitialization.screening.omittedQuestionIds,['ms_program_order']);
+    assert.deepEqual(result.reactInitialization.screening.evaluationStatuses,[200]);
+    assert.equal(site.state.progressCalls,18);assert.equal(site.state.evaluations.length,1);
+   }else {diagnostic.assertClinicProgressEvidence(result);assert.ok(requests>=24&&requests<=29);
+    assert.equal(result.reactInitialization.evaluation.httpStatus,200);assert.equal(result.reactInitialization.stoppedBeforeSave,true);
+    assert.deepEqual(result.reactInitialization.screening.omittedQuestionIds,['ms_program_order']);
+    assert.equal(site.state.progressCalls,18);assert.equal(site.state.evaluations.length,1);
     for(const category of ['framework_script','framework_stylesheet','framework_font','image_optimizer'])assert.ok(result.resourceResponses.some(r=>r.category===category&&r.allowed&&r.httpStatus===200));
     assert.ok(result.resourceResponses.filter(r=>r.category.startsWith('framework_')).every(r=>JSON.stringify(r.queryNames)==='["dpl"]'));
     assert.ok(!JSON.stringify(result).includes('fixture-immutable-token'));
     assert.equal(result.reactInitialization.firstQuestionId,'ownership_scope');assert.ok(result.reactInitialization.alertDetails.some(a=>a.source==='next_route_announcer'));}
-   assertNoDownstream(site);assert.deepEqual(runtime.sideEffects,{databaseCalls:0,cookieCalls:0});
+   if(['success','final_contract_failure'].includes(outcome)) {
+    assert.equal(site.state.pendingCalls,0);assert.equal(site.state.claimCalls,0);assert.equal(site.state.savedMatter,null);
+    assert.ok(site.state.requests.every(request=>['/api/expungement-ai/screening/progress','/api/expungement-ai/evaluate'].includes(request.path)),'Public diagnostic must never complete, save or claim');
+    assert.ok(site.state.requests.every(request=>!request.answerIds.includes('ms_program_order')));
+   }else assertNoDownstream(site);
+   assert.deepEqual(runtime.sideEffects,{databaseCalls:0,cookieCalls:0});
    assert(!JSON.stringify(result).includes('local-fixture-only'));
    proof.cases.push({id:'full_collector_'+outcome,transportAttempts:requests,httpRequests:outcome==='transport_failure'?requests-1:requests,actualHandlers:true,livePreview:false,downstreamEffects:0});
   }finally{await site.close();}

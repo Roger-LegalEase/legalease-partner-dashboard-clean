@@ -35,7 +35,9 @@ export function projectOriginalResponse(operation,httpStatus,body,config,request
  if(!body||typeof body!=='object'||Array.isArray(body))return {...result,outcome:'malformed_response'};
  let accepted=false,values={};
  switch(operation) {
-  case 'profile':accepted=body.jurisdiction?.code==='MS'&&typeof body.profileVersion==='string'&&Array.isArray(body.questions)&&body.questions.length>0;break;
+  case 'profile':accepted=body.jurisdiction?.code==='MS'&&typeof body.profileVersion==='string'&&Array.isArray(body.questions)&&body.questions.length>0;
+   if(accepted)values={profile:{jurisdiction:{code:body.jurisdiction.code},profileVersion:body.profileVersion,
+    questions:body.questions.filter(q=>q?.id==='ms_program_order').map(({id,prompt,type,required,contextOnly})=>({id,prompt,type,required,contextOnly}))}};break;
   case 'signin':accepted=uuid(body.user?.id);if(accepted)values={userId:body.user.id};break;
   case 'entry':accepted=body.success===true&&exactPath(body.next,`/clinic/${config.clinicSlug}/assist`,config.origin);break;
   case 'assistance':accepted=body.success===true&&exactPath(body.screeningUrl,`/clinic/${config.clinicSlug}/screening/ms`,config.origin);break;
@@ -58,7 +60,7 @@ export function projectOriginalResponse(operation,httpStatus,body,config,request
  return {...result,...values,accepted,outcome:accepted?'accepted':'contract_mismatch'};
 }
 export function safeOriginalResponse(value) {
- return {operation:value.operation,httpStatus:value.httpStatus,bodyState:value.bodyState,outcome:value.outcome,accepted:value.accepted,...(value.errorCode?{errorCode:value.errorCode}:{})};
+ return {operation:value.operation,httpStatus:value.httpStatus,bodyState:value.bodyState,outcome:value.outcome,accepted:value.accepted,...(value.errorCode?{errorCode:value.errorCode}:{}),...(value.profile?{profile:value.profile}:{})};
 }
 export const observedOriginalResponse=request=>captured.get(request);
 export function originalResponse(response,operation) {

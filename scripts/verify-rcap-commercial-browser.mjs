@@ -298,7 +298,8 @@ async function runJourney() {
   result.stage='participant_screening';
   const screeningCompletion=clinicSetupOnly?page.waitForResponse(response=>matchesOriginalResponse(response,'completion',responseConfig),
     {timeout:45000}).then(response=>originalResponse(response,'completion')).catch(()=>null):null;
-  const screeningSequence=await runMississippiScreening(page,{observations:result.responseObservations,stages:result.responseStages});
+  const screeningSequence=await runMississippiScreening(page,{observations:result.responseObservations,stages:result.responseStages,
+    profile:result.responseObservations.findLast(o=>o.operation==='profile'&&o.accepted)?.profile});
   result.mississippiQuestionOrder=screeningSequence.answeredQuestionIds;
   result.mississippiOmittedOptionalQuestions=screeningSequence.omittedQuestionIds;
   result.mississippiEvaluationStatuses=screeningSequence.evaluationStatuses;

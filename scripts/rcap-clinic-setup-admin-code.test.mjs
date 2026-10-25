@@ -30,8 +30,8 @@ test('downstream issuer unit uses one bounded max1 request and preserves all spe
   assert.equal(f.receipts.at(-1).status,'verified_unredeemed');assert.ok(!JSON.stringify(f.receipts).includes(f.code));
   assert.deepEqual(Object.keys(f.receipts.at(-1)).sort(),['httpStatus','actorId','eventId','codeId','maxUses','status'].sort());
   assert.equal(f.old.usesCount,2);
-  assert.equal(f.workspace.json.workspace.accessCodes.length,5);
-  assert.deepEqual(f.workspace.json.workspace.accessCodes.slice(0,4),before);
+  assert.equal(f.workspace.json.workspace.accessCodes.length,6);
+  assert.deepEqual(f.workspace.json.workspace.accessCodes.slice(0,5),before);
   await assert.rejects(issueClinicSetupCode(f.io),/inventory/);assert.equal(f.calls.length,1,'Successful issuance also prohibits a replacement');
 });
 for(const [label,change] of [
@@ -122,7 +122,7 @@ test('actual runner uses guarded exact-event controls and captures denied/server
 test('fresh authority refuses the spent identity, missing approval identity, and a workflow rerun',()=>{
  const env={RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.id,GITHUB_RUN_ATTEMPT:'1'};
  assert.doesNotThrow(()=>assertClinicAttemptAuthority(env));
- assert.equal(CLINIC_CODE_ADMIN.requestId,'7ce4711c-088f-4340-bf82-beec63db3717');
+ assert.equal(CLINIC_CODE_ADMIN.requestId,'6e2628ba-9e9e-401e-9b59-21fc8a792ee4');
  for(const previous of CLINIC_FRESH_ATTEMPT.previousAttempts)assert.notEqual(CLINIC_CODE_ADMIN.requestId,previous.id);
  for(const change of [...CLINIC_FRESH_ATTEMPT.previousAttempts.map(previous=>({RCAP_BROWSER_CLINIC_ATTEMPT_ID:previous.id})),{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.priorRequestId},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:''},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>assertClinicAttemptAuthority({...env,...change}));
 });
@@ -158,13 +158,14 @@ test('actual code POST callback revalidates the same-run gate after preceding re
  }
 });
 
-test('all four consumed codes stay required and only the new authority permits browser effects',()=>{
- assert.equal(CLINIC_FRESH_ATTEMPT.history.length,4);
- assert.equal(CLINIC_FRESH_ATTEMPT.entries,18);
+test('all five consumed codes stay required and only the new authority permits browser effects',()=>{
+ assert.equal(CLINIC_FRESH_ATTEMPT.history.length,5);
+ assert.equal(CLINIC_FRESH_ATTEMPT.entries,19);
  assert.equal(CLINIC_FRESH_ATTEMPT.history[2].id,'d627a599-0a0b-47f7-896c-45bd7b7645e2');
- assert.deepEqual(CLINIC_FRESH_ATTEMPT.previousAttempts.map(previous=>previous.consumedByRun),['40158881107','40163028066']);
+ assert.deepEqual(CLINIC_FRESH_ATTEMPT.previousAttempts.map(previous=>previous.consumedByRun),['40158881107','40163028066','40191987755']);
  assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,null);
  assert.deepEqual(CLINIC_FRESH_ATTEMPT.history[3],{id:'a19bde9a-f244-4788-bb24-fe14d2b6057b',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T04:47:13.939Z',expiresAt:'2026-10-25T05:02:13.939Z'});
+ assert.deepEqual(CLINIC_FRESH_ATTEMPT.history[4],{id:'023196ce-1746-4763-b663-6579f81a3a6d',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T12:13:16.944Z',expiresAt:'2026-10-25T12:28:16.944Z'});
  assert.equal(CLINIC_FRESH_ATTEMPT.history.reduce((n,c)=>n+c.redemptionRows-c.usesCount,0),13);
  for(const id of [...CLINIC_FRESH_ATTEMPT.previousAttempts.map(previous=>previous.id),CLINIC_FRESH_ATTEMPT.priorRequestId,'11111111-1111-4111-8111-111111111111'])
   assert.throws(()=>assertClinicAttemptAuthority({RCAP_BROWSER_CLINIC_ATTEMPT_ID:id,GITHUB_RUN_ATTEMPT:'1'}));

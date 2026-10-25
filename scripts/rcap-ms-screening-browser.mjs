@@ -18,7 +18,7 @@ const heading=(page,prompt)=>page.getByRole('heading',{name:new RegExp(`^${escap
 export const saveScreeningResultButton=page=>page.getByRole('button',{name:'Save my result and continue',exact:true});
 export const mississippiResultHeading=page=>page.getByRole('heading',{name:/path may be available|You may be able to prepare an expungement packet/i});
 
-export async function answerMississippiChoice(page,choice) {
+export async function answerMississippiChoice(page,choice,{profile}={}) {
  await heading(page,choice.prompt).waitFor({state:'visible'});
  let controls=page;
  if(choice.id==='possible_pathway_context') {
@@ -35,8 +35,26 @@ export async function answerMississippiChoice(page,choice) {
  // The exact visible option label is stable even when helper-copy layout changes spacing.
  if(choice.leaveUnanswered) {
   assert.equal(choice.id,'ms_program_order','Only the reviewed optional omission is permitted');
-  assert.match(await heading(page,choice.prompt).innerText(),/Optional$/,'Program-order omission requires the actual optional UI');
-  assert.equal(await page.getByRole('radio',{checked:true}).count(),0,'Do not erase or overwrite an existing program-order answer');
+  assert.equal(profile?.jurisdiction?.code,'MS','Program-order omission requires the original public profile');
+  assert.ok(typeof profile.profileVersion==='string'&&profile.profileVersion.length>0,'Original public profile version missing');
+  const questions=profile.questions?.filter(question=>question.id===choice.id);
+  assert.equal(questions?.length,1,'Original profile must identify the exact program-order question once');
+  const question=questions[0];
+  assert.equal(question.prompt,choice.prompt,'Original program-order prompt mismatch');
+  assert.equal(question.type,'single_choice','Original program-order control mismatch');
+  assert.equal(question.required,false,'Program-order omission requires required=false');
+  assert.equal(question.contextOnly,false,'Program-order omission requires contextOnly=false');
+  const questionHeading=heading(page,choice.prompt),promptId='q-ms_program_order-prompt';
+  assert.equal(await questionHeading.getAttribute('id'),promptId,'Program-order heading identity mismatch');
+  // Optional is semantic DOM text; production CSS uppercases its rendered innerText.
+  const badge=questionHeading.locator(':scope > span').filter({hasText:/^Optional$/i});
+  assert.equal(await badge.count(),1,'Program-order omission requires its own optional badge');
+  assert.equal(await badge.isVisible(),true,'Program-order optional badge must be visible');
+  assert.equal((await badge.textContent()).trim(),'Optional','Program-order optional badge text mismatch');
+  const group=page.locator(`[role="radiogroup"][aria-labelledby="${promptId}"]`);
+  assert.equal(await group.count(),1,'Program-order radio group identity mismatch');
+  assert.ok(await group.getByRole('radio').count()>0,'Program-order choices missing');
+  assert.equal(await group.getByRole('radio',{checked:true}).count(),0,'Do not erase or overwrite an existing program-order answer');
  } else await controls.locator('label').filter({has:page.getByText(choice.option,{exact:true})}).getByRole('radio').check();
  await page.getByRole('button',{name:/^Continue(?:\s|$)/}).click();
 }
@@ -95,7 +113,7 @@ export async function runMississippiScreening(page,diagnostics={}) {
     await page.waitForTimeout(100);
    }
    assert.ok(shown,'No supported remaining question or accepted result appeared');
-   remaining.delete(shown.id);await answerMississippiChoice(page,shown);(shown.leaveUnanswered?omittedQuestionIds:answeredQuestionIds).push(shown.id);
+   remaining.delete(shown.id);await answerMississippiChoice(page,shown,diagnostics);(shown.leaveUnanswered?omittedQuestionIds:answeredQuestionIds).push(shown.id);
   }
   throw new Error('Screening did not reach its result within the bounded fixture sequence');
  }catch(error){

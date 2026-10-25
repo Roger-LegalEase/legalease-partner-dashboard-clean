@@ -51,6 +51,38 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
    assert.ok(relative.startsWith('src/lib/rcap-engine/compiled/'),'Registry reads must stay in frozen compiled sources');return read(relative);
   }
  };
+ const frozenProcess=Object.create(process);frozenProcess.cwd=()=>repo;
+ const authorityReads=[],authorityReadFailures=[],authorityBlobs=new Map();
+ const readonlyFs={
+  statSync:filename=>{
+   const relative=path.relative(repo,filename).split(path.sep).join('/');
+   assert.ok(!relative.startsWith('..'),'Frozen reads must stay in repository');
+   const type=execFileSync('git',['cat-file','-t',`HEAD:${relative}`],{cwd:repo,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+   return {isDirectory:()=>type==='tree'};
+  },
+  existsSync:filename=>{
+   const relative=path.relative(repo,filename).split(path.sep).join('/');
+   if(relative.startsWith('..'))return false;
+   try{execFileSync('git',['cat-file','-e',`HEAD:${relative}`],{cwd:repo,stdio:'ignore'});return true;}catch{return false;}
+  },
+  readFileSync:(filename,encoding)=>{
+   const relative=path.relative(repo,filename).split(path.sep).join('/');
+   try {
+    if(!authorityBlobs.has(relative)) {
+     const bytes=execFileSync('git',['show',`HEAD:${relative}`],{cwd:repo,maxBuffer:32*1024*1024,stdio:['ignore','pipe','pipe']});
+     assert.equal(sha(bytes),sourceContract.files[relative],`Frozen authority source mismatch: ${relative}`);
+     authorityBlobs.set(relative,bytes);pins.set(relative,sha(bytes));
+    }
+    authorityReads.push(relative);const bytes=authorityBlobs.get(relative),format=typeof encoding==='string'?encoding:encoding?.encoding;
+    return format?bytes.toString(format):Buffer.from(bytes);
+   }catch(error){authorityReadFailures.push(relative);throw error;}
+  },
+  readdirSync:directory=>{
+   const relative=path.relative(repo,directory).split(path.sep).join('/');
+   assert.ok(!relative.startsWith('..'),'Frozen reads must stay in repository');
+   return execFileSync('git',['ls-tree','--name-only',`HEAD:${relative}`],{cwd:repo,encoding:'utf8'}).trim().split('\n').filter(Boolean);
+  }
+ };
  const load=relative=>{
   if(nodeCache.has(relative))return nodeCache.get(relative).exports;
   const module={exports:{}};nodeCache.set(relative,module);
@@ -59,9 +91,10 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
    specifier=>{
     if(specifier==='server-only')return {};
     if(relative===registryPath&&specifier==='node:fs')return registryFs;
+    if(specifier==='node:fs')return readonlyFs;
     if(specifier==='next/headers')return {cookies:()=>{sideEffects.cookieCalls++;throw Error('Read-only handler attempted cookie access');}};
     const dependency=resolveSource(specifier,relative);return dependency?load(dependency):nativeRequire(specifier);
-   },module,module.exports,process);
+   },module,module.exports,frozenProcess);
   if(relative==='src/lib/supabase/server.ts')module.exports.getSupabaseAdminClient=()=>{sideEffects.databaseCalls++;throw Error('Read-only handler attempted database access');};
   return module.exports;
  };
@@ -69,6 +102,7 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
  assert.ok(profile);
  const profileGET=load('src/app/api/expungement-ai/profiles/[state]/route.ts').GET;
  const progressPOST=load('src/app/api/expungement-ai/screening/progress/route.ts').POST;
+ const evaluatePOST=load('src/app/api/expungement-ai/evaluate/route.ts').POST;
  const screeningAnswers=load('scripts/lib/rcap-ms-nonconviction-fixture.mjs').MS_NONCONVICTION_SCREENING_ANSWERS;
  const publicProfile=load('src/lib/rcap-engine/public-profile-projection.ts').projectPublicProfile(profile);
  const selection=load('src/lib/rcap-engine/screening-question-selection.ts').selectScreeningQuestionIds;
@@ -79,9 +113,9 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
  const announcerSha256='70aac21e21d9acbfa4086f98742e44aa6e601ee018b6db643e421bd5ec870615';
  assert.equal(sha(fs.readFileSync(nativeRequire.resolve(announcerModule))),announcerSha256,'Installed Next announcer source changed');
  const frameworkPins={nextVersion,announcerModule,announcerSha256};
- let browserBundle;
- const buildBrowserBundle=()=>{
-  if(browserBundle)return browserBundle;
+ const browserBundles=new Map();
+ const buildBrowserBundle=({publicMode=false}={})=>{
+  if(browserBundles.has(publicMode))return browserBundles.get(publicMode);
   const modules=[],ids=new Map();
   const stubs={
    'next/navigation':`exports.useRouter=()=>({push:target=>{window.__screeningFixture.navigation=target;history.pushState({},'',target);},replace:target=>{window.__screeningFixture.navigation=target;history.replaceState({},'',target);},back:()=>history.back()});exports.usePathname=()=>location.pathname;exports.useSearchParams=()=>new URLSearchParams(location.search);`,
@@ -92,7 +126,7 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
    '@/lib/analytics/client':`exports.trackFunnelEvent=()=>{};`,
    'server-only':``
   };
-  const entry=`const R=require('react');const{createRoot}=require('react-dom/client');const{LocalizationProvider}=require('@/components/expungement-ai/LocalizationProvider');const{ScreeningFlow}=require('@/components/expungement-ai/screening/ScreeningFlow');const{AppRouterAnnouncer}=require('next/dist/client/components/app-router-announcer.js');window.__screeningFixture={navigation:null};createRoot(document.getElementById('root')).render(R.createElement(R.Fragment,null,R.createElement(AppRouterAnnouncer,{tree:[]}),R.createElement(LocalizationProvider,null,R.createElement(ScreeningFlow,{state:'MS',initialSessionId:${JSON.stringify(FIXTURE_SESSION_ID)},partnerDisplayName:'Synthetic Clinic fixture'}))));`;
+  const entry=`const R=require('react');const{createRoot}=require('react-dom/client');const{LocalizationProvider}=require('@/components/expungement-ai/LocalizationProvider');const{ScreeningFlow}=require('@/components/expungement-ai/screening/ScreeningFlow');const{AppRouterAnnouncer}=require('next/dist/client/components/app-router-announcer.js');window.__screeningFixture={navigation:null};createRoot(document.getElementById('root')).render(R.createElement(R.Fragment,null,R.createElement(AppRouterAnnouncer,{tree:[]}),R.createElement(LocalizationProvider,null,R.createElement(ScreeningFlow,{state:'MS',${publicMode?'':`initialSessionId:${JSON.stringify(FIXTURE_SESSION_ID)},partnerDisplayName:'Synthetic Clinic fixture'`}}))));`;
   const add=(key,body,relative=null,packageFile=null)=>{
    if(ids.has(key))return ids.get(key);
    const id=modules.length;ids.set(key,id);modules.push(null);
@@ -115,19 +149,21 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
    modules[id]={code,deps};return id;
   };
   const entryId=add('fixture-entry',entry);
-  return browserBundle=`(function(){const process={env:{NODE_ENV:'production'}};const definitions={${modules.map((m,i)=>`${i}:[function(module,exports,require){\n${m.code}\n},${JSON.stringify(m.deps)}]`).join(',\n')}};const cache={};function load(id){if(cache[id])return cache[id].exports;const module={exports:{}};cache[id]=module;const[run,deps]=definitions[id];run(module,module.exports,name=>{if(!Object.hasOwn(deps,name))throw Error('Unmapped browser dependency '+name);return load(deps[name]);});return module.exports;}load(${entryId});})();`;
+  const browserBundle=`(function(){const process={env:{NODE_ENV:'production'}};const definitions={${modules.map((m,i)=>`${i}:[function(module,exports,require){\n${m.code}\n},${JSON.stringify(m.deps)}]`).join(',\n')}};const cache={};function load(id){if(cache[id])return cache[id].exports;const module={exports:{}};cache[id]=module;const[run,deps]=definitions[id];run(module,module.exports,name=>{if(!Object.hasOwn(deps,name))throw Error('Unmapped browser dependency '+name);return load(deps[name]);});return module.exports;}load(${entryId});})();`;
+  browserBundles.set(publicMode,browserBundle);return browserBundle;
  };
- return {frameworkPins,profile,publicProfile,profileGET,progressPOST,screeningAnswers,sideEffects,select:answers=>selection(profile,publicProfile,answers),evaluate,buildBrowserBundle,
-  sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Installed frozen-lock-version Next AppRouterAnnouncer with pinned source; Next router navigation port','Next Link/Image rendering ports','Decorative icons and Wilma omitted; analytics disabled','Packet availability flags fixed false: fixture cannot grant fulfillment','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
+ return {frameworkPins,authorityReads,authorityReadFailures,profile,publicProfile,profileGET,progressPOST,evaluatePOST,screeningAnswers,sideEffects,select:answers=>selection(profile,publicProfile,answers),evaluate,buildBrowserBundle,
+  sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Installed frozen-lock-version Next AppRouterAnnouncer with pinned source; Next router navigation port','Next Link/Image rendering ports','Frozen optional badge uppercase CSS included; remaining production Tailwind layout omitted; decorative icons/Wilma omitted; analytics disabled','Original evaluate POST with Git-backed pinned read-only fulfillment registry; computed availability grants no entitlement','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
 }
 
-export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null,queryAssets=false,assetFault=false}={}) {
+export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null,queryAssets=false,assetFault=false,publicMode=false,evaluationFault=null}={}) {
+ assert.ok(evaluationFault===null||evaluationFault==='non_packet_result');
  assert.ok(runtime);assert.ok(['engine','omit_optional','early_result','reverse_timing'].includes(planMode));
  assert.ok(progressFault===null||['invalid_version_after_initial','invalid_version_react_initial'].includes(progressFault));
  const state={requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
  let notifyInitialProgress;
  const initialProgressRequested=new Promise(resolve=>{notifyInitialProgress=resolve;});
- const bundle=runtime.buildBrowserBundle();
+ const bundle=runtime.buildBrowserBundle({publicMode});
  const assetQuery=queryAssets?'?dpl=fixture-immutable-token':'';
  const font=fs.readFileSync(path.join(path.dirname(createRequire(import.meta.url).resolve('next/package.json')),'dist/compiled/@vercel/og/Geist-Regular.ttf'));
  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZT0AAAAASUVORK5CYII=','base64');
@@ -141,7 +177,7 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
    if(['/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/_next/image'].includes(url.pathname)){response.writeHead(200,{'content-type':'image/png'});return response.end(png);}
    if(url.pathname==='/_next/static/chunks/clinic-fixture.js'){response.writeHead(200,{'content-type':'application/javascript','cache-control':'no-store'});return response.end(bundle);}
    if(request.method==='GET'&&url.pathname.startsWith('/api/expungement-ai/profiles/'))return forward(response,await runtime.profileGET(new Request(url),{params:Promise.resolve({state:decodeURIComponent(url.pathname.split('/').at(-1))})}));
-   if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end(`<!doctype html><html lang="en"><head>${queryAssets?`<link rel="stylesheet" href="/_next/static/chunks/clinic-fixture.css${assetQuery}"><link rel="preload" as="font" type="font/ttf" crossorigin href="/_next/static/media/fixture.ttf${assetQuery}"><link rel="icon" href="/expungement-ai/favicon.ico"><link rel="icon" href="/expungement-ai/icon-192.png">`:''}</head><body><div id="root"></div>${queryAssets?'<img alt="Fixture guide image" src="/_next/image?url=%2Fexpungement-ai%2Fwilma-avatar.png&amp;w=48&amp;q=75">':''}<script src="/_next/static/chunks/clinic-fixture.js${assetQuery}"></script></body></html>`);}
+   if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end(`<!doctype html><html lang="en"><head><style>.uppercase{text-transform:uppercase}</style>${queryAssets?`<link rel="stylesheet" href="/_next/static/chunks/clinic-fixture.css${assetQuery}"><link rel="preload" as="font" type="font/ttf" crossorigin href="/_next/static/media/fixture.ttf${assetQuery}"><link rel="icon" href="/expungement-ai/favicon.ico"><link rel="icon" href="/expungement-ai/icon-192.png">`:''}</head><body><div id="root"></div>${queryAssets?'<img alt="Fixture guide image" src="/_next/image?url=%2Fexpungement-ai%2Fwilma-avatar.png&amp;w=48&amp;q=75">':''}<script src="/_next/static/chunks/clinic-fixture.js${assetQuery}"></script></body></html>`);}
    assert.equal(request.method,'POST');let raw='';for await(const chunk of request)raw+=chunk;
    let body;try{body=JSON.parse(raw);}catch{body=null;}
    state.requests.push({path:url.pathname,method:request.method,answerIds:body?.answers&&typeof body.answers==='object'?Object.keys(body.answers):[]});
@@ -168,9 +204,12 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
     return forward(response,new Response(JSON.stringify({...payload,questionIds}),{status:actual.status,headers:actual.headers}));
    }
    if(url.pathname==='/api/expungement-ai/evaluate') {
-    const value=runtime.evaluate(body).evaluation;
-    state.evaluations.push({resultCode:value.resultCode,answerIds:Object.keys(body.answers),matterId:body.matterId});
-    return send(response,200,{...value,consumerPacketAvailable:false,sponsoredPacketAvailable:false});
+    const actual=await runtime.evaluatePOST(new Request(url,{method:'POST',headers:request.headers,body:raw}));
+    const value=await actual.clone().json();
+    state.evaluations.push({httpStatus:actual.status,resultCode:value.resultCode??null,answerIds:Object.keys(body?.answers??{}),matterId:body?.matterId});
+    // Deliberately contradictory public response proves final validation cannot trust a positive heading alone.
+    if(evaluationFault&&actual.status===200)return forward(response,new Response(JSON.stringify({...value,resultCode:'guidance_only',userLabel:'A path may be available'}),{status:actual.status,headers:actual.headers}));
+    return forward(response,actual);
    }
    if(url.pathname==='/api/expungement-ai/screening/complete')return send(response,200,{ok:true});
    if(url.pathname==='/api/expungement-ai/screening/pending') {

@@ -1,18 +1,31 @@
 import assert from 'node:assert/strict';
 import {CLINIC_SETUP} from './rcap-clinic-setup-only-boundary.mjs';
-import {MISSISSIPPI_SCREENING_CHOICES,screeningAlertDetails,screeningFailureDiagnostics} from './rcap-ms-screening-browser.mjs';
+import {MISSISSIPPI_SCREENING_CHOICES,runMississippiScreening,screeningAlertDetails,screeningFailureDiagnostics} from './rcap-ms-screening-browser.mjs';
 import {createOriginalResponseObserver} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard,classifyClinicRequest} from './rcap-clinic-setup-request-guard.mjs';
 import {previewRequestHeaders} from './rcap-clinic-resume-network-policy.mjs';
 
 // These are the existing fixture's wire values, not new participant answers.
 const wire={case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted',court_requirements_completed:'yes',resolved_timing_bucket:'gt_10_years'};
-const profilePath='/api/expungement-ai/profiles/MS',progressPath='/api/expungement-ai/screening/progress';
+const profilePath='/api/expungement-ai/profiles/MS',progressPath='/api/expungement-ai/screening/progress',evaluationPath='/api/expungement-ai/evaluate';
 const screeningPath='/expungement-ai/screening/ms';
 const errors=new Set(['invalid_request','unsupported_jurisdiction','profile_version_mismatch','question_lifecycle_metadata_invalid']);
 // Reconciled against the pinned application's real selector, including the unanswered optional program order.
 export const SCREENING_PROGRESS_QUESTION_IDS=Object.freeze(['ownership_scope','jurisdiction_scope','case_outcome','offense_level','possible_pathway_context','ms_program_order','court_requirements_completed','resolved_timing_bucket']);
 export const SCREENING_PROGRESS_PROFILE_VERSION='2026-06-19-source-conversion-1';
+// These exact prefixes omit the unanswered optional field, including after its Continue click.
+const answerPrefixes=Array.from({length:9},(_,step)=>Object.fromEntries(SCREENING_PROGRESS_QUESTION_IDS.slice(0,step)
+ .filter(id=>id!=='ms_program_order').map(id=>[id,wire[id]??MISSISSIPPI_SCREENING_CHOICES.find(q=>q.id===id).option])));
+export function publicScreeningPayloadAllowed(body,step,evaluation=false) {
+ try {
+  assert.ok(Number.isInteger(step)&&step>=0&&step<answerPrefixes.length);
+  assert.deepEqual(Object.keys(body).sort(),(evaluation?['jurisdiction','profileVersion','answers','matterId']:['jurisdiction','profileVersion','answers']).sort());
+  assert.equal(body.jurisdiction,'MS');assert.equal(body.profileVersion,SCREENING_PROGRESS_PROFILE_VERSION);
+  assert.deepEqual(body.answers,answerPrefixes[step]);
+  if(evaluation)assert.match(body.matterId,/^matter-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i);
+  return true;
+ }catch{return false;}
+}
 const iconPaths=new Set(['/favicon.ico','/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/expungement-ai/icon-512.png','/expungement-ai/apple-touch-icon.png']);
 const samePreview=url=>url.origin===CLINIC_SETUP.origin&&!url.hash&&!url.username&&!url.password;
 const queryNames=url=>[...url.searchParams.keys()].map(name=>/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(name)?name:'[unrecognized_name]');
@@ -27,6 +40,7 @@ function resourceCategory(url) {
  if(url.pathname==='/expungement-ai/wilma-avatar.png')return 'wilma_avatar';
  if(url.pathname===profilePath)return 'profile_api';
  if(url.pathname===progressPath)return 'progress_api';
+ if(url.pathname===evaluationPath)return 'evaluation_api';
  if(url.pathname===screeningPath)return 'screening_document';
  return 'unrecognized';
 }
@@ -87,7 +101,16 @@ export function assertClinicProgressEvidence(value,now=Date.now()) {
  assert.deepEqual(value.resourceFailures,[]);
  assert.ok(value.resourceResponses?.some(r=>r.category==='framework_script'&&r.allowed&&r.httpStatus===200));
  assert.ok(value.resourceResponses.every(r=>r.allowed&&r.httpStatus===200));
- assert.deepEqual(value.reactInitialization.responseObservations?.map(r=>[r.operation,r.httpStatus,r.accepted]),[['profile',200,true],['progress',200,true]]);
+ assert.deepEqual(value.reactInitialization.responseObservations?.map(r=>[r.operation,r.httpStatus,r.accepted]),[['profile',200,true],...Array.from({length:9},()=>['progress',200,true]),['evaluation',200,true]]);
+ assert.deepEqual(value.reactInitialization.progressRequests?.map(r=>r.answerIds),answerPrefixes.map(p=>Object.keys(p)),'React submitted answer prefixes mismatch');
+ assert.equal(value.reactInitialization.evaluationRequests,1,'React evaluation request count mismatch');
+ assert.deepEqual(value.reactInitialization.screening?.omittedQuestionIds,['ms_program_order'],'React optional omission mismatch');
+ assert.deepEqual(value.reactInitialization.screening?.answeredQuestionIds,SCREENING_PROGRESS_QUESTION_IDS.filter(id=>id!=='ms_program_order'),'React question progression mismatch');
+ assert.deepEqual(value.reactInitialization.screening?.evaluationStatuses,[200]);
+ assert.equal(value.reactInitialization.evaluation?.httpStatus,200);
+ assert.equal(value.reactInitialization.evaluation.jurisdiction,'MS');assert.equal(value.reactInitialization.evaluation.profileVersion,SCREENING_PROGRESS_PROFILE_VERSION);
+ assert.ok(['packet_ready','packet_ready_with_caution'].includes(value.reactInitialization.evaluation.resultCode),'React evaluation result code mismatch');
+ assert.equal(value.reactInitialization.stoppedBeforeSave,true);
  assert.deepEqual(value.responseObservations?.map(r=>[r.operation,r.httpStatus,r.accepted]),[['profile',200,true],...Array.from({length:9},()=>['progress',200,true])]);
 }
 export async function verifyScreeningProgressPrefixes(profile,post,receipts=[]) {
@@ -117,9 +140,9 @@ export async function verifyScreeningProgressPrefixes(profile,post,receipts=[]) 
 }
 
 export async function readClinicLiveScreeningProgress({env=process.env,captchaPolicy,browserType}={}) {
- const result={status:'BLOCKED',operation:'screening_progress_contract',stage:'configuration',httpStatus:null,
+ const result={status:'BLOCKED',operation:'public_screening_ui_evaluation',stage:'configuration',httpStatus:null,
   applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,origin:CLINIC_SETUP.origin,
-  authentication:'public GET profile / POST question selection; no account sign-in',businessWrites:false,
+  authentication:'public profile, question selection and stateless evaluation; no account sign-in or session capability',businessWrites:false,
   responses:[],responseStages:[],responseObservations:[],guardEvents:[],requestFailures:[],browserErrors:[],resourceRequests:[],resourceResponses:[],resourceFailures:[]};
  let browser,page,ui,resourcePolicy;
  const current=()=>ui??result;
@@ -153,7 +176,7 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
    onObservation:value=>current().responseObservations.push(value),onStage:value=>current().responseStages.push(value)}));
   const guard=createClinicRequestGuard({actor:'participant',captchaPolicy,env,stage:()=>result.stage,events:result.guardEvents,requestFailures:result.requestFailures});
   await context.route('**/*',guard.route);
-  // Stronger than the business runner: only two source-proven non-mutating operations may leave this context.
+  // Public flow has no session: completion, save, claim, auth and all other mutations remain forbidden.
   await context.route('**/*',route=>{
    const request=route.request(),url=new URL(request.url());
    const exact=url.origin===CLINIC_SETUP.origin&&!url.search&&!url.hash&&!url.username&&!url.password;
@@ -167,13 +190,26 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
    }
    const resource=publicReactResourceDecision(request,resourcePolicy);
    const document=ui&&exact&&request.method()==='GET'&&url.pathname===screeningPath&&request.resourceType()==='document';
-   let progress=request.method()==='POST'&&url.pathname===progressPath;
-   if(progress&&ui) {
+   const apiRequest=['fetch','xhr'].includes(request.resourceType());
+   let progress=apiRequest&&request.method()==='POST'&&url.pathname===progressPath;
+   let evaluation=Boolean(ui&&apiRequest&&request.method()==='POST'&&url.pathname===evaluationPath);
+   if(progress&&!ui) {
     let body;try{body=request.postDataJSON();}catch{}
-    progress=body?.jurisdiction==='MS'&&body.profileVersion===SCREENING_PROGRESS_PROFILE_VERSION&&body.answers
-     &&!Array.isArray(body.answers)&&Object.keys(body.answers).length===0&&Object.keys(body).every(key=>['jurisdiction','profileVersion','answers'].includes(key));
+    progress=publicScreeningPayloadAllowed(body,result.responses.length);
    }
-   const allowed=(exact&&((request.method()==='GET'&&url.pathname===profilePath)||progress))||document||(ui&&resource.allowed);
+   if((progress||evaluation)&&ui) {
+    let body;try{body=request.postDataJSON();}catch{}
+    if(progress) {
+     progress=publicScreeningPayloadAllowed(body,ui.progressRequests.length);
+     if(exact&&progress)ui.progressRequests.push({answerIds:Object.keys(body.answers)});
+    }
+    if(evaluation) {
+     evaluation=ui.progressRequests.length===9&&ui.evaluationRequests===0&&publicScreeningPayloadAllowed(body,8,true);
+     if(exact&&evaluation)ui.evaluationRequests++;
+    }
+   }
+   const profileRequest=request.method()==='GET'&&url.pathname===profilePath&&['document','fetch','xhr'].includes(request.resourceType());
+   const allowed=(exact&&(profileRequest||progress||evaluation))||document||(ui&&resource.allowed);
    if(ui)result.resourceRequests.push({...resource,allowed:Boolean(allowed),stage:result.stage});
    if(!allowed)result.requestFailures.push({...resource,stage:result.stage,outcome:'diagnostic_boundary_refused'});
    return allowed?route.fallback():route.abort('blockedbyclient');
@@ -195,7 +231,7 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
   assert.equal(result.responseObservations.filter(r=>r.operation==='progress').length,result.responses.length,'all original progress responses must be captured');
   assert.ok(result.responseObservations.every(r=>['profile','progress'].includes(r.operation)&&r.accepted),'original response contract failed');
   result.stage='react_initialization';
-  ui=result.reactInitialization={status:'BLOCKED',responseObservations:[],responseStages:[],initialAlerts:[],alerts:[],pathname:null};
+  ui=result.reactInitialization={status:'BLOCKED',responseObservations:[],responseStages:[],initialAlerts:[],alerts:[],pathname:null,progressRequests:[],evaluationRequests:0};
   // Install body readers before navigation; retain original responses, never replay a request.
   const readBody=pathname=>page.waitForResponse(r=>r.url()===CLINIC_SETUP.origin+pathname,{timeout:30000})
    .then(async response=>{try{return {httpStatus:response.status(),body:await response.json()};}catch{return {httpStatus:response.status(),bodyReadFailed:true};}}).catch(()=>({httpStatus:null,bodyReadFailed:true}));
@@ -226,16 +262,30 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
   assert.ok(result.requestFailures.every(f=>f.outcome==='optional_request_failed'),'React critical request failure');
   assert.deepEqual(ui.responseObservations.map(r=>[r.operation,r.httpStatus,r.accepted]),[['profile',200,true],['progress',200,true]],'React original observations incomplete');
   assert.ok(result.resourceResponses.length>0&&result.resourceResponses.every(r=>r.allowed&&r.httpStatus===200),'React resource HTTP refusal');
-  ui.firstQuestionId='ownership_scope';ui.status='READY';
-  result.status='READY';result.stage='complete';
+  ui.firstQuestionId='ownership_scope';result.stage='react_screening_evaluation';
+  const evaluationRead=readBody(evaluationPath);
+  ui.screening=await runMississippiScreening(page,{profile:loadedProfile.body,observations:ui.responseObservations,stages:ui.responseStages});
+  const evaluated=await evaluationRead;
+  assert.ok(!evaluated.bodyReadFailed,'React evaluation original body read failed');assert.equal(evaluated.httpStatus,200,'React evaluation HTTP refusal');
+  const {jurisdiction,profileVersion,resultCode,missingQuestionIds,paymentAllowed,consumerPacketAvailable,sponsoredPacketAvailable}=evaluated.body;
+  ui.evaluation={httpStatus:evaluated.httpStatus,jurisdiction,profileVersion,resultCode,missingQuestionIds,paymentAllowed,consumerPacketAvailable,sponsoredPacketAvailable};
+  Object.assign(ui,await screeningFailureDiagnostics(page,{observations:ui.responseObservations,stages:ui.responseStages}));
+  assert.deepEqual(ui.alerts,[],'React application alert');guard.assertNoCritical();
+  assert.ok(result.requestFailures.every(f=>f.outcome==='optional_request_failed'),'React critical request failure');
+  assert.equal(page.url(),CLINIC_SETUP.origin+screeningPath,'React result navigation refused');
+  ui.stoppedBeforeSave=true;ui.status='READY';
+  result.status='READY';result.stage='react_final_contract';
+  result.capturedAt=new Date().toISOString();assertClinicProgressEvidence(result);
+  result.stage='complete';
  }catch(error) {
+  result.status='BLOCKED';if(ui)ui.status='BLOCKED';
   if(ui&&page)Object.assign(ui,await screeningFailureDiagnostics(page,{observations:ui.responseObservations,stages:ui.responseStages}).catch(()=>({diagnosticsUnavailable:true})));
   const condition=typeof error?.message==='string'?error.message.split('\n')[0]:'';
-  const known=['React resource HTTP refusal','React document framework scripts missing','React document deployment tokens disagree','React document too large','React document HTTP refusal','React document redirect refused','React application alert','React first question missing','React original body read failed','React progress contract mismatch','React critical request failure','React original observations incomplete','profile jurisdiction mismatch','profile version missing','profile questions missing','duplicate profile questions','progress HTTP refusal','progress malformed response','progress jurisdiction mismatch','progress version mismatch','unknown or missing question IDs','duplicate question IDs','unexpected fixture question','optional omission became required','fixture option missing from live profile','progress exceeded bounded fixture sequence','profile HTTP refusal','profile redirect refused','all original progress responses must be captured','original response contract failed','diagnostic request failure'];
+  const known=['React submitted answer prefixes mismatch','React evaluation request count mismatch','React optional omission mismatch','React question progression mismatch','React evaluation result code mismatch','React evaluation original body read failed','React evaluation HTTP refusal','React result navigation refused','Program-order omission requires the original public profile','Original public profile version missing','Original profile must identify the exact program-order question once','Original program-order prompt mismatch','Original program-order control mismatch','Program-order omission requires required=false','Program-order omission requires contextOnly=false','Program-order heading identity mismatch','Program-order omission requires its own optional badge','Program-order optional badge must be visible','Program-order optional badge text mismatch','Program-order radio group identity mismatch','Program-order choices missing','Do not erase or overwrite an existing program-order answer','React resource HTTP refusal','React document framework scripts missing','React document deployment tokens disagree','React document too large','React document HTTP refusal','React document redirect refused','React application alert','React first question missing','React original body read failed','React progress contract mismatch','React critical request failure','React original observations incomplete','profile jurisdiction mismatch','profile version missing','profile questions missing','duplicate profile questions','progress HTTP refusal','progress malformed response','progress jurisdiction mismatch','progress version mismatch','unknown or missing question IDs','duplicate question IDs','unexpected fixture question','optional omission became required','fixture option missing from live profile','progress exceeded bounded fixture sequence','profile HTTP refusal','profile redirect refused','all original progress responses must be captured','original response contract failed','diagnostic request failure'];
   const failedResource=result.resourceFailures.at(-1)??result.resourceResponses.findLast(r=>r.httpStatus!==200);
   result.condition=failedResource?.condition??(failedResource?'React resource HTTP refusal':null)??(known.includes(condition)?condition:result.requestFailures.some(r=>r.outcome==='diagnostic_boundary_refused')?'React resource boundary refused':'transport_or_contract_unproven');
   result.reason=result.stage==='configuration'?'existing_preview_bypass_unavailable':'live_screening_contract_unproven';
-  result.expected=ui?'Exact public React page: original HTTP 200 profile/progress, matching version/questions, first ownership question, no application alert or critical browser failure':'HTTP 200, exact live MS profile/version and all deterministic question-prefix contracts';
+  result.expected=ui?'Exact public React sequence: original HTTP 200 profile/progress/evaluation, verified optional omission, rendered preliminary result, no business writes or critical browser failure':'HTTP 200, exact live MS profile/version and all deterministic question-prefix contracts';
   const failedResponse=current().responseObservations.findLast(r=>!r.accepted);
   if(failedResponse)result.httpStatus=failedResponse.httpStatus;
   else if(failedResource)result.httpStatus=failedResource.httpStatus;
