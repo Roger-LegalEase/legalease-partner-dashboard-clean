@@ -89,10 +89,26 @@ for (const phase of ["", "unknown_phase"]) {
   check(`invalid phase ${JSON.stringify(phase)} refuses without scope authority`, result.status !== 0
     && result.outputs.require_staging_scoped !== "true" && !isScopedClinic(result));
 }
-for (const phase of ["clinic_deploy", "legal_aid_browser", "sponsor_cap", "full", "checkout_gate", "browser", "replace_preview"]) {
+for (const phase of ["clinic_deploy", "legal_aid_browser", "sponsor_cap", "full", "checkout_gate", "browser"]) {
   const result = phaseScope(phase);
   check(`${phase} retains identity-scoped contract behavior`, result.status === 0 && result.outputs.require_staging_scoped === "true");
 }
+function isClosedCandidatePreview(result) {
+  return result.status === 0 && result.outputs.deploy === "true"
+    && result.outputs.require_staging_scoped === "false" && result.outputs.clinic === "false";
+}
+const closedCandidate = phaseScope("replace_preview");
+check("replacement candidate Preview deploys with delivery scope and Clinic disabled", isClosedCandidatePreview(closedCandidate));
+const closedSteps = {contract:{outputs:closedCandidate.outputs}};
+check("replacement candidate deployment keeps closed route and non-Clinic configuration",
+  workflowValue(clinicStep("deploy_preview").env.HOSTED_ROUTE_STATE,{phase:"replace_preview"},closedSteps) === ""
+  && workflowValue(clinicStep("deploy_preview").env.HOSTED_CLINIC_DEMO_MODE,{phase:"replace_preview"},closedSteps) === ""
+  && workflowValue(clinicStep("deploy_preview").env.HOSTED_ISOLATED_CLINIC_PREVIEW,{phase:"replace_preview"},closedSteps) === "false");
+const enabledCandidateScope = scopeShell.replace('echo "require_staging_scoped=false"', 'echo "require_staging_scoped=true"');
+assert.notEqual(enabledCandidateScope,scopeShell);
+const invalidCandidate = phaseScope("replace_preview",enabledCandidateScope);
+check("replacement candidate Preview rejects mutation enabling delivery scope", invalidCandidate.status === 0
+  && invalidCandidate.outputs.require_staging_scoped === "true" && !isClosedCandidatePreview(invalidCandidate));
 check("Preview resolution runs for Clinic Preview", clinicSchedule("resolve_preview"));
 check("Clinic deploy receives Mississippi mode", clinicEnv("deploy_preview","HOSTED_CLINIC_DEMO_MODE")==="mississippi_preview");
 check("Clinic deploy receives the private demo password", clinicStep("deploy_preview").env.HOSTED_CLINIC_DEMO_PASSWORD === "${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}");
@@ -109,7 +125,31 @@ check("workflow declares private Clinic credentials", ["HOSTED_CLINIC_DEMO_PASSW
 check("dedicated Clinic seed script exists", fs.existsSync("scripts/rcap-hosted-ms-clinic-preview-seed.mjs"));
 check("sponsored browser supports Clinic entry", browser.includes("RCAP_BROWSER_CLINIC_EVENT_SLUG"));
 check("successful packet claims bind the saved matter to the Clinic case", clinicFollowUp.includes("clinicCaseTreatmentFor") && /packet_ready[\s\S]{0,180}routeDisposition:\s*"packet"/.test(clinicFollowUp));
-check("worker equivalence excludes only the measured server-only Clinic binding repair", hosted.includes("':(exclude)src/lib/clinic-mode/result-follow-up.ts'") && !fs.readFileSync("scripts/rcap-render-worker.mjs", "utf8").includes("result-follow-up"));
+function assertCanonicalWorkerGates(workflow) {
+  const gate = workflow.jobs.preflight.steps.find(step => step.name === "Verify ancestry and image-input equivalence of every pinned SHA");
+  assert.ok(gate,"actual worker-equivalence step required");
+  const active = gate.run.split("\n").filter(line => !line.trimStart().startsWith("#")).join("\n").replace(/\\\n\s*/g," ");
+  const commands = active.split("\n").map(line => line.trim().replace(/\s+/g," ")).filter(line => line.startsWith("node scripts/verify-rcap-worker-input-equivalence.mjs "));
+  assert.equal(commands.length,2,"both canonical worker comparisons required");
+  for (const [index,base,head] of [[0,"worker_source_sha","application_sha"],[1,"application_sha","tools_sha"]]) {
+    assert.ok(commands[index].includes('--base "'+'${{ inputs.'+base+' }}'+'" --head "'+'${{ inputs.'+head+' }}'+'"'),"exact canonical comparison pair required");
+    assert.match(commands[index],/\|\| \{[^}]*; exit 1; \}$/,"worker drift must refuse");
+    assert.doesNotMatch(commands[index],/exclude|result-follow-up/);
+  }
+}
+assertCanonicalWorkerGates(hostedWorkflow);
+check("worker equivalence uses both active canonical comparisons without custom exclusions",true);
+for (const [label,mutate] of [
+  ["removed canonical comparison",shell => shell.replace("node scripts/verify-rcap-worker-input-equivalence.mjs","node removed-worker-gate.mjs")],
+  ["worker drift refusal weakened",shell => shell.replace('echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1;', 'echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; :;')],
+  ["custom input exclusion",shell => shell.replace('--label "accepted worker source -> final application"','--exclude src/lib/clinic-mode/result-follow-up.ts --label "accepted worker source -> final application"')]
+]) {
+  const mutated = structuredClone(hostedWorkflow);
+  const gate = mutated.jobs.preflight.steps.find(step => step.name === "Verify ancestry and image-input equivalence of every pinned SHA");
+  const original = gate.run; gate.run = mutate(original); assert.notEqual(gate.run,original);
+  assert.throws(()=>assertCanonicalWorkerGates(mutated));
+  check(`worker equivalence rejects ${label}`,true);
+}
 check("Preview resolver requires exact Clinic mode, scope, and no-Stripe metadata", resolver.includes("EXPECTED_CLINIC_DEMO_MODE") && resolver.includes("EXPECTED_STRIPE_CONFIGURED") && resolver.includes("EXPECTED_CLINIC_SCOPE_SHA256"));
 check("Clinic resolver receives its exact mode", clinicEnv("resolve_preview","HOSTED_CLINIC_DEMO_MODE") === "mississippi_preview");
 check("browser verifies the exact Vercel Preview identity", browser.includes("RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID") && browser.includes("verifyExactHostedPreview"));
