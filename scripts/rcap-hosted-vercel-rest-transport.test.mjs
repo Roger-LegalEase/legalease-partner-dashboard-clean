@@ -278,7 +278,7 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
   const meta={...fixture('staging_scoped').meta,rcapCatalogProduct:'prod_synthetic',rcapStagingScopeSha256:crypto.createHash('sha256').update(owner).digest('hex')};
   if(clinic)Object.assign(meta,{rcapReturnOrigin:origin,rcapPreviewPurpose:'mississippi_clinic',rcapClinicDemoMode:'mississippi_preview',rcapStripeConfigured:'false',rcapCatalogProduct:'inline',rcapStagingScopeSha256:crypto.createHash('sha256').update(Object.values(HOSTED_MS_CLINIC_PARTICIPANTS).join(',')).digest('hex')});
   const ordinaryOrigin=expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha);
-  const ordinary={...response({meta:{...fixture().meta,rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,rcapWorkerSourceSha:"615b4021f7fff4b41b774967a78f4b117cfce3e2",rcapWorkerDigest:"sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",rcapWorkerInputFingerprint:"sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",rcapReturnOrigin:ordinaryOrigin}}),gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,alias:[new URL(ordinaryOrigin).host]};
+  const ordinary={...response({meta:{...fixture().meta,rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,rcapWorkerSourceSha:"16908485a94f475448657cea90583a4d352da9a3",rcapWorkerDigest:"sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af",rcapWorkerInputFingerprint:"sha256:832c4b2594da296f9337e0913fee75ba2548bdd09004338514ff9152aad0071e",rcapReturnOrigin:ordinaryOrigin}}),gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,alias:[new URL(ordinaryOrigin).host]};
   const remote=()=>({...response({meta}),...remotePatch});
   if(reused) deployment=remote();
   const fetchImpl=async(input,init={})=>{
@@ -446,22 +446,29 @@ test('legacy Legal Aid deployment retains its existing origin and provider envir
   assert.equal(Object.hasOwn(body.meta,'rcapPreviewPurpose'),false);
 });
 
-test('ordinary Preview preservation pins historical bytes independently of successor and rejects drift', () => {
+test('ordinary Preview preservation pins accepted bytes independently of successor and rejects drift', () => {
   const d = {id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,target:null,
     projectId:HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},readyState:'READY',meta:{
       rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,
-      rcapWorkerSourceSha:'615b4021f7fff4b41b774967a78f4b117cfce3e2',
-      rcapWorkerDigest:'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',
-      rcapWorkerInputFingerprint:'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3',
+      rcapWorkerSourceSha:'16908485a94f475448657cea90583a4d352da9a3',
+      rcapWorkerDigest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',
+      rcapWorkerInputFingerprint:'sha256:832c4b2594da296f9337e0913fee75ba2548bdd09004338514ff9152aad0071e',
       rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapClinicDemoMode:'none',
       rcapReturnOrigin:expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha)}};
+  assert.deepEqual(HOSTED_ORDINARY_PREVIEW,{id:'dpl_Eg2n58h38JhnU9uuXQ7Nk46QXGuL',immutableHostname:'legalease-partner-dashboard-clean-8o6aerkxs-roger947s-projects.vercel.app',applicationSha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097'});
+  assert.equal(d.meta.rcapReturnOrigin,'https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app');
   assert.equal(assertPreservedOrdinaryPreview(d),d);
-  for (const [key,value] of Object.entries({id:'dpl_Changed',url:'changed.vercel.app',target:'production',projectId:'prj_Changed',gitSource:{sha:FROZEN_APPLICATION_SHA},readyState:'ERROR'})) {
+  const historical={...d,id:'dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ',url:'legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app',gitSource:{sha:'a0d0b933f7241a209379775754540fc22775f174'},meta:{...d.meta,
+    rcapApplicationSha:'a0d0b933f7241a209379775754540fc22775f174',rcapWorkerSourceSha:'615b4021f7fff4b41b774967a78f4b117cfce3e2',
+    rcapWorkerDigest:'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',rcapWorkerInputFingerprint:'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3',
+    rcapReturnOrigin:expectedHostedReturnOrigin('a0d0b933f7241a209379775754540fc22775f174')}};
+  assert.throws(()=>assertPreservedOrdinaryPreview(historical),/ORDINARY_PREVIEW_MISMATCH/);
+  for (const [key,value] of Object.entries({id:'dpl_Changed',url:'changed.vercel.app',target:'production',projectId:'prj_Changed',gitSource:{sha:'f'.repeat(40)},readyState:'ERROR'})) {
     assert.throws(()=>assertPreservedOrdinaryPreview({...d,[key]:value}),/ORDINARY_PREVIEW_MISMATCH/);
   }
   for (const key of Object.keys(d.meta)) assert.throws(()=>assertPreservedOrdinaryPreview({...d,meta:{...d.meta,[key]:'changed'}}),/ORDINARY_PREVIEW_MISMATCH/);
   assert.throws(()=>assertPreservedOrdinaryPreview({...d,target:undefined}),/ORDINARY_PREVIEW_MISMATCH/);
-  assert.throws(()=>assertPreviewResponse(d,d.meta),/SOURCE_MISMATCH/);
+  assert.throws(()=>assertPreviewResponse({...d,gitSource:{sha:'f'.repeat(40)}},d.meta),/SOURCE_MISMATCH/);
 });
 
 

@@ -10,9 +10,9 @@ export const HOSTED_MS_CLINIC_PARTICIPANTS = Object.freeze({
   "mvl-demo-participant-b@rcap-acceptance.test": "255998e1-eb69-4239-b151-0f8b8935a539"
 });
 export const HOSTED_ORDINARY_PREVIEW = Object.freeze({
-  id: "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
-  immutableHostname: "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
-  applicationSha: "a0d0b933f7241a209379775754540fc22775f174"
+  id: "dpl_Eg2n58h38JhnU9uuXQ7Nk46QXGuL",
+  immutableHostname: "legalease-partner-dashboard-clean-8o6aerkxs-roger947s-projects.vercel.app",
+  applicationSha: "4feb8e94b3dee4085fe05ea75d78853fe21e5097"
 });
 
 export function expectedHostedReturnOrigin(applicationSha, previewPurpose = "") {

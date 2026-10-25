@@ -388,7 +388,7 @@ if (ISOLATED_CLINIC_PREVIEW) {
 // ONLY when ROUTE_STATE is explicitly set; the default deployment carries no
 // flag at all, so the control's own default (disabled) applies.
 // Candidate staging cannot inherit payment, legacy billing or outbound delivery authority.
-const closedPreviewEnv = process.env.PHASE_INPUT === "replace_preview" ? {
+const closedPreviewEnv = (process.env.PHASE_INPUT === "replace_preview" || ISOLATED_CLINIC_PREVIEW) ? {
   RCAP_PARTNER_ONBOARDING_ENABLED: "true",
   RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "disabled",
   RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "",
@@ -404,7 +404,8 @@ const closedPreviewEnv = process.env.PHASE_INPUT === "replace_preview" ? {
   RESEND_API_KEY: "",
   INTERNAL_ADMIN_ACCESS_TOKEN: "",
   LEGALEASE_OS_EVENTS_ENABLED: "false",
-  LEGALEASE_OS_EVENTS_ENDPOINT: ""
+  LEGALEASE_OS_EVENTS_ENDPOINT: "",
+  ...(ISOLATED_CLINIC_PREVIEW ? { STRIPE_CONSUMER_PACKET_PRODUCT_ID: "", PARTNER_EMAIL_PROVIDER: "" } : {})
 } : {};
 const runtimeEnv = {
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
@@ -441,10 +442,16 @@ const runtimeEnv = {
   } : {}),
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
   ...closedPreviewEnv,
+  ...(ISOLATED_CLINIC_PREVIEW ? {
+    RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE,
+    RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS,
+    RCAP_SPONSORED_PREVIEW_CHANNEL: CLINIC_DEMO_MODE
+  } : {}),
   ...(configuredSandboxEnv?.runtime ?? {})
 };
 const buildEnv = {
   ...closedPreviewEnv,
+  ...(ISOLATED_CLINIC_PREVIEW ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "", LEGAL_AID_RESTRICTED_FIELD_KEY: "", LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: "", PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: "" } : {}),
   ...(process.env.PHASE_INPUT === "replace_preview" ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "", VERCEL_ANALYZE_BUILD_OUTPUT: "1" } : {}),
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,

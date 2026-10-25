@@ -50,14 +50,14 @@ export function assertPreviewResponse(d, expectedMeta, expectedId) {
   return d;
 }
 
-// Preservation readback is pinned to the historical ordinary Preview, not to
+// Preservation readback is pinned to the accepted ordinary Preview, not to
 // the successor being created. This function cannot authorize a new deployment.
 export function assertPreservedOrdinaryPreview(d) {
   const expected = {
     rcapApplicationSha: HOSTED_ORDINARY_PREVIEW.applicationSha,
-    rcapWorkerSourceSha: '615b4021f7fff4b41b774967a78f4b117cfce3e2',
-    rcapWorkerDigest: 'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',
-    rcapWorkerInputFingerprint: 'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3',
+    rcapWorkerSourceSha: '16908485a94f475448657cea90583a4d352da9a3',
+    rcapWorkerDigest: 'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',
+    rcapWorkerInputFingerprint: 'sha256:832c4b2594da296f9337e0913fee75ba2548bdd09004338514ff9152aad0071e',
     rcapAcceptanceProjectRef: ACCEPTANCE_PROJECT,
     rcapReturnOrigin: expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha),
     rcapClinicDemoMode: 'none'

@@ -53,3 +53,23 @@ test('complete synthetic native v3 closure reaches CURRENT through real successo
   const altered=read(CANDIDATE);altered.productionAuthorized=true;write(CANDIDATE,altered);assert.throws(()=>verifyClosureControl(root,altered),'CURRENT cannot inherit Production authority');
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+test('isolated Preview closure admits exactly four added paths and still rejects unrelated script and application changes',()=>{
+ const added=['scripts/rcap-hosted-acceptance-vercel-identity.mjs','scripts/rcap-hosted-vercel-rest-transport.mjs','scripts/rcap-hosted-vercel-rest-transport.test.mjs','scripts/rcap-isolated-clinic-environment.test.mjs'];
+ const prior=['.github/workflows/rcap-f1-ephemeral-staging.yml','scripts/rcap-successor-nonproduction-closure.mjs','scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs','scripts/grade-a-launch-control/preview-closure-contract.mjs','scripts/grade-a-launch-control/preview-closure-contract.test.mjs','scripts/grade-a-launch-control/preview-closure-control.mjs','scripts/grade-a-launch-control/preview-closure-binding.test.mjs','scripts/rcap-worker-identity-readonly.mjs','scripts/rcap-worker-identity-readonly.test.mjs','vercel.json','scripts/grade-a-launch-control/require-preview-preparation.mjs','scripts/rcap-hosted-acceptance-deploy.mjs','scripts/rcap-configured-sandbox-preview-contract.mjs','scripts/rcap-configured-sandbox-preview.mjs','scripts/rcap-configured-sandbox-preview.test.mjs','scripts/rcap-hosted-existing-dtc-continuation.mjs','scripts/rcap-hosted-existing-dtc-continuation.test.mjs'];
+ assert.equal(new Set(CLOSURE_CONTROL_PATHS).size,CLOSURE_CONTROL_PATHS.length);
+ assert.deepEqual([...CLOSURE_CONTROL_PATHS].sort(),[...prior,...added].sort());
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'f-four-closure-paths-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+ const write=(name,text)=>{const target=path.join(root,name);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,text);};
+ const commit=()=>{git(['add','.']);git(['-c','user.name=Synthetic Closure Test','-c','user.email=synthetic@example.invalid','commit','--quiet','-m','synthetic isolated fixture']);return git(['rev-parse','HEAD']);};
+ try {
+  git(['init','--quiet']);
+  for(const name of ['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'])write('data/rcap-grade-a/launch-control/'+name+'.json','{}\n');
+  const predecessorSha=commit();for(const name of added)write(name,'synthetic reviewed control\n');const sourceSha=commit();
+  const manifest=prepareClosureControl(root,{predecessorSha,sourceSha});assert.deepEqual(Object.keys(manifest.files).sort(),[...added].sort());
+  for(const name of added)assert.equal(manifest.files[name],hash('synthetic reviewed control\n'));
+  write('scripts/unreviewed-extra.mjs','unapproved\n');const unrelated=commit();assert.throws(()=>prepareClosureControl(root,{predecessorSha,sourceSha:unrelated}),/only authorized closure control correction/);
+  git(['rm','scripts/unreviewed-extra.mjs']);write('src/unreviewed.ts','unapproved\n');const application=commit();assert.throws(()=>prepareClosureControl(root,{predecessorSha,sourceSha:application}),/only authorized closure control correction/);
+ } finally {fs.rmSync(root,{recursive:true,force:true});}
+});
