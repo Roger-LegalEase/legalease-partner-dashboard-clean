@@ -1,4 +1,5 @@
 import {CLINIC_FRESH_ATTEMPT} from './rcap-clinic-fresh-attempt.mjs';
+import {verifyScreeningProgressPrefixes,readClinicLiveScreeningProgress,SCREENING_PROGRESS_QUESTION_IDS,SCREENING_PROGRESS_PROFILE_VERSION} from './rcap-clinic-live-screening-progress.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -12,7 +13,23 @@ import {CLINIC_PREREQUISITE_SQL,qualifyClinicDatabasePrerequisites} from './lib/
 const signatures=['public.rcap_partner_activation_for_launch(text)','public.rcap_program_screening_jurisdictions(text)','public.rcap_program_packet_scope_authorized(text,text)','public.clinic_entry_sponsor_capacity(uuid,text)','public.rcap_program_screening_capacity(text)'];
 const identity={current_user:'postgres',session_user:'postgres',transaction_read_only:'on'};
 const context=()=>({...identity,clinic_supplemental_contract:claimFixture(),service_role_bypassrls:true,service_role_public_usage:true,probe_execute:Object.fromEntries(signatures.map(s=>[s,true]))});
+const progressFixture=(now=Date.now())=>({status:'READY',businessWrites:false,applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,origin:CLINIC_SETUP.origin,capturedAt:new Date(now).toISOString(),responses:Array.from({length:9},(_,step)=>({step,httpStatus:200,outcome:'accepted',answerIds:SCREENING_PROGRESS_QUESTION_IDS.slice(0,step).filter(id=>id!=='ms_program_order'),response:{jurisdiction:'MS',profileVersion:SCREENING_PROGRESS_PROFILE_VERSION,questionIds:[...SCREENING_PROGRESS_QUESTION_IDS]}})),responseObservations:[{operation:'profile',httpStatus:200,accepted:true},...Array.from({length:9},()=>({operation:'progress',httpStatus:200,accepted:true}))]});
 const env={SUPABASE_ACCESS_TOKEN:'mock-existing-context'};
+test('live progress contract refuses HTTP errors, malformed bodies, unknown questions and version drift without a second request',async()=>{
+ const profile={jurisdiction:{code:'MS'},profileVersion:'fixture',questions:[{id:'ownership_scope',options:['Yes']}]};
+ for(const response of [{status:409,body:{error:'profile_version_mismatch'}},{status:200,body:null},
+  {status:200,body:{jurisdiction:'MS',profileVersion:'different',questionIds:['ownership_scope']}},
+  {status:200,body:{jurisdiction:'MS',profileVersion:'fixture',questionIds:['invented']}},
+  {status:200,body:{jurisdiction:'MS',profileVersion:'fixture',questionIds:['ownership_scope','ownership_scope']}}]) {
+  let calls=0;const receipts=[];await assert.rejects(verifyScreeningProgressPrefixes(profile,async()=>{calls++;return response;},receipts));
+  assert.equal(calls,1);assert.equal(receipts.length,1);assert.equal(receipts[0].outcome,'contract_mismatch');
+ }
+});
+test('missing live Preview binding blocks before launching a browser or any business operation',async()=>{
+ const result=await readClinicLiveScreeningProgress({env:{}});assert.equal(result.status,'BLOCKED');
+ assert.equal(result.stage,'configuration');assert.equal(result.reason,'existing_preview_bypass_unavailable');assert.equal(result.businessWrites,false);
+ assert.deepEqual(result.responses,[]);
+});
 const validContract=()=>({status:'READY',checks:[{id:'mock-contract',ok:true}],blockers:[],operational:{existing_code_available:false,
  existing_code_inventory:CLINIC_FRESH_ATTEMPT.history.map(h=>({id:h.id,uses_count:h.usesCount,max_uses:h.maxUses,is_active:true,starts_at:h.startsAt,expires_at:h.expiresAt,redemption_rows:h.redemptionRows})),
  fresh_attempt:{event:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:CLINIC_FRESH_ATTEMPT.entries},priorRedemption:{id:CLINIC_FRESH_ATTEMPT.redemptionId,codeId:CLINIC_FRESH_ATTEMPT.history[1].id,closed:false,assisted:false}}
@@ -41,13 +58,13 @@ test('browser admission rejects stale, other-run, unknown CAPTCHA and incomplete
  const env={GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'},now=Date.now();
  const gate={attemptId:CLINIC_FRESH_ATTEMPT.id,attemptConsumedByRun:null,schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:'READY',projectRef:CLINIC_SETUP.project,
   applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,controlHead:env.GITHUB_SHA,runId:'123',runAttempt:'1',capturedAt:new Date(now).toISOString(),
-  databaseEvidence:{executionContext:identity,claimSqlSha256:createHash('sha256').update(CLINIC_CLAIM_SQL).digest('hex'),prerequisiteSqlSha256:createHash('sha256').update(CLINIC_PREREQUISITE_SQL).digest('hex'),inspectionSqlSha256:createHash('sha256').update(clinicInspectionSql(CLINIC_PREREQUISITE_SQL)).digest('hex'),requests:[{operation:'compatibility_inspection',httpStatus:201,sqlstate:null}],stateChangingStepReached:false},
-  checks:[...qualifyClinicClaimPrerequisites({functions:[],relations:[]}).checks.map(c=>c.id),...qualifyClinicDatabasePrerequisites({catalog:{functions:[],relations:[{name:'public.legal_aid_policy_profiles',present:false}]},projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app}).checks.map(c=>c.id),'database_execution_role','database_session_identity','database_transaction_read_only',...signatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','reconciled_clinic_history','exact_current_preview','shipped_and_server_captcha'].map(id=>({id,ok:true})),blockers:[],
+  screeningProgress:progressFixture(now),databaseEvidence:{executionContext:identity,claimSqlSha256:createHash('sha256').update(CLINIC_CLAIM_SQL).digest('hex'),prerequisiteSqlSha256:createHash('sha256').update(CLINIC_PREREQUISITE_SQL).digest('hex'),inspectionSqlSha256:createHash('sha256').update(clinicInspectionSql(CLINIC_PREREQUISITE_SQL)).digest('hex'),requests:[{operation:'compatibility_inspection',httpStatus:201,sqlstate:null}],stateChangingStepReached:false},
+  checks:[...qualifyClinicClaimPrerequisites({functions:[],relations:[]}).checks.map(c=>c.id),...qualifyClinicDatabasePrerequisites({catalog:{functions:[],relations:[{name:'public.legal_aid_policy_profiles',present:false}]},projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app}).checks.map(c=>c.id),'database_execution_role','database_session_identity','database_transaction_read_only',...signatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','reconciled_clinic_history','exact_current_preview','shipped_and_server_captcha','live_screening_progress'].map(id=>({id,ok:true})),blockers:[],
   preview:{previewVerified:true,deploymentId:CLINIC_SETUP.deploymentId},captchaPolicy:{project:CLINIC_SETUP.project,serverCaptchaRequired:false,
     frontend:{applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,clientCaptchaRequired:false,widgetSiteKeyConfigured:true}}};
  try {
   fs.writeFileSync(file,JSON.stringify(gate));assert.equal(readCurrentClinicGate(file,env,now).status,'READY','unit-only artifact contract; no hosted readiness claim');
-  for(const change of [d=>{d.attemptId=CLINIC_FRESH_ATTEMPT.previousAttempt.id;},d=>{d.attemptConsumedByRun='40158881107';},d=>{d.attemptId=CLINIC_FRESH_ATTEMPT.priorRequestId;},d=>{d.status='BLOCKED';},d=>{d.runId='456';},d=>{d.capturedAt=new Date(now-300001).toISOString();},
+  for(const change of [d=>{d.attemptId=CLINIC_FRESH_ATTEMPT.previousAttempt.id;},d=>{d.attemptConsumedByRun='40158881107';},d=>{d.attemptId=CLINIC_FRESH_ATTEMPT.priorRequestId;},d=>{d.screeningProgress.status='BLOCKED';},d=>{d.screeningProgress.responses=[];},d=>{d.screeningProgress.responses=d.screeningProgress.responses.slice(0,2);d.screeningProgress.responseObservations=d.screeningProgress.responseObservations.slice(0,3);},d=>{d.screeningProgress.responseObservations.shift();},d=>{d.screeningProgress.responses[3].answerIds=[];},d=>{d.screeningProgress.responses[5].response.questionIds.reverse();},d=>{d.screeningProgress.capturedAt=new Date(now-300001).toISOString();},d=>{d.status='BLOCKED';},d=>{d.runId='456';},d=>{d.capturedAt=new Date(now-300001).toISOString();},
    d=>{d.captchaPolicy.serverCaptchaRequired=true;},d=>{d.captchaPolicy.frontend.clientCaptchaRequired=null;},d=>{d.checks.shift();},...gate.checks.map(({id})=>d=>{d.checks=d.checks.filter(c=>c.id!==id);}),d=>{d.checks.push({...d.checks[0]});},d=>{d.projectRef='wrong';},d=>{d.controlHead='b'.repeat(40);},d=>{d.runAttempt='2';},d=>{d.databaseEvidence.requests=[];},d=>{d.databaseEvidence.inspectionSqlSha256='0'.repeat(64);},d=>{d.databaseEvidence.executionContext.session_user='anon';},d=>{d.databaseEvidence.executionContext={...identity,transaction_read_only:'off'};}]) {
     const changed=structuredClone(gate);change(changed);fs.writeFileSync(file,JSON.stringify(changed));assert.throws(()=>readCurrentClinicGate(file,env,now));
   }
@@ -182,7 +199,7 @@ async function providerResult(overrides={},envDelta={}) {
   document:()=>new Response('<script src="/_next/static/fixture.js"></script>'),script:()=>new Response(shippedCaptchaFixture()),
   captcha:()=>Response.json({security_captcha_enabled:false,privateValue:privateSentinel}),...overrides};
  const result=await collectClinicLivePrerequisites({env:{SUPABASE_ACCESS_TOKEN:privateSentinel,VERCEL_TOKEN:privateSentinel,VERCEL_AUTOMATION_BYPASS_SECRET:privateSentinel,...envDelta},
-  querySql:CLINIC_PREREQUISITE_SQL,qualifyDatabase:validContract,fetchImpl:async(address,options)=>{
+  readProgress:async()=>progressFixture(),querySql:CLINIC_PREREQUISITE_SQL,qualifyDatabase:validContract,fetchImpl:async(address,options)=>{
    const url=new URL(address);const kind=url.hostname==='api.supabase.com'?(url.pathname.endsWith('/database/query')?'database':'captcha')
     :url.hostname==='api.vercel.com'?(url.pathname.startsWith('/v9/projects/')?'project':url.pathname.endsWith('/aliases')?'aliases':url.pathname.endsWith(CLINIC_SETUP.deploymentId)?'deployment':'alias')
     :url.pathname==='/expungement-ai/sign-in'?'document':'script';

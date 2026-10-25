@@ -8,7 +8,7 @@ import ts from 'typescript';
 import {CLINIC_SETUP,clinicSetupSafePathname} from './rcap-clinic-setup-only-boundary.mjs';
 import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure} from './rcap-clinic-setup-admin-code.mjs';
 function fixture() {
-  const now=Date.parse('2026-10-25T04:00:00Z'),calls=[],receipts=[];
+  const now=Date.parse('2026-10-25T06:00:00Z'),calls=[],receipts=[];
   const old={id:CLINIC_CODE_ADMIN.oldCodeId,eventId:CLINIC_SETUP.event,maxUses:2,usesCount:2,isActive:true,startsAt:CLINIC_FRESH_ATTEMPT.history[0].startsAt,expiresAt:CLINIC_FRESH_ATTEMPT.history[0].expiresAt};
   const consumed={id:CLINIC_FRESH_ATTEMPT.history[1].id,eventId:CLINIC_SETUP.event,maxUses:1,usesCount:1,isActive:true,startsAt:'2026-10-25T02:02:30.379Z',expiresAt:'2026-10-25T02:17:30.379Z'};
   const event={id:CLINIC_SETUP.event,partnerSlug:'mvl-demo',publicSlug:CLINIC_SETUP.slug,jurisdiction:'MS',status:'published',
@@ -22,7 +22,7 @@ function fixture() {
     saveAttempt:async value=>receipts.push(structuredClone(value)),saveResult:async value=>receipts.push(structuredClone(value)),saveVerified:async value=>receipts.push(structuredClone(value))};
   return {io,now,calls,receipts,workspace,event,old,consumed,codeId,code};
 }
-test('new authorized issuer uses one bounded max1 request and preserves all spent history',async()=>{
+test('downstream issuer unit uses one bounded max1 request and preserves all spent history',async()=>{
   const f=fixture();const code=await issueClinicSetupCode(f.io);assert.equal(code,f.code);assert.equal(f.calls.length,1);
   const body=f.calls[0];assert.equal(body.requestId,CLINIC_CODE_ADMIN.requestId);assert.equal(body.maxUses,1);
   assert.equal(Date.parse(body.startsAt),f.now);assert.equal(Date.parse(body.expiresAt),f.now+15*60000);
@@ -42,7 +42,7 @@ for(const [label,change] of [
   ['event outside actual window',f=>{f.event.endsAt=new Date(f.now-1).toISOString();}],
   ['event not published',f=>{f.event.status='paused';}],
   ['already renewed or unknown inventory',f=>{f.workspace.json.workspace.accessCodes.push({...f.old,id:'22222222-2222-4222-8222-222222222222',usesCount:0});}],
-  ['missing latest consumed run401588 code',f=>{f.workspace.json.workspace.accessCodes.pop();}],
+  ['missing latest consumed run401630 code',f=>{f.workspace.json.workspace.accessCodes.pop();}],
   ['changed consumed counter',f=>{f.consumed.usesCount=0;}],
   ['capacity fully consumed',f=>{f.io.readCapacity=async()=>({status:200,json:{success:true,report:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:20}}});}],
   ['old code no longer exhausted',f=>{f.old.usesCount=1;}],
@@ -60,7 +60,7 @@ test('ambiguous transport and failed persisted-code readback stop without a seco
   for(const failure of ['transport','readback']) {
     const f=fixture();
     if(failure==='transport')f.io.createCode=async body=>{f.calls.push(body);throw Error('transport');};
-    else {const read=f.io.readWorkspace;f.io.readWorkspace=async()=>{const value=await read();if(f.calls.length)value.json.workspace.accessCodes[2].maxUses=2;return value;};}
+    else {const read=f.io.readWorkspace;f.io.readWorkspace=async()=>{const value=await read();if(f.calls.length)value.json.workspace.accessCodes.at(-1).maxUses=2;return value;};}
     await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);
     assert.ok(!f.receipts.some(row=>row.status==='verified_unredeemed'));
   }
@@ -118,7 +118,7 @@ test('actual runner uses guarded exact-event controls and captures denied/server
 
 test('fresh authority refuses the spent identity, missing approval identity, and a workflow rerun',()=>{
  const env={RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.id,GITHUB_RUN_ATTEMPT:'1'};
- assertClinicAttemptAuthority(env);
+ assert.throws(()=>assertClinicAttemptAuthority(env),/attempt is spent/);
  assert.equal(CLINIC_CODE_ADMIN.requestId,'fbf69013-459a-4331-82bd-b72d9e7f244c');
  assert.notEqual(CLINIC_CODE_ADMIN.requestId,CLINIC_FRESH_ATTEMPT.previousAttempt.id);
  for(const change of [{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.previousAttempt.id},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.priorRequestId},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:''},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>assertClinicAttemptAuthority({...env,...change}));
@@ -155,13 +155,15 @@ test('actual code POST callback revalidates the same-run gate after preceding re
  }
 });
 
-test('reconciled third consumed code is required and spent authority precedes every browser effect',()=>{
- assert.equal(CLINIC_FRESH_ATTEMPT.history.length,3);
- assert.equal(CLINIC_FRESH_ATTEMPT.entries,17);
+test('all four consumed codes are required and spent authority precedes every browser effect',()=>{
+ assert.equal(CLINIC_FRESH_ATTEMPT.history.length,4);
+ assert.equal(CLINIC_FRESH_ATTEMPT.entries,18);
  assert.equal(CLINIC_FRESH_ATTEMPT.history[2].id,'d627a599-0a0b-47f7-896c-45bd7b7645e2');
  assert.equal(CLINIC_FRESH_ATTEMPT.previousAttempt.consumedByRun,'40158881107');
- assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,null);
- for(const id of [CLINIC_FRESH_ATTEMPT.previousAttempt.id,CLINIC_FRESH_ATTEMPT.priorRequestId,'11111111-1111-4111-8111-111111111111'])
+ assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,'40163028066');
+ assert.deepEqual(CLINIC_FRESH_ATTEMPT.history[3],{id:'a19bde9a-f244-4788-bb24-fe14d2b6057b',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T04:47:13.939Z',expiresAt:'2026-10-25T05:02:13.939Z'});
+ assert.equal(CLINIC_FRESH_ATTEMPT.history.reduce((n,c)=>n+c.redemptionRows-c.usesCount,0),13);
+ for(const id of [CLINIC_FRESH_ATTEMPT.id,CLINIC_FRESH_ATTEMPT.previousAttempt.id,CLINIC_FRESH_ATTEMPT.priorRequestId,'11111111-1111-4111-8111-111111111111'])
   assert.throws(()=>assertClinicAttemptAuthority({RCAP_BROWSER_CLINIC_ATTEMPT_ID:id,GITHUB_RUN_ATTEMPT:'1'}));
  const source=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
  assert(source.indexOf('assertClinicAttemptAuthority(process.env)')<source.indexOf('chromium.launch('));

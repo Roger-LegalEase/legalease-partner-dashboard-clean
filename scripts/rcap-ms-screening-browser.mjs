@@ -41,7 +41,22 @@ export async function answerMississippiChoice(page,choice) {
  await page.getByRole('button',{name:/^Continue(?:\s|$)/}).click();
 }
 
-export async function runMississippiScreening(page) {
+export async function screeningFailureDiagnostics(page,{observations=[],stages=[]}={}) {
+ const known=[...MISSISSIPPI_SCREENING_CHOICES.map(q=>q.prompt),
+  'Something went wrong loading these questions.',
+  "We could not load this state's screening questions correctly, so we stopped rather than show you something unreliable. Please try again in a moment.",
+  'We could not load the next question. Your answers are still here; try continuing again.'];
+ const project=text=>{const found=known.filter(copy=>text.includes(copy));return found.length?found:['unrecognized text redacted'];};
+ const alerts=await page.locator('[role="alert"]:visible').allInnerTexts().catch(()=>[]);
+ const headings=await page.locator('h1:visible,h2:visible,h3:visible').allInnerTexts().catch(()=>[]);
+ const path=new URL(page.url()).pathname;
+ const pathname=['/','/clinic/local-screening-fixture/screening/ms','/clinic/mississippi-volunteer-lawyers-demo/screening/ms','/expungement-ai/screening/ms'].includes(path)?path:/^\/briefcase\/matters\/[a-f0-9-]{36}$/.test(path)?'/briefcase/matters/[matter-id]':'[unrecognized_path]';
+ return {pathname,alerts:alerts.map(project),headings:headings.map(project),
+  apiObservations:observations.filter(o=>['profile','progress','evaluation','completion','pending','claim'].includes(o.operation)).slice(-10),
+  apiStages:stages.filter(o=>['profile','progress','evaluation','completion','pending','claim'].includes(o.operation)).slice(-10)};
+}
+
+export async function runMississippiScreening(page,diagnostics={}) {
  const origin=new URL(page.url()).origin,remaining=new Map(MISSISSIPPI_SCREENING_CHOICES.map(q=>[q.id,q]));
  const answeredQuestionIds=[],omittedQuestionIds=[],evaluationStatuses=[],evaluations=[],resultHeading=mississippiResultHeading(page);
  const observe=response=>{
@@ -69,5 +84,8 @@ export async function runMississippiScreening(page) {
    remaining.delete(shown.id);await answerMississippiChoice(page,shown);(shown.leaveUnanswered?omittedQuestionIds:answeredQuestionIds).push(shown.id);
   }
   throw new Error('Screening did not reach its result within the bounded fixture sequence');
+ }catch(error){
+  error.screeningDiagnostics=await screeningFailureDiagnostics(page,diagnostics);
+  error.message+=` | ${JSON.stringify(error.screeningDiagnostics)}`;throw error;
  }finally{page.off('response',observe);}
 }

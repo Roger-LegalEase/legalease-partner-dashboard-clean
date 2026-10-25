@@ -11,6 +11,7 @@ const paths={
 };
 export function originalResponseOperation(request,{origin,authOrigin}) {
  const url=new URL(request.url());
+ if(request.method()==='GET'&&url.origin===origin&&url.pathname==='/api/expungement-ai/profiles/MS'&&!url.search&&!url.hash&&!url.username&&!url.password)return 'profile';
  if(request.method()!=='POST'||url.username||url.password||url.hash)return null;
  if(url.origin===authOrigin&&url.pathname==='/auth/v1/token'&&url.search==='?grant_type=password')return 'signin';
  if(url.origin!==origin||url.search)return null;
@@ -26,6 +27,7 @@ function exactPath(value,pathname,origin) {
 }
 export function projectOriginalResponse(operation,httpStatus,body,config,requestShape={}) {
  const result={operation,httpStatus,bodyState:'parsed',outcome:'contract_mismatch',accepted:false};
+ if(operation==='progress'&&['invalid_request','unsupported_jurisdiction','profile_version_mismatch','question_lifecycle_metadata_invalid'].includes(body?.error))result.errorCode=body.error;
  if(httpStatus!==200||body?.success===false||body?.ok===false) {
   // A prepared reset deliberately reports success=false until its close phase.
   if(!(operation==='reset_prepare'&&httpStatus===200&&body?.prepared===true))return {...result,outcome:'application_refusal'};
@@ -33,6 +35,7 @@ export function projectOriginalResponse(operation,httpStatus,body,config,request
  if(!body||typeof body!=='object'||Array.isArray(body))return {...result,outcome:'malformed_response'};
  let accepted=false,values={};
  switch(operation) {
+  case 'profile':accepted=body.jurisdiction?.code==='MS'&&typeof body.profileVersion==='string'&&Array.isArray(body.questions)&&body.questions.length>0;break;
   case 'signin':accepted=uuid(body.user?.id);if(accepted)values={userId:body.user.id};break;
   case 'entry':accepted=body.success===true&&exactPath(body.next,`/clinic/${config.clinicSlug}/assist`,config.origin);break;
   case 'assistance':accepted=body.success===true&&exactPath(body.screeningUrl,`/clinic/${config.clinicSlug}/screening/ms`,config.origin);break;
@@ -55,7 +58,7 @@ export function projectOriginalResponse(operation,httpStatus,body,config,request
  return {...result,...values,accepted,outcome:accepted?'accepted':'contract_mismatch'};
 }
 export function safeOriginalResponse(value) {
- return {operation:value.operation,httpStatus:value.httpStatus,bodyState:value.bodyState,outcome:value.outcome,accepted:value.accepted};
+ return {operation:value.operation,httpStatus:value.httpStatus,bodyState:value.bodyState,outcome:value.outcome,accepted:value.accepted,...(value.errorCode?{errorCode:value.errorCode}:{})};
 }
 export const observedOriginalResponse=request=>captured.get(request);
 export function originalResponse(response,operation) {
@@ -72,16 +75,19 @@ export function requireOriginalResponse(response,operation) {
 export function matchesOriginalResponse(response,operation,config) {
  return originalResponseOperation(response.request(),config)===operation;
 }
-export function createOriginalResponseObserver(config,{bypass='',onObservation=()=>{}}={}) {
+export function createOriginalResponseObserver(config,{bypass='',onObservation=()=>{},onStage=()=>{}}={}) {
  return async route=>{
   const request=route.request(),operation=originalResponseOperation(request,config);
   if(!operation)return route.fallback();
   const save=value=>{captured.set(request,Object.freeze(value));onObservation(safeOriginalResponse(value));};
+  const stage=(stage,httpStatus=null)=>onStage({operation,stage,httpStatus});
+  stage('transport_started');
   let response;
   try {
    const headers=new URL(request.url()).origin===config.origin&&bypass
     ?previewRequestHeaders(bypass,request.headers()):withoutPreviewHeaders(request.headers());
    response=await route.fetch({headers,maxRedirects:0,maxRetries:0});
+   stage('response_headers',response.status());
   } catch {
    save({operation,httpStatus:null,bodyState:'unavailable',outcome:'transport_failure',accepted:false});return route.abort('failed');
   }
@@ -93,6 +99,7 @@ export function createOriginalResponseObserver(config,{bypass='',onObservation=(
   try {bytes=await response.body();}catch {
    save({operation,httpStatus:response.status(),bodyState:'body_read_failed',outcome:'body_read_failure',accepted:false});return route.abort('failed');
   }
+  stage('response_body',response.status());
   let value,requestShape;try {requestShape=request.postDataJSON();}catch{requestShape={};}
   let body;
   try {body=JSON.parse(bytes.toString('utf8'));}
@@ -100,6 +107,7 @@ export function createOriginalResponseObserver(config,{bypass='',onObservation=(
   if(!value)value=projectOriginalResponse(operation,response.status(),body,config,requestShape??{});
   save(value);
   // Read the original bytes before the page can navigate; never re-submit a POST.
-  return route.fulfill({response,body:bytes});
+  await route.fulfill({response,body:bytes});
+  stage('response_fulfilled',response.status());
  };
 }

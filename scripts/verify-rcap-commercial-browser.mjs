@@ -62,7 +62,7 @@ const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
 const issueClinicCode = clinicSetupOnly && process.env.RCAP_BROWSER_ISSUE_CLINIC_CODE === "1";
 if (clinicSetupOnly) {assertClinicSetupInput(process.env);assertClinicAttemptAuthority(process.env);}
 const responseConfig={origin:baseUrl,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:clinicEventSlug};
-const result = { responseObservations:[],stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
+const result = { responseStages:[],responseObservations:[],stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
   process.env.RCAP_BROWSER_EVIDENCE_DIR?.trim() ||
     path.join(process.cwd(), "hosted-acceptance-evidence", "rcap-commercial-flow")
@@ -298,7 +298,7 @@ async function runJourney() {
   result.stage='participant_screening';
   const screeningCompletion=clinicSetupOnly?page.waitForResponse(response=>matchesOriginalResponse(response,'completion',responseConfig),
     {timeout:45000}).then(response=>originalResponse(response,'completion')).catch(()=>null):null;
-  const screeningSequence=await runMississippiScreening(page);
+  const screeningSequence=await runMississippiScreening(page,{observations:result.responseObservations,stages:result.responseStages});
   result.mississippiQuestionOrder=screeningSequence.answeredQuestionIds;
   result.mississippiOmittedOptionalQuestions=screeningSequence.omittedQuestionIds;
   result.mississippiEvaluationStatuses=screeningSequence.evaluationStatuses;
@@ -651,6 +651,7 @@ async function runJourney() {
 }
 
 try { await runJourney(); } catch (error) {
+  if(error.screeningDiagnostics)result.screeningDiagnostics=error.screeningDiagnostics;
   if (clinicSetupOnly) {
     result.entryDiagnostics ??= {httpStatus:null};
     result.entryDiagnostics.currentPathname=activePage ? clinicSetupSafePathname(activePage.url(),process.env) : null;
@@ -718,7 +719,9 @@ async function attachBypass(context) {
   if (bypassSecret) await context.route(`${baseUrl}/**`, async (route) => {
     await route.continue({ headers: { ...route.request().headers(), ...bypassHeaders() } });
   });
-  await context.route("**/*",createOriginalResponseObserver(responseConfig,{bypass:bypassSecret,onObservation:value=>{if(result.responseObservations.length<200)result.responseObservations.push(value);}}));
+  await context.route("**/*",createOriginalResponseObserver(responseConfig,{bypass:bypassSecret,
+    onStage:value=>{if(result.responseStages.length<800)result.responseStages.push(value);},
+    onObservation:value=>{if(result.responseObservations.length<200)result.responseObservations.push(value);}}));
 }
 
 function bypassHeaders() {

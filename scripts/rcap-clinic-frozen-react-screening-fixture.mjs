@@ -37,21 +37,39 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
  };
  const resolveSource=(specifier,parent)=>specifier.startsWith('@/')?locate(path.posix.normalize('src/'+specifier.slice(2))):
   specifier.startsWith('.')?locate(path.posix.normalize(path.posix.join(path.posix.dirname(parent),specifier))):null;
- const transpile=(body,filename)=>ts.transpileModule(body,{fileName:filename.replace(/\.mjs$/,'.ts'),compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText;
- const profile=JSON.parse(read('src/lib/rcap-engine/compiled/profiles/MS-mississippi.json'));
- const registry={getProfileByJurisdiction:state=>state?.toUpperCase()==='MS'?profile:undefined,
-  getAllJurisdictionProfiles:()=>[profile],normalizeJurisdictionCode:state=>state.trim().toUpperCase(),
-  getDesignerPublicProfiles:()=>JSON.parse(read('src/lib/rcap-engine/compiled/all51.json')),
-  assertProfileVersion:(p,v)=>p.profileVersion===v?{ok:true}:{ok:false,currentProfileVersion:p.profileVersion}};
+ const transpile=(body,filename)=>ts.transpileModule(body.replace(/^#![^\n]*(?:\n|$)/,''),{fileName:filename.replace(/\.mjs$/,'.ts'),compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText;
+ const sideEffects={databaseCalls:0,cookieCalls:0};
+ const registryPath='src/lib/rcap-engine/profile-registry.ts';
+ const registryFs={
+  readdirSync:directory=>{
+   const relative=path.relative(repo,directory).split(path.sep).join('/');
+   assert.equal(relative,'src/lib/rcap-engine/compiled/profiles');
+   return execFileSync('git',['ls-tree','--name-only',`HEAD:${relative}`],{cwd:repo,encoding:'utf8'}).trim().split('\n');
+  },
+  readFileSync:(filename,encoding)=>{
+   assert.equal(encoding,'utf8');const relative=path.relative(repo,filename).split(path.sep).join('/');
+   assert.ok(relative.startsWith('src/lib/rcap-engine/compiled/'),'Registry reads must stay in frozen compiled sources');return read(relative);
+  }
+ };
  const load=relative=>{
-  if(relative==='src/lib/rcap-engine/profile-registry.ts')return registry;
   if(nodeCache.has(relative))return nodeCache.get(relative).exports;
   const module={exports:{}};nodeCache.set(relative,module);
   if(relative.endsWith('.json'))module.exports=JSON.parse(read(relative));
   else new Function('require','module','exports','process',transpile(read(relative),relative))(
-   specifier=>specifier==='server-only'?{}:resolveSource(specifier,relative)?load(resolveSource(specifier,relative)):nativeRequire(specifier),module,module.exports,process);
+   specifier=>{
+    if(specifier==='server-only')return {};
+    if(relative===registryPath&&specifier==='node:fs')return registryFs;
+    if(specifier==='next/headers')return {cookies:()=>{sideEffects.cookieCalls++;throw Error('Read-only handler attempted cookie access');}};
+    const dependency=resolveSource(specifier,relative);return dependency?load(dependency):nativeRequire(specifier);
+   },module,module.exports,process);
+  if(relative==='src/lib/supabase/server.ts')module.exports.getSupabaseAdminClient=()=>{sideEffects.databaseCalls++;throw Error('Read-only handler attempted database access');};
   return module.exports;
  };
+ const registry=load(registryPath),profile=registry.getProfileByJurisdiction('MS');
+ assert.ok(profile);
+ const profileGET=load('src/app/api/expungement-ai/profiles/[state]/route.ts').GET;
+ const progressPOST=load('src/app/api/expungement-ai/screening/progress/route.ts').POST;
+ const screeningAnswers=load('scripts/lib/rcap-ms-nonconviction-fixture.mjs').MS_NONCONVICTION_SCREENING_ANSWERS;
  const publicProfile=load('src/lib/rcap-engine/public-profile-projection.ts').projectPublicProfile(profile);
  const selection=load('src/lib/rcap-engine/screening-question-selection.ts').selectScreeningQuestionIds;
  const evaluate=load('src/lib/expungement-ai/authoritative-screening-result.ts').evaluateAuthoritativeScreeningResult;
@@ -92,25 +110,36 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
   const entryId=add('fixture-entry',entry);
   return browserBundle=`(function(){const process={env:{NODE_ENV:'production'}};const definitions={${modules.map((m,i)=>`${i}:[function(module,exports,require){\n${m.code}\n},${JSON.stringify(m.deps)}]`).join(',\n')}};const cache={};function load(id){if(cache[id])return cache[id].exports;const module={exports:{}};cache[id]=module;const[run,deps]=definitions[id];run(module,module.exports,name=>{if(!Object.hasOwn(deps,name))throw Error('Unmapped browser dependency '+name);return load(deps[name]);});return module.exports;}load(${entryId});})();`;
  };
- return {profile,publicProfile,select:answers=>selection(profile,publicProfile,answers),evaluate,buildBrowserBundle,
-  sourcePins:()=>Object.fromEntries(pins),boundaries:['MS-only frozen registry; exact original MS JSON/public projector/selection/evaluator','Next router navigation port','Next Link/Image rendering ports','Decorative icons and Wilma omitted; analytics disabled','Packet availability flags fixed false: fixture cannot grant fulfillment','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
+ return {profile,publicProfile,profileGET,progressPOST,screeningAnswers,sideEffects,select:answers=>selection(profile,publicProfile,answers),evaluate,buildBrowserBundle,
+  sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Next router navigation port','Next Link/Image rendering ports','Decorative icons and Wilma omitted; analytics disabled','Packet availability flags fixed false: fixture cannot grant fulfillment','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
 }
 
-export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false}={}) {
+export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null}={}) {
  assert.ok(runtime);assert.ok(['engine','omit_optional','early_result','reverse_timing'].includes(planMode));
- const state={requests:[],plans:[],evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
+ assert.ok(progressFault===null||progressFault==='invalid_version_after_initial');
+ const state={requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
  const bundle=runtime.buildBrowserBundle();
  const send=(response,status,body)=>{response.writeHead(status,{'content-type':'application/json','cache-control':'no-store'});response.end(JSON.stringify(body));};
+ const forward=async(response,actual)=>{response.writeHead(actual.status,Object.fromEntries(actual.headers));response.end(Buffer.from(await actual.arrayBuffer()));};
  const server=http.createServer(async(request,response)=>{
   try {
-   const url=new URL(request.url,'http://127.0.0.1');
+   const url=new URL(request.url,`http://${request.headers.host}`);
    if(url.pathname==='/fixture.js'){response.writeHead(200,{'content-type':'application/javascript','cache-control':'no-store'});return response.end(bundle);}
-   if(request.method==='GET'&&url.pathname==='/api/expungement-ai/profiles/MS')return send(response,200,runtime.publicProfile);
+   if(request.method==='GET'&&url.pathname.startsWith('/api/expungement-ai/profiles/'))return forward(response,await runtime.profileGET(new Request(url),{params:Promise.resolve({state:decodeURIComponent(url.pathname.split('/').at(-1))})}));
    if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end('<!doctype html><html lang="en"><body><div id="root"></div><script src="/fixture.js"></script></body></html>');}
    assert.equal(request.method,'POST');let raw='';for await(const chunk of request)raw+=chunk;
-   const body=JSON.parse(raw);state.requests.push({path:url.pathname,method:request.method,answerIds:body.answers?Object.keys(body.answers):[]});
+   let body;try{body=JSON.parse(raw);}catch{body=null;}
+   state.requests.push({path:url.pathname,method:request.method,answerIds:body?.answers&&typeof body.answers==='object'?Object.keys(body.answers):[]});
    if(url.pathname==='/api/expungement-ai/screening/progress') {
-    let questionIds=runtime.select(body.answers);
+    state.progressCalls++;
+    // Explicit malformed-request test port; the original handler owns its refusal.
+    const handlerBody=progressFault&&state.progressCalls>1?JSON.stringify({...body,profileVersion:'fixture-invalid-version'}):raw;
+    const actual=await runtime.progressPOST(new Request(url,{method:'POST',headers:request.headers,body:handlerBody}));
+    const payload=await actual.clone().json().catch(()=>null);
+    state.progressResponses.push({httpStatus:actual.status,error:payload?.error??null});
+    if(actual.status!==200)return forward(response,actual);
+    let questionIds=payload.questionIds;
+    assert.ok(Array.isArray(questionIds));
     // Explicit response-plan mutation cases exercise conditional UI handling, not engine policy.
     if(planMode==='omit_optional')questionIds=questionIds.filter(id=>id!=='possible_pathway_context');
     if(planMode==='early_result')questionIds=questionIds.filter(id=>id!=='court_requirements_completed');
@@ -119,7 +148,8 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
      questionIds=[...questionIds.filter(id=>!special.includes(id)),...special.sort((a,b)=>a==='court_requirements_completed'?-1:1)];
     }
     state.plans.push({questionIds:[...questionIds],answerIds:Object.keys(body.answers)});
-    return send(response,200,{jurisdiction:'MS',profileVersion:runtime.publicProfile.profileVersion,questionIds});
+    if(planMode==='engine')return forward(response,actual);
+    return forward(response,new Response(JSON.stringify({...payload,questionIds}),{status:actual.status,headers:actual.headers}));
    }
    if(url.pathname==='/api/expungement-ai/evaluate') {
     const value=runtime.evaluate(body).evaluation;

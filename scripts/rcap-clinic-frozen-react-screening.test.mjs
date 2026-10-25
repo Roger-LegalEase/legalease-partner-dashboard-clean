@@ -10,6 +10,7 @@ const installed=createRequire(path.join(dependencyRoot,'package.json'));
 const {chromium}=installed('playwright');
 const helper=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-ms-screening-browser.mjs')).href);
 const transport=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-original-response.mjs')).href);
+const diagnostic=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-live-screening-progress.mjs')).href);
 const runtime=frozenScreeningRuntime({repo:dependencyRoot});
 const proof={application:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',hostedJourneyCompleted:false,actualDatabaseProof:false,
  boundaries:runtime.boundaries,cases:[]};
@@ -60,6 +61,69 @@ async function saveAndClaim({site,page,config}) {
  assert.equal(site.state.pendingCalls,1);assert.equal(site.state.claimCalls,1);
  assert.ok(site.state.savedMatter?.fixtureOnly,'Storage is explicitly a double, never a DB acceptance receipt');
 }
+
+function assertNoDownstream(site) {
+ assert.equal(site.state.evaluations.length,0);assert.equal(site.state.pendingCalls,0);assert.equal(site.state.claimCalls,0);assert.equal(site.state.savedMatter,null);
+ assert.ok(!site.state.requests.some(request=>['/api/expungement-ai/evaluate','/api/expungement-ai/screening/complete','/api/expungement-ai/screening/pending','/api/expungement-ai/screening/pending/claim'].includes(request.path)));
+ assert.deepEqual(runtime.sideEffects,{databaseCalls:0,cookieCalls:0});
+}
+
+test('frozen actual profile GET and progress POST preserve their refusals without downstream effects',{timeout:120000},async()=>{
+ const site=await startFrozenReactScreeningSite({runtime});
+ try {
+  const profile=await fetch(site.origin+'/api/expungement-ai/profiles/MS');assert.equal(profile.status,200);assert.match(profile.headers.get('cache-control'),/no-store/);
+  const publicProfile=await profile.json();assert.equal(publicProfile.jurisdiction.code,'MS');assert.deepEqual(publicProfile,runtime.publicProfile);
+  const missing=await fetch(site.origin+'/api/expungement-ai/profiles/ZZ');assert.equal(missing.status,404);assert.equal((await missing.json()).error,'unsupported_jurisdiction');
+  for(const [body,status,error] of [
+   ['{',400,'invalid_request'],
+   [JSON.stringify({jurisdiction:'MS',profileVersion:publicProfile.profileVersion,answers:[]}),400,'invalid_request'],
+   [JSON.stringify({jurisdiction:'ZZ',profileVersion:publicProfile.profileVersion,answers:{}}),404,'unsupported_jurisdiction'],
+   [JSON.stringify({jurisdiction:'MS',profileVersion:'fixture-invalid-version',answers:{}}),409,'profile_version_mismatch']
+  ]) {
+   const response=await fetch(site.origin+'/api/expungement-ai/screening/progress',{method:'POST',headers:{'content-type':'application/json'},body});
+   assert.equal(response.status,status);assert.equal((await response.json()).error,error);
+  }
+  assertNoDownstream(site);proof.cases.push({id:'actual_profile_progress_refusals',statuses:[400,400,404,409],actualHandlers:true,downstreamEffects:0});
+ }finally{await site.close();}
+});
+
+test('frozen actual progress POST handles empty answers and every existing synthetic prefix deterministically',{timeout:120000},async()=>{
+ const site=await startFrozenReactScreeningSite({runtime});
+ try {
+  const answers={},plans=[];
+  const readPlan=async()=>{
+   const response=await fetch(site.origin+'/api/expungement-ai/screening/progress',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jurisdiction:'MS',profileVersion:runtime.publicProfile.profileVersion,answers})});
+   assert.equal(response.status,200);const body=await response.json();assert.equal(body.jurisdiction,'MS');assert.equal(body.profileVersion,runtime.publicProfile.profileVersion);
+   assert.ok(Array.isArray(body.questionIds)&&body.questionIds.every(id=>typeof id==='string'));assert.equal(body.ok,undefined);assert.equal(body.success,undefined);return body;
+  };
+  plans.push(await readPlan());assert.deepEqual(await readPlan(),plans.at(-1));
+  for(const [id,value] of Object.entries(runtime.screeningAnswers)) {
+   assert.notEqual(id,'ms_program_order');answers[id]=value;
+   plans.push(await readPlan());assert.deepEqual(await readPlan(),plans.at(-1));
+  }
+  assert.deepEqual(answers,runtime.screeningAnswers);
+  const profileResponse=await fetch(site.origin+'/api/expungement-ai/profiles/MS');assert.equal(profileResponse.status,200);
+  const diagnostics=await diagnostic.verifyScreeningProgressPrefixes(await profileResponse.json(),async payload=>{
+   const response=await fetch(site.origin+'/api/expungement-ai/screening/progress',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+   return {status:response.status,body:await response.json()};
+  });
+  assert.ok(diagnostics.length>1&&diagnostics.every(item=>item.httpStatus===200&&item.outcome==='accepted'));
+  assert.ok(diagnostics.every(item=>!item.answerIds.includes('ms_program_order')),'Read-only checker must also preserve the omitted program-order fact');
+  assertNoDownstream(site);
+  proof.cases.push({id:'actual_empty_and_all_synthetic_prefixes',actualHandlers:true,prefixes:plans.length,diagnosticHelperPrefixes:diagnostics.length,plans:plans.map(plan=>plan.questionIds),downstreamEffects:0});
+ }finally{await site.close();}
+});
+
+test('actual React refuses the real progress handler version error before evaluation or saving',{timeout:120000},async()=>{
+ await withFixture({progressFault:'invalid_version_after_initial'},async fixture=>{
+  await assert.rejects(helper.runMississippiScreening(fixture.page),/Screening reported an error/);
+  await fixture.page.getByRole('alert').filter({hasText:'We could not load the next question.'}).waitFor({state:'visible'});
+  assert.equal(fixture.site.state.progressCalls,2,'Initial plan plus one failed Continue; no retry');
+  assert.deepEqual(fixture.site.state.progressResponses.at(-1),{httpStatus:409,error:'profile_version_mismatch'});
+  assert.equal(await fixture.page.evaluate(()=>window.__screeningFixture.navigation),null);assertNoDownstream(fixture.site);
+  proof.cases.push({id:'real_progress_refusal_stops_react',actualHandler:true,httpStatus:409,downstreamEffects:0});
+ });
+});
 
 test('frozen actual React collapsed optional help connects the shared helper to result and one normal save/claim navigation',{timeout:120000},async()=>{
  await withFixture({},async fixture=>{
@@ -116,5 +180,5 @@ test('frozen actual React save/claim refusal preserves the result and never fabr
 });
 
 test.after(()=>{
- console.log(JSON.stringify({...proof,sourcePins:runtime.sourcePins()}));
+ console.log(JSON.stringify({...proof,readOnlyHandlerSideEffects:runtime.sideEffects,sourcePins:runtime.sourcePins()}));
 });

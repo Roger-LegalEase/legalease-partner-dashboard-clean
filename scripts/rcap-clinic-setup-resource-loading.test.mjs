@@ -1,4 +1,5 @@
 import './rcap-clinic-frozen-react-screening.test.mjs';
+import {runMississippiScreening,screeningFailureDiagnostics} from './rcap-ms-screening-browser.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
@@ -267,4 +268,27 @@ test('native one-cookie journey executes deployed handlers through claim and pre
    await context.close();
   }finally{await browser.close();await service.close();}
  }
+});
+
+test('native screening diagnostics retain an in-flight progress phase and actual public alert without private text',{timeout:30000},async()=>{
+ let release;const pending=new Promise(resolve=>{release=resolve;});
+ const service=await localServer(async(req,res)=>{
+  if(req.method==='POST'){for await(const _ of req){}await pending;res.setHeader('content-type','application/json');return res.end(JSON.stringify({jurisdiction:'MS',profileVersion:'fixture',questionIds:['ownership_scope']}));}
+  res.setHeader('content-type','text/html');res.end(`<script>fetch('/api/expungement-ai/screening/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jurisdiction:'MS',profileVersion:'fixture',answers:{}})});</script><div role="alert"><h1>Something went wrong loading these questions.</h1><p>private participant answer must not be retained</p></div>`);
+ });
+ const browser=await chromium.launch(browserOptions()).catch(async error=>{await service.close();throw error;});
+ try {
+  const context=await browser.newContext(),stages=[],observations=[];
+  await context.route('**/*',createOriginalResponseObserver({origin:service.origin,authOrigin:service.origin},{onStage:value=>stages.push(value),onObservation:value=>observations.push(value)}));
+  const page=await context.newPage();await page.goto(service.origin,{waitUntil:'domcontentloaded'});
+  await page.waitForTimeout(50);assert.equal(stages[0]?.stage,'transport_started');
+  await assert.rejects(runMississippiScreening(page,{stages,observations}),error=>{
+   assert.deepEqual(error.screeningDiagnostics.alerts,[['Something went wrong loading these questions.']]);
+   assert.equal(error.screeningDiagnostics.apiStages[0].httpStatus,null);assert.deepEqual(error.screeningDiagnostics.apiObservations,[]);
+   assert(!JSON.stringify(error.screeningDiagnostics).includes('private participant'));return true;
+  });
+  const completed=page.waitForResponse(r=>r.url().endsWith('/screening/progress'));release();await completed;
+  const final=await screeningFailureDiagnostics(page,{stages,observations});assert.equal(final.apiObservations[0].httpStatus,200);
+  assert.ok(stages.some(value=>value.stage==='response_body'));assert.ok(observations[0].accepted);
+ }finally{release();await browser.close();await service.close();}
 });
