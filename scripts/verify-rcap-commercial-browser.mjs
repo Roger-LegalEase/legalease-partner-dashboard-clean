@@ -150,9 +150,8 @@ async function runJourney() {
           result.stage='normal_readonly_admission';
           result.normalReadOnlyViews=await readNormalClinicSurfaces(adminPage);
           adminGuard.assertNoCritical();assertNormalClinicSurfaces(result.normalReadOnlyViews);
-          readCurrentClinicGate(required('RCAP_BROWSER_CLINIC_PREREQUISITES_FILE'));
         },
-        createCode:body=>{result.stage='admin_one_code_issuance';return call(codePath,body);},
+        createCode:body=>{readCurrentClinicGate(required('RCAP_BROWSER_CLINIC_PREREQUISITES_FILE'));result.stage='admin_one_code_issuance';return call(codePath,body);},
         saveAttempt:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-attempt.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'}),
         saveResult:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-result.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'}),
         saveVerified:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-verified.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'})

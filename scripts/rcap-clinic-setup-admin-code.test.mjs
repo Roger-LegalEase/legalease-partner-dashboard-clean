@@ -138,3 +138,17 @@ test('post-issuance readback refuses changed history, wrong validity, or a histo
  const f=fixture();f.io.createCode=async body=>{f.calls.push(body);return {status:201,json:{success:true,accessCode:{id:f.old.id,code:f.code}}};};
  await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);
 });
+
+
+test('actual code POST callback revalidates the same-run gate after preceding reads and refuses expiry before transmission',async()=>{
+ const source=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
+ const ast=ts.createSourceFile('browser.mjs',source,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);let callback;
+ function visit(node){if(ts.isPropertyAssignment(node)&&node.name.getText(ast)==='createCode')callback=node.initializer;ts.forEachChild(node,visit);}visit(ast);assert(callback);
+ for(const fresh of [true,false]) {
+  let calls=0,checks=0;const scope={body:{requestId:CLINIC_FRESH_ATTEMPT.id},result:{},codePath:'/exact-code-api',required:()=> 'same-run-gate',
+   readCurrentClinicGate:()=>{checks++;assert.equal(fresh,true,'stale same-run gate');},call:async()=>{calls++;return {status:201};}};
+  const invoke=()=>new Function(...Object.keys(scope),`return (${callback.getText(ast)})(body);`)(...Object.values(scope));
+  if(fresh)assert.equal((await invoke()).status,201);else assert.throws(invoke,/stale same-run gate/);
+  assert.equal(checks,1);assert.equal(calls,fresh?1:0);
+ }
+});
