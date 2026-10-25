@@ -85,7 +85,7 @@ export async function readClinicDatabasePrerequisites({env=process.env,fetchImpl
     assert.ok(row.clinic_known_compatibility_prerequisites&&typeof row.clinic_known_compatibility_prerequisites==='object'&&!Array.isArray(row.clinic_known_compatibility_prerequisites));
     const result=qualifyDatabase({catalog:row.clinic_known_compatibility_prerequisites,projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app});
     assert.ok(Array.isArray(result.checks)&&result.checks.length>0);checks.push(...result.checks);
-    add('reconciled_clinic_history',qualifyClinicFreshInventory(result.operational),'exact reconciled four-code history, open prior redemption and remaining event capacity','fresh_attempt_state_unqualified');
+    add('reconciled_clinic_history',qualifyClinicFreshInventory(result.operational),'exact reconciled code history, open prior redemption and remaining event capacity','fresh_attempt_state_unqualified');
     add('database_complete_compatibility',result.status==='READY'&&result.blockers?.length===0,'READY without blockers',result.status==='READY'?'READY':'BLOCKED');
     return evidence();
   } catch {

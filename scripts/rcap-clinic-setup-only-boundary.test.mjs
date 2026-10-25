@@ -169,12 +169,12 @@ test('dispatch source labels must match the pinned Clinic tuple and tools never 
 });
 test('screening completion failure stops before pending creation and cannot claim persistence from HTTP200',async()=>{
  const branch=journey.body.statements.find(node=>ts.isIfStatement(node)&&node.getText(ast).includes('result.screeningCompletion=await screeningCompletion'));
- assert(branch);assert(branch.end<browserSource.indexOf('const pendingResponsePromise',branch.pos));
+ assert(branch);assert(branch.end<browserSource.indexOf('await saveScreeningAndClaim',branch.pos));
  const run=scope=>new Function(...Object.keys(scope),`return (async()=>{${branch.getText(ast)}})()`)(...Object.values(scope));
  for(const response of [null,{httpStatus:500,accepted:true},{httpStatus:200,accepted:false}]) {
-  let guardCalls=0;await assert.rejects(run({clinicSetupOnly:true,result:{},screeningCompletion:Promise.resolve(response),assert,participantGuard:{assertNoCritical:()=>guardCalls++}}));assert.equal(guardCalls,0);
+  let guardCalls=0;await assert.rejects(run({clinicSetupOnly:true,result:{},screeningCompletion:{read:async()=>response},assert,participantGuard:{assertNoCritical:()=>guardCalls++}}));assert.equal(guardCalls,0);
  }
- const result={};await run({clinicSetupOnly:true,result,screeningCompletion:Promise.resolve({httpStatus:200,accepted:true}),assert,participantGuard:{assertNoCritical:()=>{}}});
+ const result={};await run({clinicSetupOnly:true,result,screeningCompletion:{read:async()=>({httpStatus:200,accepted:true})},assert,participantGuard:{assertNoCritical:()=>{}}});
  assert.equal(result.screeningCompletion.persistenceVerified,false);
 });
 

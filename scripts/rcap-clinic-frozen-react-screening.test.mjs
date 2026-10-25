@@ -11,6 +11,7 @@ const {chromium}=installed('playwright');
 const helper=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-ms-screening-browser.mjs')).href);
 const transport=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-original-response.mjs')).href);
 const diagnostic=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-live-screening-progress.mjs')).href);
+const caller=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-screening-profile.mjs')).href);
 const runtime=frozenScreeningRuntime({repo:dependencyRoot});
 const proof={application:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',hostedJourneyCompleted:false,actualDatabaseProof:false,
  boundaries:runtime.boundaries,frameworkPins:runtime.frameworkPins,cases:[]};
@@ -339,4 +340,128 @@ test('complete read-only browser collector traverses its real guard and observer
    proof.cases.push({id:'full_collector_'+outcome,transportAttempts:requests,httpRequests:outcome==='transport_failure'?requests-1:requests,actualHandlers:true,livePreview:false,downstreamEffects:0});
   }finally{await site.close();}
  }
+});
+
+
+test('production runner awaits the captured profile in both opening branches and keeps operation waits phase-scoped',()=>{
+ const source=installed('node:fs').readFileSync(path.join(runnerRoot,'scripts/verify-rcap-commercial-browser.mjs'),'utf8');
+ const check=value=>{
+  assert.equal([...value.matchAll(/screeningProfileCapture\s*=\s*await\s+openScreeningWithProfile\(/g)].length,2,'Both actual entry branches must arm before opening');
+  assert.match(value,/openScreeningWithProfile\(page,\s*responseConfig,\s*\(\)\s*=>\s*page\.getByRole\("button", \{ name: "Start screening with assistance", exact: true \}\)\.click\(\)/);
+  assert.match(value,/openScreeningWithProfile\(page,\s*responseConfig,\s*\(\)\s*=>\s*startButton\.click\(\)/);
+  assert.match(value,/await\s+runScreeningFromOriginalProfile\(page,\s*screeningProfileCapture,/);
+  assert.ok(!value.includes("profile:result.responseObservations.findLast"),'The failed observations snapshot must not return');
+  assert.match(value,/result\.screeningCompletion=await screeningCompletion\.read\(\)/);
+  assert.match(value,/await saveScreeningAndClaim\(page,responseConfig\)/);
+ };
+ check(source);
+ const reverted=source.replace('await runScreeningFromOriginalProfile(page,screeningProfileCapture,','await runMississippiScreening(page,');
+ assert.notEqual(reverted,source);assert.throws(()=>check(reverted),'Reverting only the production caller must fail while helper tests stay unchanged');
+});
+
+// The production runner calls these same opening/profile/screening/save functions.
+async function withCallerFixture(options,run) {
+ const site=await startFrozenReactScreeningSite({runtime,...options});
+ const browser=await chromium.launch({headless:true,executablePath:process.env.RCAP_BROWSER_CHROMIUM??'/usr/bin/google-chrome'});
+ try {
+  const context=await browser.newContext(),page=await context.newPage();page.setDefaultTimeout(8000);
+  const config={origin:site.origin,authOrigin:site.origin,clinicSlug:'local-screening-fixture'},observations=[],stages=[];
+  await context.route('**/*',transport.createOriginalResponseObserver(config,{onObservation:value=>observations.push(value),onStage:value=>stages.push(value)}));
+  await context.route('**/*',route=>new URL(route.request().url()).origin===site.origin?route.fallback():route.abort());
+  await page.goto(site.origin+'/caller-entry');
+  const open=(options)=>caller.openScreeningWithProfile(page,config,()=>page.getByRole('link',{name:'Start screening',exact:true}).click(),options);
+  const screen=(captured,diagnostics={})=>caller.runScreeningFromOriginalProfile(page,captured,{observations,stages,...diagnostics});
+  await run({site,page,config,observations,stages,open,screen});
+ }finally{await site.close();await browser.close();}
+}
+function assertCallerNoSave(site) {
+ assert.equal(site.state.pendingCalls,0);assert.equal(site.state.claimCalls,0);assert.equal(site.state.savedMatter,null);
+}
+for(const mode of ['immediate','delayed_headers','delayed_body'])test(`actual runner caller awaits its original ${mode} profile through all questions without a second GET`,{timeout:120000},async()=>{
+ const timing=mode==='delayed_headers'?{headersMs:500}:mode==='delayed_body'?{bodyMs:500}:{};
+ await withCallerFixture({responseTiming:{profile:timing}},async({site,page,config,observations,open,screen})=>{
+  const complete=caller.captureOriginalResponseOnce(page,'completion',config);
+  try {
+   const captured=await open();
+   const oldSnapshot=observations.findLast(value=>value.operation==='profile'&&value.accepted)?.profile;
+   if(mode!=='immediate')assert.equal(oldSnapshot,undefined,'Exercise the exact late-profile snapshot race');
+   else await page.getByRole('heading',{name:'Are you asking about your own record?',exact:true}).waitFor();
+   const result=await screen(captured);await complete.read();
+   assert.deepEqual(result.omittedQuestionIds,['ms_program_order']);assert.equal(site.state.progressCalls,9);
+   assert.equal(site.state.profileCalls,1);assert.equal(site.state.evaluations.length,1);
+   assert.equal(observations.find(value=>value.operation==='profile').profile.profileVersion,runtime.publicProfile.profileVersion);
+   const {claimed}=await caller.saveScreeningAndClaim(page,config);
+   assert.equal(claimed.matterId,FIXTURE_MATTER_ID);
+   await page.waitForURL(url=>url.origin===site.origin&&url.pathname===`/briefcase/matters/${FIXTURE_MATTER_ID}`&&!url.search&&!url.hash);
+   assert.equal(new URL(page.url()).pathname,`/briefcase/matters/${FIXTURE_MATTER_ID}`);
+   assert.equal(await page.evaluate(()=>window.__screeningFixture.navigation),`/briefcase/matters/${FIXTURE_MATTER_ID}`);
+   assert.equal(site.state.pendingCalls,1);assert.equal(site.state.claimCalls,1);
+   assert.ok(site.state.requests.every(request=>!request.answerIds.includes('ms_program_order')));
+   proof.cases.push({id:'actual_caller_profile_'+mode,profileGets:1,omittedQuestionIds:result.omittedQuestionIds,localStorageDouble:true,hostedJourneyCompleted:false});
+  }finally{complete.dispose();}
+ });
+});
+for(const fault of ['refusal','malformed','missing','required_question','stale_version'])test(`actual runner caller stops on original profile ${fault} without cached-profile substitution`,{timeout:120000},async()=>{
+ await withCallerFixture({responseFaults:{profile:fault}},async({site,observations,open,screen})=>{
+  const captured=await open({timeout:1000});
+  // An explicit decoy only in negative cases proves the failed original is never replaced.
+  await assert.rejects(screen(captured,{profile:runtime.publicProfile}),error=>{
+   if(fault==='refusal')assert.match(error.message,/profile: application_refusal \(HTTP 403\)/);
+   if(fault==='malformed')assert.match(error.message,/profile: malformed_response/);
+   if(fault==='missing')assert.match(error.message,/profile: original response missing or timed out/);
+   if(fault==='stale_version')assert.match(error.message,/Screening application alert/);
+   return true;
+  });
+  assert.equal(site.state.profileCalls,1);assertCallerNoSave(site);assert.equal(site.state.evaluations.length,0);
+  if(fault==='stale_version')assert.ok(observations.some(value=>value.operation==='progress'&&value.httpStatus===409&&value.errorCode==='profile_version_mismatch'));
+  proof.cases.push({id:'actual_caller_profile_refusal_'+fault,profileGets:1,noCachedFallback:true,pendingCalls:0,claimCalls:0});
+ });
+});
+test('actual caller profile wait does not expire during the preceding UI action',{timeout:120000},async()=>{
+ await withCallerFixture({callerDelayMs:1500},async({site,page,config,observations,stages})=>{
+  const captured=await caller.openScreeningWithProfile(page,config,async()=>{
+   await page.request.get(site.origin+'/caller-delay');
+   await page.getByRole('link',{name:'Start screening',exact:true}).click();
+  },{timeout:1000});
+  const result=await caller.runScreeningFromOriginalProfile(page,captured,{observations,stages});
+  assert.deepEqual(result.omittedQuestionIds,['ms_program_order']);assert.equal(site.state.profileCalls,1);assertCallerNoSave(site);
+  proof.cases.push({id:'actual_caller_slow_preceding_profile_phase',profileGets:1});
+ });
+});
+test('actual caller completion wait starts after a slow questionnaire, and claim wait starts after slow pending creation',{timeout:120000},async()=>{
+ await withCallerFixture({responseTiming:{progress:{headersMs:100},completion:{bodyMs:100},pending:{bodyMs:1300},claim:{bodyMs:100}}},async({site,page,config,open,screen})=>{
+  const completion=caller.captureOriginalResponseOnce(page,'completion',config,{timeout:800});
+  try {
+   const captured=await open(),started=Date.now();await screen(captured);
+   assert.ok(Date.now()-started>=800,'Actual questionnaire must exceed the former early completion timer');
+   const receipt=await completion.read();assert.equal(receipt.operation,'completion');assert.equal(receipt.accepted,true);
+   const {claimed}=await caller.saveScreeningAndClaim(page,config,{pendingTimeout:3000,claimTimeout:800});
+   assert.equal(claimed.matterId,FIXTURE_MATTER_ID);assert.equal(site.state.pendingCalls,1);assert.equal(site.state.claimCalls,1);
+   proof.cases.push({id:'actual_caller_slow_completion_pending_claim_phases',completionAccepted:true,pendingCalls:1,claimCalls:1});
+  }finally{completion.dispose();}
+ });
+});
+for(const operation of ['completion','pending','claim'])for(const fault of ['refusal','malformed','missing'])test(`actual caller preserves original ${operation} ${fault} and never retries`,{timeout:120000},async()=>{
+ await withCallerFixture({responseFaults:{[operation]:fault}},async({site,page,config,open,screen})=>{
+  const completion=caller.captureOriginalResponseOnce(page,'completion',config,{timeout:800});
+  try {
+   const captured=await open();await screen(captured);
+   const action=async()=>{
+    await completion.read();
+    return caller.saveScreeningAndClaim(page,config,{pendingTimeout:800,claimTimeout:800});
+   };
+   await assert.rejects(action(),error=>{
+    assert.match(error.message,new RegExp('^'+operation+':'));
+    if(fault==='refusal')assert.match(error.message,/application_refusal \(HTTP 403\)/);
+    if(fault==='malformed')assert.match(error.message,/malformed_response/);
+    if(fault==='missing')assert.match(error.message,/missing or timed out/);
+    return true;
+   });
+   assert.equal(site.state.requests.filter(request=>request.path==='/api/expungement-ai/screening/complete').length,1);
+   assert.equal(site.state.pendingCalls,operation==='completion'?0:1);
+   assert.equal(site.state.claimCalls,operation==='claim'?1:0);
+   assert.equal(await page.evaluate(()=>window.__screeningFixture.navigation),null,'Failed claim must not fabricate navigation');
+   proof.cases.push({id:'actual_caller_'+operation+'_'+fault,originalFailureRetained:true,noRetry:true,localStorageDouble:true});
+  }finally{completion.dispose();}
+ });
 });

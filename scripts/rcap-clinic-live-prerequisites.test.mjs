@@ -35,7 +35,7 @@ test('missing live Preview binding blocks before launching a browser or any busi
 });
 const validContract=()=>({status:'READY',checks:[{id:'mock-contract',ok:true}],blockers:[],operational:{existing_code_available:false,
  existing_code_inventory:CLINIC_FRESH_ATTEMPT.history.map(h=>({id:h.id,uses_count:h.usesCount,max_uses:h.maxUses,is_active:true,starts_at:h.startsAt,expires_at:h.expiresAt,redemption_rows:h.redemptionRows})),
- fresh_attempt:{event:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:CLINIC_FRESH_ATTEMPT.entries},priorRedemption:{id:CLINIC_FRESH_ATTEMPT.redemptionId,codeId:CLINIC_FRESH_ATTEMPT.history[1].id,closed:false,assisted:false}}
+ fresh_attempt:{event:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:CLINIC_FRESH_ATTEMPT.capacity,entries:CLINIC_FRESH_ATTEMPT.entries},priorRedemption:{id:CLINIC_FRESH_ATTEMPT.redemptionId,codeId:CLINIC_FRESH_ATTEMPT.history[1].id,closed:false,assisted:false}}
 }});
 test('live adapter makes bounded fixed-project read-only aggregate and retains all blockers without catalog contents',async()=>{
  let reads=0;

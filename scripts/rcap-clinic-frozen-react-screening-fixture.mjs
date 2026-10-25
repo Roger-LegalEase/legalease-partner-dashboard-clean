@@ -156,27 +156,46 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
   sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Installed frozen-lock-version Next AppRouterAnnouncer with pinned source; Next router navigation port','Next Link/Image rendering ports','Frozen optional badge uppercase CSS included; remaining production Tailwind layout omitted; decorative icons/Wilma omitted; analytics disabled','Original evaluate POST with Git-backed pinned read-only fulfillment registry; computed availability grants no entitlement','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
 }
 
-export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null,queryAssets=false,assetFault=false,publicMode=false,evaluationFault=null}={}) {
+export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null,queryAssets=false,assetFault=false,publicMode=false,evaluationFault=null,responseTiming={},responseFaults={},callerDelayMs=0}={}) {
  assert.ok(evaluationFault===null||evaluationFault==='non_packet_result');
  assert.ok(runtime);assert.ok(['engine','omit_optional','early_result','reverse_timing'].includes(planMode));
  assert.ok(progressFault===null||['invalid_version_after_initial','invalid_version_react_initial'].includes(progressFault));
- const state={requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
+ const state={profileCalls:0,requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
  let notifyInitialProgress;
  const initialProgressRequested=new Promise(resolve=>{notifyInitialProgress=resolve;});
  const bundle=runtime.buildBrowserBundle({publicMode});
  const assetQuery=queryAssets?'?dpl=fixture-immutable-token':'';
  const font=fs.readFileSync(path.join(path.dirname(createRequire(import.meta.url).resolve('next/package.json')),'dist/compiled/@vercel/og/Geist-Regular.ttf'));
  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZT0AAAAASUVORK5CYII=','base64');
- const send=(response,status,body)=>{response.writeHead(status,{'content-type':'application/json','cache-control':'no-store'});response.end(JSON.stringify(body));};
- const forward=async(response,actual)=>{response.writeHead(actual.status,Object.fromEntries(actual.headers));response.end(Buffer.from(await actual.arrayBuffer()));};
+ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ const send=(response,status,body,operation)=>forward(response,new Response(JSON.stringify(body),{status,headers:{'content-type':'application/json','cache-control':'no-store'}}),operation);
+ const forward=async(response,actual,operation)=>{
+  const fault=responseFaults[operation],timing=responseTiming[operation]??{};
+  if(fault==='missing')return;
+  if(fault==='refusal')actual=new Response(JSON.stringify({error:'fixture_original_refusal'}),{status:403,headers:actual.headers});
+  if(fault==='malformed')actual=new Response('{',{status:200,headers:actual.headers});
+  if(['stale_version','required_question'].includes(fault)) {
+   const body=await actual.json();
+   if(fault==='stale_version')body.profileVersion='fixture-stale-version';
+   else body.questions.find(question=>question.id==='ms_program_order').required=true;
+   actual=new Response(JSON.stringify(body),{status:actual.status,headers:actual.headers});
+  }
+  const bytes=Buffer.from(await actual.arrayBuffer());
+  if(timing.headersMs)await pause(timing.headersMs);
+  response.writeHead(actual.status,Object.fromEntries(actual.headers));response.flushHeaders();
+  if(timing.bodyMs)await pause(timing.bodyMs);
+  response.end(bytes);
+ };
  const server=http.createServer(async(request,response)=>{
   try {
    const url=new URL(request.url,`http://${request.headers.host}`);
+   if(url.pathname==='/caller-entry'){response.writeHead(200,{'content-type':'text/html'});return response.end('<a href="/clinic/local-screening-fixture/screening/ms">Start screening</a>');}
+   if(url.pathname==='/caller-delay'){await pause(callerDelayMs);return send(response,200,{ok:true});}
    if(url.pathname==='/_next/static/chunks/clinic-fixture.css'){if(assetFault){response.writeHead(403,{'content-type':'text/plain'});return response.end('fixture private response must not be recorded');}response.writeHead(200,{'content-type':'text/css'});return response.end(`@font-face{font-family:Clinic;src:url('/_next/static/media/fixture.ttf${assetQuery}')}body{font-family:Clinic;color:rgb(11,19,32)}`);}
    if(url.pathname==='/_next/static/media/fixture.ttf'){response.writeHead(200,{'content-type':'font/ttf'});return response.end(font);}
    if(['/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/_next/image'].includes(url.pathname)){response.writeHead(200,{'content-type':'image/png'});return response.end(png);}
    if(url.pathname==='/_next/static/chunks/clinic-fixture.js'){response.writeHead(200,{'content-type':'application/javascript','cache-control':'no-store'});return response.end(bundle);}
-   if(request.method==='GET'&&url.pathname.startsWith('/api/expungement-ai/profiles/'))return forward(response,await runtime.profileGET(new Request(url),{params:Promise.resolve({state:decodeURIComponent(url.pathname.split('/').at(-1))})}));
+   if(request.method==='GET'&&url.pathname.startsWith('/api/expungement-ai/profiles/')){state.profileCalls++;return forward(response,await runtime.profileGET(new Request(url),{params:Promise.resolve({state:decodeURIComponent(url.pathname.split('/').at(-1))})}),'profile');}
    if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end(`<!doctype html><html lang="en"><head><style>.uppercase{text-transform:uppercase}</style>${queryAssets?`<link rel="stylesheet" href="/_next/static/chunks/clinic-fixture.css${assetQuery}"><link rel="preload" as="font" type="font/ttf" crossorigin href="/_next/static/media/fixture.ttf${assetQuery}"><link rel="icon" href="/expungement-ai/favicon.ico"><link rel="icon" href="/expungement-ai/icon-192.png">`:''}</head><body><div id="root"></div>${queryAssets?'<img alt="Fixture guide image" src="/_next/image?url=%2Fexpungement-ai%2Fwilma-avatar.png&amp;w=48&amp;q=75">':''}<script src="/_next/static/chunks/clinic-fixture.js${assetQuery}"></script></body></html>`);}
    assert.equal(request.method,'POST');let raw='';for await(const chunk of request)raw+=chunk;
    let body;try{body=JSON.parse(raw);}catch{body=null;}
@@ -189,7 +208,7 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
     const actual=await runtime.progressPOST(new Request(url,{method:'POST',headers:request.headers,body:handlerBody}));
     const payload=await actual.clone().json().catch(()=>null);
     state.progressResponses.push({httpStatus:actual.status,error:payload?.error??null});
-    if(actual.status!==200)return forward(response,actual);
+    if(actual.status!==200)return forward(response,actual,'progress');
     let questionIds=payload.questionIds;
     assert.ok(Array.isArray(questionIds));
     // Explicit response-plan mutation cases exercise conditional UI handling, not engine policy.
@@ -200,8 +219,8 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
      questionIds=[...questionIds.filter(id=>!special.includes(id)),...special.sort((a,b)=>a==='court_requirements_completed'?-1:1)];
     }
     state.plans.push({questionIds:[...questionIds],answerIds:Object.keys(body.answers)});
-    if(planMode==='engine')return forward(response,actual);
-    return forward(response,new Response(JSON.stringify({...payload,questionIds}),{status:actual.status,headers:actual.headers}));
+    if(planMode==='engine')return forward(response,actual,'progress');
+    return forward(response,new Response(JSON.stringify({...payload,questionIds}),{status:actual.status,headers:actual.headers}),'progress');
    }
    if(url.pathname==='/api/expungement-ai/evaluate') {
     const actual=await runtime.evaluatePOST(new Request(url,{method:'POST',headers:request.headers,body:raw}));
@@ -211,16 +230,16 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
     if(evaluationFault&&actual.status===200)return forward(response,new Response(JSON.stringify({...value,resultCode:'guidance_only',userLabel:'A path may be available'}),{status:actual.status,headers:actual.headers}));
     return forward(response,actual);
    }
-   if(url.pathname==='/api/expungement-ai/screening/complete')return send(response,200,{ok:true});
+   if(url.pathname==='/api/expungement-ai/screening/complete')return send(response,200,{ok:true},'completion');
    if(url.pathname==='/api/expungement-ai/screening/pending') {
     state.pendingCalls++;assert.equal(state.pendingCalls,1,'Fixture refuses a second pending creation');
-    return send(response,200,{ok:true,claimToken:'local_fixture_opaque_claim_token_1234567890'});
+    return send(response,200,{ok:true,claimToken:'local_fixture_opaque_claim_token_1234567890'},'pending');
    }
    if(url.pathname==='/api/expungement-ai/screening/pending/claim') {
     state.claimCalls++;assert.equal(state.claimCalls,1,'Fixture refuses a second claim');
-    if(claimRefused)return send(response,409,{ok:false,error:'claim_rejected'});
+    if(claimRefused)return send(response,409,{ok:false,error:'claim_rejected'},'claim');
     state.savedMatter={id:FIXTURE_MATTER_ID,fixtureOnly:true};
-    return send(response,200,{ok:true,matterId:FIXTURE_MATTER_ID,redirectTo:`/briefcase/matters/${FIXTURE_MATTER_ID}`});
+    return send(response,200,{ok:true,matterId:FIXTURE_MATTER_ID,redirectTo:`/briefcase/matters/${FIXTURE_MATTER_ID}`},'claim');
    }
    return send(response,404,{error:'fixture_boundary_denied'});
   }catch(error){return send(response,500,{error:'fixture_handler_failure'});}

@@ -1,4 +1,4 @@
-import {runMississippiScreening,saveScreeningResultButton} from './rcap-ms-screening-browser.mjs';
+import {captureOriginalResponseOnce,openScreeningWithProfile,runScreeningFromOriginalProfile,saveScreeningAndClaim} from './rcap-clinic-screening-profile.mjs';
 import {CLINIC_FRESH_ATTEMPT,assertClinicAttemptAuthority} from './rcap-clinic-fresh-attempt.mjs';
 import {createOriginalResponseObserver,matchesOriginalResponse,originalResponse,originalResponseOperation,requireOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
@@ -173,6 +173,7 @@ async function runJourney() {
     stage:()=>result.stage,events:result.guardEvents,requestFailures,stageResults:result.stageResults}):null;
   if(participantGuard)await context.route('**/*',participantGuard.route);
   const page = await context.newPage();
+  let screeningProfileCapture = null;
   if (clinicSetupOnly) activePage=page;
   if(participantGuard) {
     page.on('response',participantGuard.response);page.on('pageerror',participantGuard.pageError);page.on('console',participantGuard.consoleError);page.on('requestfailed',participantGuard.requestFailed);
@@ -248,7 +249,8 @@ async function runJourney() {
     await page.locator('input[name="consent"]').check();
     const assistanceResponse = clinicSetupOnly ? page.waitForResponse(response=>matchesOriginalResponse(response,'assistance',responseConfig)) : null;
     participantGuard?.assertNoCritical();result.stage='participant_fresh_consent';
-    await page.getByRole("button", { name: "Start screening with assistance", exact: true }).click();
+    screeningProfileCapture = await openScreeningWithProfile(page, responseConfig,
+      () => page.getByRole("button", { name: "Start screening with assistance", exact: true }).click());
     if (clinicSetupOnly) {
       const response=await assistanceResponse;requireOriginalResponse(response,'assistance');
       result.freshConsent={startedUnchecked:true,submittedFromNormalUI:true,status:response.status(),staffId:CLINIC_SETUP.staff,ownerId:participantUserId};
@@ -288,7 +290,7 @@ async function runJourney() {
 
   // 3. Start one sponsored screening and answer the deterministic Mississippi
   // non-conviction fixture. The engine remains authoritative for the result.
-  await startButton.click();
+  screeningProfileCapture = await openScreeningWithProfile(page, responseConfig, () => startButton.click());
   await page.waitForURL((url) => url.pathname === "/expungement-ai/screening/ms" && validUuid(url.searchParams.get("session")));
   }
 
@@ -296,10 +298,9 @@ async function runJourney() {
   check(authCookies.length > 0, "Supabase session cookie was not written on the acceptance origin.");
 
   result.stage='participant_screening';
-  const screeningCompletion=clinicSetupOnly?page.waitForResponse(response=>matchesOriginalResponse(response,'completion',responseConfig),
-    {timeout:45000}).then(response=>originalResponse(response,'completion')).catch(()=>null):null;
-  const screeningSequence=await runMississippiScreening(page,{observations:result.responseObservations,stages:result.responseStages,
-    profile:result.responseObservations.findLast(o=>o.operation==='profile'&&o.accepted)?.profile});
+  const screeningCompletion=clinicSetupOnly?captureOriginalResponseOnce(page,'completion',responseConfig,{timeout:45000}):null;
+  const screeningSequence=await runScreeningFromOriginalProfile(page,screeningProfileCapture,
+    {observations:result.responseObservations,stages:result.responseStages});
   result.mississippiQuestionOrder=screeningSequence.answeredQuestionIds;
   result.mississippiOmittedOptionalQuestions=screeningSequence.omittedQuestionIds;
   result.mississippiEvaluationStatuses=screeningSequence.evaluationStatuses;
@@ -312,27 +313,15 @@ async function runJourney() {
   // 3. Persist and claim the server-re-evaluated pending result. Capture the
   // exact item id from the claim response instead of guessing from Briefcase.
   if(clinicSetupOnly) {
-    result.screeningCompletion=await screeningCompletion;
+    result.screeningCompletion=await screeningCompletion.read();
     assert.equal(result.screeningCompletion?.httpStatus,200,'screening completion must respond before pending-result creation');
     assert.equal(result.screeningCompletion.accepted,true,'screening completion response contract refused');
     // The deployed completion API is best-effort; HTTP success does not prove the session-completion write.
     result.screeningCompletion.persistenceVerified=false;
     participantGuard.assertNoCritical();
   }
-  const pendingResponsePromise = page.waitForResponse(
-    (response) => matchesOriginalResponse(response,"pending",responseConfig),
-    { timeout: 20_000 }
-  );
-  const claimResponsePromise = page.waitForResponse(
-    (response) => matchesOriginalResponse(response,"claim",responseConfig),
-    { timeout: 20_000 }
-  );
   participantGuard?.assertNoCritical();result.stage='participant_claim';
-  await saveScreeningResultButton(page).click();
-  const pendingResponse = await pendingResponsePromise;
-  requireOriginalResponse(pendingResponse,"pending");
-  const claimResponse = await claimResponsePromise;
-  const claimed = requireOriginalResponse(claimResponse,"claim");
+  const {claimed} = await saveScreeningAndClaim(page,responseConfig);
   await page.waitForURL((url) => url.origin === new URL(baseUrl).origin && validUuid(exactBriefcaseItemId(url.pathname)));
   const packetItemId = exactBriefcaseItemId(new URL(page.url()).pathname);
   check(validUuid(packetItemId), "Partner pending-result claim did not land on an exact Briefcase item.");
