@@ -39,7 +39,7 @@ export function qualifyClinicDatabasePrerequisites({ catalog, projectRef, appSha
       if (body !== undefined) bodyHash = createHash('md5').update(body).digest('hex');
     }
     add(`function:${expected.signature}`, !!actual && actual.service_execute === true &&
-      expected.source_body_md5 === bodyHash && ['argument_names', 'result', 'security_definer', 'config', 'acl', 'owner', 'volatility'].every(k => equal(actual[k], expected[k])));
+      expected.source_body_md5 === bodyHash && ['definition_md5', 'argument_names', 'result', 'security_definer', 'config', 'acl', 'owner', 'volatility'].every(k => equal(actual[k], expected[k])));
   }
   const relations = new Map(value.relations.map(t => [t.name, t]));
   for (const expected of contract.relations) {
@@ -49,7 +49,8 @@ export function qualifyClinicDatabasePrerequisites({ catalog, projectRef, appSha
     add(`relation:${expected.name}`, !!actual && equal(actual, expected));
   }
   add('prior_migration_history', contract.priorHistory.every(expected => value.relevant_history?.some(actual => equal(actual, expected))));
-  add('repair_migration_history', value.relevant_history?.filter(h => h.name === 'rcap_clinic_app4feb_compatibility' && /^\d{14}$/.test(h.version) && /^[a-f0-9]{32}$/.test(h.statements_md5)).length === 1);
+  add('repair_migration_history', value.relevant_history?.filter(h => h.name === 'rcap_clinic_app4feb_compatibility').length === 1 &&
+    value.relevant_history.some(h => h.name === 'rcap_clinic_app4feb_compatibility' && h.version === '20261024233056' && h.statements_md5 === 'f54b99a6eafd72c4031a46639781b690'));
   for (const key of ['administrator_active', 'administrator_confirmed', 'participant_confirmed', 'staff_active', 'event_available', 'program_activation_authorized', 'screening_scope_authorized', 'packet_scope_authorized', 'sponsor_capacity_available', 'screening_capacity_available', 'screening_entitlement_present']) {
     add(`operational:${key}`, value.operational?.[key] === true);
   }

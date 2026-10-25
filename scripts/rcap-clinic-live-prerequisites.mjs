@@ -2,17 +2,107 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
 import {CLINIC_SETUP} from './rcap-clinic-setup-only-boundary.mjs';
 import {resolveHostedVercelIdentity,hostedVercelScopedUrl} from './rcap-hosted-acceptance-vercel-identity.mjs';
 import {previewRequestHeaders,readResumeCaptchaPolicy} from './rcap-clinic-resume-network-policy.mjs';
 import {inspectShippedCaptcha} from './rcap-clinic-resume-captcha.mjs';
+import {CLINIC_CLAIM_SQL,qualifyClinicClaimPrerequisites} from './lib/rcap-clinic-claim-prerequisites.mjs';
+import {CLINIC_PREREQUISITE_SQL,qualifyClinicDatabasePrerequisites} from './lib/rcap-clinic-database-prerequisites.mjs';
 const worker='16908485a94f475448657cea90583a4d352da9a3';
 const digest='sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af';
+const prerequisiteSqlHash='134d69b6892920d85cedb20bda0dd61ad6bc2a7b09098cd86be17a68eeec1508';
+const claimSqlHash='c0e6fd0ffcbf785e9166536df3ce95adca73eea783501cd4690ff1c3a56b8395';
+const probeSignatures=['public.rcap_partner_activation_for_launch(text)','public.rcap_program_screening_jurisdictions(text)',
+  'public.rcap_program_packet_scope_authorized(text,text)','public.clinic_entry_sponsor_capacity(uuid,text)','public.rcap_program_screening_capacity(text)'];
+const identityProjection="current_user::text as current_user, session_user::text as session_user, current_setting('transaction_read_only') as transaction_read_only";
+export function clinicInspectionSql(querySql) {
+  assert.equal(createHash('sha256').update(querySql).digest('hex'),prerequisiteSqlHash,'reviewed inspection SQL required');
+  // Keep the reviewed inspection intact; denied callers return all five permissions without invoking probes.
+  const body=querySql.slice('begin transaction read only;\n'.length,-'\ncommit;\n'.length);
+  assert.ok(body.endsWith(';'));
+  assert.equal(createHash('sha256').update(CLINIC_CLAIM_SQL).digest('hex'),claimSqlHash);
+  const claimBody=CLINIC_CLAIM_SQL.slice('begin transaction read only;\n'.length,-'\ncommit;\n'.length);
+  assert.ok(claimBody.endsWith(';'));
+  return `begin transaction read only;
+with execution_context as materialized (
+ select jsonb_object_agg(signature,permitted) as probe_execute, bool_and(permitted) as probes_allowed
+ from (select signature,case when to_regprocedure(signature) is not null then has_function_privilege(current_user,to_regprocedure(signature),'EXECUTE') else false end as permitted
+ from (values ${probeSignatures.map(s=>`('${s}')`).join(',')}) as probes(signature)) as permissions
+)
+select ${identityProjection}, probe_execute,
+ (select rolbypassrls from pg_roles where rolname='service_role') as service_role_bypassrls,
+ has_schema_privilege('service_role','public','USAGE') as service_role_public_usage,
+ case when current_user='postgres' and current_setting('transaction_read_only')='on' and probes_allowed
+ then (${body.slice(0,-1)}) else null end as clinic_known_compatibility_prerequisites,
+ (${claimBody.slice(0,-1)}) as clinic_supplemental_contract
+from execution_context;
+commit;
+`;
+}
+function safeExecutionContext(row) {
+  const role=value=>['postgres','supabase_admin','supabase_read_only_user','service_role','authenticated','anon','authenticator'].includes(value)?value:'unrecognized';
+  return {current_user:role(row?.current_user),session_user:role(row?.session_user),
+    transaction_read_only:['on','off'].includes(row?.transaction_read_only)?row.transaction_read_only:'unknown'};
+}
+function sqlState(body) {
+  if(!body||Array.isArray(body)||typeof body!=='object')return null;
+  for(const value of [body.code,body.sqlstate])if(typeof value==='string'&&/^[0-9A-Z]{5}$/.test(value))return value;
+  return typeof body.message==='string'?body.message.match(/\b(?:ERROR:|SQLSTATE[:=]?)\s*([0-9A-Z]{5})\b/)?.[1]??null:null;
+}
+export async function readClinicDatabasePrerequisites({env=process.env,fetchImpl=fetch,querySql,qualifyDatabase}) {
+  const checks=[],requests=[];let observations=[],stage='configuration',operation='compatibility_inspection',httpStatus=null,state=null,executionContext=null;
+  let inspectionSqlSha256=null;
+  const evidence=()=>({checks,requests,executionContext,observations,prerequisiteSqlSha256:prerequisiteSqlHash,claimSqlSha256:claimSqlHash,inspectionSqlSha256,stateChangingStepReached:false});
+  const add=(id,ok,expected,observed)=>checks.push({id,ok:ok===true,...(ok?{}:{expected,observed})});
+  const query=async sql=>{
+    stage='http_request';httpStatus=null;state=null;
+    // The general Management endpoint uses existing inspector authority; SQL itself enforces READ ONLY.
+    const response=await fetchImpl(`https://api.supabase.com/v1/projects/${CLINIC_SETUP.project}/database/query`,{
+      method:'POST',headers:{Authorization:`Bearer ${env.SUPABASE_ACCESS_TOKEN}`,'Content-Type':'application/json'},
+      body:JSON.stringify({query:sql}),redirect:'error',signal:AbortSignal.timeout(30000)});
+    httpStatus=response.status;requests.push({operation,httpStatus,sqlstate:null});stage='response_json';const rows=await response.json();state=sqlState(rows);
+    requests.at(-1).sqlstate=state;stage='http_status';assert.ok([200,201].includes(httpStatus));
+    stage='response_shape';assert.ok(Array.isArray(rows)&&rows.length===1&&rows[0]&&typeof rows[0]==='object'&&!Array.isArray(rows[0]));
+    return rows[0];
+  };
+  try {
+    assert.ok(env.SUPABASE_ACCESS_TOKEN?.trim());stage='sql_binding';const inspectionSql=clinicInspectionSql(querySql);
+    inspectionSqlSha256=createHash('sha256').update(inspectionSql).digest('hex');
+    const context=await query(inspectionSql);executionContext=safeExecutionContext(context);stage='execution_identity';
+    add('database_execution_role',context.current_user==='postgres','postgres',executionContext.current_user);
+    add('database_session_identity',['postgres','supabase_admin'].includes(context.session_user),'known inspector session',executionContext.session_user);
+    add('database_transaction_read_only',context.transaction_read_only==='on','on',executionContext.transaction_read_only);
+    for(const signature of probeSignatures)add(`database_execute:${signature}`,context.probe_execute?.[signature]===true,true,context.probe_execute?.[signature]===true);
+    const inspectionDenied=checks.some(c=>!c.ok);
+    add('application_service_rls_context',context.service_role_bypassrls===true,true,context.service_role_bypassrls===true);
+    add('application_service_schema_usage',context.service_role_public_usage===true,true,context.service_role_public_usage===true);
+    const supplement=qualifyClinicClaimPrerequisites(context.clinic_supplemental_contract);checks.push(...supplement.checks);observations=supplement.observations;
+    if(inspectionDenied)return evidence();
+    const row=context;stage='database_contract';
+    assert.ok(row.clinic_known_compatibility_prerequisites&&typeof row.clinic_known_compatibility_prerequisites==='object'&&!Array.isArray(row.clinic_known_compatibility_prerequisites));
+    const result=qualifyDatabase({catalog:row.clinic_known_compatibility_prerequisites,projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app});
+    assert.ok(Array.isArray(result.checks)&&result.checks.length>0);checks.push(...result.checks);
+    const inventory=result.operational?.existing_code_inventory;
+    add('normal_code_issuance_inventory',result.operational?.codeIssuanceRequired===true&&Array.isArray(inventory)&&inventory.length===1
+      &&inventory[0].id==='77000000-0000-4000-8000-000000000057'&&inventory[0].uses_count===2&&inventory[0].max_uses===2,'sole exhausted historical code','inventory qualified without private contents');
+    add('database_complete_compatibility',result.status==='READY'&&result.blockers?.length===0,'READY without blockers',result.status==='READY'?'READY':'BLOCKED');
+    return evidence();
+  } catch {
+    const conditions={configuration:['existing SUPABASE_ACCESS_TOKEN','unavailable'],sql_binding:['reviewed SQL SHA-256','mismatch'],
+      http_request:['HTTP response','transport_failed'],response_json:['JSON body','invalid_json'],http_status:['HTTP 200 or 201',httpStatus],
+      response_shape:['exactly one object row','invalid_row_shape'],database_contract:['compatible prerequisite catalog','invalid_contract']};
+    const [expected,observed]=conditions[stage]??['verified execution identity','unproven'];
+    checks.push({id:'database_complete_compatibility',ok:false,reason:'database_inspection_failed',stage,operation,httpStatus,sqlstate:state,expected,observed});
+    return evidence();
+  }
+}
 async function readJson(url,token,fetchImpl) {
   const response=await fetchImpl(url,{headers:{Authorization:`Bearer ${token}`},redirect:'error',signal:AbortSignal.timeout(15000)});
   assert.equal(response.status,200);return response.json();
 }
 async function readPreview(env,fetchImpl) {
+  assert.ok(env.VERCEL_TOKEN?.trim());
   const identity=await resolveHostedVercelIdentity({token:env.VERCEL_TOKEN,fetchImpl});
   const api=pathname=>readJson(hostedVercelScopedUrl(pathname,identity),env.VERCEL_TOKEN,fetchImpl);
   const [deployment,alias,aliases]=await Promise.all([
@@ -44,23 +134,10 @@ async function readFrontend(env,fetchImpl) {
   return {...inspectShippedCaptcha(chunks),applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId};
 }
 export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=fetch,querySql,qualifyDatabase}) {
-  const checks=[];let preview=null,captchaPolicy=null;
+  const checks=[];let preview=null,captchaPolicy=null,databaseEvidence=null;
   const add=(id,ok,reason)=>checks.push({id,ok,reason:ok?null:reason});
   const database=async()=>{
-    try {
-      assert.ok(env.SUPABASE_ACCESS_TOKEN);assert.match(querySql,/begin transaction read only;/i);
-      const response=await fetchImpl(`https://api.supabase.com/v1/projects/${CLINIC_SETUP.project}/database/query`,{
-        method:'POST',headers:{Authorization:`Bearer ${env.SUPABASE_ACCESS_TOKEN}`,'Content-Type':'application/json'},
-        body:JSON.stringify({query:querySql,read_only:true}),redirect:'error',signal:AbortSignal.timeout(30000)});
-      assert.equal(response.status,200);const rows=await response.json();assert.ok(Array.isArray(rows)&&rows.length===1);
-      const result=qualifyDatabase({catalog:rows[0].clinic_known_compatibility_prerequisites,projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app});
-      assert.ok(Array.isArray(result.checks)&&result.checks.length>0);checks.push(...result.checks);
-      const inventory=result.operational?.existing_code_inventory;
-      add('normal_code_issuance_inventory',result.operational?.codeIssuanceRequired===true&&Array.isArray(inventory)&&inventory.length===1
-        &&inventory[0].id==='77000000-0000-4000-8000-000000000057'&&inventory[0].uses_count===2&&inventory[0].max_uses===2,
-        'code_inventory_requires_reconciliation_before_auth');
-      add('database_complete_compatibility',result.status==='READY'&&result.blockers?.length===0,'database_requirements_blocked');
-    } catch {add('database_complete_compatibility',false,'database_read_or_contract_unproven');}
+    databaseEvidence=await readClinicDatabasePrerequisites({env,fetchImpl,querySql,qualifyDatabase});checks.push(...databaseEvidence.checks);
   };
   await Promise.all([database(),(async()=>{
     try {preview=await readPreview(env,fetchImpl);add('exact_current_preview',true);}catch{add('exact_current_preview',false,'preview_identity_unproven');}
@@ -74,7 +151,7 @@ export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=
   return {schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:checks.length>0&&checks.every(c=>c.ok===true)?'READY':'BLOCKED',
     projectRef:CLINIC_SETUP.project,applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,
     controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT,capturedAt:new Date().toISOString(),
-    checks,blockers:checks.filter(c=>c.ok!==true),preview,captchaPolicy};
+    checks,blockers:checks.filter(c=>c.ok!==true),preview,captchaPolicy,databaseEvidence,stateChangingStepReached:false};
 }
 export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
   const gate=JSON.parse(fs.readFileSync(filename,'utf8'));
@@ -83,7 +160,19 @@ export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
   for(const [key,value] of Object.entries({controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT}))assert.ok(value&&gate[key]===value,'live gate must belong to this exact runner');
   assert.ok(now-Date.parse(gate.capturedAt)>=0&&now-Date.parse(gate.capturedAt)<300000,'live prerequisite result must be fresh');
   assert.ok(gate.checks.length>0&&gate.checks.every(c=>c.ok===true)&&gate.blockers.length===0);
-  for(const id of ['database_complete_compatibility','normal_code_issuance_inventory','exact_current_preview','shipped_and_server_captcha'])assert.ok(gate.checks.some(c=>c.id===id&&c.ok));
+  for(const id of ['database_execution_role','database_session_identity','database_transaction_read_only',
+    ...probeSignatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','normal_code_issuance_inventory','exact_current_preview','shipped_and_server_captcha'])assert.ok(gate.checks.some(c=>c.id===id&&c.ok));
+  assert.equal(gate.databaseEvidence?.executionContext?.current_user,'postgres');assert.equal(gate.databaseEvidence.executionContext.transaction_read_only,'on');
+  assert.ok(['postgres','supabase_admin'].includes(gate.databaseEvidence.executionContext.session_user));
+  assert.equal(gate.databaseEvidence.prerequisiteSqlSha256,prerequisiteSqlHash);
+  assert.equal(gate.databaseEvidence.claimSqlSha256,claimSqlHash);
+  const requiredChecks=[...qualifyClinicClaimPrerequisites({functions:[],relations:[]}).checks,
+    ...qualifyClinicDatabasePrerequisites({catalog:{functions:[],relations:[{name:'public.legal_aid_policy_profiles',present:false}]},projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app}).checks];
+  for(const {id} of requiredChecks)assert.equal(gate.checks.filter(c=>c.id===id&&c.ok===true).length,1,`missing or duplicate prerequisite: ${id}`);
+  const sql=fs.readFileSync(new URL('./sql/rcap-clinic-database-prerequisites.sql',import.meta.url),'utf8');
+  assert.equal(gate.databaseEvidence.inspectionSqlSha256,createHash('sha256').update(clinicInspectionSql(sql)).digest('hex'));
+  assert.equal(gate.databaseEvidence.requests?.length,1);assert.ok([200,201].includes(gate.databaseEvidence.requests[0].httpStatus));
+  assert.equal(gate.databaseEvidence.requests[0].sqlstate,null);assert.equal(gate.databaseEvidence.stateChangingStepReached,false);
   assert.equal(gate.preview?.previewVerified,true);assert.equal(gate.preview.deploymentId,CLINIC_SETUP.deploymentId);
   assert.equal(gate.captchaPolicy?.project,CLINIC_SETUP.project);assert.equal(gate.captchaPolicy.frontend?.applicationSha,CLINIC_SETUP.app);
   assert.equal(gate.captchaPolicy.frontend?.deploymentId,CLINIC_SETUP.deploymentId);assert.equal(gate.captchaPolicy?.serverCaptchaRequired,false);assert.equal(gate.captchaPolicy?.frontend?.clientCaptchaRequired,false);assert.equal(gate.captchaPolicy.frontend.widgetSiteKeyConfigured,true);
@@ -92,7 +181,6 @@ export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href) {
   const output=path.resolve(process.env.RCAP_BROWSER_EVIDENCE_DIR??'clinic-setup-only-evidence');fs.mkdirSync(output,{recursive:true});
   try {
-    const {CLINIC_PREREQUISITE_SQL,qualifyClinicDatabasePrerequisites}=await import('./lib/rcap-clinic-database-prerequisites.mjs');
     const gate=await collectClinicLivePrerequisites({querySql:CLINIC_PREREQUISITE_SQL,qualifyDatabase:qualifyClinicDatabasePrerequisites});
     fs.writeFileSync(path.join(output,'clinic-live-prerequisites.json'),JSON.stringify(gate,null,2)+'\n');
     if(gate.status!=='READY')process.exitCode=1;

@@ -15,6 +15,16 @@ function fixture(actor,captchaPolicy=policy) {
  const route=async req=>{await guard.route({request:()=>req,abort:async()=>{action='abort';},fallback:async()=>{action='fallback';},continue:async()=>{action='continue';}});return action;};
  return {guard,events,requestFailures,route};
 }
+test('named application HTTP refusals remain fatal even without a browser network error',()=>{
+ for(const pathname of ['/api/expungement-ai/screening/progress','/api/expungement-ai/screening/complete','/api/clinic/entry',
+  '/api/clinic/assistance/start','/api/expungement-ai/evaluate','/api/expungement-ai/screening/pending','/api/expungement-ai/screening/pending/claim']) {
+  for(const status of [201,204,302,400,403,409,500]) {
+   const f=fixture('participant');f.guard.response({request:()=>request(CLINIC_SETUP.origin+pathname,'POST','fetch'),status:()=>status});
+   assert.throws(()=>f.guard.assertNoCritical());
+  }
+  const f=fixture('participant');f.guard.response({request:()=>request(CLINIC_SETUP.origin+pathname,'POST','fetch'),status:()=>200});f.guard.assertNoCritical();
+ }
+});
 for(const actor of ['admin','participant']) test(`${actor}: intentional exact optional blocks do not poison permitted calls or console evidence`,async()=>{
  const f=fixture(actor);
  for(const url of [TOOLBAR_LOADER,TURNSTILE_LOADER]) {
@@ -116,5 +126,14 @@ test('matter frame support preserves origin, query, UUID, resource, method and o
  for(const actor of ['admin','participant'])for(const req of refused) {
   const f=fixture(actor);assert.equal(classifyClinicRequest(req,{actor,captchaPolicy:policy}),'critical_blocked');
   assert.equal(await f.route(req),'abort');assert.throws(()=>f.guard.assertNoCritical());
+ }
+});
+
+test('administrator code issuance requires its documented 201 and retains only sanitized stage evidence',()=>{
+ for(const status of [200,201,204,403,500]) {
+  const stageResults=[];const guard=createClinicRequestGuard({actor:'admin',captchaPolicy:policy,env:{},stage:()=> 'before_code',events:[],requestFailures:[],stageResults});
+  guard.response({request:()=>request(CLINIC_SETUP.origin+'/api/clinic/events/'+CLINIC_SETUP.event+'/access-codes','POST','fetch'),status:()=>status});
+  if(status===201)guard.assertNoCritical();else assert.throws(()=>guard.assertNoCritical());
+  assert.deepEqual(Object.keys(stageResults[0]).sort(),['actor','stage','httpStatus','pathname','outcome'].sort());
  }
 });

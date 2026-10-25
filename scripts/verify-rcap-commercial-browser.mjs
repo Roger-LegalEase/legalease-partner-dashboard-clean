@@ -295,6 +295,9 @@ async function runJourney() {
   check(authCookies.length > 0, "Supabase session cookie was not written on the acceptance origin.");
 
   result.stage='participant_screening';
+  const screeningCompletion=clinicSetupOnly?page.waitForResponse(response=>response.request().method()==='POST'
+    &&new URL(response.url()).origin===CLINIC_SETUP.origin&&new URL(response.url()).pathname==='/api/expungement-ai/screening/complete',
+    {timeout:45000}).then(async response=>({httpStatus:response.status(),accepted:(await response.json())?.ok===true})).catch(()=>null):null;
   // 2. Answer the deterministic Mississippi non-conviction fixture.
   await answerChoice(page, "Are you asking about your own record?", "Yes");
   await answerChoice(page, "Did this case happen in Mississippi (not a federal case)?", "State or local");
@@ -348,6 +351,14 @@ async function runJourney() {
 
   // 3. Persist and claim the server-re-evaluated pending result. Capture the
   // exact item id from the claim response instead of guessing from Briefcase.
+  if(clinicSetupOnly) {
+    result.screeningCompletion=await screeningCompletion;
+    assert.equal(result.screeningCompletion?.httpStatus,200,'screening completion must respond before pending-result creation');
+    assert.equal(result.screeningCompletion.accepted,true,'screening completion response contract refused');
+    // The deployed completion API is best-effort; HTTP success does not prove the session-completion write.
+    result.screeningCompletion.persistenceVerified=false;
+    participantGuard.assertNoCritical();
+  }
   const pendingResponsePromise = page.waitForResponse(
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/screening/pending",
     { timeout: 20_000 }

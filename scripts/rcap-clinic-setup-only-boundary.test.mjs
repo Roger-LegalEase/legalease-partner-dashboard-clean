@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
 import YAML from 'yaml';
-import { CLINIC_SETUP,assertClinicSetupInput,clinicSetupRequestAllowed,clinicSetupSafeError,captureClinicEntryResponse,assertClinicEntryAccepted,clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
+import { CLINIC_SETUP,assertClinicSetupInput,assertClinicSetupDispatch,clinicSetupRequestAllowed,clinicSetupSafeError,captureClinicEntryResponse,assertClinicEntryAccepted,clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
 const browserSource=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
 const ast=ts.createSourceFile('browser.mjs',browserSource,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
 const journey=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='runJourney');
@@ -49,8 +49,9 @@ test('registered workflow isolates existing secrets and exact current target wit
   const workflow=YAML.parse(fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8'));
   assert.ok(workflow.on.workflow_dispatch.inputs.mode.options.includes('clinic_setup_only'));
   assert.equal('clinic_setup_only'.startsWith('hosted_'),false);
-  const job=workflow.jobs.clinic_setup_only;assert.equal(job.if,"inputs.mode == 'clinic_setup_only'");
+  const job=workflow.jobs.clinic_setup_only;assert.equal(job.if,"inputs.mode == 'clinic_setup_only' || inputs.mode == 'clinic_prerequisites_only'");
   const step=job.steps.find(s=>s.name==='Enter existing Clinic and claim one new screening result');
+  assert.equal(step.if,"inputs.mode == 'clinic_setup_only'");
   const env={...step.env};for(const key of ['RCAP_BROWSER_PASSWORD','RCAP_BROWSER_VERCEL_TOKEN','RCAP_BROWSER_VERCEL_BYPASS_SECRET'])env[key]='mock-existing-custody';
   assert.equal(env.RCAP_BROWSER_ISSUE_CLINIC_CODE,'1');assert.equal(env.RCAP_BROWSER_CLINIC_ACCESS_CODE,undefined);
   assertClinicSetupInput(env);assert.equal(step.run,'node scripts/verify-rcap-commercial-browser.mjs');
@@ -148,4 +149,37 @@ test('actual pathname capture redacts raw and URI-encoded known secrets in both 
     for(const value of [...Object.values(env),...Object.values(env).map(encodeURIComponent)])assert.ok(!serialized.toLowerCase().includes(value.toLowerCase()));
     assert.ok(!serialized.includes('private='));assert.equal(Object.keys(evidence).length,4);
   }
+});
+
+test('dispatch source labels must match the pinned Clinic tuple and tools never select the runner checkout',()=>{
+ const input={mode:'clinic_setup_only',application_sha:CLINIC_SETUP.app,worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',tools_sha:'98f89f0db0bcb60088341c35595a072edd9031a4'};
+ assertClinicSetupDispatch(input);assertClinicSetupDispatch({...input,mode:'clinic_prerequisites_only'});
+ for(const key of Object.keys(input))assert.throws(()=>assertClinicSetupDispatch({...input,[key]:'wrong'}));
+ for(const key of ['preview_hostname','preview_deployment_id','supabase_project_ref'])assert.throws(()=>assertClinicSetupDispatch({...input,[key]:'wrong'}));
+ const workflow=YAML.parse(fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8'));
+ assert.equal(workflow.jobs.clinic_setup_only.steps[0].with.ref,'${{ github.sha }}');
+ assert.match(workflow.jobs.clinic_setup_only.steps.find(s=>s.name?.startsWith('Require the published')).run,/assertClinicSetupDispatch\(JSON.parse/);
+});
+test('screening completion failure stops before pending creation and cannot claim persistence from HTTP200',async()=>{
+ const branch=journey.body.statements.find(node=>ts.isIfStatement(node)&&node.getText(ast).includes('result.screeningCompletion=await screeningCompletion'));
+ assert(branch);assert(branch.end<browserSource.indexOf('const pendingResponsePromise',branch.pos));
+ const run=scope=>new Function(...Object.keys(scope),`return (async()=>{${branch.getText(ast)}})()`)(...Object.values(scope));
+ for(const response of [null,{httpStatus:500,accepted:true},{httpStatus:200,accepted:false}]) {
+  let guardCalls=0;await assert.rejects(run({clinicSetupOnly:true,result:{},screeningCompletion:Promise.resolve(response),assert,participantGuard:{assertNoCritical:()=>guardCalls++}}));assert.equal(guardCalls,0);
+ }
+ const result={};await run({clinicSetupOnly:true,result,screeningCompletion:Promise.resolve({httpStatus:200,accepted:true}),assert,participantGuard:{assertNoCritical:()=>{}}});
+ assert.equal(result.screeningCompletion.persistenceVerified,false);
+});
+
+test('read-only credential-context mode cannot enter Clinic browser or another provider job',()=>{
+ const workflow=YAML.parse(fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8'));
+ const mode='clinic_prerequisites_only';assert(workflow.on.workflow_dispatch.inputs.mode.options.includes(mode));
+ const job=workflow.jobs.clinic_setup_only;
+ const browser=job.steps.find(s=>s.run==='node scripts/verify-rcap-commercial-browser.mjs');assert.equal(browser.if,"inputs.mode == 'clinic_setup_only'");
+ const collector=job.steps.find(s=>s.run==='node scripts/rcap-clinic-live-prerequisites.mjs');assert.equal(collector.if,undefined);
+ assert.deepEqual(Object.keys(collector.env).sort(),['SUPABASE_ACCESS_TOKEN','VERCEL_TOKEN','VERCEL_AUTOMATION_BYPASS_SECRET','RCAP_BROWSER_EVIDENCE_DIR'].sort());
+ for(const [id,other] of Object.entries(workflow.jobs))if(id!=='clinic_setup_only') {
+  assert(other.if,'every other provider job must select a mode');assert(!other.if.includes(mode));
+  assert(!other.if.includes("inputs.mode != 'clinic_setup_only'"));
+ }
 });

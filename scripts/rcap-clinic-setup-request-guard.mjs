@@ -94,8 +94,12 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
       };
       const named=normalAuth?'normal_auth':url.origin===CLINIC_SETUP.origin
         ?method==='POST'?paths[url.pathname]:method==='GET'&&url.pathname===`/api/clinic/events/${CLINIC_SETUP.event}`?'event_workspace':null:null;
-      if(named&&stageResults.length<200)stageResults.push({actor,stage:named,httpStatus:response.status(),
-        pathname:safeKnownPath(request.url(),env),outcome:response.status()>=200&&response.status()<300?'http_success':'http_refusal'});
+      if(named) {
+        const value={actor,stage:named,httpStatus:response.status(),
+          pathname:safeKnownPath(request.url(),env),outcome:response.status()===(named==='one_code_issuance'?201:200)?'http_success':'http_refusal'};
+        if(stageResults.length<200)stageResults.push(value);
+        if(value.outcome==='http_refusal')fatal.push(value);
+      }
     },
     requestFailed(request) {
       const error=request.failure()?.errorText?.match(/(?:net::)?ERR_[A-Z_]+/)?.[0]??'request failed';

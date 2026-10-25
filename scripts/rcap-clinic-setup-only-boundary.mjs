@@ -23,6 +23,16 @@ export function assertClinicSetupInput(env) {
   if (env.RCAP_BROWSER_ISSUE_CLINIC_CODE==='1') assert.equal(env.RCAP_BROWSER_CLINIC_SETUP_ONLY,'1');
   else assert.ok(env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim(),'existing RCAP_BROWSER_CLINIC_ACCESS_CODE required before browser effects');
 }
+export function assertClinicSetupDispatch(inputs) {
+  assert.ok(['clinic_setup_only','clinic_prerequisites_only'].includes(inputs?.mode),'Clinic dispatch refuses mode mismatch');
+  for(const [key,value] of Object.entries({application_sha:CLINIC_SETUP.app,
+    worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',
+    worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',
+    tools_sha:'98f89f0db0bcb60088341c35595a072edd9031a4'}))assert.equal(inputs?.[key],value,`Clinic dispatch refuses ${key} mismatch`);
+  for(const [key,value] of Object.entries({preview_hostname:new URL(CLINIC_SETUP.origin).hostname,
+    preview_deployment_id:CLINIC_SETUP.deploymentId,supabase_project_ref:CLINIC_SETUP.project}))
+    if(inputs[key])assert.equal(inputs[key],value,`Clinic dispatch refuses ${key} mismatch`);
+}
 export function clinicSetupRequestAllowed(method, address) {
   const url=new URL(address);
   if (url.origin===`https://${CLINIC_SETUP.project}.supabase.co`) return (method==='GET' && ['/auth/v1/user','/auth/v1/settings'].includes(url.pathname))

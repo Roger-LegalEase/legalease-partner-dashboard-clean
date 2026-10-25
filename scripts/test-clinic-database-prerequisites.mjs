@@ -9,7 +9,7 @@ function fixture() {
     if (!functions.has(f.name)) functions.set(f.name, { name: f.name, overloads: [] });
     functions.get(f.name).overloads.push({ ...structuredClone(f), service_execute: true });
   }
-  return { functions: [...functions.values()], relations: structuredClone(contract.relations), relevant_history: [...structuredClone(contract.priorHistory), { name: 'rcap_clinic_app4feb_compatibility', version: '20261024235959', statements_md5: 'a'.repeat(32) }], operational: {
+  return { functions: [...functions.values()], relations: structuredClone(contract.relations), relevant_history: [...structuredClone(contract.priorHistory), { name: 'rcap_clinic_app4feb_compatibility', version: '20261024233056', statements_md5: 'f54b99a6eafd72c4031a46639781b690' }], operational: {
     administrator_active: true, administrator_confirmed: true, participant_confirmed: true, staff_active: true, event_available: true, program_activation_authorized: true, screening_scope_authorized: true, packet_scope_authorized: true, sponsor_capacity_available: true, screening_capacity_available: true, screening_entitlement_present: true,
     existing_code_available: false, existing_code_inventory: [{ id: '77000000-0000-4000-8000-000000000057', uses_count: 2, max_uses: 2 }]
   } };
@@ -28,7 +28,7 @@ test('aggregates missing overload, retry column and wrong unique index together'
   const result = qualify(data); assert.equal(result.status, 'BLOCKED'); assert(result.blockers.some(b => b.id.includes('claim_rcap_screening_session(text,text,text)'))); assert(result.blockers.some(b => b.id === 'relation:public.screening_sessions'));
 });
 test('changed security owner, volatility, body or execute permission is refused', () => {
-  for (const [field, value] of [['owner', 'other'], ['volatility', 'v'], ['source_body_md5', '0'.repeat(32)], ['service_execute', false]]) {
+  for (const [field, value] of [['owner', 'other'], ['volatility', 'v'], ['source_body_md5', '0'.repeat(32)], ['definition_md5','0'.repeat(32)], ['service_execute', false]]) {
     const data = fixture(); const fn = data.functions.find(f => f.name === 'rcap_clinic_case_materials').overloads[0]; fn[field] = value;
     assert.equal(qualify(data).status, 'BLOCKED', field);
   }
@@ -36,6 +36,12 @@ test('changed security owner, volatility, body or execute permission is refused'
 test('disabled preconsent trigger and missing accepted history fail closed', () => {
   const data = fixture(); data.relations.find(t => t.name === 'public.clinic_event_access_redemptions').triggers[0].enabled = 'D'; data.relevant_history = [];
   const result = qualify(data); assert(result.blockers.some(b => b.id === 'relation:public.clinic_event_access_redemptions')); assert(result.blockers.some(b => b.id === 'prior_migration_history')); assert(result.blockers.some(b => b.id === 'repair_migration_history'));
+});
+test('the actual installed repair identity and SQL receipt cannot be replaced by a well-shaped history row',()=>{
+ for(const delta of [{version:'20261024235959'},{statements_md5:'a'.repeat(32)}]) {
+  const data=fixture();Object.assign(data.relevant_history.at(-1),delta);
+  assert(qualify(data).blockers.some(c=>c.id==='repair_migration_history'));
+ }
 });
 test('all operational denials aggregate, including old-counter changes and source/project mismatch', () => {
   const data = fixture(); data.operational.administrator_confirmed = false; data.operational.sponsor_capacity_available = false; data.operational.existing_code_inventory[0].uses_count = 0;
