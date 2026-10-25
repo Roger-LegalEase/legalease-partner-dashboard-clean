@@ -158,7 +158,7 @@ export default async function BriefcasePacketPage({
                   <LocalizedRuntimeText text={mississippiClinicPacket ? "Your Mississippi clinic packet" : humanMatterState(item)} />
                 </h2>
                 {!item.commercialActions.fulfillmentAvailable ? (
-                  <p className="mt-2 text-sm leading-6 text-[#5A6275]" role="status"><LocalizedRuntimeText text="A packet is not available for this route yet. Your eligibility result and saved information remain available." /></p>
+                  <p className="mt-2 text-sm leading-6 text-[#5A6275]" role="status">{mississippiClinicPacket && packetDraftAvailable ? <LocalizedCopy en="You can continue completing your packet information. Packet generation is currently unavailable." es="Puede seguir completando la información de su paquete. La generación del paquete no está disponible en este momento." /> : <LocalizedRuntimeText text="A packet is not available for this route yet. Your eligibility result and saved information remain available." />}</p>
                 ) : sponsored ? (
                   <p className="mt-2 text-sm leading-6 text-[#5A6275]"><LocalizedRuntimeText text={"Your packet is covered through your partner program. Complete the packet information and review it before generation."} /></p>
                 ) : (
