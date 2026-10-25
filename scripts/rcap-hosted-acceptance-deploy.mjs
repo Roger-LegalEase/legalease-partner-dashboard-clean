@@ -60,6 +60,8 @@ const REQUIRED_CASES = [
   "deployment_carries_the_final_application_sha",
   "bound_to_the_acceptance_supabase_project_only",
   "production_aliases_unchanged",
+  "production_domains_unchanged",
+  "production_deployment_count_unchanged",
   "production_environment_variables_unchanged",
   "delivery_route_refuses_on_the_deployed_instance"
 ];
@@ -110,6 +112,27 @@ const aliasesBefore = Array.isArray(beforeProject.json?.alias)
   ? beforeProject.json.alias.filter((a) => a?.target === "PRODUCTION").map((a) => a.domain).sort()
   : [];
 const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.envs : []);
+
+// A Vercel ALIAS and a Vercel DOMAIN are different objects on different
+// endpoints. Comparing aliases alone leaves "a production domain was attached,
+// verified or repointed" unobserved, which is exactly the class of change this
+// run must be able to say it did not make.
+const domainShape = (entries) =>
+  entries
+    .filter((d) => d?.name)
+    .map((d) => `${d.name}:${d.verified === true ? "verified" : "unverified"}:${d.gitBranch ?? ""}:${d.redirect ?? ""}`)
+    .sort();
+const beforeDomains = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}/domains`);
+const domainsBefore = domainShape(Array.isArray(beforeDomains.json?.domains) ? beforeDomains.json.domains : []);
+
+// The count of PRODUCTION-target deployments. This run creates a Preview, so
+// the production count must be exactly what it was. Counting is enough: it
+// catches a promotion, a rollback and a redeploy without reading any value.
+const productionDeploymentCount = async () => {
+  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&target=production&limit=100`);
+  return Array.isArray(res.json?.deployments) ? res.json.deployments.length : null;
+};
+const productionDeploymentsBefore = await productionDeploymentCount();
 
 // --- 0b. Reuse a READY Preview deployment of these exact bytes, if one exists -
 //
@@ -428,6 +451,25 @@ console.log(`  deployment URL: ${previewUrl}`);
     `${aliasesBefore.length} production alias(es) before, ${aliasesAfter.length} after, identical sets`
   );
 
+  const afterDomains = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}/domains`);
+  const domainsAfter = domainShape(Array.isArray(afterDomains.json?.domains) ? afterDomains.json.domains : []);
+  record(
+    "production_domains_unchanged",
+    JSON.stringify(domainsBefore) === JSON.stringify(domainsAfter),
+    `${domainsBefore.length} project domain(s) before and ${domainsAfter.length} after, with identical names, verification state, branch binding and redirect — no production domain was assigned, verified, repointed or removed`
+  );
+
+  const productionDeploymentsAfter = await productionDeploymentCount();
+  record(
+    "production_deployment_count_unchanged",
+    productionDeploymentsBefore !== null &&
+      productionDeploymentsAfter !== null &&
+      productionDeploymentsBefore === productionDeploymentsAfter,
+    productionDeploymentsBefore === null || productionDeploymentsAfter === null
+      ? `the production deployment count could not be read before or after; this run cannot claim production is undisturbed`
+      : `${productionDeploymentsBefore} production-target deployment(s) before and ${productionDeploymentsAfter} after — this run created a Preview and promoted nothing`
+  );
+
   const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}/env`);
   const envAfter = envShape(Array.isArray(afterEnv.json?.envs) ? afterEnv.json.envs : []);
   record(
@@ -435,7 +477,15 @@ console.log(`  deployment URL: ${previewUrl}`);
     JSON.stringify(envBefore) === JSON.stringify(envAfter),
     `${envBefore.length} production-target variable(s) before and ${envAfter.length} after, with identical keys, targets and updatedAt stamps — no value was read into this comparison`
   );
-  evidence.productionUntouched = { aliasCount: aliasesAfter.length, productionVariableCount: envAfter.length };
+  evidence.productionUntouched = {
+    aliasCount: aliasesAfter.length,
+    aliasesUnchanged: JSON.stringify(aliasesBefore) === JSON.stringify(aliasesAfter),
+    domainCount: domainsAfter.length,
+    domainsUnchanged: JSON.stringify(domainsBefore) === JSON.stringify(domainsAfter),
+    productionVariableCount: envAfter.length,
+    productionDeploymentCountBefore: productionDeploymentsBefore,
+    productionDeploymentCountAfter: productionDeploymentsAfter
+  };
 }
 
 // --- 4. Probe the deployed instance -----------------------------------------

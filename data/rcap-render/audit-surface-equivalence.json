@@ -1,0 +1,1952 @@
+{
+  "schemaVersion": "rcap-audit-surface-equivalence/v1",
+  "generatedBy": "scripts/rcap-audit-surface-equivalence.mjs",
+  "readOnly": true,
+  "auditHead": "d32267b8135ee18d33fdf6d4178ea87127138efe",
+  "auditPacketCommit": "00212d529e82a2a2a90b172b29268922feecfcbd",
+  "applicationSourceSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "toolsSha": "6d9e8792b8c68671220cac5f294562e3b3ba1b25",
+  "toolsShaCarriesTheSameApplicationBytes": true,
+  "rootSelection": {
+    "flowManifestSource": "00212d529e82a2a2a90b172b29268922feecfcbd:data/expungement-ai/flow-audit/flow-manifest.json",
+    "flowManifestRootCount": 62,
+    "flowManifestUnresolvedReferences": [],
+    "declaredRootCount": 57,
+    "declaredRootConcerns": [
+      "consumer Briefcase next-action routing",
+      "evaluation and waiting-rule resolution",
+      "packet information and packet APIs",
+      "packet readiness and checkout routing",
+      "payment and sponsorship guards",
+      "screening components",
+      "screening, evaluation and profile APIs",
+      "state selection and screening UI"
+    ],
+    "totalRoots": 112,
+    "roots": [
+      "src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts",
+      "src/app/api/expungement-ai/checkout/route.ts",
+      "src/app/api/expungement-ai/checkout/status/route.ts",
+      "src/app/api/expungement-ai/evaluate/route.ts",
+      "src/app/api/expungement-ai/packet/download/route.ts",
+      "src/app/api/expungement-ai/packet/generate/route.ts",
+      "src/app/api/expungement-ai/packet/render/route.ts",
+      "src/app/api/expungement-ai/packet/status/route.ts",
+      "src/app/api/expungement-ai/payment/confirm/route.ts",
+      "src/app/api/expungement-ai/profiles/[state]/route.ts",
+      "src/app/api/expungement-ai/screening/complete/route.ts",
+      "src/app/api/expungement-ai/screening/nudge/opt-out/route.ts",
+      "src/app/api/expungement-ai/screening/pending/claim/route.ts",
+      "src/app/api/expungement-ai/screening/pending/route.ts",
+      "src/app/api/expungement-ai/screening/resume/confirm/route.ts",
+      "src/app/api/expungement-ai/screening/resume/resend/route.ts",
+      "src/app/api/expungement-ai/screening/save-result/route.ts",
+      "src/app/api/expungement-ai/screening/save-resume/route.ts",
+      "src/app/api/stripe/webhook/route.ts",
+      "src/app/briefcase/[packetId]/packet-information/page.tsx",
+      "src/app/briefcase/[packetId]/page.tsx",
+      "src/app/briefcase/[packetId]/review/page.tsx",
+      "src/app/briefcase/documents/page.tsx",
+      "src/app/briefcase/matters/page.tsx",
+      "src/app/briefcase/page.tsx",
+      "src/app/briefcase/payments/page.tsx",
+      "src/app/briefcase/reminders/page.tsx",
+      "src/app/briefcase/settings/page.tsx",
+      "src/app/expungement-ai/check/page.tsx",
+      "src/app/expungement-ai/screening/[state]/page.tsx",
+      "src/app/expungement-ai/screening/page.tsx",
+      "src/app/expungement-ai/screening/resume/page.tsx",
+      "src/app/expungement-ai/start/page.tsx",
+      "src/components/expungement-ai/screening/ContextOnlyBanner.tsx",
+      "src/components/expungement-ai/screening/ProgressRail.tsx",
+      "src/components/expungement-ai/screening/QuestionField.tsx",
+      "src/components/expungement-ai/screening/ResultGallery.tsx",
+      "src/components/expungement-ai/screening/ResumeScreeningClient.tsx",
+      "src/components/expungement-ai/screening/ScreeningFlow.tsx",
+      "src/components/expungement-ai/screening/ScreeningResult.tsx",
+      "src/components/expungement-ai/screening/StatePicker.tsx",
+      "src/components/expungement-ai/screening/answers.ts",
+      "src/components/expungement-ai/screening/fields/OptionGroup.tsx",
+      "src/components/expungement-ai/screening/fields/OrUnknownField.tsx",
+      "src/components/expungement-ai/screening/partner-session.ts",
+      "src/components/expungement-ai/screening/screens.ts",
+      "src/lib/expungement-ai/checkout-reconciliation.ts",
+      "src/lib/expungement-ai/consumer-payment-authority.ts",
+      "src/lib/expungement-ai/frontend/profiles/all51.json",
+      "src/lib/expungement-ai/packet-information.ts",
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "src/lib/rcap-engine/compiled/all51.json",
+      "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+      "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+      "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "src/lib/rcap-engine/compiled/profiles/CO-colorado.json",
+      "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+      "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+      "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+      "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+      "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+      "src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+      "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+      "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+      "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+      "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+      "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+      "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+      "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+      "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+      "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+      "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+      "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+      "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+      "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+      "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+      "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+      "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+      "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+      "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+      "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+      "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+      "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+      "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+      "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+      "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+      "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+      "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+      "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+      "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+      "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+      "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+      "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+      "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+      "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+      "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+      "src/lib/rcap-engine/component-deferral-clamp.ts",
+      "src/lib/rcap-engine/evaluator.ts",
+      "src/lib/rcap-engine/packet-planner.ts",
+      "src/lib/rcap-engine/public-profile-projection.ts",
+      "src/lib/rcap/documents/guidance-packet-registry.ts",
+      "src/lib/rcap/documents/packet-route-resolver.ts",
+      "src/lib/rcap/state-promotion-manifest.ts",
+      "src/lib/stripe/server.ts",
+      "src/lib/stripe/webhook-handler.ts"
+    ]
+  },
+  "auditedSurface": {
+    "fileCount": 190,
+    "unresolvedSpecifiers": []
+  },
+  "identicalPaths": [
+    "src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts",
+    "src/app/api/expungement-ai/checkout/route.ts",
+    "src/app/api/expungement-ai/checkout/status/route.ts",
+    "src/app/api/expungement-ai/evaluate/route.ts",
+    "src/app/api/expungement-ai/packet/download/route.ts",
+    "src/app/api/expungement-ai/packet/generate/route.ts",
+    "src/app/api/expungement-ai/packet/render/route.ts",
+    "src/app/api/expungement-ai/packet/status/route.ts",
+    "src/app/api/expungement-ai/payment/confirm/route.ts",
+    "src/app/api/expungement-ai/profiles/[state]/route.ts",
+    "src/app/api/expungement-ai/screening/complete/route.ts",
+    "src/app/api/expungement-ai/screening/nudge/opt-out/route.ts",
+    "src/app/api/expungement-ai/screening/pending/claim/route.ts",
+    "src/app/api/expungement-ai/screening/pending/route.ts",
+    "src/app/api/expungement-ai/screening/resume/confirm/route.ts",
+    "src/app/api/expungement-ai/screening/resume/resend/route.ts",
+    "src/app/api/expungement-ai/screening/save-result/route.ts",
+    "src/app/api/expungement-ai/screening/save-resume/route.ts",
+    "src/app/api/stripe/webhook/route.ts",
+    "src/app/briefcase/[packetId]/packet-information/page.tsx",
+    "src/app/briefcase/[packetId]/page.tsx",
+    "src/app/briefcase/[packetId]/review/page.tsx",
+    "src/app/briefcase/documents/page.tsx",
+    "src/app/briefcase/matters/page.tsx",
+    "src/app/briefcase/page.tsx",
+    "src/app/briefcase/payments/page.tsx",
+    "src/app/briefcase/reminders/page.tsx",
+    "src/app/briefcase/settings/page.tsx",
+    "src/app/expungement-ai/check/page.tsx",
+    "src/app/expungement-ai/landing-locale-controller.ts",
+    "src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx",
+    "src/app/expungement-ai/screening/[state]/page.tsx",
+    "src/app/expungement-ai/screening/page.tsx",
+    "src/app/expungement-ai/screening/resume/page.tsx",
+    "src/app/expungement-ai/start/page.tsx",
+    "src/components/expungement-ai/BriefcaseSaveIntent.tsx",
+    "src/components/expungement-ai/BriefcaseShell.tsx",
+    "src/components/expungement-ai/BriefcaseViews.tsx",
+    "src/components/expungement-ai/ConsumerFlowCard.tsx",
+    "src/components/expungement-ai/ConsumerNav.tsx",
+    "src/components/expungement-ai/ConsumerPageShell.tsx",
+    "src/components/expungement-ai/ExpungementWordmark.tsx",
+    "src/components/expungement-ai/LocalizationProvider.tsx",
+    "src/components/expungement-ai/PacketGenerateButton.tsx",
+    "src/components/expungement-ai/PacketInformationBuilder.tsx",
+    "src/components/expungement-ai/WilmaBubble.tsx",
+    "src/components/expungement-ai/screening/ContextOnlyBanner.tsx",
+    "src/components/expungement-ai/screening/ProgressRail.tsx",
+    "src/components/expungement-ai/screening/QuestionField.tsx",
+    "src/components/expungement-ai/screening/ResultGallery.tsx",
+    "src/components/expungement-ai/screening/ResumeScreeningClient.tsx",
+    "src/components/expungement-ai/screening/ScreeningFlow.tsx",
+    "src/components/expungement-ai/screening/ScreeningResult.tsx",
+    "src/components/expungement-ai/screening/StatePicker.tsx",
+    "src/components/expungement-ai/screening/answers.ts",
+    "src/components/expungement-ai/screening/fields/OptionGroup.tsx",
+    "src/components/expungement-ai/screening/fields/OrUnknownField.tsx",
+    "src/components/expungement-ai/screening/partner-session.ts",
+    "src/components/expungement-ai/screening/screens.ts",
+    "src/lib/analytics/build-event.ts",
+    "src/lib/analytics/client.ts",
+    "src/lib/analytics/command-center-bridge.ts",
+    "src/lib/analytics/event-names.ts",
+    "src/lib/analytics/product-events.ts",
+    "src/lib/analytics/product-surface.ts",
+    "src/lib/analytics/sanitize.ts",
+    "src/lib/analytics/server-events.ts",
+    "src/lib/analytics/web-analytics-repository.ts",
+    "src/lib/app-url.ts",
+    "src/lib/expungement-ai/auth.ts",
+    "src/lib/expungement-ai/authoritative-screening-result.ts",
+    "src/lib/expungement-ai/briefcase.ts",
+    "src/lib/expungement-ai/checkout-analytics.ts",
+    "src/lib/expungement-ai/checkout-reconciliation.ts",
+    "src/lib/expungement-ai/consumer-identity.ts",
+    "src/lib/expungement-ai/consumer-payment-authority.ts",
+    "src/lib/expungement-ai/consumer-render-request.ts",
+    "src/lib/expungement-ai/eligibility-adapter.ts",
+    "src/lib/expungement-ai/frontend/briefcase-presentation.ts",
+    "src/lib/expungement-ai/frontend/contracts.ts",
+    "src/lib/expungement-ai/frontend/evaluate.ts",
+    "src/lib/expungement-ai/frontend/fixtures.ts",
+    "src/lib/expungement-ai/frontend/profile-loader.ts",
+    "src/lib/expungement-ai/frontend/profile-timeout.ts",
+    "src/lib/expungement-ai/frontend/profiles/all51.json",
+    "src/lib/expungement-ai/frontend/schemas.ts",
+    "src/lib/expungement-ai/localization.ts",
+    "src/lib/expungement-ai/missing-fields.ts",
+    "src/lib/expungement-ai/nudge-os-events.ts",
+    "src/lib/expungement-ai/packet-generation.ts",
+    "src/lib/expungement-ai/packet-information.ts",
+    "src/lib/expungement-ai/partner-packet-links.ts",
+    "src/lib/expungement-ai/payment-adapter.ts",
+    "src/lib/expungement-ai/rcap-screening-analytics.ts",
+    "src/lib/expungement-ai/rcap-slot-lifecycle.ts",
+    "src/lib/expungement-ai/save-result-policy.ts",
+    "src/lib/expungement-ai/screening-drop-point-nudge-email.ts",
+    "src/lib/expungement-ai/screening-drop-point-nudge-service.ts",
+    "src/lib/expungement-ai/screening-resume-confirm-failure-floor.ts",
+    "src/lib/expungement-ai/screening-resume-email.ts",
+    "src/lib/expungement-ai/screening-resume-rate-limit.ts",
+    "src/lib/expungement-ai/screening-resume-security.ts",
+    "src/lib/expungement-ai/screening-resume-service.ts",
+    "src/lib/expungement-ai/screening-session-persistence.ts",
+    "src/lib/expungement-ai/types.ts",
+    "src/lib/expungement-ai/wilma.ts",
+    "src/lib/legalese-os-events.ts",
+    "src/lib/observability/logger.ts",
+    "src/lib/partners/billing-reconciliation.ts",
+    "src/lib/partners/billing.ts",
+    "src/lib/rcap-engine/answer-normalization.ts",
+    "src/lib/rcap-engine/compiled/all51.json",
+    "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+    "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+    "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+    "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+    "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+    "src/lib/rcap-engine/compiled/profiles/CO-colorado.json",
+    "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+    "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+    "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+    "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+    "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+    "src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+    "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+    "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+    "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+    "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+    "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+    "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+    "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+    "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+    "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+    "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+    "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+    "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+    "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+    "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+    "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+    "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+    "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+    "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+    "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+    "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+    "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+    "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+    "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+    "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+    "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+    "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+    "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+    "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+    "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+    "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+    "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+    "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+    "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+    "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+    "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+    "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+    "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+    "src/lib/rcap-engine/component-deferral-clamp.ts",
+    "src/lib/rcap-engine/composed-route-selector.ts",
+    "src/lib/rcap-engine/contracts.ts",
+    "src/lib/rcap-engine/evaluator.ts",
+    "src/lib/rcap-engine/expungement-ai-adapter.ts",
+    "src/lib/rcap-engine/packet-planner.ts",
+    "src/lib/rcap-engine/profile-registry.ts",
+    "src/lib/rcap-engine/public-profile-projection.ts",
+    "src/lib/rcap/briefcase/auth.ts",
+    "src/lib/rcap/documents/factory-v2-registry.ts",
+    "src/lib/rcap/documents/filing-next-steps.ts",
+    "src/lib/rcap/documents/guidance-packet-registry.ts",
+    "src/lib/rcap/documents/packet-document-renderer.ts",
+    "src/lib/rcap/documents/packet-route-resolver.ts",
+    "src/lib/rcap/documents/types.ts",
+    "src/lib/rcap/render/consumer-delivery-control.ts",
+    "src/lib/rcap/render/job-contract.ts",
+    "src/lib/rcap/render/job-queue.ts",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "src/lib/server-runtime-environment.ts",
+    "src/lib/stripe/server.ts",
+    "src/lib/stripe/webhook-handler.ts",
+    "src/lib/supabase/auth-server.ts",
+    "src/lib/supabase/browser.ts",
+    "src/lib/supabase/config.ts",
+    "src/lib/supabase/server.ts"
+  ],
+  "identicalCount": 190,
+  "differingInsideAuditedSurface": [],
+  "differingOutsideAuditedSurface": [
+    {
+      "path": "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/prefill/route.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "0a16972cc7fc247cc4f2e6da9a68c99a28067afb25e6c2582617ec3f9539a719",
+      "applicationSourceSha256": "1eee708a39ce46c185c8077adafaed4f34745532e2f7cae5787e7933afe39f7d"
+    },
+    {
+      "path": "src/app/internal/partners/onboarding/[partnerSlug]/Phase1PrefillPanel.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "25274878d643a844bb4f7c5d9078c1d24835fcb52453827223546366123e0ae6",
+      "applicationSourceSha256": "6b237b70a438f5f875f35d9fc966e200f374ff84c04d69b58782737a1b46cbf9"
+    },
+    {
+      "path": "src/app/partner/dashboard/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "2c47952ab6d8304390b6c3a445b8cb820f60b81db9ce8c6d1f753dde2535c9e6",
+      "applicationSourceSha256": "b98d160e618a5b6c590ae7067ae0a526c6a0422b15314d15cfbe25c618f13a93"
+    },
+    {
+      "path": "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "11465e5eb53fb27c78d0780bd0ed42d61b2eabf4893de8dc33e3b8fdedaaf274",
+      "applicationSourceSha256": "c31f3a760e0e3a8591439910dbe4fdd4860b62d78ff4238642773e9ec8678cb2"
+    },
+    {
+      "path": "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "9edb2d4ce78306cf0a44256f4d5da3865e41619da7d5dffce9e42c609c6630b8",
+      "applicationSourceSha256": "8430b928c04a3fe2a323f70b25cf8ddd3c52c2bd9e23f858defe7ea7434c881f"
+    },
+    {
+      "path": "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "dc05ca38f9fc8f351b5dc0d8a95216fbd56c6b034b0b6a599154b1a7136f9a89",
+      "applicationSourceSha256": "7779e1762aa31c4de542bfc319ad581cde738bb3c267411b70f13461a16db622"
+    },
+    {
+      "path": "src/app/partner/onboarding/[sectionKey]/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "c8949515a921c01f461c42ab21dd0b3a85b8ab7ca618db8ffd8e761a6e76c818",
+      "applicationSourceSha256": "6711ddda63c5112ab49a0c5c06d27cb1e22a01a47d9ca1311300a96023198283"
+    },
+    {
+      "path": "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "96a1aed9e5002c1b586987a3ff6d21372f63d5c0f8f822db48670013a7c35034",
+      "applicationSourceSha256": "59943d13a380cf3a6297ff8f740a8bc05cfaa4dbf6cd3594c413e150a36b4a0d"
+    },
+    {
+      "path": "src/app/partner/onboarding/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "d1edff73c98a9d849298396075356fc7889e30a71d5eb4b7b942a467e6160173",
+      "applicationSourceSha256": "4e26c96ae6983633bbbddc7dcb5776e0d0501e46d1537a7416f5534f1ccf5779"
+    },
+    {
+      "path": "src/app/partner/onboarding/resources/PartnerResourcesClient.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "9a23f37952d7371940f4b62173203a551ad8b4fe9ba619184683f500b5b999d0",
+      "applicationSourceSha256": "f08cb7653af8b8903cd0d6c791f66c066063f76a2e584f6288db9b3ef7699814"
+    },
+    {
+      "path": "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "7cb667fe1de8d87de90fe367b88017656e4fb0abfb718e5f6e56b6f520a46d5c",
+      "applicationSourceSha256": "41dc44b7c9d6638206f819800e7594284eb5cdd9234580b02e30424e8ff46a0b"
+    },
+    {
+      "path": "src/app/partner/team/PartnerTeamInviteForm.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "9962032831976bef1824d0bf09a12bd53f224d1fea4e076a842f47b4c3f6397a",
+      "applicationSourceSha256": "abef939cdd3769e92cab95c50750a038c37bfffe9c6a3694075b6181efcf3e3f"
+    },
+    {
+      "path": "src/app/partner/team/invite/route.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "45ded40d6816d83bbf6741705cc9837f54738ebf92e36d141974c86ce71aa446",
+      "applicationSourceSha256": "49643f5350db2fd466d907848de05216119db7396906d31b6e94087cec833ef3"
+    },
+    {
+      "path": "src/app/partners/checkout/[partnerId]/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "f15a6013a12c4aa1f32fd7299283cbc0d31aff162576c5402a14b13693c47983",
+      "applicationSourceSha256": "61b20860df814f2a6b71b2fd1f1f0aeea4455a3c36bc3a513280cc12c9cb2f6f"
+    },
+    {
+      "path": "src/app/partners/checkout/success/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "48ecdbdaeb3e503728d6614610ff123e465398e174424a90b6c800cb86e47d42",
+      "applicationSourceSha256": "b052e347cc0b5d0873d44ee4761a2f4ef0092fb1688df2641860bb101a246e9f"
+    },
+    {
+      "path": "src/app/partners/insights/feed.xml/route.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "c42c5eeb7f6ad1cbceab36f22c2ec5a2c86bc2654cfe2ebd3d0fc21184db7435",
+      "applicationSourceSha256": "6b53cd64d284540452206ab41317a968c6fca0c6d1fcf7450580144950a39310"
+    },
+    {
+      "path": "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "4a942422734562e9ea56d5a18ae465a4e110bed98e6372af5f5857047a301c68",
+      "applicationSourceSha256": "906379b4922f79ad38554a4c6363d7d1895f9ddec6e1bef22185520570a806f2"
+    },
+    {
+      "path": "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "7cb4fc5868b9da592669a9ae00a897f155adf8a512bb1d2decf1d066393d076c",
+      "applicationSourceSha256": "879f7efc7a428b74843611f06656f1bd2a2b119facf24f2b81abfdd707913946"
+    },
+    {
+      "path": "src/app/partners/onboarding/[partnerSlug]/page.tsx",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "1a60b5ef539a0e29cd0dffd86b8c96c9fe7384bf171797e90f78c18a378aefb8",
+      "applicationSourceSha256": "365d98e37ff2e2fe0310c8626fac3df6af877f419f78d1eeb20b603e266d5456"
+    },
+    {
+      "path": "src/lib/partners/first-admin-provisioning-presentation.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "b5a470f737f568ca5f69fdc10adfd232daf3c38b7f05651e982951cc8068647d",
+      "applicationSourceSha256": "4931409b0c8c7affc2452ddd8f631bc585324e369042304c3dd8da3e7acf5012"
+    },
+    {
+      "path": "src/lib/partners/onboarding/brand-page-presentation.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "956d7c1fbea2c1791958b564236a01b4e757606764188c8790a7974796af58af",
+      "applicationSourceSha256": "f0e05dfd14a60c27374226e544c188685dc499885c629f0d1154e3b22873fcde"
+    },
+    {
+      "path": "src/lib/partners/onboarding/derivations.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "0615390b75f35677fcbf5d99a612fade50480f566ce5e03e80ad0e6a98b93d88",
+      "applicationSourceSha256": "cac1f54788dd827d41ca5daa6ecdfbf5a5df87228ebda17dfef5e03b58e4aa5e"
+    },
+    {
+      "path": "src/lib/partners/onboarding/guided-substeps.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "f5ee7c4aca8f616f7a07a07a4caf9594e438a268c803660f74e2e0e28c49e9f5",
+      "applicationSourceSha256": "7ddb6febd9e6ab82b8a403ae19f28084ee46bac984ef14fe12cd6f12f158aa10"
+    },
+    {
+      "path": "src/lib/partners/onboarding/implementation-presentation.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "6d1e6d2ce04a66517376336c9c8229c71230cdb62a4da22e7dbced77eb42007b",
+      "applicationSourceSha256": "3c2b59019e8ff69cde40aadf20a2426164edcebf04f53dc7efc4e08c30994857"
+    },
+    {
+      "path": "src/lib/partners/onboarding/partner-copy.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "66d5ec7367d779d490d1044c0480d46d5ac27b576275349ab3667cadc2de078d",
+      "applicationSourceSha256": null
+    },
+    {
+      "path": "src/lib/partners/onboarding/partner-labels.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "6b685455363f9a9c4563d526f0e9ac2810319e54a6f01540a8b09bcf5888fa61",
+      "applicationSourceSha256": "39709bfbf3aa4a48b3c924f46a8c029e1a0e70eb56a3cbc79e24064531e498ca"
+    },
+    {
+      "path": "src/lib/partners/onboarding/prefill-domain.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "acd6c2e0235e0fcb64a06457671764ac41eacf3347127131427e01d5dadd58fa",
+      "applicationSourceSha256": "34035b09a8a1b4d64d301b418a3428c3716d811ea3dfd3e9aa928be61f4526ef"
+    },
+    {
+      "path": "src/lib/partners/onboarding/prefill-service.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "864cce7b456623e0a6154060c1ee66092c37d9484de42124ade2f6a43bf82cee",
+      "applicationSourceSha256": "e6e9d44ad8f43d61d26dc5aa37046b9f0d92fc136013c5bfd531fbae4cd7e5ad"
+    },
+    {
+      "path": "src/lib/partners/onboarding/service.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "e02a8e5a820953df35be86f11104fb10c032b2b7197b7adc0357a6ae1c16e2d9",
+      "applicationSourceSha256": "1c9ef5e6f23e0ba03f94fd2c83b44e6a6cd437b85a630215161ab3702ba07794"
+    },
+    {
+      "path": "src/lib/partners/onboarding/support-contact.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "64b23f00b342120404aa3f55cfcfdd16e5e2404ca2746fc56b77ace8910bbefa",
+      "applicationSourceSha256": "0b9f2ec3f8f9d1be6bb6d0133a1e6ad59a358ccdf239edf9a168c71e41af279e"
+    },
+    {
+      "path": "src/lib/partners/onboarding/types.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "5f3cb2dd21a14842b18d3bf7a2ea20fa5ecae9d61787cb5549ada821daab0928",
+      "applicationSourceSha256": "c27829d6beb48f3d6cdd9b9121fe912ebe08812f1ffca0ce8ccd58936acac159"
+    },
+    {
+      "path": "src/lib/partners/onboarding/validation.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "8ad75821920c3c16043b7af06e175b711002e8ac2477399f8339224b30c754f3",
+      "applicationSourceSha256": "86318ea0a7f476600a4de75ace7e38c38d0515d7999968bc0f4b7e8b1bff6718"
+    },
+    {
+      "path": "src/lib/partners/partner-launch-materials.ts",
+      "insideAuditedSurface": false,
+      "reason": "not reachable from any audited root by the transitive import closure computed above",
+      "auditHeadSha256": "5c695ce8e227b22c18db181a00b294328746c9f3ea2b3c0d2fa384b33e754d4e",
+      "applicationSourceSha256": "0b5a553934be61f4279c3648fd18104484e3a720565c3176e02bf38908fddfaa"
+    }
+  ],
+  "hashes": {
+    "identical": [
+      {
+        "path": "src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts",
+        "auditHeadSha256": "760bf955010a833a112b6475b84d23fc9fbed004a44f9022ba1892496c8fcb38",
+        "applicationSourceSha256": "760bf955010a833a112b6475b84d23fc9fbed004a44f9022ba1892496c8fcb38",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/checkout/route.ts",
+        "auditHeadSha256": "b084d2b2b3dd0d8634ceca55e4e3231c73bbc63166da5ae5747d2ba338ab95de",
+        "applicationSourceSha256": "b084d2b2b3dd0d8634ceca55e4e3231c73bbc63166da5ae5747d2ba338ab95de",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/checkout/status/route.ts",
+        "auditHeadSha256": "d025e90a84b69aae6ea591fd2d21832d1a6ea7b2602510a01637504df11156d8",
+        "applicationSourceSha256": "d025e90a84b69aae6ea591fd2d21832d1a6ea7b2602510a01637504df11156d8",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/evaluate/route.ts",
+        "auditHeadSha256": "185b4822fda0cd0a2648e413be9b347d2222d647dc9007cda03564771cdf47a0",
+        "applicationSourceSha256": "185b4822fda0cd0a2648e413be9b347d2222d647dc9007cda03564771cdf47a0",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/packet/download/route.ts",
+        "auditHeadSha256": "b111bca2e60afeee6bad78398ae8fa389cef99f94989d6aeafc021be1e4681ef",
+        "applicationSourceSha256": "b111bca2e60afeee6bad78398ae8fa389cef99f94989d6aeafc021be1e4681ef",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/packet/generate/route.ts",
+        "auditHeadSha256": "c1b0d28d71a8beb0f51d72c132062161cd83d3462ba274274631317baf2175d6",
+        "applicationSourceSha256": "c1b0d28d71a8beb0f51d72c132062161cd83d3462ba274274631317baf2175d6",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/packet/render/route.ts",
+        "auditHeadSha256": "87e591cf3012783077e13ee7638cffba2c83340347e4efea864a6e26e1fa339f",
+        "applicationSourceSha256": "87e591cf3012783077e13ee7638cffba2c83340347e4efea864a6e26e1fa339f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/packet/status/route.ts",
+        "auditHeadSha256": "138748b933d45f253b1f9692f2021198a011b25f4f6fd06972b95d2d91949385",
+        "applicationSourceSha256": "138748b933d45f253b1f9692f2021198a011b25f4f6fd06972b95d2d91949385",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/payment/confirm/route.ts",
+        "auditHeadSha256": "4d368a83ed62a42435016bc1fe393465b703a983b3e1ba06cd0cc55ba95c80ce",
+        "applicationSourceSha256": "4d368a83ed62a42435016bc1fe393465b703a983b3e1ba06cd0cc55ba95c80ce",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/profiles/[state]/route.ts",
+        "auditHeadSha256": "9af09950a9730edf753e5349aed34beb7aad46057c13108b6d917c8f32ec3ee3",
+        "applicationSourceSha256": "9af09950a9730edf753e5349aed34beb7aad46057c13108b6d917c8f32ec3ee3",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/complete/route.ts",
+        "auditHeadSha256": "9535a63269ada4bdfb5b52d5d3fac3ff0068279d18c3463794fc0f458d8c9d64",
+        "applicationSourceSha256": "9535a63269ada4bdfb5b52d5d3fac3ff0068279d18c3463794fc0f458d8c9d64",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/nudge/opt-out/route.ts",
+        "auditHeadSha256": "c43bb6d5f4447c8ca7264f00dd4aa7b89806ae0c56693838d2631d0903db29fd",
+        "applicationSourceSha256": "c43bb6d5f4447c8ca7264f00dd4aa7b89806ae0c56693838d2631d0903db29fd",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/pending/claim/route.ts",
+        "auditHeadSha256": "e37283ac350b647ac01d32fa8603b824b191fb22753b6dcc58b351b2062abc32",
+        "applicationSourceSha256": "e37283ac350b647ac01d32fa8603b824b191fb22753b6dcc58b351b2062abc32",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/pending/route.ts",
+        "auditHeadSha256": "f402b0b14aba564d3ec9b3a68989cea13c909a1ebad906c247f26ad7130a87bc",
+        "applicationSourceSha256": "f402b0b14aba564d3ec9b3a68989cea13c909a1ebad906c247f26ad7130a87bc",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/resume/confirm/route.ts",
+        "auditHeadSha256": "56cc2e3b5c615f40fa4b9e270da5db18ea5e1451ebd9fcb1327fb0d007608ee8",
+        "applicationSourceSha256": "56cc2e3b5c615f40fa4b9e270da5db18ea5e1451ebd9fcb1327fb0d007608ee8",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/resume/resend/route.ts",
+        "auditHeadSha256": "e5200e28a67f88da912230392028304d99d8ebf53625ee3268dd9ddc66a8353b",
+        "applicationSourceSha256": "e5200e28a67f88da912230392028304d99d8ebf53625ee3268dd9ddc66a8353b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/save-result/route.ts",
+        "auditHeadSha256": "f34a71113f742ceec868963128e88f794027a8eff3c1eca6739a8ebdac65defb",
+        "applicationSourceSha256": "f34a71113f742ceec868963128e88f794027a8eff3c1eca6739a8ebdac65defb",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/expungement-ai/screening/save-resume/route.ts",
+        "auditHeadSha256": "0d376fd9f642096b77b325aadb991f7a894d01d87db430531452f597b1cfd2ac",
+        "applicationSourceSha256": "0d376fd9f642096b77b325aadb991f7a894d01d87db430531452f597b1cfd2ac",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/api/stripe/webhook/route.ts",
+        "auditHeadSha256": "a29068e7b911d29aede296701f569b96b348f5ec36b224880ef7398f3c4f1be3",
+        "applicationSourceSha256": "a29068e7b911d29aede296701f569b96b348f5ec36b224880ef7398f3c4f1be3",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/[packetId]/packet-information/page.tsx",
+        "auditHeadSha256": "3e7cb1ee6243684bb950c32454e5bdff2b1edec82d82666a765a486eb6b186b8",
+        "applicationSourceSha256": "3e7cb1ee6243684bb950c32454e5bdff2b1edec82d82666a765a486eb6b186b8",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/[packetId]/page.tsx",
+        "auditHeadSha256": "dbae81629c87b1bcfaed33fa96e49ff77d89a498e715325a4798ef184afb3489",
+        "applicationSourceSha256": "dbae81629c87b1bcfaed33fa96e49ff77d89a498e715325a4798ef184afb3489",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/[packetId]/review/page.tsx",
+        "auditHeadSha256": "4cefe17a71f30ca2f9f7f02ca4648eee6140cbdd680af6ac547f32a2aec014b8",
+        "applicationSourceSha256": "4cefe17a71f30ca2f9f7f02ca4648eee6140cbdd680af6ac547f32a2aec014b8",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/documents/page.tsx",
+        "auditHeadSha256": "3fccfbe6f341b55c9c955b762577b551113d10468d8a792c25da57de268b216b",
+        "applicationSourceSha256": "3fccfbe6f341b55c9c955b762577b551113d10468d8a792c25da57de268b216b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/matters/page.tsx",
+        "auditHeadSha256": "5f8dc77e885bfa281fd39631a4ee68ac7b1ff5cb6ac0c3def2f0aa2bafb979e3",
+        "applicationSourceSha256": "5f8dc77e885bfa281fd39631a4ee68ac7b1ff5cb6ac0c3def2f0aa2bafb979e3",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/page.tsx",
+        "auditHeadSha256": "0bbacfdca7ad84d5842ac32ffd8cc19e9189a802a12e2a5dc4f02516382c5802",
+        "applicationSourceSha256": "0bbacfdca7ad84d5842ac32ffd8cc19e9189a802a12e2a5dc4f02516382c5802",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/payments/page.tsx",
+        "auditHeadSha256": "fa2bf729bc4b59f9fa941d616696f6ec8129ca3fa3a5d1a57208833db94089d2",
+        "applicationSourceSha256": "fa2bf729bc4b59f9fa941d616696f6ec8129ca3fa3a5d1a57208833db94089d2",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/reminders/page.tsx",
+        "auditHeadSha256": "010133e4d2a7313d9d7081a75d7b9f7dec0907cee780d2cb723bf81e65e8fef7",
+        "applicationSourceSha256": "010133e4d2a7313d9d7081a75d7b9f7dec0907cee780d2cb723bf81e65e8fef7",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/briefcase/settings/page.tsx",
+        "auditHeadSha256": "ed321e9fc3db7fecc859bfbde3ae8a68509bef648a4194230f19bf7555b19d7a",
+        "applicationSourceSha256": "ed321e9fc3db7fecc859bfbde3ae8a68509bef648a4194230f19bf7555b19d7a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/expungement-ai/check/page.tsx",
+        "auditHeadSha256": "32340ca9688bbd92dbbc7e91505cec977dad1c7da5ffe1a51125c4131a0a5014",
+        "applicationSourceSha256": "32340ca9688bbd92dbbc7e91505cec977dad1c7da5ffe1a51125c4131a0a5014",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/expungement-ai/landing-locale-controller.ts",
+        "auditHeadSha256": "29c2c20714f57b01b45b2bdaf1dcb9a0c345c78e86537915a56ba7a4f853619e",
+        "applicationSourceSha256": "29c2c20714f57b01b45b2bdaf1dcb9a0c345c78e86537915a56ba7a4f853619e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx",
+        "auditHeadSha256": "9ad508dc2509fbdc83266cbe5e1da60d1100b61f51281844aa18a535efb59468",
+        "applicationSourceSha256": "9ad508dc2509fbdc83266cbe5e1da60d1100b61f51281844aa18a535efb59468",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/expungement-ai/screening/[state]/page.tsx",
+        "auditHeadSha256": "34235ebab92eba41bffd46a0e9df4441cae98425c205170374373c3e510d0836",
+        "applicationSourceSha256": "34235ebab92eba41bffd46a0e9df4441cae98425c205170374373c3e510d0836",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/expungement-ai/screening/page.tsx",
+        "auditHeadSha256": "3576c00275fc6ea20f69363ac0542630767bdfbea17df38dd183e807c3a1653a",
+        "applicationSourceSha256": "3576c00275fc6ea20f69363ac0542630767bdfbea17df38dd183e807c3a1653a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/expungement-ai/screening/resume/page.tsx",
+        "auditHeadSha256": "a6b6e5f1132e751f15c50493d23ed7840616523f296d9150a03a298fa7afaf16",
+        "applicationSourceSha256": "a6b6e5f1132e751f15c50493d23ed7840616523f296d9150a03a298fa7afaf16",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/app/expungement-ai/start/page.tsx",
+        "auditHeadSha256": "68224a10e8204ed7ec9e42c3ddfec83966f9db90472055fffad5c9e76aacf8eb",
+        "applicationSourceSha256": "68224a10e8204ed7ec9e42c3ddfec83966f9db90472055fffad5c9e76aacf8eb",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/BriefcaseSaveIntent.tsx",
+        "auditHeadSha256": "c9dc68cfb1273a0ea45dc0297d055d40430426d3d88626d495198ad7ad8f53ff",
+        "applicationSourceSha256": "c9dc68cfb1273a0ea45dc0297d055d40430426d3d88626d495198ad7ad8f53ff",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/BriefcaseShell.tsx",
+        "auditHeadSha256": "04b9f8ce9e4d4b412ab4a52c2057f34a997f7b311e8a5b7bb86ba8bd521c5514",
+        "applicationSourceSha256": "04b9f8ce9e4d4b412ab4a52c2057f34a997f7b311e8a5b7bb86ba8bd521c5514",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/BriefcaseViews.tsx",
+        "auditHeadSha256": "23a277aaa5132e060c1d8bc0060507c559f5bdfdec6392ae879e30fec1861fc3",
+        "applicationSourceSha256": "23a277aaa5132e060c1d8bc0060507c559f5bdfdec6392ae879e30fec1861fc3",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/ConsumerFlowCard.tsx",
+        "auditHeadSha256": "574e11d7ae3fdd24cd7f4ac94e2ea1199e5091acde3354272cfffdda41ec7d10",
+        "applicationSourceSha256": "574e11d7ae3fdd24cd7f4ac94e2ea1199e5091acde3354272cfffdda41ec7d10",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/ConsumerNav.tsx",
+        "auditHeadSha256": "9a556563e3f965c24438453fc1554eb925ca27d5c9f9cbd89ff54cd5a7400c18",
+        "applicationSourceSha256": "9a556563e3f965c24438453fc1554eb925ca27d5c9f9cbd89ff54cd5a7400c18",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/ConsumerPageShell.tsx",
+        "auditHeadSha256": "69aadb8a999591dab4c4d8daec72cc71ff6091c83a255739d54fbd0a692ba0a7",
+        "applicationSourceSha256": "69aadb8a999591dab4c4d8daec72cc71ff6091c83a255739d54fbd0a692ba0a7",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/ExpungementWordmark.tsx",
+        "auditHeadSha256": "df01f1db22ff8860cedd74505d7bf6bb16a21f75210b93567bcd6847ea08535e",
+        "applicationSourceSha256": "df01f1db22ff8860cedd74505d7bf6bb16a21f75210b93567bcd6847ea08535e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/LocalizationProvider.tsx",
+        "auditHeadSha256": "04de60f7eb2b715bc53b0f8b470ea50479031aed57a98dc5116a7b235cd203b1",
+        "applicationSourceSha256": "04de60f7eb2b715bc53b0f8b470ea50479031aed57a98dc5116a7b235cd203b1",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/PacketGenerateButton.tsx",
+        "auditHeadSha256": "c45060d9670c295066143f019f023635468464ffdeaa4c71b052d95911fd89e6",
+        "applicationSourceSha256": "c45060d9670c295066143f019f023635468464ffdeaa4c71b052d95911fd89e6",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/PacketInformationBuilder.tsx",
+        "auditHeadSha256": "68dd7a89eeecbb41450f354cbb3df9937f2ac73d7d034ec72053cf907b69bd74",
+        "applicationSourceSha256": "68dd7a89eeecbb41450f354cbb3df9937f2ac73d7d034ec72053cf907b69bd74",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/WilmaBubble.tsx",
+        "auditHeadSha256": "9d3eb153146f85054ec4f8b7067838d54cbb10c261b68908cb83a222ab5c6ebf",
+        "applicationSourceSha256": "9d3eb153146f85054ec4f8b7067838d54cbb10c261b68908cb83a222ab5c6ebf",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/ContextOnlyBanner.tsx",
+        "auditHeadSha256": "9ea2278f5482f50a1cd6a90020c895ca3581a2f1c4365a936a86af5bc12dca6c",
+        "applicationSourceSha256": "9ea2278f5482f50a1cd6a90020c895ca3581a2f1c4365a936a86af5bc12dca6c",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/ProgressRail.tsx",
+        "auditHeadSha256": "903ec5d2d853f08b728f586253cd61135c99ff1f8c44a71bb8578f1aef2a8ba6",
+        "applicationSourceSha256": "903ec5d2d853f08b728f586253cd61135c99ff1f8c44a71bb8578f1aef2a8ba6",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/QuestionField.tsx",
+        "auditHeadSha256": "605c10e06d3e62c057fcd0b09e5345509b81551fef1fd56b3d1c5c24bc3ac9d9",
+        "applicationSourceSha256": "605c10e06d3e62c057fcd0b09e5345509b81551fef1fd56b3d1c5c24bc3ac9d9",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/ResultGallery.tsx",
+        "auditHeadSha256": "9de31bee8f4e7b06ed272e0ef7cbab3a52ce608f5d203da82dc51ace1e679b2d",
+        "applicationSourceSha256": "9de31bee8f4e7b06ed272e0ef7cbab3a52ce608f5d203da82dc51ace1e679b2d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/ResumeScreeningClient.tsx",
+        "auditHeadSha256": "33c9ce1444bedcdc4d725bfdb319e415992463827958bebf72507ca2297ee17e",
+        "applicationSourceSha256": "33c9ce1444bedcdc4d725bfdb319e415992463827958bebf72507ca2297ee17e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/ScreeningFlow.tsx",
+        "auditHeadSha256": "47f0eb83221c2b1b25dec4c936b9276b5b1db935be3a75bd2dae33e20c5ce105",
+        "applicationSourceSha256": "47f0eb83221c2b1b25dec4c936b9276b5b1db935be3a75bd2dae33e20c5ce105",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/ScreeningResult.tsx",
+        "auditHeadSha256": "0279f49e59092cf82a3b86de399cf97b772487e0ec0c302678a7a5d3fb274e50",
+        "applicationSourceSha256": "0279f49e59092cf82a3b86de399cf97b772487e0ec0c302678a7a5d3fb274e50",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/StatePicker.tsx",
+        "auditHeadSha256": "a7de6250b2faca657754a815036ec4e9ded21d010e353e1ec605d73a557f4bf1",
+        "applicationSourceSha256": "a7de6250b2faca657754a815036ec4e9ded21d010e353e1ec605d73a557f4bf1",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/answers.ts",
+        "auditHeadSha256": "58e69dad4b5d23a2e2d1b710cf1a21abda045e2409b79770e48e3f37327d00a4",
+        "applicationSourceSha256": "58e69dad4b5d23a2e2d1b710cf1a21abda045e2409b79770e48e3f37327d00a4",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/fields/OptionGroup.tsx",
+        "auditHeadSha256": "3d18603688c4a08a7a227070b1cce80d0d7ab3f739f27777a3c59ee2a6312d5a",
+        "applicationSourceSha256": "3d18603688c4a08a7a227070b1cce80d0d7ab3f739f27777a3c59ee2a6312d5a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/fields/OrUnknownField.tsx",
+        "auditHeadSha256": "ac1ffcf8a7411adfbbb0e240b12814657c0779f6c75d8f539a10cc49f9674b4d",
+        "applicationSourceSha256": "ac1ffcf8a7411adfbbb0e240b12814657c0779f6c75d8f539a10cc49f9674b4d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/partner-session.ts",
+        "auditHeadSha256": "0cbc5c5dc0821ebef5a65ba0aa4c481fe0628db0cad0000bc5c9f9200d314ce7",
+        "applicationSourceSha256": "0cbc5c5dc0821ebef5a65ba0aa4c481fe0628db0cad0000bc5c9f9200d314ce7",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/screens.ts",
+        "auditHeadSha256": "5e96afa654e2e1c960e39676cb7f1a4471aba9b521238bab16e03a4dbeedc9c2",
+        "applicationSourceSha256": "5e96afa654e2e1c960e39676cb7f1a4471aba9b521238bab16e03a4dbeedc9c2",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/build-event.ts",
+        "auditHeadSha256": "ff61931e0ce191c8cb1abacaca2ce7825309284aaebcceeee735be30f86e8929",
+        "applicationSourceSha256": "ff61931e0ce191c8cb1abacaca2ce7825309284aaebcceeee735be30f86e8929",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/client.ts",
+        "auditHeadSha256": "4f3588014acb22ffbc4a8afa69c9e1e8fa205eb81daea264d0805b1d864c3a76",
+        "applicationSourceSha256": "4f3588014acb22ffbc4a8afa69c9e1e8fa205eb81daea264d0805b1d864c3a76",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/command-center-bridge.ts",
+        "auditHeadSha256": "a5545c2b3961537d7bc3888f95464e55c4d129ebcfd7abed8602067e12473729",
+        "applicationSourceSha256": "a5545c2b3961537d7bc3888f95464e55c4d129ebcfd7abed8602067e12473729",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/event-names.ts",
+        "auditHeadSha256": "18932acc907dac58baf174824a5c8b9b1de5e21997191aba06a60cfdd1d983b6",
+        "applicationSourceSha256": "18932acc907dac58baf174824a5c8b9b1de5e21997191aba06a60cfdd1d983b6",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/product-events.ts",
+        "auditHeadSha256": "b5f96ee7e935b6a355aaa26f275c5ff5a4b5630b2c57e4ca719c7ad364ce87d3",
+        "applicationSourceSha256": "b5f96ee7e935b6a355aaa26f275c5ff5a4b5630b2c57e4ca719c7ad364ce87d3",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/product-surface.ts",
+        "auditHeadSha256": "b5743f08e7511c64f7bd1f901d03567b4850e521c7f397f0c02e57a5e6a4d41d",
+        "applicationSourceSha256": "b5743f08e7511c64f7bd1f901d03567b4850e521c7f397f0c02e57a5e6a4d41d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/sanitize.ts",
+        "auditHeadSha256": "0aecf330c0a9ef9c5bea017f4472698f1d6a25d1afb11cc6f177aea9564aa58e",
+        "applicationSourceSha256": "0aecf330c0a9ef9c5bea017f4472698f1d6a25d1afb11cc6f177aea9564aa58e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/server-events.ts",
+        "auditHeadSha256": "0e255a26287fb2cdd1184a1d10beb17c4242cb927a92c6c29005544ae8e5ead4",
+        "applicationSourceSha256": "0e255a26287fb2cdd1184a1d10beb17c4242cb927a92c6c29005544ae8e5ead4",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/analytics/web-analytics-repository.ts",
+        "auditHeadSha256": "1d8539288fb35c32e3b5fad2443caf64aa467f0aaffdb41a55c18b21223e071f",
+        "applicationSourceSha256": "1d8539288fb35c32e3b5fad2443caf64aa467f0aaffdb41a55c18b21223e071f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/app-url.ts",
+        "auditHeadSha256": "21f8ceefaa64a04c0f0fbc501b1d0638d4cc1d2283d6c317295e59381799d20b",
+        "applicationSourceSha256": "21f8ceefaa64a04c0f0fbc501b1d0638d4cc1d2283d6c317295e59381799d20b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/auth.ts",
+        "auditHeadSha256": "d0fed9ef5b597a8cedf7c8f179dea7efdbf2faa4bcc64778b5b19dbdfe0b50ce",
+        "applicationSourceSha256": "d0fed9ef5b597a8cedf7c8f179dea7efdbf2faa4bcc64778b5b19dbdfe0b50ce",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/authoritative-screening-result.ts",
+        "auditHeadSha256": "2ad943c9dd8df0592672444ff22be8dd86e91f433ad87c74f7e98e5ac8e38ff7",
+        "applicationSourceSha256": "2ad943c9dd8df0592672444ff22be8dd86e91f433ad87c74f7e98e5ac8e38ff7",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/briefcase.ts",
+        "auditHeadSha256": "0be07b850ab26b5e3f3488a4f55cc58ea9feb599f23083a4b47c6b2d98bf9284",
+        "applicationSourceSha256": "0be07b850ab26b5e3f3488a4f55cc58ea9feb599f23083a4b47c6b2d98bf9284",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/checkout-analytics.ts",
+        "auditHeadSha256": "073261ffa38228b6e9b83fe81a24aaa41c7475a858d163fa3f865aa2752c955f",
+        "applicationSourceSha256": "073261ffa38228b6e9b83fe81a24aaa41c7475a858d163fa3f865aa2752c955f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/checkout-reconciliation.ts",
+        "auditHeadSha256": "39c747bb0fa6c103bc35d579e72bfc7cfa84fc5d61b1e9ef805b4c85d12f3d0b",
+        "applicationSourceSha256": "39c747bb0fa6c103bc35d579e72bfc7cfa84fc5d61b1e9ef805b4c85d12f3d0b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/consumer-identity.ts",
+        "auditHeadSha256": "5297d96f6b2cae77647456268df233004a1b3b52de96b88ba84d221209631aaa",
+        "applicationSourceSha256": "5297d96f6b2cae77647456268df233004a1b3b52de96b88ba84d221209631aaa",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/consumer-payment-authority.ts",
+        "auditHeadSha256": "59695b7c1a9cf7a76f3f3c226560d73739905b1c5030bcdc56c110ee8d97858b",
+        "applicationSourceSha256": "59695b7c1a9cf7a76f3f3c226560d73739905b1c5030bcdc56c110ee8d97858b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/consumer-render-request.ts",
+        "auditHeadSha256": "45c3a332ddbf1526f0fe58c2633a01255d15c1b1593648fd2bbbb7b42c203fa8",
+        "applicationSourceSha256": "45c3a332ddbf1526f0fe58c2633a01255d15c1b1593648fd2bbbb7b42c203fa8",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/eligibility-adapter.ts",
+        "auditHeadSha256": "21eff51db08792dc3fc2a45931bbdab4113cfc09af1af9759aef02a857741886",
+        "applicationSourceSha256": "21eff51db08792dc3fc2a45931bbdab4113cfc09af1af9759aef02a857741886",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/briefcase-presentation.ts",
+        "auditHeadSha256": "d992eb62f54dc55340d3bb09bb1d1fb8c8458b28b11b090585ecb3716e1da15c",
+        "applicationSourceSha256": "d992eb62f54dc55340d3bb09bb1d1fb8c8458b28b11b090585ecb3716e1da15c",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/contracts.ts",
+        "auditHeadSha256": "20a792bc4876fc2876e0f0a31d023207152ad0765c306f8eaf3bf25ad4f5727a",
+        "applicationSourceSha256": "20a792bc4876fc2876e0f0a31d023207152ad0765c306f8eaf3bf25ad4f5727a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/evaluate.ts",
+        "auditHeadSha256": "94694c2d52449adca4ca161eb502b3e0983a6d4a9b38802c9e4753a2e30b00be",
+        "applicationSourceSha256": "94694c2d52449adca4ca161eb502b3e0983a6d4a9b38802c9e4753a2e30b00be",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/fixtures.ts",
+        "auditHeadSha256": "79a574426ea25c1f376ac4ade28b5a528080a9ca85fd1c0c35c6e63958e228af",
+        "applicationSourceSha256": "79a574426ea25c1f376ac4ade28b5a528080a9ca85fd1c0c35c6e63958e228af",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/profile-loader.ts",
+        "auditHeadSha256": "8170e33f93741afd382d7d3560ccef5e5e512bc917e15bae7e36229915ea9ffc",
+        "applicationSourceSha256": "8170e33f93741afd382d7d3560ccef5e5e512bc917e15bae7e36229915ea9ffc",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/profile-timeout.ts",
+        "auditHeadSha256": "67fd698cef11047530c16086d5ddf71c1e30a426f9a61d101a296fdca55e547d",
+        "applicationSourceSha256": "67fd698cef11047530c16086d5ddf71c1e30a426f9a61d101a296fdca55e547d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/profiles/all51.json",
+        "auditHeadSha256": "1b3821a4a8e4c43cb0ce8140b981c51b7807b049f9f3a7835f988a80718acf1a",
+        "applicationSourceSha256": "1b3821a4a8e4c43cb0ce8140b981c51b7807b049f9f3a7835f988a80718acf1a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/frontend/schemas.ts",
+        "auditHeadSha256": "25550c4fe2748586aeb6a9abab246782f608bd411ba41be38750f4ca0ffa0f68",
+        "applicationSourceSha256": "25550c4fe2748586aeb6a9abab246782f608bd411ba41be38750f4ca0ffa0f68",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/localization.ts",
+        "auditHeadSha256": "986960042222d2fd297194599c0b4484764de23d30ed065247f279d2d605b53a",
+        "applicationSourceSha256": "986960042222d2fd297194599c0b4484764de23d30ed065247f279d2d605b53a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/missing-fields.ts",
+        "auditHeadSha256": "7b5dd536a029a75c312c7d4f8bfcd1f8c45cd9d49336595e2aef80318e12464d",
+        "applicationSourceSha256": "7b5dd536a029a75c312c7d4f8bfcd1f8c45cd9d49336595e2aef80318e12464d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/nudge-os-events.ts",
+        "auditHeadSha256": "28e8e0b5145d7cfb9ee3e345d7f0e1658a9af67fb4914c44e62a305a9230d3d8",
+        "applicationSourceSha256": "28e8e0b5145d7cfb9ee3e345d7f0e1658a9af67fb4914c44e62a305a9230d3d8",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/packet-generation.ts",
+        "auditHeadSha256": "906624e92bfcbf384f2ee1cfeffc9b135ff21ec0ec45df5db92986e6fc41a27a",
+        "applicationSourceSha256": "906624e92bfcbf384f2ee1cfeffc9b135ff21ec0ec45df5db92986e6fc41a27a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/packet-information.ts",
+        "auditHeadSha256": "2fe244c7e54245e24ccf89c560cc452ca9f10d24f5c126c94f354e70e29ddccd",
+        "applicationSourceSha256": "2fe244c7e54245e24ccf89c560cc452ca9f10d24f5c126c94f354e70e29ddccd",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/partner-packet-links.ts",
+        "auditHeadSha256": "bd7d8b0f472b63f9ec0c221e94a7c405ee5813b89ede844292fc3600022b17aa",
+        "applicationSourceSha256": "bd7d8b0f472b63f9ec0c221e94a7c405ee5813b89ede844292fc3600022b17aa",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/payment-adapter.ts",
+        "auditHeadSha256": "57a48833928a48761f862677777a1d11fa712ac08d2a79c20c61b92214ed1dc6",
+        "applicationSourceSha256": "57a48833928a48761f862677777a1d11fa712ac08d2a79c20c61b92214ed1dc6",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/rcap-screening-analytics.ts",
+        "auditHeadSha256": "d0b50952c09dd91caa44ee1bb73fff0ce52adb925e0186cf684156288741e1b9",
+        "applicationSourceSha256": "d0b50952c09dd91caa44ee1bb73fff0ce52adb925e0186cf684156288741e1b9",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/rcap-slot-lifecycle.ts",
+        "auditHeadSha256": "5db975d066f1c67eff43a6969237089311b3f35afa53604b5f36d9f23fe92e8b",
+        "applicationSourceSha256": "5db975d066f1c67eff43a6969237089311b3f35afa53604b5f36d9f23fe92e8b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/save-result-policy.ts",
+        "auditHeadSha256": "f95a78d5feb1c4942d9ac2243c4c8ad4092b41d28b840d27fba81fe87facca15",
+        "applicationSourceSha256": "f95a78d5feb1c4942d9ac2243c4c8ad4092b41d28b840d27fba81fe87facca15",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-drop-point-nudge-email.ts",
+        "auditHeadSha256": "41d5ec31d8905730e0e566ee6caa1d2411450a864876f97dd42e827986837e6b",
+        "applicationSourceSha256": "41d5ec31d8905730e0e566ee6caa1d2411450a864876f97dd42e827986837e6b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-drop-point-nudge-service.ts",
+        "auditHeadSha256": "e76091373778aaff3675fe4211a036f4a85bfdc40713666438d0d240f35dfab5",
+        "applicationSourceSha256": "e76091373778aaff3675fe4211a036f4a85bfdc40713666438d0d240f35dfab5",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-resume-confirm-failure-floor.ts",
+        "auditHeadSha256": "437918ee9de48f2ece6cb0e5a9b7b6b982878273600de2cbc5bbcf7cfd1ddae7",
+        "applicationSourceSha256": "437918ee9de48f2ece6cb0e5a9b7b6b982878273600de2cbc5bbcf7cfd1ddae7",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-resume-email.ts",
+        "auditHeadSha256": "266afef813b71ecc1324f02cd88f66a62b7575826f68ee67388d376103c33921",
+        "applicationSourceSha256": "266afef813b71ecc1324f02cd88f66a62b7575826f68ee67388d376103c33921",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-resume-rate-limit.ts",
+        "auditHeadSha256": "264e3ef76d58df2215bd3eea97b6692beb6cd9094c046a91f2d667e01fc00562",
+        "applicationSourceSha256": "264e3ef76d58df2215bd3eea97b6692beb6cd9094c046a91f2d667e01fc00562",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-resume-security.ts",
+        "auditHeadSha256": "46cc7e1f7f1ef6e232efd14e0443ff503b7c295755c257948fb1ae6762f9fb87",
+        "applicationSourceSha256": "46cc7e1f7f1ef6e232efd14e0443ff503b7c295755c257948fb1ae6762f9fb87",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-resume-service.ts",
+        "auditHeadSha256": "5ecb51d2d21f7a98a0e90204fb45ed37f1a600810f3f956d18ca7736f5e57088",
+        "applicationSourceSha256": "5ecb51d2d21f7a98a0e90204fb45ed37f1a600810f3f956d18ca7736f5e57088",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/screening-session-persistence.ts",
+        "auditHeadSha256": "97f4f05bc4f3a64ee274634ca854e54106e2ff80f7112ae4635356ff31b0f7d4",
+        "applicationSourceSha256": "97f4f05bc4f3a64ee274634ca854e54106e2ff80f7112ae4635356ff31b0f7d4",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/types.ts",
+        "auditHeadSha256": "ee50dd8d11abf6ff562b9ca015307432f816756fd10ddcf4c98086abf7572339",
+        "applicationSourceSha256": "ee50dd8d11abf6ff562b9ca015307432f816756fd10ddcf4c98086abf7572339",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/expungement-ai/wilma.ts",
+        "auditHeadSha256": "c89f2a29ca5bd1a0832f923e16ca0382d1b3c0dc2e2c54f474841c80d625b679",
+        "applicationSourceSha256": "c89f2a29ca5bd1a0832f923e16ca0382d1b3c0dc2e2c54f474841c80d625b679",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/legalese-os-events.ts",
+        "auditHeadSha256": "183164481a3e329581f28b88d88c6732ef4f83a50c546ddfeedbd71b34db6ca2",
+        "applicationSourceSha256": "183164481a3e329581f28b88d88c6732ef4f83a50c546ddfeedbd71b34db6ca2",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/observability/logger.ts",
+        "auditHeadSha256": "9d3b7204aefe48425c42197fc6d04ae5bfa125a1a12a4a1d19eeee42476a7e08",
+        "applicationSourceSha256": "9d3b7204aefe48425c42197fc6d04ae5bfa125a1a12a4a1d19eeee42476a7e08",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/partners/billing-reconciliation.ts",
+        "auditHeadSha256": "d447fa97a9d0c3b10944ec239d14facdf06f28403a0f1edb53bf91f3a926b68e",
+        "applicationSourceSha256": "d447fa97a9d0c3b10944ec239d14facdf06f28403a0f1edb53bf91f3a926b68e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/partners/billing.ts",
+        "auditHeadSha256": "f0d8fa3087bfef413dbd303b60183d28e078603b0fe62286e03ed1022e6ac5d4",
+        "applicationSourceSha256": "f0d8fa3087bfef413dbd303b60183d28e078603b0fe62286e03ed1022e6ac5d4",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/answer-normalization.ts",
+        "auditHeadSha256": "6cc1f9c2543f1a4b91a3cac0c8d575fdbbd229ad255946063eb3ae4d80b28498",
+        "applicationSourceSha256": "6cc1f9c2543f1a4b91a3cac0c8d575fdbbd229ad255946063eb3ae4d80b28498",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/all51.json",
+        "auditHeadSha256": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
+        "applicationSourceSha256": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "auditHeadSha256": "4eaecb03709427c17b18a9470341fc280700a0b8c03f29d3a796af9026d01e1e",
+        "applicationSourceSha256": "4eaecb03709427c17b18a9470341fc280700a0b8c03f29d3a796af9026d01e1e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+        "auditHeadSha256": "243cc083a57e1ee7a13f3bb61771f4cad1828a481cc05ee8292b06e391cdd0be",
+        "applicationSourceSha256": "243cc083a57e1ee7a13f3bb61771f4cad1828a481cc05ee8292b06e391cdd0be",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+        "auditHeadSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+        "applicationSourceSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+        "auditHeadSha256": "311ad605d45145fc15725f007938ac9823bbbe54b243e433dfae2e4451934290",
+        "applicationSourceSha256": "311ad605d45145fc15725f007938ac9823bbbe54b243e433dfae2e4451934290",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+        "auditHeadSha256": "b367babb49f60da0e7293fcceeb4eea6f8cd983e162048d5383a2696847ab1ee",
+        "applicationSourceSha256": "b367babb49f60da0e7293fcceeb4eea6f8cd983e162048d5383a2696847ab1ee",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json",
+        "auditHeadSha256": "0211e70809060c2cab17e52f44500c7e08476baf39ac982c2fe7a9c056b180ef",
+        "applicationSourceSha256": "0211e70809060c2cab17e52f44500c7e08476baf39ac982c2fe7a9c056b180ef",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "auditHeadSha256": "f6fd7cc7636fe2804c490dafd6d0164ed86a283a7b365d64276f94bdfc9aa874",
+        "applicationSourceSha256": "f6fd7cc7636fe2804c490dafd6d0164ed86a283a7b365d64276f94bdfc9aa874",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "auditHeadSha256": "426fed6ae99ae6b045eb09e56d4ec92d51569228877fe688a3db2f88bfd07211",
+        "applicationSourceSha256": "426fed6ae99ae6b045eb09e56d4ec92d51569228877fe688a3db2f88bfd07211",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+        "auditHeadSha256": "8f1a4e79dd9c7851e94adec14ea6827bd0d8f458dee860f48bba193ad340d041",
+        "applicationSourceSha256": "8f1a4e79dd9c7851e94adec14ea6827bd0d8f458dee860f48bba193ad340d041",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+        "auditHeadSha256": "108698a37241716407f8177a110e9d59997e0e4a4c8b621288f81f0e5a76d7d2",
+        "applicationSourceSha256": "108698a37241716407f8177a110e9d59997e0e4a4c8b621288f81f0e5a76d7d2",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+        "auditHeadSha256": "c73ea8ee98d154b11b9260fc683a5f08421d0620c8a6f0f60aa515b2b6423b37",
+        "applicationSourceSha256": "c73ea8ee98d154b11b9260fc683a5f08421d0620c8a6f0f60aa515b2b6423b37",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+        "auditHeadSha256": "8dcbb9df659073834240a7824b092568e6baba5978ee0fd7e992a92db500e79e",
+        "applicationSourceSha256": "8dcbb9df659073834240a7824b092568e6baba5978ee0fd7e992a92db500e79e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+        "auditHeadSha256": "1af0ae279f51dffbd7e620bf0fecdd38cdb98633343f82a8b4970f6e5a7042bc",
+        "applicationSourceSha256": "1af0ae279f51dffbd7e620bf0fecdd38cdb98633343f82a8b4970f6e5a7042bc",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+        "auditHeadSha256": "caf89c5e9b391c4f67c353220b93bebb4ec369954003225b900db4895a389bd4",
+        "applicationSourceSha256": "caf89c5e9b391c4f67c353220b93bebb4ec369954003225b900db4895a389bd4",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "auditHeadSha256": "83705171c77c6a7324a171fba819e4ccb061c8eeb0e92ab4c982ed7d38a1d221",
+        "applicationSourceSha256": "83705171c77c6a7324a171fba819e4ccb061c8eeb0e92ab4c982ed7d38a1d221",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+        "auditHeadSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+        "applicationSourceSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+        "auditHeadSha256": "965e3a85ff74016d3e496debb8ee27f94d50ed6300203420a0825e4e5783fdbb",
+        "applicationSourceSha256": "965e3a85ff74016d3e496debb8ee27f94d50ed6300203420a0825e4e5783fdbb",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "auditHeadSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+        "applicationSourceSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "auditHeadSha256": "5c47ba6f1eb532c35a5c549d3eec6909e7eaba382d9586650aca837395415bbc",
+        "applicationSourceSha256": "5c47ba6f1eb532c35a5c549d3eec6909e7eaba382d9586650aca837395415bbc",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "auditHeadSha256": "5bbfb4a10cb7a269008be6914fe5a36b12d0376099f06b5790e482b0c2d46079",
+        "applicationSourceSha256": "5bbfb4a10cb7a269008be6914fe5a36b12d0376099f06b5790e482b0c2d46079",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "auditHeadSha256": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+        "applicationSourceSha256": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+        "auditHeadSha256": "e94dc217093e5eac16d797ec1ded9629f15efdc5068a89cf35542fec84089c50",
+        "applicationSourceSha256": "e94dc217093e5eac16d797ec1ded9629f15efdc5068a89cf35542fec84089c50",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+        "auditHeadSha256": "98afdf45cbfcf5cef3140a59a011c2d62c67611ce27cfffa6a447bd6da64aeec",
+        "applicationSourceSha256": "98afdf45cbfcf5cef3140a59a011c2d62c67611ce27cfffa6a447bd6da64aeec",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+        "auditHeadSha256": "179db37e4bdffd1eb6d41f00dbf596d66417e20a262e64acad94697451084301",
+        "applicationSourceSha256": "179db37e4bdffd1eb6d41f00dbf596d66417e20a262e64acad94697451084301",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+        "auditHeadSha256": "fb1dc91358a3471bb48d73063a8803cf904bcca8d0e5015822120240a2c76b71",
+        "applicationSourceSha256": "fb1dc91358a3471bb48d73063a8803cf904bcca8d0e5015822120240a2c76b71",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "auditHeadSha256": "bf7ec2af859d223e499000746817baf17f8ee595ca8a78197126cac544e4c9d0",
+        "applicationSourceSha256": "bf7ec2af859d223e499000746817baf17f8ee595ca8a78197126cac544e4c9d0",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+        "auditHeadSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+        "applicationSourceSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+        "auditHeadSha256": "62ca0e40196e61fe3eb9979f89c176100cf927879fe4c71ffe1878c844916e41",
+        "applicationSourceSha256": "62ca0e40196e61fe3eb9979f89c176100cf927879fe4c71ffe1878c844916e41",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+        "auditHeadSha256": "7396f7a8e07bfa588cc6075f930237b7fada380d30cbbca7f07f0ec0675ed473",
+        "applicationSourceSha256": "7396f7a8e07bfa588cc6075f930237b7fada380d30cbbca7f07f0ec0675ed473",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+        "auditHeadSha256": "bfa39629addc28709f9f4619822612fbaab6944a11d98c69a14f655113b71301",
+        "applicationSourceSha256": "bfa39629addc28709f9f4619822612fbaab6944a11d98c69a14f655113b71301",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+        "auditHeadSha256": "d62877f0c87027b42ebfecabb320d1c1fdbf58504a83ca1b1b70630f456e2c84",
+        "applicationSourceSha256": "d62877f0c87027b42ebfecabb320d1c1fdbf58504a83ca1b1b70630f456e2c84",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+        "auditHeadSha256": "cfc3912fb35ee62708ae5731824a711fbe53d1aec2a1be852488a41c94137c83",
+        "applicationSourceSha256": "cfc3912fb35ee62708ae5731824a711fbe53d1aec2a1be852488a41c94137c83",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+        "auditHeadSha256": "1468e0dbaa59540558a885e3197614513b932f86d75ff2643eb4de45ee8787e2",
+        "applicationSourceSha256": "1468e0dbaa59540558a885e3197614513b932f86d75ff2643eb4de45ee8787e2",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+        "auditHeadSha256": "baa3a99f2092579d01a5f6b2dd0ac736a530f6fd7cd94eb00dd1d39eaa8c969a",
+        "applicationSourceSha256": "baa3a99f2092579d01a5f6b2dd0ac736a530f6fd7cd94eb00dd1d39eaa8c969a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+        "auditHeadSha256": "cafeff5506b4599240e8396f4690211af1429b21a930230c4d467f80a2629b2d",
+        "applicationSourceSha256": "cafeff5506b4599240e8396f4690211af1429b21a930230c4d467f80a2629b2d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+        "auditHeadSha256": "619b81642a3740b8110faefc3ba0ce45f107a8964ce03b2cc5d8054a507c087f",
+        "applicationSourceSha256": "619b81642a3740b8110faefc3ba0ce45f107a8964ce03b2cc5d8054a507c087f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+        "auditHeadSha256": "bc744e3f047c7a1303465b4a9d50e54477878daa1384689b5f98753cc90fe21a",
+        "applicationSourceSha256": "bc744e3f047c7a1303465b4a9d50e54477878daa1384689b5f98753cc90fe21a",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+        "auditHeadSha256": "3e28c6621131df7d7597319690f9c2368595b666797d1c4bde767f15c034ec15",
+        "applicationSourceSha256": "3e28c6621131df7d7597319690f9c2368595b666797d1c4bde767f15c034ec15",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+        "auditHeadSha256": "4c5ee246e8c0daf3b4ee7afe3440e962d5546b6e65d9b0e1bbf5d3ae4243c192",
+        "applicationSourceSha256": "4c5ee246e8c0daf3b4ee7afe3440e962d5546b6e65d9b0e1bbf5d3ae4243c192",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+        "auditHeadSha256": "3cb7d1564ef9e746f25858fc9b6063cd65540fc4db84fa7ac11a786f9ac64780",
+        "applicationSourceSha256": "3cb7d1564ef9e746f25858fc9b6063cd65540fc4db84fa7ac11a786f9ac64780",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "auditHeadSha256": "bcef5d018240769d36c6ec866b52395606db46769e95298c8f89e98b79b6f887",
+        "applicationSourceSha256": "bcef5d018240769d36c6ec866b52395606db46769e95298c8f89e98b79b6f887",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+        "auditHeadSha256": "949b199ab5216f0c044239c95aae8dd51ef488bee67fa704fc8f7c2aa0783e6e",
+        "applicationSourceSha256": "949b199ab5216f0c044239c95aae8dd51ef488bee67fa704fc8f7c2aa0783e6e",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+        "auditHeadSha256": "bd06899404e8457673231e6806ce31fb649d8aac8a28e45fc9a2988ae3ce2079",
+        "applicationSourceSha256": "bd06899404e8457673231e6806ce31fb649d8aac8a28e45fc9a2988ae3ce2079",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+        "auditHeadSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+        "applicationSourceSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "auditHeadSha256": "6515df5aa0cca3ae27e65e3fb92ec8a64e4283dcda6a6884c862cac4af339ff4",
+        "applicationSourceSha256": "6515df5aa0cca3ae27e65e3fb92ec8a64e4283dcda6a6884c862cac4af339ff4",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+        "auditHeadSha256": "235b3e5ecc921c62f5dbcd6da7770ce0b4cf4ee39f291caea1ea211fe33c4d67",
+        "applicationSourceSha256": "235b3e5ecc921c62f5dbcd6da7770ce0b4cf4ee39f291caea1ea211fe33c4d67",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "auditHeadSha256": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af",
+        "applicationSourceSha256": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+        "auditHeadSha256": "65778b6d0a1e03a6585b7c87cf64482ba0328805b2b6a491b997738a34cc2ca9",
+        "applicationSourceSha256": "65778b6d0a1e03a6585b7c87cf64482ba0328805b2b6a491b997738a34cc2ca9",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+        "auditHeadSha256": "1384658236651b0412425445df309c38eef7dda6e32971c2d6f06b1e33b2667f",
+        "applicationSourceSha256": "1384658236651b0412425445df309c38eef7dda6e32971c2d6f06b1e33b2667f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+        "auditHeadSha256": "26830a24672ee182c8e03922f1af1c11ae7d7a71daf759b8981e9c3f9d089aca",
+        "applicationSourceSha256": "26830a24672ee182c8e03922f1af1c11ae7d7a71daf759b8981e9c3f9d089aca",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+        "auditHeadSha256": "a89780ab53f2ca00205106c00dee4854dc7e54af02493c2601f65409a20c55db",
+        "applicationSourceSha256": "a89780ab53f2ca00205106c00dee4854dc7e54af02493c2601f65409a20c55db",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/component-deferral-clamp.ts",
+        "auditHeadSha256": "a187b3e0749a4857473b128139c748b48d6fa2e5cc9c5cb68d3f87dae3239307",
+        "applicationSourceSha256": "a187b3e0749a4857473b128139c748b48d6fa2e5cc9c5cb68d3f87dae3239307",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/composed-route-selector.ts",
+        "auditHeadSha256": "03a3c9008f940ad6cec2221c412cf1f77b39d801d1dbbf1c7c0c6ef460aab938",
+        "applicationSourceSha256": "03a3c9008f940ad6cec2221c412cf1f77b39d801d1dbbf1c7c0c6ef460aab938",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/contracts.ts",
+        "auditHeadSha256": "cdbf926308ef34b66768077aedce4f84b37358c4c32f0f29766a640bfd68dc00",
+        "applicationSourceSha256": "cdbf926308ef34b66768077aedce4f84b37358c4c32f0f29766a640bfd68dc00",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/evaluator.ts",
+        "auditHeadSha256": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459",
+        "applicationSourceSha256": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/expungement-ai-adapter.ts",
+        "auditHeadSha256": "05c7f2204533b5c4d97f045325a3005e16642b097ba010e8d1f9792fdd7f4d5d",
+        "applicationSourceSha256": "05c7f2204533b5c4d97f045325a3005e16642b097ba010e8d1f9792fdd7f4d5d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/packet-planner.ts",
+        "auditHeadSha256": "16cc73f12169026ef96bf1b9f2d041032c2c8f2f54765c8a0666022d456987ba",
+        "applicationSourceSha256": "16cc73f12169026ef96bf1b9f2d041032c2c8f2f54765c8a0666022d456987ba",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/profile-registry.ts",
+        "auditHeadSha256": "dc197ab470972e73b0a62dee02649ad67ec656e6b738c106aa8de84f676fd125",
+        "applicationSourceSha256": "dc197ab470972e73b0a62dee02649ad67ec656e6b738c106aa8de84f676fd125",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap-engine/public-profile-projection.ts",
+        "auditHeadSha256": "0596bed012112289b6339d0a5786b785e48ddef471c2318b17a842e2722a78cb",
+        "applicationSourceSha256": "0596bed012112289b6339d0a5786b785e48ddef471c2318b17a842e2722a78cb",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/briefcase/auth.ts",
+        "auditHeadSha256": "09fe294ee2ff5974a54c21940cd1407d6fca6eea9c6a8ef69553062d3fcffb97",
+        "applicationSourceSha256": "09fe294ee2ff5974a54c21940cd1407d6fca6eea9c6a8ef69553062d3fcffb97",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/documents/factory-v2-registry.ts",
+        "auditHeadSha256": "827e8999a63c2f3ac31af6255d4bfda5596dab7b1c34644fcd589b2304eaf91f",
+        "applicationSourceSha256": "827e8999a63c2f3ac31af6255d4bfda5596dab7b1c34644fcd589b2304eaf91f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/documents/filing-next-steps.ts",
+        "auditHeadSha256": "81ac85a5cdee96c14c678e7a56011b82f06e00bc26d505c8532492cb9465d010",
+        "applicationSourceSha256": "81ac85a5cdee96c14c678e7a56011b82f06e00bc26d505c8532492cb9465d010",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/documents/guidance-packet-registry.ts",
+        "auditHeadSha256": "9fe8b8654c068d3d2a6ecdafdd403b58cd28f7239b53e5987c00c4124d494c1f",
+        "applicationSourceSha256": "9fe8b8654c068d3d2a6ecdafdd403b58cd28f7239b53e5987c00c4124d494c1f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/documents/packet-document-renderer.ts",
+        "auditHeadSha256": "5e8bd4541e8845728c35e3c1006f1b365c1c496c532aa460bacdbc5cce02f5a8",
+        "applicationSourceSha256": "5e8bd4541e8845728c35e3c1006f1b365c1c496c532aa460bacdbc5cce02f5a8",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/documents/packet-route-resolver.ts",
+        "auditHeadSha256": "2e8d0ec8e3c934dccfc43a7d16a11212fc9e97b9052745125c5de337d3426d31",
+        "applicationSourceSha256": "2e8d0ec8e3c934dccfc43a7d16a11212fc9e97b9052745125c5de337d3426d31",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/documents/types.ts",
+        "auditHeadSha256": "a309e608e177c6834ad2ee2c1ffee14b6f0a165c944e643b1dbecb18f55abf33",
+        "applicationSourceSha256": "a309e608e177c6834ad2ee2c1ffee14b6f0a165c944e643b1dbecb18f55abf33",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/render/consumer-delivery-control.ts",
+        "auditHeadSha256": "85116962609b9d41ab8c046e6466f9d7cc1303d8059cf61b7154e3888074ba0f",
+        "applicationSourceSha256": "85116962609b9d41ab8c046e6466f9d7cc1303d8059cf61b7154e3888074ba0f",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/render/job-contract.ts",
+        "auditHeadSha256": "2aa387785cc80d5f16ee9897189f8a7b4fb73686c2a1293fa823da02abe2fc71",
+        "applicationSourceSha256": "2aa387785cc80d5f16ee9897189f8a7b4fb73686c2a1293fa823da02abe2fc71",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/render/job-queue.ts",
+        "auditHeadSha256": "85bd34be9a9db044f4492def008da24a587dd5aa3136762e8972af36e490964c",
+        "applicationSourceSha256": "85bd34be9a9db044f4492def008da24a587dd5aa3136762e8972af36e490964c",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/state-promotion-manifest.ts",
+        "auditHeadSha256": "5c621c8a1f8bb6d9a10fe69eac6a85cb02b730fabff0697aeba0314634eb7480",
+        "applicationSourceSha256": "5c621c8a1f8bb6d9a10fe69eac6a85cb02b730fabff0697aeba0314634eb7480",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/rcap/state-promotion-rules.ts",
+        "auditHeadSha256": "ba86fba9a835505a88858d2a288d2ace9cf46086e3cabad9d7425198a3d806bf",
+        "applicationSourceSha256": "ba86fba9a835505a88858d2a288d2ace9cf46086e3cabad9d7425198a3d806bf",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/server-runtime-environment.ts",
+        "auditHeadSha256": "4e27212776c12aec7ec0892f674b2c9f72db7d21f826cb5bfbab256554608c0d",
+        "applicationSourceSha256": "4e27212776c12aec7ec0892f674b2c9f72db7d21f826cb5bfbab256554608c0d",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/stripe/server.ts",
+        "auditHeadSha256": "967a87b2270d5ffca19c66c41d554254cb8e7a27cc2a352bd685ddc47f2e003b",
+        "applicationSourceSha256": "967a87b2270d5ffca19c66c41d554254cb8e7a27cc2a352bd685ddc47f2e003b",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/stripe/webhook-handler.ts",
+        "auditHeadSha256": "75fbd039ee1d1fe6d20aa106f50f17b2f9b24be9ebf5f62bf82ace2c56ea9179",
+        "applicationSourceSha256": "75fbd039ee1d1fe6d20aa106f50f17b2f9b24be9ebf5f62bf82ace2c56ea9179",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/supabase/auth-server.ts",
+        "auditHeadSha256": "a3416ae0235d24f256c7bbd9df3ee5f129a058894578c82dc17103fdcc1cec35",
+        "applicationSourceSha256": "a3416ae0235d24f256c7bbd9df3ee5f129a058894578c82dc17103fdcc1cec35",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/supabase/browser.ts",
+        "auditHeadSha256": "95356ea3ae96af99980b0deef6744fbcc2cb072899d9b4845e5aa82d5cb1c068",
+        "applicationSourceSha256": "95356ea3ae96af99980b0deef6744fbcc2cb072899d9b4845e5aa82d5cb1c068",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/supabase/config.ts",
+        "auditHeadSha256": "2802ff7cfd1c4ddc9af1e238a1a7493617b957c4c3d3db1393cc317f755fe1d9",
+        "applicationSourceSha256": "2802ff7cfd1c4ddc9af1e238a1a7493617b957c4c3d3db1393cc317f755fe1d9",
+        "presentInBoth": true
+      },
+      {
+        "path": "src/lib/supabase/server.ts",
+        "auditHeadSha256": "fe5d61c96f62cafc2605267b63d0c48fca0ae07c20efc09896ba43cf6a0c535b",
+        "applicationSourceSha256": "fe5d61c96f62cafc2605267b63d0c48fca0ae07c20efc09896ba43cf6a0c535b",
+        "presentInBoth": true
+      }
+    ],
+    "differingInside": [],
+    "differingOutside": [
+      {
+        "path": "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/prefill/route.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "0a16972cc7fc247cc4f2e6da9a68c99a28067afb25e6c2582617ec3f9539a719",
+        "applicationSourceSha256": "1eee708a39ce46c185c8077adafaed4f34745532e2f7cae5787e7933afe39f7d"
+      },
+      {
+        "path": "src/app/internal/partners/onboarding/[partnerSlug]/Phase1PrefillPanel.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "25274878d643a844bb4f7c5d9078c1d24835fcb52453827223546366123e0ae6",
+        "applicationSourceSha256": "6b237b70a438f5f875f35d9fc966e200f374ff84c04d69b58782737a1b46cbf9"
+      },
+      {
+        "path": "src/app/partner/dashboard/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "2c47952ab6d8304390b6c3a445b8cb820f60b81db9ce8c6d1f753dde2535c9e6",
+        "applicationSourceSha256": "b98d160e618a5b6c590ae7067ae0a526c6a0422b15314d15cfbe25c618f13a93"
+      },
+      {
+        "path": "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "11465e5eb53fb27c78d0780bd0ed42d61b2eabf4893de8dc33e3b8fdedaaf274",
+        "applicationSourceSha256": "c31f3a760e0e3a8591439910dbe4fdd4860b62d78ff4238642773e9ec8678cb2"
+      },
+      {
+        "path": "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "9edb2d4ce78306cf0a44256f4d5da3865e41619da7d5dffce9e42c609c6630b8",
+        "applicationSourceSha256": "8430b928c04a3fe2a323f70b25cf8ddd3c52c2bd9e23f858defe7ea7434c881f"
+      },
+      {
+        "path": "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "dc05ca38f9fc8f351b5dc0d8a95216fbd56c6b034b0b6a599154b1a7136f9a89",
+        "applicationSourceSha256": "7779e1762aa31c4de542bfc319ad581cde738bb3c267411b70f13461a16db622"
+      },
+      {
+        "path": "src/app/partner/onboarding/[sectionKey]/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "c8949515a921c01f461c42ab21dd0b3a85b8ab7ca618db8ffd8e761a6e76c818",
+        "applicationSourceSha256": "6711ddda63c5112ab49a0c5c06d27cb1e22a01a47d9ca1311300a96023198283"
+      },
+      {
+        "path": "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "96a1aed9e5002c1b586987a3ff6d21372f63d5c0f8f822db48670013a7c35034",
+        "applicationSourceSha256": "59943d13a380cf3a6297ff8f740a8bc05cfaa4dbf6cd3594c413e150a36b4a0d"
+      },
+      {
+        "path": "src/app/partner/onboarding/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "d1edff73c98a9d849298396075356fc7889e30a71d5eb4b7b942a467e6160173",
+        "applicationSourceSha256": "4e26c96ae6983633bbbddc7dcb5776e0d0501e46d1537a7416f5534f1ccf5779"
+      },
+      {
+        "path": "src/app/partner/onboarding/resources/PartnerResourcesClient.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "9a23f37952d7371940f4b62173203a551ad8b4fe9ba619184683f500b5b999d0",
+        "applicationSourceSha256": "f08cb7653af8b8903cd0d6c791f66c066063f76a2e584f6288db9b3ef7699814"
+      },
+      {
+        "path": "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "7cb667fe1de8d87de90fe367b88017656e4fb0abfb718e5f6e56b6f520a46d5c",
+        "applicationSourceSha256": "41dc44b7c9d6638206f819800e7594284eb5cdd9234580b02e30424e8ff46a0b"
+      },
+      {
+        "path": "src/app/partner/team/PartnerTeamInviteForm.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "9962032831976bef1824d0bf09a12bd53f224d1fea4e076a842f47b4c3f6397a",
+        "applicationSourceSha256": "abef939cdd3769e92cab95c50750a038c37bfffe9c6a3694075b6181efcf3e3f"
+      },
+      {
+        "path": "src/app/partner/team/invite/route.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "45ded40d6816d83bbf6741705cc9837f54738ebf92e36d141974c86ce71aa446",
+        "applicationSourceSha256": "49643f5350db2fd466d907848de05216119db7396906d31b6e94087cec833ef3"
+      },
+      {
+        "path": "src/app/partners/checkout/[partnerId]/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "f15a6013a12c4aa1f32fd7299283cbc0d31aff162576c5402a14b13693c47983",
+        "applicationSourceSha256": "61b20860df814f2a6b71b2fd1f1f0aeea4455a3c36bc3a513280cc12c9cb2f6f"
+      },
+      {
+        "path": "src/app/partners/checkout/success/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "48ecdbdaeb3e503728d6614610ff123e465398e174424a90b6c800cb86e47d42",
+        "applicationSourceSha256": "b052e347cc0b5d0873d44ee4761a2f4ef0092fb1688df2641860bb101a246e9f"
+      },
+      {
+        "path": "src/app/partners/insights/feed.xml/route.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "c42c5eeb7f6ad1cbceab36f22c2ec5a2c86bc2654cfe2ebd3d0fc21184db7435",
+        "applicationSourceSha256": "6b53cd64d284540452206ab41317a968c6fca0c6d1fcf7450580144950a39310"
+      },
+      {
+        "path": "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "4a942422734562e9ea56d5a18ae465a4e110bed98e6372af5f5857047a301c68",
+        "applicationSourceSha256": "906379b4922f79ad38554a4c6363d7d1895f9ddec6e1bef22185520570a806f2"
+      },
+      {
+        "path": "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "7cb4fc5868b9da592669a9ae00a897f155adf8a512bb1d2decf1d066393d076c",
+        "applicationSourceSha256": "879f7efc7a428b74843611f06656f1bd2a2b119facf24f2b81abfdd707913946"
+      },
+      {
+        "path": "src/app/partners/onboarding/[partnerSlug]/page.tsx",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "1a60b5ef539a0e29cd0dffd86b8c96c9fe7384bf171797e90f78c18a378aefb8",
+        "applicationSourceSha256": "365d98e37ff2e2fe0310c8626fac3df6af877f419f78d1eeb20b603e266d5456"
+      },
+      {
+        "path": "src/lib/partners/first-admin-provisioning-presentation.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "b5a470f737f568ca5f69fdc10adfd232daf3c38b7f05651e982951cc8068647d",
+        "applicationSourceSha256": "4931409b0c8c7affc2452ddd8f631bc585324e369042304c3dd8da3e7acf5012"
+      },
+      {
+        "path": "src/lib/partners/onboarding/brand-page-presentation.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "956d7c1fbea2c1791958b564236a01b4e757606764188c8790a7974796af58af",
+        "applicationSourceSha256": "f0e05dfd14a60c27374226e544c188685dc499885c629f0d1154e3b22873fcde"
+      },
+      {
+        "path": "src/lib/partners/onboarding/derivations.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "0615390b75f35677fcbf5d99a612fade50480f566ce5e03e80ad0e6a98b93d88",
+        "applicationSourceSha256": "cac1f54788dd827d41ca5daa6ecdfbf5a5df87228ebda17dfef5e03b58e4aa5e"
+      },
+      {
+        "path": "src/lib/partners/onboarding/guided-substeps.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "f5ee7c4aca8f616f7a07a07a4caf9594e438a268c803660f74e2e0e28c49e9f5",
+        "applicationSourceSha256": "7ddb6febd9e6ab82b8a403ae19f28084ee46bac984ef14fe12cd6f12f158aa10"
+      },
+      {
+        "path": "src/lib/partners/onboarding/implementation-presentation.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "6d1e6d2ce04a66517376336c9c8229c71230cdb62a4da22e7dbced77eb42007b",
+        "applicationSourceSha256": "3c2b59019e8ff69cde40aadf20a2426164edcebf04f53dc7efc4e08c30994857"
+      },
+      {
+        "path": "src/lib/partners/onboarding/partner-copy.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "66d5ec7367d779d490d1044c0480d46d5ac27b576275349ab3667cadc2de078d",
+        "applicationSourceSha256": null
+      },
+      {
+        "path": "src/lib/partners/onboarding/partner-labels.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "6b685455363f9a9c4563d526f0e9ac2810319e54a6f01540a8b09bcf5888fa61",
+        "applicationSourceSha256": "39709bfbf3aa4a48b3c924f46a8c029e1a0e70eb56a3cbc79e24064531e498ca"
+      },
+      {
+        "path": "src/lib/partners/onboarding/prefill-domain.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "acd6c2e0235e0fcb64a06457671764ac41eacf3347127131427e01d5dadd58fa",
+        "applicationSourceSha256": "34035b09a8a1b4d64d301b418a3428c3716d811ea3dfd3e9aa928be61f4526ef"
+      },
+      {
+        "path": "src/lib/partners/onboarding/prefill-service.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "864cce7b456623e0a6154060c1ee66092c37d9484de42124ade2f6a43bf82cee",
+        "applicationSourceSha256": "e6e9d44ad8f43d61d26dc5aa37046b9f0d92fc136013c5bfd531fbae4cd7e5ad"
+      },
+      {
+        "path": "src/lib/partners/onboarding/service.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "e02a8e5a820953df35be86f11104fb10c032b2b7197b7adc0357a6ae1c16e2d9",
+        "applicationSourceSha256": "1c9ef5e6f23e0ba03f94fd2c83b44e6a6cd437b85a630215161ab3702ba07794"
+      },
+      {
+        "path": "src/lib/partners/onboarding/support-contact.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "64b23f00b342120404aa3f55cfcfdd16e5e2404ca2746fc56b77ace8910bbefa",
+        "applicationSourceSha256": "0b9f2ec3f8f9d1be6bb6d0133a1e6ad59a358ccdf239edf9a168c71e41af279e"
+      },
+      {
+        "path": "src/lib/partners/onboarding/types.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "5f3cb2dd21a14842b18d3bf7a2ea20fa5ecae9d61787cb5549ada821daab0928",
+        "applicationSourceSha256": "c27829d6beb48f3d6cdd9b9121fe912ebe08812f1ffca0ce8ccd58936acac159"
+      },
+      {
+        "path": "src/lib/partners/onboarding/validation.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "8ad75821920c3c16043b7af06e175b711002e8ac2477399f8339224b30c754f3",
+        "applicationSourceSha256": "86318ea0a7f476600a4de75ace7e38c38d0515d7999968bc0f4b7e8b1bff6718"
+      },
+      {
+        "path": "src/lib/partners/partner-launch-materials.ts",
+        "insideAuditedSurface": false,
+        "reason": "not reachable from any audited root by the transitive import closure computed above",
+        "auditHeadSha256": "5c695ce8e227b22c18db181a00b294328746c9f3ea2b3c0d2fa384b33e754d4e",
+        "applicationSourceSha256": "0b5a553934be61f4279c3648fd18104484e3a720565c3176e02bf38908fddfaa"
+      }
+    ]
+  },
+  "pass": true,
+  "verdict": "PASS — all 190 files in the audited surface are byte-identical between d32267b8 and f7ed0ad3, and tools_sha carries the same application bytes. 33 src file(s) differ outside the surface and are named above."
+}
