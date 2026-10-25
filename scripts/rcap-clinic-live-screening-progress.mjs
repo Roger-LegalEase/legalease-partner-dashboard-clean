@@ -13,6 +13,62 @@ const errors=new Set(['invalid_request','unsupported_jurisdiction','profile_vers
 // Reconciled against the pinned application's real selector, including the unanswered optional program order.
 export const SCREENING_PROGRESS_QUESTION_IDS=Object.freeze(['ownership_scope','jurisdiction_scope','case_outcome','offense_level','possible_pathway_context','ms_program_order','court_requirements_completed','resolved_timing_bucket']);
 export const SCREENING_PROGRESS_PROFILE_VERSION='2026-06-19-source-conversion-1';
+const iconPaths=new Set(['/favicon.ico','/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/expungement-ai/icon-512.png','/expungement-ai/apple-touch-icon.png']);
+const samePreview=url=>url.origin===CLINIC_SETUP.origin&&!url.hash&&!url.username&&!url.password;
+const queryNames=url=>[...url.searchParams.keys()].map(name=>/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(name)?name:'[unrecognized_name]');
+function resourceCategory(url) {
+ if(/^\/_next\/static\/(?:chunks|media)\//.test(url.pathname)&&!/%(?:2f|5c|2e)/i.test(url.pathname)) {
+  if(url.pathname.endsWith('.js'))return 'framework_script';
+  if(url.pathname.endsWith('.css'))return 'framework_stylesheet';
+  if(/\.(woff2?|ttf|otf)$/.test(url.pathname))return 'framework_font';
+ }
+ if(url.pathname==='/_next/image')return 'image_optimizer';
+ if(iconPaths.has(url.pathname))return 'declared_icon';
+ if(url.pathname==='/expungement-ai/wilma-avatar.png')return 'wilma_avatar';
+ if(url.pathname===profilePath)return 'profile_api';
+ if(url.pathname===progressPath)return 'progress_api';
+ if(url.pathname===screeningPath)return 'screening_document';
+ return 'unrecognized';
+}
+const deploymentQuery=url=>!url.search||(url.searchParams.size===1&&url.searchParams.has('dpl')&&/^[A-Za-z0-9_-]{1,200}$/.test(url.searchParams.get('dpl')));
+function safeOptimizer(url) {
+ const keys=[...url.searchParams.keys()];
+ return keys.length===new Set(keys).size&&keys.every(key=>['url','w','q','dpl'].includes(key))
+  &&url.searchParams.get('url')==='/expungement-ai/wilma-avatar.png'&&['48','96'].includes(url.searchParams.get('w'))&&url.searchParams.get('q')==='75'
+  &&(!url.searchParams.has('dpl')||/^[A-Za-z0-9_-]{1,200}$/.test(url.searchParams.get('dpl')));
+}
+// Bind tokens and image/icon URLs to the original protected document, never an inferred deployment ID.
+export function publicReactResourcePolicy(html) {
+ const tokens=new Set(),declared=new Set(),evidence=[];
+ for(const tag of html.matchAll(/<(script|link|img)\b[^>]*>/gi)) {
+  const attrs=Object.fromEntries([...tag[0].matchAll(/\b([a-zA-Z]+)\s*=\s*["']([^"']*)["']/g)].map(m=>[m[1].toLowerCase(),m[2].replaceAll('&amp;','&')]));
+  const refs=[attrs.src,attrs.href,...(attrs.srcset??'').split(',').map(x=>x.trim().split(/\s+/)[0])].filter(Boolean);
+  for(const ref of refs) {
+   let url;try{url=new URL(ref,CLINIC_SETUP.origin);}catch{continue;}
+   if(!samePreview(url))continue;
+   const category=resourceCategory(url);
+   const framework=category.startsWith('framework_')&&deploymentQuery(url);
+   const icon=category==='declared_icon'&&tag[1].toLowerCase()==='link'&&/^(?:icon|shortcut icon|apple-touch-icon)$/.test(attrs.rel??'')&&deploymentQuery(url);
+   const image=tag[1].toLowerCase()==='img'&&((category==='image_optimizer'&&safeOptimizer(url))||(category==='wilma_avatar'&&!url.search));
+   if(!framework&&!icon&&!image)continue;
+   if(framework&&url.searchParams.has('dpl'))tokens.add(url.searchParams.get('dpl'));
+   declared.add(url.href);evidence.push({category,queryNames:queryNames(url),source:'original_screening_document'});
+  }
+ }
+ assert.ok(evidence.some(r=>r.category==='framework_script'),'React document framework scripts missing');
+ assert.ok(tokens.size<=1,'React document deployment tokens disagree');
+ return {tokens,declared,evidence};
+}
+export function publicReactResourceDecision(request,policy) {
+ const url=new URL(request.url()),category=resourceCategory(url),type=request.resourceType();
+ const evidence={origin:url.origin===CLINIC_SETUP.origin?'preview':'external',method:request.method(),resourceType:type,category,queryNames:queryNames(url)};
+ if(!policy||!samePreview(url)||request.method()!=='GET')return {...evidence,allowed:false};
+ const expected={framework_script:'script',framework_stylesheet:'stylesheet',framework_font:'font'}[category];
+ const framework=expected===type&&deploymentQuery(url)&&(!url.search||policy.tokens.has(url.searchParams.get('dpl')));
+ const image=['image_optimizer','wilma_avatar'].includes(category)&&type==='image'&&policy.declared.has(url.href);
+ const icon=category==='declared_icon'&&['image','other'].includes(type)&&policy.declared.has(url.href);
+ return {...evidence,allowed:Boolean(framework||image||icon),...(category==='declared_icon'?{purpose:'optional_brand_icon'}:{}),...(category==='image_optimizer'||category==='wilma_avatar'?{purpose:'optional_closed_guide_avatar'}:{})};
+}
 export function assertClinicProgressEvidence(value,now=Date.now()) {
  assert.equal(value?.status,'READY');assert.equal(value.businessWrites,false);
  assert.equal(value.applicationSha,CLINIC_SETUP.app);assert.equal(value.deploymentId,CLINIC_SETUP.deploymentId);assert.equal(value.origin,CLINIC_SETUP.origin);
@@ -28,6 +84,9 @@ export function assertClinicProgressEvidence(value,now=Date.now()) {
  assert.equal(value.reactInitialization.documentStatus,200);
  assert.deepEqual(value.reactInitialization.progressContract,{jurisdiction:'MS',profileVersion:SCREENING_PROGRESS_PROFILE_VERSION,questionIds:[...SCREENING_PROGRESS_QUESTION_IDS]});
  assert.deepEqual(value.reactInitialization.alerts,[]);
+ assert.deepEqual(value.resourceFailures,[]);
+ assert.ok(value.resourceResponses?.some(r=>r.category==='framework_script'&&r.allowed&&r.httpStatus===200));
+ assert.ok(value.resourceResponses.every(r=>r.allowed&&r.httpStatus===200));
  assert.deepEqual(value.reactInitialization.responseObservations?.map(r=>[r.operation,r.httpStatus,r.accepted]),[['profile',200,true],['progress',200,true]]);
  assert.deepEqual(value.responseObservations?.map(r=>[r.operation,r.httpStatus,r.accepted]),[['profile',200,true],...Array.from({length:9},()=>['progress',200,true])]);
 }
@@ -61,8 +120,8 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
  const result={status:'BLOCKED',operation:'screening_progress_contract',stage:'configuration',httpStatus:null,
   applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,origin:CLINIC_SETUP.origin,
   authentication:'public GET profile / POST question selection; no account sign-in',businessWrites:false,
-  responses:[],responseStages:[],responseObservations:[],guardEvents:[],requestFailures:[],browserErrors:[]};
- let browser,page,ui;
+  responses:[],responseStages:[],responseObservations:[],guardEvents:[],requestFailures:[],browserErrors:[],resourceRequests:[],resourceResponses:[],resourceFailures:[]};
+ let browser,page,ui,resourcePolicy;
  const current=()=>ui??result;
  try {
   assert.ok(env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim(),'existing Preview bypass unavailable');
@@ -70,8 +129,25 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
   browser=await browserType.launch({headless:true,executablePath:env.RCAP_BROWSER_CHROMIUM??'/usr/bin/google-chrome'});
   const context=await browser.newContext({serviceWorkers:'block'}),config={origin:CLINIC_SETUP.origin,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:CLINIC_SETUP.slug};
   await context.route('**/*',async route=>{
-   const response=await route.fetch({headers:previewRequestHeaders(env.VERCEL_AUTOMATION_BYPASS_SECRET,route.request().headers()),maxRedirects:0,maxRetries:0});
+   const request=route.request(),url=new URL(request.url());
+   let httpStatus=null;try {
+   const response=await route.fetch({headers:previewRequestHeaders(env.VERCEL_AUTOMATION_BYPASS_SECRET,request.headers()),maxRedirects:0,maxRetries:0});
+   httpStatus=response.status();
+   if(ui&&url.pathname===screeningPath&&request.resourceType()==='document') {
+    assert.equal(response.status(),200,'React document HTTP refusal');
+    const bytes=await response.body();assert.ok(bytes.length<10000000,'React document too large');
+    resourcePolicy=publicReactResourcePolicy(bytes.toString('utf8'));ui.declaredResources=resourcePolicy.evidence;
+    return route.fulfill({response,body:bytes});
+   }
+   if(ui)result.resourceResponses.push({...publicReactResourceDecision(request,resourcePolicy),httpStatus:response.status()});
+   if(response.status()!==200)return route.abort('blockedbyclient');
    await route.fulfill({response});
+   }catch(error) {
+    const message=typeof error?.message==='string'?error.message.split('\n')[0]:'';
+    const condition=['React document HTTP refusal','React document framework scripts missing','React document deployment tokens disagree','React document too large'].includes(message)?message:'resource_transport_or_body_failure';
+    result.resourceFailures.push({...publicReactResourceDecision(request,resourcePolicy),stage:result.stage,httpStatus,condition});
+    await route.abort('failed');
+   }
   });
   await context.route('**/*',createOriginalResponseObserver(config,{bypass:env.VERCEL_AUTOMATION_BYPASS_SECRET,
    onObservation:value=>current().responseObservations.push(value),onStage:value=>current().responseStages.push(value)}));
@@ -85,19 +161,21 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
     result.guardEvents.push({stage:result.stage,method:'POST',pathname:url.pathname,outcome:'telemetry_suppressed_locally'});
     return route.fulfill({status:204,body:''});
    }
-   if(ui&&classifyClinicRequest(request,{actor:'participant',captchaPolicy}).startsWith('optional_'))return route.fallback();
-   const staticResource=ui&&request.method()==='GET'&&(
-    (url.pathname===screeningPath&&request.resourceType()==='document')||
-    (url.pathname.startsWith('/_next/static/')&&['script','stylesheet','font'].includes(request.resourceType()))||
-    (request.resourceType()==='image'&&/^\/(?:expungement-ai\/|favicon\.|icon\.)/.test(url.pathname)));
+   const classification=ui?classifyClinicRequest(request,{actor:'participant',captchaPolicy}):null;
+   if(classification?.startsWith('optional_')) {
+    result.resourceRequests.push({...publicReactResourceDecision(request,resourcePolicy),category:classification,stage:result.stage});return route.fallback();
+   }
+   const resource=publicReactResourceDecision(request,resourcePolicy);
+   const document=ui&&exact&&request.method()==='GET'&&url.pathname===screeningPath&&request.resourceType()==='document';
    let progress=request.method()==='POST'&&url.pathname===progressPath;
    if(progress&&ui) {
     let body;try{body=request.postDataJSON();}catch{}
     progress=body?.jurisdiction==='MS'&&body.profileVersion===SCREENING_PROGRESS_PROFILE_VERSION&&body.answers
      &&!Array.isArray(body.answers)&&Object.keys(body.answers).length===0&&Object.keys(body).every(key=>['jurisdiction','profileVersion','answers'].includes(key));
    }
-   const allowed=exact&&((request.method()==='GET'&&url.pathname===profilePath)||progress||staticResource);
-   if(!allowed)result.requestFailures.push({stage:result.stage,method:request.method(),resourceType:request.resourceType(),outcome:'diagnostic_boundary_refused'});
+   const allowed=(exact&&((request.method()==='GET'&&url.pathname===profilePath)||progress))||document||(ui&&resource.allowed);
+   if(ui)result.resourceRequests.push({...resource,allowed:Boolean(allowed),stage:result.stage});
+   if(!allowed)result.requestFailures.push({...resource,stage:result.stage,outcome:'diagnostic_boundary_refused'});
    return allowed?route.fallback():route.abort('blockedbyclient');
   });
   page=await context.newPage();page.setDefaultTimeout(30000);page.on('response',guard.response);page.on('requestfailed',guard.requestFailed);
@@ -140,23 +218,28 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
   assert.equal(loadedProfile.body?.profileVersion,SCREENING_PROGRESS_PROFILE_VERSION);
   assert.deepEqual(loadedProfile.body,profile,'React profile differs from verified public profile');
   assert.deepEqual(loadedProgress.body,{jurisdiction:'MS',profileVersion:SCREENING_PROGRESS_PROFILE_VERSION,questionIds:[...SCREENING_PROGRESS_QUESTION_IDS]},'React progress contract mismatch');
+  await page.waitForLoadState('load');
+  await page.waitForFunction(()=>document.fonts.status==='loaded',null,{timeout:30000});
   ui.progressContract={...loadedProgress.body};
   Object.assign(ui,await screeningFailureDiagnostics(page,{observations:ui.responseObservations,stages:ui.responseStages}));
   assert.deepEqual(ui.alerts,[],'React application alert');guard.assertNoCritical();
   assert.ok(result.requestFailures.every(f=>f.outcome==='optional_request_failed'),'React critical request failure');
   assert.deepEqual(ui.responseObservations.map(r=>[r.operation,r.httpStatus,r.accepted]),[['profile',200,true],['progress',200,true]],'React original observations incomplete');
+  assert.ok(result.resourceResponses.length>0&&result.resourceResponses.every(r=>r.allowed&&r.httpStatus===200),'React resource HTTP refusal');
   ui.firstQuestionId='ownership_scope';ui.status='READY';
   result.status='READY';result.stage='complete';
  }catch(error) {
   if(ui&&page)Object.assign(ui,await screeningFailureDiagnostics(page,{observations:ui.responseObservations,stages:ui.responseStages}).catch(()=>({diagnosticsUnavailable:true})));
   const condition=typeof error?.message==='string'?error.message.split('\n')[0]:'';
-  const known=['React document HTTP refusal','React document redirect refused','React application alert','React first question missing','React original body read failed','React progress contract mismatch','React critical request failure','React original observations incomplete','profile jurisdiction mismatch','profile version missing','profile questions missing','duplicate profile questions','progress HTTP refusal','progress malformed response','progress jurisdiction mismatch','progress version mismatch','unknown or missing question IDs','duplicate question IDs','unexpected fixture question','optional omission became required','fixture option missing from live profile','progress exceeded bounded fixture sequence','profile HTTP refusal','profile redirect refused','all original progress responses must be captured','original response contract failed','diagnostic request failure'];
-  result.condition=known.includes(condition)?condition:'transport_or_contract_unproven';
+  const known=['React resource HTTP refusal','React document framework scripts missing','React document deployment tokens disagree','React document too large','React document HTTP refusal','React document redirect refused','React application alert','React first question missing','React original body read failed','React progress contract mismatch','React critical request failure','React original observations incomplete','profile jurisdiction mismatch','profile version missing','profile questions missing','duplicate profile questions','progress HTTP refusal','progress malformed response','progress jurisdiction mismatch','progress version mismatch','unknown or missing question IDs','duplicate question IDs','unexpected fixture question','optional omission became required','fixture option missing from live profile','progress exceeded bounded fixture sequence','profile HTTP refusal','profile redirect refused','all original progress responses must be captured','original response contract failed','diagnostic request failure'];
+  const failedResource=result.resourceFailures.at(-1)??result.resourceResponses.findLast(r=>r.httpStatus!==200);
+  result.condition=failedResource?.condition??(failedResource?'React resource HTTP refusal':null)??(known.includes(condition)?condition:result.requestFailures.some(r=>r.outcome==='diagnostic_boundary_refused')?'React resource boundary refused':'transport_or_contract_unproven');
   result.reason=result.stage==='configuration'?'existing_preview_bypass_unavailable':'live_screening_contract_unproven';
   result.expected=ui?'Exact public React page: original HTTP 200 profile/progress, matching version/questions, first ownership question, no application alert or critical browser failure':'HTTP 200, exact live MS profile/version and all deterministic question-prefix contracts';
   const failedResponse=current().responseObservations.findLast(r=>!r.accepted);
   if(failedResponse)result.httpStatus=failedResponse.httpStatus;
-  result.observed=failedResponse?.outcome??(ui?result.condition:result.responses.at(-1)?.outcome)??'unproven';
+  else if(failedResource)result.httpStatus=failedResource.httpStatus;
+  result.observed=failedResponse?.outcome??(failedResource?`${failedResource.category}: ${result.condition}`:null)??(ui?result.condition:result.responses.at(-1)?.outcome)??'unproven';
  }finally{await browser?.close();}
  result.capturedAt=new Date().toISOString();return result;
 }

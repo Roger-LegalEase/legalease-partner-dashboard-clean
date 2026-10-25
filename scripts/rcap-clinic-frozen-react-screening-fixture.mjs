@@ -101,7 +101,7 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
     const specifier=match[1];if(Object.hasOwn(deps,specifier))continue;
     if(Object.hasOwn(stubs,specifier))deps[specifier]=add('stub:'+specifier,stubs[specifier]);
     else if(specifier.startsWith('@/')||relative&&specifier.startsWith('.')) {
-     const target=resolveSource(specifier,relative??'src/_next/static/clinic-fixture.js');
+     const target=resolveSource(specifier,relative??'src/_next/static/chunks/clinic-fixture.js');
      deps[specifier]=target.endsWith('.json')?add(target,'module.exports='+read(target)+';'):add(target,read(target),target);
     } else {
      assert.ok(!specifier.startsWith('node:'),'Node dependency cannot enter browser fixture');
@@ -121,21 +121,27 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
   sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Installed frozen-lock-version Next AppRouterAnnouncer with pinned source; Next router navigation port','Next Link/Image rendering ports','Decorative icons and Wilma omitted; analytics disabled','Packet availability flags fixed false: fixture cannot grant fulfillment','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
 }
 
-export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null}={}) {
+export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null,queryAssets=false,assetFault=false}={}) {
  assert.ok(runtime);assert.ok(['engine','omit_optional','early_result','reverse_timing'].includes(planMode));
  assert.ok(progressFault===null||['invalid_version_after_initial','invalid_version_react_initial'].includes(progressFault));
  const state={requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
  let notifyInitialProgress;
  const initialProgressRequested=new Promise(resolve=>{notifyInitialProgress=resolve;});
  const bundle=runtime.buildBrowserBundle();
+ const assetQuery=queryAssets?'?dpl=fixture-immutable-token':'';
+ const font=fs.readFileSync(path.join(path.dirname(createRequire(import.meta.url).resolve('next/package.json')),'dist/compiled/@vercel/og/Geist-Regular.ttf'));
+ const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZT0AAAAASUVORK5CYII=','base64');
  const send=(response,status,body)=>{response.writeHead(status,{'content-type':'application/json','cache-control':'no-store'});response.end(JSON.stringify(body));};
  const forward=async(response,actual)=>{response.writeHead(actual.status,Object.fromEntries(actual.headers));response.end(Buffer.from(await actual.arrayBuffer()));};
  const server=http.createServer(async(request,response)=>{
   try {
    const url=new URL(request.url,`http://${request.headers.host}`);
-   if(url.pathname==='/_next/static/clinic-fixture.js'){response.writeHead(200,{'content-type':'application/javascript','cache-control':'no-store'});return response.end(bundle);}
+   if(url.pathname==='/_next/static/chunks/clinic-fixture.css'){if(assetFault){response.writeHead(403,{'content-type':'text/plain'});return response.end('fixture private response must not be recorded');}response.writeHead(200,{'content-type':'text/css'});return response.end(`@font-face{font-family:Clinic;src:url('/_next/static/media/fixture.ttf${assetQuery}')}body{font-family:Clinic;color:rgb(11,19,32)}`);}
+   if(url.pathname==='/_next/static/media/fixture.ttf'){response.writeHead(200,{'content-type':'font/ttf'});return response.end(font);}
+   if(['/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/_next/image'].includes(url.pathname)){response.writeHead(200,{'content-type':'image/png'});return response.end(png);}
+   if(url.pathname==='/_next/static/chunks/clinic-fixture.js'){response.writeHead(200,{'content-type':'application/javascript','cache-control':'no-store'});return response.end(bundle);}
    if(request.method==='GET'&&url.pathname.startsWith('/api/expungement-ai/profiles/'))return forward(response,await runtime.profileGET(new Request(url),{params:Promise.resolve({state:decodeURIComponent(url.pathname.split('/').at(-1))})}));
-   if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end('<!doctype html><html lang="en"><body><div id="root"></div><script src="/_next/static/clinic-fixture.js"></script></body></html>');}
+   if(request.method==='GET') {response.writeHead(200,{'content-type':'text/html','cache-control':'no-store'});return response.end(`<!doctype html><html lang="en"><head>${queryAssets?`<link rel="stylesheet" href="/_next/static/chunks/clinic-fixture.css${assetQuery}"><link rel="preload" as="font" type="font/ttf" crossorigin href="/_next/static/media/fixture.ttf${assetQuery}"><link rel="icon" href="/expungement-ai/favicon.ico"><link rel="icon" href="/expungement-ai/icon-192.png">`:''}</head><body><div id="root"></div>${queryAssets?'<img alt="Fixture guide image" src="/_next/image?url=%2Fexpungement-ai%2Fwilma-avatar.png&amp;w=48&amp;q=75">':''}<script src="/_next/static/chunks/clinic-fixture.js${assetQuery}"></script></body></html>`);}
    assert.equal(request.method,'POST');let raw='';for await(const chunk of request)raw+=chunk;
    let body;try{body=JSON.parse(raw);}catch{body=null;}
    state.requests.push({path:url.pathname,method:request.method,answerIds:body?.answers&&typeof body.answers==='object'?Object.keys(body.answers):[]});

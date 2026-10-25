@@ -217,9 +217,10 @@ test.after(()=>{
 });
 
 test('complete read-only browser collector traverses its real guard and observer against original HTTP handlers, and retains later refusal',{timeout:120000},async()=>{
- for(const outcome of ['success','refusal','transport_failure','ui_refusal']) {
+ assert.equal(installed('next/dist/server/app-render/get-asset-query-string.js').getAssetQueryString({sharedContext:{clientAssetToken:'fixture-immutable-token'}},true),'?dpl=fixture-immutable-token');
+ for(const outcome of ['success','refusal','transport_failure','ui_refusal','asset_refusal']) {
   const refused=outcome==='refusal';
-  const site=await startFrozenReactScreeningSite({runtime,progressFault:refused?'invalid_version_after_initial':outcome==='ui_refusal'?'invalid_version_react_initial':null});
+  const site=await startFrozenReactScreeningSite({runtime,progressFault:refused?'invalid_version_after_initial':outcome==='ui_refusal'?'invalid_version_react_initial':null,queryAssets:true,assetFault:outcome==='asset_refusal'});
   let requests=0;
   const browserType={launch:async options=>{
    const native=await chromium.launch(options);
@@ -230,10 +231,10 @@ test('complete read-only browser collector traverses its real guard and observer
      if(key==='fetch')return options=>{
       const url=new URL(target.request().url());
       assert.equal(url.origin,'https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app');
-      assert.ok(['/api/expungement-ai/profiles/MS','/api/expungement-ai/screening/progress','/expungement-ai/screening/ms','/_next/static/clinic-fixture.js'].includes(url.pathname));
+      assert.ok(['/api/expungement-ai/profiles/MS','/api/expungement-ai/screening/progress','/expungement-ai/screening/ms','/_next/static/chunks/clinic-fixture.js','/_next/static/chunks/clinic-fixture.css','/_next/static/media/fixture.ttf','/expungement-ai/favicon.ico','/expungement-ai/icon-192.png','/_next/image'].includes(url.pathname));
       requests++;
       if(outcome==='transport_failure'&&requests===3)throw Error('local upstream transport failure');
-      return target.fetch({...options,url:site.origin+url.pathname});
+      return target.fetch({...options,url:site.origin+url.pathname+url.search});
      };
      const value=Reflect.get(target,key);return typeof value==='function'?value.bind(target):value;
     }})));
@@ -245,14 +246,23 @@ test('complete read-only browser collector traverses its real guard and observer
    if(refused) {
     assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,409);assert.equal(result.observed,'application_refusal');
     assert.equal(result.responseObservations.at(-1).errorCode,'profile_version_mismatch');assert.equal(requests,3);
+   }else if(outcome==='asset_refusal') {
+    assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,403);assert.equal(result.condition,'React resource HTTP refusal');
+    assert.equal(result.observed,'framework_stylesheet: React resource HTTP refusal');
+    assert.ok(result.resourceResponses.some(r=>r.category==='framework_stylesheet'&&r.httpStatus===403));
+    assert.ok(!JSON.stringify(result).includes('fixture private response'));
    }else if(outcome==='ui_refusal') {
     assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,409);assert.equal(result.observed,'application_refusal');
-    assert.equal(result.reactInitialization.responseObservations.at(-1).errorCode,'profile_version_mismatch');assert.equal(requests,14);
+    assert.equal(result.reactInitialization.responseObservations.at(-1).errorCode,'profile_version_mismatch');assert.ok(requests>=17&&requests<=20);
     assert.ok(result.reactInitialization.alertDetails.some(a=>a.source==='application'));
    }else if(outcome==='transport_failure') {
     assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,null);assert.equal(result.observed,'transport_failure');
     assert.equal(result.responseObservations.at(-1).httpStatus,null);assert.equal(requests,3);assert.equal(site.state.progressCalls,1);
-   }else {diagnostic.assertClinicProgressEvidence(result);assert.equal(requests,14);assert.equal(result.reactInitialization.firstQuestionId,'ownership_scope');assert.ok(result.reactInitialization.alertDetails.some(a=>a.source==='next_route_announcer'));}
+   }else {diagnostic.assertClinicProgressEvidence(result);assert.ok(requests>=17&&requests<=20);
+    for(const category of ['framework_script','framework_stylesheet','framework_font','image_optimizer'])assert.ok(result.resourceResponses.some(r=>r.category===category&&r.allowed&&r.httpStatus===200));
+    assert.ok(result.resourceResponses.filter(r=>r.category.startsWith('framework_')).every(r=>JSON.stringify(r.queryNames)==='["dpl"]'));
+    assert.ok(!JSON.stringify(result).includes('fixture-immutable-token'));
+    assert.equal(result.reactInitialization.firstQuestionId,'ownership_scope');assert.ok(result.reactInitialization.alertDetails.some(a=>a.source==='next_route_announcer'));}
    assertNoDownstream(site);assert.deepEqual(runtime.sideEffects,{databaseCalls:0,cookieCalls:0});
    assert(!JSON.stringify(result).includes('local-fixture-only'));
    proof.cases.push({id:'full_collector_'+outcome,transportAttempts:requests,httpRequests:outcome==='transport_failure'?requests-1:requests,actualHandlers:true,livePreview:false,downstreamEffects:0});
