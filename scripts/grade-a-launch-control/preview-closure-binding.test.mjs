@@ -7,7 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {prepareClosureControl,CLOSURE_CONTROL_PATHS,verifyClosureControl} from './preview-closure-control.mjs';
 import {PREVIEW_ADMISSION_SCHEMA,PREVIEW_CREATION_RUN,ACCEPTANCE_PROJECT,PRODUCTION_BASELINE,assertNativePreviewCreation} from './preview-closure-contract.mjs';
-import {PENDING,CANDIDATE,TOOLS,verifyPinnedForwardBinding} from './verify-pinned-worker-successor.mjs';
+import {PENDING,CANDIDATE,TOOLS,verifyPinnedForwardBinding,assertClosureApplicationInputs} from './verify-pinned-worker-successor.mjs';
 import {requireCurrentReleaseCandidate} from './verify-release-candidate-binding.mjs';
 import {HOSTED_VERCEL_PROJECT_ID} from '../rcap-hosted-acceptance-vercel-identity.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
@@ -29,7 +29,9 @@ test('complete synthetic native v3 closure reaches CURRENT through real successo
   git(['remote','set-url','origin',originUrl]);
   git(['update-ref',canonicalRef,canonicalSha]);
   const predecessorSha='eb9564de96b2514cf6d972f7a5cb5b6d8c4675a3';git(['checkout','--quiet','--detach',predecessorSha]);fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
-  for(const p of CLOSURE_CONTROL_PATHS)fs.copyFileSync(p,path.join(root,p));git(['add','--',...CLOSURE_CONTROL_PATHS]);commit('synthetic closure-only control correction');const sourceSha=git(['rev-parse','HEAD']);
+  for(const p of CLOSURE_CONTROL_PATHS)fs.copyFileSync(p,path.join(root,p));
+  const vercel=read('vercel.json');vercel.git.deploymentEnabled['codex-f/synthetic-closure-disabled']=false;write('vercel.json',vercel);
+  git(['add','--',...CLOSURE_CONTROL_PATHS]);commit('synthetic closure-only control correction');const sourceSha=git(['rev-parse','HEAD']);
   const closureControl=prepareClosureControl(root,{predecessorSha,sourceSha});for(const p of [PENDING,CANDIDATE,TOOLS])write(p,{...read(p),closureControl});
   const c=read(CANDIDATE),tuple=Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'].map(k=>[k,c[k]]));
   assert.equal(verifyClosureControl(root,c).size,Object.keys(closureControl.files).length);
@@ -71,5 +73,67 @@ test('isolated Preview closure admits exactly four added paths and still rejects
   for(const name of added)assert.equal(manifest.files[name],hash('synthetic reviewed control\n'));
   write('scripts/unreviewed-extra.mjs','unapproved\n');const unrelated=commit();assert.throws(()=>prepareClosureControl(root,{predecessorSha,sourceSha:unrelated}),/only authorized closure control correction/);
   git(['rm','scripts/unreviewed-extra.mjs']);write('src/unreviewed.ts','unapproved\n');const application=commit();assert.throws(()=>prepareClosureControl(root,{predecessorSha,sourceSha:application}),/only authorized closure control correction/);
+ } finally {fs.rmSync(root,{recursive:true,force:true});}
+});
+
+
+test('closure application binding permits only manifest-bound literal branch disable additions',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'f-disable-only-binding-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ const write=(file,text)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),text);};
+ const baseline={$schema:'https://openapi.vercel.sh/vercel.json',git:{deploymentEnabled:{main:false,existing:true}},buildCommand:'npm run build'};
+ const config=extra=>({...baseline,git:{deploymentEnabled:{...baseline.git.deploymentEnabled,...extra}}});
+ const save=value=>write('vercel.json',JSON.stringify(value)+'\n');
+ const commit=()=>{git(['add','.']);git(['-c','user.name=Synthetic Closure Test','-c','user.email=synthetic@example.invalid','commit','--quiet','--allow-empty','-m','synthetic disable-only fixture']);return git(['rev-parse','HEAD']);};
+ try {
+  git(['init','--quiet']);save(baseline);write('src/app.ts','export const frozen=true;\n');const app=commit();
+  const bound=new Set(['vercel.json']);
+  const check=(value,prepare=()=>{})=>{git(['reset','--hard',app]);save(value);prepare();commit();assertClosureApplicationInputs(root,app,bound);};
+  check(config({'codex-b/isolated-sponsored-control-20261025':false}));
+  assert.throws(()=>assertClosureApplicationInputs(root,app,new Set()),/verified closure control/);
+  save(config({'codex-b/isolated-sponsored-control-20261025':false,uncommitted:false}));
+  assert.throws(()=>assertClosureApplicationInputs(root,app,bound),/working Vercel bytes match HEAD/);
+  for(const value of [
+   config({newbranch:true}),config({newbranch:null}),config({'*':false}),config({'feature/*':false}),config({'feature/?':false}),config({'feature/[x]':false}),config({'bad..branch':false}),
+   {...config({newbranch:false}),git:{deploymentEnabled:{newbranch:false}}},config({main:true,newbranch:false}),
+   {...config({newbranch:false}),env:{PRIVATE:'changed'}},{...config({newbranch:false}),buildCommand:'changed'},
+   {...config({newbranch:false}),functions:{'api/x':{runtime:'changed'}}},{...config({newbranch:false}),git:{deploymentEnabled:false}}
+  ])assert.throws(()=>check(value));
+  assert.throws(()=>check(config({newbranch:false}),()=>write('src/app.ts','export const frozen=false;\n')),/application inputs/);
+  assert.throws(()=>check(config({newbranch:false}),()=>fs.chmodSync(path.join(root,'vercel.json'),0o755)),/file mode/);
+  git(['reset','--hard',app]);write('src/app.ts','uncommitted application drift;\n');assert.throws(()=>assertClosureApplicationInputs(root,app,new Set()),/working application inputs/);
+  git(['reset','--hard',app]);assertClosureApplicationInputs(root,app,new Set());
+ } finally {fs.rmSync(root,{recursive:true,force:true});}
+});
+
+
+test('closure application binding admits only exact historical workflow and Eg2 collector bytes and rejects control or runtime drift',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'f-historical-identity-binding-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ const source=(sha,file)=>execFileSync('git',['show',`${sha}:${file}`],{cwd:process.cwd()});
+ const app='4feb8e94b3dee4085fe05ea75d78853fe21e5097',reviewed='f614b6c77111d844e6f051a69344a9b093f7158e';
+ const identity='scripts/rcap-hosted-acceptance-vercel-identity.mjs',history='data/rcap-grade-a/participant-data-rights/vercel-only-recheck-preparation-20260914.json',workflow='.github/workflows/rcap-f1-ephemeral-staging.yml';
+ const write=(file,bytes)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),bytes);};
+ const commit=()=>{git(['add','.']);git(['-c','user.name=Synthetic Closure Test','-c','user.email=synthetic@example.invalid','commit','--quiet','-m','synthetic historical reference fixture']);return git(['rev-parse','HEAD']);};
+ try {
+  git(['init','--quiet']);
+  write('next.config.ts',"import './scripts/fixture-reader.mjs';\n");
+  write('scripts/fixture-reader.mjs',"import path from 'node:path';export const files=path.join(process.cwd(),'data/rcap-grade-a/participant-data-rights');\n");
+  write('src/app.ts','export const frozen=true;\n');
+  for(const file of [identity,history,workflow])write(file,source(app,file));
+  const baseline=commit(),bound=new Set([identity,workflow]);
+  const check=prepare=>{git(['reset','--hard',baseline]);write(identity,source(reviewed,identity));write(workflow,source(reviewed,workflow));prepare?.();commit();assertClosureApplicationInputs(root,baseline,bound);};
+  check();
+  assert.throws(()=>assertClosureApplicationInputs(root,baseline,new Set()),/verified closure control/);
+  assert.throws(()=>assertClosureApplicationInputs(root,baseline,new Set([identity])),/verified closure control/);
+  write(identity,Buffer.concat([source(reviewed,identity),Buffer.from('\n// working drift\n')]));
+  assert.throws(()=>assertClosureApplicationInputs(root,baseline,bound),/working historical control/);
+  assert.throws(()=>check(()=>write(identity,source(reviewed,identity).toString().replace('dpl_Eg2n58h38JhnU9uuXQ7Nk46QXGuL','dpl_WrongPreview'))),/reviewed historical control/);
+  assert.throws(()=>check(()=>write(workflow,Buffer.concat([source(reviewed,workflow),Buffer.from('\n# arbitrary workflow drift\n')]))),/reviewed historical control/);
+  assert.throws(()=>check(()=>write('src/app.ts',"import '../scripts/rcap-hosted-acceptance-vercel-identity.mjs';\n")),/runtime consumer|application inputs/);
+  assert.throws(()=>check(()=>fs.chmodSync(path.join(root,identity),0o755)),/file mode/);
+  assert.throws(()=>check(()=>write(history,source(app,history).toString().replace('historicalPreparationOnly','runtimeAuthority'))),/historical preparation/);
+  assert.throws(()=>check(()=>write('data/rcap-grade-a/participant-data-rights/runtime-authority.json','{"active":true}\n')),/application inputs/);
+  assert.throws(()=>check(()=>write('next.config.ts',"import './scripts/fixture-reader.mjs';export default {env:{changed:'true'}};\n")),/application inputs/);
  } finally {fs.rmSync(root,{recursive:true,force:true});}
 });

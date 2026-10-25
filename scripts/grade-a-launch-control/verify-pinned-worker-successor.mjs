@@ -287,6 +287,53 @@ export function assertForwardTuple(record, expected) {
  assert.equal(record.runtimeAccepted,true);assert.equal(record.workerRebuildRequired,false);
  assert.equal(record.resume,null);assert.equal(record.previewExecution,'held');
 }
+export function assertClosureApplicationInputs(root,applicationSha,corrected) {
+ const historicalReference='data/rcap-grade-a/participant-data-rights/vercel-only-recheck-preparation-20260914.json';
+ const historicalControls=[
+  ['scripts/rcap-hosted-acceptance-vercel-identity.mjs','59f2fd14c24e3610c70265e3be192a70b18d7ae65c12f4ab5abc54bc434655b2','eac0117163fc0119fec0889212f9f657b92895b1da7e4b69cf591370082b45d3'],
+  ['.github/workflows/rcap-f1-ephemeral-staging.yml','e4639d18cb7d6b5f2f6a024d70afaa623d582a7be7124a5c3e5836f0a906fbfb','a8512fda5d39207a01a2c0a21b62d1ce451bfe779e86f05ba963512c3504291a'],
+ ];
+ const equivalence=applicationInputEquivalence(root,applicationSha,'HEAD');
+ const allowed=new Set(['vercel.json']);
+ for(const [file,beforeHash,afterHash]of historicalControls){
+  if(!equivalence.changedPaths.includes(file))continue;
+  // These exact controls are historical references; the provider builds the frozen application SHA.
+  assert(corrected.has(file),'historical control must be bound by verified closure control');
+  const before=applicationInputManifest(root,applicationSha).files.find(f=>f.path===file);
+  const after=applicationInputManifest(root,'HEAD').files.find(f=>f.path===file);
+  assert.equal(before?.mode,after?.mode,'historical control file mode remains frozen');
+  assert.deepEqual(before?.consumers,[historicalReference],'only exact historical preparation references control');
+  assert.deepEqual(after?.consumers,[historicalReference],'no new control runtime consumer');
+  assert.equal(hash(execFileSync('git',['show',`${applicationSha}:${file}`],{cwd:root})),beforeHash,'exact frozen historical control bytes');
+  assert.equal(hash(execFileSync('git',['show',`HEAD:${file}`],{cwd:root})),afterHash,'only reviewed historical control correction');
+  assert.equal(git(root,['diff','--name-only','HEAD','--',file]),'','working historical control bytes match HEAD');
+  for(const revision of [applicationSha,'HEAD'])assert.equal(hash(execFileSync('git',['show',`${revision}:${historicalReference}`],{cwd:root})),'6deb604cdfcc83cb9ce773965d6d09d9948848b624d61ae4a9645fa2f54a7675','exact historical preparation category and references');
+  allowed.add(file);
+ }
+ const runtime=new Set(applicationInputManifest(root,applicationSha).files.map(f=>f.path));
+ const working=git(root,['diff','--name-only',applicationSha]).split('\n').filter(f=>runtime.has(f));
+ assert(equivalence.changedPaths.every(f=>allowed.has(f)),'current application inputs match frozen successor');
+ assert(working.every(f=>allowed.has(f)),'working application inputs remain frozen');
+ if(!equivalence.changedPaths.includes('vercel.json')&&!working.includes('vercel.json'))return;
+ assert(corrected.has('vercel.json'),'deployment disable must be bound by verified closure control');
+ assert.equal(git(root,['diff','--name-only','HEAD','--','vercel.json']),'','working Vercel bytes match HEAD');
+ const beforeFile=applicationInputManifest(root,applicationSha).files.find(f=>f.path==='vercel.json');
+ const afterFile=applicationInputManifest(root,'HEAD').files.find(f=>f.path==='vercel.json');
+ assert.equal(afterFile?.mode,beforeFile?.mode,'Vercel file mode remains frozen');
+ const before=at(root,applicationSha,'vercel.json'),after=at(root,'HEAD','vercel.json');
+ const baseline=before.git?.deploymentEnabled,branches=after.git?.deploymentEnabled;
+ for(const map of [baseline,branches])assert(map&&typeof map==='object'&&!Array.isArray(map),'deploymentEnabled remains a branch map');
+ for(const [branch,value]of Object.entries(baseline))assert(Object.hasOwn(branches,branch)&&isDeepStrictEqual(branches[branch],value),'existing branch deployment settings remain frozen');
+ const added=Object.keys(branches).filter(branch=>!Object.hasOwn(baseline,branch));
+ assert(added.length>0,'only added branch deployment disables are permitted');
+ for(const branch of added){
+  assert(!/[*?\[\]]/.test(branch),'wildcard deployment settings are forbidden');
+  git(root,['check-ref-format',`refs/heads/${branch}`]);
+  assert.equal(branches[branch],false,'new branch deployment setting must be false');
+ }
+ assert.deepEqual({...after,git:{...after.git,deploymentEnabled:baseline}},before,'all other Vercel configuration remains frozen');
+}
+
 export function verifyPinnedForwardBinding(root,candidate,history) {
  try {
   const p=read(root,PENDING),tools=read(root,TOOLS);
@@ -313,12 +360,10 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
    assert.equal(record.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024})),'forward predecessor byte hash');
   }
   git(root,['merge-base','--is-ancestor',p.applicationSha,p.toolsSha]);git(root,['merge-base','--is-ancestor',p.toolsSha,'HEAD']);
-  assert(applicationInputEquivalence(root,p.applicationSha,'HEAD').equivalent,'current application inputs match frozen successor');
-  const runtime=new Set(applicationInputManifest(root,p.applicationSha).files.map(f=>f.path));
-  assert(git(root,['diff','--name-only',p.applicationSha]).split('\n').every(f=>!runtime.has(f)),'working application inputs remain frozen');
+  const corrected=verifyClosureControl(root,candidate);
+  assertClosureApplicationInputs(root,p.applicationSha,corrected);
   const plan=createWorkerInputPlan({rootDir:root,candidateSha:p.applicationSha,acceptedSourceSha:prior.workerSourceSha,acceptedDigest:prior.workerDigest});
   assert.equal(plan.rebuildRequired,false);assert.deepEqual(plan.missingCanonicalInputs,[]);assert.equal(plan.aggregateInputSha256,prior.workerInputFingerprint);
-  const corrected=verifyClosureControl(root,candidate);
   const manifest=tools.successorTools;
   assert.equal(manifest.baseSha,p.releaseBaseSha);
   const delta=git(root,['diff','--name-only',p.releaseBaseSha,p.toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/')).sort();
