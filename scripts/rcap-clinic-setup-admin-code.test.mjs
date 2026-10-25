@@ -40,6 +40,7 @@ for(const [label,change] of [
   ['event outside actual window',f=>{f.event.endsAt=new Date(f.now-1).toISOString();}],
   ['event not published',f=>{f.event.status='paused';}],
   ['already renewed or unknown inventory',f=>{f.workspace.json.workspace.accessCodes.push({...f.old,id:'22222222-2222-4222-8222-222222222222',usesCount:0});}],
+  ['reconciled consumed run401528 code',f=>{f.workspace.json.workspace.accessCodes.push({...f.old,id:'5fe1f896-c735-4ef4-838e-d86a4b293d86',usesCount:1,maxUses:1});}],
   ['old code no longer exhausted',f=>{f.old.usesCount=1;}],
   ['normal read-only surfaces blocked',f=>{f.io.beforeCode=async()=>{throw Error('blocked normal surfaces');};}],
   ['prior attempt marker',f=>{f.io.saveAttempt=async()=>{throw Error('prior attempt');};}]

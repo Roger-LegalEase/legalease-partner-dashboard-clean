@@ -1,3 +1,4 @@
+import {originalResponse,safeOriginalResponse} from './rcap-clinic-original-response.mjs';
 import assert from 'node:assert/strict';
 export const CLINIC_SETUP = Object.freeze({
   origin: 'https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app',
@@ -59,18 +60,13 @@ export function clinicSetupSafeError(error,env) {
 }
 
 export async function captureClinicEntryResponse(response) {
-  if (!response) return {httpStatus:null,accepted:false};
-  const body=await response.json().catch(()=>null);
-  let accepted=false;
-  if (body?.success===true && typeof body.next==='string') {
-    try {const url=new URL(body.next,CLINIC_SETUP.origin);accepted=url.origin===CLINIC_SETUP.origin
-      && url.pathname===`/clinic/${CLINIC_SETUP.slug}/assist`;} catch { /* invalid next */ }
-  }
-  return {httpStatus:response.status(),accepted};
+  return safeOriginalResponse(originalResponse(response,'entry'));
 }
+
 export function assertClinicEntryAccepted(observation) {
   assert.equal(observation.httpStatus,200,`Clinic entry refused HTTP ${observation.httpStatus ?? 'no response'}`);
-  assert.equal(observation.accepted,true,'Clinic entry response did not confirm the expected continuation');
+  assert.equal(observation.outcome,'accepted',`Clinic entry ${observation.outcome}; original response did not confirm the expected continuation`);
+  assert.equal(observation.accepted,true);
 }
 
 export function clinicSetupSafePathname(address,env) {

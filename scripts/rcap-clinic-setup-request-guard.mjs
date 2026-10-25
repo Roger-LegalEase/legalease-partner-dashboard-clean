@@ -1,3 +1,4 @@
+import {observedOriginalResponse,safeOriginalResponse} from './rcap-clinic-original-response.mjs';
 import assert from 'node:assert/strict';
 import {TOOLBAR_LOADER,TURNSTILE_LOADER,withoutPreviewHeaders,browserDeliveryPath} from './rcap-clinic-resume-network-policy.mjs';
 import {CLINIC_SETUP,clinicSetupRequestAllowed,clinicSetupSafePathname,clinicSetupSafeError} from './rcap-clinic-setup-only-boundary.mjs';
@@ -79,11 +80,13 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
         criticalUrls.add(request.url());fatal.push(record(request,classification));return route.abort('blockedbyclient');
       }
       if(request.method()==='POST')record(request,'allowed_effect_boundary');
-      if(url.origin!==CLINIC_SETUP.origin)return route.continue({headers:withoutPreviewHeaders(request.headers())});
+      if(url.origin!==CLINIC_SETUP.origin)return route.fallback({headers:withoutPreviewHeaders(request.headers())});
       return route.fallback();
     },
     response(response) {
       const request=response.request(),url=new URL(request.url()),method=request.method();
+      const observed=observedOriginalResponse(request);
+      if(observed&&!observed.accepted)fatal.push(safeOriginalResponse(observed));
       const normalAuth=url.origin===`https://${CLINIC_SETUP.project}.supabase.co`&&method==='POST'&&url.pathname==='/auth/v1/token'&&url.searchParams.get('grant_type')==='password';
       const paths={
         '/api/clinic/entry':'clinic_entry','/api/clinic/assistance/start':'fresh_consent',

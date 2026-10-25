@@ -1,3 +1,4 @@
+import {createOriginalResponseObserver,matchesOriginalResponse,originalResponse,originalResponseOperation,requireOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
 import {readCurrentClinicGate} from './rcap-clinic-live-prerequisites.mjs';
 import {readNormalClinicSurfaces,assertNormalClinicSurfaces} from './rcap-clinic-normal-readiness.mjs';
@@ -58,7 +59,8 @@ const clinicMode = Boolean(clinicEventSlug);
 const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
 const issueClinicCode = clinicSetupOnly && process.env.RCAP_BROWSER_ISSUE_CLINIC_CODE === "1";
 if (clinicSetupOnly) assertClinicSetupInput(process.env);
-const result = { stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
+const responseConfig={origin:baseUrl,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:clinicEventSlug};
+const result = { responseObservations:[],stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
   process.env.RCAP_BROWSER_EVIDENCE_DIR?.trim() ||
     path.join(process.cwd(), "hosted-acceptance-evidence", "rcap-commercial-flow")
@@ -218,13 +220,12 @@ async function runJourney() {
     check(landingResponse?.ok(), `Clinic entry returned ${landingResponse?.status() ?? "no response"}.`);
     await expectText(page, clinicEventName);
     await page.getByLabel("Event access code").fill(clinicAccessCode);
-    const entryResponse=clinicSetupOnly ? page.waitForResponse(response=>response.request().method()==='POST'
-      && new URL(response.url()).pathname==='/api/clinic/entry',{timeout:15000}).catch(()=>null) : null;
+    const entryResponse=clinicSetupOnly ? page.waitForResponse(response=>matchesOriginalResponse(response,'entry',responseConfig),{timeout:15000}).catch(()=>null) : null;
     participantGuard?.assertNoCritical();result.stage='participant_code_redemption';
     await page.getByRole("button", { name: "Continue to participant consent", exact: true }).click();
     if (clinicSetupOnly) {
       const observation=await captureClinicEntryResponse(await entryResponse);
-      result.entryDiagnostics={httpStatus:observation.httpStatus};
+      result.entryDiagnostics={httpStatus:observation.httpStatus,responseOutcome:observation.outcome,bodyState:observation.bodyState};
       assertClinicEntryAccepted(observation);
     }
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/assist` || url.pathname === "/expungement-ai/sign-in");
@@ -242,14 +243,11 @@ async function runJourney() {
       await page.locator('select[name="eventStaffId"]').selectOption(CLINIC_SETUP.staff);
     } else await page.locator('select[name="eventStaffId"]').selectOption({ index: 1 });
     await page.locator('input[name="consent"]').check();
-    const assistanceResponse = clinicSetupOnly ? page.waitForResponse(response => response.request().method()==='POST'
-      && new URL(response.url()).pathname==='/api/clinic/assistance/start') : null;
+    const assistanceResponse = clinicSetupOnly ? page.waitForResponse(response=>matchesOriginalResponse(response,'assistance',responseConfig)) : null;
     participantGuard?.assertNoCritical();result.stage='participant_fresh_consent';
     await page.getByRole("button", { name: "Start screening with assistance", exact: true }).click();
     if (clinicSetupOnly) {
-      const response=await assistanceResponse; const body=await response.json();
-      assert.equal(response.status(),200); assert.equal(body.success,true);
-      assert.equal(body.screeningUrl,`/clinic/${CLINIC_SETUP.slug}/screening/ms`);
+      const response=await assistanceResponse;requireOriginalResponse(response,'assistance');
       result.freshConsent={startedUnchecked:true,submittedFromNormalUI:true,status:response.status(),staffId:CLINIC_SETUP.staff,ownerId:participantUserId};
     }
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/screening/ms`);
@@ -295,9 +293,8 @@ async function runJourney() {
   check(authCookies.length > 0, "Supabase session cookie was not written on the acceptance origin.");
 
   result.stage='participant_screening';
-  const screeningCompletion=clinicSetupOnly?page.waitForResponse(response=>response.request().method()==='POST'
-    &&new URL(response.url()).origin===CLINIC_SETUP.origin&&new URL(response.url()).pathname==='/api/expungement-ai/screening/complete',
-    {timeout:45000}).then(async response=>({httpStatus:response.status(),accepted:(await response.json())?.ok===true})).catch(()=>null):null;
+  const screeningCompletion=clinicSetupOnly?page.waitForResponse(response=>matchesOriginalResponse(response,'completion',responseConfig),
+    {timeout:45000}).then(response=>originalResponse(response,'completion')).catch(()=>null):null;
   // 2. Answer the deterministic Mississippi non-conviction fixture.
   await answerChoice(page, "Are you asking about your own record?", "Yes");
   await answerChoice(page, "Did this case happen in Mississippi (not a federal case)?", "State or local");
@@ -360,20 +357,19 @@ async function runJourney() {
     participantGuard.assertNoCritical();
   }
   const pendingResponsePromise = page.waitForResponse(
-    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/screening/pending",
+    (response) => matchesOriginalResponse(response,"pending",responseConfig),
     { timeout: 20_000 }
   );
   const claimResponsePromise = page.waitForResponse(
-    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/screening/pending/claim",
+    (response) => matchesOriginalResponse(response,"claim",responseConfig),
     { timeout: 20_000 }
   );
   participantGuard?.assertNoCritical();result.stage='participant_claim';
   await page.getByRole("button", { name: "Save to my Briefcase and continue", exact: true }).click();
   const pendingResponse = await pendingResponsePromise;
-  check(pendingResponse.ok(), `Partner pending-result write returned ${pendingResponse.status()}.`);
+  requireOriginalResponse(pendingResponse,"pending");
   const claimResponse = await claimResponsePromise;
-  const claimed = await claimResponse.json().catch(() => null);
-  check(claimResponse.ok(), `Partner pending-result claim returned ${claimResponse.status()}.`);
+  const claimed = requireOriginalResponse(claimResponse,"claim");
   await page.waitForURL((url) => url.origin === new URL(baseUrl).origin && validUuid(exactBriefcaseItemId(url.pathname)));
   const packetItemId = exactBriefcaseItemId(new URL(page.url()).pathname);
   check(validUuid(packetItemId), "Partner pending-result claim did not land on an exact Briefcase item.");
@@ -381,6 +377,7 @@ async function runJourney() {
   if (validUuid(claimed?.itemId)) check(claimed.itemId === packetItemId, "Partner claim response and exact matter URL disagree.");
   if (exactBriefcaseItemId(claimed?.redirectTo)) check(exactBriefcaseItemId(claimed.redirectTo) === packetItemId, "Partner claim redirect and exact matter URL disagree.");
 
+  if(clinicSetupOnly)await page.locator(`[data-briefcase-matter-id="${packetItemId}"]`).waitFor({state:"visible"});
   await page.getByText("MS", { exact: true }).first().waitFor({ state: "visible" });
   await expectText(page, "Non-conviction expungement for dismissal, no disposition, or acquittal");
   check(!(await page.getByText("We couldn't find that matter", { exact: true }).isVisible().catch(() => false)), "Saved partner matter was not visible to the authenticated user.");
@@ -471,15 +468,14 @@ async function runJourney() {
   }
   const verificationResponsePromise = packetInformationResponse(page, packetItemId);
   const generationResponsePromise = page.waitForResponse(
-    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/packet/generate",
+    (response) => matchesOriginalResponse(response,"generation",responseConfig),
     { timeout: 30_000 }
   );
   await verifyButton.click();
   const verificationResponse = await verificationResponsePromise;
   check(verificationResponse.ok(), `Partner final verification returned ${verificationResponse.status()}.`);
   const generationResponse = await generationResponsePromise;
-  const generationResponseBody = await generationResponse.json().catch(() => null);
-  check(generationResponse.ok(), `Sponsored packet generation returned ${generationResponse.status()}.`);
+  const generationResponseBody = requireOriginalResponse(generationResponse,"generation");
   check(generationRequests.length === 1, `Expected one sponsored generation request after verification; saw ${generationRequests.length}.`);
   // The durable job must finish before the Briefcase can expose its artifact.
   // Reuse the payment harness's exact claim-order and worker-cycle contract.
@@ -593,13 +589,11 @@ async function runJourney() {
       await caches.open("rcap-reset-proof");
     });
     const resetResponsePromise = page.waitForResponse(
-      (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/clinic/session/reset"
+      (response) => {const operation=originalResponseOperation(response.request(),responseConfig);return operation==='reset_complete'||operation?.startsWith('reset_')&&originalResponse(response,operation).accepted===false;}
     );
     await page.getByRole("button", { name: "End clinic session / Reset device", exact: true }).click();
     const resetResponse = await resetResponsePromise;
-    const resetBody = await resetResponse.json().catch(() => null);
-    check(resetResponse.status() === 200, "Clinic reset endpoint did not return 200.");
-    check(resetBody?.signOutConfirmed === true, "Clinic reset did not confirm server-side participant sign-out.");
+    requireOriginalResponse(resetResponse,"reset_complete");
     await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}`);
     const participantCookies = (await context.cookies()).filter((cookie) => cookie.name.startsWith("clinic_") || cookie.name.startsWith("sb-"));
     check(participantCookies.length === 0, `Clinic reset retained ${participantCookies.length} participant cookie(s).`);
@@ -787,20 +781,19 @@ async function signIn(page, accountEmail, accountPassword) {
   await page.locator('input[name="email"]').fill(accountEmail);
   await page.locator('input[name="password"]').fill(accountPassword);
   const authResponsePromise = page.waitForResponse(
-    (response) => response.request().method() === "POST" && response.url().includes("/auth/v1/token") && response.url().includes("grant_type=password"),
+    (response) => matchesOriginalResponse(response,"signin",responseConfig),
     { timeout: 20_000 }
   );
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   const authResponse = await authResponsePromise;
-  check(authResponse.ok(), `Supabase password sign-in returned ${authResponse.status()}.`);
-  return authResponse.json().catch(() => null);
+  return {user:{id:requireOriginalResponse(authResponse,"signin").userId}};
 }
 
 async function attachBypass(context) {
-  if (!bypassSecret) return;
-  await context.route(`${baseUrl}/**`, async (route) => {
+  if (bypassSecret) await context.route(`${baseUrl}/**`, async (route) => {
     await route.continue({ headers: { ...route.request().headers(), ...bypassHeaders() } });
   });
+  await context.route("**/*",createOriginalResponseObserver(responseConfig,{bypass:bypassSecret,onObservation:value=>{if(result.responseObservations.length<200)result.responseObservations.push(value);}}));
 }
 
 function bypassHeaders() {

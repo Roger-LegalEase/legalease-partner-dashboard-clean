@@ -248,3 +248,13 @@ test('independent Preview read denials are aggregated without losing database ev
  const d=failure(result,'exact_current_preview');assert.deepEqual(d.failures.map(x=>[x.operation,x.httpStatus]),[['deployment_lookup',403],['preview_alias_lookup',401],['deployment_aliases_lookup',503]]);
  assert(result.checks.some(c=>c.id==='database_complete_compatibility'&&c.ok));assert.equal(result.stateChangingStepReached,false);
 });
+
+
+test('reconciled consumed run401528 code blocks new issuance without reopening database or credential acceptance',async()=>{
+ const contract=validContract();contract.operational.existing_code_inventory.push({id:'5fe1f896-c735-4ef4-838e-d86a4b293d86',uses_count:1,max_uses:1});
+ const result=await readWith([Response.json([{...context(),clinic_known_compatibility_prerequisites:{}}],{status:201})],()=>contract);
+ const failures=result.checks.filter(check=>!check.ok);
+ assert.equal(failures.length,1);assert.equal(failures[0].id,'normal_code_issuance_inventory');
+ assert.equal(failures[0].observed,'prior_single_use_code_consumed_new_execution_not_authorized');
+ assert.equal(result.calls,1);assert.equal(result.stateChangingStepReached,false);
+});

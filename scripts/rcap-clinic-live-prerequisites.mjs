@@ -84,8 +84,9 @@ export async function readClinicDatabasePrerequisites({env=process.env,fetchImpl
     const result=qualifyDatabase({catalog:row.clinic_known_compatibility_prerequisites,projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app});
     assert.ok(Array.isArray(result.checks)&&result.checks.length>0);checks.push(...result.checks);
     const inventory=result.operational?.existing_code_inventory;
+    const consumedPriorAttempt=Array.isArray(inventory)&&inventory.some(code=>code.id==='5fe1f896-c735-4ef4-838e-d86a4b293d86'&&code.uses_count===1&&code.max_uses===1);
     add('normal_code_issuance_inventory',result.operational?.codeIssuanceRequired===true&&Array.isArray(inventory)&&inventory.length===1
-      &&inventory[0].id==='77000000-0000-4000-8000-000000000057'&&inventory[0].uses_count===2&&inventory[0].max_uses===2,'sole exhausted historical code','inventory qualified without private contents');
+      &&inventory[0].id==='77000000-0000-4000-8000-000000000057'&&inventory[0].uses_count===2&&inventory[0].max_uses===2,'original one-code issuance precondition; changed inventory requires a new bounded disposition',consumedPriorAttempt?'prior_single_use_code_consumed_new_execution_not_authorized':'inventory_not_qualified');
     add('database_complete_compatibility',result.status==='READY'&&result.blockers?.length===0,'READY without blockers',result.status==='READY'?'READY':'BLOCKED');
     return evidence();
   } catch {
