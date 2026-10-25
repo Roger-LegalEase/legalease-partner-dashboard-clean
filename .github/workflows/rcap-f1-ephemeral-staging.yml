@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       clinic_attempt_id:
         description: "Owner-authorized Clinic attempt identity; required for clinic_setup_only, never reused"
@@ -266,6 +266,92 @@ jobs:
         with:
           name: clinic-owned-matter-readonly-${{ github.run_id }}
           path: clinic-owned-matter-evidence/
+          if-no-files-found: warn
+
+  clinic_owned_matter_packet:
+    name: Continue only the existing owned Clinic packet to queued-job handoff
+    if: inputs.mode == 'clinic_owned_matter_packet'
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require exact existing matter inputs and disabled control-branch deployment
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs'; import assert from 'node:assert/strict';
+          const inputs=JSON.parse(process.env.DISPATCH_INPUTS);
+          for(const [key,value] of Object.entries({mode:'clinic_owned_matter_packet',resume_matter_id:'6765fcb9-586d-4abe-bc60-9f77f6a11e16',application_sha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'}))assert.equal(inputs[key],value);
+          assert.ok(!inputs.clinic_attempt_id,'Existing matter cannot start another intake attempt');
+          assert.equal(inputs.tools_sha,process.env.GITHUB_SHA);
+          assert.match(inputs.preview_deployment_id,/^dpl_[A-Za-z0-9]+$/);
+          assert.match(inputs.preview_creation_run_id,/^\d+$/);
+          assert.notEqual(inputs.preview_creation_run_id,'40057159400');
+          assert.match(inputs.preview_hostname,/^[a-z0-9-]+\.vercel\.app$/);
+          assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');
+          assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          JS
+      - name: Install locked runner dependencies without application build
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify the full Clinic suite and actual existing-matter local HTTP orchestration
+        env:
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+        run: |
+          node --test scripts/rcap-clinic-setup-only-boundary.test.mjs scripts/rcap-clinic-setup-admin-code.test.mjs scripts/rcap-clinic-setup-request-guard.test.mjs scripts/rcap-clinic-normal-readiness.test.mjs scripts/rcap-clinic-live-prerequisites.test.mjs scripts/test-clinic-database-prerequisites.mjs scripts/rcap-clinic-setup-resource-loading.test.mjs scripts/rcap-clinic-owned-matter-prerequisites.test.mjs scripts/rcap-clinic-owned-matter-readonly.test.mjs scripts/rcap-clinic-existing-matter-continuation.test.mjs scripts/rcap-clinic-existing-matter-workflow.test.mjs
+          node scripts/test-rcap-packet-builder-filler.mjs
+      - name: Download the native separate Preview creation evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: rcap-hosted-clinic_deploy-${{ inputs.preview_creation_run_id }}
+          run-id: ${{ inputs.preview_creation_run_id }}
+          github-token: ${{ github.token }}
+          path: clinic-existing-packet-evidence/preview-creation
+      - name: Continue the existing owner packet only and preserve the queued-job handoff
+        env:
+          RCAP_BROWSER_EXISTING_CLINIC_MATTER_ID: ${{ inputs.resume_matter_id }}
+          RCAP_BROWSER_BASE_URL: https://${{ inputs.preview_hostname }}
+          RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          RCAP_BROWSER_PREVIEW_CREATION_RUN_ID: ${{ inputs.preview_creation_run_id }}
+          RCAP_BROWSER_PREVIEW_CREATION_EVIDENCE_DIR: clinic-existing-packet-evidence/preview-creation
+          RCAP_BROWSER_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_BROWSER_ACCEPTANCE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          RCAP_BROWSER_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_BROWSER_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          RCAP_BROWSER_EXPECTED_SCOPE_SHA256: bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336
+          RCAP_BROWSER_EMAIL: mvl-demo-participant-a@rcap-acceptance.test
+          RCAP_BROWSER_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          RCAP_BROWSER_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_BROWSER_VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          RCAP_BROWSER_PARTNER_SLUG: mvl-demo
+          RCAP_BROWSER_CLINIC_EVENT_ID: 77000000-0000-4000-8000-000000000055
+          RCAP_BROWSER_CLINIC_EVENT_SLUG: mississippi-volunteer-lawyers-demo
+          RCAP_BROWSER_CLINIC_EVENT_NAME: Mississippi Volunteer Lawyers Clinic Mode Demo
+          RCAP_BROWSER_CLINIC_SETUP_ONLY: '0'
+          RCAP_BROWSER_ISSUE_CLINIC_CODE: '0'
+          RCAP_BROWSER_CLINIC_ACCESS_CODE: ''
+          RCAP_BROWSER_GUIDANCE_ITEM_ID: ''
+          RCAP_BROWSER_ALLOW_MUTATION: '1'
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_BROWSER_EVIDENCE_DIR: clinic-existing-packet-evidence
+        run: node scripts/verify-rcap-commercial-browser.mjs
+      - name: Preserve actual existing-matter packet and handoff evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clinic-existing-packet-${{ github.run_id }}
+          path: clinic-existing-packet-evidence/
           if-no-files-found: warn
 
   production_hotfix:

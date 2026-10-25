@@ -9,12 +9,13 @@ const paths={
  '/api/expungement-ai/screening/complete':'completion','/api/expungement-ai/screening/pending':'pending',
  '/api/expungement-ai/screening/pending/claim':'claim','/api/expungement-ai/packet/generate':'generation'
 };
-export function originalResponseOperation(request,{origin,authOrigin}) {
+export function originalResponseOperation(request,{origin,authOrigin,existingClinicMatterId}) {
  const url=new URL(request.url());
  if(request.method()==='GET'&&url.origin===origin&&url.pathname==='/api/expungement-ai/profiles/MS'&&!url.search&&!url.hash&&!url.username&&!url.password)return 'profile';
  if(request.method()!=='POST'||url.username||url.password||url.hash)return null;
  if(url.origin===authOrigin&&url.pathname==='/auth/v1/token'&&url.search==='?grant_type=password')return 'signin';
  if(url.origin!==origin||url.search)return null;
+ if(existingClinicMatterId && url.pathname===`/api/expungement-ai/briefcase/${existingClinicMatterId}/packet-information`)return 'packet_information';
  if(url.pathname==='/api/clinic/session/reset') {
   let action;try {action=request.postDataJSON()?.action??'close';}catch{return 'reset_unknown';}
   return ['prepare','close','complete'].includes(action)?`reset_${action}`:'reset_unknown';
@@ -51,7 +52,12 @@ export function projectOriginalResponse(operation,httpStatus,body,config,request
   case 'pending':accepted=body.ok===true&&typeof body.claimToken==='string'&&body.claimToken.length>0;break;
   case 'claim':accepted=body.ok===true&&uuid(body.matterId)&&exactPath(body.redirectTo,`/briefcase/matters/${body.matterId}`,config.origin);
    if(accepted)values={matterId:body.matterId,redirectTo:`/briefcase/matters/${body.matterId}`};break;
-  case 'generation':accepted=uuid(body.briefcaseItemId);if(accepted)values={briefcaseItemId:body.briefcaseItemId};break;
+  case 'packet_information':accepted=body.ok===true&&body.itemId===config.existingClinicMatterId
+    &&Number.isSafeInteger(requestShape.expectedRevision)&&requestShape.expectedRevision>=0
+    &&Number.isSafeInteger(body.revision)&&body.revision===requestShape.expectedRevision+1
+    &&typeof body.readyToGenerate==='boolean'&&(requestShape.verify!==true||body.readyToGenerate===true);
+    if(accepted)values={itemId:body.itemId,revision:body.revision,readyToGenerate:body.readyToGenerate};break;
+  case 'generation':accepted=uuid(body.briefcaseItemId);if(accepted)values={briefcaseItemId:body.briefcaseItemId,...(typeof body.packetStatus==='string'?{packetStatus:body.packetStatus}:{})};break;
   case 'reset_prepare':accepted=body.prepared===true;break;
   case 'reset_close':accepted=body.success===true&&body.revocationConfirmed===true&&body.signOutConfirmed===true;break;
   case 'reset_complete':accepted=body.success===true&&body.revocationConfirmed===true&&body.signOutConfirmed===true

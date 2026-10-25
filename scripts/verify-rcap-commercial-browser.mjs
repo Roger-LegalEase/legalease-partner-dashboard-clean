@@ -2,9 +2,13 @@ import {captureOriginalResponseOnce,openScreeningWithProfile,runScreeningFromOri
 import {CLINIC_FRESH_ATTEMPT,assertClinicAttemptAuthority} from './rcap-clinic-fresh-attempt.mjs';
 import {createOriginalResponseObserver,matchesOriginalResponse,originalResponse,originalResponseOperation,requireOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
+import {ownedMatterReadonlyDecision} from './rcap-clinic-owned-matter-readonly.mjs';
+import {publicReactResourcePolicy} from './rcap-clinic-live-screening-progress.mjs';
+import {readOwnedMatterDatabase} from './rcap-clinic-owned-matter-prerequisites.mjs';
 import {readCurrentClinicGate} from './rcap-clinic-live-prerequisites.mjs';
 import {readNormalClinicSurfaces,assertNormalClinicSurfaces} from './rcap-clinic-normal-readiness.mjs';
-import {previewRequestHeaders} from './rcap-clinic-resume-network-policy.mjs';
+import {previewRequestHeaders,readResumeCaptchaPolicy} from './rcap-clinic-resume-network-policy.mjs';
+import {inspectShippedCaptcha} from './rcap-clinic-resume-captcha.mjs';
 import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure} from './rcap-clinic-setup-admin-code.mjs';
 import { CLINIC_SETUP, assertClinicSetupInput, clinicSetupRequestAllowed, clinicSetupSafeError, captureClinicEntryResponse, assertClinicEntryAccepted, clinicSetupSafePathname } from './rcap-clinic-setup-only-boundary.mjs';
 import crypto from "node:crypto";
@@ -58,10 +62,19 @@ const clinicEventName = process.env.RCAP_BROWSER_CLINIC_EVENT_NAME?.trim() || ""
 let clinicAccessCode = process.env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim() || "";
 const bypassSecret = process.env.RCAP_BROWSER_VERCEL_BYPASS_SECRET?.trim() || "";
 const clinicMode = Boolean(clinicEventSlug);
+const existingClinicMatterId = process.env.RCAP_BROWSER_EXISTING_CLINIC_MATTER_ID?.trim() || "";
+const existingClinicContinuation = Boolean(existingClinicMatterId);
+const EXISTING_CLINIC_MATTER = Object.freeze({
+  id: '6765fcb9-586d-4abe-bc60-9f77f6a11e16', owner: CLINIC_SETUP.owner,
+  session: '56f6cbfa-3dd2-44b1-95bf-84c800396519',
+  matter: 'e6450851-89e2-4d77-9ff2-938ec0edaa39',
+  partner: 'bc1ed720-681e-4da5-9964-acb2affd5b12'
+});
+if (existingClinicContinuation) assertExistingClinicContinuationInput(process.env);
 const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
 const issueClinicCode = clinicSetupOnly && process.env.RCAP_BROWSER_ISSUE_CLINIC_CODE === "1";
 if (clinicSetupOnly) {assertClinicSetupInput(process.env);assertClinicAttemptAuthority(process.env);}
-const responseConfig={origin:baseUrl,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:clinicEventSlug};
+const responseConfig={...(existingClinicContinuation?{existingClinicMatterId}:{}),origin:baseUrl,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:clinicEventSlug};
 const result = { attemptId:clinicSetupOnly?CLINIC_FRESH_ATTEMPT.id:null,responseStages:[],responseObservations:[],stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
   process.env.RCAP_BROWSER_EVIDENCE_DIR?.trim() ||
@@ -71,13 +84,18 @@ const evidenceDir = path.resolve(
 if (process.env.RCAP_BROWSER_ALLOW_MUTATION !== "1") {
   fail("RCAP_BROWSER_ALLOW_MUTATION=1 is required because this proof claims one sponsored screening result into the synthetic user's Briefcase.");
 }
-if (clinicMode && (!validUuid(clinicEventId) || !clinicEventName || (!issueClinicCode && clinicAccessCode.length < 8))) {
+if (clinicMode && !existingClinicContinuation && (!validUuid(clinicEventId) || !clinicEventName || (!issueClinicCode && clinicAccessCode.length < 8))) {
   fail("Clinic mode requires an exact event id, slug, name, and 8+ character access code.");
 }
 fs.mkdirSync(evidenceDir, { recursive: true });
 const clinicGate=clinicSetupOnly?readCurrentClinicGate(required('RCAP_BROWSER_CLINIC_PREREQUISITES_FILE')):null;
 const environmentClassification=clinicGate?clinicGate.preview:await verifyExactHostedPreview(baseUrl,bypassSecret);
 result.environmentClassification = environmentClassification;
+if (existingClinicContinuation) {
+  assert.equal(environmentClassification.previewVerified, true, 'Existing matter requires an actual verified Preview');
+  assert.equal(environmentClassification.routeState, 'staging_scoped');
+  result.continuation = { matterId: existingClinicMatterId, createsIntake: false, runsWorker: false };
+}
 
 const failures = [];
 // The Mississippi non-conviction packet re-checks these route facts before
@@ -92,6 +110,8 @@ const stripeRequests = [];
 const packetDownloadRequests = [];
 let screeningSessionId = null;
 let participantUserId = null;
+const existingClinicResourcePolicies = [];
+let existingClinicRevision = null;
 let browser;
 let activePage;
 const requestFailures=[];
@@ -169,9 +189,42 @@ async function runJourney() {
     colorScheme: "light"
   });
   await attachBypass(context);
-  const participantGuard=clinicSetupOnly?createClinicRequestGuard({actor:'participant',captchaPolicy:clinicGate.captchaPolicy,env:process.env,
-    stage:()=>result.stage,events:result.guardEvents,requestFailures,stageResults:result.stageResults}):null;
-  if(participantGuard)await context.route('**/*',participantGuard.route);
+  const participantGuard=clinicSetupOnly||existingClinicContinuation?createClinicRequestGuard({actor:'participant',captchaPolicy:clinicGate?.captchaPolicy,env:process.env,
+    stage:()=>result.stage,events:result.guardEvents,requestFailures,stageResults:result.stageResults,
+    isOwnedMatterSpeculativePrefetch:request=>existingClinicContinuation&&existingClinicContinuationRequestDecision(request,responseConfig)==='optional_owned_matter_prefetch'}):null;
+  if(participantGuard&&clinicSetupOnly)await context.route('**/*',participantGuard.route);
+  if (existingClinicContinuation) await context.route('**/*', async route => {
+    const request = route.request(), decision = existingClinicContinuationRequestDecision(request, responseConfig);
+    if (decision === 'readonly_telemetry_suppressed') {
+      participantGuard.recordReadonlyBoundary(request, {outcome:decision,ruleId:decision});
+      return route.fulfill({status:204,body:''});
+    }
+    if (decision === 'optional_owned_matter_prefetch') return participantGuard.route(route);
+    if (decision !== 'allowed') {
+      participantGuard.recordReadonlyBoundary(request, {outcome:'readonly_blocked',ruleId:decision});
+      browserErrors.push('existing_matter_request_refused');
+      return route.abort('blockedbyclient');
+    }
+    if (request.method() === 'GET' && request.resourceType() === 'document' && new URL(request.url()).origin === baseUrl) {
+      let response;
+      try { response = await route.fetch({headers:bypassSecret?previewRequestHeaders(bypassSecret,request.headers()):request.headers(),maxRedirects:0,maxRetries:0}); }
+      catch { browserErrors.push('existing_matter_document_transport_failed'); return route.abort('failed'); }
+      if (response.status() !== 200) {
+        participantGuard.recordReadonlyBoundary(request, {outcome:'readonly_blocked',ruleId:response.status()>=300&&response.status()<400?'readonly_redirect_blocked':'readonly_http_refusal_blocked'});
+        browserErrors.push('existing_matter_document_http_refusal'); return route.abort('blockedbyclient');
+      }
+      let body;
+      try {
+        body = await response.body();
+        existingClinicResourcePolicies.push(publicReactResourcePolicy(body.toString('utf8')));
+        return await route.fulfill({response,body});
+      } catch {
+        browserErrors.push('existing_matter_document_body_unavailable');
+        await route.abort('failed').catch(()=>{});
+      }
+    }
+    return route.fallback();
+  });
   const page = await context.newPage();
   let screeningProfileCapture = null;
   if (clinicSetupOnly) activePage=page;
@@ -206,6 +259,10 @@ async function runJourney() {
     }
   });
 
+  let packetItemId;
+  if (existingClinicContinuation) {
+    packetItemId = await openExistingClinicMatter(page, context);
+  } else {
   // 1. Enter either the bounded Clinic event or the canonical partner page.
   // Both paths create the sponsored screening session server-side; Clinic mode
   // additionally proves the event-code and participant-owned assistance chain.
@@ -323,7 +380,7 @@ async function runJourney() {
   participantGuard?.assertNoCritical();result.stage='participant_claim';
   const {claimed} = await saveScreeningAndClaim(page,responseConfig);
   await page.waitForURL((url) => url.origin === new URL(baseUrl).origin && validUuid(exactBriefcaseItemId(url.pathname)));
-  const packetItemId = exactBriefcaseItemId(new URL(page.url()).pathname);
+  packetItemId = exactBriefcaseItemId(new URL(page.url()).pathname);
   check(validUuid(packetItemId), "Partner pending-result claim did not land on an exact Briefcase item.");
   if (!validUuid(packetItemId)) throw new Error(failures.join("\n"));
   if (validUuid(claimed?.itemId)) check(claimed.itemId === packetItemId, "Partner claim response and exact matter URL disagree.");
@@ -358,10 +415,13 @@ async function runJourney() {
     return;
   }
 
+  }
+
   // 4. Complete the sponsored packet-information builder. Saving the final
   // fact must reach review without starting generation.
   // The Briefcase labels a Mississippi clinic packet "Continue my Mississippi
   // clinic packet"; other partner-covered matters keep "Complete packet information".
+  if (!existingClinicContinuation) {
   const builderLink = page.getByRole("link", { name: /^(?:Complete packet information|Continue my Mississippi clinic packet)$/ });
   check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose the packet-information link.");
   const builderHref = await builderLink.getAttribute("href");
@@ -369,6 +429,7 @@ async function runJourney() {
   check(builderUrl?.origin === new URL(baseUrl).origin, "Packet-information CTA must stay on the current acceptance origin.");
   await builderLink.click();
   await page.waitForURL((url) => url.origin === new URL(baseUrl).origin && url.pathname.includes(`/briefcase/${packetItemId}/`) && url.pathname.endsWith("/packet-information"));
+  }
   await expectText(page, "Complete packet information");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner packet-information builder");
   await screenshotPair(page, "03-partner-covered-packet-builder");
@@ -377,13 +438,22 @@ async function runJourney() {
     await answerCurrentBuilderQuestion(page);
     const saveResponsePromise = packetInformationResponse(page, packetItemId);
     const finalButton = page.getByRole("button", { name: "Review packet facts", exact: true });
+    let saveResponse;
     if (await finalButton.isVisible().catch(() => false)) {
-      await finalButton.click();
+      if (existingClinicContinuation) [saveResponse] = await Promise.all([
+        saveResponsePromise, page.waitForURL(url=>url.pathname===`/briefcase/${packetItemId}/review`,{timeout:20_000}), finalButton.click()
+      ]);
+      else await finalButton.click();
     } else {
       await page.getByRole("button", { name: "Save and continue", exact: true }).click();
     }
-    const saveResponse = await saveResponsePromise;
+    saveResponse ??= await saveResponsePromise;
     check(saveResponse.ok(), `Partner packet-information save returned ${saveResponse.status()}.`);
+    if (existingClinicContinuation) {
+      const saved = requireOriginalResponse(saveResponse, 'packet_information');
+      assert.equal(saved.itemId, EXISTING_CLINIC_MATTER.id);
+      result.packetRevision = saved.revision; existingClinicRevision = saved.revision;
+    }
     if (!saveResponse.ok()) break;
   }
   await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}/review`, { timeout: 20_000 });
@@ -430,15 +500,47 @@ async function runJourney() {
     { timeout: 30_000 }
   );
   await verifyButton.click();
-  const verificationResponse = await verificationResponsePromise;
+  const [verificationResponse,generationResponse] = await Promise.all([verificationResponsePromise,generationResponsePromise]);
   check(verificationResponse.ok(), `Partner final verification returned ${verificationResponse.status()}.`);
-  const generationResponse = await generationResponsePromise;
+  if (existingClinicContinuation) {
+    const verified = requireOriginalResponse(verificationResponse, 'packet_information');
+    assert.equal(verified.readyToGenerate, true);
+    assert.equal(verified.itemId, EXISTING_CLINIC_MATTER.id);
+    result.packetRevision = verified.revision; existingClinicRevision = verified.revision;
+  }
+
   const generationResponseBody = requireOriginalResponse(generationResponse,"generation");
+  if (existingClinicContinuation) {
+    assert.equal(generationResponseBody.httpStatus, 200);
+    assert.equal(generationResponseBody.packetStatus, 'generating');
+    assert.equal(generationResponseBody.briefcaseItemId, EXISTING_CLINIC_MATTER.id);
+  }
   check(generationRequests.length === 1, `Expected one sponsored generation request after verification; saw ${generationRequests.length}.`);
   // The durable job must finish before the Briefcase can expose its artifact.
   // Reuse the payment harness's exact claim-order and worker-cycle contract.
   let clinicProof = null;
-  if (clinicMode) {
+  if (existingClinicContinuation) {
+    assert.equal(failures.length, 0, failures.join("\n"));
+    await page.waitForURL(url=>url.origin===new URL(baseUrl).origin&&url.pathname===`/briefcase/${packetItemId}`,{waitUntil:'domcontentloaded',timeout:20_000});
+    await page.waitForLoadState('networkidle',{timeout:10_000});
+    const rows = await clinicTargetJobs(async query=>({json:await readExistingClinicReadonlyRows(query,'protectedJobRead')}),packetItemId);
+    const target = existingClinicGeneratedJob(rows, generationResponseBody);
+    result.generatedJob = { id: target.id, matterId: target.matter_id,
+      briefcaseItemId: packetItemId, ownerId: participantUserId, screeningSessionId,
+      verificationHash: target.sponsored_verification_hash, status: target.status };
+    participantGuard.assertNoCritical();
+    assert.equal(browserErrors.length, 0);
+    result.stage = 'existing_matter_waiting_for_exclusive_worker';
+    result.stopReason = 'Actual generation and protected target binding observed; F exclusive worker procedure is required before any worker or first delivery.';
+    result.scope='existing_owned_matter_packet_to_queued_job';
+    result.status='ENQUEUED_WORKER_HANDOFF_REQUIRED'; result.enqueued=true;
+    result.fullHostedJourneyCompleted = false; result.workerInvoked = false; result.passed = true;
+    result.generationResponseBody = generationResponseBody;
+    writeClinicReceipt('existing-matter-generation-bound', result.generatedJob);
+    fs.writeFileSync(path.join(evidenceDir, 'sponsored-browser-result.json'), JSON.stringify(result, null, 2)+'\n');
+    process.exitCode = 0;
+    return;
+  } else if (clinicMode) {
     assert.equal(failures.length, 0, failures.join("\n"));
     const ports = await clinicDeliveryPorts({ packetItemId, participantUserId, screeningSessionId });
     clinicProof = await runClinicTargetCycle(ports, {
@@ -496,7 +598,7 @@ async function runJourney() {
   result.artifactBytes = firstBytes.length;
   result.repeatDownloadSha256 = secondHash;
 
-  if (clinicMode) {
+  if (clinicMode && !existingClinicContinuation) {
     const negativeEmail = required("RCAP_BROWSER_NEGATIVE_EMAIL");
     const negativePassword = required("RCAP_BROWSER_NEGATIVE_PASSWORD");
     const negativeContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
@@ -605,7 +707,7 @@ async function runJourney() {
 
   // 6. The legacy sponsored harness also keeps its guidance-only negative
   // guidance value has no disabled packet stepper or consumer payment copy.
-  if (guidanceItemId) {
+  if (guidanceItemId && !existingClinicContinuation) {
   await page.goto(new URL(`/briefcase/${guidanceItemId}`, baseUrl).href, { waitUntil: "networkidle" });
   await expectText(page, "Next steps saved");
   await expectText(page, "Next steps");
@@ -653,13 +755,13 @@ try { await runJourney(); } catch (error) {
     result.entryDiagnostics.requestFailures=requestFailures;
   }
   result.passed = false;
-  result.failure = clinicSetupOnly ? clinicSetupSafeError(error,process.env) : error instanceof Error ? error.message : String(error);
+  result.failure = clinicSetupOnly || existingClinicContinuation ? clinicSetupSafeError(error,process.env) : error instanceof Error ? error.message : String(error);
   result.productionTouched = environmentClassification.previewVerified ? false : null;
   result.stripeTouched = environmentClassification.stripeConfigured === false && stripeRequests.length === 0 ? false : null;
   result.stripeEvidence = { deploymentConfigured: environmentClassification.stripeConfigured, browserRequests: stripeRequests };
   fs.writeFileSync(path.join(evidenceDir, "sponsored-browser-result.json"), `${JSON.stringify(result, null, 2)}\n`);
   console.error("RCAP commercial browser proof failed.");
-  console.error(clinicSetupOnly ? clinicSetupSafeError(error,process.env) : error instanceof Error ? error.stack ?? error.message : String(error));
+  console.error(clinicSetupOnly || existingClinicContinuation ? clinicSetupSafeError(error,process.env) : error instanceof Error ? error.stack ?? error.message : String(error));
   process.exitCode = 1;
 } finally {
   await browser?.close();
@@ -679,6 +781,223 @@ try { await runJourney(); } catch (error) {
  * the packet (run 35122300936 overwrote case_outcome and failed the public
  * validator). The shared filler never overwrites one.
  */
+function assertExistingClinicContinuationInput(env) {
+  for (const [key, value] of Object.entries({
+    RCAP_BROWSER_EXISTING_CLINIC_MATTER_ID: EXISTING_CLINIC_MATTER.id,
+    RCAP_BROWSER_EMAIL: CLINIC_SETUP.email, RCAP_BROWSER_APPLICATION_SHA: CLINIC_SETUP.app,
+    RCAP_BROWSER_ACCEPTANCE_PROJECT_REF: CLINIC_SETUP.project,
+    RCAP_BROWSER_WORKER_SOURCE_SHA: '16908485a94f475448657cea90583a4d352da9a3',
+    RCAP_BROWSER_WORKER_DIGEST: 'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',
+    RCAP_BROWSER_PARTNER_SLUG: 'mvl-demo', RCAP_BROWSER_CLINIC_EVENT_ID: CLINIC_SETUP.event,
+    RCAP_BROWSER_CLINIC_EVENT_SLUG: CLINIC_SETUP.slug,
+    RCAP_BROWSER_CLINIC_EVENT_NAME: 'Mississippi Volunteer Lawyers Clinic Mode Demo',
+    RCAP_BROWSER_ALLOW_MUTATION: '1'
+  })) assert.equal(env[key], value, `Existing Clinic continuation refuses ${key} mismatch`);
+  for (const key of ['RCAP_BROWSER_CLINIC_SETUP_ONLY', 'RCAP_BROWSER_ISSUE_CLINIC_CODE']) assert.notEqual(env[key], '1');
+  assert.ok(!env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim(), 'Existing matter must not redeem an event code');
+  assert.ok(!env.RCAP_BROWSER_GUIDANCE_ITEM_ID?.trim(), 'Existing continuation cannot visit another fixture');
+  const origin = new URL(env.RCAP_BROWSER_BASE_URL);
+  assert.equal(origin.protocol, 'https:'); assert.ok(origin.hostname.endsWith('.vercel.app'));
+  assert.ok(!origin.username && !origin.password && !origin.search && !origin.hash && origin.pathname === '/');
+  assert.notEqual(origin.origin, CLINIC_SETUP.origin, 'Ordinary disabled Preview cannot fulfill this matter');
+  assert.match(env.RCAP_BROWSER_PREVIEW_CREATION_RUN_ID ?? '',/^\d+$/);
+  assert.notEqual(env.RCAP_BROWSER_PREVIEW_CREATION_RUN_ID,'40057159400','Ordinary Preview creation cannot authorize the separate Clinic target');
+  assert.ok(env.RCAP_BROWSER_PREVIEW_CREATION_EVIDENCE_DIR?.trim());
+  const scope = `${CLINIC_SETUP.owner},255998e1-eb69-4239-b151-0f8b8935a539`;
+  assert.equal(env.RCAP_BROWSER_EXPECTED_SCOPE_SHA256, crypto.createHash('sha256').update(scope).digest('hex'));
+}
+
+function assertExistingClinicPreviewCreation() {
+  const runId=required('RCAP_BROWSER_PREVIEW_CREATION_RUN_ID');
+  assert.match(runId,/^\d+$/);assert.notEqual(runId,'40057159400');
+  const dir=required('RCAP_BROWSER_PREVIEW_CREATION_EVIDENCE_DIR');
+  const deployment=JSON.parse(fs.readFileSync(path.join(dir,'deploy.json'),'utf8'));
+  const preflight=JSON.parse(fs.readFileSync(path.join(dir,'preflight.json'),'utf8'));
+  assert.equal(preflight.schemaVersion,'rcap-hosted-acceptance-preflight/v1');assert.equal(preflight.passed,true);
+  assert.equal(preflight.acceptanceProjectRef,CLINIC_SETUP.project);
+  assert.equal(deployment.schemaVersion,'rcap-hosted-acceptance-deploy/v1');assert.equal(deployment.passed,true);
+  assert.equal(deployment.acceptanceProjectRef,CLINIC_SETUP.project);
+  assert.equal(deployment.neverPassedProdFlag,true);assert.equal(deployment.neverWroteProjectLevelEnv,true);
+  assert.deepEqual(deployment.failedCases,[]);
+  for(const name of ['deployed_to_preview_not_production','deployment_carries_the_final_application_sha','deployment_carries_the_accepted_worker_binding','bound_to_the_acceptance_supabase_project_only','production_aliases_unchanged','production_environment_variables_unchanged','clinic_scope_and_purpose_exact'])assert.ok(deployment.requiredCases.includes(name));
+  const target=deployment.deployment, live=environmentClassification;
+  assert.equal(target.id,live.deploymentId);assert.equal(target.immutableHostname,live.hostname);
+  assert.ok(live.projectId);assert.equal(target.projectId,live.projectId);
+  assert.equal(target.gitSourceSha,CLINIC_SETUP.app);assert.equal(target.readyState,'READY');
+  assert.ok([null,'preview'].includes(target.target));
+  for(const [key,value] of Object.entries({rcapApplicationSha:CLINIC_SETUP.app,rcapWorkerSourceSha:live.workerSourceSha,
+    rcapWorkerDigest:live.workerDigest,rcapAcceptanceProjectRef:CLINIC_SETUP.project,rcapPreviewPurpose:'mississippi_clinic',
+    rcapClinicDemoMode:'mississippi_preview',rcapRouteState:'staging_scoped',rcapStagingScopeSha256:live.stagingScopeSha256,rcapStripeConfigured:'false'}))assert.equal(target.metadata[key],value);
+  return {runId,deploymentId:target.id,hostname:target.immutableHostname,source:'native rcap-hosted-clinic_deploy artifact downloaded from the supplied creation run; compared with live Preview identity'};
+}
+
+async function readExistingClinicReadonlyRows(query,diagnosticKey) {
+  assert.match(query.trim(),/^(select|with)\s/i);
+  result[diagnosticKey] = {httpStatus:null,sqlstate:null};
+  let response, rows;
+  try {
+    response=await fetch(`https://api.supabase.com/v1/projects/${CLINIC_SETUP.project}/database/query`,{
+      method:'POST',headers:{Authorization:`Bearer ${required('SUPABASE_ACCESS_TOKEN')}`,'Content-Type':'application/json'},
+      body:JSON.stringify({query:`begin transaction read only;\n${query}\ncommit;`}),redirect:'error',signal:AbortSignal.timeout(30000)
+    });
+    result[diagnosticKey].httpStatus=response.status;rows=await response.json();
+  } catch {throw new Error('Existing packet read failed; safe HTTP/SQLSTATE diagnostics retained');}
+  if(rows&&!Array.isArray(rows)&&typeof rows==='object')result[diagnosticKey].sqlstate=[rows.code,rows.sqlstate]
+    .find(value=>typeof value==='string'&&/^[0-9A-Z]{5}$/.test(value))??null;
+  assert.ok([200,201].includes(response.status),'Existing packet read HTTP refusal');
+  assert.ok(Array.isArray(rows),'Existing packet read contract unavailable');
+  return rows;
+}
+
+async function readExistingClinicFrontendCaptcha() {
+  assert.equal(environmentClassification.previewVerified,true);
+  assert.equal(environmentClassification.hostname,new URL(baseUrl).hostname);
+  const read = async url => {
+    assert.equal(new URL(url).origin,baseUrl);
+    const response=await fetch(url,{method:'GET',headers:bypassHeaders(),redirect:'error',signal:AbortSignal.timeout(30000)});
+    assert.equal(response.status,200,'Current staged sign-in source unavailable');
+    const body=await response.text();assert.ok(body.length<10_000_000);return body;
+  };
+  const html=await read(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(`/briefcase/${EXISTING_CLINIC_MATTER.id}/packet-information`)}`,baseUrl).href);
+  const urls=[...new Set([...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/g)].map(match=>match[1].replaceAll('&amp;','&'))
+    .filter(value=>value.startsWith('/_next/static/')&&new URL(value,baseUrl).pathname.endsWith('.js')))];
+  assert.ok(urls.length>0&&urls.length<=100,'Current staged sign-in chunks unavailable');
+  const chunks=[];for(const url of urls)chunks.push({body:await read(new URL(url,baseUrl).href)});
+  return {...inspectShippedCaptcha(chunks),deploymentId:environmentClassification.deploymentId,applicationSha:CLINIC_SETUP.app};
+}
+
+async function requireExistingClinicPacketExecution() {
+  assert.equal(environmentClassification.previewVerified, true);
+  assert.equal(environmentClassification.routeState, 'staging_scoped');
+  assert.equal(environmentClassification.clinicDemoMode, 'mississippi_preview');
+  assert.equal(environmentClassification.stripeConfigured, false);
+  result.previewCreation = assertExistingClinicPreviewCreation();
+  const frontend = await readExistingClinicFrontendCaptcha();
+  result.packetCaptcha = await readResumeCaptchaPolicy({project:CLINIC_SETUP.project,
+    token:required('SUPABASE_ACCESS_TOKEN'),frontend});
+  const owned = await readOwnedMatterDatabase();
+  result.existingMatterPrerequisites = owned;
+  assert.equal(owned.checks.length, 14); assert.ok(owned.checks.every(check => check.ok === true));
+  const query = `select jsonb_build_object(
+ 'inspector_readonly',current_user='postgres' and session_user='postgres' and current_setting('transaction_read_only')='on',
+ 'rpc_source_and_grants',exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+   where n.nspname='public' and p.oid=to_regprocedure('public.rcap_consumer_packet_authorized(uuid,uuid)')
+   and p.provolatile='s' and p.prosecdef and p.proconfig=array['search_path=""']::text[]
+   and encode(sha256(convert_to(p.prosrc,'UTF8')),'hex')='277fe688f6a8d11f0463934f7f52a83c38387e19d1f9783c469fbdcb2cd48560'
+   and has_function_privilege('service_role',p.oid,'EXECUTE')
+   and not has_function_privilege('anon',p.oid,'EXECUTE') and not has_function_privilege('authenticated',p.oid,'EXECUTE')),
+ 'registered_specification',exists(select 1 from public.sponsored_packet_render_routes r
+   where r.route_key='MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal'
+   and r.packet_specification_sha256='23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126'
+   and r.packet_family_id='ms-nonconv-set' and r.partner_slug='mvl-demo' and r.active
+   and r.packet_specification_id='ms-nonconviction-expungement-99-19-71-4' and r.packet_specification_version='2.0.0'
+   and (r.registry_track_id is null or r.registry_track_id='ms-nonconv')
+   and r.artifact_provider='rcap_grade_a_composer_v1' and r.artifact_source='grade_a_packet_specification' and r.artifact_content_type='application/pdf'),
+ 'protected_sponsor_identity',exists(select 1 from public.sponsored_packet_render_authority(
+   'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',
+   '${EXISTING_CLINIC_MATTER.session}','${EXISTING_CLINIC_MATTER.id}','${EXISTING_CLINIC_MATTER.owner}') a
+   where a.valid and a.partner_id='${EXISTING_CLINIC_MATTER.partner}' and a.clinic_event_id='${CLINIC_SETUP.event}'
+   and a.clinic_case_id='31b63a9d-7016-4b71-af1e-8b3426f142cc'),
+ 'current_funded_scope',public.rcap_program_packet_scope_authorized('mvl-demo','MS'),
+ 'existing_active_entitlement',exists(select 1 from public.partner_packet_entitlement e
+   where e.id='77000000-0000-4000-8000-000000000058' and e.partner_id='${EXISTING_CLINIC_MATTER.partner}'
+   and e.entitlement_scope='sponsored_packets' and e.effective_at<=now() and (e.expires_at is null or e.expires_at>now()) and e.packet_cap=2),
+ 'no_existing_target_job',not exists(select 1 from public.packet_render_jobs j
+   where j.briefcase_item_id='${EXISTING_CLINIC_MATTER.id}' or j.sponsored_consumer_briefcase_item_id='${EXISTING_CLINIC_MATTER.id}')
+) as existing_packet_prerequisites;`;
+  const rows = await readExistingClinicReadonlyRows(query,'packetPrerequisites');
+  assert.ok(rows.length === 1);
+  const checks = rows[0].existing_packet_prerequisites;
+  const expected = ['inspector_readonly','rpc_source_and_grants','registered_specification','protected_sponsor_identity','current_funded_scope','existing_active_entitlement','no_existing_target_job'];
+  assert.deepEqual(Object.keys(checks ?? {}).sort(), expected.sort());
+  assert.ok(expected.every(key => checks[key] === true), 'Actual existing packet dependencies are not ready');
+  result.packetPrerequisites = { ...result.packetPrerequisites, checks };
+}
+
+function existingClinicContinuationRequestDecision(request, config) {
+  let url;
+  try { url = new URL(request.url()); } catch { return 'readonly_invalid_url_blocked'; }
+  if (url.username || url.password || url.hash) return 'readonly_invalid_url_blocked';
+  const method = request.method();
+  const normalize = address => {
+    const value = new URL(address);
+    if (value.origin === config.origin) return CLINIC_SETUP.origin+value.pathname+value.search+value.hash;
+    if (value.origin === config.authOrigin) return `https://${CLINIC_SETUP.project}.supabase.co`+value.pathname+value.search+value.hash;
+    return value.href;
+  };
+  const normalized = {url:()=>normalize(request.url()),method:()=>method,resourceType:()=>request.resourceType(),
+    isNavigationRequest:()=>request.isNavigationRequest?.(),
+    headers:()=>{const headers=request.headers();return headers.referer?{...headers,referer:normalize(headers.referer)}:headers;},
+    frame:()=>({url:()=>normalize(request.frame().url())})};
+  const shared = ownedMatterReadonlyDecision(normalized, existingClinicResourcePolicies);
+  if (shared === 'readonly_invalid_url_blocked') return shared;
+  if (url.origin === config.authOrigin || url.origin !== config.origin) return shared;
+  if (shared === 'readonly_telemetry_suppressed' || shared === 'optional_owned_matter_prefetch') return shared;
+  const packetPath = `/briefcase/${EXISTING_CLINIC_MATTER.id}/packet-information`;
+  if (url.pathname === '/expungement-ai/sign-in') return ['GET','HEAD'].includes(method)
+    && url.searchParams.size===2 && url.searchParams.getAll('mode').length===1 && url.searchParams.get('mode')==='signin'
+    && url.searchParams.getAll('next').length===1 && url.searchParams.get('next')===packetPath ? 'allowed':'readonly_read_path_blocked';
+  const packetApi = `/api/expungement-ai/briefcase/${EXISTING_CLINIC_MATTER.id}/packet-information`;
+  if ([packetPath,`/briefcase/${EXISTING_CLINIC_MATTER.id}/review`,packetApi].includes(url.pathname)) {
+    if (['GET','HEAD'].includes(method)) return !url.search || method==='GET'&&['fetch','xhr'].includes(request.resourceType())
+      && url.searchParams.size===1 && /^[A-Za-z0-9_-]{1,200}$/.test(url.searchParams.get('_rsc')??'') ? 'allowed':'readonly_read_path_blocked';
+    if (method==='POST' && url.pathname===packetApi && !url.search) {
+      try {const body=request.postDataJSON();return Number.isSafeInteger(body?.expectedRevision)&&body.expectedRevision>=0&&body.expectedRevision===existingClinicRevision?'allowed':'readonly_mutation_blocked';}
+      catch {return 'readonly_mutation_blocked';}
+    }
+    return 'readonly_mutation_blocked';
+  }
+  if (url.pathname==='/api/expungement-ai/packet/status') return method==='GET'&&url.searchParams.size===1
+    &&url.searchParams.getAll('briefcaseItemId').length===1&&url.searchParams.get('briefcaseItemId')===EXISTING_CLINIC_MATTER.id?'allowed':'readonly_read_path_blocked';
+  if (url.pathname==='/api/expungement-ai/packet/generate' && method==='POST' && !url.search) {
+    try {return request.postDataJSON()?.briefcaseItemId===EXISTING_CLINIC_MATTER.id?'allowed':'readonly_mutation_blocked';}
+    catch {return 'readonly_mutation_blocked';}
+  }
+  return shared;
+}
+
+async function openExistingClinicMatter(page, context) {
+  await requireExistingClinicPacketExecution();
+  const destination = `/briefcase/${EXISTING_CLINIC_MATTER.id}/packet-information`;
+  result.stage = 'existing_owner_signin';
+  await page.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(destination)}`, baseUrl).href);
+  const auth = await signIn(page, email, password);
+  assert.equal(auth?.user?.id, EXISTING_CLINIC_MATTER.owner, 'Existing matter requires its actual owner');
+  participantUserId = auth.user.id; screeningSessionId = EXISTING_CLINIC_MATTER.session;
+  await page.waitForURL(url => url.origin === new URL(baseUrl).origin && url.pathname === destination);
+  assert.ok((await context.cookies(baseUrl)).some(cookie => /^sb-.*-auth-token/.test(cookie.name)), 'Owner session cookie is required');
+  const recovery = await context.request.get(new URL(`/api/expungement-ai/briefcase/${EXISTING_CLINIC_MATTER.id}/packet-information`, baseUrl).href, { headers: bypassHeaders() });
+  result.packetOwnerRead = {httpStatus:recovery.status(),sqlstate:null};
+  assert.equal(recovery.status(), 200, 'Current protected owner draft must be readable before packet writes');
+  const draft = await recovery.json();
+  assert.equal(draft.ok, true);
+  assert.equal(draft.reviewPath, `/briefcase/${EXISTING_CLINIC_MATTER.id}/review`);
+  assert.ok(Number.isSafeInteger(draft.revision) && draft.revision >= 0);
+  assert.notEqual(draft.nextAction, 'open_matter', 'Current draft must remain on the packet route');
+  existingClinicRevision = draft.revision; result.packetRevision = draft.revision;
+  result.stage = 'existing_packet_information';
+  return EXISTING_CLINIC_MATTER.id;
+}
+
+function existingClinicGeneratedJob(rows, generation) {
+  assert.equal(generation.httpStatus, 200); assert.equal(generation.packetStatus, 'generating');
+  assert.equal(generation.briefcaseItemId, EXISTING_CLINIC_MATTER.id);
+  assert.equal(rows.length, 1, 'Existing matter must bind exactly one genuine protected job');
+  const target = rows[0];
+  for (const [field, expected] of Object.entries({
+    briefcase_item_id: EXISTING_CLINIC_MATTER.id, sponsored_consumer_briefcase_item_id: EXISTING_CLINIC_MATTER.id,
+    sponsored_consumer_auth_user_id: EXISTING_CLINIC_MATTER.owner, sponsored_session_id: EXISTING_CLINIC_MATTER.session,
+    sponsored_clinic_event_id: CLINIC_SETUP.event, matter_id: EXISTING_CLINIC_MATTER.matter, partner_id: EXISTING_CLINIC_MATTER.partner,
+    route_id: 'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',
+    sponsored_route_key: 'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',
+    renderer_kind: 'packet_document_v1', status: 'queued', attempt_count: 0
+  })) assert.equal(target[field], expected, `Existing protected job mismatch: ${field}`);
+  assert.ok(validUuid(target.id));
+  assert.match(target.sponsored_verification_hash ?? '', /^[a-f0-9]{64}$/);
+  assert.equal(target.sponsored_verification_hash, target.current_verification_hash);
+  return target;
+}
+
 async function answerCurrentBuilderQuestion(page) {
   await answerBuilderStep(page, { routeKey: MISSISSIPPI_SYNTHETIC_ROUTE });
 }
@@ -813,6 +1132,8 @@ async function verifyExactHostedPreview(origin, bypass) {
     && (deployment.target === null || deployment.target === "preview")
     && deployment.projectId === identity.projectId
     && deployment.gitSource?.sha === applicationSha
+    && (!existingClinicContinuation || deployment.url === host)
+    && (!existingClinicContinuation || meta.rcapPreviewPurpose === 'mississippi_clinic')
     && meta.rcapWorkerSourceSha === workerSourceSha
     && meta.rcapWorkerDigest === workerDigest
     && meta.rcapApplicationSha === applicationSha
@@ -831,6 +1152,7 @@ async function verifyExactHostedPreview(origin, bypass) {
     previewVerified: true,
     deploymentId,
     hostname: host,
+    ...(existingClinicContinuation?{projectId:identity.projectId}:{}),
     applicationSha,
     workerSourceSha,
     workerDigest,
@@ -999,6 +1321,20 @@ function writeClinicReceipt(name, value) {
   fs.writeFileSync(path.join(evidenceDir, `natural-delivery-${name}.json`), `${JSON.stringify(value, null, 2)}\n`, { flag: "wx" });
 }
 
+async function clinicTargetJobs(sql,packetItemId) {
+  return (await sql(`
+    select j.id,j.route_id,j.renderer_kind,j.status,j.attempt_count,j.max_attempts,j.matter_id,j.partner_id,
+      j.briefcase_item_id,j.sponsored_route_key,j.sponsored_session_id,j.sponsored_clinic_event_id,
+      j.sponsored_consumer_briefcase_item_id,j.sponsored_consumer_auth_user_id,j.sponsored_verification_hash,
+      j.output_sha256,j.output_storage_path,j.output_byte_count,j.container_digest,j.delivery_eligibility,
+      v.verification_hash as current_verification_hash
+    from public.packet_render_jobs j left join public.consumer_packet_verifications v
+      on v.briefcase_item_id=j.sponsored_consumer_briefcase_item_id and v.consumer_auth_user_id=j.sponsored_consumer_auth_user_id and v.status='verified'
+    where j.briefcase_item_id='${packetItemId}' or j.sponsored_consumer_briefcase_item_id='${packetItemId}'
+    order by j.created_at,j.id
+  `)).json;
+}
+
 async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningSessionId }) {
   assert.equal(environmentClassification.previewVerified, true);
   // The provider-verified object is the release identity; supplied inputs must
@@ -1040,17 +1376,7 @@ async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningS
     assert.ok(response.ok && Array.isArray(json), `Clinic readback failed: HTTP ${response.status}`);
     return { ok: true, status: response.status, json };
   };
-  const targetJobs = async () => (await sql(`
-    select j.id,j.route_id,j.renderer_kind,j.status,j.attempt_count,j.max_attempts,j.matter_id,j.partner_id,
-      j.briefcase_item_id,j.sponsored_route_key,j.sponsored_session_id,j.sponsored_clinic_event_id,
-      j.sponsored_consumer_briefcase_item_id,j.sponsored_consumer_auth_user_id,j.sponsored_verification_hash,
-      j.output_sha256,j.output_storage_path,j.output_byte_count,j.container_digest,j.delivery_eligibility,
-      v.verification_hash as current_verification_hash
-    from public.packet_render_jobs j left join public.consumer_packet_verifications v
-      on v.briefcase_item_id=j.sponsored_consumer_briefcase_item_id and v.consumer_auth_user_id=j.sponsored_consumer_auth_user_id and v.status='verified'
-    where j.briefcase_item_id='${packetItemId}' or j.sponsored_consumer_briefcase_item_id='${packetItemId}'
-    order by j.created_at,j.id
-  `)).json;
+  const targetJobs = () => clinicTargetJobs(sql,packetItemId);
   const accounting = async () => (await sql(`select jsonb_build_object(
     'entitlement',(select to_jsonb(e) from public.partner_entitlement e where e.partner_slug='${partnerSlug.replaceAll("'", "''")}'),
     'generationEvents',(select coalesce(jsonb_agg(to_jsonb(a) order by a.occurred_at,a.id),'[]'::jsonb) from public.rcap_screening_analytics_events a where a.session_id='${screeningSessionId}' and a.event_type='packet_generated'),
