@@ -1,0 +1,127 @@
+name: RCAP Targeted Source Acquisition — 28 Families
+
+on:
+  push:
+    branches:
+      - "claude/source-acquisition-28-20260904"
+    paths:
+      - "data/rcap-codex/source-acquisition-2026-09-04/run-request.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rcap-targeted-source-acquisition-28
+  cancel-in-progress: true
+
+jobs:
+  acquire:
+    name: Acquire issuer originals and write receipts
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out the acquisition branch
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Reconstruct and verify the exact owner manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          MANIFEST_DIR="data/rcap-codex/source-acquisition-2026-09-04"
+          cat "$MANIFEST_DIR"/manifest.parts/*.part > "$MANIFEST_DIR/manifest.json"
+          echo "73a30427e69136a6771f4b8319193dba95029f185774765651eb235eb1e02401  $MANIFEST_DIR/manifest.json" | sha256sum --check --strict
+
+      - name: Install document inspection and browser tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils file unzip antiword unrtf
+          npm install --prefix /tmp/rcap-tools --no-save --package-lock=false playwright@1.55.0
+          /tmp/rcap-tools/node_modules/.bin/playwright install --with-deps chromium
+          PLAYWRIGHT_MODULE="$(node -p "require.resolve('playwright', { paths: ['/tmp/rcap-tools'] })")"
+          echo "RCAP_PLAYWRIGHT_MODULE=$PLAYWRIGHT_MODULE" >> "$GITHUB_ENV"
+
+      - name: Validate the owner assignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const p = "data/rcap-codex/source-acquisition-2026-09-04/manifest.json";
+          const m = JSON.parse(fs.readFileSync(p, "utf8"));
+          if (m.familyCount !== 28 || m.familyIds.length !== 28 || new Set(m.familyIds).size !== 28) {
+            throw new Error("The manifest does not carry exactly the owner-assigned 28 unique families.");
+          }
+          if (m.sources.length !== m.distinctSourceCount) {
+            throw new Error("The source count does not match the manifest.");
+          }
+          console.log(`${m.familyIds.length} families; ${m.sources.length} distinct source acquisitions.`);
+          NODE
+
+      - name: Acquire, inspect, hash, and receipt every distinct source
+        shell: bash
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+        run: |
+          set -euo pipefail
+          node scripts/rcap-acquire-targeted-sources.mjs \
+            --manifest data/rcap-codex/source-acquisition-2026-09-04/manifest.json \
+            --out acquired-targeted-sources \
+            --timeout-ms 60000
+
+      - name: Verify artifact accounting
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const summary = JSON.parse(fs.readFileSync("acquired-targeted-sources/acquisition-summary.json", "utf8"));
+          if (summary.familyCount !== 28) throw new Error(`Expected 28 families, saw ${summary.familyCount}`);
+          if (summary.distinctSourcesPlanned !== 34) throw new Error(`Expected 34 distinct source records, saw ${summary.distinctSourcesPlanned}`);
+          const receipts = fs.readdirSync("acquired-targeted-sources/sources")
+            .filter((name) => fs.existsSync(`acquired-targeted-sources/sources/${name}/receipt.json`));
+          if (receipts.length !== 34) throw new Error(`Expected 34 source receipts, saw ${receipts.length}`);
+          console.log(JSON.stringify({
+            familiesFullyAcquired: summary.familiesFullyAcquired,
+            familyCount: summary.familyCount,
+            acquiredRequiredDistinctSources: summary.acquiredRequiredDistinctSources,
+            requiredDistinctSourcesPlanned: summary.requiredDistinctSourcesPlanned,
+            notAcquiredSourceIds: summary.notAcquiredSourceIds,
+          }, null, 2));
+          NODE
+          cat acquired-targeted-sources/README.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload owner-custody source package
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-targeted-source-acquisition-28-${{ github.run_id }}
+          path: acquired-targeted-sources/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      - name: Upload lightweight ledger package
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-targeted-source-ledger-28-${{ github.run_id }}
+          path: |
+            acquired-targeted-sources/README.md
+            acquired-targeted-sources/manifest.json
+            acquired-targeted-sources/acquisition-summary.json
+            acquired-targeted-sources/source-ledger.yaml
+            acquired-targeted-sources/source-ledger.csv
+            acquired-targeted-sources/family-source-bindings.csv
+            acquired-targeted-sources/sources/*/receipt.json
+            acquired-targeted-sources/sources/*/receipt.yaml
+            acquired-targeted-sources/sources/*/extracted-text.txt
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6

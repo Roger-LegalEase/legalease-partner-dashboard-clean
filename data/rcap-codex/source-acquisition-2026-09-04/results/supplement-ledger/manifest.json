@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "rcap-targeted-source-acquisition-manifest/v1",
+  "batchId": "source-acquisition-28-families-2026-09-04-supplement",
+  "requestedAt": "2026-09-04T00:00:00-04:00",
+  "purpose": "Acquire direct issuer binaries missed by first-pass landing-page discovery and reconcile Colorado JDF 686.",
+  "familyCount": 2,
+  "familyIds": [
+    "ca-diversion-seal-set",
+    "tx_nd_dwi_conviction-set"
+  ],
+  "distinctSourceCount": 4,
+  "requiredDistinctSourceCount": 3,
+  "sources": [
+    {
+      "sourceId": "CA-SDSC-CRM-307",
+      "jurisdiction": "CA",
+      "familyIds": ["ca-diversion-seal-set"],
+      "repositorySourceLabels": ["SDSC-CRM-307"],
+      "issuingAuthority": "Superior Court of California, County of San Diego",
+      "officialLandingPages": ["https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalforms"],
+      "candidates": [
+        {
+          "url": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalforms"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Sealing of Arrest Records After Successful Completion of Pen. Code § 851.90 Diversion or Deferred Entry of Judgment",
+      "expectedPrintedFormNumber": "SDSC CRM-307",
+      "expectedRevisionOrEffectiveDate": "New 5/19",
+      "expectedSha256": [],
+      "scope": "San Diego County Superior Court local form",
+      "relationship": "Standalone county-local petition.",
+      "notes": ["Preserve San Diego county-local scope; never bind as a statewide California form."],
+      "allowedHostSuffixes": [".sdcourt.ca.gov", ".ca.gov"],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "CO-JDF-686-RECONCILIATION",
+      "jurisdiction": "CO",
+      "familyIds": ["co_municipal_conviction_seal-set"],
+      "repositorySourceLabels": ["JDF-686"],
+      "issuingAuthority": "Colorado Judicial Branch",
+      "officialLandingPages": ["https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-seal-municipal-conviction-records"],
+      "candidates": [
+        {
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF686.pdf",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Order to Seal Municipal Conviction Records",
+      "expectedPrintedFormNumber": "JDF 686",
+      "expectedRevisionOrEffectiveDate": "R: February 8, 2023",
+      "expectedSha256": [],
+      "scope": "Colorado statewide Judicial Branch form",
+      "relationship": "Granting/sealing-order component used to resolve the JDF 684 identity question.",
+      "notes": ["JDF 684 is the denial order; JDF 686 is the granting/sealing order."],
+      "allowedHostSuffixes": [".coloradojudicial.gov"],
+      "requiredForUserBatch": false,
+      "reconciliationOnly": true
+    },
+    {
+      "sourceId": "TX-OCA-411.0736-MODEL-PETITION",
+      "jurisdiction": "TX",
+      "familyIds": ["tx_nd_dwi_conviction-set"],
+      "repositorySourceLabels": ["OCA Model Petition for an Order of Nondisclosure under § 411.0736"],
+      "issuingAuthority": "Texas Office of Court Administration / Texas Judicial Branch",
+      "officialLandingPages": ["https://www.txcourts.gov/forms/orders-of-nondisclosure/"],
+      "candidates": [
+        {
+          "url": "https://www.txcourts.gov/media/1454269/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.txcourts.gov/forms/orders-of-nondisclosure/"
+        }
+      ],
+      "expectedPrintedTitle": "OCA Model Petition for an Order of Nondisclosure Under Section 411.0736, Government Code",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Texas statewide OCA model form",
+      "relationship": "Standalone model petition.",
+      "notes": [],
+      "allowedHostSuffixes": [".txcourts.gov"],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "TX-OCA-411.0736-MODEL-ORDER",
+      "jurisdiction": "TX",
+      "familyIds": ["tx_nd_dwi_conviction-set"],
+      "repositorySourceLabels": ["OCA Model Order of Nondisclosure under § 411.0736"],
+      "issuingAuthority": "Texas Office of Court Administration / Texas Judicial Branch",
+      "officialLandingPages": ["https://www.txcourts.gov/forms/orders-of-nondisclosure/"],
+      "candidates": [
+        {
+          "url": "https://www.txcourts.gov/media/1454270/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.txcourts.gov/forms/orders-of-nondisclosure/"
+        }
+      ],
+      "expectedPrintedTitle": "OCA Model Order for Order of Nondisclosure Under Section 411.0736, Gov’t Code",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": "Revised February 2022",
+      "expectedSha256": [],
+      "scope": "Texas statewide OCA model form",
+      "relationship": "Proposed/model order component.",
+      "notes": [],
+      "allowedHostSuffixes": [".txcourts.gov"],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    }
+  ]
+}
