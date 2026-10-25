@@ -931,25 +931,30 @@ function existingClinicContinuationRequestDecision(request, config) {
     frame:()=>({url:()=>normalize(request.frame().url())})};
   const shared = ownedMatterReadonlyDecision(normalized, existingClinicResourcePolicies);
   if (shared === 'readonly_invalid_url_blocked') return shared;
-  if (url.origin === config.authOrigin || url.origin !== config.origin) return shared;
+  if (url.origin === config.authOrigin) return method==='POST'&&shared==='allowed'&&!['fetch','xhr'].includes(request.resourceType())?'readonly_mutation_blocked':shared;
+  if (url.origin !== config.origin) return shared;
   if (shared === 'readonly_telemetry_suppressed' || shared === 'optional_owned_matter_prefetch') return shared;
   const packetPath = `/briefcase/${EXISTING_CLINIC_MATTER.id}/packet-information`;
   if (url.pathname === '/expungement-ai/sign-in') return ['GET','HEAD'].includes(method)
     && url.searchParams.size===2 && url.searchParams.getAll('mode').length===1 && url.searchParams.get('mode')==='signin'
     && url.searchParams.getAll('next').length===1 && url.searchParams.get('next')===packetPath ? 'allowed':'readonly_read_path_blocked';
   const packetApi = `/api/expungement-ai/briefcase/${EXISTING_CLINIC_MATTER.id}/packet-information`;
-  if ([packetPath,`/briefcase/${EXISTING_CLINIC_MATTER.id}/review`,packetApi].includes(url.pathname)) {
-    if (['GET','HEAD'].includes(method)) return !url.search || method==='GET'&&['fetch','xhr'].includes(request.resourceType())
-      && url.searchParams.size===1 && /^[A-Za-z0-9_-]{1,200}$/.test(url.searchParams.get('_rsc')??'') ? 'allowed':'readonly_read_path_blocked';
-    if (method==='POST' && url.pathname===packetApi && !url.search) {
+  if ([packetPath,`/briefcase/${EXISTING_CLINIC_MATTER.id}/review`].includes(url.pathname)) {
+    if (method==='GET'&&request.resourceType()==='document'&&!url.search) return 'allowed';
+    return method==='GET'&&['fetch','xhr'].includes(request.resourceType())&&url.searchParams.size===1
+      &&url.searchParams.getAll('_rsc').length===1&&/^[A-Za-z0-9_-]{1,200}$/.test(url.searchParams.get('_rsc')??'')?'allowed':'readonly_read_path_blocked';
+  }
+  if (url.pathname===packetApi) {
+    if (method==='GET') return !url.search&&['fetch','xhr'].includes(request.resourceType())?'allowed':'readonly_read_path_blocked';
+    if (method==='POST'&&!url.search&&['fetch','xhr'].includes(request.resourceType())) {
       try {const body=request.postDataJSON();return Number.isSafeInteger(body?.expectedRevision)&&body.expectedRevision>=0&&body.expectedRevision===existingClinicRevision?'allowed':'readonly_mutation_blocked';}
       catch {return 'readonly_mutation_blocked';}
     }
     return 'readonly_mutation_blocked';
   }
-  if (url.pathname==='/api/expungement-ai/packet/status') return method==='GET'&&url.searchParams.size===1
+  if (url.pathname==='/api/expungement-ai/packet/status') return method==='GET'&&['fetch','xhr'].includes(request.resourceType())&&url.searchParams.size===1
     &&url.searchParams.getAll('briefcaseItemId').length===1&&url.searchParams.get('briefcaseItemId')===EXISTING_CLINIC_MATTER.id?'allowed':'readonly_read_path_blocked';
-  if (url.pathname==='/api/expungement-ai/packet/generate' && method==='POST' && !url.search) {
+  if (url.pathname==='/api/expungement-ai/packet/generate' && method==='POST' && ['fetch','xhr'].includes(request.resourceType()) && !url.search) {
     try {return request.postDataJSON()?.briefcaseItemId===EXISTING_CLINIC_MATTER.id?'allowed':'readonly_mutation_blocked';}
     catch {return 'readonly_mutation_blocked';}
   }
