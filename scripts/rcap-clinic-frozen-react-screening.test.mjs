@@ -496,7 +496,7 @@ for(const operation of ['completion','pending','claim'])for(const fault of ['ref
 // Preserve one continuous production region; only external auth/storage and evidence sinks are ports.
 function productionOrchestrationParts() {
 assert.ok(callerJourney?.body,'Actual production runner missing');
-const freshBranch=callerJourney.body.statements.find(node=>callerTs.isIfStatement(node)&&node.expression.getText(callerAst)==='existingClinicContinuation'&&callerTs.isBlock(node.elseStatement)&&node.thenStatement.getText(callerAst).includes('openExistingClinicMatter'));
+const freshBranch=callerJourney.body.statements.find(node=>callerTs.isIfStatement(node)&&node.expression.getText(callerAst)==='existingClinicContinuation'&&node.elseStatement&&callerTs.isBlock(node.elseStatement)&&node.thenStatement.getText(callerAst).includes('openExistingClinicMatter'));
 assert.ok(freshBranch,'Actual production fresh-acquisition else branch missing');
 const orchestrationStatements=freshBranch.elseStatement.statements;
 const orchestrationStart=orchestrationStatements.find(node=>node.getText(callerAst).startsWith("result.stage='participant_screening'"));
