@@ -89,7 +89,7 @@ function expectedNavigationAbort(request,stage,error) {
     ||(stage==='participant_fresh_consent'&&url.pathname===entryPath+'/assist')
     ||(stage==='participant_claim'&&url.pathname===entryPath+'/screening/ms');
 }
-export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,requestFailures,stageResults=[]}) {
+export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,requestFailures,stageResults=[],isOwnedMatterSpeculativePrefetch=()=>false}) {
   assert.ok(['admin','participant'].includes(actor));
   const fatal=[],optional=new WeakSet(),optionalUrls=new Set(),criticalUrls=new Set(),requestMetadata=new WeakMap();let codePosts=0,requestSequence=0;
   const metadata=request=>{
@@ -117,8 +117,10 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
       return record(request,outcome);
     },
     async route(route) {
-      const request=route.request(),decision=clinicRequestDecision(request,{actor,captchaPolicy});let classification=decision.classification;
-      const details=metadata(request);details[details.setupRuleId?'setupRuleId':'ruleId']=decision.ruleId;
+      const request=route.request(),decision=clinicRequestDecision(request,{actor,captchaPolicy});
+      const verifiedSpeculativePrefetch=actor==='participant'&&isOwnedMatterSpeculativePrefetch(request);
+      let classification=verifiedSpeculativePrefetch?'optional_owned_matter_prefetch':decision.classification;
+      const details=metadata(request);details[details.setupRuleId?'setupRuleId':'ruleId']=verifiedSpeculativePrefetch?'owned_matter_speculative_prefetch':decision.ruleId;
       const url=new URL(request.url());
       if(actor==='admin'&&classification==='allowed'&&request.method()==='POST'&&url.origin===CLINIC_SETUP.origin
         &&url.pathname===`/api/clinic/events/${CLINIC_SETUP.event}/access-codes`&&++codePosts>1){classification='critical_blocked';details[details.setupRuleId?'setupRuleId':'ruleId']='second_code_post_denied';}
@@ -158,9 +160,13 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
     requestFailed(request) {
       const error=request.failure()?.errorText?.match(/(?:net::)?ERR_[A-Z_]+/)?.[0]??'request failed';
       const navigation=expectedNavigationAbort(request,stage(),error);
-      const value=record(request,optional.has(request)?'optional_request_failed':navigation?'expected_navigation_abort':'critical_request_failed',error);
+      // A true speculative RSC fetch can be canceled by Next after a successful navigation.
+      // Only the dedicated owned-matter predicate can mark this background abort optional.
+      const speculative=actor==='participant'&&['net::ERR_ABORTED','net::ERR_BLOCKED_BY_CLIENT'].includes(error)
+        &&isOwnedMatterSpeculativePrefetch(request);
+      const value=record(request,optional.has(request)||speculative?'optional_request_failed':navigation?'expected_navigation_abort':'critical_request_failed',error);
       requestFailures.push(value);
-      if(!optional.has(request)&&!navigation)fatal.push(value);
+      if(!optional.has(request)&&!speculative&&!navigation)fatal.push(value);
     },
     consoleError(message) {
       if(message.type()!=='error')return;
