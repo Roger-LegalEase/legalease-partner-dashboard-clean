@@ -853,9 +853,166 @@ jobs:
       HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
       HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
 
+  hosted_clinic_deploy:
+    name: Create only the admitted isolated Clinic Preview
+    if: inputs.mode == 'hosted_clinic_deploy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: admitted-controller
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          persist-credentials: false
+      - name: Require the exact isolated Preview dispatch before private bindings
+        working-directory: carrier
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs'; import assert from 'node:assert/strict';
+          const inputs=JSON.parse(process.env.DISPATCH_INPUTS);
+          assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');
+          assert.equal(process.env.GITHUB_REF_NAME,'codex/d-clinic-setup-only-20261024');
+          assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');
+          assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);
+          assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
+          assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          for(const [key,value] of Object.entries({mode:'hosted_clinic_deploy',tools_sha:'ad9c26cc9a4b34a04abc3d204a2c687e375cce57',application_sha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'}))assert.equal(inputs[key],value);
+          for(const key of ['preview_hostname','preview_deployment_id','preview_creation_run_id','promotion_code','journey_state','contradiction_job_id','resume_matter_id','clinic_attempt_id','sponsor_case','expected_total_cents','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!inputs[key],key+' must be empty');
+          assert.equal(inputs.sponsor_items??'[]','[]');
+          assert.ok(inputs.sponsor_fulfillment===undefined||inputs.sponsor_fulfillment===false||inputs.sponsor_fulfillment==='false');
+          JS
+      - uses: actions/checkout@v4
+        with:
+          ref: ad9c26cc9a4b34a04abc3d204a2c687e375cce57
+          path: admitted-controller
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the admitted controller locked dependencies
+        run: npm ci
+      - name: Require the actual admitted controller and unchanged CURRENT authority
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = ad9c26cc9a4b34a04abc3d204a2c687e375cce57
+          git merge-base --is-ancestor 16908485a94f475448657cea90583a4d352da9a3 4feb8e94b3dee4085fe05ea75d78853fe21e5097
+          git merge-base --is-ancestor 4feb8e94b3dee4085fe05ea75d78853fe21e5097 HEAD
+          node scripts/verify-rcap-worker-input-equivalence.mjs --base 16908485a94f475448657cea90583a4d352da9a3 --head HEAD --label accepted-worker-to-admitted-controller
+          node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
+          node --input-type=module <<'JS'
+          import fs from 'node:fs'; import assert from 'node:assert/strict';
+          import {requireCurrentReleaseCandidate} from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
+          const release=requireCurrentReleaseCandidate(process.cwd());
+          for(const [key,value] of Object.entries({applicationSha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',workerSourceSha:'16908485a94f475448657cea90583a4d352da9a3',workerDigest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',productionAuthorized:false}))assert.equal(release[key],value);
+          assert.equal(release.hostedAdmission.runId,40236198602);
+          assert.equal(release.hostedAdmission.workflowSourceSha,'5304c8ff825b9d74996762494ca3ea03815ed3ad');
+          assert.equal(release.hostedAdmission.closureControlSha,'a2f1a221c9c17595c494ee7bae75857cd0480a7c');
+          fs.mkdirSync('hosted-acceptance-evidence',{recursive:true});
+          fs.writeFileSync('hosted-acceptance-evidence/carrier.json',JSON.stringify({carrierSha:process.env.GITHUB_SHA,workflowSha:process.env.GITHUB_WORKFLOW_SHA,carrierBranch:process.env.GITHUB_REF_NAME,eventName:process.env.GITHUB_EVENT_NAME,controllerSha:'ad9c26cc9a4b34a04abc3d204a2c687e375cce57',runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT})+'\n');
+          JS
+      - name: Prove credentials and the unchanged Preview-only deployment boundary
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
+          PREFLIGHT_SCOPE: full
+          HOSTED_PREFLIGHT_SERVICE_ONLY: 'false'
+          HOSTED_APPLICATION_SHA: 4feb8e94b3dee4085fe05ea75d78853fe21e5097
+          HOSTED_TOOLS_SHA: ad9c26cc9a4b34a04abc3d204a2c687e375cce57
+        run: node scripts/rcap-hosted-acceptance-preflight.mjs
+      - name: Verify frozen dependencies and the bounded Clinic deployment contract
+        run: |
+          npm ls --depth=0
+          node scripts/verify-rcap-hosted-ms-clinic-preview.mjs
+      - name: Establish preserved Acceptance keys for this deploy
+        id: preserved_acceptance_keys
+        env:
+          ACCEPTANCE_SUPABASE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION }}
+          HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: ${{ secrets.HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHmac, randomUUID } from 'node:crypto';
+          import { appendFileSync } from 'node:fs';
+          if (process.env.GITHUB_ACTIONS !== 'true'
+            || process.env.ACCEPTANCE_SUPABASE_PROJECT_REF !== 'hyflxnlhpmiqxvvcoiia'
+            || !process.env.GITHUB_ENV) throw new Error('DS08_CONTINUITY_RUNNER_TARGET_REQUIRED');
+          const names = [
+            'HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY',
+            'HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION',
+            'HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET'
+          ];
+          let values = names.map(name => process.env[name] ?? '');
+          const present = values.filter(value => value !== '').length;
+          if (present !== 0 && present !== names.length) throw new Error('DS08_CONTINUITY_PARTIAL_PRESERVED_INPUTS');
+          if (present === 0) {
+            const password = process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? '';
+            if (password.length < 20) throw new Error('DS08_CONTINUITY_DEMO_PASSWORD_TOO_SHORT');
+            values = [
+              createHmac('sha256', password)
+                .update('rcap-acceptance-server-secret:hyflxnlhpmiqxvvcoiia:legal-aid-restricted-field-key/v1').digest('base64'),
+              'v1',
+              createHmac('sha256', password)
+                .update('rcap-acceptance-server-secret:hyflxnlhpmiqxvvcoiia:participant-privacy-pseudonym-secret/v1').digest('base64url')
+            ];
+          }
+          // Register masks before writing any value. Escape workflow-command
+          // metacharacters so even explicit multiline inputs cannot inject logs.
+          for (const value of values) {
+            console.log('::add-mask::' + value.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A'));
+          }
+          for (let i = 0; i < names.length; i++) {
+            let delimiter;
+            do { delimiter = 'DS08_' + randomUUID(); } while (values[i].includes(delimiter));
+            appendFileSync(process.env.GITHUB_ENV, names[i] + '<<' + delimiter + '\n' + values[i] + '\n' + delimiter + '\n');
+          }
+          NODE
+
+      - name: Create the single isolated Preview with the unchanged admitted deployer
+        env:
+          PHASE_INPUT: clinic_deploy
+          APPLICATION_SHA_INPUT: 4feb8e94b3dee4085fe05ea75d78853fe21e5097
+          WORKER_SOURCE_SHA_INPUT: 16908485a94f475448657cea90583a4d352da9a3
+          WORKER_DIGEST_INPUT: sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af
+          TOOLS_SHA_INPUT: ad9c26cc9a4b34a04abc3d204a2c687e375cce57
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
+          HOSTED_APPLICATION_SHA: 4feb8e94b3dee4085fe05ea75d78853fe21e5097
+          HOSTED_ISOLATED_CLINIC_PREVIEW: 'true'
+          HOSTED_ROUTE_STATE: staging_scoped
+          HOSTED_STAGING_SCOPE: e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539
+          HOSTED_EXISTING_PARTICIPANT_ONLY: 'true'
+          HOSTED_CLINIC_DEMO_MODE: mississippi_preview
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_STRIPE_TEST_SECRET: ''
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ''
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ''
+          HOSTED_LEGAL_AID_RESEND_API_KEY: ''
+          HOSTED_LEGAL_AID_TEST_MAILBOX: ''
+          HOSTED_LEGAL_AID_EMAIL_FROM: ''
+          HOSTED_PREVIOUS_WEBHOOK_HOST: ''
+        run: node scripts/rcap-hosted-acceptance-deploy.mjs
+      - name: Preserve native Preview creation and failure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-hosted-clinic_deploy-${{ github.run_id }}
+          path: admitted-controller/hosted-acceptance-evidence/
+          if-no-files-found: error
+
   hosted:
     name: Persistent hosted acceptance staging
-    if: startsWith(inputs.mode, 'hosted_')
+    if: startsWith(inputs.mode, 'hosted_') && inputs.mode != 'hosted_clinic_deploy'
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
       sponsor_case: ${{ inputs.sponsor_case }}
