@@ -15,7 +15,7 @@ function frameContext(request) {
     }
     if(url.search)return null;
     return ['/partner/clinic',adminPath,entryPath,entryPath+'/assist',entryPath+'/screening/ms','/briefcase'].includes(url.pathname)
-      || /^\/briefcase\/[a-f0-9-]{36}$/.test(url.pathname)?'clinic_page':null;
+      || /^\/briefcase\/(?:matters\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(url.pathname)?'clinic_page':null;
   } catch{return null;}
 }
 export function classifyClinicRequest(request,{actor,captchaPolicy}) {

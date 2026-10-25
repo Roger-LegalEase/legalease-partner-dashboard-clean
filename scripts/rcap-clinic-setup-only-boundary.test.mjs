@@ -11,15 +11,24 @@ const stop=journey.body.statements.find(node=>ts.isIfStatement(node)&&node.expre
   &&node.getText(ast).includes('stopReason'));
 test('actual browser setup branch returns before packet builder and downstream effects',async()=>{
   assert.ok(stop);assert.ok(stop.end<browserSource.indexOf('const builderLink'));
-  let downstream=0,saved=null;
+  let downstream=0,saved=null,guardCalls=0;
   const sandbox={clinicSetupOnly:true,assert,CLINIC_SETUP,claimed:{matterId:'11111111-1111-4111-8111-111111111111'},
+    participantGuard:{assertNoCritical:()=>{guardCalls++;}},
     packetItemId:'11111111-1111-4111-8111-111111111111',participantUserId:CLINIC_SETUP.owner,
     screeningSessionId:'22222222-2222-4222-8222-222222222222',generationRequests:[],stripeRequests:[],packetDownloadRequests:[],failures:[],browserErrors:[],
     result:{},evidenceDir:'mock',path:{join:()=> 'mock-result'},fs:{writeFileSync:(_p,body)=>{saved=JSON.parse(body);}},
     downstream:()=>{downstream++;throw Error('packet builder/render/worker reached');}};
   const run=()=>new Function(...Object.keys(sandbox),`return (async()=>{${stop.getText(ast)};downstream();})()`)(...Object.values(sandbox));
   await run();
+  assert.equal(guardCalls,1,'setup-only completion must invoke the participant guard');
   assert.equal(downstream,0);assert.equal(saved.scope,'clinic_setup_only');assert.equal(saved.fullHostedJourneyCompleted,false);
+  saved=null;sandbox.result={};
+  sandbox.participantGuard.assertNoCritical=()=>{guardCalls++;throw Error('participant guard refused');};
+  await assert.rejects(run(),/participant guard refused/);
+  assert.equal(guardCalls,2);assert.equal(saved,null);assert.equal(downstream,0);assert.deepEqual(sandbox.result,{});
+  sandbox.participantGuard=undefined;
+  await assert.rejects(run(),/assertNoCritical/);
+  assert.equal(saved,null);assert.equal(downstream,0);
   sandbox.clinicSetupOnly=false;
   await assert.rejects(run(),/reached/);
   assert.equal(downstream,1,'full path continues when setup-only is not requested');

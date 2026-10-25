@@ -87,3 +87,34 @@ test('signup and extra-query frames never qualify optional CAPTCHA suppression',
  }
  const f=fixture('participant');await f.route(request(TOOLBAR_LOADER+'?token=not-recorded'));assert.throws(()=>f.guard.assertNoCritical());
 });
+
+test('canonical matter and existing alias frames suppress only the exact optional toolbar',async()=>{
+ const id='11111111-1111-4111-8111-111111111111';
+ for(const actor of ['admin','participant'])for(const pathname of [`/briefcase/matters/${id}`,`/briefcase/${id}`]) {
+  const f=fixture(actor),req=request(TOOLBAR_LOADER,'GET','script',{frame:CLINIC_SETUP.origin+pathname});
+  assert.equal(classifyClinicRequest(req,{actor,captchaPolicy:policy}),'optional_toolbar_blocked');
+  assert.equal(await f.route(req),'abort');f.guard.requestFailed(req);f.guard.assertNoCritical();
+ }
+});
+test('matter frame support preserves origin, query, UUID, resource, method and operation restrictions',async()=>{
+ const pathname='/briefcase/matters/11111111-1111-4111-8111-111111111111',frame=CLINIC_SETUP.origin+pathname;
+ const refused=[
+  request(TOOLBAR_LOADER,'GET','script',{frame:'https://different.invalid'+pathname}),
+  request(TOOLBAR_LOADER,'GET','script',{frame:frame+'?extra=1'}),
+  request(TOOLBAR_LOADER,'GET','script',{frame:frame+'/packet-information'}),
+  request(TOOLBAR_LOADER,'GET','script',{frame:CLINIC_SETUP.origin+'/briefcase/matters/not-a-uuid'}),
+  request(TOOLBAR_LOADER,'GET','script',{frame:CLINIC_SETUP.origin+'/briefcase/matters/'+'-'.repeat(36)}),
+  request(TOOLBAR_LOADER,'POST','script',{frame}),
+  request(TOOLBAR_LOADER,'GET','fetch',{frame}),
+  request(TOOLBAR_LOADER+'?extra=1','GET','script',{frame}),
+  request('https://different.invalid/_next-live/feedback/feedback.js','GET','script',{frame}),
+  request(TURNSTILE_LOADER,'GET','script',{frame}),
+  ...['/api/clinic/packet/funding','/api/expungement-ai/packet/render','/api/expungement-ai/checkout','/api/clinic/session/reset']
+   .map(path=>request(CLINIC_SETUP.origin+path,'POST','fetch',{frame})),
+  request('https://different.invalid/upload','POST','fetch',{frame})
+ ];
+ for(const actor of ['admin','participant'])for(const req of refused) {
+  const f=fixture(actor);assert.equal(classifyClinicRequest(req,{actor,captchaPolicy:policy}),'critical_blocked');
+  assert.equal(await f.route(req),'abort');assert.throws(()=>f.guard.assertNoCritical());
+ }
+});
