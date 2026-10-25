@@ -182,3 +182,43 @@ test('frozen actual React save/claim refusal preserves the result and never fabr
 test.after(()=>{
  console.log(JSON.stringify({...proof,readOnlyHandlerSideEffects:runtime.sideEffects,sourcePins:runtime.sourcePins()}));
 });
+
+test('complete read-only browser collector traverses its real guard and observer against original HTTP handlers, and retains later refusal',{timeout:120000},async()=>{
+ for(const outcome of ['success','refusal','transport_failure']) {
+  const refused=outcome==='refusal';
+  const site=await startFrozenReactScreeningSite({runtime,progressFault:refused?'invalid_version_after_initial':null});
+  let requests=0;
+  const browserType={launch:async options=>{
+   const native=await chromium.launch(options);
+   return {close:()=>native.close(),newContext:async settings=>{
+    const context=await native.newContext(settings),register=context.route.bind(context);
+    // Only the network destination is a loopback port; request identity, routing, browser and original handlers remain real.
+    context.route=(pattern,handler)=>register(pattern,route=>handler(new Proxy(route,{get(target,key){
+     if(key==='fetch')return options=>{
+      const url=new URL(target.request().url());
+      assert.equal(url.origin,'https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app');
+      assert.ok(['/api/expungement-ai/profiles/MS','/api/expungement-ai/screening/progress'].includes(url.pathname));
+      requests++;
+      if(outcome==='transport_failure'&&requests===3)throw Error('local upstream transport failure');
+      return target.fetch({...options,url:site.origin+url.pathname});
+     };
+     const value=Reflect.get(target,key);return typeof value==='function'?value.bind(target):value;
+    }})));
+    return context;
+   }};
+  }};
+  try {
+   const result=await diagnostic.readClinicLiveScreeningProgress({env:{VERCEL_AUTOMATION_BYPASS_SECRET:'local-fixture-only',RCAP_BROWSER_CHROMIUM:process.env.RCAP_BROWSER_CHROMIUM??'/usr/bin/google-chrome'},browserType});
+   if(refused) {
+    assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,409);assert.equal(result.observed,'application_refusal');
+    assert.equal(result.responseObservations.at(-1).errorCode,'profile_version_mismatch');assert.equal(requests,3);
+   }else if(outcome==='transport_failure') {
+    assert.equal(result.status,'BLOCKED');assert.equal(result.httpStatus,null);assert.equal(result.observed,'transport_failure');
+    assert.equal(result.responseObservations.at(-1).httpStatus,null);assert.equal(requests,3);assert.equal(site.state.progressCalls,1);
+   }else {diagnostic.assertClinicProgressEvidence(result);assert.equal(requests,10);}
+   assertNoDownstream(site);assert.deepEqual(runtime.sideEffects,{databaseCalls:0,cookieCalls:0});
+   assert(!JSON.stringify(result).includes('local-fixture-only'));
+   proof.cases.push({id:'full_collector_'+outcome,transportAttempts:requests,httpRequests:outcome==='transport_failure'?requests-1:requests,actualHandlers:true,livePreview:false,downstreamEffects:0});
+  }finally{await site.close();}
+ }
+});

@@ -50,7 +50,7 @@ export async function verifyScreeningProgressPrefixes(profile,post,receipts=[]) 
  throw Error('progress exceeded bounded fixture sequence');
 }
 
-export async function readClinicLiveScreeningProgress({env=process.env,captchaPolicy}={}) {
+export async function readClinicLiveScreeningProgress({env=process.env,captchaPolicy,browserType}={}) {
  const result={status:'BLOCKED',operation:'screening_progress_contract',stage:'configuration',httpStatus:null,
   applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,origin:CLINIC_SETUP.origin,
   authentication:'public GET profile / POST question selection; no account sign-in',businessWrites:false,
@@ -58,8 +58,8 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
  let browser;
  try {
   assert.ok(env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim(),'existing Preview bypass unavailable');
-  const {chromium}=await import('playwright');result.stage='browser_transport';
-  browser=await chromium.launch({headless:true,executablePath:env.RCAP_BROWSER_CHROMIUM??'/usr/bin/google-chrome'});
+  browserType??=(await import('playwright')).chromium;result.stage='browser_transport';
+  browser=await browserType.launch({headless:true,executablePath:env.RCAP_BROWSER_CHROMIUM??'/usr/bin/google-chrome'});
   const context=await browser.newContext({serviceWorkers:'block'}),config={origin:CLINIC_SETUP.origin,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:CLINIC_SETUP.slug};
   await context.route('**/*',async route=>{
    const response=await route.fetch({headers:previewRequestHeaders(env.VERCEL_AUTOMATION_BYPASS_SECRET,route.request().headers()),maxRedirects:0,maxRetries:0});
@@ -100,7 +100,9 @@ export async function readClinicLiveScreeningProgress({env=process.env,captchaPo
   result.condition=known.includes(condition)?condition:'transport_or_contract_unproven';
   result.reason=result.stage==='configuration'?'existing_preview_bypass_unavailable':'live_screening_contract_unproven';
   result.expected='HTTP 200, exact live MS profile/version and all deterministic question-prefix contracts';
-  result.observed=result.responses.at(-1)?.outcome??result.responseObservations.at(-1)?.outcome??'unproven';
+  const failedResponse=result.responseObservations.findLast(r=>!r.accepted);
+  if(failedResponse)result.httpStatus=failedResponse.httpStatus;
+  result.observed=failedResponse?.outcome??result.responses.at(-1)?.outcome??'unproven';
  }finally{await browser?.close();}
  result.capturedAt=new Date().toISOString();return result;
 }
