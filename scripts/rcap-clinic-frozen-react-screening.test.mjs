@@ -16,7 +16,7 @@ const proof={application:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',hostedJourne
 
 async function withFixture(options,run) {
  const site=await startFrozenReactScreeningSite({runtime,...options});
- const launch={headless:true};if(process.env.RCAP_BROWSER_CHROMIUM)launch.executablePath=process.env.RCAP_BROWSER_CHROMIUM;
+ const launch={headless:true,executablePath:process.env.RCAP_BROWSER_CHROMIUM??'/usr/bin/google-chrome'};
  const browser=await chromium.launch(launch).catch(async error=>{await site.close();throw error;});
  try {
   const context=await browser.newContext(),errors=[];
