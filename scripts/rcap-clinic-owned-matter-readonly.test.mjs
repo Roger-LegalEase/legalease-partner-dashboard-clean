@@ -8,7 +8,7 @@ import {publicReactResourcePolicy} from './rcap-clinic-live-screening-progress.m
 import {observedTokenIdentity} from './rcap-clinic-resume-network-policy.mjs';
 import {observedOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
-import {OWNED_MATTER_ID,OWNED_MATTER_PATH,assertOwnedMatterReadonlyInputs,ownedMatterReadonlyDecision,observeOwnedMatterPasswordRoute,runOwnedMatterReadonly} from './rcap-clinic-owned-matter-readonly.mjs';
+import {OWNED_MATTER_ID,OWNED_MATTER_PATH,assertOwnedMatterReadonlyInputs,ownedMatterReadonlyDecision,ownedMatterSpeculativePrefetch,observeOwnedMatterPasswordRoute,runOwnedMatterReadonly} from './rcap-clinic-owned-matter-readonly.mjs';
 
 const origin=CLINIC_SETUP.origin,auth=`https://${CLINIC_SETUP.project}.supabase.co`;
 const request=(pathname,{method='GET',type='document',base=origin,headers={}}={})=>({url:()=>new URL(pathname,base).href,method:()=>method,resourceType:()=>type,headers:()=>headers,postDataJSON:()=>({})});
@@ -44,6 +44,68 @@ test('resources use original document policy and do not globally accept arbitrar
  assert.equal(ownedMatterReadonlyDecision(request('/_next/static/chunks/a.js?dpl=synthetic',{type:'script'}),[policy]),'allowed');
  assert.equal(ownedMatterReadonlyDecision(request('/_next/static/chunks/a.js?dpl=other',{type:'script'}),[policy]),'readonly_read_path_blocked');
  assert.equal(ownedMatterReadonlyDecision(request('/favicon.ico?dpl=synthetic',{type:'other'}),[policy]),'allowed');
+});
+const nextSpeculative=(target,{frame='/briefcase',base=origin,headers={},type='fetch',method='GET',navigation=false,referer=origin+frame}={})=>{
+ const req=request(target,{method,type,base,headers:{'next-router-prefetch':'1',rsc:'1',referer,...headers}});
+ req.frame=()=>({url:()=>origin+frame});req.isNavigationRequest=()=>navigation;
+ req.failure=()=>({errorText:'net::ERR_BLOCKED_BY_CLIENT'});
+ return req;
+};
+test('actual run40220408395 speculative sign-in and saved-matter RSC links are suppressed without network access',()=>{
+ const positives=[
+  ['/auth/forgot-password?_rsc=test&next=%2Fbriefcase','/expungement-ai/sign-in'],
+  ['/expungement-ai/sign-in?_rsc=test&mode=signin','/expungement-ai/sign-in'],
+  ['/expungement-ai?_rsc=test','/expungement-ai/sign-in'],
+  ['/briefcase/'+OWNED_MATTER_ID+'?_rsc=test','/briefcase'],
+  ['/briefcase/settings?_rsc=test','/briefcase'],
+  ['/briefcase/documents?_rsc=test','/briefcase'],
+  ['/briefcase/'+OWNED_MATTER_ID+'/packet-information?_rsc=test',OWNED_MATTER_PATH],
+  [OWNED_MATTER_PATH+'?_rsc=test',OWNED_MATTER_PATH]
+ ];
+ for(const [target,frame] of positives){
+  const req=nextSpeculative(target,{frame});
+  assert.equal(ownedMatterSpeculativePrefetch(req),true,target);
+  assert.equal(ownedMatterReadonlyDecision(req),'optional_owned_matter_prefetch',target);
+ }
+});
+test('non-speculative requests, foreign matters, secret queries, outside frames, writes and required navigation remain fatal',()=>{
+ const cases=[
+  nextSpeculative('/briefcase/settings?_rsc=test',{type:'document'}),
+  nextSpeculative('/briefcase/settings?_rsc=test',{method:'POST'}),
+  nextSpeculative('/briefcase/settings?_rsc=test',{navigation:true}),
+  nextSpeculative('/briefcase/settings?_rsc=test',{headers:{'next-router-prefetch':'0'}}),
+  nextSpeculative('/briefcase/settings?_rsc=test',{headers:{rsc:'0'}}),
+  nextSpeculative('/briefcase/settings?unknown=bad&_rsc=test'),
+  nextSpeculative('/briefcase/settings?_rsc=test&token=sensitive'),
+  nextSpeculative('/briefcase/settings?_rsc=test',{referer:'https://other.invalid/briefcase'}),
+  nextSpeculative('/briefcase/settings?_rsc=test',{frame:'/admin'}),
+  nextSpeculative('/briefcase/00000000-0000-0000-0000-000000000000?_rsc=test'),
+  nextSpeculative('/api/expungement-ai/screening/pending?_rsc=test'),
+  nextSpeculative('https://other.invalid/briefcase?_rsc=test')
+ ];
+ for(const req of cases){
+  assert.equal(ownedMatterSpeculativePrefetch(req),false,req.url());
+  assert.notEqual(ownedMatterReadonlyDecision(req),'optional_owned_matter_prefetch',req.url());
+ }
+});
+test('dedicated guard locally aborts exact RSC prefetch without a fatal browser error, while ordinary failures remain fatal',async()=>{
+ const build=(opt=true)=>createClinicRequestGuard({
+  actor:'participant',captchaPolicy:{},env:{},stage:()=> 'existing_canonical_read',
+  events:[],requestFailures:[],stageResults:[],...(opt?{isOwnedMatterSpeculativePrefetch:ownedMatterSpeculativePrefetch}:{})
+ });
+ const req=nextSpeculative('/briefcase/'+OWNED_MATTER_ID+'/packet-information?_rsc=test',{frame:OWNED_MATTER_PATH});
+ const guard=build();let abort=null,forwarded=false;
+ await guard.route({request:()=>req,abort:async reason=>{abort=reason},fallback:async()=>{forwarded=true}});
+ assert.equal(abort,'blockedbyclient');assert.equal(forwarded,false);
+ guard.requestFailed(req);assert.doesNotThrow(()=>guard.assertNoCritical());
+ const backgroundCanceled=nextSpeculative(OWNED_MATTER_PATH+'?_rsc=test',{frame:OWNED_MATTER_PATH});
+ backgroundCanceled.failure=()=>({errorText:'net::ERR_ABORTED'});
+ guard.requestFailed(backgroundCanceled);assert.doesNotThrow(()=>guard.assertNoCritical());
+ const strict=build(false);strict.requestFailed(backgroundCanceled);
+ assert.throws(()=>strict.assertNoCritical());
+ const realRequest=nextSpeculative('/briefcase/settings?_rsc=test',{frame:OWNED_MATTER_PATH,navigation:true});
+ realRequest.failure=()=>({errorText:'net::ERR_ABORTED'});
+ guard.requestFailed(realRequest);assert.throws(()=>guard.assertNoCritical());
 });
 test('both original Auth observers consume one original response without forwarding Preview headers or exposing tokens',async()=>{
  const req=request('/auth/v1/token?grant_type=password',{base:auth,method:'POST',type:'fetch',headers:{'x-vercel-protection-bypass':'SYNTHETIC_BYPASS_CANARY'}});
