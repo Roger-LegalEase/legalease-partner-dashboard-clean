@@ -15,6 +15,32 @@ export const OWNED_MATTER_PATH=`/briefcase/matters/${OWNED_MATTER_ID}`;
 const aliasPath=`/briefcase/${OWNED_MATTER_ID}`;
 const authOrigin=`https://${CLINIC_SETUP.project}.supabase.co`;
 const readPaths=new Set(['/briefcase','/briefcase/matters',aliasPath,OWNED_MATTER_PATH]);
+// Suppress verified Next.js speculative RSC prefetches locally, never send them to Preview.
+// A clicked/required route lacks the speculative markers and retains the strict read boundary.
+export function ownedMatterSpeculativePrefetch(request) {
+ let url,frame,referer,headers;
+ try {
+  url=new URL(request.url());headers=request.headers();frame=new URL(request.frame().url());
+  referer=new URL(headers.referer);
+ } catch{return false;}
+ if(url.origin!==CLINIC_SETUP.origin||frame.origin!==CLINIC_SETUP.origin||referer.origin!==CLINIC_SETUP.origin
+   ||frame.pathname!==referer.pathname||request.method()!=='GET'||request.resourceType()!=='fetch'
+   ||request.isNavigationRequest?.()!==false||headers['next-router-prefetch']!=='1'||headers.rsc!=='1'
+   ||url.username||url.password||url.hash||/%(?:2f|5c|2e)/i.test(url.pathname))return false;
+ if(!new Set(['/expungement-ai/sign-in','/briefcase','/briefcase/matters',aliasPath,OWNED_MATTER_PATH]).has(frame.pathname))return false;
+ const allowedTarget=url.pathname==='/auth/forgot-password'||url.pathname==='/expungement-ai'
+   ||url.pathname.startsWith('/expungement-ai/')||url.pathname==='/briefcase'||url.pathname.startsWith('/briefcase/');
+ if(!allowedTarget||url.pathname.startsWith('/api/')||url.pathname.startsWith('/briefcase/api/')
+   ||/\/(?:checkout|funding|admin|render|generate|download)(?:\/|$)/i.test(url.pathname))return false;
+ const uuid=/^\/briefcase\/(?:matters\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:\/|$)/;
+ if(uuid.test(url.pathname)&&![aliasPath,OWNED_MATTER_PATH,aliasPath+'/packet-information',OWNED_MATTER_PATH+'/packet-information'].includes(url.pathname))return false;
+ const keys=[...url.searchParams.keys()];
+ if(url.searchParams.getAll('_rsc').length!==1||!/^[A-Za-z0-9_-]{1,200}$/.test(url.searchParams.get('_rsc')??''))return false;
+ const extended=['/auth/forgot-password','/expungement-ai/sign-in'].includes(url.pathname);
+ if(keys.length>3||keys.some(key=>!(extended?['_rsc','mode','next']:['_rsc']).includes(key)))return false;
+ if(['mode','next'].some(key=>url.searchParams.getAll(key).length>1||url.searchParams.get(key)?.length>256))return false;
+ return true;
+}
 
 export function assertOwnedMatterReadonlyInputs(env,gate,now=Date.now()) {
  for(const [key,value] of Object.entries({RCAP_BROWSER_BASE_URL:CLINIC_SETUP.origin,RCAP_BROWSER_EMAIL:CLINIC_SETUP.email,
@@ -41,6 +67,7 @@ export function ownedMatterReadonlyDecision(request,policies=[]) {
  if(url.origin===CLINIC_SETUP.origin&&method==='POST'&&['/api/analytics/web','/api/events/product'].includes(url.pathname)&&!url.search)return 'readonly_telemetry_suppressed';
  if(url.origin===authOrigin&&method==='POST'&&url.pathname==='/auth/v1/token'&&url.search==='?grant_type=password')return 'allowed';
  if(!['GET','HEAD'].includes(method))return 'readonly_mutation_blocked';
+ if(ownedMatterSpeculativePrefetch(request))return 'optional_owned_matter_prefetch';
  if(url.origin===authOrigin)return !url.search&&['/auth/v1/user','/auth/v1/settings'].includes(url.pathname)?'allowed':'readonly_read_path_blocked';
  if([TOOLBAR_LOADER,TURNSTILE_LOADER].includes(url.href)&&method==='GET'&&type==='script')return 'allowed';
  if(url.origin!==CLINIC_SETUP.origin)return 'readonly_read_path_blocked';
@@ -75,7 +102,8 @@ export async function runOwnedMatterReadonly({browser,env=process.env,gate,creat
  try {
   assertOwnedMatterReadonlyInputs(env,gate);
   guard=createGuard({actor:'participant',captchaPolicy:gate.captchaPolicy,env,stage:()=>result.stage,
-   events:result.guardEvents,requestFailures:result.requestFailures,stageResults:result.stageResults});
+   events:result.guardEvents,requestFailures:result.requestFailures,stageResults:result.stageResults,
+   isOwnedMatterSpeculativePrefetch:ownedMatterSpeculativePrefetch});
   assert.equal(typeof guard.recordReadonlyBoundary,'function','correlated read-only guard bridge required');
   context=await browser.newContext({acceptDownloads:false,serviceWorkers:'block'});
   await applyAnalyticsOptOut(context);await installSignInSafety(context);
@@ -99,7 +127,7 @@ export async function runOwnedMatterReadonly({browser,env=process.env,gate,creat
   await context.route('**/*',guard.route);
   await context.route('**/*',async route=>{
    const request=route.request(),decision=ownedMatterReadonlyDecision(request,policies);
-   if(decision==='allowed')return route.fallback();
+   if(decision==='allowed'||decision==='optional_owned_matter_prefetch')return route.fallback();
    if(decision==='readonly_telemetry_suppressed'){guard.recordReadonlyBoundary(request,{outcome:decision,ruleId:decision});return route.fulfill({status:204,body:''});}
    blocked(request,decision);return route.abort('blockedbyclient');
   });
