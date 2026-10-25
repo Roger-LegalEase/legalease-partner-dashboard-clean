@@ -219,6 +219,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Install locked runner dependencies without application build
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Require the exact read-only mode, existing matter and disabled deployment
         run: |
           node --input-type=module - <<'JS'
@@ -228,8 +230,6 @@ jobs:
           assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');
           assertOwnedMatterReadonlyDispatch(JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH)).inputs);
           JS
-      - name: Install locked runner dependencies without application build
-        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify the complete Clinic suite including read-only reopen boundaries
         run: node --test scripts/rcap-clinic-setup-only-boundary.test.mjs scripts/rcap-clinic-setup-admin-code.test.mjs scripts/rcap-clinic-setup-request-guard.test.mjs scripts/rcap-clinic-normal-readiness.test.mjs scripts/rcap-clinic-live-prerequisites.test.mjs scripts/test-clinic-database-prerequisites.mjs scripts/rcap-clinic-setup-resource-loading.test.mjs
       - name: Verify the existing matter, Preview and CAPTCHA before sign-in
