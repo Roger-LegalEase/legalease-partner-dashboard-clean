@@ -155,6 +155,36 @@ test('actual outer routing locally suppresses telemetry and correlates distinct 
   assert.equal(r.signInDiagnostics[0].stage,'complete');assert(!JSON.stringify(r).includes('CANARY'));
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
+test('actual three-layer owned-matter browser route chain suppresses speculative Next prefetch with zero forwarded reads',async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'owned-next-prefetch-'));
+ try {
+  const cfg=inputs(dir),ports=doubles(),originalSignIn=ports.signIn;let guard,networkCalls=0,suppressions=0;
+  ports.createGuard=options=>(guard=createClinicRequestGuard(options));
+  ports.signIn=async options=>{
+   const signed=await originalSignIn(options);
+   const req=nextSpeculative('/briefcase/'+OWNED_MATTER_ID+'/packet-information?_rsc=test',{frame:'/briefcase'});
+   const layers=ports.state().routes;
+   assert.equal(layers.length,3,'actual routing stack changed');
+   const dispatch=async index=>layers[index]({
+    request:()=>req,
+    fallback:async()=>index===0?assert.fail('optional prefetch forwarded to actual network'):dispatch(index-1),
+    abort:async reason=>{assert.equal(reason,'blockedbyclient');suppressions++;guard.requestFailed(req);},
+    fulfill:async()=>{networkCalls++;assert.fail('speculative GET must not be fulfilled as an actual read')},
+    fetch:async()=>{networkCalls++;assert.fail('speculative GET was sent to server')}
+   });
+   await dispatch(layers.length-1);
+   return signed;
+  };
+  const result=await runOwnedMatterReadonly({...cfg,...ports});
+  assert.equal(result.passed,true,'auth and canonical matter must still pass after suppression');
+  assert.equal(result.outerFailureCount,0);
+  assert.equal(result.businessWritesForwarded,0);
+  assert.equal(result.canonicalRendered,true);
+  assert.equal(networkCalls,0);assert.equal(suppressions,1);
+  assert(result.guardEvents.some(e=>e.outcome==='optional_owned_matter_prefetch'));
+  assert(result.requestFailures.some(e=>e.outcome==='optional_request_failed'));
+ } finally {fs.rmSync(dir,{recursive:true,force:true});}
+});
 for(const httpStatus of [401,403,500])test(`allowed read HTTP ${httpStatus} cannot pass even without a console or page error`,async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'owned-readonly-http-test-'));
  try {
