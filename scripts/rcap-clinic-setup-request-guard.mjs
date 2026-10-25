@@ -73,7 +73,7 @@ function safeRoute(address) {
 }
 function safeRequestPurpose(request,url) {
   // Query names are bounded too: an arbitrary name can itself contain private data.
-  const knownNames=['_rsc','preparation','editingFact','mode','next','grant_type'];
+  const knownNames=['_rsc','preparation','editingFact','mode','next','product','grant_type'];
   const names=[...new Set(url.searchParams.keys())],headers=request.headers?.()??{};
   let frameRouteTemplate='[unavailable]';try{frameRouteTemplate=safeRoute(request.frame().url()).routeTemplate;}catch{}
   return {...safeRoute(url.href),queryNames:knownNames.filter(name=>names.includes(name)),unknownQueryNames:names.some(name=>!knownNames.includes(name)),

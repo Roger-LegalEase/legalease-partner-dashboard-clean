@@ -4,7 +4,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {CLINIC_SETUP} from './rcap-clinic-setup-only-boundary.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
-import {createOriginalResponseObserver} from './rcap-clinic-original-response.mjs';
+import {createOriginalResponseObserver,observedOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {installSignInSafety,signInWithRealForm} from './rcap-clinic-resume-sign-in.mjs';
 import {handleResumeRequest,previewRequestHeaders,withoutPreviewHeaders,TOOLBAR_LOADER,TURNSTILE_LOADER} from './rcap-clinic-resume-network-policy.mjs';
 import {applyAnalyticsOptOut} from './rcap-clinic-resume-browser-reset.mjs';
@@ -15,9 +15,16 @@ export const OWNED_MATTER_PATH=`/briefcase/matters/${OWNED_MATTER_ID}`;
 const aliasPath=`/briefcase/${OWNED_MATTER_ID}`;
 const authOrigin=`https://${CLINIC_SETUP.project}.supabase.co`;
 const readPaths=new Set(['/briefcase','/briefcase/matters',aliasPath,OWNED_MATTER_PATH]);
+const speculativePaths=new Set([...readPaths,'/auth/forgot-password','/expungement-ai','/expungement-ai/sign-in',
+ '/expungement-ai/check','/expungement-ai/support','/briefcase/settings','/briefcase/documents',
+ aliasPath+'/packet-information',OWNED_MATTER_PATH+'/packet-information']);
+// Only exact matter Links from the original, owner-authenticated overview may be suppressed; none are fetched.
+export function ownedMatterOverviewLinks(html) {
+ return new Set([...html.matchAll(/<a\b[^>]*\bhref=(["'])(\/briefcase\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\1/gi)].map(match=>match[2]));
+}
 // Suppress verified Next.js speculative RSC prefetches locally, never send them to Preview.
 // A clicked/required route lacks the speculative markers and retains the strict read boundary.
-export function ownedMatterSpeculativePrefetch(request) {
+export function ownedMatterSpeculativePrefetch(request,overviewLinks=new Set()) {
  let url,frame,referer,headers;
  try {
   url=new URL(request.url());headers=request.headers();frame=new URL(request.frame().url());
@@ -28,17 +35,15 @@ export function ownedMatterSpeculativePrefetch(request) {
    ||request.isNavigationRequest?.()!==false||headers['next-router-prefetch']!=='1'||headers.rsc!=='1'
    ||url.username||url.password||url.hash||/%(?:2f|5c|2e)/i.test(url.pathname))return false;
  if(!new Set(['/expungement-ai/sign-in','/briefcase','/briefcase/matters',aliasPath,OWNED_MATTER_PATH]).has(frame.pathname))return false;
- const allowedTarget=url.pathname==='/auth/forgot-password'||url.pathname==='/expungement-ai'
-   ||url.pathname.startsWith('/expungement-ai/')||url.pathname==='/briefcase'||url.pathname.startsWith('/briefcase/');
- if(!allowedTarget||url.pathname.startsWith('/api/')||url.pathname.startsWith('/briefcase/api/')
-   ||/\/(?:checkout|funding|admin|render|generate|download)(?:\/|$)/i.test(url.pathname))return false;
- const uuid=/^\/briefcase\/(?:matters\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:\/|$)/;
- if(uuid.test(url.pathname)&&![aliasPath,OWNED_MATTER_PATH,aliasPath+'/packet-information',OWNED_MATTER_PATH+'/packet-information'].includes(url.pathname))return false;
+ if(!speculativePaths.has(url.pathname)&&!(frame.pathname==='/briefcase'&&overviewLinks.has(url.pathname)))return false;
  const keys=[...url.searchParams.keys()];
  if(url.searchParams.getAll('_rsc').length!==1||!/^[A-Za-z0-9_-]{1,200}$/.test(url.searchParams.get('_rsc')??''))return false;
- const extended=['/auth/forgot-password','/expungement-ai/sign-in'].includes(url.pathname);
- if(keys.length>3||keys.some(key=>!(extended?['_rsc','mode','next']:['_rsc']).includes(key)))return false;
- if(['mode','next'].some(key=>url.searchParams.getAll(key).length>1||url.searchParams.get(key)?.length>256))return false;
+ const allowedKeys=url.pathname==='/auth/forgot-password'?['_rsc','next','product']:
+  url.pathname==='/expungement-ai/sign-in'?['_rsc','mode','next']:['_rsc'];
+ if(keys.length>3||keys.some(key=>!allowedKeys.includes(key))||keys.some(key=>url.searchParams.getAll(key).length!==1))return false;
+ if(url.searchParams.has('next')&&url.searchParams.get('next')!=='/briefcase')return false;
+ if(url.searchParams.has('mode')&&!['signin','create'].includes(url.searchParams.get('mode')))return false;
+ if(url.searchParams.has('product')&&url.searchParams.get('product')!=='expungement')return false;
  return true;
 }
 
@@ -59,7 +64,7 @@ export function assertOwnedMatterReadonlyInputs(env,gate,now=Date.now()) {
  assert.equal(gate.captchaPolicy.frontend.clientCaptchaRequired,false);assert.equal(gate.captchaPolicy.frontend.widgetSiteKeyConfigured,true);
 }
 
-export function ownedMatterReadonlyDecision(request,policies=[]) {
+export function ownedMatterReadonlyDecision(request,policies=[],overviewLinks=new Set()) {
  let url;try{url=new URL(request.url());}catch{return 'readonly_invalid_url_blocked';}
  if(url.username||url.password||url.hash||/%(?:2f|5c|2e)/i.test(url.pathname)
   ||[...url.searchParams.keys()].some(k=>['email','password','access_token','refresh_token','token'].includes(k.toLowerCase())))return 'readonly_invalid_url_blocked';
@@ -67,7 +72,7 @@ export function ownedMatterReadonlyDecision(request,policies=[]) {
  if(url.origin===CLINIC_SETUP.origin&&method==='POST'&&['/api/analytics/web','/api/events/product'].includes(url.pathname)&&!url.search)return 'readonly_telemetry_suppressed';
  if(url.origin===authOrigin&&method==='POST'&&url.pathname==='/auth/v1/token'&&url.search==='?grant_type=password')return 'allowed';
  if(!['GET','HEAD'].includes(method))return 'readonly_mutation_blocked';
- if(ownedMatterSpeculativePrefetch(request))return 'optional_owned_matter_prefetch';
+ if(ownedMatterSpeculativePrefetch(request,overviewLinks))return 'optional_owned_matter_prefetch';
  if(url.origin===authOrigin)return !url.search&&['/auth/v1/user','/auth/v1/settings'].includes(url.pathname)?'allowed':'readonly_read_path_blocked';
  if([TOOLBAR_LOADER,TURNSTILE_LOADER].includes(url.href)&&method==='GET'&&type==='script')return 'allowed';
  if(url.origin!==CLINIC_SETUP.origin)return 'readonly_read_path_blocked';
@@ -78,13 +83,14 @@ export function ownedMatterReadonlyDecision(request,policies=[]) {
 }
 
 // Both existing response observers consume one original Auth response; no second POST.
-export async function observeOwnedMatterPasswordRoute(route,{bypass,captchaPolicy,onObservation=()=>{}}) {
+export async function observeOwnedMatterPasswordRoute(route,{bypass,captchaPolicy,onObservation=()=>{},onIdentity=()=>{}}) {
  const request=route.request();
  assert.equal(request.url(),`${authOrigin}/auth/v1/token?grant_type=password`);assert.equal(request.method(),'POST');
  const observer=createOriginalResponseObserver({origin:CLINIC_SETUP.origin,authOrigin},{onObservation});
  return handleResumeRequest({request:()=>request,abort:reason=>route.abort(reason),fulfill:options=>route.fulfill(options),
   fetch:async options=>{const response=await route.fetch({...options,maxRetries:0});
    await observer({request:()=>request,fetch:async()=>response,fulfill:async()=>{},abort:async()=>{throw new Error('original authentication response refused');}});
+   const identity=observedOriginalResponse(request);onIdentity(identity?.accepted===true?identity.userId:null);
    return response;
   }},{origin:CLINIC_SETUP.origin,bypass,captchaPolicy,violations:[]});
 }
@@ -95,7 +101,7 @@ export async function runOwnedMatterReadonly({browser,env=process.env,gate,creat
   controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT,applicationSha:CLINIC_SETUP.app,
   deploymentId:CLINIC_SETUP.deploymentId,matterId:OWNED_MATTER_ID,stage:'gate',guardEvents:[],requestFailures:[],stageResults:[],
   navigation:[],authObservations:[],signInDiagnostics:[],outerFailures:[],outerFailureCount:0,screenshots:[],businessWritesForwarded:0,databasePersistenceProof:false};
- let context,page,guard;const policies=[];
+ let context,page,guard;const policies=[],overviewLinks=new Set();let authenticatedOwner=false;
  const fail=value=>{result.outerFailureCount++;if(result.outerFailures.length<100)result.outerFailures.push(value);};
  const blocked=(request,ruleId,httpStatus=null)=>fail({...guard.recordReadonlyBoundary(request,{outcome:'readonly_blocked',ruleId}),
   operation:httpStatus===null?'readonly_route_boundary':'read_http_status',httpStatus});
@@ -103,7 +109,7 @@ export async function runOwnedMatterReadonly({browser,env=process.env,gate,creat
   assertOwnedMatterReadonlyInputs(env,gate);
   guard=createGuard({actor:'participant',captchaPolicy:gate.captchaPolicy,env,stage:()=>result.stage,
    events:result.guardEvents,requestFailures:result.requestFailures,stageResults:result.stageResults,
-   isOwnedMatterSpeculativePrefetch:ownedMatterSpeculativePrefetch});
+   isOwnedMatterSpeculativePrefetch:request=>ownedMatterSpeculativePrefetch(request,overviewLinks)});
   assert.equal(typeof guard.recordReadonlyBoundary,'function','correlated read-only guard bridge required');
   context=await browser.newContext({acceptDownloads:false,serviceWorkers:'block'});
   await applyAnalyticsOptOut(context);await installSignInSafety(context);
@@ -114,19 +120,19 @@ export async function runOwnedMatterReadonly({browser,env=process.env,gate,creat
   await context.route('**/*',async route=>{
    const request=route.request(),url=new URL(request.url());
    if(url.origin===authOrigin&&request.method()==='POST')return observeOwnedMatterPasswordRoute(route,{bypass:env.RCAP_BROWSER_VERCEL_BYPASS_SECRET,captchaPolicy:gate.captchaPolicy,
-    onObservation:value=>{if(result.authObservations.length<20)result.authObservations.push(value);}});
+    onIdentity:id=>{authenticatedOwner=id===CLINIC_SETUP.owner;},onObservation:value=>{if(result.authObservations.length<20)result.authObservations.push(value);}});
    const headers=url.origin===CLINIC_SETUP.origin?previewRequestHeaders(env.RCAP_BROWSER_VERCEL_BYPASS_SECRET,request.headers()):withoutPreviewHeaders(request.headers());
    let response;try{response=await route.fetch({headers,maxRedirects:0,maxRetries:0});}catch{blocked(request,'readonly_read_path_blocked');return route.abort('failed');}
    if(response.status()>=300&&response.status()<400){blocked(request,'readonly_redirect_blocked');return route.abort('blockedbyclient');}
    if(response.status()<200||response.status()>=400){blocked(request,'readonly_http_refusal_blocked',response.status());return route.fulfill({response});}
    if(url.origin===CLINIC_SETUP.origin&&request.resourceType()==='document'&&response.status()===200){
-    const body=await response.body();if(policies.length<20)policies.push(publicReactResourcePolicy(body.toString('utf8')));return route.fulfill({response,body});
+    const body=await response.body();if(authenticatedOwner&&url.pathname==='/briefcase'&&!url.search)for(const link of ownedMatterOverviewLinks(body.toString('utf8')))overviewLinks.add(link);if(policies.length<20)policies.push(publicReactResourcePolicy(body.toString('utf8')));return route.fulfill({response,body});
    }
    return route.fulfill({response});
   });
   await context.route('**/*',guard.route);
   await context.route('**/*',async route=>{
-   const request=route.request(),decision=ownedMatterReadonlyDecision(request,policies);
+   const request=route.request(),decision=ownedMatterReadonlyDecision(request,policies,overviewLinks);
    if(decision==='allowed'||decision==='optional_owned_matter_prefetch')return route.fallback();
    if(decision==='readonly_telemetry_suppressed'){guard.recordReadonlyBoundary(request,{outcome:decision,ruleId:decision});return route.fulfill({status:204,body:''});}
    blocked(request,decision);return route.abort('blockedbyclient');

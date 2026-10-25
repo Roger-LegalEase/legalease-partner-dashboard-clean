@@ -8,7 +8,7 @@ import {publicReactResourcePolicy} from './rcap-clinic-live-screening-progress.m
 import {observedTokenIdentity} from './rcap-clinic-resume-network-policy.mjs';
 import {observedOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
-import {OWNED_MATTER_ID,OWNED_MATTER_PATH,assertOwnedMatterReadonlyInputs,ownedMatterReadonlyDecision,ownedMatterSpeculativePrefetch,observeOwnedMatterPasswordRoute,runOwnedMatterReadonly} from './rcap-clinic-owned-matter-readonly.mjs';
+import {OWNED_MATTER_ID,OWNED_MATTER_PATH,ownedMatterOverviewLinks,assertOwnedMatterReadonlyInputs,ownedMatterReadonlyDecision,ownedMatterSpeculativePrefetch,observeOwnedMatterPasswordRoute,runOwnedMatterReadonly} from './rcap-clinic-owned-matter-readonly.mjs';
 
 const origin=CLINIC_SETUP.origin,auth=`https://${CLINIC_SETUP.project}.supabase.co`;
 const request=(pathname,{method='GET',type='document',base=origin,headers={}}={})=>({url:()=>new URL(pathname,base).href,method:()=>method,resourceType:()=>type,headers:()=>headers,postDataJSON:()=>({})});
@@ -204,4 +204,64 @@ for(const httpStatus of [401,403,500])test(`allowed read HTTP ${httpStatus} cann
   const observed=r.guardEvents.find(e=>e.requestId===refusal.requestId&&e.outcome==='response_received');assert(observed);assert.equal(observed.ruleId,refusal.ruleId);assert.equal(observed.httpStatus,httpStatus);
   assert.equal(r.canonicalRendered,true);assert(fs.existsSync(path.join(dir,'owned-matter-readonly-result.json')));
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
+
+test('prefetch suppression refuses unknown family paths and validates source-defined continuation values',()=>{
+ for(const target of ['/briefcase/unrecognized?_rsc=test','/expungement-ai/unrecognized?_rsc=test','/briefcase/settings/private?_rsc=test','/auth/forgot-password?_rsc=test&product=other','/auth/forgot-password?_rsc=test&next=https%3A%2F%2Fother.invalid','/expungement-ai/sign-in?_rsc=test&mode=unexpected'])assert.equal(ownedMatterSpeculativePrefetch(nextSpeculative(target)),false);
+ assert.equal(ownedMatterSpeculativePrefetch(nextSpeculative('/auth/forgot-password?_rsc=test&next=%2Fbriefcase&product=expungement',{frame:'/expungement-ai/sign-in'})),true);
+});
+test('only exact owner-overview HTML matter Links qualify for local suppression, never forwarding or required reads',()=>{
+ const other='/briefcase/11111111-1111-4111-8111-111111111111';
+ const links=ownedMatterOverviewLinks(`<a href="${other}">Existing matter</a><a href="https://other.invalid${other}">external</a><a href="${other}/packet-information">off-scope</a><a href="/briefcase/unrecognized">unknown</a>`);
+ assert.deepEqual([...links],[other]);
+ const speculative=nextSpeculative(other+'?_rsc=test');
+ assert.equal(ownedMatterSpeculativePrefetch(speculative),false);
+ assert.equal(ownedMatterReadonlyDecision(speculative,[],links),'optional_owned_matter_prefetch');
+ assert.equal(ownedMatterReadonlyDecision(nextSpeculative(other+'?_rsc=test',{navigation:true}),[],links),'readonly_read_path_blocked');
+ assert.equal(ownedMatterSpeculativePrefetch(nextSpeculative(other+'?_rsc=test',{frame:OWNED_MATTER_PATH}),links),false);
+});
+import {chromium} from 'playwright';
+test('native Chromium layered routing suppresses the observed RSC fetch locally and leaves unknown requests fatal',async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:process.env.RCAP_BROWSER_CHROMIUM||'/usr/bin/google-chrome'});
+ try {
+  for(const unknown of [false,true]) {
+   const context=await browser.newContext();const events=[],failures=[];let networkCalls=0;
+   const guard=createClinicRequestGuard({actor:'participant',captchaPolicy:{},env:{},stage:()=> 'existing_next_link',events,requestFailures:failures,isOwnedMatterSpeculativePrefetch:ownedMatterSpeculativePrefetch});
+   await context.route('**/*',route=>{if(route.request().isNavigationRequest())return route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><title>Native routing fixture; not Next application proof</title>'});networkCalls++;return route.abort();});
+   await context.route('**/*',guard.route);
+   await context.route('**/*',route=>{const decision=ownedMatterReadonlyDecision(route.request());if(['allowed','optional_owned_matter_prefetch'].includes(decision))return route.fallback();guard.recordReadonlyBoundary(route.request(),{outcome:'readonly_blocked',ruleId:decision});return route.abort('blockedbyclient');});
+   const page=await context.newPage();page.on('requestfailed',guard.requestFailed);page.on('console',guard.consoleError);page.on('pageerror',guard.pageError);
+   await page.goto(origin+'/briefcase');
+   const failure=page.waitForEvent('requestfailed');
+   await page.evaluate(async target=>{await fetch(target,{headers:{RSC:'1','Next-Router-Prefetch':'1'}}).catch(()=>{});},unknown?'/briefcase/unrecognized?_rsc=test':'/briefcase/'+OWNED_MATTER_ID+'/packet-information?_rsc=test');
+   await failure;assert.equal(networkCalls,0);
+   if(unknown)assert.throws(()=>guard.assertNoCritical());else{assert.doesNotThrow(()=>guard.assertNoCritical());assert(events.some(e=>e.outcome==='optional_owned_matter_prefetch'));assert(failures.some(e=>e.outcome==='optional_request_failed'));}
+   await context.close();
+  }
+ }finally{await browser.close();}
+});
+
+test('actual orchestration binds original Auth identity before overview fulfillment and suppresses only its rendered matter Links',async()=>{
+ for(const ownerMatches of [true,false]) {
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'owned-original-auth-links-'));
+  try {
+   const cfg=inputs(dir),ports=doubles(),originalSignIn=ports.signIn;let guard,authPosts=0,otherReads=0,suppressed=0;
+   ports.createGuard=options=>(guard=createClinicRequestGuard(options));
+   ports.signIn=async options=>{
+    const signed=await originalSignIn(options);const other='/briefcase/11111111-1111-4111-8111-111111111111';
+    const dispatch=async(req,response)=>{
+     req.frame=()=>({url:()=>origin+'/briefcase'});req.isNavigationRequest=()=>req.resourceType()==='document';req.failure=()=>({errorText:'net::ERR_BLOCKED_BY_CLIENT'});
+     const step=async index=>ports.state().routes[index]({request:()=>req,fetch:async()=>{if(req.method()==='POST')authPosts++;if(new URL(req.url()).pathname===other)otherReads++;return response;},fulfill:async()=>{},abort:async()=>{suppressed++;guard.requestFailed(req);},fallback:async()=>step(index-1)});
+     await step(ports.state().routes.length-1);
+    };
+    const id=ownerMatches?CLINIC_SETUP.owner:'22222222-2222-4222-8222-222222222222',authBody={user:{id},access_token:'PRIVATE_FIXTURE_TOKEN'};
+    await dispatch(request('/auth/v1/token?grant_type=password',{base:auth,method:'POST',type:'fetch'}),{status:()=>200,headers:()=>({}),body:async()=>Buffer.from(JSON.stringify(authBody)),json:async()=>authBody});
+    await dispatch(request('/briefcase'),{status:()=>200,headers:()=>({}),body:async()=>Buffer.from(`<script src="/_next/static/chunks/fixture.js"></script><a href="${other}">Existing owner matter</a>`)});
+    await dispatch(nextSpeculative(other+'?_rsc=test'),null);
+    return {...signed,id};
+   };
+   const r=await runOwnedMatterReadonly({...cfg,...ports});assert.equal(authPosts,1);assert.equal(otherReads,0);assert.equal(suppressed,1);assert.equal(r.passed,ownerMatches);
+   assert(r.guardEvents.some(e=>e.outcome===(ownerMatches?'optional_owned_matter_prefetch':'readonly_blocked')));assert(!JSON.stringify(r).includes('PRIVATE_FIXTURE_TOKEN'));
+  }finally{fs.rmSync(dir,{recursive:true,force:true});}
+ }
 });
