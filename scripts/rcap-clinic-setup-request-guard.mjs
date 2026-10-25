@@ -19,19 +19,21 @@ function frameContext(request) {
       || /^\/briefcase\/(?:matters\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(url.pathname)?'clinic_page':null;
   } catch{return null;}
 }
-export function classifyClinicRequest(request,{actor,captchaPolicy}) {
+function clinicRequestDecision(request,{actor,captchaPolicy}) {
   const url=new URL(request.url()),method=request.method(),type=request.resourceType();
-  if(url.username||url.password||[...url.searchParams.keys()].some(key=>['email','password','access_token','refresh_token','token'].includes(key.toLowerCase())))return 'critical_blocked';
-  if(url.href===TOOLBAR_LOADER&&method==='GET'&&type==='script'&&frameContext(request))return 'optional_toolbar_blocked';
+  if(url.username||url.password||[...url.searchParams.keys()].some(key=>['email','password','access_token','refresh_token','token'].includes(key.toLowerCase())))return {classification:'critical_blocked',ruleId:'sensitive_url_denied'};
+  if(url.href===TOOLBAR_LOADER&&method==='GET'&&type==='script'&&frameContext(request))return {classification:'optional_toolbar_blocked',ruleId:'exact_toolbar_optional'};
   if(url.href===TURNSTILE_LOADER&&method==='GET'&&type==='script'&&frameContext(request)==='sign_in'
     &&captchaPolicy?.project===CLINIC_SETUP.project&&captchaPolicy.frontend?.applicationSha===CLINIC_SETUP.app
     &&captchaPolicy.frontend?.deploymentId===CLINIC_SETUP.deploymentId&&captchaPolicy.serverCaptchaRequired===false&&captchaPolicy.frontend?.clientCaptchaRequired===false
-    &&captchaPolicy.frontend?.widgetSiteKeyConfigured===true)return 'optional_turnstile_blocked';
+    &&captchaPolicy.frontend?.widgetSiteKeyConfigured===true)return {classification:'optional_turnstile_blocked',ruleId:'verified_turnstile_optional'};
   if(url.origin===CLINIC_SETUP.origin&&method==='GET'&&type==='fetch'&&request.headers?.()['next-router-prefetch']==='1'
-    &&['/auth/forgot-password','/expungement-ai/sign-in','/expungement-ai','/briefcase','/partner/clinic'].includes(url.pathname))return 'optional_prefetch_blocked';
-  if(url.origin===CLINIC_SETUP.origin&&browserDeliveryPath(url.pathname))return 'critical_blocked';
-  return (actor==='admin'?clinicAdminCodeRequestAllowed:clinicSetupRequestAllowed)(method,request.url())?'allowed':'critical_blocked';
+    &&['/auth/forgot-password','/expungement-ai/sign-in','/expungement-ai','/briefcase','/partner/clinic'].includes(url.pathname))return {classification:'optional_prefetch_blocked',ruleId:'named_next_prefetch_optional'};
+  if(url.origin===CLINIC_SETUP.origin&&browserDeliveryPath(url.pathname))return {classification:'critical_blocked',ruleId:'browser_delivery_denied'};
+  const allowed=(actor==='admin'?clinicAdminCodeRequestAllowed:clinicSetupRequestAllowed)(method,request.url());
+  return {classification:allowed?'allowed':'critical_blocked',ruleId:actor==='admin'?(allowed?'admin_boundary_allowed':'admin_boundary_denied'):(allowed?'participant_boundary_allowed':'participant_boundary_denied')};
 }
+export function classifyClinicRequest(request,options) {return clinicRequestDecision(request,options).classification;}
 function resourceClass(url) {
   return url.origin===CLINIC_SETUP.origin?'preview':url.origin===`https://${CLINIC_SETUP.project}.supabase.co`?'acceptance_auth':
     url.origin==='https://vercel.live'?'vercel_toolbar':url.origin==='https://challenges.cloudflare.com'?'turnstile':'unrecognized_external';
@@ -48,23 +50,36 @@ function safeKnownPath(address,env) {
   if(known.includes(url.pathname))return clinicSetupSafePathname(address,env);
   return url.origin===CLINIC_SETUP.origin?(url.pathname.startsWith('/_next/static/')?'/_next/static/[asset]':'[other_preview_path]'):'[other_external_path]';
 }
-function safeRequestPurpose(request,url) {
+function safeRoute(address) {
+  let url;try{url=new URL(address);}catch{return {routeCategory:'unavailable',routeTemplate:'[unavailable]'};}
+  if(url.origin!==CLINIC_SETUP.origin)return {routeCategory:'external',routeTemplate:'[external]'};
+  const delivery=browserDeliveryPath(url.pathname);
+  if(delivery)return {routeCategory:'packet_delivery_or_ambiguous',routeTemplate:delivery==='delivery'?'[packet_delivery]':'[ambiguous_path]'};
   let pathname;try{pathname=decodeURIComponent(url.pathname);}catch{pathname='';}
   const uuid='[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}';
   const routes=[
-    ['canonical_matter',new RegExp(`^/briefcase/matters/${uuid}$`)],
-    ['matter_alias',new RegExp(`^/briefcase/${uuid}$`)],
-    ['packet_information',new RegExp(`^/briefcase/(?:matters/)?${uuid}/packet-information$`)],
-    ['matter_review',new RegExp(`^/briefcase/(?:matters/)?${uuid}/review$`)]
+    ['canonical_matter',`^/briefcase/matters/${uuid}$`,'/briefcase/matters/[matterId]'],
+    ['matter_alias',`^/briefcase/${uuid}$`,'/briefcase/[matterId]'],
+    ['packet_information',`^/briefcase/${uuid}/packet-information$`,'/briefcase/[matterId]/packet-information'],
+    ['packet_information',`^/briefcase/matters/${uuid}/packet-information$`,'/briefcase/matters/[matterId]/packet-information'],
+    ['matter_review',`^/briefcase/${uuid}/review$`,'/briefcase/[matterId]/review'],
+    ['matter_review',`^/briefcase/matters/${uuid}/review$`,'/briefcase/matters/[matterId]/review']
   ];
-  const routeCategory=url.origin!==CLINIC_SETUP.origin?'external':
-    browserDeliveryPath(url.pathname)?'packet_delivery_or_ambiguous':routes.find(([,pattern])=>pattern.test(pathname))?.[0]??'other_preview';
+  const match=routes.find(([,pattern])=>new RegExp(pattern).test(pathname));
+  if(match)return {routeCategory:match[0],routeTemplate:match[2]};
+  if(['/briefcase','/briefcase/matters','/briefcase/documents','/briefcase/settings','/expungement-ai/sign-in',entryPath,entryPath+'/assist',entryPath+'/screening/ms','/expungement-ai/screening/ms'].includes(pathname))
+    return {routeCategory:'known_preview',routeTemplate:pathname.startsWith(entryPath)?pathname.replace(entryPath,'/clinic/[eventSlug]'):pathname};
+  return {routeCategory:'other_preview',routeTemplate:'[other_preview_path]'};
+}
+function safeRequestPurpose(request,url) {
   // Query names are bounded too: an arbitrary name can itself contain private data.
   const knownNames=['_rsc','preparation','editingFact','mode','next','grant_type'];
   const names=[...new Set(url.searchParams.keys())],headers=request.headers?.()??{};
-  return {routeCategory,queryNames:knownNames.filter(name=>names.includes(name)),unknownQueryNames:names.some(name=>!knownNames.includes(name)),
+  let frameRouteTemplate='[unavailable]';try{frameRouteTemplate=safeRoute(request.frame().url()).routeTemplate;}catch{}
+  return {...safeRoute(url.href),queryNames:knownNames.filter(name=>names.includes(name)),unknownQueryNames:names.some(name=>!knownNames.includes(name)),
     rsc:headers.rsc==='1',nextRouterPrefetch:headers['next-router-prefetch']==='1',
-    purposePrefetch:[headers.purpose,headers['sec-purpose']].some(value=>typeof value==='string'&&value.split(/[;,\s]+/).includes('prefetch'))};
+    purposePrefetch:[headers.purpose,headers['sec-purpose']].some(value=>typeof value==='string'&&value.split(/[;,\s]+/).includes('prefetch')),
+    initiatorContext:{frameRouteTemplate,refererRouteTemplate:safeRoute(headers.referer).routeTemplate,navigationRequest:request.isNavigationRequest?.()===true}};
 }
 function expectedNavigationAbort(request,stage,error) {
   const url=new URL(request.url());
@@ -76,21 +91,37 @@ function expectedNavigationAbort(request,stage,error) {
 }
 export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,requestFailures,stageResults=[]}) {
   assert.ok(['admin','participant'].includes(actor));
-  const fatal=[],optional=new WeakSet(),optionalUrls=new Set(),criticalUrls=new Set();let codePosts=0;
-  const record=(request,outcome,error=null)=>{
+  const fatal=[],optional=new WeakSet(),optionalUrls=new Set(),criticalUrls=new Set(),requestMetadata=new WeakMap();let codePosts=0,requestSequence=0;
+  const metadata=request=>{
+    if(!requestMetadata.has(request))requestMetadata.set(request,{requestId:++requestSequence,ruleId:clinicRequestDecision(request,{actor,captchaPolicy}).ruleId});
+    return requestMetadata.get(request);
+  };
+  const describeRequest=request=>{
     const url=new URL(request.url());
-    const value={stage:stage(),actor,origin:resourceClass(url),method:request.method(),
-      resourceType:request.resourceType(),pathname:safeKnownPath(request.url(),env),outcome,...safeRequestPurpose(request,url)};
+    return {stage:stage(),actor,origin:resourceClass(url),method:request.method(),
+      resourceType:request.resourceType(),pathname:safeKnownPath(request.url(),env),...metadata(request),...safeRequestPurpose(request,url)};
+  };
+  const record=(request,outcome,error=null)=>{
+    const value={...describeRequest(request),outcome};
     if(error)value.error=error;
     if(events.length<500)events.push(value);
     return value;
   };
   return {
+    recordReadonlyBoundary(request,{outcome,ruleId}) {
+      assert.ok(['readonly_blocked','readonly_telemetry_suppressed'].includes(outcome),'Unknown readonly diagnostic outcome');
+      assert.ok(['readonly_mutation_blocked','readonly_read_path_blocked','readonly_invalid_url_blocked','readonly_redirect_blocked',
+        'readonly_telemetry_suppressed'].includes(ruleId),'Unknown readonly diagnostic rule');
+      assert.equal(outcome==='readonly_telemetry_suppressed',ruleId==='readonly_telemetry_suppressed','Readonly diagnostic outcome/rule mismatch');
+      const details=metadata(request);details.setupRuleId??=details.ruleId;details.ruleId=ruleId;
+      return record(request,outcome);
+    },
     async route(route) {
-      const request=route.request();let classification=classifyClinicRequest(request,{actor,captchaPolicy});
+      const request=route.request(),decision=clinicRequestDecision(request,{actor,captchaPolicy});let classification=decision.classification;
+      const details=metadata(request);details[details.setupRuleId?'setupRuleId':'ruleId']=decision.ruleId;
       const url=new URL(request.url());
       if(actor==='admin'&&classification==='allowed'&&request.method()==='POST'&&url.origin===CLINIC_SETUP.origin
-        &&url.pathname===`/api/clinic/events/${CLINIC_SETUP.event}/access-codes`&&++codePosts>1)classification='critical_blocked';
+        &&url.pathname===`/api/clinic/events/${CLINIC_SETUP.event}/access-codes`&&++codePosts>1){classification='critical_blocked';details[details.setupRuleId?'setupRuleId':'ruleId']='second_code_post_denied';}
       if(classification.startsWith('optional_')) {
         optional.add(request);optionalUrls.add(request.url());record(request,classification);return route.abort('blockedbyclient');
       }
@@ -98,11 +129,13 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
         criticalUrls.add(request.url());fatal.push(record(request,classification));return route.abort('blockedbyclient');
       }
       if(request.method()==='POST')record(request,'allowed_effect_boundary');
+      else if(['fetch','document'].includes(request.resourceType()))record(request,'allowed_request');
       if(url.origin!==CLINIC_SETUP.origin)return route.fallback({headers:withoutPreviewHeaders(request.headers())});
       return route.fallback();
     },
     response(response) {
       const request=response.request(),url=new URL(request.url()),method=request.method();
+      if(method==='GET'&&['fetch','document'].includes(request.resourceType()))record(request,'response_received').httpStatus=response.status();
       const observed=observedOriginalResponse(request);
       if(observed&&!observed.accepted)fatal.push(safeOriginalResponse(observed));
       const normalAuth=url.origin===`https://${CLINIC_SETUP.project}.supabase.co`&&method==='POST'&&url.pathname==='/auth/v1/token'&&url.searchParams.get('grant_type')==='password';

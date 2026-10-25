@@ -160,3 +160,61 @@ test('postclaim diagnostics retain bounded request purpose without permitting pa
   assert.equal(aborted.events[0].outcome,'critical_request_failed');assert.throws(()=>aborted.guard.assertNoCritical());
  }
 });
+
+test('request correlation distinguishes an aborted Next navigation from a separately blocked Link prefetch',async()=>{
+ const id='11111111-1111-4111-8111-111111111111',frame=CLINIC_SETUP.origin+`/briefcase/matters/${id}`;
+ const f=fixture('participant');
+ const navigation=request(frame+'?_rsc=private-navigation','GET','fetch',{frame,headers:{rsc:'1',referer:CLINIC_SETUP.origin+'/briefcase?private-name=private-value'},error:'net::ERR_ABORTED'});
+ assert.equal(await f.route(navigation),'fallback');f.guard.response({request:()=>navigation,status:()=>200});f.guard.requestFailed(navigation);
+ const prefetch=request(CLINIC_SETUP.origin+`/briefcase/${id}/packet-information?_rsc=private-prefetch`,'GET','fetch',{frame,headers:{rsc:'1','next-router-prefetch':'1',referer:frame,purpose:'prefetch'}});
+ assert.equal(await f.route(prefetch),'abort');f.guard.requestFailed(prefetch);
+ const [allowed,response,aborted,blocked,blockFailure]=f.events;
+ assert.equal(allowed.requestId,response.requestId);assert.equal(allowed.requestId,aborted.requestId);
+ assert.equal(blocked.requestId,blockFailure.requestId);assert.notEqual(aborted.requestId,blocked.requestId);
+ assert.equal(response.httpStatus,200);assert.equal(aborted.outcome,'critical_request_failed');assert.equal(aborted.error,'net::ERR_ABORTED');
+ assert.equal(aborted.ruleId,'participant_boundary_allowed');assert.equal(blocked.ruleId,'participant_boundary_denied');
+ assert.equal(blocked.outcome,'critical_blocked');assert.equal(blockFailure.outcome,'critical_request_failed');
+ assert.equal(aborted.routeTemplate,'/briefcase/matters/[matterId]');assert.equal(blocked.routeTemplate,'/briefcase/[matterId]/packet-information');
+ assert.deepEqual(aborted.initiatorContext,{frameRouteTemplate:'/briefcase/matters/[matterId]',refererRouteTemplate:'/briefcase',navigationRequest:false});
+ assert.deepEqual(blocked.initiatorContext,{frameRouteTemplate:'/briefcase/matters/[matterId]',refererRouteTemplate:'/briefcase/matters/[matterId]',navigationRequest:false});
+ assert.equal(aborted.nextRouterPrefetch,false);assert.equal(blocked.nextRouterPrefetch,true);
+ assert.throws(()=>f.guard.assertNoCritical());
+ const saved=JSON.stringify(f.events);for(const secret of [id,'private-navigation','private-prefetch','private-name','private-value',CLINIC_SETUP.origin])assert.equal(saved.includes(secret),false);
+});
+
+test('exact decision rule identifiers preserve optional, delivery, sensitive URL and second-code denials',async()=>{
+ for(const [req,ruleId,outcome] of [
+  [request(TOOLBAR_LOADER),'exact_toolbar_optional','optional_toolbar_blocked'],
+  [request(TURNSTILE_LOADER),'verified_turnstile_optional','optional_turnstile_blocked'],
+  [request(CLINIC_SETUP.origin+'/briefcase','GET','fetch',{headers:{'next-router-prefetch':'1'}}),'named_next_prefetch_optional','optional_prefetch_blocked'],
+  [request(CLINIC_SETUP.origin+'/api/expungement-ai/packet/render','GET','fetch'),'browser_delivery_denied','critical_blocked'],
+  [request(CLINIC_SETUP.origin+'/briefcase?token=private-token','GET','fetch'),'sensitive_url_denied','critical_blocked']
+ ]) {
+  const f=fixture('participant');assert.equal(await f.route(req),'abort');assert.equal(f.events[0].ruleId,ruleId);assert.equal(f.events[0].outcome,outcome);
+  f.guard.requestFailed(req);assert.equal(f.events[0].requestId,f.events[1].requestId);
+  if(outcome.startsWith('optional'))f.guard.assertNoCritical();else assert.throws(()=>f.guard.assertNoCritical());
+ }
+ const f=fixture('admin'),url=CLINIC_SETUP.origin+`/api/clinic/events/${CLINIC_SETUP.event}/access-codes`;
+ assert.equal(await f.route(request(url,'POST','fetch')),'fallback');assert.equal(await f.route(request(url,'POST','fetch')),'abort');
+ assert.equal(f.events[1].ruleId,'second_code_post_denied');assert.throws(()=>f.guard.assertNoCritical());
+});
+
+
+test('readonly boundary bridge correlates outer denials and suppression without owning fatal decisions',()=>{
+ const f=fixture('participant'),req=request(CLINIC_SETUP.origin+'/unknown-private-path?_rsc=private-query-value','GET','fetch');
+ const outer=f.guard.recordReadonlyBoundary(req,{outcome:'readonly_blocked',ruleId:'readonly_read_path_blocked'});
+ assert.equal(outer.ruleId,'readonly_read_path_blocked');assert.equal(outer.setupRuleId,'participant_boundary_allowed');
+ assert.equal(outer.outcome,'readonly_blocked');assert.equal(f.events.length,1);f.guard.assertNoCritical();
+ f.guard.requestFailed(req);
+ assert.equal(f.events[1].requestId,outer.requestId);assert.equal(f.events[1].ruleId,'readonly_read_path_blocked');
+ assert.equal(f.events[1].setupRuleId,'participant_boundary_allowed');assert.equal(f.events[1].outcome,'critical_request_failed');
+ assert.throws(()=>f.guard.assertNoCritical());
+ const telemetry=fixture('participant'),ping=request(CLINIC_SETUP.origin+'/api/analytics/web','POST','ping');
+ const suppressed=telemetry.guard.recordReadonlyBoundary(ping,{outcome:'readonly_telemetry_suppressed',ruleId:'readonly_telemetry_suppressed'});
+ assert.equal(suppressed.ruleId,'readonly_telemetry_suppressed');assert.notEqual(suppressed.requestId,null);
+ assert.equal(telemetry.events.length,1);telemetry.guard.assertNoCritical();
+ for(const entry of [{outcome:'private-outcome',ruleId:'readonly_read_path_blocked'},
+  {outcome:'readonly_blocked',ruleId:'private-rule'},
+  {outcome:'readonly_blocked',ruleId:'readonly_telemetry_suppressed'}])assert.throws(()=>telemetry.guard.recordReadonlyBoundary(ping,entry));
+ const saved=JSON.stringify(f.events);for(const secret of ['unknown-private-path','private-query-value',CLINIC_SETUP.origin])assert.equal(saved.includes(secret),false);
+});

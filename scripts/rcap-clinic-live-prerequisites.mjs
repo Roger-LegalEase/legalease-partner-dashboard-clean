@@ -209,19 +209,22 @@ async function readCaptcha(env,fetchImpl) {
     }
   });
 }
+export async function readClinicRuntimePrerequisites({env=process.env,fetchImpl=fetch}={}) {
+  const checks=[];let preview=null,captchaPolicy=null;
+  const add=(id,ok,reason)=>checks.push({id,ok,reason:ok?null:reason});
+  const failed=(id,error)=>checks.push({id,ok:false,...diagnosticFailures.get(error)});
+  try {preview=await readPreview(env,fetchImpl);add('exact_current_preview',true);}catch(error){failed('exact_current_preview',error);}
+  if(!preview){checks.push({id:'shipped_and_server_captcha',ok:false,stage:'dependency',operation:'verify_exact_preview',httpStatus:null,expected:'verified current Preview',observed:'unproven',reason:'preview_required_before_shipped_read'});return {checks,preview,captchaPolicy};}
+  try {captchaPolicy=await readCaptcha(env,fetchImpl);add('shipped_and_server_captcha',true);}
+  catch(error){failed('shipped_and_server_captcha',error);}
+  return {checks,preview,captchaPolicy};
+}
 export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=fetch,querySql,qualifyDatabase,readProgress=readClinicLiveScreeningProgress}) {
   const checks=[];let preview=null,captchaPolicy=null,databaseEvidence=null,screeningProgress=null;
-  const add=(id,ok,reason)=>checks.push({id,ok,reason:ok?null:reason});
   const database=async()=>{
     databaseEvidence=await readClinicDatabasePrerequisites({env,fetchImpl,querySql,qualifyDatabase});checks.push(...databaseEvidence.checks);
   };
-  await Promise.all([database(),(async()=>{
-    const failed=(id,error)=>checks.push({id,ok:false,...diagnosticFailures.get(error)});
-    try {preview=await readPreview(env,fetchImpl);add('exact_current_preview',true);}catch(error){failed('exact_current_preview',error);}
-    if(!preview){checks.push({id:'shipped_and_server_captcha',ok:false,stage:'dependency',operation:'verify_exact_preview',httpStatus:null,expected:'verified current Preview',observed:'unproven',reason:'preview_required_before_shipped_read'});return;}
-    try {captchaPolicy=await readCaptcha(env,fetchImpl);add('shipped_and_server_captcha',true);}
-    catch(error){failed('shipped_and_server_captcha',error);}
-  })()]);
+  await Promise.all([database(),(async()=>{const runtime=await readClinicRuntimePrerequisites({env,fetchImpl});checks.push(...runtime.checks);preview=runtime.preview;captchaPolicy=runtime.captchaPolicy;})()]);
   if(preview&&captchaPolicy) {
     screeningProgress=await readProgress({env,captchaPolicy});
     checks.push({id:'live_screening_progress',ok:screeningProgress.status==='READY',...(screeningProgress.status==='READY'?{}:{stage:screeningProgress.stage,operation:screeningProgress.operation,httpStatus:screeningProgress.httpStatus,reason:screeningProgress.reason,expected:screeningProgress.expected,observed:screeningProgress.observed})});

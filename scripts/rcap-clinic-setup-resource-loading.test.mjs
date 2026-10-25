@@ -1,3 +1,5 @@
+import './rcap-clinic-owned-matter-readonly.test.mjs';
+import './rcap-clinic-owned-matter-prerequisites.test.mjs';
 import './rcap-clinic-frozen-react-screening.test.mjs';
 import {runMississippiScreening,screeningFailureDiagnostics} from './rcap-ms-screening-browser.mjs';
 import test from 'node:test';
