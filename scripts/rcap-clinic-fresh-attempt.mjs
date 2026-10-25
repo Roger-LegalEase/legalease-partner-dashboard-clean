@@ -1,18 +1,20 @@
 import assert from 'node:assert/strict';
 
-// A new execution requires owner authorization for this identity; it is not the spent 401528 attempt.
+// This exact attempt is spent. Reconciled history is read-only evidence, never a replacement entitlement.
 export const CLINIC_FRESH_ATTEMPT=Object.freeze({
- id:'71403c61-b073-4ece-a95c-99da50c3bf8d',eventId:'77000000-0000-4000-8000-000000000055',
+ id:'71403c61-b073-4ece-a95c-99da50c3bf8d',consumedByRun:'40158881107',eventId:'77000000-0000-4000-8000-000000000055',
  priorRequestId:'aca01bff-cd19-4c75-b1dc-630588d3680d',redemptionId:'3a6f7921-a71c-4ca8-bae4-9292b63473cf',
- capacity:20,entries:16,maxUses:1,startsAt:'2026-09-25T02:28:08.978166+00:00',endsAt:'2026-10-26T02:28:08.978166+00:00',
+ capacity:20,entries:17,maxUses:1,startsAt:'2026-09-25T02:28:08.978166+00:00',endsAt:'2026-10-26T02:28:08.978166+00:00',
  history:Object.freeze([
   Object.freeze({id:'77000000-0000-4000-8000-000000000057',maxUses:2,usesCount:2,redemptionRows:15,startsAt:'2026-09-25T02:28:08.978166+00:00',expiresAt:'2026-10-26T02:28:08.978166+00:00'}),
-  Object.freeze({id:'5fe1f896-c735-4ef4-838e-d86a4b293d86',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T02:02:30.379+00:00',expiresAt:'2026-10-25T02:17:30.379+00:00'})
+  Object.freeze({id:'5fe1f896-c735-4ef4-838e-d86a4b293d86',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T02:02:30.379+00:00',expiresAt:'2026-10-25T02:17:30.379+00:00'}),
+  Object.freeze({id:'d627a599-0a0b-47f7-896c-45bd7b7645e2',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T03:39:45.044Z',expiresAt:'2026-10-25T03:54:45.044Z'})
  ])
 });
 export function assertClinicAttemptAuthority(env) {
  assert.equal(env.RCAP_BROWSER_CLINIC_ATTEMPT_ID,CLINIC_FRESH_ATTEMPT.id,'An explicitly authorized fresh attempt identity is required');
  assert.equal(env.GITHUB_RUN_ATTEMPT,'1','A rerun cannot create a replacement Clinic entitlement');
+ assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,null,'Clinic attempt is spent; owner STOP forbids a new code or run');
 }
 export function assertClinicHistoricalCodes(codes,newCodeId=null) {
  assert.ok(Array.isArray(codes),'Clinic code inventory must be readable');

@@ -1,3 +1,4 @@
+import {runMississippiScreening,saveScreeningResultButton} from './rcap-ms-screening-browser.mjs';
 import {assertClinicAttemptAuthority} from './rcap-clinic-fresh-attempt.mjs';
 import {createOriginalResponseObserver,matchesOriginalResponse,originalResponse,originalResponseOperation,requireOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
@@ -297,51 +298,10 @@ async function runJourney() {
   result.stage='participant_screening';
   const screeningCompletion=clinicSetupOnly?page.waitForResponse(response=>matchesOriginalResponse(response,'completion',responseConfig),
     {timeout:45000}).then(response=>originalResponse(response,'completion')).catch(()=>null):null;
-  // 2. Answer the deterministic Mississippi non-conviction fixture.
-  await answerChoice(page, "Are you asking about your own record?", "Yes");
-  await answerChoice(page, "Did this case happen in Mississippi (not a federal case)?", "State or local");
-  await answerChoice(page, "How did the case end?", "The case was dropped or thrown out");
-  await answerChoice(page, "What kind of charge was it?", "Misdemeanor");
-  await answerChoice(page, "Do any of these sound like your situation?", "Non-conviction expungement for dismissal, no disposition, or acquittal");
-  // The engine orders the last two Mississippi questions itself and may
-  // evaluate before both have been shown (run 35115205679 timed out waiting
-  // for the timing question first; run 35115970406 hung because a swallowed
-  // timeout never resolved once the result appeared). Answer whichever is
-  // shown, stop as soon as the result heading is visible, and fail loudly
-  // with the visible headings if neither appears within the budget.
-  const resultHeading = page.getByRole("heading", { name: /path may be available|You may be able to prepare an expungement packet/i });
-  const evaluationStatuses = [];
-  page.on("response", (response) => {
-    if (response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/evaluate") {
-      evaluationStatuses.push(response.status());
-    }
-  });
-  const remainingMississippi = new Map([
-    ["About how long ago did this case end or get resolved?", "More than 10 years ago"],
-    ["Have you completed everything the court ordered in this case?", "Yes"]
-  ]);
-  const answeredMississippi = [];
-  while (remainingMississippi.size > 0) {
-    const shown = await visibleScreeningPrompt(page, [...remainingMississippi.keys()], resultHeading);
-    if (shown === null) break;
-    const option = remainingMississippi.get(shown);
-    remainingMississippi.delete(shown);
-    answeredMississippi.push(shown);
-    await answerChoice(page, shown, option);
-  }
-  result.mississippiFollowUpOrder = answeredMississippi;
-
-  // The Mississippi clinic result heading reads "A Mississippi non-conviction
-  // expungement path may be available." (run 35118996706 timed out on the
-  // exact "A path may be available" form), so the heading is matched on its
-  // shared phrase; a timeout reports what was visible instead of nothing.
-  try {
-    await resultHeading.waitFor({ state: "visible", timeout: 45_000 });
-  } catch {
-    const visible = await page.locator("h1, h2").allInnerTexts().catch(() => []);
-    throw new Error(`Screening result heading did not appear after ${JSON.stringify(answeredMississippi)}; evaluation statuses ${JSON.stringify(evaluationStatuses)}; visible headings: ${JSON.stringify(visible)}`);
-  }
-  check(evaluationStatuses.length > 0 && evaluationStatuses[evaluationStatuses.length - 1] < 400, `Authoritative screening evaluation statuses were ${JSON.stringify(evaluationStatuses)}; the last must succeed before the result renders.`);
+  const screeningSequence=await runMississippiScreening(page);
+  result.mississippiQuestionOrder=screeningSequence.answeredQuestionIds;
+  result.mississippiOmittedOptionalQuestions=screeningSequence.omittedQuestionIds;
+  result.mississippiEvaluationStatuses=screeningSequence.evaluationStatuses;
   await page.locator('[data-partner-context="saved"]').filter({
     hasText: /^Your partner program information is saved\. Packet coverage is confirmed before preparation\.$/
   }).waitFor({ state: "visible" });
@@ -367,7 +327,7 @@ async function runJourney() {
     { timeout: 20_000 }
   );
   participantGuard?.assertNoCritical();result.stage='participant_claim';
-  await page.getByRole("button", { name: "Save to my Briefcase and continue", exact: true }).click();
+  await saveScreeningResultButton(page).click();
   const pendingResponse = await pendingResponsePromise;
   requireOriginalResponse(pendingResponse,"pending");
   const claimResponse = await claimResponsePromise;
@@ -388,6 +348,7 @@ async function runJourney() {
 
   if (clinicSetupOnly) {
     participantGuard.assertNoCritical();result.stage='setup_complete';
+    assert.equal(new URL(page.url()).pathname,`/briefcase/matters/${packetItemId}`,'Clinic must land on the canonical matter page');
     assert.equal(claimed?.matterId,packetItemId,'actual claim must name the new saved matter');
     assert.notEqual(packetItemId,'6e7a0013-f372-438d-9454-6ba6451b290c','do not replay the historical Clinic case');
     assert.notEqual(packetItemId,'d13233f6-d9c7-41e1-9bb5-8a454d747503','do not relabel the DTC case');
@@ -708,46 +669,6 @@ try { await runJourney(); } catch (error) {
   await browser?.close();
 }
 
-// A screening question heading may carry the "Optional" badge inside the
-// heading element (run 35118102472 saw "…court ordered in this case?OPTIONAL"),
-// so the accessible name is matched from its start rather than exactly.
-function screeningHeading(page, prompt) {
-  return page.getByRole("heading", { name: new RegExp(`^${escapeRegExp(prompt)}(?:\\s*Optional)?$`, "i") });
-}
-
-// Polls for whichever remaining screening prompt is visible, or the result
-// heading (null) when the engine has already evaluated. Bounded: a step that
-// neither shows a question nor a result fails with the visible headings
-// instead of hanging until the job timeout.
-async function visibleScreeningPrompt(page, prompts, resultHeading, budgetMs = 45_000) {
-  const deadline = Date.now() + budgetMs;
-  while (Date.now() < deadline) {
-    if (await resultHeading.isVisible().catch(() => false)) return null;
-    for (const prompt of prompts) {
-      if (await screeningHeading(page, prompt).isVisible().catch(() => false)) return prompt;
-    }
-    await page.waitForTimeout(500);
-  }
-  const visible = await page.locator("h1, h2, legend").allInnerTexts().catch(() => []);
-  throw new Error(`Neither a remaining screening question (${prompts.join(" | ")}) nor the result appeared within ${budgetMs}ms; visible headings: ${JSON.stringify(visible)}`);
-}
-
-async function answerChoice(page, prompt, option, final = false) {
-  await screeningHeading(page, prompt).waitFor({ state: "visible" });
-  await page.getByRole("radio", { name: new RegExp(`^${escapeRegExp(option)}(?:\\s|$)`, "i") }).check();
-  const evaluationResponsePromise = final
-    ? page.waitForResponse(
-      (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/evaluate",
-      { timeout: 20_000 }
-    )
-    : null;
-  await page.getByRole("button", { name: /Continue/i }).click();
-  if (evaluationResponsePromise) {
-    const evaluationResponse = await evaluationResponsePromise;
-    check(evaluationResponse.ok(), `Authoritative screening evaluation returned ${evaluationResponse.status()}.`);
-  }
-}
-
 /**
  * Answer whatever the builder is showing, through the shared filler.
  *
@@ -933,9 +854,6 @@ function safeRequestPath(value) {
   }
 }
 
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 function check(condition, message) {
   if (!condition) failures.push(message);

@@ -15,7 +15,7 @@ const context=()=>({...identity,clinic_supplemental_contract:claimFixture(),serv
 const env={SUPABASE_ACCESS_TOKEN:'mock-existing-context'};
 const validContract=()=>({status:'READY',checks:[{id:'mock-contract',ok:true}],blockers:[],operational:{existing_code_available:false,
  existing_code_inventory:CLINIC_FRESH_ATTEMPT.history.map(h=>({id:h.id,uses_count:h.usesCount,max_uses:h.maxUses,is_active:true,starts_at:h.startsAt,expires_at:h.expiresAt,redemption_rows:h.redemptionRows})),
- fresh_attempt:{event:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:16},priorRedemption:{id:CLINIC_FRESH_ATTEMPT.redemptionId,codeId:CLINIC_FRESH_ATTEMPT.history[1].id,closed:false,assisted:false}}
+ fresh_attempt:{event:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:CLINIC_FRESH_ATTEMPT.entries},priorRedemption:{id:CLINIC_FRESH_ATTEMPT.redemptionId,codeId:CLINIC_FRESH_ATTEMPT.history[1].id,closed:false,assisted:false}}
 }});
 test('live adapter makes bounded fixed-project read-only aggregate and retains all blockers without catalog contents',async()=>{
  let reads=0;
@@ -42,7 +42,7 @@ test('browser admission rejects stale, other-run, unknown CAPTCHA and incomplete
  const gate={attemptId:CLINIC_FRESH_ATTEMPT.id,schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:'READY',projectRef:CLINIC_SETUP.project,
   applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,controlHead:env.GITHUB_SHA,runId:'123',runAttempt:'1',capturedAt:new Date(now).toISOString(),
   databaseEvidence:{executionContext:identity,claimSqlSha256:createHash('sha256').update(CLINIC_CLAIM_SQL).digest('hex'),prerequisiteSqlSha256:createHash('sha256').update(CLINIC_PREREQUISITE_SQL).digest('hex'),inspectionSqlSha256:createHash('sha256').update(clinicInspectionSql(CLINIC_PREREQUISITE_SQL)).digest('hex'),requests:[{operation:'compatibility_inspection',httpStatus:201,sqlstate:null}],stateChangingStepReached:false},
-  checks:[...qualifyClinicClaimPrerequisites({functions:[],relations:[]}).checks.map(c=>c.id),...qualifyClinicDatabasePrerequisites({catalog:{functions:[],relations:[{name:'public.legal_aid_policy_profiles',present:false}]},projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app}).checks.map(c=>c.id),'database_execution_role','database_session_identity','database_transaction_read_only',...signatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','normal_code_issuance_inventory','exact_current_preview','shipped_and_server_captcha'].map(id=>({id,ok:true})),blockers:[],
+  checks:[...qualifyClinicClaimPrerequisites({functions:[],relations:[]}).checks.map(c=>c.id),...qualifyClinicDatabasePrerequisites({catalog:{functions:[],relations:[{name:'public.legal_aid_policy_profiles',present:false}]},projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app}).checks.map(c=>c.id),'database_execution_role','database_session_identity','database_transaction_read_only',...signatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','reconciled_clinic_history','exact_current_preview','shipped_and_server_captcha'].map(id=>({id,ok:true})),blockers:[],
   preview:{previewVerified:true,deploymentId:CLINIC_SETUP.deploymentId},captchaPolicy:{project:CLINIC_SETUP.project,serverCaptchaRequired:false,
     frontend:{applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,clientCaptchaRequired:false,widgetSiteKeyConfigured:true}}};
  try {
@@ -258,7 +258,7 @@ test('an unknown third code blocks the new attempt without reopening database or
  const contract=validContract();contract.operational.existing_code_inventory.push({id:'11111111-1111-4111-8111-111111111111',uses_count:0,max_uses:1});
  const result=await readWith([Response.json([{...context(),clinic_known_compatibility_prerequisites:{}}],{status:201})],()=>contract);
  const failures=result.checks.filter(check=>!check.ok);
- assert.equal(failures.length,1);assert.equal(failures[0].id,'normal_code_issuance_inventory');
+ assert.equal(failures.length,1);assert.equal(failures[0].id,'reconciled_clinic_history');
  assert.equal(failures[0].observed,'fresh_attempt_state_unqualified');
  assert.equal(result.calls,1);assert.equal(result.stateChangingStepReached,false);
 });

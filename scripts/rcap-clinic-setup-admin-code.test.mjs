@@ -8,21 +8,21 @@ import ts from 'typescript';
 import {CLINIC_SETUP,clinicSetupSafePathname} from './rcap-clinic-setup-only-boundary.mjs';
 import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure} from './rcap-clinic-setup-admin-code.mjs';
 function fixture() {
-  const now=Date.parse('2026-10-25T03:00:00Z'),calls=[],receipts=[];
+  const now=Date.parse('2026-10-25T04:00:00Z'),calls=[],receipts=[];
   const old={id:CLINIC_CODE_ADMIN.oldCodeId,eventId:CLINIC_SETUP.event,maxUses:2,usesCount:2,isActive:true,startsAt:CLINIC_FRESH_ATTEMPT.history[0].startsAt,expiresAt:CLINIC_FRESH_ATTEMPT.history[0].expiresAt};
   const consumed={id:CLINIC_FRESH_ATTEMPT.history[1].id,eventId:CLINIC_SETUP.event,maxUses:1,usesCount:1,isActive:true,startsAt:'2026-10-25T02:02:30.379Z',expiresAt:'2026-10-25T02:17:30.379Z'};
   const event={id:CLINIC_SETUP.event,partnerSlug:'mvl-demo',publicSlug:CLINIC_SETUP.slug,jurisdiction:'MS',status:'published',
     startsAt:CLINIC_FRESH_ATTEMPT.startsAt,endsAt:CLINIC_FRESH_ATTEMPT.endsAt,experience:'standard'};
-  const workspace={status:200,json:{success:true,workspace:{event,accessCodes:[old,consumed]}}};
+  const workspace={status:200,json:{success:true,workspace:{event,accessCodes:[old,consumed,...CLINIC_FRESH_ATTEMPT.history.slice(2).map(h=>({id:h.id,eventId:CLINIC_SETUP.event,maxUses:h.maxUses,usesCount:h.usesCount,isActive:true,startsAt:h.startsAt,expiresAt:h.expiresAt}))]}}};
   const codeId='11111111-1111-4111-8111-111111111111',code='CLINIC-MOCKCODEONLY';
-  const io={readCapacity:async()=>({status:200,json:{success:true,report:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:16}}}),beforeCode:async()=>{},normalLogin:async()=>({id:CLINIC_CODE_ADMIN.id,partnerAdminVisible:true}),now:()=>now,
+  const io={readCapacity:async()=>({status:200,json:{success:true,report:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:CLINIC_FRESH_ATTEMPT.entries}}}),beforeCode:async()=>{},normalLogin:async()=>({id:CLINIC_CODE_ADMIN.id,partnerAdminVisible:true}),now:()=>now,
     readWorkspace:async()=>workspace,
     createCode:async body=>{calls.push(structuredClone(body));workspace.json.workspace.accessCodes.push({id:codeId,eventId:CLINIC_SETUP.event,
       maxUses:1,usesCount:0,isActive:true,startsAt:body.startsAt,expiresAt:body.expiresAt});return {status:201,json:{success:true,accessCode:{id:codeId,code}}};},
     saveAttempt:async value=>receipts.push(structuredClone(value)),saveResult:async value=>receipts.push(structuredClone(value)),saveVerified:async value=>receipts.push(structuredClone(value))};
   return {io,now,calls,receipts,workspace,event,old,consumed,codeId,code};
 }
-test('normal scoped test admin issues exactly one bounded max1 code and passes it only in memory',async()=>{
+test('pure issuer contract uses one bounded max1 request in memory; spent execution authority remains closed',async()=>{
   const f=fixture();const code=await issueClinicSetupCode(f.io);assert.equal(code,f.code);assert.equal(f.calls.length,1);
   const body=f.calls[0];assert.equal(body.requestId,CLINIC_CODE_ADMIN.requestId);assert.equal(body.maxUses,1);
   assert.equal(Date.parse(body.startsAt),f.now);assert.equal(Date.parse(body.expiresAt),f.now+15*60000);
@@ -42,7 +42,7 @@ for(const [label,change] of [
   ['event outside actual window',f=>{f.event.endsAt=new Date(f.now-1).toISOString();}],
   ['event not published',f=>{f.event.status='paused';}],
   ['already renewed or unknown inventory',f=>{f.workspace.json.workspace.accessCodes.push({...f.old,id:'22222222-2222-4222-8222-222222222222',usesCount:0});}],
-  ['missing consumed run401528 code',f=>{f.workspace.json.workspace.accessCodes.pop();}],
+  ['missing latest consumed run401588 code',f=>{f.workspace.json.workspace.accessCodes.pop();}],
   ['changed consumed counter',f=>{f.consumed.usesCount=0;}],
   ['capacity fully consumed',f=>{f.io.readCapacity=async()=>({status:200,json:{success:true,report:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:20}}});}],
   ['old code no longer exhausted',f=>{f.old.usesCount=1;}],
@@ -118,20 +118,20 @@ test('actual runner uses guarded exact-event controls and captures denied/server
 
 test('fresh authority refuses the spent identity, missing approval identity, and a workflow rerun',()=>{
  const env={RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.id,GITHUB_RUN_ATTEMPT:'1'};
- assert.doesNotThrow(()=>assertClinicAttemptAuthority(env));
+ assert.throws(()=>assertClinicAttemptAuthority(env),/spent/);
  for(const change of [{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.priorRequestId},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:''},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>assertClinicAttemptAuthority({...env,...change}));
 });
 test('lost code response preserves the exact persisted request and a new invocation cannot create another entitlement',async()=>{
  const f=fixture(),create=f.io.createCode;let payload;
  f.io.saveAttempt=async value=>{assert.equal(payload,undefined);payload=structuredClone(value.request);f.receipts.push(value);};
  f.io.createCode=async body=>{assert.deepEqual(body,payload);await create(body);throw Error('lost original response after write');};
- await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);assert.equal(f.workspace.json.workspace.accessCodes.length,3);
+ await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);assert.equal(f.workspace.json.workspace.accessCodes.length,CLINIC_FRESH_ATTEMPT.history.length+1);
  const original=JSON.stringify(payload);f.io.now=()=>f.now+60000;
  await assert.rejects(issueClinicSetupCode(f.io),/inventory/);assert.equal(f.calls.length,1);assert.equal(JSON.stringify(payload),original);
  assert.equal(f.old.usesCount,2);assert.equal(f.consumed.usesCount,1);
 });
 test('post-issuance readback refuses changed history, wrong validity, or a historical response ID without a second POST',async()=>{
- for(const alter of [f=>{f.old.usesCount=1;},f=>{f.consumed.expiresAt='2030-01-01T00:00:00Z';},f=>{f.workspace.json.workspace.accessCodes[2].expiresAt='2030-01-01T00:00:00Z';}]) {
+ for(const alter of [f=>{f.old.usesCount=1;},f=>{f.consumed.expiresAt='2030-01-01T00:00:00Z';},f=>{f.workspace.json.workspace.accessCodes.at(-1).expiresAt='2030-01-01T00:00:00Z';}]) {
   const f=fixture(),create=f.io.createCode;f.io.createCode=async body=>{const response=await create(body);alter(f);return response;};
   await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);assert(!f.receipts.some(r=>r.status==='verified_unredeemed'));
  }
@@ -151,4 +151,16 @@ test('actual code POST callback revalidates the same-run gate after preceding re
   if(fresh)assert.equal((await invoke()).status,201);else assert.throws(invoke,/stale same-run gate/);
   assert.equal(checks,1);assert.equal(calls,fresh?1:0);
  }
+});
+
+test('reconciled third consumed code is required and spent authority precedes every browser effect',()=>{
+ assert.equal(CLINIC_FRESH_ATTEMPT.history.length,3);
+ assert.equal(CLINIC_FRESH_ATTEMPT.entries,17);
+ assert.equal(CLINIC_FRESH_ATTEMPT.history[2].id,'d627a599-0a0b-47f7-896c-45bd7b7645e2');
+ assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,'40158881107');
+ for(const id of [CLINIC_FRESH_ATTEMPT.id,CLINIC_FRESH_ATTEMPT.priorRequestId,'11111111-1111-4111-8111-111111111111'])
+  assert.throws(()=>assertClinicAttemptAuthority({RCAP_BROWSER_CLINIC_ATTEMPT_ID:id,GITHUB_RUN_ATTEMPT:'1'}));
+ const source=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
+ assert(source.indexOf('assertClinicAttemptAuthority(process.env)')<source.indexOf('chromium.launch('));
+ assert(source.indexOf('assertClinicAttemptAuthority(process.env)')<source.indexOf('issueClinicSetupCode({'));
 });

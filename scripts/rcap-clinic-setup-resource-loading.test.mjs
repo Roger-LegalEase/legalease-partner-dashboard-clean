@@ -1,3 +1,4 @@
+import './rcap-clinic-frozen-react-screening.test.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';

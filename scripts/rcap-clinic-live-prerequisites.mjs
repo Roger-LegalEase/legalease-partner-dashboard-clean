@@ -84,7 +84,7 @@ export async function readClinicDatabasePrerequisites({env=process.env,fetchImpl
     assert.ok(row.clinic_known_compatibility_prerequisites&&typeof row.clinic_known_compatibility_prerequisites==='object'&&!Array.isArray(row.clinic_known_compatibility_prerequisites));
     const result=qualifyDatabase({catalog:row.clinic_known_compatibility_prerequisites,projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app});
     assert.ok(Array.isArray(result.checks)&&result.checks.length>0);checks.push(...result.checks);
-    add('normal_code_issuance_inventory',qualifyClinicFreshInventory(result.operational),'exact reconciled two-code history, open prior redemption and remaining event capacity','fresh_attempt_state_unqualified');
+    add('reconciled_clinic_history',qualifyClinicFreshInventory(result.operational),'exact reconciled three-code history, open prior redemption and remaining event capacity','fresh_attempt_state_unqualified');
     add('database_complete_compatibility',result.status==='READY'&&result.blockers?.length===0,'READY without blockers',result.status==='READY'?'READY':'BLOCKED');
     return evidence();
   } catch {
@@ -223,7 +223,7 @@ export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=
   })()]);
   return {schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:checks.length>0&&checks.every(c=>c.ok===true)?'READY':'BLOCKED',
     projectRef:CLINIC_SETUP.project,applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,
-    attemptId:CLINIC_FRESH_ATTEMPT.id,controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT,capturedAt:new Date().toISOString(),
+    attemptId:CLINIC_FRESH_ATTEMPT.id,attemptConsumedByRun:CLINIC_FRESH_ATTEMPT.consumedByRun,controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT,capturedAt:new Date().toISOString(),
     checks,blockers:checks.filter(c=>c.ok!==true),preview,captchaPolicy,databaseEvidence,stateChangingStepReached:false};
 }
 export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
@@ -235,7 +235,7 @@ export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
   assert.ok(now-Date.parse(gate.capturedAt)>=0&&now-Date.parse(gate.capturedAt)<300000,'live prerequisite result must be fresh');
   assert.ok(gate.checks.length>0&&gate.checks.every(c=>c.ok===true)&&gate.blockers.length===0);
   for(const id of ['database_execution_role','database_session_identity','database_transaction_read_only',
-    ...probeSignatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','normal_code_issuance_inventory','exact_current_preview','shipped_and_server_captcha'])assert.ok(gate.checks.some(c=>c.id===id&&c.ok));
+    ...probeSignatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','reconciled_clinic_history','exact_current_preview','shipped_and_server_captcha'])assert.ok(gate.checks.some(c=>c.id===id&&c.ok));
   assert.equal(gate.databaseEvidence?.executionContext?.current_user,'postgres');assert.equal(gate.databaseEvidence.executionContext.transaction_read_only,'on');
   assert.ok(['postgres','supabase_admin'].includes(gate.databaseEvidence.executionContext.session_user));
   assert.equal(gate.databaseEvidence.prerequisiteSqlSha256,prerequisiteSqlHash);
