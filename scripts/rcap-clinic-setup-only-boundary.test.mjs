@@ -9,7 +9,10 @@ import { CLINIC_SETUP,assertClinicSetupInput,assertClinicSetupDispatch,clinicSet
 const browserSource=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
 const ast=ts.createSourceFile('browser.mjs',browserSource,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
 const journey=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='runJourney');
-const stop=journey.body.statements.find(node=>ts.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly'
+const journeyIfStatements=[];
+function collectJourneyBranches(node){if(ts.isIfStatement(node))journeyIfStatements.push(node);ts.forEachChild(node,collectJourneyBranches);}
+collectJourneyBranches(journey.body);
+const stop=journeyIfStatements.find(node=>ts.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly'
   &&node.getText(ast).includes('stopReason'));
 test('actual browser setup branch returns before packet builder and downstream effects',async()=>{
   assert.ok(stop);assert.ok(stop.end<browserSource.indexOf('const builderLink'));
@@ -168,7 +171,7 @@ test('dispatch source labels must match the pinned Clinic tuple and tools never 
  assert.match(workflow.jobs.clinic_setup_only.steps.find(s=>s.name?.startsWith('Require the published')).run,/assertClinicSetupDispatch\(JSON.parse/);
 });
 test('screening completion failure stops before pending creation and cannot claim persistence from HTTP200',async()=>{
- const branch=journey.body.statements.find(node=>ts.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly'&&node.getText(ast).includes('screeningCompletion.read()'));
+ const branch=journeyIfStatements.find(node=>ts.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly'&&node.getText(ast).includes('screeningCompletion.read()'));
  assert(branch);assert(branch.end<browserSource.indexOf('await saveScreeningAndClaim',branch.pos));
  const run=(scope,body=branch.getText(ast))=>new Function(...Object.keys(scope),`"use strict";return (async()=>{${body}})()`)(...Object.values(scope));
  for(const response of [null,{httpStatus:500,accepted:true},{httpStatus:200,accepted:false}]) {
@@ -198,4 +201,12 @@ test('read-only credential-context mode cannot enter Clinic browser or another p
   assert(other.if,'every other provider job must select a mode');assert(!other.if.includes(mode));
   assert(!other.if.includes("inputs.mode != 'clinic_setup_only'"));
  }
+});
+
+test('setup and immutable-completion assertions select the actual nested fresh branch exactly once',()=>{
+ const matches=predicate=>journeyIfStatements.filter(node=>node.expression.getText(ast)==='clinicSetupOnly'&&predicate(node.getText(ast)));
+ assert.equal(matches(text=>text.includes('stopReason')).length,1);
+ assert.equal(matches(text=>text.includes('screeningCompletion.read()')).length,1);
+ assert.equal(journey.body.statements.includes(stop),false,'Fresh setup now lives under the non-continuation else branch');
+ assert.equal(journeyIfStatements.some(node=>node.expression.getText(ast)==='existingClinicContinuation'&&node.elseStatement?.getText(ast).includes(stop.getText(ast))),true);
 });

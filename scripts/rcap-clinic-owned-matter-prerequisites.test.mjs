@@ -1,3 +1,4 @@
+import YAML from 'yaml';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -34,11 +35,19 @@ test('owned-matter dispatch has no intake attempt or different matter/deployment
  assertOwnedMatterReadonlyDispatch(inputs);for(const patch of [{mode:'clinic_setup_only'},{resume_matter_id:'different'},{clinic_attempt_id:'spent'},{application_sha:'other'},{preview_deployment_id:'other'}])assert.throws(()=>assertOwnedMatterReadonlyDispatch({...inputs,...patch}));
 });
 test('owned-matter workflow isolates authenticated read from setup/deployment and always checks post-state',()=>{
- const workflow=fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8');const job=workflow.split('\n  clinic_owned_matter_readonly:\n')[1].split('\n  production_hotfix:')[0];assert.ok(job);assert.match(job,/if: inputs.mode == 'clinic_owned_matter_readonly'/);assert.match(job,/persist-credentials: false/);assert.match(job,/always\(\) && steps.prerequisites.outcome == 'success'/);assert.match(job,/owned-matter-prerequisites.mjs --after/);assert.doesNotMatch(job,/ISSUE_CLINIC_CODE|ALLOW_MUTATION|workflow_dispatch|vercel deploy|npm run build/);
- const browser=job.split('id: reopen')[1].split('- name: Verify business')[0];assert.doesNotMatch(browser,/SUPABASE_ACCESS_TOKEN|VERCEL_TOKEN|STRIPE|FLY_API_TOKEN/);
+ const workflow=fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8');const parsedJob=YAML.parse(workflow).jobs.clinic_owned_matter_readonly;const job=YAML.stringify(parsedJob);assert.ok(job);assert.match(job,/if: inputs.mode == 'clinic_owned_matter_readonly'/);assert.match(job,/persist-credentials: false/);assert.match(job,/always\(\) && steps.prerequisites.outcome == 'success'/);assert.match(job,/owned-matter-prerequisites.mjs --after/);assert.doesNotMatch(job,/ISSUE_CLINIC_CODE|ALLOW_MUTATION|workflow_dispatch|vercel deploy|npm run build/);
+ const browser=YAML.stringify(parsedJob.steps.find(step=>step.id==='reopen'));assert.doesNotMatch(browser,/SUPABASE_ACCESS_TOKEN|VERCEL_TOKEN|STRIPE|FLY_API_TOKEN/);
  assert.equal(JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url))).git.deploymentEnabled['codex/d-clinic-setup-only-20261024'],false);
 });
 
 test('owned-matter numeric counts cannot contradict passing SQL flags',()=>{const r=row();r.counts.matterRows=2;assert.equal(qualifyOwnedMatterRow(r).checks.find(c=>c.id==='exact_records_exist').ok,false);r.counts.historyCodeCount=9;assert.equal(qualifyOwnedMatterRow(r).checks.find(c=>c.id==='stored_history_counts_preserved').ok,false);});
 
 test('owned-matter authoritative answer mismatch remains blocking without fabricating session answers',()=>{const r=row();r.checks.pending_saved_answers_match=false;const result=qualifyOwnedMatterRow(r);assert.equal(result.checks.find(c=>c.id==='pending_saved_answers_match').ok,false);assert.equal(result.counts.screeningAnswerCount,0);});
+
+test('read-only workflow inspection excludes the mutating packet sibling job',()=>{
+ const workflow=YAML.parse(fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8'));
+ assert.ok(workflow.jobs.clinic_owned_matter_packet,'Regression fixture requires the actual newly adjacent packet job');
+ assert.match(YAML.stringify(workflow.jobs.clinic_owned_matter_packet),/RCAP_BROWSER_ALLOW_MUTATION/);
+ assert.doesNotMatch(YAML.stringify(workflow.jobs.clinic_owned_matter_readonly),/RCAP_BROWSER_ALLOW_MUTATION/);
+ assert.equal(workflow.jobs.clinic_owned_matter_readonly.steps.filter(step=>step.id==='reopen').length,1);
+});
