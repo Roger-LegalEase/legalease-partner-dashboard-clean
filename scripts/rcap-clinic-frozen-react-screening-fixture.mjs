@@ -114,11 +114,12 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
  assert.equal(sha(fs.readFileSync(nativeRequire.resolve(announcerModule))),announcerSha256,'Installed Next announcer source changed');
  const frameworkPins={nextVersion,announcerModule,announcerSha256};
  const browserBundles=new Map();
- const buildBrowserBundle=({publicMode=false}={})=>{
-  if(browserBundles.has(publicMode))return browserBundles.get(publicMode);
+ const buildBrowserBundle=({publicMode=false,matterPage=false,canonicalAlias=false}={})=>{
+  const bundleKey=JSON.stringify([publicMode,matterPage,canonicalAlias]);
+  if(browserBundles.has(bundleKey))return browserBundles.get(bundleKey);
   const modules=[],ids=new Map();
   const stubs={
-   'next/navigation':`exports.useRouter=()=>({push:target=>{window.__screeningFixture.navigation=target;history.pushState({},'',target);},replace:target=>{window.__screeningFixture.navigation=target;history.replaceState({},'',target);},back:()=>history.back()});exports.usePathname=()=>location.pathname;exports.useSearchParams=()=>new URLSearchParams(location.search);`,
+   'next/navigation':`exports.useRouter=()=>({push:target=>{window.__screeningFixture.navigation=target;if(${matterPage}&&target.startsWith('/briefcase/matters/')){location.assign(${canonicalAlias}?target.replace('/briefcase/matters/','/briefcase/'):target);return;}history.pushState({},'',target);},replace:target=>{window.__screeningFixture.navigation=target;history.replaceState({},'',target);},back:()=>history.back()});exports.usePathname=()=>location.pathname;exports.useSearchParams=()=>new URLSearchParams(location.search);`,
    'next/link':`const R=require('react');module.exports=function Link({href,children,...props}){return R.createElement('a',{...props,href},children);};`,
    'next/image':`const R=require('react');module.exports=function Image(props){return R.createElement('img',props);};`,
    'lucide-react':`const R=require('react');module.exports=new Proxy({},{get:(_t,name)=>name==='__esModule'?false:function Icon(props){return R.createElement('svg',{'aria-hidden':true,...props});}});`,
@@ -126,7 +127,8 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
    '@/lib/analytics/client':`exports.trackFunnelEvent=()=>{};`,
    'server-only':``
   };
-  const entry=`const R=require('react');const{createRoot}=require('react-dom/client');const{LocalizationProvider}=require('@/components/expungement-ai/LocalizationProvider');const{ScreeningFlow}=require('@/components/expungement-ai/screening/ScreeningFlow');const{AppRouterAnnouncer}=require('next/dist/client/components/app-router-announcer.js');window.__screeningFixture={navigation:null};createRoot(document.getElementById('root')).render(R.createElement(R.Fragment,null,R.createElement(AppRouterAnnouncer,{tree:[]}),R.createElement(LocalizationProvider,null,R.createElement(ScreeningFlow,{state:'MS',${publicMode?'':`initialSessionId:${JSON.stringify(FIXTURE_SESSION_ID)},partnerDisplayName:'Synthetic Clinic fixture'`}}))));`;
+  // Preserve the Clinic screening route main landmark around the actual ScreeningFlow.
+  const entry=`const R=require('react');const{createRoot}=require('react-dom/client');const{LocalizationProvider}=require('@/components/expungement-ai/LocalizationProvider');const{ScreeningFlow}=require('@/components/expungement-ai/screening/ScreeningFlow');const{AppRouterAnnouncer}=require('next/dist/client/components/app-router-announcer.js');window.__screeningFixture={navigation:null};createRoot(document.getElementById('root')).render(R.createElement(R.Fragment,null,R.createElement(AppRouterAnnouncer,{tree:[]}),R.createElement(LocalizationProvider,null,R.createElement('main',{className:'min-h-screen bg-[#F7F9FC] px-4 py-8'},R.createElement(ScreeningFlow,{state:'MS',${publicMode?'':`initialSessionId:${JSON.stringify(FIXTURE_SESSION_ID)},partnerDisplayName:'Synthetic Clinic fixture'`}})))));`;
   const add=(key,body,relative=null,packageFile=null)=>{
    if(ids.has(key))return ids.get(key);
    const id=modules.length;ids.set(key,id);modules.push(null);
@@ -150,20 +152,20 @@ export function frozenScreeningRuntime({repo=process.cwd()}={}) {
   };
   const entryId=add('fixture-entry',entry);
   const browserBundle=`(function(){const process={env:{NODE_ENV:'production'}};const definitions={${modules.map((m,i)=>`${i}:[function(module,exports,require){\n${m.code}\n},${JSON.stringify(m.deps)}]`).join(',\n')}};const cache={};function load(id){if(cache[id])return cache[id].exports;const module={exports:{}};cache[id]=module;const[run,deps]=definitions[id];run(module,module.exports,name=>{if(!Object.hasOwn(deps,name))throw Error('Unmapped browser dependency '+name);return load(deps[name]);});return module.exports;}load(${entryId});})();`;
-  browserBundles.set(publicMode,browserBundle);return browserBundle;
+  browserBundles.set(bundleKey,browserBundle);return browserBundle;
  };
  return {frameworkPins,authorityReads,authorityReadFailures,profile,publicProfile,profileGET,progressPOST,evaluatePOST,screeningAnswers,sideEffects,select:answers=>selection(profile,publicProfile,answers),evaluate,buildBrowserBundle,
   sourcePins:()=>Object.fromEntries(pins),boundaries:['Original frozen profile registry with read-only Git-backed compiled source files; actual profile GET/progress POST handlers and Response passthrough','Database/cookie seams throw and count unexpected use by read-only handlers','Installed frozen-lock-version Next AppRouterAnnouncer with pinned source; Next router navigation port','Next Link/Image rendering ports','Frozen optional badge uppercase CSS included; remaining production Tailwind layout omitted; decorative icons/Wilma omitted; analytics disabled','Original evaluate POST with Git-backed pinned read-only fulfillment registry; computed availability grants no entitlement','Pending/claim storage is an explicit HTTP double; no Postgres or ownership proof']};
 }
 
-export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null,queryAssets=false,assetFault=false,publicMode=false,evaluationFault=null,responseTiming={},responseFaults={},callerDelayMs=0}={}) {
+export async function startFrozenReactScreeningSite({runtime,planMode='engine',claimRefused=false,progressFault=null,initialProgressGate=null,queryAssets=false,assetFault=false,publicMode=false,evaluationFault=null,responseTiming={},responseFaults={},callerDelayMs=0,matterPage=false,canonicalAlias=false}={}) {
  assert.ok(evaluationFault===null||evaluationFault==='non_packet_result');
  assert.ok(runtime);assert.ok(['engine','omit_optional','early_result','reverse_timing'].includes(planMode));
  assert.ok(progressFault===null||['invalid_version_after_initial','invalid_version_react_initial'].includes(progressFault));
- const state={profileCalls:0,requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
+ const state={canonicalMatterReads:0,profileCalls:0,requests:[],plans:[],progressResponses:[],progressCalls:0,evaluations:[],pendingCalls:0,claimCalls:0,savedMatter:null};
  let notifyInitialProgress;
  const initialProgressRequested=new Promise(resolve=>{notifyInitialProgress=resolve;});
- const bundle=runtime.buildBrowserBundle({publicMode});
+ const bundle=runtime.buildBrowserBundle({publicMode,matterPage,canonicalAlias});
  const assetQuery=queryAssets?'?dpl=fixture-immutable-token':'';
  const font=fs.readFileSync(path.join(path.dirname(createRequire(import.meta.url).resolve('next/package.json')),'dist/compiled/@vercel/og/Geist-Regular.ttf'));
  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZT0AAAAASUVORK5CYII=','base64');
@@ -189,6 +191,13 @@ export async function startFrozenReactScreeningSite({runtime,planMode='engine',c
  const server=http.createServer(async(request,response)=>{
   try {
    const url=new URL(request.url,`http://${request.headers.host}`);
+   if(matterPage&&['/briefcase/matters/'+FIXTURE_MATTER_ID,'/briefcase/'+FIXTURE_MATTER_ID].includes(url.pathname)) {
+    state.canonicalMatterReads++;
+    const saved=state.savedMatter?.id===FIXTURE_MATTER_ID;
+    response.writeHead(saved?200:404,{'content-type':'text/html','cache-control':'no-store'});
+    // Explicit storage/auth surface double: this is never hosted ownership or document proof.
+    return response.end('<!doctype html><html><body data-fixture-storage-double="true">'+(saved?'<main data-briefcase-matter-id="'+FIXTURE_MATTER_ID+'"><span>MS</span><p>Non-conviction expungement for dismissal, no disposition, or acquittal</p></main>':'<main>We could not find that fixture matter</main>')+'<script>window.__screeningFixture={navigation:location.pathname,fixtureOnly:true};</script></body></html>');
+   }
    if(url.pathname==='/caller-entry'){response.writeHead(200,{'content-type':'text/html'});return response.end('<a href="/clinic/local-screening-fixture/screening/ms">Start screening</a>');}
    if(url.pathname==='/caller-delay'){await pause(callerDelayMs);return send(response,200,{ok:true});}
    if(url.pathname==='/_next/static/chunks/clinic-fixture.css'){if(assetFault){response.writeHead(403,{'content-type':'text/plain'});return response.end('fixture private response must not be recorded');}response.writeHead(200,{'content-type':'text/css'});return response.end(`@font-face{font-family:Clinic;src:url('/_next/static/media/fixture.ttf${assetQuery}')}body{font-family:Clinic;color:rgb(11,19,32)}`);}

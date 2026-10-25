@@ -2,23 +2,25 @@ import assert from 'node:assert/strict';
 
 // One explicitly authorized new attempt; every prior attempt and its durable records remain spent.
 export const CLINIC_FRESH_ATTEMPT=Object.freeze({
- id:'d1500d16-88c4-496f-805f-7f3b0be7d84b',consumedByRun:null,
+ id:'7b09f36a-2738-4fb9-8ede-c176c91b29f9',consumedByRun:null,
  previousAttempts:Object.freeze([
   Object.freeze({id:'71403c61-b073-4ece-a95c-99da50c3bf8d',consumedByRun:'40158881107',screeningSessionId:'ec8d191c-1357-4240-8a00-3dbb8710a580'}),
   Object.freeze({id:'fbf69013-459a-4331-82bd-b72d9e7f244c',consumedByRun:'40163028066',screeningSessionId:'a2320baa-98b7-4ec6-85c2-8da63720f0f3'}),
   Object.freeze({id:'7ce4711c-088f-4340-bf82-beec63db3717',consumedByRun:'40191987755',screeningSessionId:'6373a05a-34e3-41d7-95a3-c239dcac10d0'}),
-  Object.freeze({id:'6e2628ba-9e9e-401e-9b59-21fc8a792ee4',consumedByRun:'40198317568',screeningSessionId:'4271197b-bc88-4b7c-8dd4-5cf001721907'})
+  Object.freeze({id:'6e2628ba-9e9e-401e-9b59-21fc8a792ee4',consumedByRun:'40198317568',screeningSessionId:'4271197b-bc88-4b7c-8dd4-5cf001721907'}),
+  Object.freeze({id:'d1500d16-88c4-496f-805f-7f3b0be7d84b',consumedByRun:'40206938230',screeningSessionId:'e474021b-c908-4ec2-8609-7a6afe2beff3'})
  ]),eventId:'77000000-0000-4000-8000-000000000055',
  priorRequestId:'aca01bff-cd19-4c75-b1dc-630588d3680d',redemptionId:'3a6f7921-a71c-4ca8-bae4-9292b63473cf',
- // Proposed next-attempt capacity: the live gate must refuse until the audited 20-to-21 adjustment is verified.
- capacity:21,entries:20,maxUses:1,startsAt:'2026-09-25T02:28:08.978166+00:00',endsAt:'2026-10-26T02:28:08.978166+00:00',
+ // Proposed next-attempt capacity: the live gate must refuse until the audited 21-to-22 adjustment is verified.
+ capacity:22,entries:21,maxUses:1,startsAt:'2026-09-25T02:28:08.978166+00:00',endsAt:'2026-10-26T02:28:08.978166+00:00',
  history:Object.freeze([
   Object.freeze({id:'77000000-0000-4000-8000-000000000057',maxUses:2,usesCount:2,redemptionRows:15,startsAt:'2026-09-25T02:28:08.978166+00:00',expiresAt:'2026-10-26T02:28:08.978166+00:00'}),
   Object.freeze({id:'5fe1f896-c735-4ef4-838e-d86a4b293d86',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T02:02:30.379+00:00',expiresAt:'2026-10-25T02:17:30.379+00:00'}),
   Object.freeze({id:'d627a599-0a0b-47f7-896c-45bd7b7645e2',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T03:39:45.044Z',expiresAt:'2026-10-25T03:54:45.044Z'}),
   Object.freeze({id:'a19bde9a-f244-4788-bb24-fe14d2b6057b',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T04:47:13.939Z',expiresAt:'2026-10-25T05:02:13.939Z'}),
   Object.freeze({id:'023196ce-1746-4763-b663-6579f81a3a6d',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T12:13:16.944Z',expiresAt:'2026-10-25T12:28:16.944Z'}),
-  Object.freeze({id:'0216dce4-2799-411d-87f4-232d16671224',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T13:38:16.180Z',expiresAt:'2026-10-25T13:53:16.180Z'})
+  Object.freeze({id:'0216dce4-2799-411d-87f4-232d16671224',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T13:38:16.180Z',expiresAt:'2026-10-25T13:53:16.180Z'}),
+  Object.freeze({id:'b7a29a9f-4ad8-44f9-8fae-f7cfba7ba4aa',maxUses:1,usesCount:1,redemptionRows:1,startsAt:'2026-10-25T15:29:39.834Z',expiresAt:'2026-10-25T15:44:39.834Z'})
  ])
 });
 export function assertClinicAttemptAuthority(env) {

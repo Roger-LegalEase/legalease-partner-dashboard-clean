@@ -12,6 +12,7 @@ const helper=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-ms-sc
 const transport=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-original-response.mjs')).href);
 const diagnostic=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-live-screening-progress.mjs')).href);
 const caller=await import(pathToFileURL(path.join(runnerRoot,'scripts/rcap-clinic-screening-profile.mjs')).href);
+const [chainGuard,chainSetup,chainAttempt]=await Promise.all(['rcap-clinic-setup-request-guard.mjs','rcap-clinic-setup-only-boundary.mjs','rcap-clinic-fresh-attempt.mjs'].map(name=>import(pathToFileURL(path.join(runnerRoot,'scripts',name)).href)));
 const runtime=frozenScreeningRuntime({repo:dependencyRoot});
 const proof={application:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',hostedJourneyCompleted:false,actualDatabaseProof:false,
  boundaries:runtime.boundaries,frameworkPins:runtime.frameworkPins,cases:[]};
@@ -481,5 +482,92 @@ for(const operation of ['completion','pending','claim'])for(const fault of ['ref
    assert.equal(await page.evaluate(()=>window.__screeningFixture.navigation),null,'Failed claim must not fabricate navigation');
    proof.cases.push({id:'actual_caller_'+operation+'_'+fault,originalFailureRetained:true,noRetry:true,localStorageDouble:true});
   }finally{completion.dispose();}
+ });
+});
+
+
+// Preserve one continuous production region; only external auth/storage and evidence sinks are ports.
+const orchestrationStatements=callerJourney.body.statements;
+const orchestrationStart=orchestrationStatements.find(node=>node.getText(callerAst).startsWith("result.stage='participant_screening'"));
+const orchestrationStop=orchestrationStatements.find(node=>callerTs.isIfStatement(node)&&node.expression.getText(callerAst)==='clinicSetupOnly'&&node.getText(callerAst).includes("stopReason='new_owned_screening_claimed_before_packet_builder_funding_render_worker'"));
+assert.ok(orchestrationStart&&orchestrationStop);
+assert.ok(orchestrationStop.end<callerSource.indexOf('const builderLink'));
+const productionOrchestration=callerSource.slice(orchestrationStart.getStart(callerAst),orchestrationStop.end);
+const productionRequestListener=orchestrationStatements.find(node=>callerTs.isExpressionStatement(node)&&callerTs.isCallExpression(node.expression)&&node.expression.expression.getText(callerAst)==='page.on'&&node.expression.arguments[0]?.text==='request');
+assert.ok(productionRequestListener);
+const productionSupport=['validUuid','exactBriefcaseItemId','expectText','assertNoCommercialCopy','check'].map(name=>{
+ const declaration=callerAst.statements.find(node=>callerTs.isFunctionDeclaration(node)&&node.name?.text===name);
+ assert.ok(declaration,`Actual production validator missing: ${name}`);return declaration.getText(callerAst);
+}).join('\n');
+async function runContiguousProduction(fixture,captured,sink,{guardRefusal=false}={}) {
+ const {page,site,config,observations,stages}=fixture;
+ const result=sink.result={responseObservations:observations,responseStages:stages};
+ sink.guardCalls=0;sink.screenshots=[];
+ const guard=chainGuard.createClinicRequestGuard({actor:'participant',captchaPolicy:{},env:{},stage:()=>result.stage,events:[],requestFailures:[]});
+ const realAssert=guard.assertNoCritical;
+ guard.assertNoCritical=()=>{sink.guardCalls++;return realAssert();};
+ page.on('pageerror',guard.pageError);
+ page.on('response',response=>{
+  if(transport.matchesOriginalResponse(response,'completion',config))sink.originalCompletion=transport.originalResponse(response,'completion');
+ });
+ const scope={clinicSetupOnly:true,page,result,responseConfig:config,screeningProfileCapture:captured,
+  captureOriginalResponseOnce:caller.captureOriginalResponseOnce,runScreeningFromOriginalProfile:caller.runScreeningFromOriginalProfile,
+  saveScreeningAndClaim:caller.saveScreeningAndClaim,participantGuard:guard,assert,baseUrl:site.origin,
+  failures:[],browserErrors:[],generationRequests:[],stripeRequests:[],packetDownloadRequests:[],
+  participantUserId:chainSetup.CLINIC_SETUP.owner,CLINIC_SETUP:chainSetup.CLINIC_SETUP,CLINIC_FRESH_ATTEMPT:chainAttempt.CLINIC_FRESH_ATTEMPT,
+  path,evidenceDir:'/fixture-evidence',fs:{writeFileSync:(target,body)=>{
+   assert.equal(target,'/fixture-evidence/clinic-setup-only-result.json');sink.savedReport=JSON.parse(body);
+  }},
+  screenshotPair:async(_page,stem)=>{
+   sink.screenshots.push(stem);
+   if(guardRefusal&&stem==='01-partner-covered-result') {
+    const error=page.waitForEvent('pageerror');
+    await page.evaluate(()=>{setTimeout(()=>{throw Error('Controlled native guard refusal');},0);});await error;
+   }
+  }};
+ await new Function(...Object.keys(scope),`"use strict";return (async()=>{let screeningSessionId=null;${productionSupport}\n${productionRequestListener.getText(callerAst)}\n${productionOrchestration}})()`)(...Object.values(scope));
+}
+for(const mode of ['immediate','delayed'])test(`contiguous production completion-to-canonical orchestration ${mode} preserves frozen evidence and saves once`,{timeout:120000},async()=>{
+ await withCallerFixture({matterPage:true,...(mode==='delayed'?{responseTiming:{profile:{bodyMs:300},completion:{bodyMs:100},pending:{bodyMs:300},claim:{bodyMs:100}}}:{})},async fixture=>{
+  const captured=await fixture.open(),sink={};
+  await runContiguousProduction(fixture,captured,sink);
+  assert.equal(Object.isFrozen(sink.originalCompletion),true);assert.equal(Object.hasOwn(sink.originalCompletion,'persistenceVerified'),false);
+  assert.notEqual(sink.result.screeningCompletion,sink.originalCompletion);assert.equal(sink.result.screeningCompletion.persistenceVerified,false);
+  assert.equal(sink.guardCalls,3);assert.equal(sink.savedReport.stage,'setup_complete');assert.equal(sink.savedReport.passed,true);
+  assert.equal(sink.savedReport.itemId,FIXTURE_MATTER_ID);assert.equal(sink.savedReport.fullHostedJourneyCompleted,false);
+  assert.equal(fixture.site.state.pendingCalls,1);assert.equal(fixture.site.state.claimCalls,1);assert.equal(fixture.site.state.canonicalMatterReads,1);
+  assert.equal(new URL(fixture.page.url()).pathname,`/briefcase/matters/${FIXTURE_MATTER_ID}`);
+  assert.deepEqual(sink.screenshots,['01-partner-covered-result','02-partner-covered-briefcase-matter']);
+  assert.ok(fixture.site.state.requests.every(request=>!request.answerIds.includes('ms_program_order')));
+  proof.cases.push({id:'contiguous_production_'+mode,actualProductionSlice:true,canonicalVerified:true,pendingCalls:1,claimCalls:1,externalAuthStorageAndEvidencePorts:true,actualDatabaseProof:false,hostedJourneyCompleted:false});
+ });
+});
+test('contiguous production actual guard refuses after completion and before Save',{timeout:120000},async()=>{
+ await withCallerFixture({matterPage:true},async fixture=>{
+  const captured=await fixture.open(),sink={};
+  await assert.rejects(runContiguousProduction(fixture,captured,sink,{guardRefusal:true}),/Clinic context encountered a critical boundary or application failure/);
+  assert.equal(sink.result.screeningCompletion.accepted,true);assert.equal(sink.result.screeningCompletion.persistenceVerified,false);
+  assert.equal(Object.isFrozen(sink.originalCompletion),true);assert.equal(Object.hasOwn(sink.originalCompletion,'persistenceVerified'),false);
+  assert.equal(sink.guardCalls,1);assert.equal(sink.result.stage,'participant_screening');assert.equal(sink.savedReport,undefined);
+  assertCallerNoSave(fixture.site);assert.equal(fixture.site.state.canonicalMatterReads,0);
+  proof.cases.push({id:'contiguous_production_guard_refusal',actualGuard:true,pendingCalls:0,claimCalls:0,hostedJourneyCompleted:false});
+ });
+});
+test('contiguous production rejects an accepted claim landing on a noncanonical alias',{timeout:120000},async()=>{
+ await withCallerFixture({matterPage:true,canonicalAlias:true},async fixture=>{
+  const captured=await fixture.open(),sink={};
+  await assert.rejects(runContiguousProduction(fixture,captured,sink),/Clinic must land on the canonical matter page/);
+  assert.equal(fixture.site.state.pendingCalls,1);assert.equal(fixture.site.state.claimCalls,1);assert.equal(fixture.site.state.canonicalMatterReads,1);
+  assert.equal(sink.savedReport,undefined);assert.notEqual(sink.result.passed,true);
+  assert.equal(new URL(fixture.page.url()).pathname,`/briefcase/${FIXTURE_MATTER_ID}`);
+  proof.cases.push({id:'contiguous_production_canonical_refusal',claimAccepted:true,canonicalVerified:false,externalStorageDouble:true,hostedJourneyCompleted:false});
+ });
+});
+test('contiguous production refuses the original completion response before guard or Save',{timeout:120000},async()=>{
+ await withCallerFixture({matterPage:true,responseFaults:{completion:'refusal'}},async fixture=>{
+  const captured=await fixture.open(),sink={};
+  await assert.rejects(runContiguousProduction(fixture,captured,sink),/completion: application_refusal \(HTTP 403\)/);
+  assert.equal(sink.guardCalls,0);assert.equal(sink.savedReport,undefined);assertCallerNoSave(fixture.site);
+  proof.cases.push({id:'contiguous_production_completion_refusal',httpStatus:403,pendingCalls:0,claimCalls:0,hostedJourneyCompleted:false});
  });
 });
