@@ -93,3 +93,23 @@ test('actual outer routing locally suppresses telemetry and correlates distinct 
   assert.equal(r.signInDiagnostics[0].stage,'complete');assert(!JSON.stringify(r).includes('CANARY'));
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
+for(const httpStatus of [401,403,500])test(`allowed read HTTP ${httpStatus} cannot pass even without a console or page error`,async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'owned-readonly-http-test-'));
+ try {
+  const cfg=inputs(dir),ports=doubles();let guard,fetches=0,forwardedRefusal=false;const originalSignIn=ports.signIn;
+  ports.createGuard=options=>(guard=createClinicRequestGuard(options));
+  ports.signIn=async options=>{
+   const signed=await originalSignIn(options);
+   const req=request('/auth/v1/user',{base:auth,type:'fetch'});req.frame=()=>({url:()=>origin+'/briefcase'});req.isNavigationRequest=()=>false;req.failure=()=>({errorText:'net::ERR_FAILED'});
+   const original={request:()=>req,status:()=>httpStatus,headers:()=>({})};
+   const dispatch=async index=>ports.state().routes[index]({request:()=>req,
+    fetch:async()=>{fetches++;return original;},
+    fulfill:async value=>{assert.equal(value.response,original);forwardedRefusal=true;guard.response(original);},abort:async()=>assert.fail('HTTP refusal response should be preserved'),fallback:async()=>dispatch(index-1)});
+   await dispatch(ports.state().routes.length-1);return signed;
+  };
+  const r=await runOwnedMatterReadonly({...cfg,...ports});assert.equal(fetches,1);assert.equal(r.passed,false);assert.equal(forwardedRefusal,true);
+  const refusal=r.outerFailures.find(e=>e.ruleId==='readonly_http_refusal_blocked');assert(refusal);assert.equal(refusal.httpStatus,httpStatus);assert.equal(refusal.operation,'read_http_status');
+  const observed=r.guardEvents.find(e=>e.requestId===refusal.requestId&&e.outcome==='response_received');assert(observed);assert.equal(observed.ruleId,refusal.ruleId);assert.equal(observed.httpStatus,httpStatus);
+  assert.equal(r.canonicalRendered,true);assert(fs.existsSync(path.join(dir,'owned-matter-readonly-result.json')));
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});

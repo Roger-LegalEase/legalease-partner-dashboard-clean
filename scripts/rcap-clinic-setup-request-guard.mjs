@@ -111,7 +111,7 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
     recordReadonlyBoundary(request,{outcome,ruleId}) {
       assert.ok(['readonly_blocked','readonly_telemetry_suppressed'].includes(outcome),'Unknown readonly diagnostic outcome');
       assert.ok(['readonly_mutation_blocked','readonly_read_path_blocked','readonly_invalid_url_blocked','readonly_redirect_blocked',
-        'readonly_telemetry_suppressed'].includes(ruleId),'Unknown readonly diagnostic rule');
+        'readonly_telemetry_suppressed','readonly_http_refusal_blocked'].includes(ruleId),'Unknown readonly diagnostic rule');
       assert.equal(outcome==='readonly_telemetry_suppressed',ruleId==='readonly_telemetry_suppressed','Readonly diagnostic outcome/rule mismatch');
       const details=metadata(request);details.setupRuleId??=details.ruleId;details.ruleId=ruleId;
       return record(request,outcome);

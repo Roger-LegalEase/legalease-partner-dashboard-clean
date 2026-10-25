@@ -70,7 +70,8 @@ export async function runOwnedMatterReadonly({browser,env=process.env,gate,creat
   navigation:[],authObservations:[],signInDiagnostics:[],outerFailures:[],outerFailureCount:0,screenshots:[],businessWritesForwarded:0,databasePersistenceProof:false};
  let context,page,guard;const policies=[];
  const fail=value=>{result.outerFailureCount++;if(result.outerFailures.length<100)result.outerFailures.push(value);};
- const blocked=(request,ruleId)=>fail(guard.recordReadonlyBoundary(request,{outcome:'readonly_blocked',ruleId}));
+ const blocked=(request,ruleId,httpStatus=null)=>fail({...guard.recordReadonlyBoundary(request,{outcome:'readonly_blocked',ruleId}),
+  operation:httpStatus===null?'readonly_route_boundary':'read_http_status',httpStatus});
  try {
   assertOwnedMatterReadonlyInputs(env,gate);
   guard=createGuard({actor:'participant',captchaPolicy:gate.captchaPolicy,env,stage:()=>result.stage,
@@ -89,6 +90,7 @@ export async function runOwnedMatterReadonly({browser,env=process.env,gate,creat
    const headers=url.origin===CLINIC_SETUP.origin?previewRequestHeaders(env.RCAP_BROWSER_VERCEL_BYPASS_SECRET,request.headers()):withoutPreviewHeaders(request.headers());
    let response;try{response=await route.fetch({headers,maxRedirects:0,maxRetries:0});}catch{blocked(request,'readonly_read_path_blocked');return route.abort('failed');}
    if(response.status()>=300&&response.status()<400){blocked(request,'readonly_redirect_blocked');return route.abort('blockedbyclient');}
+   if(response.status()<200||response.status()>=400){blocked(request,'readonly_http_refusal_blocked',response.status());return route.fulfill({response});}
    if(url.origin===CLINIC_SETUP.origin&&request.resourceType()==='document'&&response.status()===200){
     const body=await response.body();if(policies.length<20)policies.push(publicReactResourcePolicy(body.toString('utf8')));return route.fulfill({response,body});
    }

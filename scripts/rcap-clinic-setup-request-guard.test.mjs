@@ -216,5 +216,10 @@ test('readonly boundary bridge correlates outer denials and suppression without 
  for(const entry of [{outcome:'private-outcome',ruleId:'readonly_read_path_blocked'},
   {outcome:'readonly_blocked',ruleId:'private-rule'},
   {outcome:'readonly_blocked',ruleId:'readonly_telemetry_suppressed'}])assert.throws(()=>telemetry.guard.recordReadonlyBoundary(ping,entry));
+ const refusal=fixture('participant'),read=request(CLINIC_SETUP.origin+'/briefcase','GET','fetch');
+ const denied=refusal.guard.recordReadonlyBoundary(read,{outcome:'readonly_blocked',ruleId:'readonly_http_refusal_blocked'});
+ assert.equal(denied.ruleId,'readonly_http_refusal_blocked');assert.equal(denied.outcome,'readonly_blocked');
+ refusal.guard.requestFailed(read);assert.equal(refusal.events[1].requestId,denied.requestId);assert.equal(refusal.events[1].ruleId,'readonly_http_refusal_blocked');
+ assert.throws(()=>refusal.guard.assertNoCritical());
  const saved=JSON.stringify(f.events);for(const secret of ['unknown-private-path','private-query-value',CLINIC_SETUP.origin])assert.equal(saved.includes(secret),false);
 });
