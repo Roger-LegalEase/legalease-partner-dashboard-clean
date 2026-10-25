@@ -9,7 +9,7 @@ import {createHash} from 'node:crypto';
 import {test} from 'node:test';
 const YAML=createRequire(import.meta.url)('yaml');
 const workflow=YAML.parse(fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8'));
-const mode='hosted_clinic_deploy',job=workflow.jobs[mode],H='ad9c26cc9a4b34a04abc3d204a2c687e375cce57';
+const mode='hosted_clinic_deploy',job=workflow.jobs[mode],H='b7aba343088d83f84c3f9c1f0cdb55991db00c2d';
 const carrierBranch='codex/d-clinic-setup-only-20261024';
 const expected={mode,tools_sha:H,application_sha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'};
 const guard=job.steps.find(s=>s.name==='Require the exact isolated Preview dispatch before private bindings');
@@ -37,13 +37,14 @@ test('actual dispatch guard accepts the authorized tuple and rejects each wrong 
 });
 test('actual CURRENT tuple guard retains exact admission and does not rewrite the carrier SHA',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-preview-current-'));
- const release={applicationSha:expected.application_sha,workerSourceSha:expected.worker_source_sha,workerDigest:expected.worker_digest,productionAuthorized:false,hostedAdmission:{runId:40236198602,workflowSourceSha:'5304c8ff825b9d74996762494ca3ea03815ed3ad',closureControlSha:'a2f1a221c9c17595c494ee7bae75857cd0480a7c'}};
+ const release={applicationSha:expected.application_sha,workerSourceSha:expected.worker_source_sha,workerDigest:expected.worker_digest,productionAuthorized:false,verifierCorrection:{predecessorSha:'ad9c26cc9a4b34a04abc3d204a2c687e375cce57',sourceSha:'5e9058c07586e7529e3444d5446589c3493dfed8'},hostedAdmission:{runId:40236198602,workflowSourceSha:'5304c8ff825b9d74996762494ca3ea03815ed3ad',closureControlSha:'a2f1a221c9c17595c494ee7bae75857cd0480a7c'}};
  try{
   fs.mkdirSync(path.join(dir,'scripts/grade-a-launch-control'),{recursive:true});
   fs.writeFileSync(path.join(dir,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'),"import fs from 'node:fs';export function requireCurrentReleaseCandidate(){return JSON.parse(fs.readFileSync('release.json'));}\n");
   const run=value=>{fs.writeFileSync(path.join(dir,'release.json'),JSON.stringify(value));return spawnSync(process.execPath,['--input-type=module','-'],{cwd:dir,input:inline(authority),encoding:'utf8',env:{...process.env,GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'}}).status;};
   assert.equal(run(release),0);assert.equal(JSON.parse(fs.readFileSync(path.join(dir,'hosted-acceptance-evidence/carrier.json'))).carrierSha,'a'.repeat(40));
   for(const key of ['applicationSha','workerSourceSha','workerDigest','productionAuthorized'])assert.notEqual(run({...release,[key]:'wrong'}),0,key);
+  for(const key of Object.keys(release.verifierCorrection))assert.notEqual(run({...release,verifierCorrection:{...release.verifierCorrection,[key]:'wrong'}}),0,key);
   for(const key of Object.keys(release.hostedAdmission))assert.notEqual(run({...release,hostedAdmission:{...release.hostedAdmission,[key]:'wrong'}}),0,key);
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
@@ -54,7 +55,7 @@ test('separate exact checkout and original CURRENT plus canonical worker gates p
  for(const step of checkouts)assert.equal(step.with['persist-credentials'],false);
  assert.equal(job.defaults.run['working-directory'],'admitted-controller');assert.equal(guard['working-directory'],'carrier');
  const firstPrivate=job.steps.findIndex(s=>JSON.stringify(s).includes('${{ secrets.'));assert.ok(job.steps.indexOf(guard)<job.steps.indexOf(authority));assert.ok(job.steps.indexOf(authority)<firstPrivate);
- assert.match(authority.run,/test "\$\(git rev-parse HEAD\)" = ad9c26cc9a4b34a04abc3d204a2c687e375cce57/);
+ assert.match(authority.run,/test "\$\(git rev-parse HEAD\)" = b7aba343088d83f84c3f9c1f0cdb55991db00c2d/);
  assert.ok(authority.run.includes('node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'));
  assert.ok(authority.run.includes('node scripts/verify-rcap-worker-input-equivalence.mjs --base '+expected.worker_source_sha+' --head '+H+' --label accepted-worker-to-admitted-controller'));
  assert.match(authority.run,/git merge-base --is-ancestor/);
@@ -76,4 +77,34 @@ test('native preflight and unchanged key continuity precede the single unchanged
 test('native artifact retains the exact existing packet consumer name and controller evidence directory even on failure',()=>{
  const upload=job.steps.at(-1);assert.equal(upload.uses,'actions/upload-artifact@v4');assert.equal(upload.if,'always()');assert.equal(upload.with.name,'rcap-hosted-clinic_deploy-${{ github.run_id }}');assert.equal(upload.with.path,'admitted-controller/hosted-acceptance-evidence/');assert.equal(upload.with['if-no-files-found'],'error');
  const consumer=workflow.jobs.clinic_owned_matter_packet.steps.find(s=>s.uses==='actions/download-artifact@v4');assert.equal(consumer.with.name,'rcap-hosted-clinic_deploy-${{ inputs.preview_creation_run_id }}');
+});
+test('exact preserved-key block and admitted deployer refuse partial or malformed values and preserve complete or historical continuity',()=>{
+ const keys=job.steps.find(s=>s.id==='preserved_acceptance_keys');
+ const original=spawnSync('git',['show',H+':scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});assert.equal(original.status,0,'Exact admitted deployer source must be available');
+ const ts=createRequire(import.meta.url)('typescript'),ast=ts.createSourceFile('deployer.mjs',original.stdout,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
+ const fn=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='preservedDataKeys');assert.ok(fn);
+ const validate=new Function(fn.getText(ast)+';return preservedDataKeys;')();
+ const names=['HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY','HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION','HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET'];
+ const complete={[names[0]]:Buffer.alloc(32,7).toString('base64'),[names[1]]:'v1',[names[2]]:'synthetic-pseudonym-key-material'};
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-preview-key-continuity-'));
+ try{
+  const output=path.join(dir,'env');
+  const run=values=>{
+   fs.rmSync(output,{force:true});
+   const result=spawnSync(process.execPath,['--input-type=module','-'],{cwd:dir,input:keys.run.split("<<'NODE'\n")[1].split('\nNODE')[0],encoding:'utf8',env:{PATH:process.env.PATH,GITHUB_ACTIONS:'true',ACCEPTANCE_SUPABASE_PROJECT_REF:expected.supabase_project_ref,GITHUB_ENV:output,HOSTED_CLINIC_DEMO_PASSWORD:'synthetic-history-password-24',...values}});
+   const preserved={};
+   if(fs.existsSync(output)){
+    const lines=fs.readFileSync(output,'utf8').split('\n');
+    for(let i=0;i<lines.length;i++)if(lines[i].includes('<<')){const [key,delimiter]=lines[i].split('<<');const value=[];while(lines[++i]!==delimiter&&i<lines.length)value.push(lines[i]);preserved[key]=value.join('\n');}
+   }
+   return {status:result.status,preserved};
+  };
+  const normal=run(complete);assert.equal(normal.status,0);assert.deepEqual(normal.preserved,complete);validate(normal.preserved);
+  const missing=run({});assert.equal(missing.status,0);validate(missing.preserved);
+  const repeated=run({});assert.deepEqual(repeated.preserved,missing.preserved,'Historical continuity must be deterministic');
+  assert.notEqual(run({[names[0]]:complete[names[0]]}).status,0,'Partial explicit inputs must refuse');
+  for(const values of [{...complete,[names[0]]:'invalid'},{...complete,[names[1]]:'v2'},{...complete,[names[2]]:'short'}]){
+   const malformed=run(values);assert.equal(malformed.status,0,'Continuity block preserves explicit bytes for downstream validation');assert.throws(()=>validate(malformed.preserved),'Actual deployer must reject malformed preserved values before provider access');
+  }
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
