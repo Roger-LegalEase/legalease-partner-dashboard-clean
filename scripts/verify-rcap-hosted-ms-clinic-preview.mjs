@@ -89,10 +89,19 @@ for (const phase of ["", "unknown_phase"]) {
   check(`invalid phase ${JSON.stringify(phase)} refuses without scope authority`, result.status !== 0
     && result.outputs.require_staging_scoped !== "true" && !isScopedClinic(result));
 }
-for (const phase of ["clinic_deploy", "legal_aid_browser", "sponsor_cap", "full", "checkout_gate", "browser", "replace_preview"]) {
+// Only phases admitting protected transactions need a staging-scoped
+// entitlement. replace_preview is an isolated deploy-only operation:
+// it must never inherit Clinic, browser, checkout or sponsorship authority.
+for (const phase of ["clinic_deploy", "legal_aid_browser", "sponsor_cap", "full", "checkout_gate", "browser"]) {
   const result = phaseScope(phase);
   check(`${phase} retains identity-scoped contract behavior`, result.status === 0 && result.outputs.require_staging_scoped === "true");
 }
+const replacementOnly = phaseScope("replace_preview");
+check("replace_preview is deploy-only and cannot inherit transaction-scoped authority",
+  replacementOnly.status === 0
+  && replacementOnly.outputs.deploy === "true"
+  && replacementOnly.outputs.require_staging_scoped === "false"
+  && ["matrix", "gate", "retarget", "browser", "clinic", "legal_aid", "sponsor_cap", "resume"].every(key => replacementOnly.outputs[key] === "false"));
 check("Preview resolution runs for Clinic Preview", clinicSchedule("resolve_preview"));
 check("Clinic deploy receives Mississippi mode", clinicEnv("deploy_preview","HOSTED_CLINIC_DEMO_MODE")==="mississippi_preview");
 check("Clinic deploy receives the private demo password", clinicStep("deploy_preview").env.HOSTED_CLINIC_DEMO_PASSWORD === "${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}");
