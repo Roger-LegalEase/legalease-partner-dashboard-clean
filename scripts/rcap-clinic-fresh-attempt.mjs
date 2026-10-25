@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
 
-// All recorded attempts are spent; preserve their durable history without issuing a replacement.
+// One explicitly authorized new attempt; every prior attempt and its durable records remain spent.
 export const CLINIC_FRESH_ATTEMPT=Object.freeze({
- id:'fbf69013-459a-4331-82bd-b72d9e7f244c',consumedByRun:'40163028066',
- previousAttempt:Object.freeze({id:'71403c61-b073-4ece-a95c-99da50c3bf8d',consumedByRun:'40158881107',screeningSessionId:'ec8d191c-1357-4240-8a00-3dbb8710a580'}),eventId:'77000000-0000-4000-8000-000000000055',
+ id:'7ce4711c-088f-4340-bf82-beec63db3717',consumedByRun:null,
+ previousAttempts:Object.freeze([
+  Object.freeze({id:'71403c61-b073-4ece-a95c-99da50c3bf8d',consumedByRun:'40158881107',screeningSessionId:'ec8d191c-1357-4240-8a00-3dbb8710a580'}),
+  Object.freeze({id:'fbf69013-459a-4331-82bd-b72d9e7f244c',consumedByRun:'40163028066',screeningSessionId:'a2320baa-98b7-4ec6-85c2-8da63720f0f3'})
+ ]),eventId:'77000000-0000-4000-8000-000000000055',
  priorRequestId:'aca01bff-cd19-4c75-b1dc-630588d3680d',redemptionId:'3a6f7921-a71c-4ca8-bae4-9292b63473cf',
  capacity:20,entries:18,maxUses:1,startsAt:'2026-09-25T02:28:08.978166+00:00',endsAt:'2026-10-26T02:28:08.978166+00:00',
  history:Object.freeze([

@@ -62,7 +62,7 @@ test('fixed read-only probes resolve absence before dynamic SELECT, and SQL emit
 test('managed screening retains the admission function nullable allowance rule', () => { assert.match(CLINIC_PREREQUISITE_SQL, /'screening_entitlement_present',exists\(select 1 from public\.partner_entitlement where partner_slug='mvl-demo' and screenings_allowed is not null\) or exists\(select 1 from public\.partner_onboarding where partner_slug='mvl-demo' and operating_model='legalease_managed'\)/); });
 
 
-test('all prerequisite callers preserve all three exact historical codes, validity and redemption accounting',()=>{
+test('all prerequisite callers preserve all four exact historical codes, validity and redemption accounting',()=>{
  for(const change of [d=>d.operational.existing_code_inventory.push({...d.operational.existing_code_inventory[0],id:'unexpected'}),d=>{d.operational.existing_code_inventory[0].redemption_rows=2;},d=>{d.operational.existing_code_inventory[1].expires_at='2030-01-01T00:00:00Z';},d=>{d.operational.existing_code_inventory[0].is_active=false;},d=>d.operational.existing_code_inventory.pop()]) {
   const data=fixture();change(data);assert(qualify(data).blockers.some(c=>c.id==='historical_code_preserved'));
  }

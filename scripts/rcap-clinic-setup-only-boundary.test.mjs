@@ -26,8 +26,10 @@ test('actual browser setup branch returns before packet builder and downstream e
   assert.equal(guardCalls,1,'setup-only completion must invoke the participant guard');
   assert.equal(downstream,0);assert.equal(saved.scope,'clinic_setup_only');assert.equal(saved.fullHostedJourneyCompleted,false);
   saved=null;sandbox.result={};
-  sandbox.screeningSessionId=CLINIC_FRESH_ATTEMPT.previousAttempt.screeningSessionId;
-  await assert.rejects(run(),/previous Clinic screening/);assert.equal(saved,null);assert.equal(downstream,0);
+  for(const previous of CLINIC_FRESH_ATTEMPT.previousAttempts) {
+   sandbox.screeningSessionId=previous.screeningSessionId;
+   await assert.rejects(run(),/previous Clinic screening/);assert.equal(saved,null);assert.equal(downstream,0);
+  }
   sandbox.screeningSessionId=null;
   await assert.rejects(run(),/identify the new Clinic screening/);assert.equal(saved,null);assert.equal(downstream,0);
   sandbox.screeningSessionId='22222222-2222-4222-8222-222222222222';
@@ -156,10 +158,10 @@ test('actual pathname capture redacts raw and URI-encoded known secrets in both 
 
 test('dispatch source labels must match the pinned Clinic tuple and tools never select the runner checkout',()=>{
  const input={mode:'clinic_setup_only',clinic_attempt_id:CLINIC_FRESH_ATTEMPT.id,application_sha:CLINIC_SETUP.app,worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',tools_sha:'98f89f0db0bcb60088341c35595a072edd9031a4'};
- assert.throws(()=>assertClinicSetupDispatch(input),/attempt is spent/);assertClinicSetupDispatch({...input,mode:'clinic_prerequisites_only'});
- assert.throws(()=>assertClinicSetupDispatch({...input,clinic_attempt_id:CLINIC_FRESH_ATTEMPT.previousAttempt.id}));
+ assert.doesNotThrow(()=>assertClinicSetupDispatch(input));assertClinicSetupDispatch({...input,mode:'clinic_prerequisites_only'});
+ for(const previous of CLINIC_FRESH_ATTEMPT.previousAttempts)assert.throws(()=>assertClinicSetupDispatch({...input,clinic_attempt_id:previous.id}));
  for(const key of ['application_sha','worker_source_sha','worker_digest','tools_sha'])assert.throws(()=>assertClinicSetupDispatch({...input,mode:'clinic_prerequisites_only',[key]:'wrong'}));
- for(const value of [CLINIC_FRESH_ATTEMPT.previousAttempt.id,'new-unapproved-attempt',''])assert.throws(()=>assertClinicSetupDispatch({...input,clinic_attempt_id:value}));
+ for(const value of [...CLINIC_FRESH_ATTEMPT.previousAttempts.map(previous=>previous.id),'new-unapproved-attempt',''])assert.throws(()=>assertClinicSetupDispatch({...input,clinic_attempt_id:value}));
  for(const key of ['preview_hostname','preview_deployment_id','supabase_project_ref'])assert.throws(()=>assertClinicSetupDispatch({...input,mode:'clinic_prerequisites_only',[key]:'wrong'}));
  const workflow=YAML.parse(fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8'));
  assert.equal(workflow.jobs.clinic_setup_only.steps[0].with.ref,'${{ github.sha }}');

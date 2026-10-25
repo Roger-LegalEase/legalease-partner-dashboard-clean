@@ -62,7 +62,7 @@ const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
 const issueClinicCode = clinicSetupOnly && process.env.RCAP_BROWSER_ISSUE_CLINIC_CODE === "1";
 if (clinicSetupOnly) {assertClinicSetupInput(process.env);assertClinicAttemptAuthority(process.env);}
 const responseConfig={origin:baseUrl,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:clinicEventSlug};
-const result = { responseStages:[],responseObservations:[],stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
+const result = { attemptId:clinicSetupOnly?CLINIC_FRESH_ATTEMPT.id:null,responseStages:[],responseObservations:[],stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
   process.env.RCAP_BROWSER_EVIDENCE_DIR?.trim() ||
     path.join(process.cwd(), "hosted-acceptance-evidence", "rcap-commercial-flow")
@@ -351,7 +351,7 @@ async function runJourney() {
     assert.equal(new URL(page.url()).pathname,`/briefcase/matters/${packetItemId}`,'Clinic must land on the canonical matter page');
     assert.equal(claimed?.matterId,packetItemId,'actual claim must name the new saved matter');
     assert.notEqual(screeningSessionId,null,'Pending result must identify the new Clinic screening');
-    assert.notEqual(screeningSessionId,CLINIC_FRESH_ATTEMPT.previousAttempt.screeningSessionId,'Do not reuse the previous Clinic screening');
+    for(const previous of CLINIC_FRESH_ATTEMPT.previousAttempts)assert.notEqual(screeningSessionId,previous.screeningSessionId,'Do not reuse the previous Clinic screening');
     assert.notEqual(packetItemId,'6e7a0013-f372-438d-9454-6ba6451b290c','do not replay the historical Clinic case');
     assert.notEqual(packetItemId,'d13233f6-d9c7-41e1-9bb5-8a454d747503','do not relabel the DTC case');
     assert.equal(participantUserId,CLINIC_SETUP.owner);
