@@ -56,7 +56,7 @@ test('separate exact checkout and original CURRENT plus canonical worker gates p
  const firstPrivate=job.steps.findIndex(s=>JSON.stringify(s).includes('${{ secrets.'));assert.ok(job.steps.indexOf(guard)<job.steps.indexOf(authority));assert.ok(job.steps.indexOf(authority)<firstPrivate);
  assert.match(authority.run,/test "\$\(git rev-parse HEAD\)" = ad9c26cc9a4b34a04abc3d204a2c687e375cce57/);
  assert.ok(authority.run.includes('node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'));
- assert.ok(authority.run.includes('node scripts/verify-rcap-worker-input-equivalence.mjs --base '+expected.worker_source_sha+' --head HEAD'));
+ assert.ok(authority.run.includes('node scripts/verify-rcap-worker-input-equivalence.mjs --base '+expected.worker_source_sha+' --head '+H+' --label accepted-worker-to-admitted-controller'));
  assert.match(authority.run,/git merge-base --is-ancestor/);
  assert.doesNotMatch(JSON.stringify(job),/GITHUB_SHA\s*[:=]|export GITHUB_SHA|--test-name-pattern|continue-on-error/);
 });

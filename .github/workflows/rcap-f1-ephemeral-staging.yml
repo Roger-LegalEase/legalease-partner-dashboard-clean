@@ -903,7 +903,7 @@ jobs:
           test "$(git rev-parse HEAD)" = ad9c26cc9a4b34a04abc3d204a2c687e375cce57
           git merge-base --is-ancestor 16908485a94f475448657cea90583a4d352da9a3 4feb8e94b3dee4085fe05ea75d78853fe21e5097
           git merge-base --is-ancestor 4feb8e94b3dee4085fe05ea75d78853fe21e5097 HEAD
-          node scripts/verify-rcap-worker-input-equivalence.mjs --base 16908485a94f475448657cea90583a4d352da9a3 --head HEAD --label accepted-worker-to-admitted-controller
+          node scripts/verify-rcap-worker-input-equivalence.mjs --base 16908485a94f475448657cea90583a4d352da9a3 --head ad9c26cc9a4b34a04abc3d204a2c687e375cce57 --label accepted-worker-to-admitted-controller
           node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
           node --input-type=module <<'JS'
           import fs from 'node:fs'; import assert from 'node:assert/strict';
