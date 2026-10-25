@@ -168,14 +168,23 @@ test('dispatch source labels must match the pinned Clinic tuple and tools never 
  assert.match(workflow.jobs.clinic_setup_only.steps.find(s=>s.name?.startsWith('Require the published')).run,/assertClinicSetupDispatch\(JSON.parse/);
 });
 test('screening completion failure stops before pending creation and cannot claim persistence from HTTP200',async()=>{
- const branch=journey.body.statements.find(node=>ts.isIfStatement(node)&&node.getText(ast).includes('result.screeningCompletion=await screeningCompletion'));
+ const branch=journey.body.statements.find(node=>ts.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly'&&node.getText(ast).includes('screeningCompletion.read()'));
  assert(branch);assert(branch.end<browserSource.indexOf('await saveScreeningAndClaim',branch.pos));
- const run=scope=>new Function(...Object.keys(scope),`return (async()=>{${branch.getText(ast)}})()`)(...Object.values(scope));
+ const run=(scope,body=branch.getText(ast))=>new Function(...Object.keys(scope),`"use strict";return (async()=>{${body}})()`)(...Object.values(scope));
  for(const response of [null,{httpStatus:500,accepted:true},{httpStatus:200,accepted:false}]) {
   let guardCalls=0;await assert.rejects(run({clinicSetupOnly:true,result:{},screeningCompletion:{read:async()=>response},assert,participantGuard:{assertNoCritical:()=>guardCalls++}}));assert.equal(guardCalls,0);
  }
- const result={};await run({clinicSetupOnly:true,result,screeningCompletion:{read:async()=>({httpStatus:200,accepted:true})},assert,participantGuard:{assertNoCritical:()=>{}}});
+ const original=Object.freeze({operation:'completion',httpStatus:200,bodyState:'parsed',outcome:'accepted',accepted:true});
+ const result={};let guardCalls=0;
+ const scope={clinicSetupOnly:true,result,screeningCompletion:{read:async()=>original},assert,participantGuard:{assertNoCritical:()=>{guardCalls++;}}};
+ await run(scope);assert.equal(guardCalls,1);
+ assert.notEqual(result.screeningCompletion,original,'Report metadata must own a copy of the immutable receipt');
  assert.equal(result.screeningCompletion.persistenceVerified,false);
+ assert.equal(Object.isFrozen(original),true);assert.equal(Object.hasOwn(original,'persistenceVerified'),false);
+ assert.deepEqual(original,{operation:'completion',httpStatus:200,bodyState:'parsed',outcome:'accepted',accepted:true});
+ const reverted=branch.getText(ast).replace('result.screeningCompletion={...(await screeningCompletion.read())};','result.screeningCompletion=await screeningCompletion.read();');
+ assert.notEqual(reverted,branch.getText(ast));
+ await assert.rejects(run({...scope,result:{}},reverted),/Cannot add property persistenceVerified.*not extensible/,'The actual old strict-mode production block must reproduce402069');
 });
 
 test('read-only credential-context mode cannot enter Clinic browser or another provider job',()=>{

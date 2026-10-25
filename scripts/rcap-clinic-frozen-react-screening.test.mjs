@@ -351,13 +351,31 @@ test('production runner awaits the captured profile in both opening branches and
   assert.match(value,/openScreeningWithProfile\(page,\s*responseConfig,\s*\(\)\s*=>\s*startButton\.click\(\)/);
   assert.match(value,/await\s+runScreeningFromOriginalProfile\(page,\s*screeningProfileCapture,/);
   assert.ok(!value.includes("profile:result.responseObservations.findLast"),'The failed observations snapshot must not return');
-  assert.match(value,/result\.screeningCompletion=await screeningCompletion\.read\(\)/);
+  assert.match(value,/result\.screeningCompletion=\{\.\.\.\(await screeningCompletion\.read\(\)\)\}/);
   assert.match(value,/await saveScreeningAndClaim\(page,responseConfig\)/);
  };
  check(source);
  const reverted=source.replace('await runScreeningFromOriginalProfile(page,screeningProfileCapture,','await runMississippiScreening(page,');
  assert.notEqual(reverted,source);assert.throws(()=>check(reverted),'Reverting only the production caller must fail while helper tests stay unchanged');
 });
+
+// Execute the runner's exact completion-report block, including its immutable-receipt boundary.
+const callerSource=installed('node:fs').readFileSync(path.join(runnerRoot,'scripts/verify-rcap-commercial-browser.mjs'),'utf8');
+const callerTs=installed('typescript'),callerAst=callerTs.createSourceFile('runner.mjs',callerSource,callerTs.ScriptTarget.Latest,true,callerTs.ScriptKind.JS);
+const callerJourney=callerAst.statements.find(node=>callerTs.isFunctionDeclaration(node)&&node.name?.text==='runJourney');
+const completionReportBranch=callerJourney.body.statements.find(node=>callerTs.isIfStatement(node)&&node.expression.getText(callerAst)==='clinicSetupOnly'&&node.getText(callerAst).includes('screeningCompletion.read()'));
+assert.ok(completionReportBranch,'Actual production completion-report branch missing');
+async function recordProductionCompletion(captured) {
+ let original,guardCalls=0;const result={};
+ const scope={clinicSetupOnly:true,result,assert,participantGuard:{assertNoCritical:()=>{guardCalls++;}},screeningCompletion:{read:async()=>{
+  original=await captured.read();assert.equal(Object.isFrozen(original),true,'Native observer receipt must remain immutable');return original;
+ }}};
+ await new Function(...Object.keys(scope),`"use strict";return (async()=>{${completionReportBranch.getText(callerAst)}})()`)(...Object.values(scope));
+ assert.equal(guardCalls,1);assert.notEqual(result.screeningCompletion,original);
+ assert.equal(result.screeningCompletion.persistenceVerified,false);
+ assert.equal(Object.hasOwn(original,'persistenceVerified'),false);assert.equal(Object.isFrozen(original),true);
+ return result.screeningCompletion;
+}
 
 // The production runner calls these same opening/profile/screening/save functions.
 async function withCallerFixture(options,run) {
@@ -386,7 +404,7 @@ for(const mode of ['immediate','delayed_headers','delayed_body'])test(`actual ru
    const oldSnapshot=observations.findLast(value=>value.operation==='profile'&&value.accepted)?.profile;
    if(mode!=='immediate')assert.equal(oldSnapshot,undefined,'Exercise the exact late-profile snapshot race');
    else await page.getByRole('heading',{name:'Are you asking about your own record?',exact:true}).waitFor();
-   const result=await screen(captured);await complete.read();
+   const result=await screen(captured);await recordProductionCompletion(complete);
    assert.deepEqual(result.omittedQuestionIds,['ms_program_order']);assert.equal(site.state.progressCalls,9);
    assert.equal(site.state.profileCalls,1);assert.equal(site.state.evaluations.length,1);
    assert.equal(observations.find(value=>value.operation==='profile').profile.profileVersion,runtime.publicProfile.profileVersion);
@@ -434,7 +452,7 @@ test('actual caller completion wait starts after a slow questionnaire, and claim
   try {
    const captured=await open(),started=Date.now();await screen(captured);
    assert.ok(Date.now()-started>=800,'Actual questionnaire must exceed the former early completion timer');
-   const receipt=await completion.read();assert.equal(receipt.operation,'completion');assert.equal(receipt.accepted,true);
+   const receipt=await recordProductionCompletion(completion);assert.equal(receipt.operation,'completion');assert.equal(receipt.accepted,true);
    const {claimed}=await caller.saveScreeningAndClaim(page,config,{pendingTimeout:3000,claimTimeout:800});
    assert.equal(claimed.matterId,FIXTURE_MATTER_ID);assert.equal(site.state.pendingCalls,1);assert.equal(site.state.claimCalls,1);
    proof.cases.push({id:'actual_caller_slow_completion_pending_claim_phases',completionAccepted:true,pendingCalls:1,claimCalls:1});
@@ -447,7 +465,7 @@ for(const operation of ['completion','pending','claim'])for(const fault of ['ref
   try {
    const captured=await open();await screen(captured);
    const action=async()=>{
-    await completion.read();
+    await recordProductionCompletion(completion);
     return caller.saveScreeningAndClaim(page,config,{pendingTimeout:800,claimTimeout:800});
    };
    await assert.rejects(action(),error=>{

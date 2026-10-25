@@ -313,7 +313,7 @@ async function runJourney() {
   // 3. Persist and claim the server-re-evaluated pending result. Capture the
   // exact item id from the claim response instead of guessing from Briefcase.
   if(clinicSetupOnly) {
-    result.screeningCompletion=await screeningCompletion.read();
+    result.screeningCompletion={...(await screeningCompletion.read())};
     assert.equal(result.screeningCompletion?.httpStatus,200,'screening completion must respond before pending-result creation');
     assert.equal(result.screeningCompletion.accepted,true,'screening completion response contract refused');
     // The deployed completion API is best-effort; HTTP success does not prove the session-completion write.
