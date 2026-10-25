@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { MISSISSIPPI_SYNTHETIC_ROUTE, mississippiSyntheticFactValue } from "./rcap-ms-nonconviction-synthetic-facts.mjs";
+import { MS_NONCONVICTION_PACKET_ANSWERS } from "./lib/rcap-ms-nonconviction-fixture.mjs";
 
 /**
  * The packet-information builder's form filler, as one importable unit.
@@ -32,7 +33,11 @@ export const PACKET_ISO_DATE = "2015-01-15";
 export const PACKET_BUILDER = "[data-packet-information-builder='active']";
 
 export function packetFieldValue(id, prompt, routeKey) {
-  if (routeKey === MISSISSIPPI_SYNTHETIC_ROUTE) return mississippiSyntheticFactValue(id);
+  if (routeKey === MISSISSIPPI_SYNTHETIC_ROUTE) {
+    if (!Object.hasOwn(MS_NONCONVICTION_PACKET_ANSWERS, id)) throw new Error(`Unmapped Mississippi synthetic fact: ${id}`);
+    const answer = MS_NONCONVICTION_PACKET_ANSWERS[id];
+    return typeof answer === "object" ? answer.value : answer;
+  }
   if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];
   if (/_date$|_date_/.test(id) || /\bdate\b/i.test(prompt)) return PACKET_ISO_DATE;
   const known = {
@@ -309,6 +314,7 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
     : "select:visible:enabled");
   const selectCount = await selects.count();
   if (selectCount === 3) {
+    if (routeKey === MISSISSIPPI_SYNTHETIC_ROUTE && (await selects.evaluateAll(nodes => nodes.every(node => node.value)))) return;
     const date = routeKey === MISSISSIPPI_SYNTHETIC_ROUTE ? packetFieldValue(questionId, prompt, routeKey) : PACKET_ISO_DATE;
     const [year, month, day] = date.split("-");
     await selects.nth(0).selectOption(month);

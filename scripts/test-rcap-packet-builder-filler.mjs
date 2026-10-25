@@ -19,7 +19,9 @@
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { MISSISSIPPI_SYNTHETIC_ROUTE, mississippiSyntheticFactValue } from "./rcap-ms-nonconviction-synthetic-facts.mjs";
+import { register } from "node:module";
+import { MISSISSIPPI_SYNTHETIC_ROUTE } from "./rcap-ms-nonconviction-synthetic-facts.mjs";
+import { MS_NONCONVICTION_SCREENING_ANSWERS, MS_NONCONVICTION_PACKET_ANSWERS } from "./lib/rcap-ms-nonconviction-fixture.mjs";
 import { chromium } from "playwright";
 
 import { answerBuilderStep, PACKET_SAFE_ANSWERS, packetFieldValue, chooseOption } from "./rcap-packet-builder-filler.mjs";
@@ -216,15 +218,30 @@ function unchecked(page) {
 }
 
 const executablePath = process.env.RCAP_BROWSER_CHROMIUM;
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+const { evaluateAuthoritativeScreeningResult } = await import("@/lib/expungement-ai/authoritative-screening-result");
+const { protectedPacketDraftSeedFromAuthoritative, protectedPacketInformationModelFor } = await import("@/lib/expungement-ai/packet-information");
+const authoritative=evaluateAuthoritativeScreeningResult({jurisdiction:"MS",profileVersion:"2026-06-19-source-conversion-1",answers:MS_NONCONVICTION_SCREENING_ANSWERS});
+assert.equal(authoritative.evaluation.pathwayId,MISSISSIPPI_SYNTHETIC_ROUTE.slice(3));
+const seed=protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:MS_NONCONVICTION_SCREENING_ANSWERS,
+  dependencies:{commercialFlowVersion:1,entitlementSource:"partner_sponsorship",productId:"expungement_packet"},capturedAt:"2026-10-25T00:00:00.000Z"});
+assert.ok(seed);
+// Resolve the actual unverified draft; this does not save or fabricate a verification.
+const model=protectedPacketInformationModelFor({status:"unverified",reason:"final_verification_not_completed",revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot});
+assert.ok(model);assert.notEqual(model.stage,"ready_to_generate");
+assert.ok(model.builderQuestions.some(q=>q.id==="ms_charged_trafficking_distribution_manufacture"));
+assert.ok(!model.builderQuestions.some(q=>q.id==="social_security_number_last_four"));
 const msSpec=JSON.parse(fs.readFileSync("data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json","utf8"));
 let msFacts=0;
-for(const fact of msSpec.requiredFacts.filter(f=>f.ownership==="participant")) {
-  const expected=mississippiSyntheticFactValue(fact.factId);
+for(const fact of model.builderQuestions.map(question=>({factId:question.id,prompt:question.prompt,options:question.options}))) {
+  const source=MS_NONCONVICTION_PACKET_ANSWERS[fact.factId];
+  const expected=typeof source==="object"?source.value:source;
   assert.equal(typeof expected,"string");
   assert.ok(expected.trim());
   assert.ok(!["Acceptance test information","25-CR-000123","30"].includes(expected),fact.factId);
   assert.equal(packetFieldValue(fact.factId,"misleading case number or age prompt",MISSISSIPPI_SYNTHETIC_ROUTE),expected);
-  CASES.push({name:`canonical Mississippi required fact ${fact.factId}`,
+  if(fact.options?.length) assert.equal(chooseOption(fact.factId,fact.prompt,fact.options,MISSISSIPPI_SYNTHETIC_ROUTE),expected);
+  CASES.push({name:`canonical Mississippi actual builder fact ${fact.factId}`,
     questionId:fact.factId,prompt:fact.prompt ?? fact.factId,body:`<input type="text" id="q-${fact.factId}" value="">`,
     options:{routeKey:MISSISSIPPI_SYNTHETIC_ROUTE},
     assert:async page=>assert.equal(await page.locator(`#q-${fact.factId}`).inputValue(),expected)});
@@ -232,15 +249,29 @@ for(const fact of msSpec.requiredFacts.filter(f=>f.ownership==="participant")) {
 }
 assert.throws(()=>packetFieldValue("new_unmapped_required_fact","case number",MISSISSIPPI_SYNTHETIC_ROUTE),/Unmapped/);
 assert.throws(()=>chooseOption("actual_arrest","arrest",["No"],MISSISSIPPI_SYNTHETIC_ROUTE),/unavailable/);
-console.log(`Mississippi fixture: ${msFacts}/${msFacts} required participant facts mapped; unknown fact and wrong option refused`);
+assert.ok(msSpec.requiredFacts.some(f=>f.factId==="ms_charged_trafficking_distribution_manufacture"));
+assert.throws(()=>packetFieldValue("social_security_number_last_four","Derived identifier",MISSISSIPPI_SYNTHETIC_ROUTE),/Unmapped/);
+console.log(`Mississippi fixture: ${msFacts}/${msFacts} actual unverified builder questions mapped; unknown/derived facts and wrong option refused`);
 CASES.push({name:"canonical Mississippi birth date uses all three exact date controls",
   questionId:"date_of_birth",prompt:"Date of birth",options:{routeKey:MISSISSIPPI_SYNTHETIC_ROUTE},
   body:`<select id="q-date_of_birth-month"><option value=""></option><option value="04">April</option></select>
-    <select id="q-date_of_birth-day"><option value=""></option><option value="12">12</option></select>
-    <select id="q-date_of_birth-year"><option value=""></option><option value="1990">1990</option></select>`,
-  assert:async page=>{for(const [part,value] of [["month","04"],["day","12"],["year","1990"]])
+    <select id="q-date_of_birth-day"><option value=""></option><option value="02">2</option></select>
+    <select id="q-date_of_birth-year"><option value=""></option><option value="1985">1985</option></select>`,
+  assert:async page=>{for(const [part,value] of [["month","04"],["day","02"],["year","1985"]])
     assert.equal(await page.locator(`#q-date_of_birth-${part}`).inputValue(),value);}
 });
+CASES.push({name:"Mississippi preserves existing participant text, choice and complete date prefills",
+  questionId:"date_of_birth",prompt:"Saved participant facts",sectionScreen:true,options:{routeKey:MISSISSIPPI_SYNTHETIC_ROUTE},
+  body:`<h3 id="q-participant_full_legal_name-prompt">Saved name</h3><input id="q-participant_full_legal_name" type="text" value="Saved participant name">
+    <h3 id="q-pending_cases-prompt">Saved pending-case answer</h3><input name="q-pending_cases" type="radio" value="No" checked>
+    <h3 id="q-date_of_birth-prompt">Saved birth date</h3><select id="q-date_of_birth-month"><option value="06" selected>June</option></select>
+    <select id="q-date_of_birth-day"><option value="03" selected>3</option></select>
+    <select id="q-date_of_birth-year"><option value="1986" selected>1986</option></select>`,
+  assert:async page=>{assert.equal(await page.locator("#q-participant_full_legal_name").inputValue(),"Saved participant name");
+    assert.equal(await page.locator("input[name=q-pending_cases]").isChecked(),true);
+    assert.deepEqual(await page.locator("select").evaluateAll(nodes=>nodes.map(node=>node.value)),["06","03","1986"]);}
+});
+console.log("Actual Mississippi question sequence: "+JSON.stringify(model.builderQuestions.map(question=>({id:question.id,inputType:question.inputType}))));
 const browser = await chromium.launch(executablePath ? { executablePath } : {});
 const page = await browser.newPage();
 
