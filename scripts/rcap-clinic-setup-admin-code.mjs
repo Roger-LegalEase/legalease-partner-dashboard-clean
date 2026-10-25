@@ -1,8 +1,9 @@
+import {CLINIC_FRESH_ATTEMPT,assertClinicHistoricalCodes,assertClinicAttemptCapacity,assertClinicEventWindow} from './rcap-clinic-fresh-attempt.mjs';
 import assert from 'node:assert/strict';
 import {CLINIC_SETUP,clinicSetupRequestAllowed,clinicSetupSafePathname} from './rcap-clinic-setup-only-boundary.mjs';
 export const CLINIC_CODE_ADMIN=Object.freeze({
   id:'bf40fd9f-cdb7-4530-be79-5b31f0f13eb1',email:'mvl-demo-admin@rcap-acceptance.test',
-  oldCodeId:'77000000-0000-4000-8000-000000000057',requestId:'aca01bff-cd19-4c75-b1dc-630588d3680d'
+  oldCodeId:'77000000-0000-4000-8000-000000000057',requestId:CLINIC_FRESH_ATTEMPT.id
 });
 const eventPath=`/api/clinic/events/${CLINIC_SETUP.event}`;
 export function clinicAdminCodeRequestAllowed(method,address) {
@@ -22,15 +23,19 @@ export async function issueClinicSetupCode(io) {
   assert.equal(event?.id,CLINIC_SETUP.event);assert.equal(event.partnerSlug,'mvl-demo');
   assert.equal(event.publicSlug,CLINIC_SETUP.slug);assert.equal(event.jurisdiction,'MS');
   assert.equal(event.status,'published');assert.notEqual(event.experience,'legal_aid');
-  const now=io.now(),starts=Date.parse(event.startsAt),ends=Date.parse(event.endsAt);
-  assert.ok(Number.isFinite(starts)&&Number.isFinite(ends)&&starts<=now&&now<ends,'existing event is outside its actual window');
-  assert.equal(workspace.json.workspace.accessCodes?.length,1,'changed or already renewed code inventory requires reconciliation');
-  const old=workspace.json.workspace.accessCodes[0];
-  assert.equal(old.id,CLINIC_CODE_ADMIN.oldCodeId);
-  assert.equal(old?.eventId,CLINIC_SETUP.event);assert.equal(old.maxUses,2);assert.equal(old.usesCount,2,'old code must be confirmed exhausted');
+  const historical=assertClinicHistoricalCodes(workspace.json.workspace.accessCodes);
   await io.beforeCode();
-  const body={requestId:CLINIC_CODE_ADMIN.requestId,maxUses:1,
-    startsAt:new Date(now).toISOString(),expiresAt:new Date(Math.min(ends,now+15*60*1000)).toISOString()};
+  const capacity=await io.readCapacity();
+  assert.equal(capacity.status,200,'Current event capacity must be authorized and readable');assert.equal(capacity.json?.success,true);
+  assertClinicAttemptCapacity(capacity.json.report);
+  // Re-read the event after other surface checks, immediately before constructing the one request.
+  const current=await io.readWorkspace();assert.equal(current.status,200);assert.equal(current.json?.success,true);
+  assert.deepEqual(current.json.workspace.event,event,'Event changed before issuance');
+  assert.deepEqual(assertClinicHistoricalCodes(current.json.workspace.accessCodes),historical,'Historical code changed before issuance');
+  const now=io.now(),ends=Date.parse(event.endsAt);
+  assertClinicEventWindow(event,now);
+  const body=Object.freeze({requestId:CLINIC_CODE_ADMIN.requestId,maxUses:1,
+    startsAt:new Date(now).toISOString(),expiresAt:new Date(Math.min(ends,now+15*60*1000)).toISOString()});
   const safe={httpStatus:null,actorId:actor.id,eventId:CLINIC_SETUP.event,codeId:null,maxUses:1,status:'attempting'};
   await io.saveAttempt({...safe,request:body});
   const response=await io.createCode(body);
@@ -46,12 +51,12 @@ export async function issueClinicSetupCode(io) {
   assert.equal(readback.json.workspace?.event?.id,CLINIC_SETUP.event);
   assert.equal(readback.json.workspace.event.partnerSlug,'mvl-demo');
   const codes=readback.json.workspace.accessCodes;
-  assert.equal(codes?.length,2,'code inventory changed during issuance');
-  const saved=codes.find(row=>row.id===codeId),historical=codes.find(row=>row.id===CLINIC_CODE_ADMIN.oldCodeId);
+  assert.deepEqual(assertClinicHistoricalCodes(codes,codeId),historical,'Historical code changed during issuance');
+  const saved=codes.find(row=>row.id===codeId);
   assert.equal(saved?.eventId,CLINIC_SETUP.event);assert.equal(saved.maxUses,1);assert.equal(saved.usesCount,0);
   assert.equal(saved.isActive,true);assert.equal(Date.parse(saved.startsAt),Date.parse(body.startsAt));
   assert.equal(Date.parse(saved.expiresAt),Date.parse(body.expiresAt));
-  assert.equal(historical?.maxUses,2);assert.equal(historical.usesCount,2);
+  assert.deepEqual(readback.json.workspace.event,event,'Event changed during issuance');
   await io.saveVerified({...safe,httpStatus:201,codeId,status:'verified_unredeemed'});
   return code;
 }

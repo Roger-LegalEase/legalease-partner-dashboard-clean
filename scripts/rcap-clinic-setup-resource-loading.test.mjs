@@ -64,7 +64,7 @@ test('native HTTP/browser original POST survives immediate navigation and docume
   const payload={action:operation.replace('reset_',''),jurisdiction:'MS',profileVersion:'fixture',matterId:nativeId};
   res.setHeader('content-type','text/html');res.end(`<button id="go">Submit</button><script>go.onclick=async()=>{const r=await fetch(${JSON.stringify(nativePaths[operation])},{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(${JSON.stringify(payload)})});sessionStorage.setItem('originalBody',await r.text());location.href='/after';};</script>`);
  });
- const browser=await chromium.launch(browserOptions());
+ const browser=await chromium.launch(browserOptions()).catch(async error=>{await service.close();throw error;});
  try {
   for(operation of Object.keys(nativePaths)) {
    posts=0;cookieAtDestination='';const context=await browser.newContext(),evidence=[];
@@ -91,7 +91,7 @@ test('native HTTP failures cannot become success merely because the page navigat
   if(req.method==='POST'){posts++;for await(const _ of req){}res.writeHead(status,{'content-type':'application/json'});res.end(body);return;}
   res.setHeader('content-type','text/html');res.end(req.url==='/after'?'<h1>Destination</h1>':`<button id="go">Submit</button><script>go.onclick=async()=>{const r=await fetch('/api/clinic/entry',{method:'POST',body:'{}'});await r.text();location.href='/after';};</script>`);
  });
- const browser=await chromium.launch(browserOptions());
+ const browser=await chromium.launch(browserOptions()).catch(async error=>{await service.close();throw error;});
  try {
   for(const item of [[403,JSON.stringify({success:false,error:'private-fixture-denial'}),'application_refusal'],[503,'private-upstream','application_refusal'],[200,'not JSON','malformed_response'],[200,'null','malformed_response'],[200,JSON.stringify({success:true,next:'https://outside.invalid/clinic/fixture/assist'}),'contract_mismatch'],[200,JSON.stringify({success:false}),'application_refusal']]) {
    [status,body]=item;posts=0;const context=await browser.newContext(),config={origin:service.origin,authOrigin:service.origin,clinicSlug:'fixture'};
@@ -108,7 +108,7 @@ test('native lost response preserves the consumed single-use effect and transpor
   if(req.method==='POST') {posts++;for await(const _ of req){}if(uses===0){uses++;req.socket.destroy();return;}res.writeHead(409,{'content-type':'application/json'});res.end(JSON.stringify({success:false}));return;}
   res.setHeader('content-type','text/html');res.end(`<button id="go">Submit</button><script>go.onclick=async()=>{try{await fetch('/api/clinic/entry',{method:'POST',body:'{}'});}catch{}document.body.dataset.finished='yes';};</script>`);
  });
- const browser=await chromium.launch(browserOptions());
+ const browser=await chromium.launch(browserOptions()).catch(async error=>{await service.close();throw error;});
  try {
   const context=await browser.newContext(),evidence=[],config={origin:service.origin,authOrigin:service.origin,clinicSlug:'fixture'};
   await context.route('**/*',createOriginalResponseObserver(config,{onObservation:v=>evidence.push(v)}));const page=await context.newPage();await page.goto(service.origin);await page.click('#go');await page.waitForSelector('body[data-finished="yes"]');
@@ -143,7 +143,7 @@ test('native redirects cannot replay the original POST at same-origin or externa
   if(req.method==='POST'){for await(const _ of req){}if(req.url==='/api/clinic/entry'){posts++;res.writeHead(status,{location:destination});}else redirectPosts++;res.end('{}');return;}
   res.setHeader('content-type','text/html');res.end(`<button id="go">Submit</button><script>go.onclick=async()=>{try{await fetch('/api/clinic/entry',{method:'POST',body:'{}'});}catch{}document.body.dataset.finished='yes';};</script>`);
  });
- const browser=await chromium.launch(browserOptions());
+ const browser=await chromium.launch(browserOptions()).catch(async error=>{await service.close();await external.close();throw error;});
  try {
   for(status of [307,308])for(destination of [service.origin+'/api/clinic/assistance/start',external.origin+'/api/clinic/entry']) {
    posts=0;redirectPosts=0;const context=await browser.newContext(),evidence=[];
@@ -162,7 +162,7 @@ test('native guard permits the original observer once, confines bypass to Previe
    'set-cookie':['original_a=one; HttpOnly; Secure; SameSite=None; Path=/','original_b=two; HttpOnly; Secure; SameSite=None; Path=/']});
   res.end(JSON.stringify(req.url.startsWith('/auth/')?fixtureBody('signin',CLINIC_SETUP.slug):fixtureBody('entry',CLINIC_SETUP.slug)));
  });
- const browser=await chromium.launch(browserOptions());
+ const browser=await chromium.launch(browserOptions()).catch(async error=>{await service.close();throw error;});
  try {
   const context=await browser.newContext(),events=[],failures=[],evidence=[];
   const config={origin:CLINIC_SETUP.origin,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:CLINIC_SETUP.slug};
@@ -191,5 +191,79 @@ test('original response contracts reject wrong identities, result versions, cont
  for(const [operation,patch] of [['signin',{user:{id:'not-an-id'}}],['assistance',{screeningUrl:'/clinic/other/screening/ms'}],['evaluation',{resultCode:'invented'}],['evaluation',{profileVersion:'stale'}],['progress',{jurisdiction:'OTHER'}],['pending',{claimToken:null}],['claim',{redirectTo:'/briefcase/matters/22222222-2222-4222-8222-222222222222'}],['reset_complete',{signOutConfirmed:false}]]) {
   const value=projectOriginalResponse(operation,200,{...fixtureBody(operation,CLINIC_SETUP.slug),...patch},config,shape);
   assert.equal(value.accepted,false,operation);assert.equal(value.outcome,'contract_mismatch');
+ }
+});
+
+import {clinicJourneyFixture,routeFixtureId} from './rcap-clinic-journey-fixture.mjs';
+const journeyBodies={entry:{eventSlug:CLINIC_SETUP.slug,code:'CLINIC-LOCAL-FIXTURE',requestId:routeFixtureId},
+ assistance:{eventSlug:CLINIC_SETUP.slug,eventStaffId:CLINIC_SETUP.staff,jurisdiction:'MS',consent:true,requestId:routeFixtureId},
+ pending:{jurisdiction:'MS',profileVersion:'fixture',screeningCorrelationId:routeFixtureId,anonymousSessionId:routeFixtureId,answers:{fixture:true}}};
+
+test('deployed handlers enforce fresh consent, actual entry cookies, verified ownership and post-claim failure isolation',async()=>{
+ const fixture=clinicJourneyFixture(),origin='http://localhost';
+ const call=(op,body,cookie='')=>fixture.handle(op,origin+nativePaths[op],body,cookie);
+ const entry=await call('entry',journeyBodies.entry);assert.equal(entry.status,200);
+ const cookie=entry.cookies.getAll().map(c=>`${c.name}=${c.value}`).join('; ');
+ for(const [patch,status] of [[{consent:false},400],[{eventStaffId:'22222222-2222-4222-8222-222222222222'},403]])assert.equal((await call('assistance',{...journeyBodies.assistance,...patch},cookie)).status,status);
+ fixture.state.signedIn=false;assert.equal((await call('assistance',journeyBodies.assistance,cookie)).status,401);fixture.state.signedIn=true;
+ assert.equal((await call('assistance',journeyBodies.assistance)).status,403);assert.equal(fixture.state.assistance,0);
+ const assistance=await call('assistance',journeyBodies.assistance,cookie);assert.equal(assistance.status,200);assert.equal(fixture.state.screenings,1);assert.equal(fixture.state.assistance,1);
+ const pending=await call('pending',journeyBodies.pending),body=await pending.json();assert.equal(pending.status,200);
+ fixture.state.verified=false;assert.equal((await call('claim',body)).status,403);assert.equal(fixture.state.claims,0);
+ fixture.state.verified=true;fixture.state.followUpFailed=true;const claim=await call('claim',body);assert.equal(claim.status,200);assert.equal(fixture.state.owner,CLINIC_SETUP.owner);assert.equal(fixture.state.claims,1);
+ // The real route handles a replay result; the storage double models, but does not prove, PostgreSQL idempotency.
+ assert.equal((await call('claim',body)).status,200);assert.equal(fixture.state.claims,1);
+ assert.equal((await call('claim',{claimToken:'wrong-local-token'})).status,404);assert.equal(fixture.state.claims,1);
+});
+
+test('native one-cookie journey executes deployed handlers through claim and preserves partial effects on lost original responses',async()=>{
+ for(const fault of [null,'entry','assistance','claim']) {
+  const fixture=clinicJourneyFixture(),posts=[],evidence=[],guardEvents=[],requestFailures=[];let currentStage='participant_normal_signin';
+  const service=await localServer(async(req,res)=>{
+   try {
+    const url=new URL(req.url,'http://localhost');
+    if(req.method==='POST') {
+     const op=Object.entries(nativePaths).find(([name,p])=>name==='signin'?url.pathname+url.search===p:url.pathname===p)?.[0];posts.push(op);
+     let bytes='';for await(const chunk of req)bytes+=chunk;const body=JSON.parse(bytes||'{}');
+     let result;
+     if(['entry','assistance','pending','claim'].includes(op))result=await fixture.handle(op,service.origin+req.url,body,req.headers.cookie??'');
+     else result=new Response(JSON.stringify(op==='signin'?{user:{id:CLINIC_SETUP.owner}}:op==='evaluation'?fixture.evaluation:op==='progress'?{jurisdiction:'MS',profileVersion:'fixture',questionIds:[]}: {ok:true}),{status:200,headers:{'content-type':'application/json'}});
+     if(op===fault){req.socket.destroy();return;}
+     const headers=Object.fromEntries(result.headers);const cookies=result.headers.getSetCookie();if(cookies.length)headers['set-cookie']=cookies;
+     res.writeHead(result.status,headers);res.end(await result.text());return;
+    }
+    const entry='/clinic/'+CLINIC_SETUP.slug,assist=entry+'/assist',screen=entry+'/screening/ms',matter='/briefcase/matters/'+routeFixtureId;
+    if(url.pathname===matter){res.setHeader('content-type','text/html');res.end(fixture.state.owner===CLINIC_SETUP.owner?`<main data-briefcase-matter-id="${routeFixtureId}">Owned fixture matter</main>`:'<h1>Unavailable</h1>');return;}
+    let action;
+    if(url.pathname==='/expungement-ai/sign-in')action=`await post(${JSON.stringify(nativePaths.signin)},{});location.href=${JSON.stringify(entry)};`;
+    else if(url.pathname===entry)action=`const r=await post(${JSON.stringify(nativePaths.entry)},${JSON.stringify(journeyBodies.entry)});location.href=r.next;`;
+    else if(url.pathname===assist)action=`if(!document.querySelector('#consent').checked)throw Error('consent required');const r=await post(${JSON.stringify(nativePaths.assistance)},${JSON.stringify(journeyBodies.assistance)});location.href=r.screeningUrl;`;
+    else action=`await post(${JSON.stringify(nativePaths.progress)},{jurisdiction:'MS',profileVersion:'fixture'});await post(${JSON.stringify(nativePaths.evaluation)},{jurisdiction:'MS',profileVersion:'fixture',matterId:${JSON.stringify(routeFixtureId)}});await post(${JSON.stringify(nativePaths.completion)},{});const pending=await post(${JSON.stringify(nativePaths.pending)},${JSON.stringify(journeyBodies.pending)});const claim=await post(${JSON.stringify(nativePaths.claim)},{claimToken:pending.claimToken});location.href=claim.redirectTo;`;
+    res.setHeader('content-type','text/html');res.end(`<label><input id="consent" type="checkbox">Fresh consent</label><button id="go">Continue</button><script>async function post(path,body){const r=await fetch(path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(r.status!==200)throw Error('refused');return r.json();}go.onclick=async()=>{try{${action}}catch{document.body.dataset.failed='yes';}};</script>`);
+   }catch{res.writeHead(500);res.end('{}');}
+  });
+  const browser=await chromium.launch(browserOptions()).catch(async error=>{await service.close();throw error;});
+  try {
+   const context=await browser.newContext(),config={origin:service.origin,authOrigin:service.origin,clinicSlug:CLINIC_SETUP.slug};
+   const guard=createClinicRequestGuard({actor:'participant',captchaPolicy:null,env:{},stage:()=>currentStage,events:guardEvents,requestFailures});
+   await context.route('**/*',createOriginalResponseObserver(config,{onObservation:v=>evidence.push(v)}));
+   // Map loopback fixture origins into the existing policy; no provider network is reachable in this test.
+   const policyRequest=request=>new Proxy(request,{get(target,key){if(key==='url')return()=>{const url=new URL(target.url());return (url.pathname.startsWith('/auth/')?`https://${CLINIC_SETUP.project}.supabase.co`:CLINIC_SETUP.origin)+url.pathname+url.search;};const value=target[key];return typeof value==='function'?value.bind(target):value;}});
+   await context.route('**/*',route=>guard.route({request:()=>policyRequest(route.request()),abort:reason=>route.abort(reason),fallback:options=>route.fallback(options)}));
+   const page=await context.newPage();page.on('response',guard.response);page.on('requestfailed',request=>guard.requestFailed(policyRequest(request)));
+   await page.goto(service.origin+'/expungement-ai/sign-in?mode=signin&next='+encodeURIComponent('/clinic/'+CLINIC_SETUP.slug));
+   for(const [stage,path,op] of [['participant_normal_signin','/clinic/'+CLINIC_SETUP.slug,'signin'],['participant_code_redemption','/clinic/'+CLINIC_SETUP.slug+'/assist','entry'],['participant_fresh_consent','/clinic/'+CLINIC_SETUP.slug+'/screening/ms','assistance'],['participant_claim','/briefcase/matters/'+routeFixtureId,'claim']]) {
+    currentStage=stage;if(op==='assistance'){assert.equal(await page.locator('#consent').isChecked(),false);await page.locator('#consent').check();}
+    await page.click('#go');
+    if(op===fault){await page.waitForSelector('body[data-failed="yes"]');break;}
+    await page.waitForURL(service.origin+path);
+   }
+   assert.equal(posts.filter(op=>op==='entry').length,1);assert.equal(fixture.state.entry,1);
+   if(fault){assert.equal(evidence.at(-1).outcome,'transport_failure');assert.throws(()=>guard.assertNoCritical());}
+   else {guard.assertNoCritical();assert.equal(await page.locator(`[data-briefcase-matter-id="${routeFixtureId}"]`).isVisible(),true);assert.equal(fixture.state.owner,CLINIC_SETUP.owner);}
+   assert.equal(fixture.state.assistance,fault==='entry'?0:1);assert.equal(fixture.state.claims,['entry','assistance'].includes(fault)?0:1);
+   for(const op of ['entry','assistance','pending','claim'])assert.ok(posts.filter(value=>value===op).length<=1);
+   await context.close();
+  }finally{await browser.close();await service.close();}
  }
 });

@@ -1,3 +1,4 @@
+import {CLINIC_FRESH_ATTEMPT,assertClinicAttemptAuthority} from './rcap-clinic-fresh-attempt.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
 import {assertNormalClinicSurfaces} from './rcap-clinic-normal-readiness.mjs';
 import test from 'node:test';
@@ -7,18 +8,19 @@ import ts from 'typescript';
 import {CLINIC_SETUP,clinicSetupSafePathname} from './rcap-clinic-setup-only-boundary.mjs';
 import {CLINIC_CODE_ADMIN,clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure} from './rcap-clinic-setup-admin-code.mjs';
 function fixture() {
-  const now=Date.now(),calls=[],receipts=[];
-  const old={id:CLINIC_CODE_ADMIN.oldCodeId,eventId:CLINIC_SETUP.event,maxUses:2,usesCount:2,isActive:true};
+  const now=Date.parse('2026-10-25T03:00:00Z'),calls=[],receipts=[];
+  const old={id:CLINIC_CODE_ADMIN.oldCodeId,eventId:CLINIC_SETUP.event,maxUses:2,usesCount:2,isActive:true,startsAt:CLINIC_FRESH_ATTEMPT.history[0].startsAt,expiresAt:CLINIC_FRESH_ATTEMPT.history[0].expiresAt};
+  const consumed={id:CLINIC_FRESH_ATTEMPT.history[1].id,eventId:CLINIC_SETUP.event,maxUses:1,usesCount:1,isActive:true,startsAt:'2026-10-25T02:02:30.379Z',expiresAt:'2026-10-25T02:17:30.379Z'};
   const event={id:CLINIC_SETUP.event,partnerSlug:'mvl-demo',publicSlug:CLINIC_SETUP.slug,jurisdiction:'MS',status:'published',
-    startsAt:new Date(now-3600000).toISOString(),endsAt:new Date(now+3600000).toISOString(),experience:'standard'};
-  const workspace={status:200,json:{success:true,workspace:{event,accessCodes:[old]}}};
+    startsAt:CLINIC_FRESH_ATTEMPT.startsAt,endsAt:CLINIC_FRESH_ATTEMPT.endsAt,experience:'standard'};
+  const workspace={status:200,json:{success:true,workspace:{event,accessCodes:[old,consumed]}}};
   const codeId='11111111-1111-4111-8111-111111111111',code='CLINIC-MOCKCODEONLY';
-  const io={beforeCode:async()=>{},normalLogin:async()=>({id:CLINIC_CODE_ADMIN.id,partnerAdminVisible:true}),now:()=>now,
+  const io={readCapacity:async()=>({status:200,json:{success:true,report:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:16}}}),beforeCode:async()=>{},normalLogin:async()=>({id:CLINIC_CODE_ADMIN.id,partnerAdminVisible:true}),now:()=>now,
     readWorkspace:async()=>workspace,
     createCode:async body=>{calls.push(structuredClone(body));workspace.json.workspace.accessCodes.push({id:codeId,eventId:CLINIC_SETUP.event,
       maxUses:1,usesCount:0,isActive:true,startsAt:body.startsAt,expiresAt:body.expiresAt});return {status:201,json:{success:true,accessCode:{id:codeId,code}}};},
     saveAttempt:async value=>receipts.push(structuredClone(value)),saveResult:async value=>receipts.push(structuredClone(value)),saveVerified:async value=>receipts.push(structuredClone(value))};
-  return {io,now,calls,receipts,workspace,event,old,codeId,code};
+  return {io,now,calls,receipts,workspace,event,old,consumed,codeId,code};
 }
 test('normal scoped test admin issues exactly one bounded max1 code and passes it only in memory',async()=>{
   const f=fixture();const code=await issueClinicSetupCode(f.io);assert.equal(code,f.code);assert.equal(f.calls.length,1);
@@ -40,7 +42,9 @@ for(const [label,change] of [
   ['event outside actual window',f=>{f.event.endsAt=new Date(f.now-1).toISOString();}],
   ['event not published',f=>{f.event.status='paused';}],
   ['already renewed or unknown inventory',f=>{f.workspace.json.workspace.accessCodes.push({...f.old,id:'22222222-2222-4222-8222-222222222222',usesCount:0});}],
-  ['reconciled consumed run401528 code',f=>{f.workspace.json.workspace.accessCodes.push({...f.old,id:'5fe1f896-c735-4ef4-838e-d86a4b293d86',usesCount:1,maxUses:1});}],
+  ['missing consumed run401528 code',f=>{f.workspace.json.workspace.accessCodes.pop();}],
+  ['changed consumed counter',f=>{f.consumed.usesCount=0;}],
+  ['capacity fully consumed',f=>{f.io.readCapacity=async()=>({status:200,json:{success:true,report:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:20}}});}],
   ['old code no longer exhausted',f=>{f.old.usesCount=1;}],
   ['normal read-only surfaces blocked',f=>{f.io.beforeCode=async()=>{throw Error('blocked normal surfaces');};}],
   ['prior attempt marker',f=>{f.io.saveAttempt=async()=>{throw Error('prior attempt');};}]
@@ -56,7 +60,7 @@ test('ambiguous transport and failed persisted-code readback stop without a seco
   for(const failure of ['transport','readback']) {
     const f=fixture();
     if(failure==='transport')f.io.createCode=async body=>{f.calls.push(body);throw Error('transport');};
-    else {const read=f.io.readWorkspace;f.io.readWorkspace=async()=>{const value=await read();if(f.calls.length)value.json.workspace.accessCodes[1].maxUses=2;return value;};}
+    else {const read=f.io.readWorkspace;f.io.readWorkspace=async()=>{const value=await read();if(f.calls.length)value.json.workspace.accessCodes[2].maxUses=2;return value;};}
     await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);
     assert.ok(!f.receipts.some(row=>row.status==='verified_unredeemed'));
   }
@@ -87,13 +91,13 @@ test('actual runner uses guarded exact-event controls and captures denied/server
       }};},
       getByRole:()=>({first:()=>({waitFor:async()=>mode==='success'?new Promise(()=>{}):undefined,
         innerText:async()=>{if(mode==='unknown-role')throw Error('No recognized error heading');return mode==='server-error'?'Application error: PRIVATE-NOT-RECORDED':'Clinic access denied PRIVATE-NOT-RECORDED';}})}),
-      evaluate:async(_fn,{body})=>{assert.equal(controlsChecked,true);return body?f.io.createCode(body):f.io.readWorkspace();}};
+      evaluate:async(_fn,{body,pathname})=>{assert.equal(controlsChecked,true);return body?f.io.createCode(body):pathname.endsWith('/reporting')?f.io.readCapacity():f.io.readWorkspace();}};
     const context={route:async()=>{},newPage:async()=>page,close:async()=>{closed++;}};
     const env={RCAP_BROWSER_PASSWORD:'mock-private-password'},result={stage:'test',guardEvents:[]};
     const scope={issueClinicCode:true,browser:{newContext:async()=>context},attachBypass:async()=>{},
       clinicAdminCodeRequestAllowed,issueClinicSetupCode,requireClinicAdminControls,captureClinicAdminFailure,clinicSetupSafePathname,
       CLINIC_CODE_ADMIN,CLINIC_SETUP,assert,result,createClinicRequestGuard,clinicGate:{captchaPolicy:{serverCaptchaRequired:false,frontend:{clientCaptchaRequired:false,widgetSiteKeyConfigured:true}}},
-      readNormalClinicSurfaces:async()=>['general_clinic_list','clinic_follow_up_page','clinic_queue','clinic_follow_up','clinic_reporting'].map(id=>({id,ok:true,httpStatus:200})),assertNormalClinicSurfaces,baseUrl:CLINIC_SETUP.origin,password:env.RCAP_BROWSER_PASSWORD,
+      readCurrentClinicGate:()=>({status:'READY'}),required:()=> 'unit-gate',readNormalClinicSurfaces:async()=>['general_clinic_list','clinic_follow_up_page','clinic_queue','clinic_follow_up','clinic_reporting'].map(id=>({id,ok:true,httpStatus:200})),assertNormalClinicSurfaces,baseUrl:CLINIC_SETUP.origin,password:env.RCAP_BROWSER_PASSWORD,
       signIn:async()=>{listeners.response({request:()=>({method:()=> 'GET',isNavigationRequest:()=>true}),url:()=>CLINIC_SETUP.origin+adminPath,status:()=>mode==='server-error'?500:200});return {user:{id:CLINIC_CODE_ADMIN.id}};},
       fs:{writeFileSync:(_path,value)=>files.push(JSON.parse(value))},path:{join:(_dir,name)=>name},evidenceDir:'mock',process:{env},clinicAccessCode:''};
     const run=()=>new Function(...Object.keys(scope),`return (async()=>{${preamble.getText(ast)};return clinicAccessCode;})()`)(...Object.values(scope));
@@ -110,4 +114,27 @@ test('actual runner uses guarded exact-event controls and captures denied/server
     }
     assert.equal(closed,1);assert.ok(!JSON.stringify(files).includes(f.code));assert.ok(!JSON.stringify(files).includes(env.RCAP_BROWSER_PASSWORD));
   }
+});
+
+test('fresh authority refuses the spent identity, missing approval identity, and a workflow rerun',()=>{
+ const env={RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.id,GITHUB_RUN_ATTEMPT:'1'};
+ assert.doesNotThrow(()=>assertClinicAttemptAuthority(env));
+ for(const change of [{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.priorRequestId},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:''},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>assertClinicAttemptAuthority({...env,...change}));
+});
+test('lost code response preserves the exact persisted request and a new invocation cannot create another entitlement',async()=>{
+ const f=fixture(),create=f.io.createCode;let payload;
+ f.io.saveAttempt=async value=>{assert.equal(payload,undefined);payload=structuredClone(value.request);f.receipts.push(value);};
+ f.io.createCode=async body=>{assert.deepEqual(body,payload);await create(body);throw Error('lost original response after write');};
+ await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);assert.equal(f.workspace.json.workspace.accessCodes.length,3);
+ const original=JSON.stringify(payload);f.io.now=()=>f.now+60000;
+ await assert.rejects(issueClinicSetupCode(f.io),/inventory/);assert.equal(f.calls.length,1);assert.equal(JSON.stringify(payload),original);
+ assert.equal(f.old.usesCount,2);assert.equal(f.consumed.usesCount,1);
+});
+test('post-issuance readback refuses changed history, wrong validity, or a historical response ID without a second POST',async()=>{
+ for(const alter of [f=>{f.old.usesCount=1;},f=>{f.consumed.expiresAt='2030-01-01T00:00:00Z';},f=>{f.workspace.json.workspace.accessCodes[2].expiresAt='2030-01-01T00:00:00Z';}]) {
+  const f=fixture(),create=f.io.createCode;f.io.createCode=async body=>{const response=await create(body);alter(f);return response;};
+  await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);assert(!f.receipts.some(r=>r.status==='verified_unredeemed'));
+ }
+ const f=fixture();f.io.createCode=async body=>{f.calls.push(body);return {status:201,json:{success:true,accessCode:{id:f.old.id,code:f.code}}};};
+ await assert.rejects(issueClinicSetupCode(f.io));assert.equal(f.calls.length,1);
 });

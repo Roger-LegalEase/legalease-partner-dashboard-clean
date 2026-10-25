@@ -1,3 +1,4 @@
+import {CLINIC_FRESH_ATTEMPT} from './rcap-clinic-fresh-attempt.mjs';
 import {originalResponse,safeOriginalResponse} from './rcap-clinic-original-response.mjs';
 import assert from 'node:assert/strict';
 export const CLINIC_SETUP = Object.freeze({
@@ -26,6 +27,7 @@ export function assertClinicSetupInput(env) {
 }
 export function assertClinicSetupDispatch(inputs) {
   assert.ok(['clinic_setup_only','clinic_prerequisites_only'].includes(inputs?.mode),'Clinic dispatch refuses mode mismatch');
+  if(inputs.mode==='clinic_setup_only')assert.equal(inputs.clinic_attempt_id,CLINIC_FRESH_ATTEMPT.id,'Clinic dispatch requires the newly authorized attempt');
   for(const [key,value] of Object.entries({application_sha:CLINIC_SETUP.app,
     worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',
     worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',

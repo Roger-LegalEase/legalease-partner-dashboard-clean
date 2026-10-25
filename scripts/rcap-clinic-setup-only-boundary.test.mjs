@@ -1,3 +1,4 @@
+import {CLINIC_FRESH_ATTEMPT} from './rcap-clinic-fresh-attempt.mjs';
 import {projectOriginalResponse} from './rcap-clinic-original-response.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -147,7 +148,7 @@ test('actual pathname capture redacts raw and URI-encoded known secrets in both 
 });
 
 test('dispatch source labels must match the pinned Clinic tuple and tools never select the runner checkout',()=>{
- const input={mode:'clinic_setup_only',application_sha:CLINIC_SETUP.app,worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',tools_sha:'98f89f0db0bcb60088341c35595a072edd9031a4'};
+ const input={mode:'clinic_setup_only',clinic_attempt_id:CLINIC_FRESH_ATTEMPT.id,application_sha:CLINIC_SETUP.app,worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',tools_sha:'98f89f0db0bcb60088341c35595a072edd9031a4'};
  assertClinicSetupDispatch(input);assertClinicSetupDispatch({...input,mode:'clinic_prerequisites_only'});
  for(const key of Object.keys(input))assert.throws(()=>assertClinicSetupDispatch({...input,[key]:'wrong'}));
  for(const key of ['preview_hostname','preview_deployment_id','supabase_project_ref'])assert.throws(()=>assertClinicSetupDispatch({...input,[key]:'wrong'}));

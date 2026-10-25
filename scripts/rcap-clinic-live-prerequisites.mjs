@@ -1,3 +1,4 @@
+import {CLINIC_FRESH_ATTEMPT,qualifyClinicFreshInventory} from './rcap-clinic-fresh-attempt.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,7 +12,7 @@ import {CLINIC_CLAIM_SQL,qualifyClinicClaimPrerequisites} from './lib/rcap-clini
 import {CLINIC_PREREQUISITE_SQL,qualifyClinicDatabasePrerequisites} from './lib/rcap-clinic-database-prerequisites.mjs';
 const worker='16908485a94f475448657cea90583a4d352da9a3';
 const digest='sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af';
-const prerequisiteSqlHash='134d69b6892920d85cedb20bda0dd61ad6bc2a7b09098cd86be17a68eeec1508';
+const prerequisiteSqlHash='669061842c6fbc70b9c6fbf8e6162530703dbd57fb285e71dbcf42f47a3aa2a8';
 const claimSqlHash='c0e6fd0ffcbf785e9166536df3ce95adca73eea783501cd4690ff1c3a56b8395';
 const probeSignatures=['public.rcap_partner_activation_for_launch(text)','public.rcap_program_screening_jurisdictions(text)',
   'public.rcap_program_packet_scope_authorized(text,text)','public.clinic_entry_sponsor_capacity(uuid,text)','public.rcap_program_screening_capacity(text)'];
@@ -83,10 +84,7 @@ export async function readClinicDatabasePrerequisites({env=process.env,fetchImpl
     assert.ok(row.clinic_known_compatibility_prerequisites&&typeof row.clinic_known_compatibility_prerequisites==='object'&&!Array.isArray(row.clinic_known_compatibility_prerequisites));
     const result=qualifyDatabase({catalog:row.clinic_known_compatibility_prerequisites,projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app});
     assert.ok(Array.isArray(result.checks)&&result.checks.length>0);checks.push(...result.checks);
-    const inventory=result.operational?.existing_code_inventory;
-    const consumedPriorAttempt=Array.isArray(inventory)&&inventory.some(code=>code.id==='5fe1f896-c735-4ef4-838e-d86a4b293d86'&&code.uses_count===1&&code.max_uses===1);
-    add('normal_code_issuance_inventory',result.operational?.codeIssuanceRequired===true&&Array.isArray(inventory)&&inventory.length===1
-      &&inventory[0].id==='77000000-0000-4000-8000-000000000057'&&inventory[0].uses_count===2&&inventory[0].max_uses===2,'original one-code issuance precondition; changed inventory requires a new bounded disposition',consumedPriorAttempt?'prior_single_use_code_consumed_new_execution_not_authorized':'inventory_not_qualified');
+    add('normal_code_issuance_inventory',qualifyClinicFreshInventory(result.operational),'exact reconciled two-code history, open prior redemption and remaining event capacity','fresh_attempt_state_unqualified');
     add('database_complete_compatibility',result.status==='READY'&&result.blockers?.length===0,'READY without blockers',result.status==='READY'?'READY':'BLOCKED');
     return evidence();
   } catch {
@@ -225,11 +223,12 @@ export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=
   })()]);
   return {schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:checks.length>0&&checks.every(c=>c.ok===true)?'READY':'BLOCKED',
     projectRef:CLINIC_SETUP.project,applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,
-    controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT,capturedAt:new Date().toISOString(),
+    attemptId:CLINIC_FRESH_ATTEMPT.id,controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT,capturedAt:new Date().toISOString(),
     checks,blockers:checks.filter(c=>c.ok!==true),preview,captchaPolicy,databaseEvidence,stateChangingStepReached:false};
 }
 export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
   const gate=JSON.parse(fs.readFileSync(filename,'utf8'));
+  assert.equal(gate.attemptId,CLINIC_FRESH_ATTEMPT.id,'Gate must qualify the exact fresh attempt');
   assert.equal(gate.schemaVersion,'clinic_setup_live_readonly_prerequisites/v1');assert.equal(gate.status,'READY');
   assert.equal(gate.projectRef,CLINIC_SETUP.project);assert.equal(gate.applicationSha,CLINIC_SETUP.app);assert.equal(gate.deploymentId,CLINIC_SETUP.deploymentId);
   for(const [key,value] of Object.entries({controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT}))assert.ok(value&&gate[key]===value,'live gate must belong to this exact runner');

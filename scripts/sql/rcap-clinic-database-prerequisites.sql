@@ -102,7 +102,11 @@ select jsonb_build_object(
   'sponsor_capacity_available',coalesce((select present and service_execute and result='true'::jsonb from probe_results where key='sponsor_capacity'),false),
   'screening_capacity_available',coalesce((select present and service_execute and (result->>'limited'='false' or (result->>'remaining')::bigint>0) from probe_results where key='screening_capacity'),false),
   'screening_entitlement_present',exists(select 1 from public.partner_entitlement where partner_slug='mvl-demo' and screenings_allowed is not null) or exists(select 1 from public.partner_onboarding where partner_slug='mvl-demo' and operating_model='legalease_managed'),
-  'existing_code_inventory',(select coalesce(jsonb_agg(jsonb_build_object('id',id,'uses_count',uses_count,'max_uses',max_uses,'is_active',is_active,'starts_at',starts_at,'expires_at',expires_at) order by created_at),'[]'::jsonb) from public.clinic_event_access_codes where event_id='77000000-0000-4000-8000-000000000055'),
+  'fresh_attempt',jsonb_build_object(
+   'event',(select jsonb_build_object('eventId',e.id,'eventStatus',e.status,'capacity',e.capacity,'entries',(select count(*) from public.clinic_event_access_redemptions r where r.event_id=e.id)) from public.clinic_events e where e.id='77000000-0000-4000-8000-000000000055'),
+   'priorRedemption',(select jsonb_build_object('id',r.id,'codeId',r.access_code_id,'closed',r.closed_at is not null,'assisted',r.assisted_session_id is not null) from public.clinic_event_access_redemptions r where r.id='3a6f7921-a71c-4ca8-bae4-9292b63473cf' and r.event_id='77000000-0000-4000-8000-000000000055')
+  ),
+  'existing_code_inventory',(select coalesce(jsonb_agg(jsonb_build_object('id',id,'uses_count',uses_count,'max_uses',max_uses,'redemption_rows',(select count(*) from public.clinic_event_access_redemptions r where r.access_code_id=c.id and r.event_id=c.event_id),'is_active',is_active,'starts_at',starts_at,'expires_at',expires_at) order by created_at),'[]'::jsonb) from public.clinic_event_access_codes c where event_id='77000000-0000-4000-8000-000000000055'),
   'existing_code_available',exists(select 1 from public.clinic_event_access_codes c where event_id='77000000-0000-4000-8000-000000000055' and is_active and (starts_at is null or starts_at<=now()) and (expires_at is null or expires_at>now()) and (max_uses is null or uses_count<max_uses))
  ),
  'functions',(select jsonb_agg(jsonb_build_object('name',w.name,'overloads',

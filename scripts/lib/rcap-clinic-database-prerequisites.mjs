@@ -1,3 +1,4 @@
+import {qualifyClinicCodeHistory} from '../rcap-clinic-fresh-attempt.mjs';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { isDeepStrictEqual as equal } from 'node:util';
@@ -54,7 +55,7 @@ export function qualifyClinicDatabasePrerequisites({ catalog, projectRef, appSha
   for (const key of ['administrator_active', 'administrator_confirmed', 'participant_confirmed', 'staff_active', 'event_available', 'program_activation_authorized', 'screening_scope_authorized', 'packet_scope_authorized', 'sponsor_capacity_available', 'screening_capacity_available', 'screening_entitlement_present']) {
     add(`operational:${key}`, value.operational?.[key] === true);
   }
-  add('historical_code_preserved', value.operational?.existing_code_inventory?.some(c => c.id === '77000000-0000-4000-8000-000000000057' && c.uses_count === 2 && c.max_uses === 2) === true);
+  add('historical_code_preserved', qualifyClinicCodeHistory(value.operational?.existing_code_inventory));
   const blockers = checks.filter(c => !c.ok);
   return { status: blockers.length ? 'BLOCKED' : 'READY', checks, blockers,
     operational: value.operational ? { ...value.operational, codeIssuanceRequired: value.operational.existing_code_available !== true } : null };

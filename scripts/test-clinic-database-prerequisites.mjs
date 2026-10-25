@@ -1,3 +1,4 @@
+import {CLINIC_FRESH_ATTEMPT} from './rcap-clinic-fresh-attempt.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -11,7 +12,7 @@ function fixture() {
   }
   return { functions: [...functions.values()], relations: structuredClone(contract.relations), relevant_history: [...structuredClone(contract.priorHistory), { name: 'rcap_clinic_app4feb_compatibility', version: '20261024233056', statements_md5: 'f54b99a6eafd72c4031a46639781b690' }], operational: {
     administrator_active: true, administrator_confirmed: true, participant_confirmed: true, staff_active: true, event_available: true, program_activation_authorized: true, screening_scope_authorized: true, packet_scope_authorized: true, sponsor_capacity_available: true, screening_capacity_available: true, screening_entitlement_present: true,
-    existing_code_available: false, existing_code_inventory: [{ id: '77000000-0000-4000-8000-000000000057', uses_count: 2, max_uses: 2 }]
+    existing_code_available: false, existing_code_inventory: CLINIC_FRESH_ATTEMPT.history.map(h=>({id:h.id,uses_count:h.usesCount,max_uses:h.maxUses,is_active:true,starts_at:h.startsAt,expires_at:h.expiresAt,redemption_rows:h.redemptionRows}))
   } };
 }
 const qualify = catalog => qualifyClinicDatabasePrerequisites({ catalog, projectRef: contract.projectRef, appSha: contract.appSha });
@@ -59,3 +60,10 @@ test('fixed read-only probes resolve absence before dynamic SELECT, and SQL emit
 });
 
 test('managed screening retains the admission function nullable allowance rule', () => { assert.match(CLINIC_PREREQUISITE_SQL, /'screening_entitlement_present',exists\(select 1 from public\.partner_entitlement where partner_slug='mvl-demo' and screenings_allowed is not null\) or exists\(select 1 from public\.partner_onboarding where partner_slug='mvl-demo' and operating_model='legalease_managed'\)/); });
+
+
+test('all prerequisite callers preserve both exact historical codes, validity and redemption accounting',()=>{
+ for(const change of [d=>d.operational.existing_code_inventory.push({...d.operational.existing_code_inventory[0],id:'unexpected'}),d=>{d.operational.existing_code_inventory[0].redemption_rows=2;},d=>{d.operational.existing_code_inventory[1].expires_at='2030-01-01T00:00:00Z';},d=>{d.operational.existing_code_inventory[0].is_active=false;},d=>d.operational.existing_code_inventory.pop()]) {
+  const data=fixture();change(data);assert(qualify(data).blockers.some(c=>c.id==='historical_code_preserved'));
+ }
+});

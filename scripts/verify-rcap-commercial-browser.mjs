@@ -1,3 +1,4 @@
+import {assertClinicAttemptAuthority} from './rcap-clinic-fresh-attempt.mjs';
 import {createOriginalResponseObserver,matchesOriginalResponse,originalResponse,originalResponseOperation,requireOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
 import {readCurrentClinicGate} from './rcap-clinic-live-prerequisites.mjs';
@@ -58,7 +59,7 @@ const bypassSecret = process.env.RCAP_BROWSER_VERCEL_BYPASS_SECRET?.trim() || ""
 const clinicMode = Boolean(clinicEventSlug);
 const clinicSetupOnly = process.env.RCAP_BROWSER_CLINIC_SETUP_ONLY === "1";
 const issueClinicCode = clinicSetupOnly && process.env.RCAP_BROWSER_ISSUE_CLINIC_CODE === "1";
-if (clinicSetupOnly) assertClinicSetupInput(process.env);
+if (clinicSetupOnly) {assertClinicSetupInput(process.env);assertClinicAttemptAuthority(process.env);}
 const responseConfig={origin:baseUrl,authOrigin:`https://${CLINIC_SETUP.project}.supabase.co`,clinicSlug:clinicEventSlug};
 const result = { responseObservations:[],stage:'readonly_prerequisites',stageResults:[],guardEvents:[],normalReadOnlyViews:[],schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
@@ -144,10 +145,12 @@ async function runJourney() {
           return {id:auth.user.id,partnerAdminVisible:true};
         },
         readWorkspace:()=>{result.stage='admin_workspace_read';return call(`/api/clinic/events/${CLINIC_SETUP.event}`);},now:()=>Date.now(),
+        readCapacity:()=>call(`/api/clinic/events/${CLINIC_SETUP.event}/reporting`),
         beforeCode:async()=>{
           result.stage='normal_readonly_admission';
           result.normalReadOnlyViews=await readNormalClinicSurfaces(adminPage);
           adminGuard.assertNoCritical();assertNormalClinicSurfaces(result.normalReadOnlyViews);
+          readCurrentClinicGate(required('RCAP_BROWSER_CLINIC_PREREQUISITES_FILE'));
         },
         createCode:body=>{result.stage='admin_one_code_issuance';return call(codePath,body);},
         saveAttempt:value=>fs.writeFileSync(path.join(evidenceDir,'clinic-code-attempt.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'}),

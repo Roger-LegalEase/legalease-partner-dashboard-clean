@@ -1,3 +1,4 @@
+import {CLINIC_FRESH_ATTEMPT} from './rcap-clinic-fresh-attempt.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -12,7 +13,10 @@ const signatures=['public.rcap_partner_activation_for_launch(text)','public.rcap
 const identity={current_user:'postgres',session_user:'postgres',transaction_read_only:'on'};
 const context=()=>({...identity,clinic_supplemental_contract:claimFixture(),service_role_bypassrls:true,service_role_public_usage:true,probe_execute:Object.fromEntries(signatures.map(s=>[s,true]))});
 const env={SUPABASE_ACCESS_TOKEN:'mock-existing-context'};
-const validContract=()=>({status:'READY',checks:[{id:'mock-contract',ok:true}],blockers:[],operational:{codeIssuanceRequired:true,existing_code_inventory:[{id:'77000000-0000-4000-8000-000000000057',uses_count:2,max_uses:2}]}});
+const validContract=()=>({status:'READY',checks:[{id:'mock-contract',ok:true}],blockers:[],operational:{existing_code_available:false,
+ existing_code_inventory:CLINIC_FRESH_ATTEMPT.history.map(h=>({id:h.id,uses_count:h.usesCount,max_uses:h.maxUses,is_active:true,starts_at:h.startsAt,expires_at:h.expiresAt,redemption_rows:h.redemptionRows})),
+ fresh_attempt:{event:{eventId:CLINIC_SETUP.event,eventStatus:'published',capacity:20,entries:16},priorRedemption:{id:CLINIC_FRESH_ATTEMPT.redemptionId,codeId:CLINIC_FRESH_ATTEMPT.history[1].id,closed:false,assisted:false}}
+}});
 test('live adapter makes bounded fixed-project read-only aggregate and retains all blockers without catalog contents',async()=>{
  let reads=0;
  const result=await collectClinicLivePrerequisites({env:{SUPABASE_ACCESS_TOKEN:'mock-existing-context',VERCEL_TOKEN:'mock'},
@@ -35,7 +39,7 @@ test('live adapter makes bounded fixed-project read-only aggregate and retains a
 test('browser admission rejects stale, other-run, unknown CAPTCHA and incomplete prerequisite artifacts',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-gate-unit-'));const file=path.join(dir,'gate.json');
  const env={GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'},now=Date.now();
- const gate={schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:'READY',projectRef:CLINIC_SETUP.project,
+ const gate={attemptId:CLINIC_FRESH_ATTEMPT.id,schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:'READY',projectRef:CLINIC_SETUP.project,
   applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,controlHead:env.GITHUB_SHA,runId:'123',runAttempt:'1',capturedAt:new Date(now).toISOString(),
   databaseEvidence:{executionContext:identity,claimSqlSha256:createHash('sha256').update(CLINIC_CLAIM_SQL).digest('hex'),prerequisiteSqlSha256:createHash('sha256').update(CLINIC_PREREQUISITE_SQL).digest('hex'),inspectionSqlSha256:createHash('sha256').update(clinicInspectionSql(CLINIC_PREREQUISITE_SQL)).digest('hex'),requests:[{operation:'compatibility_inspection',httpStatus:201,sqlstate:null}],stateChangingStepReached:false},
   checks:[...qualifyClinicClaimPrerequisites({functions:[],relations:[]}).checks.map(c=>c.id),...qualifyClinicDatabasePrerequisites({catalog:{functions:[],relations:[{name:'public.legal_aid_policy_profiles',present:false}]},projectRef:CLINIC_SETUP.project,appSha:CLINIC_SETUP.app}).checks.map(c=>c.id),'database_execution_role','database_session_identity','database_transaction_read_only',...signatures.map(s=>`database_execute:${s}`),'application_service_rls_context','application_service_schema_usage','database_complete_compatibility','normal_code_issuance_inventory','exact_current_preview','shipped_and_server_captcha'].map(id=>({id,ok:true})),blockers:[],
@@ -43,7 +47,7 @@ test('browser admission rejects stale, other-run, unknown CAPTCHA and incomplete
     frontend:{applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,clientCaptchaRequired:false,widgetSiteKeyConfigured:true}}};
  try {
   fs.writeFileSync(file,JSON.stringify(gate));assert.equal(readCurrentClinicGate(file,env,now).status,'READY','unit-only artifact contract; no hosted readiness claim');
-  for(const change of [d=>{d.status='BLOCKED';},d=>{d.runId='456';},d=>{d.capturedAt=new Date(now-300001).toISOString();},
+  for(const change of [d=>{d.attemptId=CLINIC_FRESH_ATTEMPT.priorRequestId;},d=>{d.status='BLOCKED';},d=>{d.runId='456';},d=>{d.capturedAt=new Date(now-300001).toISOString();},
    d=>{d.captchaPolicy.serverCaptchaRequired=true;},d=>{d.captchaPolicy.frontend.clientCaptchaRequired=null;},d=>{d.checks.shift();},...gate.checks.map(({id})=>d=>{d.checks=d.checks.filter(c=>c.id!==id);}),d=>{d.checks.push({...d.checks[0]});},d=>{d.projectRef='wrong';},d=>{d.controlHead='b'.repeat(40);},d=>{d.runAttempt='2';},d=>{d.databaseEvidence.requests=[];},d=>{d.databaseEvidence.inspectionSqlSha256='0'.repeat(64);},d=>{d.databaseEvidence.executionContext.session_user='anon';},d=>{d.databaseEvidence.executionContext={...identity,transaction_read_only:'off'};}]) {
     const changed=structuredClone(gate);change(changed);fs.writeFileSync(file,JSON.stringify(changed));assert.throws(()=>readCurrentClinicGate(file,env,now));
   }
@@ -250,11 +254,11 @@ test('independent Preview read denials are aggregated without losing database ev
 });
 
 
-test('reconciled consumed run401528 code blocks new issuance without reopening database or credential acceptance',async()=>{
- const contract=validContract();contract.operational.existing_code_inventory.push({id:'5fe1f896-c735-4ef4-838e-d86a4b293d86',uses_count:1,max_uses:1});
+test('an unknown third code blocks the new attempt without reopening database or credential acceptance',async()=>{
+ const contract=validContract();contract.operational.existing_code_inventory.push({id:'11111111-1111-4111-8111-111111111111',uses_count:0,max_uses:1});
  const result=await readWith([Response.json([{...context(),clinic_known_compatibility_prerequisites:{}}],{status:201})],()=>contract);
  const failures=result.checks.filter(check=>!check.ok);
  assert.equal(failures.length,1);assert.equal(failures[0].id,'normal_code_issuance_inventory');
- assert.equal(failures[0].observed,'prior_single_use_code_consumed_new_execution_not_authorized');
+ assert.equal(failures[0].observed,'fresh_attempt_state_unqualified');
  assert.equal(result.calls,1);assert.equal(result.stateChangingStepReached,false);
 });
