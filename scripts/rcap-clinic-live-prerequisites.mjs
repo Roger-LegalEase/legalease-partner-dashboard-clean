@@ -229,6 +229,7 @@ export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=
 export function readCurrentClinicGate(filename,env=process.env,now=Date.now()) {
   const gate=JSON.parse(fs.readFileSync(filename,'utf8'));
   assert.equal(gate.attemptId,CLINIC_FRESH_ATTEMPT.id,'Gate must qualify the exact fresh attempt');
+  assert.equal(gate.attemptConsumedByRun,null,'Consumed attempt cannot supply a READY gate');
   assert.equal(gate.schemaVersion,'clinic_setup_live_readonly_prerequisites/v1');assert.equal(gate.status,'READY');
   assert.equal(gate.projectRef,CLINIC_SETUP.project);assert.equal(gate.applicationSha,CLINIC_SETUP.app);assert.equal(gate.deploymentId,CLINIC_SETUP.deploymentId);
   for(const [key,value] of Object.entries({controlHead:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,runAttempt:env.GITHUB_RUN_ATTEMPT}))assert.ok(value&&gate[key]===value,'live gate must belong to this exact runner');

@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 
-// This exact attempt is spent. Reconciled history is read-only evidence, never a replacement entitlement.
+// One newly authorized attempt; prior attempts and their durable records remain spent and unchanged.
 export const CLINIC_FRESH_ATTEMPT=Object.freeze({
- id:'71403c61-b073-4ece-a95c-99da50c3bf8d',consumedByRun:'40158881107',eventId:'77000000-0000-4000-8000-000000000055',
+ id:'fbf69013-459a-4331-82bd-b72d9e7f244c',consumedByRun:null,
+ previousAttempt:Object.freeze({id:'71403c61-b073-4ece-a95c-99da50c3bf8d',consumedByRun:'40158881107',screeningSessionId:'ec8d191c-1357-4240-8a00-3dbb8710a580'}),eventId:'77000000-0000-4000-8000-000000000055',
  priorRequestId:'aca01bff-cd19-4c75-b1dc-630588d3680d',redemptionId:'3a6f7921-a71c-4ca8-bae4-9292b63473cf',
  capacity:20,entries:17,maxUses:1,startsAt:'2026-09-25T02:28:08.978166+00:00',endsAt:'2026-10-26T02:28:08.978166+00:00',
  history:Object.freeze([
@@ -14,7 +15,7 @@ export const CLINIC_FRESH_ATTEMPT=Object.freeze({
 export function assertClinicAttemptAuthority(env) {
  assert.equal(env.RCAP_BROWSER_CLINIC_ATTEMPT_ID,CLINIC_FRESH_ATTEMPT.id,'An explicitly authorized fresh attempt identity is required');
  assert.equal(env.GITHUB_RUN_ATTEMPT,'1','A rerun cannot create a replacement Clinic entitlement');
- assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,null,'Clinic attempt is spent; owner STOP forbids a new code or run');
+ assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,null,'Clinic attempt is spent; no replacement entitlement is permitted');
 }
 export function assertClinicHistoricalCodes(codes,newCodeId=null) {
  assert.ok(Array.isArray(codes),'Clinic code inventory must be readable');

@@ -1,5 +1,5 @@
 import {runMississippiScreening,saveScreeningResultButton} from './rcap-ms-screening-browser.mjs';
-import {assertClinicAttemptAuthority} from './rcap-clinic-fresh-attempt.mjs';
+import {CLINIC_FRESH_ATTEMPT,assertClinicAttemptAuthority} from './rcap-clinic-fresh-attempt.mjs';
 import {createOriginalResponseObserver,matchesOriginalResponse,originalResponse,originalResponseOperation,requireOriginalResponse} from './rcap-clinic-original-response.mjs';
 import {createClinicRequestGuard} from './rcap-clinic-setup-request-guard.mjs';
 import {readCurrentClinicGate} from './rcap-clinic-live-prerequisites.mjs';
@@ -350,6 +350,8 @@ async function runJourney() {
     participantGuard.assertNoCritical();result.stage='setup_complete';
     assert.equal(new URL(page.url()).pathname,`/briefcase/matters/${packetItemId}`,'Clinic must land on the canonical matter page');
     assert.equal(claimed?.matterId,packetItemId,'actual claim must name the new saved matter');
+    assert.notEqual(screeningSessionId,null,'Pending result must identify the new Clinic screening');
+    assert.notEqual(screeningSessionId,CLINIC_FRESH_ATTEMPT.previousAttempt.screeningSessionId,'Do not reuse the previous Clinic screening');
     assert.notEqual(packetItemId,'6e7a0013-f372-438d-9454-6ba6451b290c','do not replay the historical Clinic case');
     assert.notEqual(packetItemId,'d13233f6-d9c7-41e1-9bb5-8a454d747503','do not relabel the DTC case');
     assert.equal(participantUserId,CLINIC_SETUP.owner);

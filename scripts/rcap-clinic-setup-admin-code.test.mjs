@@ -22,7 +22,7 @@ function fixture() {
     saveAttempt:async value=>receipts.push(structuredClone(value)),saveResult:async value=>receipts.push(structuredClone(value)),saveVerified:async value=>receipts.push(structuredClone(value))};
   return {io,now,calls,receipts,workspace,event,old,consumed,codeId,code};
 }
-test('pure issuer contract uses one bounded max1 request in memory; spent execution authority remains closed',async()=>{
+test('new authorized issuer uses one bounded max1 request and preserves all spent history',async()=>{
   const f=fixture();const code=await issueClinicSetupCode(f.io);assert.equal(code,f.code);assert.equal(f.calls.length,1);
   const body=f.calls[0];assert.equal(body.requestId,CLINIC_CODE_ADMIN.requestId);assert.equal(body.maxUses,1);
   assert.equal(Date.parse(body.startsAt),f.now);assert.equal(Date.parse(body.expiresAt),f.now+15*60000);
@@ -118,8 +118,10 @@ test('actual runner uses guarded exact-event controls and captures denied/server
 
 test('fresh authority refuses the spent identity, missing approval identity, and a workflow rerun',()=>{
  const env={RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.id,GITHUB_RUN_ATTEMPT:'1'};
- assert.throws(()=>assertClinicAttemptAuthority(env),/spent/);
- for(const change of [{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.priorRequestId},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:''},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>assertClinicAttemptAuthority({...env,...change}));
+ assertClinicAttemptAuthority(env);
+ assert.equal(CLINIC_CODE_ADMIN.requestId,'fbf69013-459a-4331-82bd-b72d9e7f244c');
+ assert.notEqual(CLINIC_CODE_ADMIN.requestId,CLINIC_FRESH_ATTEMPT.previousAttempt.id);
+ for(const change of [{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.previousAttempt.id},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:CLINIC_FRESH_ATTEMPT.priorRequestId},{RCAP_BROWSER_CLINIC_ATTEMPT_ID:''},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>assertClinicAttemptAuthority({...env,...change}));
 });
 test('lost code response preserves the exact persisted request and a new invocation cannot create another entitlement',async()=>{
  const f=fixture(),create=f.io.createCode;let payload;
@@ -157,8 +159,9 @@ test('reconciled third consumed code is required and spent authority precedes ev
  assert.equal(CLINIC_FRESH_ATTEMPT.history.length,3);
  assert.equal(CLINIC_FRESH_ATTEMPT.entries,17);
  assert.equal(CLINIC_FRESH_ATTEMPT.history[2].id,'d627a599-0a0b-47f7-896c-45bd7b7645e2');
- assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,'40158881107');
- for(const id of [CLINIC_FRESH_ATTEMPT.id,CLINIC_FRESH_ATTEMPT.priorRequestId,'11111111-1111-4111-8111-111111111111'])
+ assert.equal(CLINIC_FRESH_ATTEMPT.previousAttempt.consumedByRun,'40158881107');
+ assert.equal(CLINIC_FRESH_ATTEMPT.consumedByRun,null);
+ for(const id of [CLINIC_FRESH_ATTEMPT.previousAttempt.id,CLINIC_FRESH_ATTEMPT.priorRequestId,'11111111-1111-4111-8111-111111111111'])
   assert.throws(()=>assertClinicAttemptAuthority({RCAP_BROWSER_CLINIC_ATTEMPT_ID:id,GITHUB_RUN_ATTEMPT:'1'}));
  const source=fs.readFileSync(new URL('./verify-rcap-commercial-browser.mjs',import.meta.url),'utf8');
  assert(source.indexOf('assertClinicAttemptAuthority(process.env)')<source.indexOf('chromium.launch('));
