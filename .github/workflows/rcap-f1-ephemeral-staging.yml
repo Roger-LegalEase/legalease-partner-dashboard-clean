@@ -23,10 +23,10 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
+        description: "ephemeral | hosted_* — hosted_payment is the only Stripe-transacting phase; the two *_environment_probe phases are read-only"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_deploy, hosted_accept, hosted_checkout_gate, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance]
+        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_environment_probe, hosted_migrate, hosted_deploy, hosted_accept, hosted_full_nonpayment, hosted_checkout_pinning, hosted_worker_contract, hosted_payment_environment_probe, hosted_payment]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -60,7 +60,7 @@ on:
         required: true
         type: string
       tools_sha:
-        description: "Integration-branch commit carrying the F1 orchestration scripts (must be image-input-equivalent to the freeze)"
+        description: "PROVENANCE LABEL ONLY — must equal the reviewed control-plane SHA (github.sha / job.workflow_sha). It is NOT a checkout ref and NOT executable authority: nothing is ever checked out from it. The former 6d9e8792 value is no longer valid and is refused."
         required: true
         type: string
 
@@ -81,27 +81,172 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
-  github_acceptance:
-    name: GitHub-hosted functional acceptance fallback
-    if: inputs.mode == 'github_acceptance'
-    uses: ./.github/workflows/rcap-github-hosted-acceptance.yml
-    with:
-      application_sha: ${{ inputs.application_sha }}
-      worker_source_sha: ${{ inputs.worker_source_sha }}
-      worker_digest: ${{ inputs.worker_digest }}
-      tools_sha: ${{ inputs.tools_sha }}
-      supabase_project_ref: ${{ inputs.supabase_project_ref }}
-    secrets:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+  # ---------------------------------------------------------------------------
+  # ENV-007 C5 — EXACT DISPATCH ROUTING.
+  #
+  # Routing was `if: startsWith(inputs.mode, 'hosted_')` plus a chained
+  # `&&`/`||` expression that ended in `|| 'preflight'`. Two consequences:
+  #
+  #   1. any unrecognised value beginning with `hosted_` reached the hosted
+  #      workflow, and
+  #   2. it arrived as `preflight` — a real phase, with real credentials — so an
+  #      unknown mode did not refuse, it silently ran the weakest thing.
+  #
+  # That expression is also what GitHub's parser rejected: it carried nine
+  # opening and ten closing parentheses, so the workflow file was invalid.
+  #
+  # Routing is now an exact map with no default. Every mode is either named or
+  # refused, and no path reaches `preflight` except the mode that asks for it.
+  # A refusal here fails the job, so `hosted` and `f1` — which both need it —
+  # are never scheduled, and no readonly, protected or payment job starts.
+  # ---------------------------------------------------------------------------
+  route:
+    name: Exact dispatch routing
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      target: ${{ steps.map.outputs.target }}
+      phase: ${{ steps.map.outputs.phase }}
+    steps:
+      # ENV-007 C7 / F1 — IMMUTABLE EXECUTION AUTHORITY (caller).
+      #
+      # First executable step, ahead of checkout, setup, secrets and any external
+      # request. RCAP_AUTHORIZED_INFRASTRUCTURE_SHA and RCAP_AUTHORIZED_EXECUTION_REF
+      # are NON-SECRET configuration, neither is created by this change, and an
+      # unconfigured authority is a refusal rather than a pass.
+      #
+      # F1 CORRECTION. The previous gate compared a workflow-SHA property on the
+      # `github` context that GitHub does not define; it resolved to the empty
+      # string and the old comparison skipped on empty, so the gate asserted
+      # nothing. The documented `github.workflow_sha` is used instead, and every
+      # comparison here is unconditional.
+      - name: Validate the execution authority before checkout, setup or secrets
+        id: execution_authority
+        env:
+          OBSERVED_SHA: ${{ github.sha }}
+          OBSERVED_REF: ${{ github.ref }}
+          OBSERVED_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          EXPECTED_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
+          EXPECTED_REF: ${{ vars.RCAP_AUTHORIZED_EXECUTION_REF }}
+        run: |
+          set -uo pipefail
+          fail=0
+          note() { echo "  - $1"; fail=1; }
+          present() {
+            if [ -z "${2:-}" ]; then note "$1 is missing or empty"; return 1; fi
+            return 0
+          }
+          equal() {
+            present "$1" "${2:-}" || return 1
+            if [ "$2" != "$3" ]; then note "$1 is '${2}'; expected '${3}'"; return 1; fi
+            return 0
+          }
+          echo "INFRASTRUCTURE EXECUTION AUTHORITY (caller)"
+          present "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA" "${EXPECTED_SHA:-}" || true
+          present "RCAP_AUTHORIZED_EXECUTION_REF"      "${EXPECTED_REF:-}" || true
+          if [ -n "${EXPECTED_SHA:-}" ]; then
+            printf '%s' "${EXPECTED_SHA}" | grep -Eq '^[0-9a-f]{40}$'               || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA"
+            equal "github.sha"          "${OBSERVED_SHA:-}"          "${EXPECTED_SHA}" || true
+            equal "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" "${EXPECTED_SHA}" || true
+          else
+            present "github.sha"          "${OBSERVED_SHA:-}"          || true
+            present "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" || true
+          fi
+          if [ -n "${EXPECTED_REF:-}" ]; then
+            equal "github.ref" "${OBSERVED_REF:-}" "${EXPECTED_REF}" || true
+          else
+            present "github.ref" "${OBSERVED_REF:-}" || true
+          fi
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
+            echo "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
+            exit 1
+          fi
+          echo "  ok   github.sha=$OBSERVED_SHA"
+          echo "  ok   github.workflow_sha=$OBSERVED_WORKFLOW_SHA"
+          echo "  ok   github.ref=$OBSERVED_REF"
+          echo "  ok   caller execution authority validated"
+
+      - name: Map the dispatch mode to exactly one target
+        id: map
+        env:
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -uo pipefail
+          # RETIRED AND RENAMED VALUES. A `choice` input rejects an unlisted
+          # value, but a stale bookmark, a legacy caller or an API dispatch
+          # against an older workflow revision can still present one. Each of
+          # these enters the refusal path and nothing else.
+          case "$MODE" in
+            github_acceptance)
+              echo "::error::GITHUB_ACCEPTANCE_RETIRED"
+              echo "GITHUB_ACCEPTANCE_RETIRED"
+              echo "Use hosted_payment for payment-producing acceptance."
+              exit 1 ;;
+            hosted_full|full)
+              echo "::error::LEGACY_MODE_REFUSED: '$MODE' implied a payment-exercising run. Use hosted_full_nonpayment, or hosted_payment when payment must actually be exercised."
+              echo "LEGACY_MODE_REFUSED"
+              exit 1 ;;
+            hosted_checkout_gate|checkout_gate)
+              echo "::error::LEGACY_MODE_REFUSED: '$MODE' read as a real Checkout Session test. Use hosted_checkout_pinning for the static verification, or hosted_payment to create a real Sandbox Session."
+              echo "LEGACY_MODE_REFUSED"
+              exit 1 ;;
+          esac
+          # THE EXACT ACCEPTED SET. No prefix test, no fallthrough, no default.
+          case "$MODE" in
+            ephemeral|"")                     TARGET=ephemeral; PHASE=none ;;
+            hosted_preflight)                 TARGET=hosted;    PHASE=preflight ;;
+            hosted_vercel_audit)              TARGET=hosted;    PHASE=vercel_audit ;;
+            hosted_environment_probe)         TARGET=hosted;    PHASE=environment_probe ;;
+            hosted_migrate)                   TARGET=hosted;    PHASE=migrate ;;
+            hosted_deploy)                    TARGET=hosted;    PHASE=deploy ;;
+            hosted_accept)                    TARGET=hosted;    PHASE=accept ;;
+            hosted_full_nonpayment)           TARGET=hosted;    PHASE=full_nonpayment ;;
+            hosted_checkout_pinning)          TARGET=hosted;    PHASE=checkout_pinning ;;
+            hosted_worker_contract)           TARGET=hosted;    PHASE=worker_contract ;;
+            hosted_payment_environment_probe) TARGET=hosted;    PHASE=payment_environment_probe ;;
+            hosted_payment)                   TARGET=hosted;    PHASE=payment ;;
+            *)
+              echo "::error::UNKNOWN_MODE_REFUSED: '$MODE' is not an accepted dispatch mode. Refusing rather than defaulting to a weaker phase."
+              echo "UNKNOWN_MODE_REFUSED"
+              exit 1 ;;
+          esac
+          # Belt and braces: the mapped phase must itself be one the hosted
+          # workflow declares, so a future edit that mistypes a phase refuses
+          # here instead of arriving as an unknown phase inside a protected job.
+          case "$PHASE" in
+            none|preflight|vercel_audit|environment_probe|migrate|deploy|accept|full_nonpayment|checkout_pinning|worker_contract|payment_environment_probe|payment) ;;
+            *) echo "::error::UNKNOWN_MODE_REFUSED: mode '$MODE' mapped to unrecognised phase '$PHASE'"; exit 1 ;;
+          esac
+          {
+            echo "target=$TARGET"
+            echo "phase=$PHASE"
+          } >> "$GITHUB_OUTPUT"
+          echo "mode='$MODE' target=$TARGET phase=$PHASE"
+
+  # RETIRED — github_acceptance.
+  #
+  # It ran the frozen application on the runner behind a cloudflared HTTPS
+  # tunnel and held that host open for a real, human-completed Stripe Sandbox
+  # payment. That IS a case hosted_payment does not reproduce: hosted_payment
+  # signs its own completion event rather than waiting for a person to pay.
+  #
+  # It is retired anyway, because it was a payment-producing journey outside the
+  # payment environment, and the owner decision is that only hosted_payment may
+  # transact. The unique case is not moved here: route it through hosted_payment,
+  # whose reuse-only Checkout step already prepares one real unpaid Sandbox
+  # Session against a stable Vercel Preview host that a person can pay.
+  #
+  # The job is removed rather than disabled so no caller exists, and `route`
+  # above refuses the name before any job that holds a secret is scheduled.
 
   hosted:
     name: Persistent hosted acceptance staging
-    if: startsWith(inputs.mode, 'hosted_')
+    needs: route
+    if: needs.route.outputs.target == 'hosted'
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || 'preflight'))))))) }}
+      phase: ${{ needs.route.outputs.phase }}
       preview_hostname: ${{ inputs.preview_hostname }}
       preview_deployment_id: ${{ inputs.preview_deployment_id }}
       contradiction_job_id: ${{ inputs.contradiction_job_id }}
@@ -115,16 +260,16 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      # Optional. Absent until Roger adds them; the hosted workflow declares
-      # them non-required so every phase still runs without Stripe configured,
-      # and the deployment simply keeps the control's disabled default.
-      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+      # The Stripe test secrets are NOT forwarded and the hosted workflow no
+      # longer declares them as workflow_call secrets. They are read from the
+      # rcap-acceptance-payment environment by the hosted_payment job alone, so
+      # this dispatch entry point — which has no environment — never holds them.
       VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
   f1:
     name: Ephemeral F1 staging rehearsal (rcap-ci-staging)
-    if: inputs.mode == 'ephemeral' || inputs.mode == ''
+    needs: route
+    if: needs.route.outputs.target == 'ephemeral'
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
@@ -157,11 +302,17 @@ jobs:
           # The tools commit must carry the exact application and worker bytes:
           # if this diff is empty, building once at tools_sha builds the pinned
           # application SHA's bytes, and the worker fingerprint is unchanged.
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
-            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
-          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
-            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
-          git checkout --detach "${{ inputs.tools_sha }}"
+          # ENV-007 C1 — tools_sha is a LABEL, never a checkout target. The
+          # detach that used to stand here made a caller-supplied commit the
+          # executable authority for this whole job, so naming the superseded
+          # 6d9e8792 orchestration commit would have been obeyed. The rehearsal
+          # now runs the reviewed bytes it was dispatched from, and tools_sha is
+          # accepted only when it names exactly those bytes.
+          [ "${{ inputs.tools_sha }}" = "${{ github.sha }}" ] \
+            || { echo "::error::INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"; echo "tools_sha must name this run's own commit ${{ github.sha }}; it is a label, not a checkout target"; exit 1; }
+          # Worker image-input equivalence is per file, from the canonical
+          # manifest, not a whole-directory diff over scripts/lib and src.
+          node scripts/rcap-worker-image-input-manifest.mjs --check
 
       - name: Authenticate to GHCR and pull the worker by immutable digest
         run: |
