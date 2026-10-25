@@ -364,9 +364,16 @@ test('production runner awaits the captured profile in both opening branches and
 const callerSource=installed('node:fs').readFileSync(path.join(runnerRoot,'scripts/verify-rcap-commercial-browser.mjs'),'utf8');
 const callerTs=installed('typescript'),callerAst=callerTs.createSourceFile('runner.mjs',callerSource,callerTs.ScriptTarget.Latest,true,callerTs.ScriptKind.JS);
 const callerJourney=callerAst.statements.find(node=>callerTs.isFunctionDeclaration(node)&&node.name?.text==='runJourney');
-const completionReportBranch=callerJourney.body.statements.find(node=>callerTs.isIfStatement(node)&&node.expression.getText(callerAst)==='clinicSetupOnly'&&node.getText(callerAst).includes('screeningCompletion.read()'));
-assert.ok(completionReportBranch,'Actual production completion-report branch missing');
+function productionCompletionBranch(journey=callerJourney,ast=callerAst) {
+ assert.ok(journey?.body,'Actual production runner missing');
+ const matches=[];
+ function visit(node){if(callerTs.isIfStatement(node)&&node.expression.getText(ast)==='clinicSetupOnly'&&node.getText(ast).includes('screeningCompletion.read()'))matches.push(node);callerTs.forEachChild(node,visit);}
+ visit(journey.body);
+ assert.equal(matches.length,1,'Actual production completion-report branch missing or ambiguous');
+ return matches[0];
+}
 async function recordProductionCompletion(captured) {
+ const completionReportBranch=productionCompletionBranch();
  let original,guardCalls=0;const result={};
  const scope={clinicSetupOnly:true,result,assert,participantGuard:{assertNoCritical:()=>{guardCalls++;}},screeningCompletion:{read:async()=>{
   original=await captured.read();assert.equal(Object.isFrozen(original),true,'Native observer receipt must remain immutable');return original;
@@ -487,19 +494,28 @@ for(const operation of ['completion','pending','claim'])for(const fault of ['ref
 
 
 // Preserve one continuous production region; only external auth/storage and evidence sinks are ports.
-const orchestrationStatements=callerJourney.body.statements;
+function productionOrchestrationParts() {
+assert.ok(callerJourney?.body,'Actual production runner missing');
+const freshBranch=callerJourney.body.statements.find(node=>callerTs.isIfStatement(node)&&node.expression.getText(callerAst)==='existingClinicContinuation'&&callerTs.isBlock(node.elseStatement)&&node.thenStatement.getText(callerAst).includes('openExistingClinicMatter'));
+assert.ok(freshBranch,'Actual production fresh-acquisition else branch missing');
+const orchestrationStatements=freshBranch.elseStatement.statements;
 const orchestrationStart=orchestrationStatements.find(node=>node.getText(callerAst).startsWith("result.stage='participant_screening'"));
 const orchestrationStop=orchestrationStatements.find(node=>callerTs.isIfStatement(node)&&node.expression.getText(callerAst)==='clinicSetupOnly'&&node.getText(callerAst).includes("stopReason='new_owned_screening_claimed_before_packet_builder_funding_render_worker'"));
 assert.ok(orchestrationStart&&orchestrationStop);
 assert.ok(orchestrationStop.end<callerSource.indexOf('const builderLink'));
 const productionOrchestration=callerSource.slice(orchestrationStart.getStart(callerAst),orchestrationStop.end);
-const productionRequestListener=orchestrationStatements.find(node=>callerTs.isExpressionStatement(node)&&callerTs.isCallExpression(node.expression)&&node.expression.expression.getText(callerAst)==='page.on'&&node.expression.arguments[0]?.text==='request');
+const productionRequestListener=callerJourney.body.statements.find(node=>callerTs.isExpressionStatement(node)&&callerTs.isCallExpression(node.expression)&&node.expression.expression.getText(callerAst)==='page.on'&&node.expression.arguments[0]?.text==='request');
 assert.ok(productionRequestListener);
 const productionSupport=['validUuid','exactBriefcaseItemId','expectText','assertNoCommercialCopy','check'].map(name=>{
  const declaration=callerAst.statements.find(node=>callerTs.isFunctionDeclaration(node)&&node.name?.text===name);
  assert.ok(declaration,`Actual production validator missing: ${name}`);return declaration.getText(callerAst);
 }).join('\n');
+const itemDeclaration=callerJourney.body.statements.find(node=>callerTs.isVariableStatement(node)&&node.declarationList.declarations.some(declaration=>declaration.name.getText(callerAst)==='packetItemId'));
+assert.ok(itemDeclaration,'Actual production shared packet item declaration missing');
+return {productionOrchestration,productionRequestListener,productionSupport,productionItemDeclaration:itemDeclaration.getText(callerAst)};
+}
 async function runContiguousProduction(fixture,captured,sink,{guardRefusal=false}={}) {
+ const {productionOrchestration,productionRequestListener,productionSupport,productionItemDeclaration}=productionOrchestrationParts();
  const {page,site,config,observations,stages}=fixture;
  const result=sink.result={responseObservations:observations,responseStages:stages};
  sink.guardCalls=0;sink.screenshots=[];
@@ -525,7 +541,7 @@ async function runContiguousProduction(fixture,captured,sink,{guardRefusal=false
     await page.evaluate(()=>{setTimeout(()=>{throw Error('Controlled native guard refusal');},0);});await error;
    }
   }};
- await new Function(...Object.keys(scope),`"use strict";return (async()=>{let screeningSessionId=null;${productionSupport}\n${productionRequestListener.getText(callerAst)}\n${productionOrchestration}})()`)(...Object.values(scope));
+ await new Function(...Object.keys(scope),`"use strict";return (async()=>{${productionItemDeclaration}let screeningSessionId=null;${productionSupport}\n${productionRequestListener.getText(callerAst)}\n${productionOrchestration}})()`)(...Object.values(scope));
 }
 for(const mode of ['immediate','delayed'])test(`contiguous production completion-to-canonical orchestration ${mode} preserves frozen evidence and saves once`,{timeout:120000},async()=>{
  await withCallerFixture({matterPage:true,...(mode==='delayed'?{responseTiming:{profile:{bodyMs:300},completion:{bodyMs:100},pending:{bodyMs:300},claim:{bodyMs:100}}}:{})},async fixture=>{
@@ -583,4 +599,17 @@ test('actual post-claim guard failure preserves the saved-matter observation wit
    currentPathname:`/briefcase/matters/${FIXTURE_MATTER_ID}`,renderedMatterVerified:true,databasePersistenceVerified:false});
   assert.equal(sink.result.stage,'participant_claim');assert.equal(sink.result.passed,undefined);assert.equal(sink.savedReport,undefined);
  });
+});
+
+test('native orchestration extracts the exact nested completion region and keeps root listener and shared declaration',()=>{
+ const completion=productionCompletionBranch(),parts=productionOrchestrationParts();
+ assert.equal(callerJourney.body.statements.includes(completion),false);
+ assert.ok(parts.productionOrchestration.includes(completion.getText(callerAst)));
+ assert.ok(callerJourney.body.statements.includes(parts.productionRequestListener));
+ assert.match(parts.productionItemDeclaration,/^let packetItemId;/);
+ assert.ok(parts.productionOrchestration.indexOf('screeningCompletion.read()')<parts.productionOrchestration.indexOf('await saveScreeningAndClaim'));
+});
+test('missing completion extraction rejects through an awaited test promise before reading or claiming',async()=>{
+ const empty=callerTs.createSourceFile('missing.mjs','async function runJourney() {}',callerTs.ScriptTarget.Latest,true,callerTs.ScriptKind.JS);
+ await assert.rejects(async()=>productionCompletionBranch(empty.statements[0],empty),/Actual production completion-report branch missing/);
 });
