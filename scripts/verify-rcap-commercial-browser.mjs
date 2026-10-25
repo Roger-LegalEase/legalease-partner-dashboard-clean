@@ -337,6 +337,9 @@ async function runJourney() {
   await screenshotPair(page, "02-partner-covered-briefcase-matter");
 
   if (clinicSetupOnly) {
+    result.savedMatterObservation={matterId:packetItemId,screeningSessionId,participantUserId,
+      claimAccepted:claimed?.accepted===true,claimMatterId:claimed?.matterId,
+      currentPathname:new URL(page.url()).pathname,renderedMatterVerified:true,databasePersistenceVerified:false};
     participantGuard.assertNoCritical();result.stage='setup_complete';
     assert.equal(new URL(page.url()).pathname,`/briefcase/matters/${packetItemId}`,'Clinic must land on the canonical matter page');
     assert.equal(claimed?.matterId,packetItemId,'actual claim must name the new saved matter');

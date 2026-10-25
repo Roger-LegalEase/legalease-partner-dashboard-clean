@@ -36,7 +36,7 @@ test('actual browser setup branch returns before packet builder and downstream e
   guardCalls=1;sandbox.result={};
   sandbox.participantGuard.assertNoCritical=()=>{guardCalls++;throw Error('participant guard refused');};
   await assert.rejects(run(),/participant guard refused/);
-  assert.equal(guardCalls,2);assert.equal(saved,null);assert.equal(downstream,0);assert.deepEqual(sandbox.result,{});
+  assert.equal(guardCalls,2);assert.equal(saved,null);assert.equal(downstream,0);assert.equal(sandbox.result.savedMatterObservation.databasePersistenceVerified,false);assert.equal(sandbox.result.passed,undefined);
   sandbox.participantGuard=undefined;
   await assert.rejects(run(),/assertNoCritical/);
   assert.equal(saved,null);assert.equal(downstream,0);

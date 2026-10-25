@@ -48,6 +48,24 @@ function safeKnownPath(address,env) {
   if(known.includes(url.pathname))return clinicSetupSafePathname(address,env);
   return url.origin===CLINIC_SETUP.origin?(url.pathname.startsWith('/_next/static/')?'/_next/static/[asset]':'[other_preview_path]'):'[other_external_path]';
 }
+function safeRequestPurpose(request,url) {
+  let pathname;try{pathname=decodeURIComponent(url.pathname);}catch{pathname='';}
+  const uuid='[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}';
+  const routes=[
+    ['canonical_matter',new RegExp(`^/briefcase/matters/${uuid}$`)],
+    ['matter_alias',new RegExp(`^/briefcase/${uuid}$`)],
+    ['packet_information',new RegExp(`^/briefcase/(?:matters/)?${uuid}/packet-information$`)],
+    ['matter_review',new RegExp(`^/briefcase/(?:matters/)?${uuid}/review$`)]
+  ];
+  const routeCategory=url.origin!==CLINIC_SETUP.origin?'external':
+    browserDeliveryPath(url.pathname)?'packet_delivery_or_ambiguous':routes.find(([,pattern])=>pattern.test(pathname))?.[0]??'other_preview';
+  // Query names are bounded too: an arbitrary name can itself contain private data.
+  const knownNames=['_rsc','preparation','editingFact','mode','next','grant_type'];
+  const names=[...new Set(url.searchParams.keys())],headers=request.headers?.()??{};
+  return {routeCategory,queryNames:knownNames.filter(name=>names.includes(name)),unknownQueryNames:names.some(name=>!knownNames.includes(name)),
+    rsc:headers.rsc==='1',nextRouterPrefetch:headers['next-router-prefetch']==='1',
+    purposePrefetch:[headers.purpose,headers['sec-purpose']].some(value=>typeof value==='string'&&value.split(/[;,\s]+/).includes('prefetch'))};
+}
 function expectedNavigationAbort(request,stage,error) {
   const url=new URL(request.url());
   if(error!=='net::ERR_ABORTED'||url.origin!==CLINIC_SETUP.origin||request.method()!=='GET'||request.resourceType()!=='document')return false;
@@ -62,7 +80,7 @@ export function createClinicRequestGuard({actor,captchaPolicy,env,stage,events,r
   const record=(request,outcome,error=null)=>{
     const url=new URL(request.url());
     const value={stage:stage(),actor,origin:resourceClass(url),method:request.method(),
-      resourceType:request.resourceType(),pathname:safeKnownPath(request.url(),env),outcome};
+      resourceType:request.resourceType(),pathname:safeKnownPath(request.url(),env),outcome,...safeRequestPurpose(request,url)};
     if(error)value.error=error;
     if(events.length<500)events.push(value);
     return value;

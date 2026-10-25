@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createRequire} from 'node:module';
-import {frozenScreeningRuntime,startFrozenReactScreeningSite,FIXTURE_MATTER_ID} from './rcap-clinic-frozen-react-screening-fixture.mjs';
+import {frozenScreeningRuntime,startFrozenReactScreeningSite,FIXTURE_MATTER_ID,FIXTURE_SESSION_ID} from './rcap-clinic-frozen-react-screening-fixture.mjs';
 const runnerRoot=process.env.RCAP_CLINIC_TEST_RUNNER_ROOT??process.cwd();
 const dependencyRoot=process.env.RCAP_SCREENING_REPO??runnerRoot;
 const installed=createRequire(path.join(dependencyRoot,'package.json'));
@@ -520,7 +520,7 @@ async function runContiguousProduction(fixture,captured,sink,{guardRefusal=false
   }},
   screenshotPair:async(_page,stem)=>{
    sink.screenshots.push(stem);
-   if(guardRefusal&&stem==='01-partner-covered-result') {
+   if((guardRefusal===true&&stem==='01-partner-covered-result')||(guardRefusal==='after_claim'&&stem==='02-partner-covered-briefcase-matter')) {
     const error=page.waitForEvent('pageerror');
     await page.evaluate(()=>{setTimeout(()=>{throw Error('Controlled native guard refusal');},0);});await error;
    }
@@ -569,5 +569,18 @@ test('contiguous production refuses the original completion response before guar
   await assert.rejects(runContiguousProduction(fixture,captured,sink),/completion: application_refusal \(HTTP 403\)/);
   assert.equal(sink.guardCalls,0);assert.equal(sink.savedReport,undefined);assertCallerNoSave(fixture.site);
   proof.cases.push({id:'contiguous_production_completion_refusal',httpStatus:403,pendingCalls:0,claimCalls:0,hostedJourneyCompleted:false});
+ });
+});
+
+test('actual post-claim guard failure preserves the saved-matter observation without marking success',{timeout:120000},async()=>{
+ await withCallerFixture({matterPage:true},async fixture=>{
+  const captured=await fixture.open(),sink={};
+  await assert.rejects(runContiguousProduction(fixture,captured,sink,{guardRefusal:'after_claim'}),/Clinic context encountered a critical boundary or application failure/);
+  assert.equal(fixture.site.state.pendingCalls,1);assert.equal(fixture.site.state.claimCalls,1);
+  assert.equal(fixture.site.state.canonicalMatterReads,1);assert.equal(sink.guardCalls,3);
+  assert.deepEqual(sink.result.savedMatterObservation,{matterId:FIXTURE_MATTER_ID,screeningSessionId:FIXTURE_SESSION_ID,
+   participantUserId:chainSetup.CLINIC_SETUP.owner,claimAccepted:true,claimMatterId:FIXTURE_MATTER_ID,
+   currentPathname:`/briefcase/matters/${FIXTURE_MATTER_ID}`,renderedMatterVerified:true,databasePersistenceVerified:false});
+  assert.equal(sink.result.stage,'participant_claim');assert.equal(sink.result.passed,undefined);assert.equal(sink.savedReport,undefined);
  });
 });

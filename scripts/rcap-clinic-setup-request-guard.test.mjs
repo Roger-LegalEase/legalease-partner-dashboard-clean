@@ -137,3 +137,26 @@ test('administrator code issuance requires its documented 201 and retains only s
   assert.deepEqual(Object.keys(stageResults[0]).sort(),['actor','stage','httpStatus','pathname','outcome'].sort());
  }
 });
+
+
+test('postclaim diagnostics retain bounded request purpose without permitting packet prefetch or hiding aborts',async()=>{
+ const id='11111111-1111-4111-8111-111111111111';
+ const f=fixture('participant'),req=request(CLINIC_SETUP.origin+`/briefcase/${id}/packet-information?_rsc=private-rsc&preparation=private-preparation&private-query-name=private-value`,'GET','fetch',{
+  headers:{rsc:'1','next-router-prefetch':'1',purpose:'prefetch','sec-purpose':'prefetch;prerender',authorization:'private-header'},frame:CLINIC_SETUP.origin+`/briefcase/matters/${id}`
+ });
+ assert.equal(await f.route(req),'abort');f.guard.requestFailed(req);
+ assert.throws(()=>f.guard.assertNoCritical());
+ for(const event of f.events) {
+  assert.equal(event.routeCategory,'packet_information');assert.deepEqual(event.queryNames,['_rsc','preparation']);
+  assert.equal(event.unknownQueryNames,true);assert.equal(event.rsc,true);assert.equal(event.nextRouterPrefetch,true);assert.equal(event.purposePrefetch,true);
+ }
+ assert.deepEqual(f.events.map(event=>event.outcome),['critical_blocked','critical_request_failed']);
+ const saved=JSON.stringify(f.events);
+ for(const secret of ['private-rsc','private-preparation','private-query-name','private-value','private-header',id])assert.equal(saved.includes(secret),false);
+ for(const [pathname,category] of [[`/briefcase/matters/${id}`,'canonical_matter'],[`/briefcase/${id}`,'matter_alias'],[`/briefcase/${id}/review`,'matter_review'],['/api/expungement-ai/packet/render','packet_delivery_or_ambiguous']]) {
+  const aborted=fixture('participant');aborted.guard.requestFailed(request(CLINIC_SETUP.origin+pathname+'?_rsc=secret','GET','fetch',{error:'net::ERR_ABORTED'}));
+  assert.equal(aborted.events[0].routeCategory,category);assert.deepEqual(aborted.events[0].queryNames,['_rsc']);
+  assert.equal(aborted.events[0].rsc,false);assert.equal(aborted.events[0].nextRouterPrefetch,false);assert.equal(aborted.events[0].purposePrefetch,false);
+  assert.equal(aborted.events[0].outcome,'critical_request_failed');assert.throws(()=>aborted.guard.assertNoCritical());
+ }
+});
