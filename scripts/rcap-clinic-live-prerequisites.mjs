@@ -97,41 +97,117 @@ export async function readClinicDatabasePrerequisites({env=process.env,fetchImpl
     return evidence();
   }
 }
-async function readJson(url,token,fetchImpl) {
-  const response=await fetchImpl(url,{headers:{Authorization:`Bearer ${token}`},redirect:'error',signal:AbortSignal.timeout(15000)});
-  assert.equal(response.status,200);return response.json();
+const diagnosticFailures=new WeakMap();
+async function diagnose(context,operation) {
+  const state={httpStatus:null,observed:'unverified',...context};
+  try {return await operation(state);}catch(error){
+    if(diagnosticFailures.has(error))throw error;
+    const failure=new Error('Clinic prerequisite verification failed');
+    diagnosticFailures.set(failure,{...state});throw failure;
+  }
+}
+const condition=(state,operation,ok,expected,observed='mismatch')=>{
+  Object.assign(state,{stage:'preview_identity',operation,expected,observed,reason:'deployment_mismatch'});
+  assert.ok(ok);
+};
+function observedFetch(state,fetchImpl) {
+  return async(...args)=>{
+    Object.assign(state,{stage:'http_request',httpStatus:null,expected:'HTTP response',observed:'transport_failed',reason:'transport_failed'});
+    const response=await fetchImpl(...args);
+    Object.assign(state,{stage:'http_status',httpStatus:response.status,expected:'successful HTTP response',observed:response.status,
+      reason:[401,403].includes(response.status)?'provider_access_denied':'unexpected_http_status'});
+    return response;
+  };
+}
+async function readJson(url,token,fetchImpl,operation) {
+  return diagnose({operation},async state=>{
+    const response=await observedFetch(state,fetchImpl)(url,{headers:{Authorization:`Bearer ${token}`},redirect:'error',signal:AbortSignal.timeout(15000)});
+    state.expected='HTTP 200';assert.equal(response.status,200);
+    Object.assign(state,{stage:'response_json',expected:'JSON response',observed:'unreadable_json',reason:'unreadable_provider_response'});
+    return response.json();
+  });
 }
 async function readPreview(env,fetchImpl) {
-  assert.ok(env.VERCEL_TOKEN?.trim());
-  const identity=await resolveHostedVercelIdentity({token:env.VERCEL_TOKEN,fetchImpl});
-  const api=pathname=>readJson(hostedVercelScopedUrl(pathname,identity),env.VERCEL_TOKEN,fetchImpl);
-  const [deployment,alias,aliases]=await Promise.all([
-    api(`/v13/deployments/${CLINIC_SETUP.deploymentId}`),api(`/v13/deployments/${new URL(CLINIC_SETUP.origin).host}`),
-    api(`/v2/deployments/${CLINIC_SETUP.deploymentId}/aliases`)
-  ]);
-  assert.equal(deployment.id??deployment.uid,CLINIC_SETUP.deploymentId);assert.equal(alias.id??alias.uid,CLINIC_SETUP.deploymentId);
-  assert.equal(deployment.readyState??deployment.status,'READY');assert.ok([null,'preview'].includes(deployment.target));
-  assert.equal(deployment.projectId,identity.projectId);assert.equal(deployment.gitSource?.sha,CLINIC_SETUP.app);
-  for(const [key,value] of Object.entries({rcapApplicationSha:CLINIC_SETUP.app,rcapAcceptanceProjectRef:CLINIC_SETUP.project,
-    rcapWorkerSourceSha:worker,rcapWorkerDigest:digest,rcapRouteState:'disabled',rcapClinicDemoMode:'none',rcapStripeConfigured:'false',
-    rcapStagingScopeSha256:'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}))assert.equal(deployment.meta?.[key],value);
-  assert.ok(Array.isArray(aliases.aliases));assert.ok(!aliases.aliases.some(a=>a.target==='production'||a.deployment?.target==='production'));
-  return {previewVerified:true,deploymentId:CLINIC_SETUP.deploymentId,hostname:new URL(CLINIC_SETUP.origin).hostname,
-    applicationSha:CLINIC_SETUP.app,workerSourceSha:worker,workerDigest:digest,acceptanceProjectRef:CLINIC_SETUP.project,
-    routeState:'disabled',clinicDemoMode:'none',stagingScopeSha256:deployment.meta.rcapStagingScopeSha256,stripeConfigured:false,productionAliasCount:0};
+  return diagnose({stage:'configuration',operation:'VERCEL_TOKEN',expected:'existing credential available',observed:'missing',reason:'missing_credential'},async state=>{
+    assert.ok(env.VERCEL_TOKEN?.trim());
+    const identity=await diagnose({operation:'vercel_project_lookup'},async projectState=>{
+      try {return await resolveHostedVercelIdentity({token:env.VERCEL_TOKEN,fetchImpl:async(...args)=>{
+        const response=await observedFetch(projectState,fetchImpl)(...args);
+        if(response.ok)Object.assign(projectState,{stage:'response_json',expected:'readable project JSON',observed:'unreadable_json',reason:'unreadable_provider_response'});
+        return response;
+      }});}catch(error){
+        const fields={PINNED_PROJECT_NAME_MISMATCH:'project_name',PINNED_PROJECT_ID_MISMATCH:'project_id',PINNED_PROJECT_TEAM_MISMATCH:'project_team'};
+        if(fields[error?.code])Object.assign(projectState,{stage:'project_identity',operation:fields[error.code],expected:'pinned project identity',observed:'mismatch',reason:'deployment_mismatch'});
+        throw error;
+      }
+    });
+    const api=(pathname,operation)=>readJson(hostedVercelScopedUrl(pathname,identity),env.VERCEL_TOKEN,fetchImpl,operation);
+    const reads=await Promise.allSettled([
+      api(`/v13/deployments/${CLINIC_SETUP.deploymentId}`,'deployment_lookup'),api(`/v13/deployments/${new URL(CLINIC_SETUP.origin).host}`,'preview_alias_lookup'),
+      api(`/v2/deployments/${CLINIC_SETUP.deploymentId}/aliases`,'deployment_aliases_lookup')
+    ]);
+    const rejected=reads.filter(read=>read.status==='rejected');
+    if(rejected.length) {
+      const error=rejected[0].reason,failures=rejected.map(read=>diagnosticFailures.get(read.reason));
+      diagnosticFailures.set(error,{...failures[0],failures});throw error;
+    }
+    const [deployment,alias,aliases]=reads.map(read=>read.value);
+    state.httpStatus=200;
+    condition(state,'deployment_id',(deployment?.id??deployment?.uid)===CLINIC_SETUP.deploymentId,CLINIC_SETUP.deploymentId);
+    condition(state,'preview_alias_binding',(alias?.id??alias?.uid)===CLINIC_SETUP.deploymentId,CLINIC_SETUP.deploymentId);
+    condition(state,'deployment_readiness',(deployment.readyState??deployment.status)==='READY','READY');
+    condition(state,'deployment_target',[null,'preview'].includes(deployment.target),'Preview target');
+    condition(state,'deployment_project',deployment.projectId===identity.projectId,identity.projectId);
+    condition(state,'application_source',deployment.gitSource?.sha===CLINIC_SETUP.app,CLINIC_SETUP.app);
+    for(const [key,value] of Object.entries({rcapApplicationSha:CLINIC_SETUP.app,rcapAcceptanceProjectRef:CLINIC_SETUP.project,
+      rcapWorkerSourceSha:worker,rcapWorkerDigest:digest,rcapRouteState:'disabled',rcapClinicDemoMode:'none',rcapStripeConfigured:'false',
+      rcapStagingScopeSha256:'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}))condition(state,`deployment_metadata:${key}`,deployment.meta?.[key]===value,value);
+    condition(state,'deployment_aliases_shape',Array.isArray(aliases?.aliases),'alias list');
+    condition(state,'production_alias_exclusion',!aliases.aliases.some(a=>a.target==='production'||a.deployment?.target==='production'),'no Production aliases');
+    return {previewVerified:true,deploymentId:CLINIC_SETUP.deploymentId,hostname:new URL(CLINIC_SETUP.origin).hostname,
+      applicationSha:CLINIC_SETUP.app,workerSourceSha:worker,workerDigest:digest,acceptanceProjectRef:CLINIC_SETUP.project,
+      routeState:'disabled',clinicDemoMode:'none',stagingScopeSha256:deployment.meta.rcapStagingScopeSha256,stripeConfigured:false,productionAliasCount:0};
+  });
 }
 async function readFrontend(env,fetchImpl) {
-  const read=async address=>{
+  const read=async(address,operation)=>diagnose({stage:'frontend_origin',operation,expected:'exact Preview origin',reason:'frontend_assets_unreadable'},async state=>{
     const url=new URL(address,CLINIC_SETUP.origin);assert.equal(url.origin,CLINIC_SETUP.origin);
-    const response=await fetchImpl(url.href,{headers:previewRequestHeaders(env.VERCEL_AUTOMATION_BYPASS_SECRET),redirect:'error',signal:AbortSignal.timeout(15000)});
-    assert.equal(response.status,200);const body=await response.text();assert.ok(body.length<10000000);return body;
-  };
-  const html=await read('/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase');
-  const urls=[...new Set([...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1].replaceAll('&amp;','&'))
-    .filter(address=>address.startsWith('/_next/static/')&&new URL(address,CLINIC_SETUP.origin).pathname.endsWith('.js')))];
-  assert.ok(urls.length>0&&urls.length<=100);
-  const chunks=[];for(const address of urls)chunks.push({body:await read(address)});
-  return {...inspectShippedCaptcha(chunks),applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId};
+    const response=await observedFetch(state,fetchImpl)(url.href,{headers:previewRequestHeaders(env.VERCEL_AUTOMATION_BYPASS_SECRET),redirect:'error',signal:AbortSignal.timeout(15000)});
+    state.expected='HTTP 200';assert.equal(response.status,200);
+    Object.assign(state,{stage:'frontend_body',expected:'readable text below 10000000 characters',observed:'unreadable_or_oversized',reason:'frontend_assets_unreadable'});
+    const body=await response.text();assert.ok(body.length<10000000);return body;
+  });
+  const html=await read('/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase','sign_in_document');
+  return diagnose({stage:'frontend_assets',operation:'sign_in_script_inventory',httpStatus:200,expected:'1 to 100 same-origin sign-in JavaScript assets',observed:'missing_or_invalid',reason:'frontend_assets_unreadable'},async state=>{
+    const urls=[...new Set([...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1].replaceAll('&amp;','&'))
+      .filter(address=>address.startsWith('/_next/static/')&&new URL(address,CLINIC_SETUP.origin).pathname.endsWith('.js')))];
+    assert.ok(urls.length>0&&urls.length<=100);
+    const chunks=[];for(const [index,address] of urls.entries())chunks.push({body:await read(address,`sign_in_script:${index+1}`)});
+    Object.assign(state,{stage:'frontend_captcha',operation:'inspect_shipped_captcha',httpStatus:null,expected:'verified optional CAPTCHA and configured widget',observed:'unverified',reason:'unverified_captcha'});
+    try {return {...inspectShippedCaptcha(chunks),applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId};}catch(error){
+      if(error?.code==='ERR_ASSERTION'&&error.message.startsWith('shipped client requires CAPTCHA'))Object.assign(state,{observed:'required',reason:'required_captcha'});
+      if(error?.code==='ERR_ASSERTION'&&error.message.startsWith('unreadable shipped JavaScript'))Object.assign(state,{observed:'unreadable_javascript',reason:'frontend_assets_unreadable'});
+      throw error;
+    }
+  });
+}
+async function readCaptcha(env,fetchImpl) {
+  return diagnose({stage:'configuration',operation:'VERCEL_AUTOMATION_BYPASS_SECRET',expected:'existing credential available',observed:'missing',reason:'missing_credential'},async state=>{
+    assert.ok(env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim());
+    const frontend=await readFrontend(env,fetchImpl);
+    Object.assign(state,{stage:'configuration',operation:'SUPABASE_ACCESS_TOKEN',httpStatus:null,expected:'existing credential available',observed:'missing',reason:'missing_credential'});
+    assert.ok(env.SUPABASE_ACCESS_TOKEN?.trim());
+    state.operation='server_captcha_config';
+    try {return {...await readResumeCaptchaPolicy({project:CLINIC_SETUP.project,token:env.SUPABASE_ACCESS_TOKEN,frontend,fetchImpl:async(...args)=>{
+      const response=await observedFetch(state,fetchImpl)(...args);
+      if(response.ok)Object.assign(state,{stage:'server_captcha',expected:'security_captcha_enabled is boolean false',observed:'unverified',reason:'unverified_captcha'});
+      return response;
+    }}),syntheticProfile:'clinic_setup_only'};}catch(error){
+      if(error?.code==='ERR_ASSERTION'&&error.message.startsWith('required or unknown Acceptance CAPTCHA cannot be bypassed'))Object.assign(state,{observed:'required',reason:'required_captcha'});
+      if(error?.message==='Acceptance CAPTCHA configuration unreadable')Object.assign(state,{stage:'response_json',expected:'readable Auth configuration JSON',observed:'unreadable_json',reason:'unreadable_provider_response'});
+      throw error;
+    }
+  });
 }
 export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=fetch,querySql,qualifyDatabase}) {
   const checks=[];let preview=null,captchaPolicy=null,databaseEvidence=null;
@@ -140,13 +216,11 @@ export async function collectClinicLivePrerequisites({env=process.env,fetchImpl=
     databaseEvidence=await readClinicDatabasePrerequisites({env,fetchImpl,querySql,qualifyDatabase});checks.push(...databaseEvidence.checks);
   };
   await Promise.all([database(),(async()=>{
-    try {preview=await readPreview(env,fetchImpl);add('exact_current_preview',true);}catch{add('exact_current_preview',false,'preview_identity_unproven');}
-    if(!preview){add('shipped_and_server_captcha',false,'preview_required_before_shipped_read');return;}
-    try {
-      assert.ok(env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim());const frontend=await readFrontend(env,fetchImpl);
-      captchaPolicy={...await readResumeCaptchaPolicy({project:CLINIC_SETUP.project,token:env.SUPABASE_ACCESS_TOKEN,frontend,fetchImpl}),syntheticProfile:'clinic_setup_only'};
-      add('shipped_and_server_captcha',true);
-    } catch {add('shipped_and_server_captcha',false,'required_or_unknown_captcha_cannot_be_bypassed');}
+    const failed=(id,error)=>checks.push({id,ok:false,...diagnosticFailures.get(error)});
+    try {preview=await readPreview(env,fetchImpl);add('exact_current_preview',true);}catch(error){failed('exact_current_preview',error);}
+    if(!preview){checks.push({id:'shipped_and_server_captcha',ok:false,stage:'dependency',operation:'verify_exact_preview',httpStatus:null,expected:'verified current Preview',observed:'unproven',reason:'preview_required_before_shipped_read'});return;}
+    try {captchaPolicy=await readCaptcha(env,fetchImpl);add('shipped_and_server_captcha',true);}
+    catch(error){failed('shipped_and_server_captcha',error);}
   })()]);
   return {schemaVersion:'clinic_setup_live_readonly_prerequisites/v1',status:checks.length>0&&checks.every(c=>c.ok===true)?'READY':'BLOCKED',
     projectRef:CLINIC_SETUP.project,applicationSha:CLINIC_SETUP.app,deploymentId:CLINIC_SETUP.deploymentId,

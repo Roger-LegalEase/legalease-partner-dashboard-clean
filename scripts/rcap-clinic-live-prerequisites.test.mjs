@@ -159,3 +159,92 @@ test('mandatory admission trigger is distinct from optional analytics RPC and ch
  const data=claimFixture();const trigger=data.functions.find(f=>f.name==='emit_rcap_screening_started_event').overloads[0];
  trigger.service_execute=false;trigger.anon_execute=true;assert(qualifyClinicClaimPrerequisites(data).checks.every(c=>c.ok),'trigger execution is not an application RPC grant');
 });
+
+const privateSentinel='PRIVATE_RESPONSE_TOKEN_COOKIE_DO_NOT_EMIT';
+function shippedCaptchaFixture(required=false) {
+ return `(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([null,1,e=>{e.s(["isAuthCaptchaRequired",0,()=>${required},"getTurnstileSiteKey",0,()=>"fixture-widget","authCaptchaFailureMessage",0,"Please complete the security check and try again."]);},2,e=>{const h=e.i(1);function signIn(){if(h.isAuthCaptchaRequired()&&!token.trim()){h.authCaptchaFailureMessage;}}}]);`;
+}
+function previewFixture() {
+ return {id:CLINIC_SETUP.deploymentId,readyState:'READY',target:'preview',projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',gitSource:{sha:CLINIC_SETUP.app},
+  meta:{rcapApplicationSha:CLINIC_SETUP.app,rcapAcceptanceProjectRef:CLINIC_SETUP.project,rcapWorkerSourceSha:'16908485a94f475448657cea90583a4d352da9a3',
+   rcapWorkerDigest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',rcapRouteState:'disabled',rcapClinicDemoMode:'none',rcapStripeConfigured:'false',rcapStagingScopeSha256:'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}};
+}
+async function providerResult(overrides={},envDelta={}) {
+ const calls=[];
+ const responses={
+  database:()=>Response.json([{...context(),clinic_known_compatibility_prerequisites:{}}],{status:201}),
+  project:()=>Response.json({name:'legalease-partner-dashboard-clean',id:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',accountId:'team_4qLmZK9WI6xIy5vjYC0IF3ae'}),
+  deployment:()=>Response.json(previewFixture()),alias:()=>Response.json({id:CLINIC_SETUP.deploymentId}),aliases:()=>Response.json({aliases:[]}),
+  document:()=>new Response('<script src="/_next/static/fixture.js"></script>'),script:()=>new Response(shippedCaptchaFixture()),
+  captcha:()=>Response.json({security_captcha_enabled:false,privateValue:privateSentinel}),...overrides};
+ const result=await collectClinicLivePrerequisites({env:{SUPABASE_ACCESS_TOKEN:privateSentinel,VERCEL_TOKEN:privateSentinel,VERCEL_AUTOMATION_BYPASS_SECRET:privateSentinel,...envDelta},
+  querySql:CLINIC_PREREQUISITE_SQL,qualifyDatabase:validContract,fetchImpl:async(address,options)=>{
+   const url=new URL(address);const kind=url.hostname==='api.supabase.com'?(url.pathname.endsWith('/database/query')?'database':'captcha')
+    :url.hostname==='api.vercel.com'?(url.pathname.startsWith('/v9/projects/')?'project':url.pathname.endsWith('/aliases')?'aliases':url.pathname.endsWith(CLINIC_SETUP.deploymentId)?'deployment':'alias')
+    :url.pathname==='/expungement-ai/sign-in'?'document':'script';
+   calls.push(kind);assert.equal(options.redirect,'error');return responses[kind]();
+  }});
+ assert(!JSON.stringify(result).includes(privateSentinel));
+ return {result,calls};
+}
+const failure=(result,id)=>result.blockers.find(c=>c.id===id);
+test('provider diagnostics retain successful Preview and real static CAPTCHA inspection without private values',async()=>{
+ const {result,calls}=await providerResult();assert.equal(result.status,'READY','unit fixture only, not live readiness');
+ assert.equal(result.preview.applicationSha,CLINIC_SETUP.app);assert.equal(result.captchaPolicy.serverCaptchaRequired,false);
+ assert.equal(result.captchaPolicy.frontend.clientCaptchaRequired,false);assert.equal(calls.filter(c=>c==='database').length,1);
+});
+test('missing provider credentials identify the exact variable and never send an unauthenticated request',async()=>{
+ for(const [key,id,operation,absentCall] of [['VERCEL_TOKEN','exact_current_preview','VERCEL_TOKEN','project'],['VERCEL_AUTOMATION_BYPASS_SECRET','shipped_and_server_captcha','VERCEL_AUTOMATION_BYPASS_SECRET','document']]) {
+  const {result,calls}=await providerResult({}, {[key]:''});
+  assert.deepEqual(failure(result,id),{id,ok:false,httpStatus:null,observed:'missing',stage:'configuration',operation,expected:'existing credential available',reason:'missing_credential'});
+  assert(!calls.includes(absentCall));
+ }
+ const {result,calls}=await providerResult({}, {SUPABASE_ACCESS_TOKEN:''});
+ assert.equal(failure(result,'shipped_and_server_captcha').operation,'SUPABASE_ACCESS_TOKEN');assert(!calls.includes('captcha'));
+});
+test('provider denial, transport and malformed JSON retain request-local operation and status',async()=>{
+ for(const [kind,operation] of [['project','vercel_project_lookup'],['deployment','deployment_lookup'],['alias','preview_alias_lookup'],['aliases','deployment_aliases_lookup'],['document','sign_in_document'],['script','sign_in_script:1'],['captcha','server_captcha_config']]) {
+  for(const status of [401,403]) {
+   const {result}=await providerResult({[kind]:()=>new Response(privateSentinel,{status})});
+   const d=failure(result,['document','script','captcha'].includes(kind)?'shipped_and_server_captcha':'exact_current_preview');
+   assert.equal(d.httpStatus,status);assert.equal(d.operation,operation);assert.equal(d.reason,'provider_access_denied');assert.equal(d.stage,'http_status');
+  }
+  const {result}=await providerResult({[kind]:()=>{throw Error(privateSentinel);}});
+  const d=failure(result,['document','script','captcha'].includes(kind)?'shipped_and_server_captcha':'exact_current_preview');
+  assert.equal(d.httpStatus,null);assert.equal(d.operation,operation);assert.equal(d.stage,'http_request');assert.equal(d.reason,'transport_failed');
+ }
+ for(const kind of ['project','deployment','alias','aliases','captcha']) {
+  const {result}=await providerResult({[kind]:()=>new Response(privateSentinel)});
+  const d=failure(result,kind==='captcha'?'shipped_and_server_captcha':'exact_current_preview');assert.equal(d.httpStatus,200);assert.equal(d.reason,'unreadable_provider_response');
+ }
+});
+test('parallel Preview reads do not attribute an alias denial to a later successful deployment response',async()=>{
+ let release;const pending=new Promise(resolve=>{release=resolve;});
+ const {result}=await providerResult({deployment:async()=>{await pending;return Response.json(previewFixture());},alias:()=>{release();return new Response(privateSentinel,{status:403});}});
+ const d=failure(result,'exact_current_preview');assert.equal(d.operation,'preview_alias_lookup');assert.equal(d.httpStatus,403);
+});
+test('deployment mismatch names the exact failed binding without serializing observed provider values',async()=>{
+ for(const [change,operation] of [[d=>{d.id=privateSentinel;},'deployment_id'],[d=>{d.readyState=privateSentinel;},'deployment_readiness'],[d=>{d.target='production';},'deployment_target'],[d=>{d.projectId=privateSentinel;},'deployment_project'],[d=>{d.gitSource.sha=privateSentinel;},'application_source'],[d=>{d.meta.rcapRouteState=privateSentinel;},'deployment_metadata:rcapRouteState']]) {
+  const deployment=previewFixture();change(deployment);const {result}=await providerResult({deployment:()=>Response.json(deployment)});
+  const d=failure(result,'exact_current_preview');assert.equal(d.stage,'preview_identity');assert.equal(d.operation,operation);assert.equal(d.httpStatus,200);assert.equal(d.observed,'mismatch');
+ }
+ const {result}=await providerResult({project:()=>Response.json({name:privateSentinel})});assert.equal(failure(result,'exact_current_preview').operation,'project_name');
+});
+test('unreadable frontend assets, unverified guard, required client and required server CAPTCHA remain distinct refusals',async()=>{
+ for(const [overrides,operation,reason,observed] of [
+  [{document:()=>new Response('SSO '+privateSentinel)},'sign_in_script_inventory','frontend_assets_unreadable','missing_or_invalid'],
+  [{script:()=>new Response('invalid {')},'inspect_shipped_captcha','frontend_assets_unreadable','unreadable_javascript'],
+  [{script:()=>new Response('const validButNoGuard=true;')},'inspect_shipped_captcha','unverified_captcha','unverified'],
+  [{script:()=>new Response(shippedCaptchaFixture(true))},'inspect_shipped_captcha','required_captcha','required'],
+  [{captcha:()=>Response.json({security_captcha_enabled:true,privateValue:privateSentinel})},'server_captcha_config','required_captcha','required'],
+  [{captcha:()=>Response.json({security_captcha_enabled:'false',privateValue:privateSentinel})},'server_captcha_config','unverified_captcha','unverified']]) {
+  const {result}=await providerResult(overrides);assert.equal(result.status,'BLOCKED');const d=failure(result,'shipped_and_server_captcha');
+  assert.equal(d.operation,operation);assert.equal(d.reason,reason);assert.equal(d.observed,observed);assert.equal(result.stateChangingStepReached,false);
+ }
+});
+
+test('independent Preview read denials are aggregated without losing database evidence',async()=>{
+ const {result}=await providerResult({deployment:()=>new Response(privateSentinel,{status:403}),alias:()=>new Response(privateSentinel,{status:401}),aliases:()=>new Response(privateSentinel,{status:503})});
+ const d=failure(result,'exact_current_preview');assert.deepEqual(d.failures.map(x=>[x.operation,x.httpStatus]),[['deployment_lookup',403],['preview_alias_lookup',401],['deployment_aliases_lookup',503]]);
+ assert(result.checks.some(c=>c.id==='database_complete_compatibility'&&c.ok));assert.equal(result.stateChangingStepReached,false);
+});
