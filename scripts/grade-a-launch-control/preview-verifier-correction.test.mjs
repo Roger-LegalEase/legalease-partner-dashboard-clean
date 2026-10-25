@@ -71,7 +71,7 @@ test('exact verifier successor preserves native authority and refuses unbound or
   });
   await t.test('unreviewed source path refuses before manifest preparation',()=>{
    write('scripts/unreviewed-verifier-extra.mjs','export const unauthorized=true;\n');git('add','--sparse','--','scripts/unreviewed-verifier-extra.mjs');const bad=commit();
-   assert.throws(()=>prepareVerifierCorrection(root,{predecessorSha:VERIFIER_CORRECTION_BASE,sourceSha:bad}),/exact three/);
+   assert.throws(()=>prepareVerifierCorrection(root,{predecessorSha:VERIFIER_CORRECTION_BASE,sourceSha:bad}),/exact verification-only/);
    assert.throws(check,/unrelated/);
   });
  }finally{fs.rmSync(root,{recursive:true,force:true});}

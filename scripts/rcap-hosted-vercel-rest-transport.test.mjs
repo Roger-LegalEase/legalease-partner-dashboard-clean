@@ -6,20 +6,21 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
+import {CONFIGURED_SANDBOX_PHASE,configuredSandboxOverrides} from './rcap-configured-sandbox-preview-contract.mjs';
 import {CANDIDATE_PATH, verifyReleaseCandidateBinding} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import {requireHeldPreviewAdmission} from './grade-a-launch-control/require-preview-preparation.mjs';
 import {assertPreviewResponse, assertPreservedOrdinaryPreview, createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
 import {hostedVercelScopedUrl, resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin, HOSTED_MS_CLINIC_PARTICIPANTS, HOSTED_ORDINARY_PREVIEW} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
-function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
+function fixture(route='',{catalog='prod_synthetic',email=null,phase=''}={}) {
   // Evaluate the actual unchanged env construction, including every env/build-env
   // value. Every free name the block reads must be supplied here: when the
   // deployment env grew CATALOG_PRODUCT_ID, LEGAL_AID_EMAIL and
   // data-key inputs and this context did not, every test below stopped
   // running on `CATALOG_PRODUCT_ID is not defined` rather than on a contract.
-  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},CLINIC_DEMO_MODE:'',ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,PRESERVED_DATA_KEYS:{LEGAL_AID_RESTRICTED_FIELD_KEY:Buffer.alloc(32,7).toString("base64"),LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:"v1",PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:"synthetic-preserved-pseudonym-secret"},Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
-  const env=vm.runInNewContext(source.slice(source.indexOf('const runtimeEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
+  const context={ISOLATED_CLINIC_PREVIEW:false,configuredSandboxEnv:null,RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},CLINIC_DEMO_MODE:'',ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,PRESERVED_DATA_KEYS:{LEGAL_AID_RESTRICTED_FIELD_KEY:Buffer.alloc(32,7).toString("base64"),LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:"v1",PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:"synthetic-preserved-pseudonym-secret"},Buffer,process:{env:{PHASE_INPUT:phase,HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
+  const env=vm.runInNewContext(source.slice(source.indexOf('const closedPreviewEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
   return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{...FROZEN_WORKER_METADATA,rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
 }
 function response(o,changes={}) {return {id:'dpl_Synthetic123',url:'synthetic-preview.vercel.app',target:null,projectId:HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:FROZEN_APPLICATION_SHA},meta:o.meta,readyState:'READY',...changes};}
@@ -41,6 +42,17 @@ test('exact team/project/SHA and per-deployment runtime/build values; no product
     for(const key of ['target','customEnvironmentSlugOrId','withLatestCommit','projectSettings','deploymentId'])assert.equal(Object.hasOwn(b,key),false,key);
     assert.equal(m.calls[0].init.redirect,'error');
   }
+});
+test('actual closed-candidate env construction disables payment and outbound delivery and keeps build credentials blank',()=>{
+  const o=fixture('',{phase:'replace_preview'});
+  for(const env of [o.runtimeEnv,o.buildEnv]) {
+    assert.equal(env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE,'disabled');
+    assert.equal(env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE,'');
+    assert.equal(env.STRIPE_SECRET_KEY,'');assert.equal(env.STRIPE_WEBHOOK_SECRET,'');
+    assert.equal(env.ENABLE_PARTNER_EMAIL_DELIVERY,'false');assert.equal(env.RESEND_API_KEY,'');
+  }
+  assert.equal(o.runtimeEnv.SUPABASE_SERVICE_ROLE_KEY,'synthetic-service');
+  assert.equal(o.buildEnv.SUPABASE_SERVICE_ROLE_KEY,'');
 });
 test('wrong team, project, project name, SHA, acceptance project and live Stripe refuse before HTTP',async()=>{
   for(const patch of [{identity:{...identity,teamId:'team_wrong'}},{identity:{...identity,projectId:'prj_wrong'}},{identity:{...identity,projectName:'wrong'}},{applicationSha:'0'.repeat(40)},{meta:{...fixture().meta,rcapAcceptanceProjectRef:'wrong'}},{runtimeEnv:{...fixture().runtimeEnv,STRIPE_SECRET_KEY:'sk_live_never'}},{buildEnv:{...fixture().buildEnv,VERCEL_ENV:'production'}}]) {
@@ -332,7 +344,7 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
   if(name==='rcap-hosted-resolve-preview.mjs')env.HOSTED_PREVIEW_DEPLOYMENT_ID='dpl_Synthetic123';
   const program=fs.readFileSync(new URL(`./${name}`,import.meta.url),'utf8').replace(/^#![^\n]*\n/,'').replace(/^import[\s\S]*?;\n/gm,'').replaceAll('import.meta.url',JSON.stringify(new URL(`./${name}`,import.meta.url).href));
   let exitCode=0,error=null;
-  const context={crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,HOSTED_MS_CLINIC_PARTICIPANTS,HOSTED_ORDINARY_PREVIEW,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse, assertPreservedOrdinaryPreview,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
+  const context={CONFIGURED_SANDBOX_PHASE,configuredSandboxOverrides,crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,HOSTED_MS_CLINIC_PARTICIPANTS,HOSTED_ORDINARY_PREVIEW,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse, assertPreservedOrdinaryPreview,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
   try {await vm.runInNewContext(`(async()=>{${program}\n})()`,context);} catch(e){exitCode=e.exitCode??1;error=e.message;}
   return {exitCode,error,calls,writes,meta};
 }

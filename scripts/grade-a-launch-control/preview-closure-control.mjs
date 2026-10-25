@@ -43,6 +43,7 @@ export function prepareClosureControl(root,{predecessorSha,sourceSha}){
 export const VERIFIER_CORRECTION_BASE='ad9c26cc9a4b34a04abc3d204a2c687e375cce57';
 export const VERIFIER_CORRECTION_PATHS=[
  'scripts/verify-rcap-hosted-ms-clinic-preview.mjs',
+ 'scripts/rcap-hosted-vercel-rest-transport.test.mjs',
  'scripts/grade-a-launch-control/preview-closure-control.mjs',
  'scripts/grade-a-launch-control/preview-verifier-correction.test.mjs',
 ];
@@ -51,7 +52,7 @@ export function prepareVerifierCorrection(root,{predecessorSha,sourceSha}){
  assert.match(sourceSha,/^[a-f0-9]{40}$/);
  git(root,['merge-base','--is-ancestor',predecessorSha,sourceSha]);
  const changed=git(root,['diff','--no-renames','--name-only',predecessorSha,sourceSha]).split('\n').filter(Boolean).sort();
- assert.deepEqual(changed,[...VERIFIER_CORRECTION_PATHS].sort(),'exact three verification-only correction paths');
+ assert.deepEqual(changed,[...VERIFIER_CORRECTION_PATHS].sort(),'exact verification-only correction paths');
  const file=(sha,rel)=>{
   const entry=git(root,['ls-tree',sha,'--',rel]);
   if(!entry)return null;
