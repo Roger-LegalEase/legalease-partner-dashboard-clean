@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {applicationInputManifest,applicationInputEquivalence} from './rcap-application-inputs.mjs';
 import {verifyApplicationCandidate} from './verify-rcap-application-candidate.mjs';
 
@@ -43,6 +44,19 @@ test('current candidate authority runs only from its own Git archive; stale appl
  const result=verifyApplicationCandidate(process.cwd(),candidate);
  assert.equal(result.state,'COMPLETE_PACKET_PROVEN');assert.equal(result.commercialStatus,'commercially_eligible');
  assert.throws(()=>verifyApplicationCandidate(process.cwd(),{...candidate,applicationSha:candidate.workerSourceSha}),/candidate publication/);
+});
+test('accepted MS publication cannot leave the server record or observation on an older worker',()=>{
+ const route='MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
+ const bytes=fs.readFileSync('data/rcap-render/worker-publication-evidence.json'),publication=JSON.parse(bytes);
+ const registry=JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-authority-registry.json'));
+ const record=registry.records.find(r=>r.routeId===route&&!r.supersededBy);
+ const observation=JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-observation-snapshot.json')).routes[route];
+ assert.equal(publication.runtimeAccepted,true);assert.equal(publication.imageAcceptance?.conclusion,'success');
+ assert.equal(record.provider.imageDigest,publication.immutableRegistryDigest);
+ assert.equal(record.evidenceBindings.providerPublication.publishedSourceSha,publication.sourceSha);
+ assert.equal(observation.provider.imageDigest,publication.immutableRegistryDigest);
+ assert.deepEqual(observation.externalPublication,{sourceSha:publication.sourceSha,immutableRegistryDigest:publication.immutableRegistryDigest,
+  currentInputsEquivalent:true,evidenceSha256:createHash('sha256').update(bytes).digest('hex'),workflowConclusion:'success'});
 });
 test('runtime data in the accepted application cannot be omitted from the manifest',()=>{
  const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
