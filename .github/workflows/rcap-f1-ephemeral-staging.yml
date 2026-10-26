@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       clinic_attempt_id:
         description: "Owner-authorized Clinic attempt identity; required for clinic_setup_only, never reused"
@@ -852,6 +852,163 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
       HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+
+  clinic_vercel_readonly:
+    name: Read exact Vercel Preview predicates only
+    if: inputs.mode == 'clinic_vercel_readonly'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: admitted-controller
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          persist-credentials: false
+      - name: Require the exact read-only dispatch before credentials
+        working-directory: carrier
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import assert from 'node:assert/strict';
+          const input=JSON.parse(process.env.DISPATCH_INPUTS);
+          assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');
+          assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');
+          assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');
+          assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);
+          assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
+          assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          for(const [key,value]of Object.entries({mode:'clinic_vercel_readonly',tools_sha:'9fe0ea17727339755c10e73c06adb34215ba2a0e',application_sha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'}))assert.equal(input[key],value);
+          for(const key of ['clinic_attempt_id','preview_hostname','preview_deployment_id','preview_creation_run_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
+          assert.equal(input.sponsor_items??'[]','[]');
+          assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
+          JS
+      - uses: actions/checkout@v4
+        with:
+          ref: 9fe0ea17727339755c10e73c06adb34215ba2a0e
+          path: admitted-controller
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install only the pinned controller locked dependencies
+        run: npm ci
+      - name: Require pinned actual CURRENT before credentials
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {execFileSync} from 'node:child_process';
+          import {requireCurrentReleaseCandidate} from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'9fe0ea17727339755c10e73c06adb34215ba2a0e');
+          const release=requireCurrentReleaseCandidate(process.cwd());
+          for(const [key,value]of Object.entries({applicationSha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',workerSourceSha:'16908485a94f475448657cea90583a4d352da9a3',workerDigest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',workerInputFingerprint:'sha256:832c4b2594da296f9337e0913fee75ba2548bdd09004338514ff9152aad0071e',productionAuthorized:false}))assert.equal(release[key],value);
+          assert.equal(release.verifierCorrection.predecessorSha,'ad9c26cc9a4b34a04abc3d204a2c687e375cce57');
+          assert.equal(release.verifierCorrection.sourceSha,'7b891cefedb4035643a427dff3c1ac4238c7d5f0');
+          assert.equal(release.hostedAdmission.runId,40236198602);
+          assert.equal(release.hostedAdmission.workflowSourceSha,'5304c8ff825b9d74996762494ca3ea03815ed3ad');
+          assert.equal(release.hostedAdmission.closureControlSha,'a2f1a221c9c17595c494ee7bae75857cd0480a7c');
+          JS
+      - name: Execute only the bounded raw Vercel GET predicates
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import assert from 'node:assert/strict';
+          import {createHash} from 'node:crypto';
+          const result={schemaVersion:'rcap-vercel-raw-readonly/v1',capturedAt:new Date().toISOString(),status:'HOLD',readOnly:true,carrierSha:process.env.GITHUB_SHA,controllerSha:'9fe0ea17727339755c10e73c06adb34215ba2a0e',runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT,requests:[],ordinary:[],pages:[],candidates:[],writes:0,secretValuesIncluded:false};
+          let stage='pinned_assertion_imports',failure='READ_ONLY_GATE_REFUSED';
+          try {
+           const {assertPreviewResponse,assertPreservedOrdinaryPreview,FROZEN_WORKER_METADATA}=await import('./scripts/rcap-hosted-vercel-rest-transport.mjs');
+           const {resolveHostedVercelIdentity,hostedVercelScopedUrl,HOSTED_ORDINARY_PREVIEW,expectedHostedReturnOrigin}=await import('./scripts/rcap-hosted-acceptance-vercel-identity.mjs');
+           const token=process.env.VERCEL_TOKEN;
+           if(!token){failure='MISSING_ACTIONS_VERCEL_CREDENTIAL';throw Error();}
+           const team='team_4qLmZK9WI6xIy5vjYC0IF3ae',project='prj_cdgwGzFqIHgEUlzEburSLaZETdQV';
+           const app='4feb8e94b3dee4085fe05ea75d78853fe21e5097';
+           const scope='e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539';
+           const clinicOrigin=expectedHostedReturnOrigin(app,'mississippi_clinic'),clinicAlias=new URL(clinicOrigin).host;
+           const expected={...FROZEN_WORKER_METADATA,rcapPreviewPurpose:'mississippi_clinic',rcapApplicationSha:app,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapClinicDemoMode:'mississippi_preview',rcapRouteState:'staging_scoped',rcapStagingScopeSha256:createHash('sha256').update(scope).digest('hex'),rcapReturnOrigin:clinicOrigin,rcapStripeConfigured:'false',rcapCatalogProduct:'inline'};
+           const send=async(url,allow404=false)=>{
+            const u=new URL(url);
+            assert.equal(u.origin,'https://api.vercel.com');assert.equal(u.searchParams.get('teamId'),team);
+            assert(!u.username&&!u.password&&!u.hash);
+            assert(u.pathname==='/v9/projects/legalease-partner-dashboard-clean'||u.pathname==='/v6/deployments'||u.pathname.startsWith('/v13/deployments/'));
+            const record={path:u.pathname,query:Object.fromEntries(u.searchParams),status:null};result.requests.push(record);
+            const response=await fetch(u.href,{method:'GET',redirect:'error',headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(30000)});
+            record.status=response.status;
+            if(allow404)assert.equal(u.pathname,'/v13/deployments/'+clinicAlias);
+            if(allow404&&response.status===404)return {ok:false,status:404,text:async()=>''};
+            if(response.status!==200){failure='PROVIDER_HTTP_'+response.status;throw Error();}
+            const text=await response.text();
+            if(Buffer.byteLength(text)>2097152){failure='RESPONSE_SIZE_BOUND';throw Error();}
+            return {ok:true,status:response.status,text:async()=>text};
+           };
+           stage='fixed_project_team_identity';
+           const identity=await resolveHostedVercelIdentity({token,fetchImpl:async(url,options)=>{assert(!options.method||options.method==='GET');assert.equal(options.redirect,'error');return send(url);}});
+           assert.equal(identity.projectId,project);assert.equal(identity.teamId,team);
+           result.identity={projectId:identity.projectId,teamId:identity.teamId};
+           const get=async(path,allow404=false)=>{const response=await send(hostedVercelScopedUrl(path,identity),allow404);return response.status===404?null:JSON.parse(await response.text());};
+           stage='three_exact_ordinary_readbacks';
+           const ordinaryAlias=new URL(expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha)).host;
+           for(const [kind,name]of [['id',HOSTED_ORDINARY_PREVIEW.id],['immutable_hostname',HOSTED_ORDINARY_PREVIEW.immutableHostname],['ordinary_alias',ordinaryAlias]]){
+            const d=assertPreservedOrdinaryPreview(await get('/v13/deployments/'+encodeURIComponent(name)));
+            result.ordinary.push({kind,id:d.id,url:d.url,readyState:d.readyState,assertionPassed:true});
+           }
+           stage='all_raw_candidate_pages';
+           const cursors=new Set();let until=null;
+           do {
+            if(result.pages.length>=50){failure='PAGE_BOUND';throw Error();}
+            const page=await get('/v6/deployments?projectId='+project+'&limit=100'+(until===null?'':'&until='+encodeURIComponent(until)));
+            if(!Array.isArray(page.deployments)||!page.pagination||!Object.hasOwn(page.pagination,'next')){failure='RAW_PAGINATION_INCOMPLETE';throw Error();}
+            if(page.deployments.length>100){failure='PAGE_ROW_BOUND';throw Error();}
+            const next=page.pagination.next;
+            if(next!==null&&(!Number.isFinite(next)||cursors.has(next))){failure='RAW_PAGINATION_CURSOR_INVALID';throw Error();}
+            result.pages.push({count:page.deployments.length,cursor:until,next});
+            for(const summary of page.deployments){
+             if(summary.meta?.rcapApplicationSha!==app||summary.meta?.rcapClinicDemoMode!=='mississippi_preview')continue;
+             if(result.candidates.length>=100){failure='DETAIL_BOUND';throw Error();}
+             const id=summary.uid??summary.id;assert.match(id,/^dpl_[A-Za-z0-9]+$/);
+             stage='matching_candidate_full_metadata';
+             const d=assertPreviewResponse(await get('/v13/deployments/'+encodeURIComponent(id)),expected,id);
+             if(d.readyState!=='READY'){failure='PRIOR_CLINIC_ATTEMPT_NOT_READY';throw Error();}
+             result.candidates.push({id:d.id,url:d.url,readyState:d.readyState,metadataAssertionPassed:true});
+             stage='all_raw_candidate_pages';
+            }
+            until=next;
+            cursors.add(until);
+           }while(until!==null);
+           result.paginationComplete=true;
+           stage='deterministic_clinic_alias_conflict';
+           const alias=await send(hostedVercelScopedUrl('/v13/deployments/'+clinicAlias,identity),true);
+           result.clinicAlias={state:alias.status===404?'absent':'present'};
+           if(alias.status!==404){failure='EXISTING_CLINIC_ALIAS_REQUIRES_RECONCILIATION';throw Error();}
+           if(result.candidates.length){failure='EXISTING_CLINIC_ATTEMPT_REQUIRES_RECONCILIATION';throw Error();}
+           result.status='PASS';result.passed=true;result.stage='complete';
+          }catch(error){
+           const safeCodes=['PINNED_PROJECT_NAME_MISMATCH','PINNED_PROJECT_ID_MISMATCH','PINNED_PROJECT_TEAM_MISMATCH','DEPLOY_ORDINARY_PREVIEW_MISMATCH','REST_DEPLOYMENT_ID_MISMATCH','REST_NON_PREVIEW_REFUSED','REST_DEPLOYMENT_URL_INVALID','REST_DEPLOYMENT_SOURCE_MISMATCH','REST_ACCEPTED_WORKER_MISMATCH','REST_DEPLOYMENT_METADATA_MISMATCH'];
+           if(safeCodes.includes(error?.code))failure=error.code;
+           else if(safeCodes.includes(error?.message))failure=error.message;
+           result.passed=false;result.stage=stage;result.failure=failure;process.exitCode=1;
+          }
+          result.limitations=['No Acceptance key continuity or effective worker database/window proof','No deployment/alias/environment/permission/auth/business/worker operation authorized or executed'];
+          let output=JSON.stringify(result,null,2)+'\n';
+          if(Buffer.byteLength(output)>262144){output=JSON.stringify({schemaVersion:result.schemaVersion,status:'HOLD',passed:false,readOnly:true,failure:'ARTIFACT_SIZE_BOUND',writes:0,secretValuesIncluded:false})+'\n';process.exitCode=1;}
+          fs.mkdirSync('hosted-acceptance-evidence/vercel-raw-readonly',{recursive:true});
+          fs.writeFileSync('hosted-acceptance-evidence/vercel-raw-readonly/result.json',output,{mode:0o600});
+          console.log(JSON.stringify({status:result.status,stage:result.stage,getRequests:result.requests.length,writes:0}));
+          JS
+      - name: Preserve the safe raw read-only result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-vercel-raw-readonly-${{ github.run_id }}
+          path: admitted-controller/hosted-acceptance-evidence/vercel-raw-readonly/
+          if-no-files-found: error
 
   hosted_clinic_deploy:
     name: Create only the admitted isolated Clinic Preview
