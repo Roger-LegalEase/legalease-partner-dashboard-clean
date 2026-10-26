@@ -689,6 +689,15 @@ const adoptedFneWitnesses = {
     "Dismissed, no-billed, nolle prosequi, or not prosecuted"
   ]
 };
+// These captured contracts remain historical; GA-21 factual routing now selects NC.
+const msHistoryFixtures = [
+  ...JSON.parse(fs.readFileSync('scripts/fixtures/ga17-ms-factual-witness-draft-predecessors.json')).rows,
+  ...JSON.parse(fs.readFileSync('scripts/fixtures/ga12-ms-factual-witness-draft-predecessors.json')).rows
+];
+const msHistoricalDrafts = new Map(msHistoryFixtures.map(row => [row.routeKey,row]));
+const msFactualPredecessors = new Map(JSON.parse(fs.readFileSync('scripts/fixtures/ms-factual-disposition-witness-predecessors.json')).witnesses.map(row => [row.pathwayKey,row]));
+const msFactualCurrent = new Map(JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses.map(row => [row.pathwayKey,row]));
+assert.equal(msHistoricalDrafts.size,5);
 const category = 'offense_category';
 const maps = ['screeningAnswers', 'prefilledAnswers', 'packetAnswers'];
 const safety = snapshot => ({
@@ -704,14 +713,18 @@ function check(name, fn) {
 }
 // OD-BR-1 D1 (LEAD 18:36Z/18:54Z/19:53Z, commit A 839414c3b): closed routes decided by a borrowed rule (compiledRouteRuleMatchesPathway false) stay unpaid.
 const d1ClosedRoutes = new Set(['IL:adult-conviction-sealing', 'NE:set-aside-incarceration-one-year-or-less', 'LA:non-conviction-arrest-expungement', 'HI:dui-under-21-conviction']);
-for (const [questionRecordId, route, state = 'AL'] of cases) {
+const onlyRoute=process.argv.find(arg=>arg.startsWith('--only-route='))?.slice(13);
+const selectedCases=cases.filter(([,route,state='AL'])=>!onlyRoute||`${state}:${route}`===onlyRoute);
+assert(selectedCases.length,'requested route must have an original requirement case');
+for (const [questionRecordId, route, state = 'AL'] of selectedCases) {
   const profile=getProfileByJurisdiction(state);
   const r1Row=r1States[state]?.routes[route];
   const historyContext=r1Row?r1CategoryIsHistory:{OK:okCategoryAndRecordAreHistory,ME:maMeCategoryIsHistory,MA:maMeRoutes.includes(route)?maMeCategoryIsHistory:maAdditionalRoutes.includes(route)?maAdditionalCategoryIsHistory:maThreeRouteCategoryIsHistory,LA:laThreeRouteCategoryIsHistory,KY:kyThreeRouteCategoryIsHistory,HI:hiThreeRouteCategoryIsHistory,IA:iaCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
   const hiCourtOrder=state==='HI'&&['dui-under-21-conviction','first-time-drug-conviction'].includes(route);
   const result=r1Row?r1Row.resultCode:state==='OK'?okExpectations[route].resultCode:['MA','ME'].includes(state)?{"adult-conviction-sealing-under-m-g-l-c-276-100a": "not_covered_yet", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c": "guidance_only", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c": "guidance_only", "juvenile-record-sealing-under-100b": "not_covered_yet", "marijuana-only-expungement": "guidance_only", "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k": "guidance_only", "time-based-expungement-under-100f-100j": "not_covered_yet", "adult-conviction-sealing": "needs_more_info", "adult-non-conviction-record-relief": "guidance_only"}[route]:state==='LA'?(route==='non-conviction-arrest-expungement'?'packet_ready_with_caution':'guidance_only'):state==='KY'?(route==='misdemeanor-violation-traffic-conviction'?'not_covered_yet':'needs_review'):state==='HI'&&(route==='nonconviction-arrest-expungement'||hiCourtOrder)?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
   const adoptedFneWitness=adoptedFneWitnesses[questionRecordId];
-  const payment=adoptedFneWitness?false:r1Row&&Object.hasOwn(r1Row,'paymentAllowed')?r1Row.paymentAllowed:result==='packet_ready_with_caution'&&!d1ClosedRoutes.has(`${state}:${route}`);
+  const msHistorical=msHistoricalDrafts.get(`${state}:${route}`);
+  const payment=msHistorical||adoptedFneWitness?false:r1Row&&Object.hasOwn(r1Row,'paymentAllowed')?r1Row.paymentAllowed:result==='packet_ready_with_caution'&&!d1ClosedRoutes.has(`${state}:${route}`);
   const historySource=r1Row?'r1_category_history':{OK:'ok_category_history',ME:'ma_me_category_history',MA:maMeRoutes.includes(route)?'ma_me_category_history':maAdditionalRoutes.includes(route)?'ma_additional_category_history':'ma_three_route_category_history',LA:'la_three_route_category_history',KY:'ky_three_route_category_history',HI:'hi_three_route_category_history',IA:'ia_three_route_category_history'}[state]??'al_three_route_category_history';
   const historyReason=r1Row?r1States[state].reason:{OK:"Earlier Oklahoma categories remain optional literal history. Charge, disposition, offense level, timing, court and applicable record-specific facts remain separate; a category does not establish statutory classification or eligibility.",ME:"These source-bound consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",MA:maMeRoutes.includes(route)?"These source-bound consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.":"These source-bound Massachusetts consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",LA:"These source-bound Louisiana consumers use separate disposition, charge, timing, redaction and automation-status facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",KY:"These source-bound Kentucky consumers use separate charge, disposition, offense-level and timing facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",HI:'These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.',IA:'These source-bound Iowa consumers use separate charge, disposition, age and timing facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.'}[state]??'These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate.';
   const witness=fixtures.find(f=>f.pathwayKey===`${state}:${route}`);assert(witness);
@@ -723,15 +736,31 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
   const authoritative = evaluate({ jurisdiction: state, profileVersion: profile.profileVersion,
     matterId: `synthetic-${questionRecordId}`, answers });
   check(`${route}: exact conditional information authority`, () => {
-    assert.equal(authoritative.evaluation.pathwayId, route);
-    assert.equal(authoritative.evaluation.resultCode, result);
-    assert.equal(authoritative.evaluation.reasons[0].code, reason);
-    assert.equal(authoritative.evaluation.paymentAllowed, payment);
+    const current=msHistorical?msFactualCurrent.get(msHistorical.routeKey):null;
+    if(msHistorical){
+      assert(current); assert.deepEqual(witness.answers,msHistorical.sourceWitness.answers);
+      assert.deepEqual(witness.answers,msFactualPredecessors.get(msHistorical.routeKey).finalAnswers);
+      assert.equal(current.finalAnswers.case_outcome,witness.answers.case_outcome);
+      assert.equal(current.terminalEvaluation.pathwayId,'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal');
+    }
+    assert.equal(authoritative.evaluation.pathwayId, current?.terminalEvaluation.pathwayId ?? route);
+    assert.equal(authoritative.evaluation.resultCode, current?.terminalEvaluation.resultCode ?? result);
+    assert.equal(authoritative.evaluation.reasons[0].code, current?.terminalEvaluation.reasonCodes[0] ?? reason);
+    assert.equal(authoritative.evaluation.paymentAllowed, current?.terminalEvaluation.paymentAllowed ?? payment);
     assert.deepEqual(authoritative.evaluation.packetPlan.sourceFormIds,
       r1Row ? r1Row.sourceFormIds : state === 'OK' ? okExpectations[route].sourceFormIds : ['MA','ME'].includes(state) ? maSourceFormIds[route] : state === 'IA' && ['public-intoxication-12346', 'underage-alcohol-12347'].includes(route)
         ? ['IA:LegalEase Iowa/2_86_4_123_PAULA_Expungement_18A04436D4107.pdf:8b2c33815548615733f01f964340fc39efcd8c252ad8c3ee50b97b0639753ffc'] : []);
   });
-  const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers,
+  const seed = msHistorical ? (()=>{
+    const snapshot=structuredClone(msHistorical.predecessorSnapshot ?? msHistorical.seed.snapshot);
+    const prior={status:'unverified',revision:0,draftHash:P.protectedPacketDraftHash(snapshot),draftSnapshot:snapshot};
+    check(`${route}: original saved contract remains exact on no-op`,()=>{
+      assert.deepEqual(P.packetInformationPatch({existingItem:{id:`synthetic-${questionRecordId}`,jurisdiction:state,artifactRefs:{}},protectedVerification:prior,answers:{}}).protectedTransition.nextVerification,prior);
+    });
+    // Separate noncommercial successor; the captured original stays immutable.
+    snapshot.paymentAllowed=false;
+    return {snapshot,hash:P.protectedPacketDraftHash(snapshot)};
+  })() : P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers,
     packetAnswers: {}, dependencies: {}, capturedAt: '2026-10-17T00:00:00.000Z' });
   assert(seed);
   const original = { status: 'unverified', reason: 'synthetic_current_source_witness', revision: 0,
@@ -953,5 +982,5 @@ for (const [id, original] of [...records]) {
   authenticated = true; verified = true; owner = 'synthetic-al-owner';
 }
 delete globalThis.__alCategoryTransport;
-console.log(JSON.stringify({ status: 'PASS_AL_CATEGORY_HISTORY', ncSiblingSkips: [...ncSkipped].sort(), checks, originalIds: cases.map(row => row[0]),
+console.log(JSON.stringify({ status: 'PASS_AL_CATEGORY_HISTORY', ncSiblingSkips: [...ncSkipped].sort(), checks, originalIds: cases.map(row => row[0]), testedIds: selectedCases.map(row => row[0]),
   scope: 'isolated collection/protected transitions/HTTP transport; no hosted owner, database or delivery proof' }));
