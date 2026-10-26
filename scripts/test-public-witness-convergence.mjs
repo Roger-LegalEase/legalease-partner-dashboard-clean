@@ -17,6 +17,7 @@ const mdPolicePredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/md-poli
 const packetNextStepsPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/packet-next-steps-witness-predecessors.json'));
 const ilSdWyPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/il-sd-wy-witness-predecessors.json'));
 const b31ePredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/batch31e-witness-predecessors.json'));
+const msFactualPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/ms-factual-disposition-witness-predecessors.json'));
 const originalChanged = new Set([
   'AR:situation-a-non-convictions', 'AR:situation-b-misdemeanor-convictions', 'AR:situation-c-felony-convictions',
   'CA:prop-64-completed-sentence-application-11361-8', 'CA:prop-64-currently-serving-petition-11361-8',
@@ -59,7 +60,45 @@ function questions(profile) {
   visit(projectPublicProfile(profile)); return map;
 }
 const replay = (w, answers) => evaluate({jurisdiction:w.jurisdiction,profileVersion:w.profileVersion,matterId:'public-witness',answers}).evaluation;
+
+// GA-21 makes the recorded dismissal fact outrank a route hint. Preserve each
+// exact old transcript for historical comparisons; replay its successor below.
+const msFactualHistory = new Map(msFactualPredecessors.witnesses.map(w=>[w.pathwayKey,w]));
+check(()=>assert.equal(msFactualPredecessors.sourceSha,'78db0b37e7660e500c2112af3cc61a7e1bc218fe'));
+check(()=>assert.equal(msFactualPredecessors.sourceSha256,'ba7c1c39b256b3d5330c47f5d0309e3291a74234b00020426e0cfa410ff8e4f3'));
+check(()=>assert.equal(msFactualHistory.size,14));
+check(()=>assert.equal(sha(JSON.stringify(msFactualPredecessors.witnesses)),'3dab213c6d8106101dc2205e64c5197aac80d85a918c0a7afa96c5d035118d2a'));
+function msFactualPredecessor(current) {
+  const prior=msFactualHistory.get(current.pathwayKey);
+  if(!prior)return current;
+  const expected=structuredClone(prior), message='MS factual-disposition successor changes only the accepted dismissal outcome';
+  assert.equal(current.finalAnswers.case_outcome,'Dismissed, no-billed, nolle prosequi, or not prosecuted',message);
+  expected.rounds=prior.rounds.slice(0,2);
+  for(const round of prior.rounds.slice(2))for(const key of Object.keys(round.supplied??{}))delete expected.finalAnswers[key];
+  expected.terminalEvaluation={resultCode:'packet_ready_with_caution',pathwayId:'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',pathwayLabel:'Non-conviction expungement for dismissal, no disposition, or acquittal',paymentAllowed:true,treatmentClassification:null,selectedTrackId:null,reasonCodes:['ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal'],missingQuestionIds:[]};
+  expected.landedOnThisPathway=false;expected.error=null;
+  delete expected.convergenceStatus;delete expected.unresolvedEvaluation;
+  assert.deepEqual(current,expected,message);
+  return prior;
+}
+
 const projection = e => ({resultCode:e.resultCode,pathwayId:e.pathwayId ?? null,pathwayLabel:e.pathwayLabel ?? null,paymentAllowed:e.paymentAllowed===true,treatmentClassification:e.treatmentClassification ?? null,selectedTrackId:e.selectedTrackId ?? null,reasonCodes:(e.reasons ?? []).map(r=>r.code).sort(),missingQuestionIds:[...(e.missingQuestionIds ?? [])].sort()});
+for(const key of msFactualHistory.keys()) {
+  const current=packet.witnesses.find(w=>w.pathwayKey===key), before=structuredClone(current);
+  check(()=>msFactualPredecessor(current));
+  const run=converge('MS',getProfileByJurisdiction('MS'),questions(getProfileByJurisdiction('MS')),current.seedAnswers);
+  check(()=>assert.deepEqual(run.transcript,current.rounds));
+  check(()=>assert.deepEqual(run.answers,current.finalAnswers));
+  check(()=>assert.deepEqual(projection(run.evaluation),current.terminalEvaluation));
+  check(()=>assert.deepEqual(projection(replay(current,current.finalAnswers)),current.terminalEvaluation));
+  check(()=>assert.deepEqual(current,before));
+  for(const change of [w=>{w.finalAnswers.case_outcome='Misdemeanor conviction';},w=>{w.terminalEvaluation.pathwayId=w.pathwayId;},w=>{w.seedAnswers.invented_fact=true;}]) {
+    const wrong=structuredClone(current);change(wrong);
+    check(()=>assert.throws(()=>msFactualPredecessor(wrong),/MS factual-disposition successor/));
+  }
+  check(()=>assert.throws(()=>msFactualPredecessor(msFactualHistory.get(key)),/MS factual-disposition successor/));
+}
+
 function requireUnresolved(w) {
   assert.equal(w.terminalEvaluation,null,'unresolved witness must not claim a terminal result');
   assert.ok(w.convergenceStatus?.startsWith('unresolved_'),'unresolved status required');
@@ -181,12 +220,13 @@ check(()=>assert.equal(packet.witnesses.filter(w=>fnePaymentKeys.has(w.pathwayKe
 for (const key of fnePaymentKeys) {
   const w=packet.witnesses.find(row=>row.pathwayKey===key);
   check(()=>assert.deepEqual(projection(replay(w,w.finalAnswers)),w.terminalEvaluation));
-  const uplift=structuredClone(w);uplift.terminalEvaluation.paymentAllowed=true;
+  const historical=msFactualPredecessor(w);
+  const uplift=structuredClone(historical);uplift.terminalEvaluation.paymentAllowed=true;
   check(()=>assert.throws(()=>fnePaymentPredecessor(uplift),/FNE public witness remains unpaid/));
-  const altered=structuredClone(w);altered.finalAnswers.case_outcome='unapproved answer';
+  const altered=structuredClone(historical);altered.finalAnswers.case_outcome='unapproved answer';
   check(()=>assert.throws(()=>fnePaymentPredecessor(altered),/FNE public witness changes only payment/));
 }
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!originalChanged.has(w.pathwayKey)).map(vaOriginPredecessor).map(fnePaymentPredecessor).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!originalChanged.has(w.pathwayKey)).map(msFactualPredecessor).map(vaOriginPredecessor).map(fnePaymentPredecessor).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
 // The MD source-stage successor changes only this synthetic transcript. Its
 // freshly answered release fact is not inferred from the former broad outcome.
 // Keep the ef0455 row in the original 253-row digest and pin all 266 other rows
@@ -212,7 +252,7 @@ check(()=>assert.equal(packetNextStepsPredecessors.sourceSha256,'fe56d26708583cd
 check(()=>assert.deepEqual([...packetNextStepsHistorical.keys()],packetNextStepsKeys));
 check(()=>assert.equal(packetNextStepsPredecessors.witnesses.length,5));
 check(()=>assert.ok(packetNextStepsKeys.every(key=>changed.has(key))));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(vaOriginPredecessor).map(fnePaymentPredecessor).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(msFactualPredecessor).map(vaOriginPredecessor).map(fnePaymentPredecessor).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??b31eHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
 // Current IL/SD/WY successors: the reviewed reason codes, payment still closed.
 for(const [key,code] of [[ilSdWyKeys[0],'il.prostitution_record_conflict'],[ilSdWyKeys[1],'sd.sis_prior_review'],[ilSdWyKeys[2],'wy.felony1502_disposition']])check(()=>{
   const w=packet.witnesses.find(w=>w.pathwayKey===key);
@@ -290,7 +330,7 @@ function exactCaCopyReferencePredecessor(current,prior){
   return restored;
 }
 function requirePacketNextStepsSuccessor(current,prior,steps){
-  const comparable=exactCaCopyReferencePredecessor(current,prior);
+  const comparable=exactCaCopyReferencePredecessor(msFactualPredecessor(current),prior);
   const expected=structuredClone(prior);
   assert.notDeepEqual(expected.sourceBoundSyntheticWitness.actualEvaluation.nextSteps,steps,'actual copy transition required');
   expected.sourceBoundSyntheticWitness.actualEvaluation.nextSteps=steps;
@@ -301,13 +341,13 @@ for(const key of packetNextStepsKeys){
   const steps=key==='CA:prop-64-completed-sentence-application-11361-8'?packetReadyNextSteps:packetCautionNextSteps;
   check(()=>assert.ok(current&&prior));
   check(()=>requirePacketNextStepsSuccessor(current,prior,steps));
-  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(prior,prior,steps),/only accepted nextSteps copy/));
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(prior,prior,steps),/only accepted nextSteps copy|MS factual-disposition successor/));
   const wrongOutcome=structuredClone(current);wrongOutcome.sourceBoundSyntheticWitness.actualEvaluation.paymentAllowed=!current.sourceBoundSyntheticWitness.actualEvaluation.paymentAllowed;
-  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongOutcome,prior,steps),/only accepted nextSteps copy/));
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongOutcome,prior,steps),/only accepted nextSteps copy|MS factual-disposition successor/));
   const wrongPremise=structuredClone(current);assert.equal(Object.hasOwn(wrongPremise.seedAnswers,'invented_copy_fact'),false);wrongPremise.seedAnswers.invented_copy_fact='yes';
-  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongPremise,prior,steps),/only accepted nextSteps copy/));
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongPremise,prior,steps),/only accepted nextSteps copy|MS factual-disposition successor/));
   const wrongCopy=structuredClone(current);wrongCopy.sourceBoundSyntheticWitness.actualEvaluation.nextSteps[1]='Complete packet fields in Briefcase after payment.';
-  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongCopy,prior,steps),/only accepted nextSteps copy/));
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongCopy,prior,steps),/only accepted nextSteps copy|MS factual-disposition successor/));
 }
 
 
@@ -364,7 +404,8 @@ const mdPoliceRun=converge('MD',mdPoliceProfile,questions(mdPoliceProfile),mdPol
 check(()=>assert.deepEqual(mdPoliceRun.transcript,mdPoliceWitness.rounds));
 check(()=>assert.deepEqual(mdPoliceRun.answers,mdPoliceWitness.finalAnswers));
 check(()=>assert.deepEqual(projection(mdPoliceRun.evaluation),mdPoliceWitness.terminalEvaluation));
-const msMipWitness = packet.witnesses.find(w=>w.pathwayKey===msMipKey);
+const msMipCurrent = packet.witnesses.find(w=>w.pathwayKey===msMipKey);
+const msMipWitness = msFactualPredecessor(msMipCurrent);
 check(()=>assert.ok(msMipWitness));
 check(()=>assert.deepEqual(msMipWitness.seedAnswers,msMipPredecessor.witness.seedAnswers));
 check(()=>assert.equal(msMipPredecessor.witness.finalAnswers.ms_mip_dismissal_or_discharge_date,'2012-06-01'));
@@ -378,14 +419,15 @@ expectedMsMipWitness.rounds[2].requested=['ms_mip_dismissal_and_discharge_date']
 expectedMsMipWitness.rounds[2].supplied={ms_mip_dismissal_and_discharge_date:'2012-06-01'};
 check(()=>assert.deepEqual(msMipWitness,expectedMsMipWitness));
 check(()=>assert.deepEqual(msMipWitness.terminalEvaluation,msMipPredecessor.witness.terminalEvaluation));
-check(()=>assert.deepEqual(projection(replay(msMipWitness,msMipWitness.finalAnswers)),msMipWitness.terminalEvaluation));
+check(()=>assert.deepEqual(projection(replay(msMipCurrent,msMipCurrent.finalAnswers)),msMipCurrent.terminalEvaluation));
 const msMipOldMeaning = replay(msMipWitness,msMipPredecessor.witness.finalAnswers);
-check(()=>assert.ok(msMipOldMeaning.missingQuestionIds.includes('ms_mip_dismissal_and_discharge_date')));
-check(()=>assert.equal(msMipOldMeaning.paymentAllowed,false));
+// The unchanged historical generic dismissal now reaches MSNC; it cannot prove a MIP election.
+check(()=>assert.equal(msMipOldMeaning.pathwayId,msMipCurrent.terminalEvaluation.pathwayId));
+check(()=>assert.equal(msMipOldMeaning.missingQuestionIds.includes('ms_mip_dismissal_and_discharge_date'),false));
 const msMipProfile=getProfileByJurisdiction('MS');
 const msMipRun=converge('MS',msMipProfile,questions(msMipProfile),msMipWitness.seedAnswers);
-check(()=>assert.deepEqual(msMipRun.transcript,msMipWitness.rounds));
-check(()=>assert.deepEqual(msMipRun.answers,msMipWitness.finalAnswers));
+check(()=>assert.deepEqual(msMipRun.transcript,msMipCurrent.rounds));
+check(()=>assert.deepEqual(msMipRun.answers,msMipCurrent.finalAnswers));
 const orWitness = packet.witnesses.find(w=>w.pathwayKey===orKey);
 check(()=>assert.ok(orWitness));
 const orCurrent = replay(orWitness,orWitness.finalAnswers);
@@ -480,13 +522,13 @@ for(const [index,key]of txKeys.entries()){
   check(()=>assert.throws(()=>requireCurrentTx(uplift,prior,expected),/TX current successor cannot allow payment/));
 }
 const unresolved = packet.witnesses.filter(w=>w.convergenceStatus);
-check(()=>assert.equal(unresolved.length,9));
-check(()=>assert.equal(packet.totals.unresolvedPathways,9));
-check(()=>assert.equal(packet.totals.settledOnATerminalEvaluation,258));
-check(()=>assert.equal(packet.totals.landedOnTheirOwnPathway,257));
-check(()=>assert.equal(packet.totals.terminalResultCodes.guidance_only,91));
+check(()=>assert.equal(unresolved.length,6));
+check(()=>assert.equal(packet.totals.unresolvedPathways,6));
+check(()=>assert.equal(packet.totals.settledOnATerminalEvaluation,261));
+check(()=>assert.equal(packet.totals.landedOnTheirOwnPathway,246));
+check(()=>assert.equal(packet.totals.terminalResultCodes.guidance_only,87));
 check(()=>assert.equal(packet.totals.terminalResultCodes.likely_not_eligible,2));
-check(()=>assert.equal(packet.totals.paymentAllowedAtTheEvaluator,22-fnePaymentKeys.size));
+check(()=>assert.equal(packet.totals.paymentAllowedAtTheEvaluator,26));
 for(const w of packet.witnesses.filter(w=>changed.has(w.pathwayKey))) {
   const actual=replay(w,w.finalAnswers);
   if(w.terminalEvaluation) check(()=>assert.deepEqual(projection(actual),w.terminalEvaluation));
@@ -536,4 +578,4 @@ check(()=>assert.equal(old.transcript.length,24));
 check(()=>assert.throws(()=>assert.ok(old.transcript.length<8,'no unchanged-answer churn'),/no unchanged-answer churn/));
 check(()=>assert.equal(old.evaluation,null));
 check(()=>assert.equal(packet.totals.additionalSourceBoundSyntheticWitnesses,6));
-console.log(JSON.stringify({status:'PASS',checks,changedRoutes:23,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,currentMsMipSuccessors:1,currentMdPoliceSuccessors:1,currentVaOriginSuccessors:2,currentPacketNextStepsCopySuccessors:5,unchangedHistoricalRoutes:244,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:9,currentBatch31eSuccessors:5,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR, Tool1, three TX, MS MIP and MD police rows; their current successors are separately checked without changing generic premises. Five nextSteps-copy predecessors retain the old266-row digest while exact currentcopy is independently asserted/replayed; they are already in the original14cohort and excluded from253digest. Two VA origin successors inverse only the exact new origin round and answer to preserve both historical digests; current positive and missing/unknown/other-state/federal refusals are replayed. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
+console.log(JSON.stringify({status:'PASS',checks,changedRoutes:23,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,currentMsMipSuccessors:1,currentMdPoliceSuccessors:1,currentVaOriginSuccessors:2,currentPacketNextStepsCopySuccessors:5,unchangedHistoricalRoutes:244,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:6,currentMsFactualDispositionSuccessors:14,currentBatch31eSuccessors:5,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Fourteen GA-21 generic dismissal successors preserve their exact prior records for historical comparisons and replay the accepted factual MSNC route without inventing answers. Original253-row digest retains exact historical OR, Tool1, three TX, MS MIP and MD police rows; their current successors are separately checked without changing generic premises. Five nextSteps-copy predecessors retain the old266-row digest while exact currentcopy is independently asserted/replayed; they are already in the original14cohort and excluded from253digest. Two VA origin successors inverse only the exact new origin round and answer to preserve both historical digests; current positive and missing/unknown/other-state/federal refusals are replayed. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
