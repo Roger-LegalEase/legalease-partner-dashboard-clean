@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { register } from 'node:module';
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
@@ -604,8 +605,16 @@ const fneClosed={
  'ND:deferred-imposition-dismissal-and-sealing':'a7c0457b59bba2f1153b3cb9574c4e35a2ef99aa233e78845efd719bcf0d0e6a',
  'MS:first-offense-dui-expungement':'9e4ac8b6811fd6765fc54d2a26e49ae0ba8cec549f9c609dd8caf71f3d7ee321',
 };
-// Accepted MS factual routing changes these two old hinted witnesses, never their captured drafts.
+// Accepted MS factual routing changes five old hinted witnesses, never their captured drafts.
 const msFactualHistory=read('scripts/fixtures/ga17-ms-factual-witness-draft-predecessors.json');
+const msAdditionalHistoryPath='scripts/fixtures/ga12-ms-factual-witness-draft-predecessors.json';
+assert.equal(createHash('sha256').update(fs.readFileSync(msAdditionalHistoryPath)).digest('hex'),'732da0f0d485a8c7ca6739b2c77ef2f38c1a9efae9c5ed8124c6953657166a64','exact accepted B3b6 native predecessor custody');
+const msHistoricalDrafts=[...msFactualHistory.rows,...read(msAdditionalHistoryPath).rows.map(row=>{
+ const snapshot=structuredClone(row.seed.snapshot);snapshot.paymentAllowed=false;
+ return {...row,predecessorHash:row.seed.hash,predecessorSnapshot:row.seed.snapshot,
+  heldSeed:{snapshot,hash:P.protectedPacketDraftHash(snapshot)}};
+})];
+assert.equal(new Set(msHistoricalDrafts.map(row=>row.routeKey)).size,5);
 for(const [state,r1] of Object.entries(r1States))for(const [route,row] of Object.entries(r1.routes)){
  const hop=witnessHop.find(h=>h.routeKey===`${state}:${route}`);
  cases.push({state,route,result:hop?hop.result:row.result,payment:Object.hasOwn(fneClosed,`${state}:${route}`)?false:(hop?hop.payment:row.payment),reason:hop?hop.reason:row.reason});
@@ -688,9 +697,10 @@ const safety=s=>Object.fromEntries(['pathwayId','resultCode','paymentAllowed','s
 const ran=[];
 for(const context of leg(shard[0])){
 ran.push(caseKey(context));
-const {state,route,result,payment,reason}=context,key=`${state}:${route}`;
+const {state,route,result,payment:declaredPayment,reason}=context,key=`${state}:${route}`;
 const r1Row=r1States[state]?.routes[route];
-const msHistorical=msFactualHistory.rows.find(row=>row.routeKey===key);
+const msHistorical=msHistoricalDrafts.find(row=>row.routeKey===key);
+const payment=msHistorical?false:declaredPayment;
 const witness=witnesses.find(f=>f.pathwayKey===key);assert(witness);
 check(key+': exact source purpose and unchanged authority',()=>{
  assert.equal(packetSpecificationFor(key),undefined);
@@ -746,15 +756,16 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  if(msHistorical)check(key+'/'+label+': factual dismissal wins the old hint; captured history remains held',()=>{
   assert.equal(msFactualHistory.sourceSha,'78db0b37e7660e500c2112af3cc61a7e1bc218fe');
   assert.equal(msFactualHistory.acceptedCorrectionSha,'786bd677e79ece6570a506a778f801f7d6518cca');
-  assert.deepEqual(witness,{...msHistorical.sourceWitness,expected:{...msHistorical.sourceWitness.expected,paymentAllowed:false}});
+  assert.deepEqual(witness,{...msHistorical.sourceWitness,expected:{...msHistorical.sourceWitness.expected,...(Object.hasOwn(fneClosed,key)?{paymentAllowed:false}:{})}});
   assert.equal(a.evaluation.pathwayId,'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal');
   assert.equal(a.evaluation.resultCode,'packet_ready_with_caution');assert.equal(a.evaluation.paymentAllowed,true);
   assert.equal(a.evaluation.reasons[0].code,'ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal');
   assert.equal(P.protectedPacketDraftHash(seed.snapshot),seed.hash);assert.equal(seed.snapshot.pathwayId,route);assert.equal(seed.snapshot.paymentAllowed,false);
   assert.equal(P.protectedPacketDraftHash(msHistorical.predecessorSnapshot),msHistorical.predecessorHash);
-  assert.equal(msHistorical.predecessorHash,r1Row.seedHash);
+  assert.equal(msHistorical.predecessorHash,witnessHop.find(h=>h.routeKey===key)?.freshSeedHash??r1Row.seedHash);
+  assert.deepEqual(seed.snapshot,{...msHistorical.predecessorSnapshot,paymentAllowed:false});
   const saved={status:'unverified',revision:0,draftHash:msHistorical.predecessorHash,draftSnapshot:structuredClone(msHistorical.predecessorSnapshot)},before=structuredClone(saved);
-  const model=P.protectedPacketInformationModelFor(saved);assert(model);assert.equal(model.reviewSafety.safe,false);
+  const model=P.protectedPacketInformationModelFor(saved);assert(model);assert.equal(model.reviewSafety.safe,false);assert.equal(model.packetPlan,null);assert.equal(model.resultCode,'needs_review');
   assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,before);
   assert.throws(()=>P.requireCurrentPacketVerificationRecord({id:'synthetic-held-'+key,jurisdiction:state,artifactRefs:{}},saved));
   const verified=P.packetInformationPatch({protectedVerification:saved,answers:{},verify:true});assert(!verified||verified.readyToGenerate===false&&verified.protectedTransition.nextVerification.status!=='verified');
@@ -793,7 +804,8 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   assert(P.protectedPacketInformationModelFor(saved));
   assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
   const r=P.evaluateProtectedPacketFacts(saved.draftSnapshot).evaluation;
-  assert.deepEqual([r.resultCode,r.reasons[0].code,r.paymentAllowed],[hop.predecessorNowResult,hop.predecessorNowReason,false]);
+  assert.deepEqual([r.resultCode,r.reasons[0].code,r.paymentAllowed],msHistorical?['packet_ready_with_caution','ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',true]:[hop.predecessorNowResult,hop.predecessorNowReason,false]);
+  if(msHistorical){const model=P.protectedPacketInformationModelFor(saved);assert.equal(model.reviewSafety.safe,false);assert.equal(model.packetPlan,null);}
  });
  if(Object.hasOwn(fneClosed,key)&&!msHistorical)check(key+'/'+label+': FNE closes only payment and preserves the paid predecessor draft',()=>{
   assert.equal(r1Row.payment,true);assert.equal(seed.snapshot.paymentAllowed,false);
@@ -916,8 +928,9 @@ const post = (id, answers, extra = {}) => API.POST(new Request(`http://isolated.
 { params: Promise.resolve({ itemId: id }) });
 for(const [id,original] of [...records]){
  const originalKey=original.draftSnapshot.jurisdiction+':'+original.draftSnapshot.pathwayId;
- const {payment,reason}=cases.find(c=>caseKey(c)===originalKey);
- const msHistorical=msFactualHistory.rows.find(row=>row.routeKey===originalKey);
+ const {payment:declaredPayment,reason}=cases.find(c=>caseKey(c)===originalKey);
+ const msHistorical=msHistoricalDrafts.find(row=>row.routeKey===originalKey);
+ const payment=msHistorical?false:declaredPayment;
  const stored=structuredClone(original);
  stored.draftSnapshot.screeningAnswers.record_type=['Arrest or charge','Court case','Conviction'];
  stored.draftSnapshot.prefilledAnswers.record_type={unknown:true,value:'Court case'};
