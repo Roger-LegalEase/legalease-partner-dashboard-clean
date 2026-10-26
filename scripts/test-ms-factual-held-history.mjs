@@ -17,6 +17,7 @@ for (const row of rows) {
   check(label+'/held-history-readable', () => {
     const model=P.protectedPacketInformationModelFor(record);
     assert(model); assert.equal(model.msFactualHistoryHeld,true); assert.equal(model.packetPlan,null);
+    assert(model.heldFactualCorrectionIds.includes("case_outcome"));
     assert.equal(model.reviewSafety.safe,false); assert.equal(model.stage,'in_progress');
   });
   check(label+'/exact-noop', () => {

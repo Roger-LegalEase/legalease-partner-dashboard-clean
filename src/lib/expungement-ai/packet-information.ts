@@ -3031,7 +3031,7 @@ export function protectedPacketInformationModelFor(
       ...([snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "residency_or_location")) ? ["residency_or_location"] : [])])];
   }
   const ohDiversionCorrections = ohioDiversionCorrectionIds(snapshot, authoritative);
-  const heldFactualCorrectionIds = [...oregonUnselectedCorrectionIds(snapshot), ...missouriUnselectedCorrectionIds(snapshot), ...maineUnselectedCorrectionIds(snapshot), ...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot), ...ohDiversionCorrections];
+  const heldFactualCorrectionIds = [...(msFactualHistory ? ["case_outcome"] : []), ...oregonUnselectedCorrectionIds(snapshot), ...missouriUnselectedCorrectionIds(snapshot), ...maineUnselectedCorrectionIds(snapshot), ...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot), ...ohDiversionCorrections];
   const questionSurface = protectedPacketQuestionSurface(
     profile,
     snapshot.pathwayId,
