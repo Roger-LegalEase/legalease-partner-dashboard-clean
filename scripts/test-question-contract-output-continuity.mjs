@@ -1,3 +1,5 @@
+import {execFileSync} from 'node:child_process';
+import {assertHeldPacketCopySourceSuccession,HELD_PACKET_COPY_SOURCE_PATH,HELD_PACKET_COPY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGa21MsFactsSourceSuccession,GA21_MS_FACTS_SOURCE_PATH,GA21_MS_FACTS_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMsInterventionSourceSuccession,MS_INTERVENTION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGa49FooterSourceSuccession,GA49_FOOTER_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1160,3 +1162,18 @@ check('GA21 MS factual-source hop retains historical authority and rejects missi
  for(const input of c.transitions)assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input.file?Buffer.from('drift'):readBytes(file)),/stale output input/);
  assert(msProofInventory.MS_PROOF_EXECUTION_INPUTS.includes(GA21_MS_FACTS_SOURCE_PATH),'new source custody is mandatory');
 });
+
+check('accepted held packet copy retains historical output and requires both exact source files',()=>{
+ const c=assertHeldPacketCopySourceSuccession(readBytes);
+ assert.equal(c.sourceCount,198);assert.equal(c.currentChangedSourceCount,37);assert.equal(c.currentUnchangedSourceCount,161);
+ assert.equal(sha(readBytes(HELD_PACKET_COPY_SOURCE_PATH)),HELD_PACKET_COPY_SOURCE_SHA256);
+ assert.equal(c.historicalArtifactScope.reexecuted,false);assert.equal(c.establishesCurrentOutputReproduction,false);
+ assert(msProofInventory.MS_PROOF_EXECUTION_INPUTS.includes(HELD_PACKET_COPY_SOURCE_PATH));
+ assert.throws(()=>assertGa21MsFactsSourceSuccession(file=>{if(file===HELD_PACKET_COPY_SOURCE_PATH)throw Error('missing held packet copy record');return readBytes(file);}),/missing held packet copy record/);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===HELD_PACKET_COPY_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/held packet copy source succession record bytes changed/);
+ for(const row of [...c.transitions,...c.companionSourceTransitions]){
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===row.file?Buffer.from('drift'):readBytes(file)),/stale output input/);
+  assert.throws(()=>assertHeldPacketCopySourceSuccession(file=>file===row.file?execFileSync('git',['show',`fa7d83984^:${file}`]):readBytes(file)),/stale output input/);
+ }
+});
+console.log(`PASS: ${checks} complete output-continuity controls including accepted held packet copy.`);

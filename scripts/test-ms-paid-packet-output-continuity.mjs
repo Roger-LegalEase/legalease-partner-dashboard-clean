@@ -139,7 +139,9 @@ check('all six DC artifact adoption/custody reads are explicit execution inputs'
 // The mandatory named source record refuses altered bytes before the generic
 // proof-input loop. Keep this exact path/message separate from the six DC cases.
 const namedSourceExecutionRefusals={
+ 'src/app/briefcase/[packetId]/page.tsx':{name:'Error',message:'Question-contract source successor refused: stale output input: src/app/briefcase/[packetId]/page.tsx; exact held packet copy companion succession'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-intervention-20261023-v1.json':{name:'Error',message:'Question-contract source successor refused: MS intervention referral source succession record bytes changed'},
+ 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-held-packet-copy-20261026-v1.json':{name:'Error',message:'Question-contract source successor refused: held packet copy source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-ms-facts-20261024-v1.json':{name:'Error',message:'Question-contract source successor refused: GA21 MS factual-source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga49-footer-20261023-v1.json':{name:'Error',message:'Question-contract source successor refused: GA49 footer clearance source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-no-phone-contact-20261017-v1.json':{name:'Error',message:'Question-contract source successor refused: CA no-phone contact source succession record bytes changed'},

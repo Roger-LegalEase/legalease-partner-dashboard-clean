@@ -105,7 +105,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31e-final-20261022-v1.json',
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga49-footer-20261023-v1.json',
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-intervention-20261023-v1.json',
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-ms-facts-20261024-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-ms-facts-20261024-v1.json',
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-held-packet-copy-20261026-v1.json',
+  'src/app/briefcase/[packetId]/page.tsx'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[

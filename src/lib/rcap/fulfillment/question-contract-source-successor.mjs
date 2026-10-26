@@ -1468,7 +1468,7 @@ function ga49FooterSourceSuccessionChain(readBytes) {
 export const MS_INTERVENTION_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-intervention-20261023-v1.json';
 export const MS_INTERVENTION_SOURCE_SHA256 = '444b193c71134441d7dcdc168e6b97be1705d37a68b8a587fa99608f771a2d1b';
 export function assertMsInterventionSourceSuccession(readBytes) {
-  return ga21MsFactsSourceSuccessionChain(readBytes).prior;
+  return heldPacketCopySourceSuccessionChain(readBytes).intervention;
 }
 function msInterventionSourceSuccessionChain(readBytes) {
   const bytes=readBytes(MS_INTERVENTION_SOURCE_PATH);
@@ -1499,7 +1499,7 @@ function msInterventionSourceSuccessionChain(readBytes) {
 export const GA21_MS_FACTS_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-ms-facts-20261024-v1.json';
 export const GA21_MS_FACTS_SOURCE_SHA256 = '1fcf1042bface07ad0b5153807587a99f7e4d8bef9cc99285be9e653f7a0bdfb';
 export function assertGa21MsFactsSourceSuccession(readBytes) {
-  return ga21MsFactsSourceSuccessionChain(readBytes).record;
+  return heldPacketCopySourceSuccessionChain(readBytes).prior;
 }
 function ga21MsFactsSourceSuccessionChain(readBytes) {
   const bytes=readBytes(GA21_MS_FACTS_SOURCE_PATH);
@@ -1520,7 +1520,6 @@ function ga21MsFactsSourceSuccessionChain(readBytes) {
     current.set(row.file,row.afterSha256);
   }
   insist(current.size===37,'GA21 MS factual-source current thirty-seven-source inventory');
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA21 MS factual-source succession`);
   const runtime=new Map(prior.additionalRuntimeSources.map(row=>[row.file,row.sha256]));
   insist(equal(record.additionalRuntimeTransitions.map(row=>row.file),['src/lib/rcap-engine/evaluator.ts']),'GA21 MS factual-source runtime transition inventory');
   for(const row of record.additionalRuntimeTransitions){
@@ -1528,8 +1527,41 @@ function ga21MsFactsSourceSuccessionChain(readBytes) {
     runtime.set(row.file,row.afterSha256);
   }
   insist(equal(record.additionalRuntimeSources,[...runtime].map(([file,sha256])=>({file,sha256}))),'GA21 MS factual-source additional runtime inventory');
-  for(const row of record.additionalRuntimeSources)insist(sha(readBytes(row.file))===row.sha256,`stale output input: ${row.file}; exact GA21 MS factual runtime succession`);
-  return { record, prior };
+  return { record, prior, current };
+}
+
+
+export const HELD_PACKET_COPY_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-held-packet-copy-20261026-v1.json';
+export const HELD_PACKET_COPY_SOURCE_SHA256 = '3065590c3a6eda4ba808ddc20527355fe40c33c9d0152abb54c59886e549e81b';
+export function assertHeldPacketCopySourceSuccession(readBytes) {
+  return heldPacketCopySourceSuccessionChain(readBytes).record;
+}
+function heldPacketCopySourceSuccessionChain(readBytes) {
+  const bytes=readBytes(HELD_PACKET_COPY_SOURCE_PATH);
+  insist(sha(bytes)===HELD_PACKET_COPY_SOURCE_SHA256,'held packet copy source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const {record:prior,prior:intervention,current}=ga21MsFactsSourceSuccessionChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-held-packet-copy-source-succession/v1'
+    && record.recordId==='HELD-PACKET-COPY-SOURCE-SUCCESSION-20261026'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='fa7d83984f2b374c4b483a9fd21848252d2b210f'
+    && equal(record.previousNamedSource,{path:GA21_MS_FACTS_SOURCE_PATH,sha256:GA21_MS_FACTS_SOURCE_SHA256,currentChangedSourceCount:37,currentUnchangedSourceCount:161})
+    && equal(record.historicalContinuity,prior.historicalContinuity) && equal(record.historicalOutput,prior.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===37 && record.currentUnchangedSourceCount===161
+    && equal(record.historicalArtifactScope,prior.historicalArtifactScope)
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'held packet copy source succession scope');
+  insist(equal(record.transitions.map(row=>row.file),['src/lib/expungement-ai/localization.ts']),'held packet copy source succession inventory');
+  for(const row of record.transitions){
+    insist(row.beforeSha256===current.get(row.file),'held packet copy disconnected source hop');
+    current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===37,'held packet copy current thirty-seven-source inventory');
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact held packet copy source succession`);
+  insist(equal(record.additionalRuntimeSources,prior.additionalRuntimeSources),'held packet copy additional runtime inventory');
+  for(const row of record.additionalRuntimeSources)insist(sha(readBytes(row.file))===row.sha256,`stale output input: ${row.file}; exact held packet copy runtime succession`);
+  // The page accompanies the accepted copy; it was never an observed historical render input.
+  insist(equal(record.companionSourceTransitions.map(row=>row.file),['src/app/briefcase/[packetId]/page.tsx']),'held packet copy companion inventory');
+  for(const row of record.companionSourceTransitions)insist(sha(readBytes(row.file))===row.afterSha256,`stale output input: ${row.file}; exact held packet copy companion succession`);
+  return {record,prior,intervention};
 }
 
 // Every succession record, asserted in chain order. Each caller's loop builds it
@@ -1541,7 +1573,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes), ndProse: assertNdCensusProseSourceSuccession(readBytes), b28NvGa20: assertB28NvGa20SourceSuccession(readBytes), b30Co: assertB30CoSourceSuccession(readBytes), b31CaPardon: assertB31CaPardonSourceSuccession(readBytes), b31CaOrder: assertB31CaOrderSourceSuccession(readBytes), b31bGa16: assertB31bGa16LocationSourceSuccession(readBytes), b31cCa: assertB31cCaL01L02SourceSuccession(readBytes), b31cGa21: assertB31cGa21CaL03SourceSuccession(readBytes), b31dCa: assertB31dCaL06SourceSuccession(readBytes), b31dGa20: assertB31dGa20CoAlSourceSuccession(readBytes), b31dR3: assertB31dGa20R3SourceSuccession(readBytes), b31dMdF1: assertB31dMdF1SourceSuccession(readBytes), b31eStack: assertB31eStackSourceSuccession(readBytes), b31ePayment: assertB31ePaymentSourceSuccession(readBytes), b31eFinal: assertB31eFinalSourceSuccession(readBytes), ga49Footer: assertGa49FooterSourceSuccession(readBytes), msIntervention: assertMsInterventionSourceSuccession(readBytes), ga21MsFacts: assertGa21MsFactsSourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes), ndProse: assertNdCensusProseSourceSuccession(readBytes), b28NvGa20: assertB28NvGa20SourceSuccession(readBytes), b30Co: assertB30CoSourceSuccession(readBytes), b31CaPardon: assertB31CaPardonSourceSuccession(readBytes), b31CaOrder: assertB31CaOrderSourceSuccession(readBytes), b31bGa16: assertB31bGa16LocationSourceSuccession(readBytes), b31cCa: assertB31cCaL01L02SourceSuccession(readBytes), b31cGa21: assertB31cGa21CaL03SourceSuccession(readBytes), b31dCa: assertB31dCaL06SourceSuccession(readBytes), b31dGa20: assertB31dGa20CoAlSourceSuccession(readBytes), b31dR3: assertB31dGa20R3SourceSuccession(readBytes), b31dMdF1: assertB31dMdF1SourceSuccession(readBytes), b31eStack: assertB31eStackSourceSuccession(readBytes), b31ePayment: assertB31ePaymentSourceSuccession(readBytes), b31eFinal: assertB31eFinalSourceSuccession(readBytes), ga49Footer: assertGa49FooterSourceSuccession(readBytes), msIntervention: assertMsInterventionSourceSuccession(readBytes), ga21MsFacts: assertGa21MsFactsSourceSuccession(readBytes), heldPacketCopy: assertHeldPacketCopySourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -1593,6 +1625,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ga49Footer = atFile(s.ga49Footer);
   const msIntervention = atFile(s.msIntervention);
   const ga21MsFacts = atFile(s.ga21MsFacts);
+  const heldPacketCopy = atFile(s.heldPacketCopy);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -1629,7 +1662,8 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const b31dMdF1Digest = b31dMdF1 ? b31dMdF1.afterSha256 : b31dR3Digest;
   const b31eStackDigest = b31eStack ? b31eStack.afterSha256 : b31dMdF1Digest;
   const b31ePaymentDigest = b31ePayment ? b31ePayment.afterSha256 : b31eStackDigest;
-  const currentDigest = ga21MsFacts ? ga21MsFacts.afterSha256 : msIntervention ? msIntervention.afterSha256 : ga49Footer ? ga49Footer.afterSha256 : b31eFinal ? b31eFinal.afterSha256 : b31ePayment ? b31ePayment.afterSha256 : b31eStack ? b31eStack.afterSha256 : b31dMdF1 ? b31dMdF1.afterSha256 : b31dR3 ? b31dR3.afterSha256 : b31dGa20 ? b31dGa20.afterSha256 : b31dCa ? b31dCa.afterSha256 : b31cGa21 ? b31cGa21.afterSha256 : b31cCa ? b31cCa.afterSha256 : b31bGa16 ? b31bGa16.afterSha256 : b31CaOrder ? b31CaOrder.afterSha256 : b31CaPardon ? b31CaPardon.afterSha256 : b30Co ? b30Co.afterSha256 : b28NvGa20 ? b28NvGa20.afterSha256 : ndProse ? ndProse.afterSha256 : caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  const ga21Digest = ga21MsFacts ? ga21MsFacts.afterSha256 : msIntervention ? msIntervention.afterSha256 : ga49Footer ? ga49Footer.afterSha256 : b31eFinal ? b31eFinal.afterSha256 : b31ePayment ? b31ePayment.afterSha256 : b31eStack ? b31eStack.afterSha256 : b31dMdF1 ? b31dMdF1.afterSha256 : b31dR3 ? b31dR3.afterSha256 : b31dGa20 ? b31dGa20.afterSha256 : b31dCa ? b31dCa.afterSha256 : b31cGa21 ? b31cGa21.afterSha256 : b31cCa ? b31cCa.afterSha256 : b31bGa16 ? b31bGa16.afterSha256 : b31CaOrder ? b31CaOrder.afterSha256 : b31CaPardon ? b31CaPardon.afterSha256 : b30Co ? b30Co.afterSha256 : b28NvGa20 ? b28NvGa20.afterSha256 : ndProse ? ndProse.afterSha256 : caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  const currentDigest = heldPacketCopy ? heldPacketCopy.afterSha256 : ga21Digest;
   insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null || ga21Labels != null || ndReceipt != null || msGuideEs != null || caProp64 != null || ndProse != null || b28NvGa20 != null || b30Co != null || b31CaPardon != null || b31CaOrder != null || b31bGa16 != null || b31cCa != null || b31cGa21 != null || b31dCa != null || b31dGa20 != null || b31dR3 != null || b31dMdF1 != null || b31eStack != null || b31ePayment != null || b31eFinal != null || msIntervention != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
@@ -1638,6 +1672,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
     && (!ga49Footer || ga49Footer.beforeSha256 === (b31eFinal ? b31eFinal.afterSha256 : b31ePaymentDigest))
     && (!msIntervention || msIntervention.beforeSha256 === (ga49Footer ? ga49Footer.afterSha256 : b31eFinal ? b31eFinal.afterSha256 : b31ePaymentDigest))
     && (!ga21MsFacts || ga21MsFacts.beforeSha256 === msIntervention?.afterSha256)
+    && (!heldPacketCopy || heldPacketCopy.beforeSha256 === ga21Digest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
