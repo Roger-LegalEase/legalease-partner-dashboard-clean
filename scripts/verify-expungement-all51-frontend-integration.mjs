@@ -40,9 +40,47 @@ for (const c of ["AK", "DE", "MA", "NV", "PA", "HI"]) ok(codes.includes(c), `Jur
 ok(statePicker.includes("href={`/expungement-ai/screening/${jurisdiction.code}`}"), "StatePicker must route every state into the shared /screening/[state] route.");
 ok(exists("src/app/expungement-ai/screening/[state]/page.tsx"), "Shared dynamic screening route [state] must exist.");
 
-// [3] public questions come from the existing profile/question system (derived, not hardcoded in React)
-ok(screeningFlow.includes("deriveScreens(load.profile)"), "ScreeningFlow must derive questions from the profile system.");
-ok(!/const\s+\w*[Qq]uestions\s*=\s*\[/.test(screeningFlow), "ScreeningFlow must not hardcode a question array.");
+// [3] public questions come from the existing profile/question system (derived, not hardcoded in React).
+// Since a693fb2c7 the server selects WHICH profile questions to ask and ScreeningFlow projects those ids onto
+// the loaded profile (screensFromQuestionIds); a live local deriveScreens is forbidden
+// (verify-participant-screening-verification-ux). Both contracts are checked, on the real adapter and on mutants.
+const { screensFromQuestionIds } = await import("../src/components/expungement-ai/screening/screens.ts");
+const SELECTION_PROFILE = {
+  jurisdiction: { code: "TS", name: "Test", slug: "test" },
+  profileVersion: "test-v1",
+  flowStages: [{ id: "scope", order: 1, screenType: "question_sequence" }, { id: "case_details", order: 2, screenType: "form_fields" }],
+  questions: [
+    { id: "first", stage: "scope", prompt: "First?", type: "text", required: true, contextOnly: false },
+    { id: "second", stage: "scope", prompt: "Second?", type: "text", required: true, contextOnly: false },
+    { id: "source_question_raw", stage: "scope", prompt: "Raw source row?", type: "text", required: true, contextOnly: false },
+    { id: "packet_only", stage: "case_details", prompt: "Packet?", type: "text", required: true, contextOnly: false }
+  ]
+};
+function profileQuestionFindings(flowSource, selectFromIds) {
+  const found = [];
+  if (!flowSource.includes("screensFromQuestionIds(load.profile, questionIds)")) found.push("ScreeningFlow must build its screens from the loaded profile through the server-selected screensFromQuestionIds adapter.");
+  if (flowSource.includes("deriveScreens(")) found.push("ScreeningFlow must not derive the live screen list locally (deriveScreens); the server selects the question ids.");
+  if (/const\s+\w*[Qq]uestions\s*=\s*\[/.test(flowSource)) found.push("ScreeningFlow must not hardcode a question array.");
+  const selected = selectFromIds(SELECTION_PROFILE, ["second", "unknown", "first", "second", "source_question_raw", "packet_only"]);
+  if (JSON.stringify(selected.map((q) => q.id)) !== JSON.stringify(["second", "first"])) {
+    found.push(`Server-selected ids must keep server order and drop unknown, duplicate, raw source-question and postpay ids; got ${JSON.stringify(selected.map((q) => q.id))}.`);
+  }
+  if (!selected.every((q) => SELECTION_PROFILE.questions.some((p) => p.id === q.id && p.prompt === q.prompt && p.stage === q.stage && p.type === q.type))) {
+    found.push("Selected screens must carry the profile's own question fields, not questions defined elsewhere.");
+  }
+  return found;
+}
+for (const finding of profileQuestionFindings(screeningFlow, screensFromQuestionIds)) ok(false, finding);
+const lookup = (profile, ids) => ids.map((id) => profile.questions.find((q) => q.id === id)).filter(Boolean);
+const SELECTION_MUTANTS = {
+  "ScreeningFlow derives the live screens locally again": [screeningFlow.replaceAll("screensFromQuestionIds(load.profile, questionIds)", "deriveScreens(load.profile)"), screensFromQuestionIds],
+  "ScreeningFlow hardcodes a question array": [`${screeningFlow}\nconst consumerQuestions = [];`, screensFromQuestionIds],
+  "the adapter stops filtering ids": [screeningFlow, lookup],
+  "the adapter keeps postpay questions": [screeningFlow, (profile, ids) => lookup(profile, [...new Set(ids)]).filter((q) => !q.id.startsWith("source_question"))],
+  "the adapter answers with its own question text": [screeningFlow, (profile, ids) => screensFromQuestionIds(profile, ids).map((q) => ({ ...q, prompt: `${q.id}?` }))]
+};
+const mutantFindings = Object.entries(SELECTION_MUTANTS).map(([name, [flowSource, selectFromIds]]) => [name, profileQuestionFindings(flowSource, selectFromIds).length]);
+for (const [name, count] of mutantFindings) ok(count > 0, `Mutant "${name}" must RED the profile-question guard.`);
 
 // [4][12] no Final Five state added a standalone intake page / state fork
 for (const st of ["ak", "de", "ma", "nv", "pa", "alaska", "delaware", "massachusetts", "nevada", "pennsylvania"]) {
@@ -101,6 +139,7 @@ console.log("=".repeat(62));
 console.log(`Selectable jurisdictions (source engine): ${profiles.length}/51`);
 console.log("Shared surfaces: StatePicker · /screening/[state] · ScreeningFlow · ResultPanel · pay gate · Briefcase");
 console.log("Partner-sponsored suppression: resolveSavePaymentAllowed(partner=true) -> paymentAllowed=false");
+console.log(`Profile-question selection mutants RED: ${mutantFindings.filter(([, count]) => count > 0).length}/${mutantFindings.length} (${mutantFindings.map(([name, count]) => `${name}: ${count}`).join("; ")})`);
 console.log(`Paid routes with filingReadiness + external-doc checklist: ${Object.values(METADATA).filter((m) => m.paymentProductEligible).length}`);
 console.log("-".repeat(62));
 if (failures.length > 0) {

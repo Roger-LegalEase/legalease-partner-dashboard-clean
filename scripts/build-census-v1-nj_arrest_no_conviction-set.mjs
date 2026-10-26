@@ -8,6 +8,8 @@
 // never commercial or runtime authority.
 
 import assert from "node:assert/strict";
+import { applyNyCompletionDeclarations } from "./lib/ny-16059-completion-conditions.mjs";
+import { ny16059ParticipantGuidance } from "./lib/ny-16059-participant-guidance.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import { createRequire } from "node:module";
@@ -778,6 +780,7 @@ function readableCaption(label) {
  * appearance this build flattened.
  */
 const OUTPUT_GLYPH_READING_FAMILIES = new Set([
+  "ny_160_59_petition-set",
   "pa_6308_underage-set",
   "nj_ordinance-set",
   "nj_disorderly_persons-set",
@@ -2372,6 +2375,7 @@ Object.assign(FAMILY, {
   ),
   "ny_160_59_petition-set": {
     jurisdiction: "NY",
+    ny16059CurrentSourceGuidance: true,
     routeKeys: ["obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59"],
     documents: [
       source({
@@ -6039,6 +6043,7 @@ function njCn10557ConvictionParticipantInstructions(config, fieldMaps, heldButNo
 }
 
 function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
+  if (config.ny16059CurrentSourceGuidance === true) return ny16059ParticipantGuidance(config, fieldMaps, heldButNotPrinted);
   if (config.fixtureProfile === "nj_cn10557_conviction_facts") {
     return njCn10557ConvictionParticipantInstructions(config, fieldMaps, heldButNotPrinted);
   }
@@ -7000,6 +7005,9 @@ async function buildOfficialUnsafe(familyId, config) {
       ctmStrokedGeometry: census.ctmStrokedGeometry, fields: census.fields,
     })),
   });
+  if (config.ny16059CurrentSourceGuidance === true) {
+    fieldMaps.splice(0, fieldMaps.length, ...applyNyCompletionDeclarations(config, fieldMaps));
+  }
   writeJson(`${out}/production-field-map.json`, {
     schemaVersion: "rcap-production-field-map/v1", familyId,
     commercialAuthority: false, runtimeSelectable: false,
@@ -8956,6 +8964,14 @@ async function checkPa6308Stop() {
   walk(abs(PA_6308_OUT));
   assert.deepEqual(generated, [], `${STOP_FAMILY_ID}: STOP target must contain no generated pleading/PDF`);
   console.log(`build-census-v1-${STOP_FAMILY_ID}: CHECK PASS (source-bound STOP; zero pleadings/PDFs)`);
+}
+
+// Read-only guidance producer; no corpus reset, PDF generation or approval edit.
+export function ny16059InstructionsForReview(fieldMap, heldButNotPrinted = []) {
+  assert.equal(fieldMap.familyId, "ny_160_59_petition-set");
+  assert.equal(fieldMap.commercialAuthority, false);
+  assert.equal(fieldMap.runtimeSelectable, false);
+  return participantInstructions(FAMILY[fieldMap.familyId], fieldMap.documents, heldButNotPrinted);
 }
 
 export async function runEastFamily(familyId, argv = process.argv.slice(2)) {

@@ -24,6 +24,24 @@ const hash=buffer=>crypto.createHash('sha256').update(buffer).digest('hex');
 let passed=0;const results=[];
 function test(name,fn){fn();passed++;results.push({name,status:'PASS'});console.log('PASS '+name);}
 function group(spec,track){return spec.components.filter(c=>c.routeKey===SPECIAL_ROUTES[track].routeKey);}
+function assertRecordRequirement(text) {
+ assert.match(text,/Before filing, obtain verified criminal history from the Nevada Central Repository/);
+ assert.match(text,/Nevada Department of Public Safety, Records, Communications and Compliance Division/);
+ assert.match(text,/Identification File Request for State of Nevada Records of Criminal History/);
+ assert.doesNotMatch(text,/not imposed on the NRS 179\.271 request or NRS 179\.273 petition/);
+}
+test('saved participant checklist retains the required record for both special routes',()=>{
+ const requirements=JSON.parse(fs.readFileSync('data/record-clearing/legal-design-specifications.json')).participantFilingRequirements;
+ for(const track of Object.keys(SPECIAL_ROUTES)){
+  const requirement=requirements.find(x=>x.jurisdiction==='NV' && x.trackId===track && x.name==='Verified criminal history from the Nevada Central Repository');
+  assert.ok(requirement);
+  assert.equal(requirement.requiredBeforeFiling,true);
+  for(const key of ['blocksGeneration','collectedByLegalEase','inspectedByLegalEase']) assert.equal(requirement[key],false);
+ }
+ const text=fs.readFileSync(path.join(out,'participant-instructions.md'),'utf8');
+ assertRecordRequirement(text);
+ assert.match(text,/For the NRS 179\.271 request and NRS 179\.273 petition:/);
+});
 function validate(spec){
  assert.equal(spec.components.length,28);
  assert.deepEqual(spec.routes,original.routes);
@@ -32,6 +50,7 @@ function validate(spec){
   const components=group(spec,track);assert.equal(components.length,4);
   assert.deepEqual(components.map(c=>c.role),['primary_filing','proposed_order','declaration_and_verification','filing_instructions']);
   const primary=components[0], guide=components[3]; const text=guide.body.join('\n');
+  assertRecordRequirement(text);
   assert.match(text,/No court or agency of criminal justice may charge a fee/);
   assert.match(text,/directly to the clerk of a court in which you were convicted/);
   assert.doesNotMatch(components.map(c=>c.body.join('\n')).join('\n'),/it carries a fee|only file.*after the DA stipulates|must obtain prosecutor consent/i);
@@ -104,6 +123,7 @@ for(const fixture of ['canonical','boundary']){
   test(`${fixture} ${track}: actual emitted pages contain the no-fee court-first procedure`,()=>{
    assert.match(text,/No court or agency of criminal justice may charge a fee/);
    assert.match(text,/directly to the clerk of a court in which you were convicted/);
+   assertRecordRequirement(text);
    assert.doesNotMatch(text,/it carries a fee|must obtain prosecutor consent/i);
    assert.ok(!artifact.documents.includes(track+'-stipulation-5'));
    if(track==='nv_seal_decrim') {assert.match(text,/10 judicial days after receipt/);assert.match(text,/Traffic offenses are excluded/);}
@@ -138,6 +158,7 @@ test('all nine machine completeness counters remain zero without approval',()=>{
  assert.equal(correction.isCounselApproval,false);assert.equal(correction.createsTerminalStatus,false);
 });
 const mutations=[
+ ['missing verified record',s=>{const c=group(s,'nv_seal_decrim')[3];c.body=c.body.filter(x=>!x.includes('Before filing, obtain verified criminal history'));}],
  ['reintroduce fee',s=>group(s,'nv_seal_pardon')[0].body.push('This petition carries a fee; it carries a fee.')],
  ['wrong objection period',s=>{const c=group(s,'nv_seal_decrim')[3];c.body=c.body.map(x=>x.replace('10 judicial days after receipt','30 days after filing'));}],
  ['missing proof attachment',s=>{const c=group(s,'nv_seal_pardon')[3];c.body=c.body.map(x=>x.replace('Proof of the pardon is a required attachment','No proof is required'));}],

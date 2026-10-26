@@ -77,26 +77,28 @@ function sha256File(file) {
  */
 function repin(file) {
   const record = readJson(RECORD);
-  const hash = sha256File(file);
-  // Every delta that pins the file is moved together: an aggregate is pinned by
-  // the Maryland record and by every Nevada and South Dakota record, and a
-  // case about the parity comparison must not trip one of their content pins.
+  // Fresh hypothetical approvals test question shape, separately from the
+  // exact historical restatement tested by test-md-scope-restatement.mjs.
   for (const delta of record.deltas) {
     if (!delta.authorizedPaths.includes(file)) continue;
-    delta.authorizedSha256[file] = hash;
-    delta.originallyApprovedSha256[file] = hash;
-    delta.beforeAfterEvidence.beforeSha256[file] = hash;
-    delta.beforeAfterEvidence.afterSha256[file] = hash;
-    // Re-pin entries continue the chain from authorizedSha256, so moving the pin
-    // to the live bytes strands any that pointed at the old start. Clearing them
-    // is part of simulating a clean pin, not part of the case under test: leaving
-    // them makes the schema reject the stranded hop and the mutation then proves
-    // the bookkeeping works rather than proving the parity comparison does.
-    const superseded = delta.supersededSha256;
-    if (Array.isArray(superseded)) {
-      const kept = superseded.filter((entry) => !(entry.path === file && typeof entry.repinnedTo === "string"));
-      if (kept.length > 0) delta.supersededSha256 = kept;
-      else delete delta.supersededSha256;
+    const bound = delta.scopeRestatement?.bindings[file];
+    const files = bound ? Object.keys(delta.scopeRestatement.bindings) : [file];
+    if (bound) {
+      delete delta.scopeRestatement;
+      record.runtimeReauthorizations = record.runtimeReauthorizations.filter(entry => entry.deltaId !== delta.id);
+    }
+    for (const candidate of files) {
+      const hash = sha256File(candidate);
+      delta.authorizedSha256[candidate] = hash;
+      delta.originallyApprovedSha256[candidate] = hash;
+      delta.beforeAfterEvidence.beforeSha256[candidate] = hash;
+      delta.beforeAfterEvidence.afterSha256[candidate] = hash;
+      const superseded = delta.supersededSha256;
+      if (Array.isArray(superseded)) {
+        const kept = superseded.filter(entry => !(entry.path === candidate && typeof entry.repinnedTo === "string"));
+        if (kept.length > 0) delta.supersededSha256 = kept;
+        else delete delta.supersededSha256;
+      }
     }
   }
   writeJson(RECORD, record);
@@ -267,7 +269,7 @@ mutation(
     record.deltas[0].projections[1].jurisdictionKey = "VA";
     writeJson(RECORD, record);
   },
-  "MD:pardon_signed_date is not covered by the plain-language spec table."
+  "is not the exact Item 11 MD scope restatement"
 );
 
 // 6 — the approval names a different pathway than the one actually added.
@@ -437,14 +439,9 @@ mutation(
   "a superseded entry names the live pin",
   () => {
     const record = readJson(RECORD);
-    // The live pin is the END of the chain — authorizedSha256 plus every
-    // re-authorization and re-pin — not authorizedSha256 itself. Naming the
-    // chain's start would only prove the start was superseded, which it was.
-    const repins = (record.deltas[0].supersededSha256 ?? [])
-      .filter((entry) => entry.path === EVALUATOR && typeof entry.repinnedTo === "string");
-    const live = repins.length > 0
-      ? repins[repins.length - 1].repinnedTo
-      : record.deltas[0].authorizedSha256[EVALUATOR];
+    // The baseline passes first; the actual evaluator bytes are the live pin,
+    // including the Item 11 restatement after historical reauthorizations.
+    const live = sha256File(EVALUATOR);
     const target = (record.deltas[0].supersededSha256 ?? []).find(
       (entry) => entry.path === EVALUATOR && typeof entry.repinnedTo !== "string"
     ) ?? record.deltas[0].supersededSha256[0];

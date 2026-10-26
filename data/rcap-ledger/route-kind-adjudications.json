@@ -111,15 +111,22 @@
     },
     {
       "routeKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
-      "status": "pending",
-      "adjudicatedOn": null,
+      "status": "applied",
+      "adjudicatedOn": "2026-10-12",
       "decisionId": "LEGAL-DESIGN-2026-08-02-KS-02",
       "contractSays": "outcomeMode participant_packet, packetFamily \"Kansas Municipal Arrest Record Expungement Petition under § 12-4516a\", statute Kan. Stat. Ann. § 12-4516a",
       "heuristicSaid": "not a user-filed court petition",
-      "priorResultCode": "needs_more_info",
-      "priorResultCodeIsConclusive": false,
-      "proposedResultCode": "unmeasured until adjudicated",
-      "evidence": "Generated. The contract for KS:municipal-arrest-record-expungement-under-12-4516a declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Municipal arrest record expungement\" and do not. A generated answer set reaches needs_more_info — the run stops before the guidance branch, so this run does not measure the disagreement's effect. Adjudicating this row means reading the contract's own statement, running the route with real answers, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist."
+      "priorResultCode": "guidance_only",
+      "priorResultCodeIsConclusive": true,
+      "proposedResultCode": "needs_more_info",
+      "evidence": "PR268 GA21 bounded implementation. Read LEGAL-DESIGN-2026-08-02-KS-02 outcomeMode participant_packet and its named municipal arrest petition, KS.memo ks-12-4516a-municipal-arrest controllingAuthority/destination/components, and K.S.A.12-4516a(a)-(b). The statute and adopted contract explicitly describe a petition; no legal interpretation or new commercial approval is needed to correct the keyword heuristic. Actual prechange municipal arrest, dismissal and acquittal fixtures return guidance_only_no_user_filed_court_petition. Actual candidate returns needs_more_info / route_identified_packet_not_yet_available with paymentAllowed=false. The same expected result is tested for all three municipal nonconviction outcomes under all optional labels and reversed route/rule order in scripts/test-ks-municipal-factual-boundaries.mjs. The former legacy guidance result is retained in scripts/fixtures/ks-scope-legacy-baseline.json; its precise correction is asserted separately. Local instrument and completed-artifact review delivery gates, legal-only approval and commercialPosture remain unchanged.",
+      "historicalPendingObservation": {
+        "status": "pending",
+        "priorResultCode": "needs_more_info",
+        "priorResultCodeIsConclusive": false,
+        "proposedResultCode": "unmeasured until adjudicated",
+        "evidence": "Generated. The contract for KS:municipal-arrest-record-expungement-under-12-4516a declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Municipal arrest record expungement\" and do not. A generated answer set reaches needs_more_info — the run stops before the guidance branch, so this run does not measure the disagreement's effect. Adjudicating this row means reading the contract's own statement, running the route with real answers, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist."
+      }
     },
     {
       "routeKey": "KY:juvenile-petition-610330",

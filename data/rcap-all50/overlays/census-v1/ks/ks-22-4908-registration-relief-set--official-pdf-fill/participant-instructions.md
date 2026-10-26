@@ -4,6 +4,8 @@ This packet is prepared for **Petition for Relief from Drug Offender Registratio
 
 This is an internal build candidate and self-help packet. It is not legal advice or a filed petition. Check every held fact against your own records before signing the verified petition.
 
+We recommend attorney review before filing, because relief requires clear and convincing evidence, the county or district attorney is notified, victims may be notified and may participate, and the court may order a risk assessment.
+
 The registration-relief route is for drug offenders currently required to register. Sex-offender and violent-offender registrants do not receive this route, and the packet does not decide eligibility or the clear-and-convincing showing.
 
 ## What is in this packet, and who each document is for
@@ -37,11 +39,23 @@ The packet includes the ordinary conviction expungement petition because this fi
 
 **What does it cost?**
 
-The registration-relief petition uses the civil docket fee provided by K.S.A. 60-2001. The combined expungement petition carries its own K.S.A. 21-6614(g)(2) docket fee of $176, plus any currently authorized supreme-court charge. Do not assume a single fee or a fee waiver: confirm the current amount and waiver practice with the clerk.
+The registration-relief petition uses the civil docket fee provided by K.S.A. 60-2001. The combined expungement petition carries its own K.S.A. 21-6614(g)(2) docket fee of $176, plus any currently authorized supreme-court charge. Do not assume a single fee; confirm the current amount with the clerk.
+
+**What fee-waiver practice applies?**
+
+None identified in K.S.A. 22-4908. The K.S.A. 60-2001 poverty affidavit practice applies to the civil docket fee by its own terms; its reach over the combined expungement fee is unresolved.
+
+**How do I request the waiver?**
+
+Ask the district court clerk for the K.S.A. 60-2001 poverty affidavit and how to submit it for the registration-relief civil docket fee. Separately ask whether it reaches the combined expungement fee; that question remains unresolved in the held record.
 
 **Who sends notice?**
 
 The court causes notice to the county or district attorney, who notifies any living victim whose address is known or the family of a deceased victim whose address is known. The participant does not invent or perform service.
+
+**What protection applies to the victim?**
+
+The victim or the victim's family cannot be compelled to testify or to provide discovery to the offender.
 
 **Can the court require a risk assessment?**
 
@@ -66,7 +80,7 @@ The registration petition leaves the release-date versus not-confined alternativ
 | Your registration history | Ask the registering law-enforcement agency or KBI for the counties, start date and periods of compliance. The five-year period excludes incarceration and noncompliance. |
 | Your conviction record | Ask the clerk of the convicting district court for the offense, date, court and case number. |
 | Your treatment-provider names | Use your own records to list every provider or agency that treated you for mental health, substance abuse or offense-related behavior since the registrable offense. LegalEase does not inspect those records. |
-| Current fee and filing practice | Ask the clerk or counsel how the registration petition and any combined expungement petition are docketed and what fee or waiver practice applies. |
+| Current fee and filing practice | Ask the district court clerk for the current fees, filing sequence and K.S.A. 60-2001 poverty affidavit. Its practice applies to the registration-relief civil docket fee; ask the clerk or counsel about its unresolved reach over the combined expungement fee. |
 
 ## The items you must supply
 
@@ -106,6 +120,16 @@ Each is a blank on a named page of a named document. Fill every one from the rec
 | 2 | Combined expungement item 8 Option A — five-year selection | the applicable printed waiting-period box after reviewing the official Judicial Council chart and the offense record; LegalEase does not classify the offense |
 | 2 | Combined expungement item 8 Option A — ten-year selection | the applicable printed waiting-period box after reviewing the official Judicial Council chart and the offense record; LegalEase does not classify the offense |
 
+## Blanks the controlling record leaves to you
+
+LegalEase holds these facts and does not print them: the controlling record for this route (its committed legal-design record, or a recorded owner decision) reserves each blank for you to complete by hand before filing.
+
+| Document | Page | The blank on the document | What to write | Reserved by |
+| --- | --- | --- | --- | --- |
+| KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022 | 1 | Item 3 — year of birth | your four-digit year of birth in the year-of-birth blank of item 3 | Year of birth on the registration-relief petition: Left for the participant because the owner extended the restriction on automatic printing to the birth year derived from the date of birth; the data-protection review stays open. |
+| KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022 | 1 | KBI cover sheet — date of birth | your date of birth as this cover sheet asks for it; mark the race box on the same sheet yourself too | Race and year of birth on the order cover sheet: Left for the participant pending the data-protection review. |
+| KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 | 1 | Combined expungement item 3 — year of birth | your four-digit year of birth in the year-of-birth blank of item 3 | Year of birth on the combined expungement petition: Left for the participant because the owner extended the restriction on automatic printing to the birth year derived from the date of birth; the data-protection review stays open. |
+
 ## What the court fills in after you file
 
 These blanks are not yours to complete before filing. The court or the clerk supplies them.
@@ -122,7 +146,7 @@ These blanks are not yours to complete before filing. The court or the clerk sup
 5. If the registrable offense is otherwise eligible and you elect the combined route, complete the remaining expungement blanks and choose the waiting-period box from the official form and your records.
 6. Sign and verify the registration petition under penalty of perjury. Do not sign for the court, clerk, prosecutor or KBI.
 7. Ask the clerk or counsel about the combined filing sequence, docketing and fees; file in the required district court venue.
-8. After filing, follow the court's notice and hearing instructions. If the court orders a risk assessment, arrange and pay for it as directed.
+8. After filing, follow the court's notice and hearing instructions. If the court orders a risk assessment, stop self-help and get attorney help before proceeding; the assessment is at the participant's expense.
 
 ## Things the platform deliberately left blank
 

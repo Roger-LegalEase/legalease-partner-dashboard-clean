@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VFWASUD3",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "wa_vac_substance_use_disorder-set": "GRANTED_ELSEWHERE_BUT_RELEASED: wa_vac_substance_use_disorder-set is recorded on VF06, not VFWASUD3, and VF06 RELEASED it at 2026-09-02T16:08:29.332Z. No lane is executing it. Captain can hand it over with: --transfer VF06 VFWASUD3 wa_vac_substance_use_disorder-set --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "wa_vac_substance_use_disorder-set": "LIMB_1_NAMED_RULE_WHO_AND_HOW"
+  },
+  "rows": [
+    {
+      "itemId": "wa_vac_substance_use_disorder-set",
+      "lane": "VFWASUD3",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set run here at 5e7fe802c (inside measure-family.mjs, then re-run directly): custom-pleading directory PASS_COMPLETE 10/53 written (a second directory under the same familyId, official-pdf-fill, also audited: 28/71)"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Measured on the custom-pleading directory, which MASTER_QUEUE (implementationStrategy custom_pleading, packetComponents wa-96060-6-*), the selected verdict (VFWASUD3 at ee69bb07) and decision WA-SUD-VACATUR-CUSTOM-96060-6 all bind. familyId agrees across its records; routeKey obligation:track-only:WA:wa_vac_substance_use_disorder declared identically by product-wiring, source-receipt, production-field-map and MASTER_QUEUE; one census entry. Flagged, not scored as a packet defect: a second directory, wa-vac-substance-use-disorder-set--official-pdf-fill (CrRLJ 09.0100/09.0200 fills, last changed 2026-09-09, build-status BUILT_EVIDENCE_ONLY), carries the same familyId and routeKey. The completeness verifier audits both (10/53 and 28/71 written), and measure-family.mjs resolved this family to that directory, so its own facts-wa_vac_substance_use_disorder-set.json describes the wrong packet. The census entry (identical pinned vs current) still names the CrRLJ forms as the instrument; the binding decision supersedes that vehicle."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Every pin in the custom-pleading source-receipt.json recomputed from disk here: WA-washington.json f9d4f29d291682a01f0398b886d65ee7a4b74f140a3ecf4042a8ac4afba44e00/232939, LEGAL_BLOCKED_RESOLUTION_2026-09-11.json 5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2/22372, wa-sud-subsection-2-6-authority-handoff-20260913.json 24d64e649b590306ce9b9e2ad996eaeaf825673a2df80600f1423f25b82e69b6/7480 and wa-sud-subsection-2-6-authority-review-20260913.json e8c72d0de66a7f44d1e8445271433a66febfb268abe9d500ad2142bbd6657d3c/10289 exact. Census pin lapsed: current route-obligation-candidate.json eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B (pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B; lapsed at C1); route entry compared object-for-object pinned vs current: IDENTICAL; metadata identical except sourceFingerprint; worklist not pinned. No official binary is bound by this receipt; the packet is composed under the binding decision."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "5 declared (petition-1, declaration-2, notice-order-3, program-evidence-4, filing-instructions-5) equal the 5 rendered, in both fixtures, and match the MASTER_QUEUE packetComponents and the decision's required set (route-specific petition/declaration, notice/order handling, program proof or assessment/status). The registry/specification component vocabulary still names the superseded CrRLJ vehicle; the decision controls. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "10/10 written values per fixture re-found in the artifact bytes here; 0 not found. knownRequiredFieldsMissing=0, invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "29 requiredBeforeFiling blanks across petition, declaration, notice/order and checklist; every disclosure label found verbatim in the instructions with what to write. Records to obtain (conviction record, completion proof or assessment plus six-month status, pending/related-case information) are named with sources. requiredFactsNotCollected=0, unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls in the field map. The one participant election, the evidence path (completion proof, or assessment plus written six-month status), is a required-before-filing blank on petition, declaration and checklist and is explained. The order's granted/denied/other boxes are court-owned and blank. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating-row structure; incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "43 canonical refusals: 29 required-before-filing, 9 court/prosecutor/clerk-owned (findings, disposition, judge signature, order date, service recipient/method/date), 5 signature/date. refusedFieldsWithInk=0 both fixtures; protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2/2 PDFs recorded; canonical 3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab/23107 and boundary ffe4a3fbf4f5ff9545dd6991d3b617dc9d69c0e25e01b632af3c08238e7f02b3/23369 recomputed here and matching. 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Manifests run 1..9: petition pp.1-2, declaration pp.3-4, notice/order p.5, program evidence pp.6-7, filing instructions pp.8-9, in declared order; page text confirms each; pdfinfo 9 = record for both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "1816/1817 words, 0 outside the page box, 0 same-band overlaps; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0. visualDefects=0 measured here. (The 21/3 overlap counts in measure-family's own facts file belong to the official-pdf-fill directory, not this packet.)"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "'File the route-specific Petition in the sentencing court for the conviction', with court name and cause number copied from the record. That is the destination the census entry ('Clerk of the sentencing court') and the registry track record."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Per DET-FEE-AND-WAIVER-001 as written: the registry records the fee as not established at source ('directs the participant to ask the clerk'). The packet names the sentencing-court clerk for whether a fee applies, its amount and whether a waiver is available, and says it does not invent a fee or waiver rule. Specific, reachable office; no figure invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Names who is served and how: the State or prosecutor must receive the notice and filing, using the sentencing court's current service procedure, and the notice page records the recipient, method and date served. The registry rule is 'Serve the prosecutor's office for the sentencing court and file proof of service'. The proof element is carried by the recorded-service fields on the filed notice page and 'keep copies of what was filed and served', not by a sentence saying 'file proof of service'."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the registry track's 11 selfHelpStopConditions, decision WA-SUD-VACATUR-CUSTOM-96060-6, and the reviewed subsection (2)/(6) authority (answer NO: the (2)(a)-(i) bars do not govern (6)). Every registry stop is carried as a stop-and-get-help trigger: pending charges, DV, protection orders, DUI or reduced driving, weapons enhancements, exact RCW, immigration, firearm rights, DV/pending under the (2)/(6) question, program will not document, program not one of the three. The (2) items are framed as referral triggers, not automatic bars, as the reviewed authority requires. Nothing is inverted."
+        }
+      },
+      "evidence": {
+        "verifierRun": "Run here: 2 directories audited under this familyId, both PASS_COMPLETE (custom-pleading 10/53 written; official-pdf-fill 28/71); all nine counters 0. This row scores the custom-pleading directory, measured with a copy of measure-family.mjs pinned to that directory (facts-wa_vac_substance_use_disorder-set.custom-pleading-dir.json)",
+        "sourceRecomputation": "4/4 non-census committed records exact; census lapsed to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B; route entry identical; metadata identical except sourceFingerprint; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash and byteLength to record; pdfinfo 9/9 pages",
+        "byteReadBack": "20/20 written values (10 per fixture) re-found in the artifact bytes here",
+        "stopConditions": "11/11 registry stops carried as stop-and-get-help triggers, consistent with the reviewed (2)/(6) authority",
+        "lapseResolved": "Whole-file census identity only (f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 -> eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9); bound entry and metadata unchanged; refresh to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B supported for the custom-pleading receipt. Not re-pinned by this row. Open for the lead: the duplicate official-pdf-fill directory under the same familyId."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

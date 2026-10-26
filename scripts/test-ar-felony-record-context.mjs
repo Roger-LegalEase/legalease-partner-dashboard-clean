@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {register} from 'node:module';
+import {pathToFileURL} from 'node:url';
+const root=process.cwd(),read=p=>JSON.parse(fs.readFileSync(root+'/'+p));
+register(pathToFileURL(root+'/scripts/lib/ts-esm-loader.mjs'));
+const H=await import('../src/lib/expungement-ai/ar-felony-record-context.ts');
+const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
+const {packetSpecificationFor}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
+const profile=getProfileByJurisdiction('AR');
+const base='data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/';
+const source={memo:read('data/record-clearing/legal-design-intake/AR.memo.json'),fieldMap:read(base+'production-field-map.json'),sourceReceipt:read(base+'source-receipt.json')};
+const options=['Arrest or charge','Court case','Conviction','Juvenile matter','I am not sure'];
+const question={id:'record_type',stage:'packet_information',type:'single_choice',required:true,prompt:'What type of record is this?',options,translations:{es:{prompt:'¿Qué tipo de registro es este?'}}};
+let checks=0;const check=(name,fn)=>{try{fn();checks++;}catch(e){e.message=name+': '+e.message;throw e;}};
+for(const route of [H.AR_FELONY_CONTEXT_ROUTE]){
+ const spec=packetSpecificationFor('AR:'+route);
+ check('exact situation-c source guard '+route,()=>{assert.equal(spec,undefined);assert(H.arFelonyRecordIsContext(profile,route,spec,source));});
+ for(const key of ['memo','fieldMap','sourceReceipt'])for(const value of [null,{},[]])check('source drift '+key,()=>assert(!H.arFelonyRecordIsContext(profile,route,spec,{...source,[key]:value})));
+ for(const key of ['memo','fieldMap','sourceReceipt'])check('individual source drift '+key,()=>{const changed=structuredClone(source);changed[key].unreviewedChange=true;assert(!H.arFelonyRecordIsContext(profile,route,spec,changed));});
+ for(const mutate of [p=>p.jurisdiction.code='AK',p=>p.profileVersion='changed',p=>p.source.sourceCorpusSha256='changed',p=>p.pathways.find(x=>x.id===route).triggerFields.push('record_type')])check('profile drift',()=>{const p=structuredClone(profile);mutate(p);assert(!H.arFelonyRecordIsContext(p,route,spec));});
+ check('new registered specification refuses inherited exception',()=>assert(!H.arFelonyRecordIsContext(profile,route,{routeKey:'AR:'+route})));
+ check('optional EN ES descriptor preserves canonical options and input',()=>{const before=structuredClone(question),q=H.arFelonyRecordContextQuestion(question,profile,route,spec);assert.notEqual(q,question);assert.deepEqual(question,before);assert.equal(q.required,false);assert.deepEqual(q.options,options);assert.equal(q.type,'single_choice');assert.equal(q.stage,'packet_information');assert(q.prompt.includes('optional history'));assert(q.translations.es.prompt.includes('historial opcional'));assert(q.helperText.includes('does not establish'));assert(q.translations.es.helperText.includes('No establece'));});
+ for(const mutate of [q=>q.id='case_outcome',q=>q.stage='screening',q=>q.type='multi_choice',q=>q.prompt='New meaning',q=>q.options.reverse()])check('descriptor drift stays identical',()=>{const q=structuredClone(question);mutate(q);assert.strictEqual(H.arFelonyRecordContextQuestion(q,profile,route,spec),q);});
+}
+for(const route of [null,'',...profile.pathways.map(p=>p.id).filter(id=>![H.AR_FELONY_CONTEXT_ROUTE].includes(id))])check('sibling and absent route unchanged',()=>{assert(!H.arFelonyRecordIsContext(profile,route,undefined));assert.strictEqual(H.arFelonyRecordContextQuestion(question,profile,route,undefined),question);});
+check('retained exact canonical map and builder do not consume taxonomy',()=>{assert(!JSON.stringify(source.fieldMap).includes('record_type'));assert(!fs.readFileSync('scripts/build-census-v1-ar-felony-seal-set.mjs','utf8').includes('record_type'));});
+const track=source.memo.tracks.find(t=>t.trackId==='ar-felony-seal');
+check('exact adopted decision preserves specific questions and limitations',()=>{assert.equal(track.legalDesignDecision.status,'legal_design_approved_with_limitations');assert.deepEqual(track.participantInputs.map(q=>q.key),['convictionDetails','convictionDate','sentenceComplete','violenceQuestion','sameEpisodeCount','interestsOfJusticeFacts']);assert(track.legalDesignDecision.limitations.some(x=>x.statement.includes('Do not automate the violence')));assert(!track.participantInputs.some(q=>q.key==='record_type'));});
+check('named other AR approval cannot be borrowed',()=>{const wiring=read(base+'product-wiring.json');assert.equal(wiring.binding.paymentEligible,false);assert.equal(wiring.generationAllowed,false);assert.equal(wiring.binding.lastIndependentVerification.lane,'vf63');assert.equal(wiring.binding.acceptanceReceipt.verdict,'RASTER_PASS');assert(wiring.binding.sourceVersion.some(s=>s.sha256==='6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b'));});
+console.log(JSON.stringify({status:'PASS_EXACT_AR_SOURCE_HISTORY_HELPER',checks,noDatabase:true,noRender:true,qualifiedSpanishReview:'pending',newFamilyApproval:false}));

@@ -7,8 +7,9 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedBinding,assertCommittedPredecessor,reviewedSourceFiles} from './verify-pinned-worker-successor.mjs';
+import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedBinding,assertCommittedPredecessor,reviewedSourceFiles,rehearsalContainment} from './verify-pinned-worker-successor.mjs';
 import {pinnedRecords,writePinnedRecords,advancePinnedRecords} from './prepare-pinned-worker-successor.mjs';
+import {successorResponsibilities,verifySuccessorResponsibilities} from './pinned-successor-responsibilities.mjs';
 import {verifyReleaseCandidateBinding,requireCurrentReleaseCandidate} from './verify-release-candidate-binding.mjs';
 const base='121c889e15ac872e8dfbdeff18256551d15642aa',historicalSource='e3ac438da981c84987bd3172751e1a09e3f42309';
 const digest='sha256:'+'a'.repeat(64);
@@ -103,7 +104,17 @@ for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historica
   assert.equal(verifyReleaseCandidateBinding(root,read(CANDIDATE)).bindingVerified,true);
   execFileSync(process.execPath,['scripts/verify-rcap-worker-source-binding-exception.mjs'],{cwd:root,stdio:'pipe'});
   execFileSync(process.execPath,['scripts/verify-rcap-worker-source-binding-exception.mjs','--mutations'],{cwd:root,stdio:'pipe'});
-  for(const fn of [p=>p.sourceSha=base,p=>p.immutableRegistryDigest='sha256:'+'b'.repeat(64),p=>p.workflowSourceSha=source,p=>p.runtimeAccepted=true,p=>p.requestedIntegrationSha='',p=>p.tagReplacementAuthorization='invented',p=>p.supersededChain=[],p=>p.supersededPublication.status='altered',p=>p.nativeRunMetadata.sha256='0'.repeat(64)])mutate(PUBLICATION,fn);
+  for(const fn of [p=>p.sourceSha=base,p=>p.immutableRegistryDigest='sha256:'+'b'.repeat(64),p=>p.workflowSourceSha=source,p=>p.runtimeAccepted=true,p=>p.requestedIntegrationSha='',p=>p.tagReplacementAuthorization='invented',p=>p.supersededChain=[],p=>p.supersededPublication.status='altered',p=>p.nativeRunMetadata.sha256='0'.repeat(64),p=>p.containedIn='pull/268',p=>p.rehearsalOnly=true])mutate(PUBLICATION,fn);
+  { // A candidate publication of an open pull request is held as rehearsal-only: identical identity checks, never a current release publication.
+   const rehearsalArtifact={...artifact,containedIn:'pull/268'};const rehearsalOriginal=ref(prefix+'rehearsal/rcap-render-worker-publication.json',JSON.stringify(rehearsalArtifact));
+   const rehearsalArchive=prefix+'rehearsal/publication.zip';execFileSync('zip',['-q','-j',path.join(root,rehearsalArchive),path.join(root,rehearsalOriginal.path)]);const rehearsalBytes=fs.readFileSync(path.join(root,rehearsalArchive));
+   const before=fs.readFileSync(path.join(root,PUBLICATION));
+   write(PUBLICATION,{...e,containedIn:'pull/268',rehearsalOnly:true,originalPublicationPath:rehearsalOriginal.path,originalPublicationBytes:rehearsalOriginal.bytes,originalPublicationSha256:rehearsalOriginal.sha256,originalArchivePath:rehearsalArchive,nativeArchive:{path:rehearsalArchive,bytes:rehearsalBytes.length,sha256:hash(rehearsalBytes)},publicationArtifactSha256:'sha256:'+hash(rehearsalBytes)});
+   const held=verifyPinnedPublication(root);assert.equal(held.current,false,JSON.stringify(held));assert.equal(held.rehearsalOnly,true,JSON.stringify(held));assert.equal(held.workerDigest,digest);
+   const pending=verifyPinnedSuccessor(root);assert.equal(pending.current,false);assert.equal(pending.rehearsalOnly,true);assert.equal(pending.status,'AWAITING_WORKER_ACCEPTANCE');assert.match(pending.reasons.join(),/rehearsal-only/);
+   assert.throws(()=>requireCurrentReleaseCandidate(root),'a rehearsal-only candidate publication must never become the release candidate');
+   fs.writeFileSync(path.join(root,PUBLICATION),before);fs.rmSync(path.join(root,prefix+'rehearsal'),{recursive:true,force:true});assert.equal(verifyPinnedPublication(root).current,true);
+  }
   const nativeRun=e.nativeRunMetadata.path;mutate(nativeRun,p=>p.head_sha=source);
   mutate(e.nativeJobMetadata.path,p=>p.jobs[0].steps[1].conclusion='failure');
   git(['add','-f','--',PENDING,CANDIDATE,TOOLS,PUBLICATION,prefix]);commit('synthetic real-publication fixture');
@@ -121,7 +132,7 @@ for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historica
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
-test('explicit review bases resolve, require ancestry, and refuse deletion or rename',()=>{
+test('explicit review bases require ancestry and enumerate the complete deletion and rename delta',()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-source-range-'));
  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
  try{
@@ -134,10 +145,18 @@ test('explicit review bases resolve, require ancestry, and refuse deletion or re
   const unrelated=git(['commit-tree',`${sourceSha}^{tree}`,'-m','synthetic unrelated root']);
   for(const wrong of ['main',rangeBase.slice(0,12),'0'.repeat(40),unrelated,null])assert.throws(()=>reviewedSourceFiles(root,{...options,sourceRangeBaseSha:wrong}));
   git(['mv','product.txt','renamed.txt']);git(['commit','--quiet','-m','synthetic rename']);
-  assert.throws(()=>reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),/deletions cannot be represented/);
+  assert.deepEqual(reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),['product.txt','renamed.txt']);
   git(['rm','renamed.txt']);git(['commit','--quiet','-m','synthetic deletion']);
-  assert.throws(()=>reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),/deletions cannot be represented/);
+  assert.deepEqual(reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),['product.txt']);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('rehearsal containment admits pull/<number> only with the rehearsal-only mark and never relabels a release',()=>{
+ assert.equal(rehearsalContainment({containedIn:'captain-release'}),false);
+ assert.equal(rehearsalContainment({containedIn:'pull/268',rehearsalOnly:true}),true);
+ assert.throws(()=>rehearsalContainment({containedIn:'pull/268'}),/rehearsal-only import/);
+ assert.throws(()=>rehearsalContainment({containedIn:'captain-release',rehearsalOnly:true}),/cannot be marked rehearsal-only/);
+ for(const containedIn of ['main','pull/','pull/268x','refs/pull/268/head',undefined])assert.throws(()=>rehearsalContainment({containedIn,rehearsalOnly:true}),/captain-release or pull/);
 });
 
 test('publication ancestry, exact checkout and immutable tag overwrite guards remain present',()=>{
@@ -145,4 +164,92 @@ test('publication ancestry, exact checkout and immutable tag overwrite guards re
  assert(workflow.includes('git merge-base --is-ancestor'));assert(workflow.includes('RELEASE_INTEGRATION_BRANCH: captain-release'));
  assert(workflow.includes('git checkout --detach "$WORKER_BUILD_SHA"'));
  assert.equal((workflow.match(/verify-rcap-worker-tag-integrity\.mjs --guard/g)??[]).length,2);
+});
+
+
+test('successor custody preserves deleted source and separately binds narrow runtime replacements',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-responsibility-custody-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ const pendingPaths=new Set();
+ const write=(rel,bytes)=>{fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.writeFileSync(path.join(root,rel),bytes);pendingPaths.add(rel);};
+ const commit=message=>{git(['add','--',...pendingPaths]);pendingPaths.clear();git(['commit','--quiet','-m',message]);return git(['rev-parse','HEAD']);};
+ const oldBase='94003a1a5b2059eb3a8d8978e68056f05071dc4a';
+ const prefix='data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-completed-sentence-application-boundary/';
+ const deleted=[prefix+'cr-401-unchanged-official.pdf',prefix+'cr-403-unchanged-official.pdf'];
+ const oldBytes=Object.fromEntries(deleted.map(rel=>[rel,execFileSync('git',['show',`${oldBase}:${rel}`])]));
+ let refusals=0;
+ try{
+  git(['init','--quiet']);git(['config','user.name','Synthetic Test']);git(['config','user.email','synthetic@example.test']);
+  for(const rel of deleted)write(rel,oldBytes[rel]);
+  write(PUBLICATION,'{}\n');write('src/app/page.ts',`export const publication = '${PUBLICATION}';\n`);
+  write('product.txt','historical product\n');
+  for(const rel of ['.github/workflows/publish-rcap-render-worker.yml','.github/workflows/rcap-worker-image-acceptance.yml'])write(rel,'# Synthetic workflow custody bytes only\n');
+  const releaseBaseSha=commit('synthetic historical source with real preserved fixture bytes');
+  for(const rel of deleted){fs.unlinkSync(path.join(root,rel));pendingPaths.add(rel);}
+  write(PUBLICATION,'{"syntheticHistoricalSource":true}\n');write('product.txt',Buffer.alloc(1024*1024+137,'s'));
+  const sourceSha=commit('synthetic reviewed source removes historical copies');
+  const reviewedFiles=Object.fromEntries([...deleted.map(rel=>[rel,{deleted:true,sha256:hash(oldBytes[rel])}]),
+   ...[PUBLICATION,'product.txt'].map(rel=>[rel,hash(fs.readFileSync(path.join(root,rel)))])]);
+  const originalSourceCustody=structuredClone(reviewedFiles);
+  assert(fs.statSync(path.join(root,'product.txt')).size>1024*1024,'real Git blob custody exceeds the default child-process buffer');
+  const evidence='hosted-acceptance-evidence/worker/synthetic-responsibility-custody/';
+  const ref=name=>{const rel=evidence+name,bytes=JSON.stringify({synthetic:true,notNativeEvidence:true,name});write(rel,bytes);return {path:rel,bytes:Buffer.byteLength(bytes),sha256:hash(bytes)};};
+  const publication={sourceSha,runtimeAccepted:true,immutableRegistryDigest:digest,workflowSourceSha:sourceSha,
+   nativeArchive:ref('archive.txt'),nativeRunMetadata:ref('run.json'),nativeJobMetadata:ref('jobs.json'),nativeLog:ref('log.txt')};
+  const original=ref('original.json');Object.assign(publication,{originalPublicationPath:original.path,originalPublicationBytes:original.bytes,originalPublicationSha256:original.sha256});
+  publication.imageAcceptance={sourceSha,digest,conclusion:'success',workflowSourceSha:sourceSha,verificationReceipt:ref('receipt.json')};
+  write(PUBLICATION,JSON.stringify(publication));
+  const applicationSha=commit('synthetic runtime publication and scoped native-file custody');
+  const control='scripts/grade-a-launch-control/synthetic-custody-control.mjs';write(control,'// Synthetic bounded control.\n');
+  const toolsSha=commit('synthetic bounded tooling');
+  const options={releaseBaseSha,sourceSha,toolsSha,applicationSha,reviewedFiles};
+  const categories=successorResponsibilities(root,options);
+  assert.deepEqual(reviewedFiles,originalSourceCustody,'classification preserves original source hashes and deletion objects');
+  assert.equal(categories.inputs.runtimeFiles[PUBLICATION],hash(fs.readFileSync(path.join(root,PUBLICATION))));
+  assert.notEqual(categories.inputs.runtimeFiles[PUBLICATION],reviewedFiles[PUBLICATION],'old source bytes and new runtime bytes are distinct');
+  assert.deepEqual(Object.keys(categories.controlFiles),[control]);
+  for(const rel of deleted)assert(!Object.hasOwn(categories.inputs.runtimeFiles,rel)&&!Object.hasOwn(categories.controlFiles,rel),'deletion creates no runtime or control authority');
+  const pending={releaseBaseSha,sourceCommit:sourceSha,files:reviewedFiles};
+  const tools={toolsSha,successorInputs:categories.inputs,successorTools:{files:categories.controlFiles}};
+  assert.deepEqual(verifySuccessorResponsibilities(root,pending,tools),categories.inputs);
+  const refuse=(fn,reason)=>{assert.throws(fn,reason);refusals++;};
+  for(const rel of deleted){
+   const missing=structuredClone(reviewedFiles);delete missing[rel];
+   refuse(()=>successorResponsibilities(root,{...options,reviewedFiles:missing}),/requires reviewed source custody/);
+   const changed=structuredClone(reviewedFiles);changed[rel].deleted=false;
+   refuse(()=>successorResponsibilities(root,{...options,reviewedFiles:changed}),/requires reviewed source custody/);
+  }
+  for(const field of ['runtimeFiles','nativeFiles']){
+   const changed=structuredClone(tools),rel=Object.keys(changed.successorInputs[field])[0];delete changed.successorInputs[field][rel];
+   refuse(()=>verifySuccessorResponsibilities(root,pending,changed),/complete runtime\/native\/executed responsibility manifest/);
+  }
+  for(const [rel,bytes,reason]of [
+   ['product.txt','unreviewed product change\n',/unclassified successor path/],
+   ['data/rcap-grade-a/unclassified-custody.json','{}\n',/unclassified successor path/],
+   [PUBLICATION,'{"syntheticWrongRuntime":true}\n',/frozen application input/],
+   [publication.nativeRunMetadata.path,'{"syntheticChangedNative":true}\n',/frozen application input/],
+  ]){
+   try{write(rel,bytes);const changed=commit('synthetic forbidden post-application change');refuse(()=>successorResponsibilities(root,{...options,toolsSha:changed}),reason);}
+   finally{git(['reset','--hard',toolsSha]);} // Only this disposable synthetic repository.
+  }
+  try{
+   fs.chmodSync(path.join(root,'product.txt'),0o755);pendingPaths.add('product.txt');const modeChanged=commit('synthetic forbidden source file-mode change');
+   assert.equal(git(['rev-parse',`${sourceSha}:product.txt`]),git(['rev-parse',`${modeChanged}:product.txt`]),'mode-only change keeps the same file bytes');
+   assert.match(git(['diff','--summary',sourceSha,modeChanged,'--','product.txt']),/mode change 100644 => 100755/);
+   refuse(()=>successorResponsibilities(root,{...options,toolsSha:modeChanged}),/unclassified successor path/);
+  }finally{git(['reset','--hard',toolsSha]);} // Only this disposable synthetic repository.
+  for(const rel of [PUBLICATION,publication.nativeRunMetadata.path]){
+   const before=fs.readFileSync(path.join(root,rel));
+   try{write(rel,'{"syntheticCurrentDrift":true}\n');refuse(()=>verifySuccessorResponsibilities(root,pending,tools),/frozen runtime bytes/);}
+   finally{fs.writeFileSync(path.join(root,rel),before);pendingPaths.clear();}
+  }
+  for(const rel of deleted){
+   try{write(rel,oldBytes[rel]);const restored=commit('synthetic forbidden deleted-source restoration');refuse(()=>successorResponsibilities(root,{...options,toolsSha:restored}),/deleted source|deletion|unclassified successor path/);}
+   finally{git(['reset','--hard',toolsSha]);} // Only this disposable synthetic repository.
+  }
+  try{write(deleted[0],oldBytes[deleted[0]]);refuse(()=>successorResponsibilities(root,options),/deleted source cannot reappear in worktree/);}
+  finally{fs.unlinkSync(path.join(root,deleted[0]));pendingPaths.clear();}
+  assert.deepEqual(successorResponsibilities(root,options),categories,'positive restored after all semantic negatives');
+  console.log(JSON.stringify({scope:'SYNTHETIC RESPONSIBILITY CUSTODY ONLY',realHistoricalFixtureBytes:deleted.length,refusals,nativeExecuted:false,authorityCreated:false}));
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
 });

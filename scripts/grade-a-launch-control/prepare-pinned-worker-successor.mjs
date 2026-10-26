@@ -16,16 +16,19 @@ const write=(root,rel,value)=>fs.writeFileSync(path.join(root,rel),JSON.stringif
 export function pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha,sourceRangeBaseSha,applicationSuccessorSha}){
  for(const sha of [sourceSha,releaseBaseSha,toolsSha])assert.match(sha,/^[a-f0-9]{40}$/);
  assertCommittedPredecessor(root,releaseBaseSha);
- const previous=at(root,releaseBaseSha,PUBLICATION);
+ // Release bindings and native publication history advance independently.
+ const previous=at(root,applicationSuccessorSha===undefined?releaseBaseSha:sourceSha,PUBLICATION);
  const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:previous.sourceSha,acceptedDigest:previous.immutableRegistryDigest,candidateSha:sourceSha});
  const parent=git(root,['rev-parse',`${sourceSha}^`]);
- const files=Object.fromEntries(reviewedSourceFiles(root,{sourceSha,parent,sourceRangeBaseSha}).map(rel=>[rel,hash(execFileSync('git',['show',`${sourceSha}:${rel}`],{cwd:root}))]));
+ const reviewBase=sourceRangeBaseSha??parent;
+ const deleted=new Set(git(root,['diff','--no-renames','--diff-filter=D','--name-only',reviewBase,sourceSha]).split('\n').filter(Boolean));
+ const files=Object.fromEntries(reviewedSourceFiles(root,{sourceSha,parent,sourceRangeBaseSha}).map(rel=>[rel,deleted.has(rel)?{deleted:true,sha256:hash(execFileSync('git',['show',`${reviewBase}:${rel}`],{cwd:root,maxBuffer:64*1024*1024}))}:hash(execFileSync('git',['show',`${sourceSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024}))]));
  const supersededRecord=at(root,releaseBaseSha,PENDING);
- const p={schemaVersion:supersededRecord.schemaVersion,status:'AWAITING_WORKER_PUBLICATION',releaseBaseSha,sourceCommit:sourceSha,parent,applicationSource:'pinned-source',workerSource:'sourceCommit',applicationSha:sourceSha,workerSourceSha:sourceSha,workerDigest:null,workerInputFingerprint:plan.aggregateInputSha256,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:git(root,['diff','--name-only',previous.sourceSha,sourceSha,'--',...plan.canonicalInputs]).split('\n').filter(Boolean).sort(),files,workerRebuildRequired:true,publication:'pending',acceptance:'pending',runtimeAccepted:false,previewExecution:'held',productionAuthorized:false,resume:null,historicalWorker:{sourceSha:previous.sourceSha,digest:previous.immutableRegistryDigest,fingerprint:previous.workerInputFingerprint},supersededRecord,supersededRecordSha256:hash(execFileSync('git',['show',`${releaseBaseSha}:${PENDING}`],{cwd:root}))};
+ const p={schemaVersion:supersededRecord.schemaVersion,status:'AWAITING_WORKER_PUBLICATION',releaseBaseSha,sourceCommit:sourceSha,parent,applicationSource:'pinned-source',workerSource:'sourceCommit',applicationSha:sourceSha,workerSourceSha:sourceSha,workerDigest:null,workerInputFingerprint:plan.aggregateInputSha256,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:git(root,['diff','--name-only',previous.sourceSha,sourceSha,'--',...plan.canonicalInputs]).split('\n').filter(Boolean).sort(),files,workerRebuildRequired:true,publication:'pending',acceptance:'pending',runtimeAccepted:false,previewExecution:'held',productionAuthorized:false,resume:null,historicalWorker:{sourceSha:previous.sourceSha,digest:previous.immutableRegistryDigest,fingerprint:previous.workerInputFingerprint},supersededRecord,supersededRecordSha256:hash(execFileSync('git',['show',`${releaseBaseSha}:${PENDING}`],{cwd:root,maxBuffer:64*1024*1024}))};
  if(sourceRangeBaseSha!==undefined)p.sourceRangeBaseSha=sourceRangeBaseSha;
  const tuple={status:p.status,applicationSha:sourceSha,workerSourceSha:sourceSha,workerDigest:null,workerInputFingerprint:p.workerInputFingerprint,toolsSha,runtimeAccepted:false,previewExecution:'held',resume:null,productionAuthorized:false,productionAuthorization:null,deploymentAuthorized:false,clinicDispatchReady:false};
  const controls=git(root,['diff','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(Boolean).filter(f=>!Object.hasOwn(files,f));
- const tools={schemaVersion:'rcap-exact-hosted-tools-binding/v1',...tuple,successorTools:{schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root}))]))},supersededRecord:at(root,releaseBaseSha,TOOLS)};
+ const tools={schemaVersion:'rcap-exact-hosted-tools-binding/v1',...tuple,successorTools:{schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024}))]))},supersededRecord:at(root,releaseBaseSha,TOOLS)};
  if(applicationSuccessorSha!==undefined){const categories=successorResponsibilities(root,{releaseBaseSha,sourceSha,toolsSha,applicationSha:applicationSuccessorSha,reviewedFiles:files});tools.successorTools.files=categories.controlFiles;tools.successorInputs=categories.inputs;}
  const candidate={schemaVersion:at(root,releaseBaseSha,CANDIDATE).schemaVersion,...tuple,publication:null,readOnlyImageAcceptance:null,supersededRecord:at(root,releaseBaseSha,CANDIDATE)};
  return {[PENDING]:p,[TOOLS]:tools,[CANDIDATE]:candidate};
@@ -64,10 +67,10 @@ export function forwardPinnedRecords(root,{applicationSha,releaseBaseSha,toolsSh
  assert.equal(plan.rebuildRequired,false);assert.deepEqual(plan.missingCanonicalInputs,[]);assert.equal(plan.aggregateInputSha256,prior.workerInputFingerprint);
  const tuple={status:'FORWARD_BOUND_HOSTED_PENDING',applicationSha,workerSourceSha:prior.workerSourceSha,workerDigest:prior.workerDigest,workerInputFingerprint:prior.workerInputFingerprint,toolsSha,publication:priorCandidate.publication,readOnlyImageAcceptance:priorCandidate.readOnlyImageAcceptance,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',resume:null,productionAuthorized:false,productionAuthorization:null,deploymentAuthorized:false,clinicDispatchReady:false,hostedAdmission:null};
  const records={};
- for(const rel of [PENDING,CANDIDATE,TOOLS])records[rel]={schemaVersion:at(root,releaseBaseSha,rel).schemaVersion,...tuple,releaseBaseSha,supersededRecord:at(root,releaseBaseSha,rel),supersededRecordSha256:hash(execFileSync('git',['show',`${releaseBaseSha}:${rel}`],{cwd:root}))};
+ for(const rel of [PENDING,CANDIDATE,TOOLS])records[rel]={schemaVersion:at(root,releaseBaseSha,rel).schemaVersion,...tuple,releaseBaseSha,supersededRecord:at(root,releaseBaseSha,rel),supersededRecordSha256:hash(execFileSync('git',['show',`${releaseBaseSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024}))};
  records[PENDING].applicationSource='pinned-source-forward';
  const controls=git(root,['diff','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/'));
- records[TOOLS].successorTools={schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root}))]))};
+ records[TOOLS].successorTools={schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root,maxBuffer:64*1024*1024}))]))};
  return records;
 }
 

@@ -77,6 +77,8 @@ export type GradeABlock =
       /** Whether the party line is drawn above the cause number or below it. */
       captionOrder?: "case_number_first" | "matter_title_first";
       caseNumberInstruction?: string;
+      optionalIdentifier?: { label: string; value: string; blank: boolean };
+      blankFields?: Array<{ field: string; label: string; completedBy: "participant" | "court" }>;
       caseNumberBlank?: boolean;
       plaintiff: string;
       defendant: string;
@@ -85,18 +87,22 @@ export type GradeABlock =
       defendantRole?: string;
       caseNumber: string;
       title: string;
+      continuationTitle?: string;
+      wrapCourtLines?: boolean;
     }
   | { kind: "pleading_paragraph"; text: string; number?: string }
   | {
       kind: "pleading_identity_list";
       introduction?: string;
       number?: string;
+      keepWithNext?: boolean;
+      listMarker?: "none";
       /**
-       * `blank` marks a value the participant writes on the printed page. The
+       * `blank` marks a value the declared later actor writes on the printed page. The
        * renderer draws a line for it instead of a value, and the composer never
        * fills one, so an approved blank cannot quietly become a prefilled field.
        */
-      items: Array<{ label: string; value: string; blank?: boolean; completedBy?: "participant" | "court" }>;
+      items: Array<{ label: string; value: string; blank?: boolean; completedBy?: "participant" | "court" | "prosecutor" }>;
     }
   | {
       kind: "pleading_signature";
@@ -208,17 +214,25 @@ function notSuppliedByPlatform(specification: PacketSpecification): ReadonlySet<
   ]);
 }
 
+function includedAssertions(section: PacketSpecificationSection, matter: GradeAMatter) {
+  return (section.assertions ?? []).filter((assertion) =>
+    section.kind !== "pleading_numbered_assertions" || assertion.id !== "personal-impact" || fact(matter, "personal_impact_confirmed") === "Yes");
+}
+
 /** Facts a document actually reads, so a missing-fact refusal names the real cause. */
-function factsUsedBy(document: PacketSpecificationDocument, blanks: ReadonlySet<string>): string[] {
+function factsUsedBy(document: PacketSpecificationDocument, blanks: ReadonlySet<string>, matter: GradeAMatter): string[] {
   const used = new Set<string>();
   for (const section of document.sections) {
-    for (const field of section.fields ?? []) if (!blanks.has(field)) used.add(field);
-    for (const assertion of section.assertions ?? []) {
+    for (const field of section.fields ?? []) if (!blanks.has(field) && section.fieldTreatments?.[field] !== "value_or_ruled_blank") used.add(field);
+    for (const assertion of includedAssertions(section, matter)) {
       for (const fact of assertion.facts) used.add(fact);
       for (const [, id] of assertion.text.matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
     }
     for (const [, id] of (section.body ?? "").matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
     for (const [, id] of (section.jurat ?? "").matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
+    for (const template of Object.values(section.fieldValueTemplates ?? {})) {
+      for (const [, id] of template.matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
+    }
   }
   return [...used].sort();
 }
@@ -527,9 +541,14 @@ export function composeGradeAPacket(
   // participant a partial packet, which is the failure mode this whole gate
   // exists to prevent.
   const blanks = notSuppliedByPlatform(specification);
+  // The specification makes this paragraph optional. Exact No omits its sole
+  // conditional consumer; any other direct document consumer still requires it.
+  const optionalImpactDeclined = specification.routeKey === MISSISSIPPI_NONCONVICTION_ROUTE
+    && fact(matter, "personal_impact_confirmed") === "No";
   const missing = [...new Set([
-    ...specification.requiredFacts.map((requiredFact) => requiredFact.factId),
-    ...included.flatMap((document) => factsUsedBy(document, blanks))
+    ...specification.requiredFacts.filter((requiredFact) => requiredFact.requiredForGeneration !== false).map((requiredFact) => requiredFact.factId).filter((id) => !blanks.has(id)
+      && !(optionalImpactDeclined && id === "personal_impact_statement")),
+    ...included.flatMap((document) => factsUsedBy(document, blanks, matter))
   ])]
     .filter((id) => fact(matter, id) === "")
     .sort();
@@ -604,8 +623,23 @@ function composeSection(
     const label = fill(section.fieldLabels?.[field] ?? captionLabel(field), matter);
     const treatment = section.fieldTreatments?.[field]
       ?? (blanks.has(field) ? undefined : "value");
+    if (treatment === "value_or_ruled_blank") {
+      if (!specification.requiredFacts.some(entry => entry.factId === field && entry.requiredForGeneration === false)) {
+        throw new GradeAPacketCompositionError(specification.routeKey, [], `Optional field "${field}" has no source-declared generation permission`);
+      }
+      return fact(matter, field) ? { label, value: fact(matter, field) }
+        : { label, value: "", blank: true, completedBy: "participant" as const };
+    }
     if (treatment === "ruled_blank") return { label, value: "", blank: true, completedBy: "participant" as const };
     if (treatment === "court_owned_space") return { label, value: "", blank: true, completedBy: "court" as const };
+    if (treatment === "prosecutor_owned_space") {
+      const ownership = specification.fieldOwnership;
+      if (!ownership?.prosecutorOwnedFields.includes(field)
+        || Object.entries(ownership).some(([key, fields]) => key !== "prosecutorOwnedFields" && fields.includes(field))) {
+        throw new GradeAPacketCompositionError(specification.routeKey, [], "Prosecutor blank lacks exclusive source-declared prosecutor ownership");
+      }
+      return { label, value: "", blank: true, completedBy: "prosecutor" as const };
+    }
     if (treatment === "value") {
       return { label, value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter) };
     }
@@ -621,6 +655,34 @@ function composeSection(
     case "pleading_caption": {
       const contract = section.captionContract;
       if (contract) {
+        if (contract.blankFields !== undefined && (!Array.isArray(contract.blankFields)
+          || !contract.courtLines?.length
+          || Array.from({ length: contract.blankFields.length }, (_, index) => index)
+            .some(index => !Object.hasOwn(contract.blankFields!, index)))) {
+          throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blanks require a dense field list and supported court-line structure");
+        }
+        const blankFields = contract.blankFields?.map((field, index, fields) => {
+          const treatment = section.fieldTreatments?.[field];
+          const label = section.fieldLabels?.[field];
+          const owner = treatment === "court_owned_space"
+            ? specification.fieldOwnership?.courtOwnedFields
+            : specification.fieldOwnership?.participantCompletesBeforeFilingFields;
+          if (typeof field !== "string" || fields.indexOf(field) !== index
+            || !section.fields?.includes(field) || !label?.trim()
+            || !["ruled_blank", "court_owned_space"].includes(treatment ?? "")
+            || !owner?.includes(field)) {
+            throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blank lacks exact declared treatment, label or later ownership");
+          }
+          const entry = fieldItem(field);
+          if (!entry.blank || entry.value !== "" || (entry.completedBy !== "participant" && entry.completedBy !== "court")) {
+            throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blank cannot consume a supplied value");
+          }
+          return { field, label: entry.label, completedBy: entry.completedBy };
+        });
+        if (contract.optionalIdentifier && (!contract.courtLines?.length
+          || !specification.requiredFacts.some(entry => entry.factId === contract.optionalIdentifier!.field && entry.requiredForGeneration === false))) {
+          throw new GradeAPacketCompositionError(specification.routeKey, [], "Optional caption identifier lacks source permission or supported caption structure");
+        }
         return [{
           kind: "pleading_caption",
           court: blanks.has(contract.court) ? "" : fact(matter, contract.court),
@@ -633,6 +695,7 @@ function composeSection(
               : {})
           })) } : {}),
           ...(contract.caseNumberLabel ? { caseNumberLabel: contract.caseNumberLabel } : {}),
+          ...(blankFields?.length ? { blankFields } : {}),
           ...(contract.courtInstruction ? { courtInstruction: contract.courtInstruction } : {}),
           ...(contract.matterTitle ? { matterTitle: fill(contract.matterTitle, matter) } : {}),
           ...(contract.captionOrder ? { captionOrder: contract.captionOrder } : {}),
@@ -641,6 +704,13 @@ function composeSection(
           caseNumber: blanks.has(contract.caseNumber) ? "" : fact(matter, contract.caseNumber),
           caseNumberBlank: blanks.has(contract.caseNumber),
           ...(contract.caseNumberInstruction ? { caseNumberInstruction: contract.caseNumberInstruction } : {}),
+          ...(contract.optionalIdentifier ? { optionalIdentifier: {
+            label: contract.optionalIdentifier.label,
+            value: fact(matter, contract.optionalIdentifier.field),
+            blank: !fact(matter, contract.optionalIdentifier.field)
+          } } : {}),
+          ...(contract.continuationTitle ? { continuationTitle: contract.continuationTitle } : {}),
+          ...(contract.wrapCourtLines ? { wrapCourtLines: true } : {}),
           title: contract.documentTitle ?? section.heading
         }];
       }
@@ -666,8 +736,7 @@ function composeSection(
     }
 
     case "pleading_numbered_assertions": {
-      const assertions = (section.assertions ?? []).filter((assertion) =>
-        assertion.id !== "personal-impact" || fact(matter, "personal_impact_confirmed") === "Yes");
+      const assertions = includedAssertions(section, matter);
       const numbered = assertions.map((assertion, index) => ({
         kind: "pleading_paragraph" as const,
         text: fill(assertion.text, matter),
@@ -731,6 +800,8 @@ function composeSection(
         ...standalone,
         {
           kind: "pleading_identity_list",
+          ...(section.keepWithNext ? { keepWithNext: true } : {}),
+          ...(section.listMarker ? { listMarker: section.listMarker } : {}),
           introduction: introduces && "text" in introduces ? introduces.text : "",
           number,
           items: (section.fields ?? []).map(fieldItem)
@@ -745,6 +816,7 @@ function composeSection(
         name: fact(matter, "participant_full_legal_name"),
         role: fill(section.body ?? "{{participant_full_legal_name}}, Petitioner, Pro Se", matter),
         contactLines: [
+          ...(section.fields?.includes("date_of_birth") ? [`DATE OF BIRTH: ${fact(matter, "date_of_birth")}`] : []),
           fact(matter, "mailing_address"),
           `Telephone: ${fact(matter, "phone_number")}`,
           `Email: ${fact(matter, "email_address")}`
@@ -815,7 +887,7 @@ function composeSection(
     case "caption":
       return [head, ...(section.fields ?? []).map((field): GradeABlock => ({
         kind: "labelled",
-        label: captionLabel(field),
+        label: fill(section.fieldLabels?.[field] ?? captionLabel(field), matter),
         value: fact(matter, field)
       })), { kind: "rule" }];
 
@@ -833,7 +905,18 @@ function composeSection(
         note: section.notarisationRequired === true
           ? "This signature must be notarized."
           : "No notarization is required for this filing."
-      }];
+      }, ...(section.fields ?? [])
+        .filter((field) => field !== "participant_full_legal_name")
+        .map((field): GradeABlock => {
+          const item = fieldItem(field);
+          // Generic labelled blocks cannot draw participant or court blanks.
+          // A future treatment needs an explicit supported document structure.
+          if ("blank" in item && item.blank) {
+            throw new GradeAPacketCompositionError(specification.routeKey, [],
+              `signature field "${field}" requires a blank treatment unsupported by this signature structure.`);
+          }
+          return { kind: "labelled", label: item.label, value: item.value };
+        })];
 
     case "court_signature_block":
       if (presentation === "pleading") {

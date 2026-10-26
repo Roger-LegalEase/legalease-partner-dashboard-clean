@@ -40,16 +40,16 @@
     "sourceVersion": [],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "34575955732",
-      "jobId": "103189126063",
-      "artifactId": "10189822772",
-      "boundToCanonicalSha256": "ac6aed1b5ad37701f2efc9d88aad407498abeb4ab01af8b1b2c558aedd26597b",
+      "workflowRunId": "39430479568",
+      "jobId": "118656130842",
+      "artifactId": "12268232681",
+      "boundToCanonicalSha256": "4483d38b301e8e1dc018ac65e7737cd39df5a8c082603c60b0ba293f9d17f6d0",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf65",
-      "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1"
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -73,6 +73,19 @@
           "boundToCanonicalSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
           "coversTheWholeFamily": true
         }
+      },
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "ac6aed1b5ad37701f2efc9d88aad407498abeb4ab01af8b1b2c558aedd26597b",
+        "replacedByCanonicalSha256": "a20096ba7ee519ce80e24c7085bfa92e4be974997b2e09cb3e967f0fd2175406",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34575955732",
+          "jobId": "103189126063",
+          "artifactId": "10189822772",
+          "boundToCanonicalSha256": "ac6aed1b5ad37701f2efc9d88aad407498abeb4ab01af8b1b2c558aedd26597b",
+          "coversTheWholeFamily": true
+        }
       }
     ]
   },
@@ -87,7 +100,7 @@
         "order": 1,
         "documentId": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "ac6aed1b5ad37701f2efc9d88aad407498abeb4ab01af8b1b2c558aedd26597b",
+        "sha256": "4483d38b301e8e1dc018ac65e7737cd39df5a8c082603c60b0ba293f9d17f6d0",
         "requirement": "required"
       }
     ]

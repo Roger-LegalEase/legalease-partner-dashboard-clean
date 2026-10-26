@@ -57,6 +57,7 @@ const commonStops = [
   'Get legal help for immigration or firearm-rights questions. This sealing packet makes no determination of those consequences.',
   'This Nevada packet does not clear federal, out-of-state, military, or tribal records.',
 ];
+const recordRequirement = 'Before filing, obtain verified criminal history from the Nevada Central Repository. Submit an Identification File Request for State of Nevada Records of Criminal History with fingerprints and the records fee to the Nevada Department of Public Safety, Records, Communications and Compliance Division. Ask that office whether the NRS 179.245(9) sex-trafficking record-fee waiver applies. Separate records charges do not change the no-fee submission rules for these special routes.';
 const rbf = (id, label, supply) => ({kind:'rbf', id, label, supply, why:'the value must come from the participant\'s actual records; it is not held in the reference fixture'});
 const protectedBlank = (id, label) => ({kind:'protected', id, label, why:'the participant completes this only when actually executing the document'});
 const known = [
@@ -103,6 +104,7 @@ function instructions(track, rule, components) {
       'NRS 179.245(9) also protects qualifying sex-trafficking or involuntary-servitude victims against specified process expenses. That separate protection is not a condition of the no-fee submission rights above. Get legal help if a separate charge or waiver is disputed.', '',
       'NOTICE AND RESPONSE',rule.notice,'', 'WHAT TO PREPARE',
       'Complete the request or petition from the conviction record. Keep supporting documents with it. Do not complete any judicial decision, court signature, or certification for someone else.',
+      recordRequirement,
       track==='nv_seal_pardon' ? 'Proof of the pardon is a required attachment. Do not substitute a request for a future pardon or an unsupported statement that one was granted.' : 'Identify the decriminalizing act, referendum or initiative, its effective date, and the conviction that predates it. This route excludes traffic offenses.',
       'The proposed order and declaration are supporting LegalEase-prepared components, not official court forms. The statutes do not make a prosecutor stipulation a required component of these two special routes. Confirm any additional local formatting requirement with the filing clerk; it does not alter the statutory no-fee and no-preapproval rules.', '',
       'AFTER THE COURT ACTS',rule.after,'', 'WHEN THIS SELF-HELP PACKET STOPS',
@@ -158,7 +160,7 @@ export function applyNvSpecialRoutes(spec) {
   spec.composedFromNote += `; the two special routes also bind ${CORRECTION}, which expressly supersedes their inherited fee and prosecutor-first content`;
   spec.documentsToObtain=spec.documentsToObtain.map(([what,where])=>[
     /NRS 179\.245\(2\)\(a\).*179\.255\(3\)\(a\)/.test(what)
-      ? 'For routes governed by NRS 179.245 or 179.255: '+what+' This ordinary-route attachment condition is not imposed on the NRS 179.271 request or NRS 179.273 petition.' : what,where]);
+      ? 'For routes governed by NRS 179.245 or 179.255: '+what+' For the NRS 179.271 request and NRS 179.273 petition: '+recordRequirement : what,where]);
   spec.documentsToObtain.push(['For the NRS 179.273 route: proof of the actual pardon and matching conviction charges.','Nevada State Board of Pardons Commissioners and the convicting court']);
   spec.documentsToObtain.push(['For NRS 179.271: conviction record and the authority that decriminalized this offense.','The convicting court and the official Nevada legislative or initiative record']);
   spec.steps=spec.steps.map(x=>x.includes('ask that office what it charges')

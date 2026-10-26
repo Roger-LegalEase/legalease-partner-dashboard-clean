@@ -69,9 +69,39 @@
     {
       "recordId": "ks-arrest-legal-design-track-registry",
       "path": "data/record-clearing/legal-design-track-registry.json",
-      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
-      "byteLength": 16781025,
-      "anchorsVerified": 4
+      "sha256": "5e200d1520e15c36a9d0b70b982cefbdb42848704e318445940c599b1818649e",
+      "byteLength": 16782784,
+      "anchorsVerified": 4,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-21",
+        "was": {
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025
+        },
+        "recoveredFromCommit": "a91c6b41deaafd1d6f5a93c69869fb0e965f21e2",
+        "recoveredFromBlob": "98c89f71a96ba4869d4ea8c71a7702b5dc3a95c2",
+        "refreshedAgainstCommit": "d2a1886da89d547466853072ffa68f07c90af0a5",
+        "previousIdentityRefresh": null,
+        "anchorsCompared": 1,
+        "anchorsIdentical": 1,
+        "anchorDescription": "the complete ks-22-2410-arrest track object, canonicalised, in the pinned registry and the current one",
+        "trackIds": [
+          "ks-22-2410-arrest"
+        ],
+        "trackCountBothSides": 503,
+        "changedTracks": [
+          "tn_eligible_conviction",
+          "tn_judicial_diversion",
+          "tn_pretrial_diversion",
+          "tn_two_offense"
+        ],
+        "identicalTrackSha256": {
+          "ks-22-2410-arrest": "b3a0dc2509e13f0bb7913a45524bf75efc2ca65d1d880aebf8f5705fa2357fd7"
+        },
+        "canonicalisation": "keys sorted recursively, no whitespace, JSON.stringify of scalars",
+        "why": "The whole-file digest moved because four TN tracks were edited. This family's own bound track object is byte-identical under the canonicalisation above and every byte outside the track arrays is identical. No packet byte, source selection, legal treatment or review disposition changes. The separate MASTER_QUEUE pin remains unchanged and stale.",
+        "whatThisDoesNotDo": "It does not rebuild the family, does not touch its fixtures, and does not refresh any other pin. A change to the bound track itself makes this script exit non-zero and write nothing."
+      }
     },
     {
       "recordId": "ks-arrest-master-queue",

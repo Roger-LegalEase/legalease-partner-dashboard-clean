@@ -1,35 +1,74 @@
 {
-  "byteIdenticalRegenerationAttempted": false,
-  "byteIdenticalRegenerationPossibleHere": true,
-  "byteIdenticalRegenerationProven": false,
-  "candidateSupersedingRenderer": "scripts/implement-rcap-official-forms-d1.mjs",
-  "candidateSupersedingRendererCoversColorado": false,
-  "captainStatement": "The historical renderer identity is preserved on this record. It is unavailable in accepted captain ancestry, the current executable renderer is unresolved, byte-identical regeneration is not proven, and the retained artifacts are digest-verified only. None of that authorizes repointing the identity at a renderer that did not produce these bytes.",
-  "currentExecutableRenderer": "unresolved",
-  "declaredRenderer": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
-  "declaredRendererCommit": "a967fc118c4d0d864b1b8a7007635500d78758d7",
-  "declaredRendererCommitIsCaptainAncestor": false,
-  "declaredRendererCommitReachableInThisClone": true,
-  "declaredRendererPresentInTree": false,
-  "determination": "renderer_identity_unrecoverable_from_accepted_history",
-  "family": "jdf-612-form-motion-en",
-  "historicalRendererAvailableInAcceptedCaptainAncestry": false,
-  "historicalRendererIdentity": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
-  "historicalRendererIdentityPreserved": true,
-  "officialCorpusMounted": true,
-  "portedBy": "9a755faf3c4baeddedb7b1665f8d5cc07ccbc06c",
-  "portedWithoutRenderer": true,
-  "reasoning": [
-    "The named renderer is not in the tree and its directory does not exist, so the recorded identity names nothing that can run.",
-    "Its commit is not reachable in this clone and is not an ancestor of the captain branch, so restoring it would import unaccepted work rather than recover accepted history.",
-    "The renderer that owns the other 89 manifests in this corpus restricts itself to the nine jurisdictions it names and does not name Colorado, so repointing to it would assert an ownership it does not have.",
-    "Neither the operational Nationwide tree nor the Master Library is mounted in this environment, so no implementation can regenerate these bytes here and byte-identical regeneration cannot be demonstrated by any renderer.",
-    "The executable identity is therefore cleared rather than replaced, while the historical identity stays recorded here. The artifacts are retained on the only basis that is actually true of them: their recorded digests match the bytes on disk exactly."
+  "historicalArtifacts": [
+    {
+      "bytes": 1255122,
+      "gitBlobSha": "4104118c6ff68abe5127642f22c0e5ab4390b803",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/contact-sheet/blank-vs-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "d9cc6c4060509a0e05a5395933887ee235cef888077474c709c8c67d9f5f48a5"
+    },
+    {
+      "bytes": 231678,
+      "gitBlobSha": "a90cdcb9319ff65c37a6c90c2d3a2f2e89307de1",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/boundary-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "391775264f24cb4ee66a96402f19fd8044a6a22bbaa935db849984517f9a5578"
+    },
+    {
+      "bytes": 231616,
+      "gitBlobSha": "d7066a7448424f47065f7554a049efa7a1196f2b",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/canonical-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "cb796b51f5b747e357796c1b6ab7bc1799a436b4ea1b550574fa1f56a88e022e"
+    },
+    {
+      "bytes": 231478,
+      "gitBlobSha": "39d43e312db29f9032029699a2e0fb26452822ae",
+      "path": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/negative-filled.pdf",
+      "retainedAtCommit": "5d5882e55465da1b23e244741ca4f730fc965585",
+      "sha256": "9b354d7d36eff190e0031f1ccde74f4541a1f1bfa6c220f1ccd5d5ed782ad1a4"
+    }
   ],
-  "reopensWhen": "The official binary named by this family's source record is mounted. At that point the Colorado specification binder renders these fixtures again and the render receipt records the renderer that produced them.",
-  "retainedArtifactsBasis": "digest_verified_only",
-  "retention": "hash_verified_bytes_only",
-  "schemaVersion": "rcap-renderer-provenance/v1",
-  "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-  "treatment": "executable_identity_cleared_historical_identity_preserved_bytes_retained_by_hash"
+  "implementation": "src/lib/rcap/state-packs/colorado/official-forms/pipeline.ts#renderCurrentFixture",
+  "independentReview": "pending",
+  "renderer": "src/lib/rcap/state-packs/colorado/official-forms/run-emit.mjs",
+  "revision": "REV-2025-07-01",
+  "schemaVersion": "rcap-colorado-current-renderer-provenance/v1",
+  "sourcePath": "reference/co-jdf-2025-07-01/JDF612.pdf",
+  "sourceSha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+  "supersededRecord": {
+    "byteIdenticalRegenerationAttempted": false,
+    "byteIdenticalRegenerationPossibleHere": true,
+    "byteIdenticalRegenerationProven": false,
+    "candidateSupersedingRenderer": "scripts/implement-rcap-official-forms-d1.mjs",
+    "candidateSupersedingRendererCoversColorado": false,
+    "captainStatement": "The historical renderer identity is preserved on this record. It is unavailable in accepted captain ancestry, the current executable renderer is unresolved, byte-identical regeneration is not proven, and the retained artifacts are digest-verified only. None of that authorizes repointing the identity at a renderer that did not produce these bytes.",
+    "currentExecutableRenderer": "unresolved",
+    "declaredRenderer": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
+    "declaredRendererCommit": "a967fc118c4d0d864b1b8a7007635500d78758d7",
+    "declaredRendererCommitIsCaptainAncestor": false,
+    "declaredRendererCommitReachableInThisClone": true,
+    "declaredRendererPresentInTree": false,
+    "determination": "renderer_identity_unrecoverable_from_accepted_history",
+    "family": "jdf-612-form-motion-en",
+    "historicalRendererAvailableInAcceptedCaptainAncestry": false,
+    "historicalRendererIdentity": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
+    "historicalRendererIdentityPreserved": true,
+    "officialCorpusMounted": true,
+    "portedBy": "9a755faf3c4baeddedb7b1665f8d5cc07ccbc06c",
+    "portedWithoutRenderer": true,
+    "reasoning": [
+      "The named renderer is not in the tree and its directory does not exist, so the recorded identity names nothing that can run.",
+      "Its commit is not reachable in this clone and is not an ancestor of the captain branch, so restoring it would import unaccepted work rather than recover accepted history.",
+      "The renderer that owns the other 89 manifests in this corpus restricts itself to the nine jurisdictions it names and does not name Colorado, so repointing to it would assert an ownership it does not have.",
+      "Neither the operational Nationwide tree nor the Master Library is mounted in this environment, so no implementation can regenerate these bytes here and byte-identical regeneration cannot be demonstrated by any renderer.",
+      "The executable identity is therefore cleared rather than replaced, while the historical identity stays recorded here. The artifacts are retained on the only basis that is actually true of them: their recorded digests match the bytes on disk exactly."
+    ],
+    "reopensWhen": "The official binary named by this family's source record is mounted. At that point the Colorado specification binder renders these fixtures again and the render receipt records the renderer that produced them.",
+    "retainedArtifactsBasis": "digest_verified_only",
+    "retention": "hash_verified_bytes_only",
+    "schemaVersion": "rcap-renderer-provenance/v1",
+    "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+    "treatment": "executable_identity_cleared_historical_identity_preserved_bytes_retained_by_hash"
+  }
 }

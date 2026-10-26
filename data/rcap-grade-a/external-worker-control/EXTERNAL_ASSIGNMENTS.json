@@ -117,13 +117,18 @@
       "assignmentId": "CLOUD01-VF18-V4-BATCH-001",
       "lane": "VF18",
       "laneKind": "independent-verification",
-      "subjectIds": [
-        "ak-courtview-set"
-      ],
+      "subjectIds": [],
       "operation": "independent-verification",
-      "subjectCount": 1,
+      "subjectCount": 0,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": []
+      "captainTransferCommands": [],
+      "withdrawn": {
+        "on": "2026-10-18",
+        "by": "Captain (integrating lead, PR #268)",
+        "reason": "This assignment reserved ak-courtview-set for a second independent read on VF18. It was completed: Captain transferred the grant VF01->VF18 at 2026-09-01T11:38:04.433Z, VF18 returned PASS_COMPLETE_INDEPENDENT at verifiedAtBase 321650b5a71d16ce6b59e78147c8d39cd94c9d80 (extracted into VERIFIER_RETURNS.json) and released the grant at 2026-09-01T12:43:28.231Z. The listing outlived the work and now holds a spent reservation.",
+        "whatWasNotDone": "No claim, verdict or packet byte was changed; the completed VF18 verdict stays on record.",
+        "ifTheExternalReadIsStillWanted": "Re-issue it as a further read on the corrected bytes after the fresh VF01 verification returns."
+      }
     },
     {
       "workerId": "CLOUD02",

@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF05",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine; the assertions were run against the lead's grant ledger claim-ledger.json (sha256 18c0b4531cfa9a4aa262199a49d8c1dbd631b73ffd61f4aaab0fb1e0f488a8aa), which grants this lane in a batch not yet at the row base",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure": "CLAIM_OK VF05 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure (independent-verification, grant set 1c6319b6441f6094)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "lane": "VF05",
+      "worker": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T13:51:15Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<full Edition 1 corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure, run by measure-family.mjs in the detached worktree /tmp/legalease-reviewer2-20261020 at base 0116da97daa896e517323f18c01a1a33de0ceaee: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 5/10 written; every counter printed 0 (facts.json verifierRun)."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-ledger/completed-output-counsel-manifest.json",
+          "sha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+          "byteLength": 321306,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-application-instructions.html.gz",
+          "sha256": "e4a00f1bd90943cfabe9a747aad98c5fe19d1cf5327f16fe2fc09503e2997bdc",
+          "byteLength": 9415,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-pardon-faq.html.gz",
+          "sha256": "c2038ec7ba4c762fc81dd53380026f9518b802a0ddc31af8dd435b92df0bcb24",
+          "byteLength": 13738,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "a9ae6e65a1fbe1311b9f8a48dea115840beb5ba9c2482b8a13a2de9669f14c46",
+          "byteLength": 6516,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "e2ec46c7d52ee5703401a519141c7885bd0f1b73820c23df65bee538dc5a1d1b",
+          "byteLength": 6644,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure is declared identically by source-receipt, product-wiring, production-field-map and the MASTER_QUEUE row; familyIdAgrees true (facts.json routeIdentity). It resolves in the current census at routes[334] (trackId ct-absolute-pardon, runtimePathwayId absolute-pardon-resulting-in-erasure, destination 'Connecticut Board of Pardons and Paroles') and in CT.memo.json track ct-absolute-pardon. The guide speaks only to this route; sibling Connecticut routes are named only as other routes."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 0116da97daa896e517323f18c01a1a33de0ceaee: all 5 compositionSources equal their receipt pins by sha256 and byte length (CT.memo.json 90d96d9d (171609 B); route-obligation-candidate.json eeabd8b9 (2635434 B); completed-output-counsel-manifest.json fbf9bfef (321306 B); ct-application-instructions.html.gz e4a00f1b (9415 B); ct-pardon-faq.html.gz c2038ec7 (13738 B)); allSourcesExact true and no pin has drifted, so no historical blob recovery was needed (sources-recompute.txt). completed-output-counsel-manifest.json carries a pre-existing 2026-09-05 identityRefresh whose current pin fbf9bfef\u2026 is the one recomputed exact here. This family binds committed repository records and its own bound official captures; no corpus bytes."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Guidance deliverable. Declared = rendered = ['agency_preparation_guide'] in field map, rendered-artifacts (both fixtures) and receipt; officialForm null; matches the memo's single process-guidance component and the census 'participant-agency-application-treatment:board-portal-application-explicit'. No application is generated. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 5 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (facts.json readBack 5/5 both; 0 glyphs outside measured write boxes; no refused field inked). Canonical: Jordan Avery Reyes, 1991-04-17, 42 Larkspur Street, Hartford, CT 06103, 860-555-0142, jordan.reyes@example.org. Boundary: Maria-Alejandra O'Shaughnessy-Whitfield, 1968-12-31, 1188 Upper Connecticut River Crossing Road, Apartment 14B, West Hartford, Connecticut 06119-2214 (wraps inside the margin), (203) 555-0199 ext. 4417, maria.alejandra.oshaughnessy.whitfield@longmailexample.org. canonical-vs-boundary.diff differs only in those five values. knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 5 = blanks 5 (everyRequiredBeforeFilingItemIsDisclosed true): on-or-after-October 1, 1974 pathway confirmation; every included conviction; Clean Slate reach; Board eligibility and timing; ePardon application, attachments, hearing rules and fee (with DESPP). All 5 print on p2 under 'FACTS YOU MUST CONFIRM BEFORE ACTING' with a 'Check with' authority and appear in the instructions table (held-records.txt). requiredFactsNotCollected 0, unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls, 0 canonical refusals, routeSelectionsMade [] (routeSelectionNote: 'The exact route is fixed as obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure. The guide selects that agency route and presents no alternate instrument for the participant to elect.'). requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating structure is declared (componentSet repeatingRows 0; one composed guide, no case or charge rows); the conviction/case facts are single labelled blanks the participant fills from the record. incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedBlanks 0 in blanks-left-for-the-participant; refusedFieldsWithInk empty in both fixtures; protectedWrites 0 measured here. The guide prints 'Do not sign or date this guide. Sign and date only the agency's own request or application' and 'No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide'; no signature, date or notary line exists on the page."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Two PDFs on disk, both recorded, no unrecorded PDF. Recomputed here: canonical.pdf a9ae6e65a1fbe1311b9f8a48dea115840beb5ba9c2482b8a13a2de9669f14c46 / 6516 B, boundary.pdf e2ec46c7d52ee5703401a519141c7885bd0f1b73820c23df65bee538dc5a1d1b / 6644 B, both equal to reports/rendered-artifacts.json and to the RASTER_PASS receipt of A9 run 39430402490 (packetCommitSha ce21144762a49aae1e3c9c126c1ca4f4c34ab755; family directory unchanged ce2114476..0116da97d, bytes-unchanged.txt empty). pdfinfo 2 page(s) each, equal to the recorded 2."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read from the page headings of the bytes (page-headings.txt): p1 title, route explanation and the Board process with the fee statement; p2 FACTS YOU MUST CONFIRM BEFORE ACTING and PROTECTED ITEMS; identical on both fixtures and equal to the rendered-artifacts packet order (one document). 2 page(s) by pdfinfo = 2 recorded."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: 0 words outside the page box and 0 same-band overlapping word pairs on both fixtures (499 and 507 words). The RASTER_PASS receipt (39430402490) binds both pinned hashes with no problems, and output-7c's visual review of those page images found no defect; the long boundary address and email wrap inside the margin. visualDefects 0."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "p1 'Apply through https://epardonportal.ct.gov/portal . The Board's current Absolute Pardon instructions are at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions'; 'the participant applies through the Board's own ePardon process ... It is not a court filing.' Matches the memo destination ('Connecticut Board of Pardons and Paroles, ePardon portal') and the census destination; the pre-October 1, 1974 Superior Court petition branch is named only as not this route."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Prior FAIL (A2) is repaired in these bytes: limb 2 for the Board, limb 3 for the DESPP report. p1 'Fee: the Board's own Pardon FAQ (..., as captured on 2026-09-08) says the Board of Pardons and Paroles does not currently charge a fee to apply for a pardon. It also says you must pay the State Police, now the Department of Emergency Services and Public Protection (DESPP), for your State Police criminal history report, and that the Board does not set that charge; ask DESPP what it costs.' (instructions line 25; p2 blank 'Current ePardon application, attachments, hearing rules, and fee' with 'Check with: the Connecticut Board of Pardons and Paroles, and DESPP for its report charge'). Verified against bound ct-pardon-faq.html.gz (c2038ec7\u2026, exact): no Board fee; 'you must pay the State Police ... (DESPP) - for processing and providing your State Police Criminal History Report'; 'The Board ... does not determine the fee that the State Police charges'. No held source states the DESPP figure (the census-required CT compiled profile says only 'SPBI fee'), so naming DESPP is limb 3. The profile's 'Absolute Pardon / COE application $0 BOPP charges no application fee' agrees. A4: all fee hits agree (fee-mentions.txt); the memo's stop 'no number is quoted' holds - no figure appears."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Prior FAIL (silence) is repaired: p1 'Service: you serve no one. The absolute-pardon application is made online through the Board's ePardon portal; it is an executive-branch application, not a court filing.' (instructions line 26). Matches CT.memo rules.service 'No service. This is an executive-branch application, not a court filing.'"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against CT.memo ct-absolute-pardon selfHelpStopConditions, 3/3: the Board sets a hearing and an immigration matter -> p1 'Stop for counsel if a hearing is set or any immigration issue exists' (instructions line 27); unverified waiting-period and fee figures -> 'This guide does not state a waiting period' and no figure is quoted (the Board no-fee statement is the Board's own published sourced statement, not the memo's unverified internal claim). The route boundary excludes the pre-1974 petition branch and the provisional pardon. No inversion; legalDecisionRecordIds empty."
+        }
+      },
+      "observations": [
+        {
+          "what": "Unscored classes checked",
+          "detail": "No PDF page prints a route key (grep 'obligation:' 0 on both fixtures) and no builder vocabulary ('The packet must', component ids) appears; nothing to record for PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS or the builder-vocabulary class."
+        }
+      ],
+      "evidence": {
+        "reviewEvidenceDir": "review-evidence/reviewer2/rv17-ct-absolute/read-0116da97d/",
+        "files": [
+          "boundary.txt",
+          "bytes-unchanged.txt",
+          "canonical-vs-boundary.diff",
+          "canonical.txt",
+          "facts.json",
+          "fee-mentions.txt",
+          "fieldmap-blanks.txt",
+          "held-records.txt",
+          "measure.log",
+          "page-headings.txt",
+          "participant-instructions-0116da97d.md",
+          "rows",
+          "service-mentions.txt",
+          "sources-recompute.txt"
+        ],
+        "rasterReceipt": "A9 run 39430402490, RASTER_PASS, packetCommitSha ce21144762a49aae1e3c9c126c1ca4f4c34ab755 (visual review: review-evidence/reviewer/rv01-ms-raster-39430402490/RV01-RV16-REVIEW-39430402490.json)",
+        "supersedes": "selected FAIL_REPAIR_REQUIRED vfct1 @5e7fe802c (FEE_AND_WAIVER, SERVICE)"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

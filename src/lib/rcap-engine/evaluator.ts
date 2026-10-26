@@ -1,6 +1,70 @@
+import { paymentRouteScopeHeld } from "@/lib/rcap-engine/payment-route-scope";
+import { IL_PROGRAM_ROUTE, IL_PROGRAM_FACT_IDS, IL_PROGRAM_SOURCE, IL_PROGRAM_COPY, illinoisProgramFacts, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
+import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, VA_RECORD_ORIGIN_COPY, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
+import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
+import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
+import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_FACT_ID, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
+import { OH_JUVENILE_ROUTE, OH_JUVENILE_RESULT_COPY } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
+import { questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
+import { CT_PETITION_FACT_IDS, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
+import { FL_INFORMATION_COPY, FL_INFORMATION_SOURCE, flConditionalInformationContext, flConditionalInformationQuestionApplies, withFlConditionalInformation } from "@/lib/rcap-engine/florida-conditional-source-information";
+import { DC_INFORMATION_COPY, DC_INFORMATION_SOURCE, dcGeneralInformationContext, dcGeneralInformationQuestionApplies } from "@/lib/rcap-engine/district-of-columbia-general-guidance";
+import { CT_AUTOMATIC_INFORMATION_COPY, CT_AUTOMATIC_INFORMATION_SOURCE, ctAutomaticInformationContext, ctAutomaticInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-automatic-source-guidance";
+import { CT_CANNABIS_SOURCE, CT_CANNABIS_COPY, ctCannabisGeneralInformationContext, ctCannabisGeneralInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-cannabis-automatic-guidance";
+import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_SOURCE, isMsFirstOffenderSourceContext, msFirstOffenderSourceDecision, type MsFirstOffenderSourceContext } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
+import { MD_POLICE_ROUTE, MD_POLICE_IDS, MD_POLICE_SOURCE, MD_POLICE_COPY, mdPoliceContext, mdPoliceDate, mdPoliceResolutionFacts } from "@/lib/rcap-engine/maryland-police-record-facts";
+import { ny16057Decision, NY_16057_COPY, NY_16057_ROUTE, NY_16057_SOURCE } from "@/lib/rcap-engine/ny-16057-guidance";
+import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_COPY, NY_MRTA_ROUTE, NY_MRTA_SOURCE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
+import { ny16059ClockDisplayLines } from "@/lib/rcap-engine/new-york-16059-clock-display";
+import { ny16055Decision, ny16055QuestionApplies, NY_16055_COPY, NY_16055_ROUTE, NY_16055_SOURCE } from "@/lib/rcap-engine/ny-16055-guidance";
+import {WY_1501_ROUTE,WY_1501_SOURCE,WY_1501_COPY,wy1501Context,wy1501Facts} from "@/lib/rcap-engine/wyoming-1501-facts";
+import { texasGuidanceFinancialApplies, texasNondisclosureTimingContract, texasNondisclosureClock, TX_ND_ROUTES, TX_ND_TIMING_COPY, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
+import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
+import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
+import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
+import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
+import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
+import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY, wy1401Context, wy1401Facts } from "@/lib/rcap-engine/wyoming-1401-facts";
+import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
+import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
+import { CA_12034_ROUTE, CA_12034_SOURCE, CA_12034_COPY, ca12034Contract, ca12034Context, ca12034Facts, ca12034KnownConviction } from "@/lib/rcap-engine/california-1203-4-facts";
+import { ndFirstOffenseFacts, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
+import { oregonDispositionFilingFacts, OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
+import { montanaDeferredFacts, MT_DEFERRED_COPY, MT_DEFERRED_SOURCE } from "@/lib/rcap-engine/montana-deferred-facts";
+import { missouriMarijuanaStatusDecision, MO_MARIJUANA_COPY, MO_MARIJUANA_STATUS_SOURCE } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
+import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
+import { MO_AUTOMATIC_DRUG_ROUTE, MO_AUTOMATIC_DRUG_SOURCE, MO_AUTOMATIC_DRUG_GUIDANCE, moAutomaticDrugGuidanceSourceIsCurrent } from "@/lib/rcap-engine/missouri-automatic-drug-guidance";
+import { georgiaPardonPetitionPlan } from "@/lib/expungement-ai/ga-pardon-petition-readiness";
+import { maineNonconvictionQuestionApplies, maineMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/maine-nonconviction-facts";
+import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
+import { nebraskaNonconvictionQuestionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
+import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_SOURCE, AR_RECORD_ORIGIN_COPY, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
+import { GA_PARDON_ROUTE, GA_PARDON_COPY, GA_PARDON_SOURCE, georgiaPardonFacts } from "@/lib/rcap-engine/georgia-pardon-facts";
+import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
+import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, MS_MIP_BOTH_DATE_ID, MS_MIP_BOTH_REVIEW_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
+import { caProp64ConcentrateProcedure, caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, caProp64QuestionApplies, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
+import { isCaProp64Pathway, CA_PROP64_COMPLETED } from "@/lib/expungement-ai/ca-prop64-choices";
+import { ny16059Requested, ny16059History, ny16059Clock, NY_16059_ROUTE, NY_16059_SOURCE, NY_16059_REASON_COPY, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
+import { deAdultConviction, delawareConvictionDecision, delawareConvictionRoute, DE_COURT, DE_SBI, DE_SOURCE, DE_REASON_TEXT } from "@/lib/rcap-engine/delaware-conviction-rules";
+import { MS_PROGRAM_COMPLETION_PATHWAYS, msProgramCompletionPredicates } from "@/lib/rcap-engine/mississippi-program-completion";
+import { MS_CONDITIONAL_DISCHARGE_PATHWAY, msConditionalDischargePredicates } from "@/lib/rcap-engine/mississippi-conditional-discharge";
+import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-reuse";
+import { kansasRecordScopeFromAnswers } from "@/lib/rcap-engine/kansas-record-scope";
+import { KS_REGISTRATION_ROUTE, KS_REGISTRATION_SOURCE, KS_REGISTRATION_REVIEW_COPY } from "@/lib/rcap-engine/kansas-district-facts";
+import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
+import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
+import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
+import { mississippiProgramRouteFromAnswers, mississippiNonConvictionPathway, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
+import { MS_INTERVENTION_ROUTE, MS_INTERVENTION_SOURCE, MS_INTERVENTION_COPY, msInterventionReferralCode } from "@/lib/rcap-engine/mississippi-intervention-referral";
+import { georgiaFirstOffenderFromAnswers, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, GA_FIRST_OFFENDER_GUIDANCE, GA_RETROACTIVE_CONSENT_GUIDANCE, isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
+import { illinoisCannabisFromAnswers, IL_CANNABIS_PATHWAY } from "@/lib/rcap-engine/illinois-cannabis-facts";
+import { pathwayExcludedByKnownFacts, FACTUAL_PATHWAY_EXCLUSION_COPY } from "@/lib/rcap-engine/factual-pathway-exclusions";
 import "server-only";
 
 import crypto from "node:crypto";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { answerText, isAffirmative, isExplicitUnknownAnswer, isNegative, requiredMissingPublicQuestionIds, validatePublicAnswerQuestionIds } from "@/lib/rcap-engine/answer-normalization";
 import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion, ScreeningAnswerValue, ScreeningEvaluation, ScreeningEvaluationRequest, ScreeningReason, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -17,6 +81,7 @@ import {
   NEVADA_176A_SUBSECTION_3_BARRED_TEXT,
   NEVADA_176A_SUBSECTION_3_UNRESOLVED_TEXT,
   NEVADA_176A_UNRESOLVED_BRANCH_TEXT,
+  nevada176AQuestionApplies,
   nevada176ABranch,
   nevada176ASubsection3
 } from "@/lib/rcap-engine/nevada-176a-branch";
@@ -24,6 +89,31 @@ import routeKindAdjudications from "@/../data/rcap-ledger/route-kind-adjudicatio
 import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation-conflicts.json";
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 import routeRatificationRegistry from "@/../data/record-clearing/legal-decisions/route-ratification-registry.json";
+
+// OD-BR-1 D1-double-prime proposal: only the independently reviewed own-content pairs.
+const REVIEWED_OWN_CONTENT_PAYMENT_RULES: Readonly<Record<string, readonly string[]>> = {
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": ["rule-10-mechanism-3-confidentiality-of-acquittals-dismissals-as"],
+  "AR:situation-b-misdemeanor-convictions": ["rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale"],
+  "AR:situation-c-felony-convictions": ["rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove"],
+  "CA:tool-4-arrest-record-sealing": ["rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc"],
+  "DC:dc_actual_innocence_expungement_16_803": ["rule-07-expungement-by-motion-d-c-code-16-803-actual-innocence"],
+  "HI:first-time-drug-conviction": ["rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first"],
+  "HI:nonconviction-arrest-expungement": ["rule-02-the-source-says-the-arrest-record-is-removed-from-the-a", "rule-04-a-complete-application-valid-government-photo-id-paymen"],
+  "IA:nonconviction-901c2": ["rule-02-all-court-costs-fees-and-other-financial-obligations-fo"],
+  "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8": ["rule-11-full-and-unconditional-governor-pardon-10-105-route-onl"],
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e": ["rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to"],
+  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104": ["rule-01-for-montana-s-misdemeanor-expungement-statute"],
+  "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146": ["rule-01-family-1-dismissals-and-not-guilty-findings-g-s-15a-146"],
+  "ND:deferred-imposition-dismissal-and-sealing": ["rule-29-path-d-deferred-imposition-of-sentence-dismissal"],
+  "ND:marijuana-specific-summary-pardon-or-sealing-relief": ["rule-34-path-e-marijuana-specific-relief"],
+  "NE:set-aside-probation-fine-community-service": ["rule-05-the-sentence-conditions-must-be-satisfactorily-complete"],
+  "NH:annulment-after-dismissal-acquittal-or-nonprosecution": ["rule-11-for-offenses-disposed-of-before-january-1-2019-a-person"],
+  "OH:adult-non-conviction-sealing-or-expungement-under-2953-33": ["rule-05-grand-jury-no-bill-non-conviction-sealing-or-expungemen"],
+  "UT:path-i-traffic-offense-expungement-or-deletion": ["rule-56-path-i-traffic-offense-expungement-deletion"],
+  "VA:petition-based-sealing": ["rule-13-petition-based-sealing-19-2-392-12-12-1"],
+  "VA:regime-1-expungement-available-now": ["rule-01-regime-1-expungement-19-2-392-2-available-now"],
+  "WI:adult-conviction-expungement-under-wis-stat-973-015": ["rule-03-adult-misdemeanor-or-class-h-i-felony-under-25-sentenci"]
+};
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -157,6 +247,19 @@ export function evaluateScreening(request: ScreeningEvaluationRequest): Screenin
   return evaluateAgainstProfile(profile, request);
 }
 
+/** Server-only source context: public answers still undergo their normal ID
+ * validation. A JSON object cannot mint the admitted protected context. */
+export function evaluateMsFirstOffenderProtected(request: ScreeningEvaluationRequest,
+  context: MsFirstOffenderSourceContext): ScreeningEvaluation {
+  const profile = getProfileByJurisdiction(request.jurisdiction);
+  if (!profile) throw new UnsupportedJurisdictionError(request.jurisdiction);
+  if (!assertProfileVersion(profile, request.profileVersion).ok) throw new ProfileVersionMismatchError(profile.profileVersion);
+  const invalid = validatePublicAnswerQuestionIds(projectPublicProfile(profile), request.answers);
+  if (invalid.length) throw new InvalidAnswerError(invalid);
+  if (!isMsFirstOffenderSourceContext(profile, context)) throw new Error("MS first-offender source context refused.");
+  return evaluateAgainstProfile(profile, request, context);
+}
+
 export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<string, unknown>) {
   return crypto.createHash("sha256").update(JSON.stringify({
     jurisdiction: evaluation.jurisdiction,
@@ -169,24 +272,458 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
   })).digest("hex");
 }
 
-function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest): ScreeningEvaluation {
+function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
+  const evaluated = evaluateProfileRules(profile, request, msSource);
+  // F-NE-2 closes only payment; route, reasons, plan and saved answers retain their authority.
+  if (paymentRouteScopeHeld(evaluated, normalizeCaseOutcome(request.answers.case_outcome), request.answers)) evaluated.paymentAllowed = false;
+  const nonconviction = ["GA", "CT"].includes(profile.jurisdiction.code)
+    && ["arrest_no_charge", "dismissed", "acquitted"].includes(normalizeCaseOutcome(request.answers.case_outcome))
+    && projectPublicProfile(profile).questions.some(question => question.id === "case_outcome"
+      && questionAnswerState(question, request.answers.case_outcome) === "known_valid");
+  // An answered review fact may remain uncertain or adverse without becoming another intake request.
+  const reviewInputIds = (ids: string[], missing: boolean) => {
+    const questions = projectPublicProfile(profile).questions;
+    return ids.filter(id => {
+      const question = questions.find(q => q.id === id);
+      if (!question) return true;
+      const state = questionAnswerState(question, request.answers[id]);
+      // The source facts reject some wire values that the generic number/Yes-No controls accept.
+      if (missing && state === "known_valid" && (question.type === "number_or_range" || question.type === "single_choice")) return true;
+      return state === "unanswered" || state === "invalid";
+    });
+  };
+  if (illinoisProgramContext(profile, evaluated.pathwayId) && evaluated.reasons[0]?.code.startsWith("il.program_")) {
+    return { ...evaluated, nextSteps: [evaluated.reasons[0].text] };
+  }
+  if (illinoisProstitutionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code.startsWith("il.prostitution_"))) {
+    const code = illinoisProstitutionFacts(request.answers);
+    const questions = projectPublicProfile(profile).questions;
+    return { ...evaluated, missingQuestionIds: [...new Set([...evaluated.missingQuestionIds,
+      ...(code === "missing" ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter(id => {
+        const question = questions.find(q => q.id === id);
+        return question && ["unanswered", "invalid"].includes(questionAnswerState(question, request.answers[id]));
+      }) : [])])],
+      nextSteps: [IL_PROSTITUTION_COPY[code][0]], paymentAllowed: false };
+  }
+  if (wy1502Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code.startsWith("wy.felony1502_"))) {
+    const facts = wy1502Facts(request.answers, evaluationToday().toISOString().slice(0, 10));
+    const questions = projectPublicProfile(profile).questions;
+    return { ...evaluated, missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids.filter(id => {
+      const question = questions.find(q => q.id === id);
+      return question && ["unanswered", "invalid"].includes(questionAnswerState(question, request.answers[id]));
+    })])],
+      nextSteps: [WY_1502_COPY[facts.code][0]], paymentAllowed: false };
+  }
+  if (ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")) {
+    if (nonconviction) return evaluated;
+    const facts = ctPetitionFacts(request.answers);
+    const outstanding = reviewInputIds(facts.ids, facts.code === "missing");
+    outstanding.push(...reviewInputIds(["case_outcome"], false));
+    const text = CT_PETITION_COPY[facts.code][0];
+    return { ...evaluated, reasons: [reason("CT", `petition_${facts.code}`, text, CT_PETITION_SOURCE), ...evaluated.reasons],
+      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...outstanding])], nextSteps: [text], paymentAllowed: false };
+  }
+  if (georgiaSb288Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ga.waiting_rule_not_executed")) {
+    if (nonconviction) return evaluated;
+    const facts = georgiaSb288Facts(request.answers);
+    const outstanding = reviewInputIds(facts.ids, facts.code === "missing");
+    const text = GA_SB288_COPY[facts.code][0];
+    return { ...evaluated, resultCode: facts.status === "missing" && outstanding.length ? "needs_more_info" : "needs_review",
+      reasons: [reason("GA", `sb288_${facts.code}`, text, GA_SB288_SOURCE), ...evaluated.reasons],
+      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...outstanding])], nextSteps: [text], paymentAllowed: false };
+  }
+  if (southDakotaSisContext(profile, evaluated.pathwayId) && evaluated.resultCode === "guidance_only") {
+    const facts = southDakotaSisFacts(request.answers);
+    return { ...evaluated, reasons: [...evaluated.reasons, reason("SD", `sis_${facts.code}`, SD_SIS_COPY[facts.code], SD_SIS_SOURCE)],
+      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids])],
+      nextSteps: [SD_SIS_COPY[facts.code], ...evaluated.nextSteps], paymentAllowed: false };
+  }
+  if (evaluated.pathwayId && virginiaRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
+    && !["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) {
+    const origin = virginiaRecordOrigin(request.answers);
+    if (origin !== "virginia") {
+      const code = origin === "unknown" ? "unknown" : "outside", text = VA_RECORD_ORIGIN_COPY[code][0];
+      return { ...evaluated, resultCode: code === "unknown" ? "needs_more_info" : "likely_not_eligible",
+        reasons: [reason("VA", `record_origin_${code}`, text, VA_RECORD_ORIGIN_SOURCE), ...evaluated.reasons],
+        missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...(code === "unknown" ? [VA_RECORD_ORIGIN_ID] : [])])],
+        nextSteps: [text, ...evaluated.nextSteps], paymentAllowed: false };
+    }
+  }
+  if (!evaluated.pathwayId || !arkansasRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
+    || ["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) return evaluated;
+  const origin = arkansasRecordOrigin(request.answers);
+  if (origin === "arkansas") return evaluated;
+  const code = origin === "unknown" ? "unknown" : "outside";
+  const text = AR_RECORD_ORIGIN_COPY[code][0];
+  // Tighten only the record-origin predicate. Preserve the existing route,
+  // source/form plan and all independent legal/fulfillment holds.
+  return { ...evaluated, resultCode: code === "unknown" ? "needs_more_info" : "likely_not_eligible",
+    reasons: [reason("AR", `record_origin_${code}`, text, AR_RECORD_ORIGIN_SOURCE)],
+    missingQuestionIds: code === "unknown" ? [AR_RECORD_ORIGIN_ID] : [], nextSteps: [text], paymentAllowed: false };
+}
+
+function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
   const answers = request.answers;
   const jurisdiction = profile.jurisdiction.code;
   const hardStop = hardStopReason(profile, answers);
   if (hardStop) return result(profile, request, "hard_stop", [hardStop]);
 
   const publicProfile = projectPublicProfile(profile);
-  const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers);
-  if (missingQuestionIds.length > 0) {
-    return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
-      missingQuestionIds
-    });
+  const preselectedPathway = selectPathway(profile, answers);
+  const flInformation = flConditionalInformationContext(profile, preselectedPathway?.id, answers);
+  if (mdPoliceContext(profile, preselectedPathway?.id)) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const resolution = resolveRoute({ jurisdiction: "MD", pathwayId: MD_POLICE_ROUTE,
+      facts: mdPoliceResolutionFacts(answers), on: evaluationToday(), phase: "PRELIMINARY_SCREENING" });
+    const date = mdPoliceDate(answers.arrest_date);
+    // The actual broad option includes "not prosecuted". It is neither proof
+    // nor contradiction of release without charge; the new explicit fact decides.
+    const conflict = Boolean(date && date > evaluationToday().toISOString().slice(0, 10)) || ["Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Acquitted or found not guilty", "Pardoned conviction",
+      "Diversion, deferred disposition, supervision, or similar program", "Juvenile adjudication or offense committed as a minor"].includes(String(answers.case_outcome));
+    const excluded = exclusionReason(profile, answers);
+    const modern = resolution.selectedBranchId === "automatic-status-correction-guidance";
+    const legacy = resolution.selectedBranchId === "agency-request";
+    const code = contextIds.length || !date ? "missing" : conflict ? "conflict" : modern ? "modern"
+      : legacy ? resolution.serviceDisposition === "handoff" ? "prior" : "legacy"
+      : answers[MD_POLICE_IDS[0]] === undefined || answers[MD_POLICE_IDS[0]] === "" ? "missing" : "conflict";
+    const text = MD_POLICE_COPY[code][0];
+    const missingQuestionIds = contextIds.length ? contextIds : !date ? ["arrest_date"]
+      : code === "missing" ? [MD_POLICE_IDS[0]] : [];
+    const information = !excluded && !contextIds.length && (code === "modern" || code === "legacy");
+    const evaluated = result(profile, request, excluded ? "needs_review" : missingQuestionIds.length ? "needs_more_info" : information ? "guidance_only" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("MD", `police_source_${code}`, text, MD_POLICE_SOURCE)],
+      { pathwayId: MD_POLICE_ROUTE, missingQuestionIds, paymentAllowed: false });
+    // No packet plan, no selected-family authority, no deadline extrapolation.
+    return { ...evaluated, userLabel: text, nextSteps: modern ? [MD_POLICE_COPY[answers[MD_POLICE_IDS[1]] === "yes" ? "status" : answers[MD_POLICE_IDS[1]] === "no" ? "status_absent" : "status_unknown"][0]]
+      : legacy ? [MD_POLICE_COPY.prior[0]] : [text] };
+  }
+  const nyMrta = nyMrtaDecision(profile, answers);
+  const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
+  const nyCleanSlate = ny16057Decision(profile, answers);
+  if (nyCleanSlate) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"]),
+      ...(answers.offense_level === undefined ? ["offense_level"] : [])
+    ];
+    const excluded = exclusionReason(profile, answers);
+    const code = contextIds.length ? "context" : nyCleanSlate.code === "conflict" ? "conflict" : excluded ? "referral" : nyCleanSlate.code;
+    const text = NY_16057_COPY[code][0];
+    const information = !contextIds.length && !excluded && nyCleanSlate.status === "information";
+    const evaluated = result(profile, request, information ? "guidance_only" : !contextIds.length && !excluded && nyCleanSlate.status === "missing" ? "needs_more_info" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("NY", `clean_slate_${code}`, text, NY_16057_SOURCE)], {
+        ...(information ? { pathwayId: NY_16057_ROUTE } : {}),
+        missingQuestionIds: contextIds.length ? contextIds : excluded ? [] : nyCleanSlate.ids,
+        cautions: [NY_16057_COPY.limits[0]], paymentAllowed: false
+      });
+    // Neutral operational information only. No eligibility/date computation,
+    // packet plan, builder or authority is created by the stage election.
+    return { ...evaluated, userLabel: text,
+      nextSteps: information ? [NY_16057_COPY.timing[0], NY_16057_COPY.verification[0], NY_16057_COPY.limits[0]]
+        : [text, NY_16057_COPY.information[0], NY_16057_COPY.verification[0]] };
   }
 
-  const exclusion = exclusionReason(profile, answers);
+  // The existing selected source identifies general nonfiling information,
+  // not a decision that the supplied case facts qualify for automatic relief.
+  // No payment/completion alias is needed to read that explanation, and no
+  // historical absence of an implementation notice proves current operation.
+  if (preselectedPathway?.id === MO_AUTOMATIC_DRUG_ROUTE && moAutomaticDrugGuidanceSourceIsCurrent(profile)
+    && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope as string)
+    && answers.jurisdiction_scope === "State or local") {
+    const information = reason("MO", "automatic_drug_general_information", MO_AUTOMATIC_DRUG_GUIDANCE.filing, MO_AUTOMATIC_DRUG_SOURCE);
+    const cautions = [MO_AUTOMATIC_DRUG_GUIDANCE.individualLimit, MO_AUTOMATIC_DRUG_GUIDANCE.operationLimit];
+    // Removing an unoffered alias dead end must not erase an existing adverse
+    // or review result. General information is supplemental to that decision.
+    const excluded = exclusionReason(profile, answers);
+    if (excluded) {
+      const held = result(profile, request, excluded.code.endsWith("unknown") ? "needs_review" : "likely_not_eligible",
+        [excluded, information], { cautions, paymentAllowed: false });
+      return { ...held, nextSteps: [...held.nextSteps, MO_AUTOMATIC_DRUG_GUIDANCE.nextStep] };
+    }
+    const guidance = result(profile, request, "guidance_only", [information], {
+      pathwayId: preselectedPathway.id,
+      cautions, paymentAllowed: false
+    });
+    return { ...guidance, nextSteps: [MO_AUTOMATIC_DRUG_GUIDANCE.nextStep] };
+  }
+  if (ca12034Context(profile, preselectedPathway?.id, answers)) {
+    const facts = ca12034Facts(answers);
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope as string) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const code = contextIds.length ? "missing" : facts.code;
+    const text = CA_12034_COPY[code][0];
+    const selected = !contextIds.length && ca12034KnownConviction(answers);
+    const plan = selected ? packetPlanForPathway(profile, CA_12034_ROUTE) : undefined;
+    const ready = !contextIds.length && facts.status === "preparation";
+    const evaluated = result(profile, request, ready ? "needs_review"
+      : contextIds.length || facts.status === "missing" ? "needs_more_info"
+      : facts.status === "not_yet" ? "not_yet" : "needs_review",
+      [reason("CA", `probation_${code}`, text, CA_12034_SOURCE)],
+      { ...(selected ? { pathwayId: CA_12034_ROUTE } : {}), ...(plan ? {packetPlan:plan} : {}),
+        missingQuestionIds: [...contextIds, ...facts.ids], paymentAllowed:false });
+    // This is preparation for the participant's stated election, not a merits
+    // or exclusion-list determination. The actual Grade-A authority gate stays separate.
+    return {...evaluated, userLabel:text, nextSteps:[text]};
+  }
+  if (wy1501Context(profile,preselectedPathway?.id,answers)) {
+    const facts=wy1501Facts(answers,evaluationToday().toISOString().slice(0,10));
+    const contextIds=[...(["Yes","I am helping someone complete their own check"].includes(answers.ownership_scope as string)?[]:["ownership_scope"]),...(answers.jurisdiction_scope==="State or local"?[]:["jurisdiction_scope"])];
+    const code=contextIds.length?"missing":facts.code,text=WY_1501_COPY[code][0],plan=contextIds.length||facts.code==="nicotine"?undefined:packetPlanForPathway(profile,WY_1501_ROUTE);
+    const evaluated=result(profile,request,contextIds.length||facts.status==="missing"?"needs_more_info":facts.status==="excluded"?"likely_not_eligible":facts.status==="not_yet"?"not_yet":"needs_review",[reason("WY",`misdemeanor_${code}`,text,WY_1501_SOURCE)],{...(contextIds.length?{}:{pathwayId:WY_1501_ROUTE}),...(plan?{packetPlan:plan}:{}),missingQuestionIds:[...contextIds,...facts.ids],paymentAllowed:false});
+    return {...evaluated,userLabel:text,nextSteps:[text]};
+  }
+  if (wy1401Context(profile,preselectedPathway?.id,answers)) {
+    const facts=wy1401Facts(answers,evaluationToday().toISOString().slice(0,10));
+    const contextIds=[...(["Yes","I am helping someone complete their own check"].includes(answers.ownership_scope as string)?[]:["ownership_scope"]),...(answers.jurisdiction_scope==="State or local"?[]:["jurisdiction_scope"])];
+    const code=contextIds.length?"missing":facts.code, text=WY_1401_COPY[code][0];
+    const plan=contextIds.length?undefined:packetPlanForPathway(profile,WY_1401_ROUTE);
+    const evaluated=result(profile,request,contextIds.length||facts.status==="missing"?"needs_more_info":facts.status==="excluded"?"likely_not_eligible":facts.status==="not_yet"?"not_yet":"needs_review",
+      [reason("WY",`nonconviction_${code}`,text,WY_1401_SOURCE)],
+      {...(contextIds.length?{}:{pathwayId:WY_1401_ROUTE}),...(plan?{packetPlan:plan}:{}),missingQuestionIds:[...contextIds,...facts.ids],paymentAllowed:false});
+    return {...evaluated,userLabel:text,nextSteps:[text]};
+  }
+  const ndPossession = ndFirstOffenseFacts(profile, preselectedPathway?.id, answers, evaluationToday().toISOString().slice(0, 10));
+  if (preselectedPathway && ndPossession.status !== "not_applicable") {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope as string) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const code = contextIds.length || ndPossession.status === "missing" ? "needs_more_info"
+      : ndPossession.status === "excluded" ? "likely_not_eligible" : "needs_review";
+    const text = ND_FIRST_OFFENSE_COPY[contextIds.length ? "missing" : ndPossession.code][0];
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    // Only factual eligibility is classified. No generic timing bucket,
+    // neighbouring-route wait, composed track or commercial permission follows.
+    return result(profile, request, code,
+      [reason("ND", `first_possession_${contextIds.length ? "missing" : ndPossession.code}`, text, ND_FIRST_OFFENSE_SOURCE)],
+      { pathwayId: preselectedPathway.id, ...(plan ? {packetPlan: plan} : {}),
+        missingQuestionIds: [...contextIds, ...ndPossession.ids], paymentAllowed: false });
+  }
+  const oregon = jurisdiction === "OR" ? selectComposedRoute({
+    jurisdiction, pathwayId: preselectedPathway?.id,
+    oregonDispositionSource: { profileVersion: profile.profileVersion,
+      sourceFingerprint: profile.source?.sourceCorpusSha256 ?? "", answers }
+  }) : null;
+  if (oregon?.status === "held_configuration" || oregon?.status === "configuration_clarification") {
+    const currentPath = oregon.status === "held_configuration" ? oregon.configuration.pathwayId : undefined;
+    const held = (code: ScreeningResultCode, reasonCode: string, text: string, ids: string[] = []) => ({
+      ...result(profile, request, code, [reason("OR", reasonCode, text, "OR-disposition-configurations.v1;LWD-2026-08-29-OR-SUBSECTION")],
+        { pathwayId: currentPath, missingQuestionIds: ids, paymentAllowed: false, cautions: [OR_DISPOSITION_COPY.caution[0]] }),
+      userLabel: text, nextSteps: [text]
+    });
+    if (oregon.status === "configuration_clarification") return held("needs_more_info", "disposition_configuration_uncertain", OR_DISPOSITION_COPY.clarify[0], oregon.missingQuestionIds);
+    // Keep the exact existing category guard. It is a preliminary review, not
+    // proof of the statutory offense predicates, and never a new statewide ban.
+    if (!Array.isArray(answers.state_exclusion_categories) || !answers.state_exclusion_categories.length) {
+      return held("needs_more_info", "missing_required_facts", "Required public screening facts are missing.", ["state_exclusion_categories"]);
+    }
+    const excluded = exclusionReason(profile, answers);
+    if (excluded) return { ...held("needs_review", "disposition_exclusion_review", excluded.text, ["state_exclusion_categories"]), reasons: [excluded] };
+    if (answers.pending_cases !== "No") return held(answers.pending_cases === "Yes" ? "needs_review" : "needs_more_info", "disposition_pending_review", OR_DISPOSITION_COPY.pending[0], ["pending_cases"]);
+    const facts = oregonDispositionFilingFacts(answers, evaluationToday().toISOString().slice(0, 10));
+    const text = facts.code === "disposition_facts_supported" ? OR_DISPOSITION_COPY.supported[0]
+      : facts.code === "identity" ? OR_DISPOSITION_COPY.clarify[0] : OR_DISPOSITION_COPY[facts.code][0];
+    const code = facts.status === "missing" ? "needs_more_info" : facts.status === "not_yet" ? "not_yet" : "needs_review";
+    // Source-specific disposition facts replace only the retired generic
+    // conviction-clock path. Packet/case facts and actual authority are separate.
+    return held(code, `disposition_${facts.code}`, text, facts.ids);
+  }
+  const mtDeferred = jurisdiction === "MT" ? montanaDeferredFacts(profile, preselectedPathway?.id, answers) : null;
+  if (mtDeferred && mtDeferred.context !== "not_applicable" && preselectedPathway) {
+    const contextIds = [
+      ...(typeof answers.ownership_scope === "string" && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    if (contextIds.length) return result(profile, request,
+      contextIds.some(id => answers[id] === undefined || answers[id] === null || answers[id] === "") ? "needs_more_info" : "needs_review",
+      [reason("MT", "deferred_context_missing", MT_DEFERRED_COPY.context_missing[0], MT_DEFERRED_SOURCE)],
+      { missingQuestionIds: contextIds, paymentAllowed: false });
+    const guidance = ["existing_order_followup", "felony_statutory_request_context", "misdemeanor_discretionary_request_context"].includes(mtDeferred.context);
+    const resultCode = guidance ? "guidance_only" : mtDeferred.context === "term_not_terminated" ? "not_yet"
+      : mtDeferred.context === "facts_unresolved" && mtDeferred.ids.some(id => answers[id] === undefined || answers[id] === "") ? "needs_more_info" : "needs_review";
+    const plan = guidance ? packetPlanForPathway(profile, preselectedPathway.id) : undefined;
+    return result(profile, request, resultCode,
+      [reason("MT", `deferred_${mtDeferred.context}`, MT_DEFERRED_COPY[mtDeferred.context][0], MT_DEFERRED_SOURCE)],
+      { pathwayId: preselectedPathway.id, missingQuestionIds: guidance ? [] : mtDeferred.ids,
+        ...(plan ? { packetPlan: plan } : {}), paymentAllowed: false });
+  }
+
+  // Exact selected Article XIV status contract: custody and original record
+  // facts decide guidance/referral, never the generic payment-completion gate.
+  // Ownership and jurisdiction must already be explicit; hard stops ran above.
+  const moMarijuana = jurisdiction === "MO"
+    ? missouriMarijuanaStatusDecision(profile, preselectedPathway?.id, answers) : null;
+  if (moMarijuana && preselectedPathway) {
+    const unresolvedContext = [
+      ...(typeof answers.ownership_scope === "string" && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    if (unresolvedContext.length) return result(profile, request,
+      unresolvedContext.some(id => answers[id] === undefined || answers[id] === null || answers[id] === "") ? "needs_more_info" : "needs_review",
+      [reason("MO", "marijuana_context_missing", MO_MARIJUANA_COPY.context_missing[0], MO_MARIJUANA_STATUS_SOURCE)],
+      { missingQuestionIds: unresolvedContext, paymentAllowed: false });
+    const text = MO_MARIJUANA_COPY[moMarijuana.code][0];
+    const plan = moMarijuana.status === "guidance" ? packetPlanForPathway(profile, preselectedPathway.id) : undefined;
+    return result(profile, request, moMarijuana.status === "missing" ? "needs_more_info" : moMarijuana.status === "review" ? "needs_review" : "guidance_only",
+      [reason("MO", `marijuana_${moMarijuana.code}`, text, MO_MARIJUANA_STATUS_SOURCE)],
+      { pathwayId: preselectedPathway.id, missingQuestionIds: moMarijuana.ids,
+        ...(plan ? { packetPlan: plan } : {}), paymentAllowed: false });
+  }
+
+  const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    // IL1 required questions are conditional and enforced by their route gate.
+    .filter(id => !IL_PROGRAM_FACT_IDS.includes(id))
+    .filter(id => jurisdiction !== "CA" || caProp64QuestionApplies(answers, id))
+    .filter(id => flConditionalInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => dcGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => ctAutomaticInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => ctCannabisGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => ny16055QuestionApplies(profile, answers, id))
+    .filter(id => nyMrtaQuestionApplies(profile, answers, id))
+    .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => newMexicoGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => newJerseyMarijuanaStatusFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => texasGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => westVirginiaGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => southDakotaGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => southCarolinaGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => oklahomaCleanSlateFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id))
+    .filter(id => missouriClosedRecordQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id, profile))
+    .filter(id => maineNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
+    .filter(id => nebraskaNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
+    .filter(id => louisianaAutomationStatusQuestionApplies(jurisdiction, preselectedPathway?.id, id));
+  if (missingQuestionIds.length > 0) {
+    if (nyMrta) {
+      const text = NY_MRTA_COPY.context[0];
+      return { ...result(profile, request, "needs_more_info", [reason("NY", "mrta_context", text, NY_MRTA_SOURCE)], {
+        missingQuestionIds, paymentAllowed: false
+      }), userLabel: text, nextSteps: [text] };
+    }
+    if (nyPartialSeal) {
+      const text = NY_16055_COPY.context[0];
+      return { ...result(profile, request, "needs_more_info", [reason("NY", "partial_seal_context_missing", text, NY_16055_SOURCE)], {
+        missingQuestionIds, paymentAllowed: false
+      }), userLabel: text, nextSteps: [text] };
+    }
+    return withFlConditionalInformation(result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
+      missingQuestionIds,
+      ...(nebraskaMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
+        || maineMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
+        ? { pathwayId: preselectedPathway!.id } : {})
+    }), flInformation);
+  }
+
+  if (nyMrta) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const excluded = !contextIds.length && nyMrta.status === "guidance" ? exclusionReason(profile, answers) : undefined;
+    const code = contextIds.length ? "context" : excluded ? "exclusion" : nyMrta.code;
+    const text = NY_MRTA_COPY[code][0];
+    const guidance = !contextIds.length && nyMrta.status === "guidance" && !excluded;
+    const evaluated = result(profile, request, guidance ? "guidance_only" : !contextIds.length && nyMrta.status === "missing" ? "needs_more_info" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("NY", `mrta_${code}`, text, NY_MRTA_SOURCE),
+        ...(guidance ? [reason("NY", "mrta_stage_guidance", NY_MRTA_COPY.verification[0], NY_MRTA_SOURCE)] : [])], {
+        ...(guidance ? { pathwayId: NY_MRTA_ROUTE } : {}),
+        missingQuestionIds: [...contextIds, ...nyMrta.ids], paymentAllowed: false,
+        cautions: [NY_MRTA_COPY.request_boundary[0]]
+      });
+    // Conditional information only: no destruction action, participant builder,
+    // packet plan, claimed record verification, signature or paid authority.
+    return { ...evaluated, userLabel: text,
+      nextSteps: guidance ? [NY_MRTA_COPY.verification[0], NY_MRTA_COPY.request_boundary[0]] : [text] };
+  }
+
+  if (nyPartialSeal) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const excluded = !contextIds.length && nyPartialSeal.status === "guidance" ? exclusionReason(profile, answers) : undefined;
+    const code = contextIds.length ? "context" : excluded ? "exclusion" : nyPartialSeal.code;
+    const text = NY_16055_COPY[code][0];
+    const guidance = !contextIds.length && nyPartialSeal.status === "guidance" && !excluded;
+    const evaluated = result(profile, request, guidance ? "guidance_only" : !contextIds.length && nyPartialSeal.status === "missing" ? "needs_more_info" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("NY", `partial_seal_${code}`, text, NY_16055_SOURCE)], {
+        ...(guidance ? { pathwayId: NY_16055_ROUTE } : {}),
+        missingQuestionIds: [...contextIds, ...nyPartialSeal.ids], paymentAllowed: false,
+        cautions: [NY_16055_COPY.boundary[0]]
+      });
+    // Information and record review only. This installs no packet plan, family,
+    // authenticated order fact, exact date or completed-sealing assertion.
+    return { ...evaluated, userLabel: text,
+      nextSteps: guidance ? [NY_16055_COPY.record[0], NY_16055_COPY.boundary[0]] : [text] };
+  }
+
+
+  if (jurisdiction === "GA" && preselectedPathway?.id === GA_PARDON_ROUTE) {
+    const facts = georgiaPardonFacts(answers, evaluationToday().toISOString().slice(0, 10));
+    const petitionPlan = georgiaPardonPetitionPlan(profile, answers, evaluationToday());
+    if (petitionPlan) return result(profile, request, "packet_ready_with_caution",
+      [reason("GA", `pardon_${facts.code}`, GA_PARDON_COPY[facts.code][0], GA_PARDON_SOURCE)],
+      { pathwayId: GA_PARDON_ROUTE, packetPlan: petitionPlan, paymentAllowed: true });
+    return result(profile, request, facts.status === "missing" ? "needs_more_info" : facts.status === "excluded" ? "likely_not_eligible" : "needs_review",
+      [reason("GA", `pardon_${facts.code}`, GA_PARDON_COPY[facts.code][0], GA_PARDON_SOURCE)],
+      { pathwayId: GA_PARDON_ROUTE, missingQuestionIds: facts.ids, paymentAllowed: false });
+  }
+
+  if (jurisdiction === "NY" && preselectedPathway?.id === NY_16059_ROUTE) {
+    const history = ny16059History(answers);
+    if (history.status !== "satisfied") return result(profile, request,
+      history.status === "missing" ? "needs_more_info" : history.status === "excluded" ? "likely_not_eligible" : "needs_review",
+      [reason("NY", `ny_16059_${history.code}`, NY_16059_REASON_COPY[history.code!][0], NY_16059_SOURCE)],
+      { pathwayId: NY_16059_ROUTE, missingQuestionIds: history.ids ?? [], paymentAllowed: false });
+  }
+
+  const caDecision = jurisdiction === "CA" && (isCaProp64Pathway(jurisdiction, preselectedPathway?.id) || caProp64ApplicationRequested(answers))
+    ? caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  // A21: an explicitly uncertain pardon precedes the Prop64 missing-fact gate.
+  if (caDecision && isExplicitUnknownAnswer(answers.pardon_status)
+    && relevantFactIds(profile, preselectedPathway).has("pardon_status")
+    && publicProfile.questions.some(question => question.id === "pardon_status"
+      && question.contextOnly !== true && isPrepaymentQuestion(question))) {
+    const text = "Confirm whether you received a pardon or similar official relief for this case. Keep \"I am not sure\" if you do not know, and update your saved answer when you can confirm it. Checkout and packet generation remain unavailable until this fact is resolved.";
+    return { ...result(profile, request, "needs_review", [reason("CA", "source_fact_unknown", text)], {
+      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {}), paymentAllowed: false
+    }), nextSteps: [text] };
+  }
+
+  if (caDecision && caDecision.status !== "satisfied") return result(profile, request,
+    caDecision.status === "missing" ? "needs_more_info" : "needs_review",
+    [reason("CA", `ca_prop64_${caDecision.code}`, CA_PROP64_REASON_COPY[caDecision.code!][0], CA_PROP64_SOURCE)],
+    { ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {}), missingQuestionIds: caDecision.ids, paymentAllowed: false });
+
+  // Check exact DE adult-conviction predicates before automatic guidance or
+  // broad legacy categories can swallow a statutory exception or wrong tier.
+  const deDecision = jurisdiction === "DE" ? delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  if (deDecision && !["not_applicable", "satisfied"].includes(deDecision.status)) {
+    const code = deDecision.status === "missing" ? "needs_more_info" : deDecision.status === "excluded" ? "likely_not_eligible" : deDecision.status === "not_yet" ? "not_yet" : "needs_review";
+    return result(profile, request, code, [reason("DE", deDecision.code!, DE_REASON_TEXT[deDecision.code!], DE_SOURCE)], {
+      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {}), missingQuestionIds: deDecision.ids ?? [], paymentAllowed: false
+    });
+  }
+  const exclusion = deDecision?.status === "satisfied" || caDecision?.status === "satisfied" ? undefined : exclusionReason(profile, answers);
   if (exclusion) return result(profile, request, exclusion.code.endsWith("unknown") ? "needs_review" : "likely_not_eligible", [exclusion]);
 
-  const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers);
+  if (msSource && preselectedPathway?.id === MS_FIRST_OFFENDER_ROUTE) {
+    const source = msFirstOffenderSourceDecision(profile, preselectedPathway.id, answers, msSource);
+    if (source.status !== "satisfied") {
+      const plan = packetPlanForPathway(profile, preselectedPathway.id);
+      return result(profile, request, "needs_review",
+        [reason("MS", `first_offender_${source.code}`, "The final conviction, complete checked history, nontraffic classification, court and official-duty facts need source-specific review before this procedure can be selected.", MS_FIRST_OFFENDER_SOURCE)],
+        { pathwayId: preselectedPathway.id, ...(plan ? { packetPlan: plan } : {}), missingQuestionIds: source.ids, paymentAllowed: false });
+    }
+  }
+
+  const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers)
+    .filter(id => flConditionalInformationQuestionApplies(profile, preselectedPathway?.id, answers, id));
   if (unknownDateQuestionIds.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "waiting_anchor_missing", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.")], {
       missingQuestionIds: unknownDateQuestionIds,
@@ -194,14 +731,99 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
-  const preselectedPathway = selectPathway(profile, answers);
-  const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
-  if (ambiguity) {
-    return result(profile, request, "needs_review", [ambiguity], {
-      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {})
+  const programRoute = jurisdiction === "MS" ? mississippiProgramRouteFromAnswers(answers) : null;
+  if (programRoute?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "program_order_or_closure_missing", "We need the program named in the court order and whether the court has entered the required dismissal or closure. Completing program tasks alone does not establish that the case was closed.", "LD-MS-01")], {
+      missingQuestionIds: programRoute.missingQuestionIds,
+      paymentAllowed: false
     });
   }
+  const originalFirstOffender = jurisdiction === "GA" ? georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  const interventionReferral = preselectedPathway ? interventionCourtReferralReason(profile, answers, preselectedPathway) : undefined;
+  if (jurisdiction === "MS" && programRoute?.status === "selected" && programRoute.pathwayId === MS_INTERVENTION_ROUTE && !interventionReferral) {
+    return result(profile, request, "needs_review", [reason("MS", "intervention_source_unavailable", MS_INTERVENTION_COPY.records_confirmation[0], MS_INTERVENTION_SOURCE)], {
+      paymentAllowed: false
+    });
+  }
+  if (preselectedPathway && interventionReferral) {
+    return { ...result(profile, request, "guidance_only", [interventionReferral], {
+      pathwayId: preselectedPathway.id, paymentAllowed: false
+    }), nextSteps: [interventionReferral.text] };
+  }
+  if (originalFirstOffender?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "original_first_offender_facts_missing", "Check whether the original sentence imposed First Offender treatment, its current status, and the sentencing or discharge date requested. Completing a program or requesting retroactive treatment does not establish those facts.", "LD-GA-01; GA.memo:ga-fo-*; HB162:sections3-4")], {
+      missingQuestionIds: originalFirstOffender.missingQuestionIds,
+      paymentAllowed: false
+    });
+  }
+  const kansasScope = jurisdiction === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
+  if (kansasScope?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "record_court_scope_missing", ["district_state_law", "municipal_appealed_to_district"].includes(String(answers.ks_record_court_scope)) ? "Check the requested detail about the law, court, final case outcome and the help you want. A city police arrest, charge level, program admission or optional legal-name hint does not establish the procedure. Record facts are checked separately from your request." : "Check the law, court, final case outcome and any diversion agreement. A city police arrest, charge level or program admission alone does not establish a municipal conviction or fulfilled diversion.", "KS.memo;KSA21-6614(a),(b),(f),(i);22-4908(i);12-4516;12-4516a")], {
+      missingQuestionIds: kansasScope.missingQuestionIds, paymentAllowed: false
+    });
+  }
+  if (kansasScope?.status === "district_review") {
+    const text = {
+      appeal_scope: "This municipal case was appealed to district court. The district-court procedure and form must match that appeal; the original municipal packet or an unrelated district procedure cannot substitute. The source provides for the district clerk to send an expungement order to municipal court, but the applicable filing details still need review.",
+      program_record: "The arrangement entered is not a diversion agreement. A generic program or deferred-disposition answer cannot establish the district-court diversion procedure. Review the actual agreement or order and its final disposition.",
+      registration_only: "You asked about ending registration without also requesting expungement. Those are separate requests. The combined record-clearing route cannot stand in for your request; the registration-only procedure and delivery scope need review.",
+      registration_basis: "The registration record entered does not establish drug-only registration. The drug-offender registration procedure cannot be assumed for another category, mixed obligations or no current duty. Review the actual registration orders and the relief requested.",
+      specialty_program: "The answers do not establish completed requirements of a specialty court established under K.S.A. 20-173. Ordinary treatment or diversion cannot substitute. Review the actual program record and other record-clearing options.",
+      coercion_record: "The final statute entered is not K.S.A. 21-6419 or former K.S.A. 21-3512. The prostitution-specific coercion procedure cannot be established by the optional menu or a general description. Review the final record and other available procedures.",
+      coercion_acts: "This request needs a private review of the circumstances and the applicable procedure. No account of coercion or supporting evidence will be invented, and this result does not deny every record-clearing option."
+    }[kansasScope.code];
+    return result(profile, request, "needs_review", [reason("KS", `district_${kansasScope.code}_review`, text, "KS.memo;KSA21-6614(a)(3),(b),(f);22-4908(a),(i)")], { paymentAllowed: false });
+  }
+  if (kansasScope?.status === "district_arrest") {
+    return result(profile, request, "needs_review", [reason(jurisdiction, "district_arrest_route_requires_binding", "This district-court arrest record needs review under the applicable arrest-record procedure. It cannot be substituted into a municipal ordinance packet or a conviction-and-diversion packet.", "KS.memo:ks-22-2410-arrest;KSA22-2410")], { paymentAllowed: false });
+  }
+  const cannabis = jurisdiction === "IL" ? illinoisCannabisFromAnswers(answers) : null;
+  if (cannabis?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "cannabis_record_facts_missing", "Check the cannabis statute, final case outcome and requested next step. A charge level or completed program alone does not establish a qualifying conviction; nonfinancial completion is separate from money paid.", "IL.memo:il-cannabis-auto,il-cannabis-vacate;20-ILCS-2630/5.2(i)")], {
+      missingQuestionIds: cannabis.missingQuestionIds,
+      paymentAllowed: false
+    });
+  }
+  const reliefRequest = convictionReliefRequest(profile, answers);
+  if (reliefRequest.status === "clarification" || reliefRequest.status === "review") {
+    const code = reliefRequest.status === "clarification" ? "missing" : reliefRequest.code;
+    return result(profile, request, reliefRequest.status === "clarification" ? "needs_more_info" : "needs_review",
+      [reason(jurisdiction, `conviction_relief_${code}`, CONVICTION_RELIEF_COPY[code][0], CONVICTION_RELIEF_SOURCE)], {
+        missingQuestionIds: reliefRequest.status === "clarification" ? reliefRequest.missingQuestionIds : [], paymentAllowed: false
+      });
+  }
+  // GA14 M01059: diversion alone cannot establish the Ohio juvenile singleton.
+  const ohDiversionAgeQuestion = jurisdiction === "OH" && !preselectedPathway
+    && normalizeCaseOutcome(answers.case_outcome) === "diversion_or_deferred"
+    ? publicProfile.questions.find(question => question.id === "age_at_offense") : undefined;
+  const ohDiversionAge = ohDiversionAgeQuestion
+    && questionAnswerState(ohDiversionAgeQuestion, answers.age_at_offense) === "known_valid"
+    ? Number(scalarAnswerText(answers.age_at_offense)) : undefined;
+  if (ohDiversionAgeQuestion && ohDiversionAge === undefined) {
+    return result(profile, request, "needs_more_info", [reason("OH", "missing_required_facts", "Required public screening facts are missing.")], {
+      missingQuestionIds: ["age_at_offense"], paymentAllowed: false
+    });
+  }
+  const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
+  if (ambiguity) {
+    const financialUnknown = ambiguity.text === "financial_obligations is uncertain and requires source review.";
+    return withFlConditionalInformation(result(profile, request, "needs_review", [financialUnknown ? { ...ambiguity, text: FINANCIAL_CLARIFICATION_TEXT } : ambiguity], {
+      ...(financialUnknown ? { missingQuestionIds: ["financial_obligations"] } : {}),
+      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {})
+    }), flInformation);
+  }
 
+  if (ohDiversionAge !== undefined && ohDiversionAge >= 18) {
+    return result(profile, request, "guidance_only", [reason("OH", "diversion_guidance", labelForResult("guidance_only"))], { paymentAllowed: false });
+  }
+
+  if (jurisdiction === "KS" && preselectedPathway?.id === KS_REGISTRATION_ROUTE) {
+    // KS-02: a petition, with unproved statutory facts; neither automatic relief
+    // nor a payment/waiver finding may be inferred from the broad old answers.
+    return result(profile, request, "needs_review", [reason("KS", "registration_statutory_facts_review", KS_REGISTRATION_REVIEW_COPY[0], KS_REGISTRATION_SOURCE)], {
+      pathwayId: KS_REGISTRATION_ROUTE, paymentAllowed: false
+    });
+  }
   const preRouteSafetyGate = preselectedPathway ? routeSpecificSafetyGate(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preRouteSafetyGate) {
     const code = preRouteSafetyGate.code.endsWith("not_eligible") ? "likely_not_eligible" : "needs_review";
@@ -242,7 +864,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
-  const preConflict = preselectedPathway ? presentationConflictReason(profile, preselectedPathway) : undefined;
+  const preConflict = preselectedPathway ? presentationConflictReason(profile, preselectedPathway, answers) : undefined;
   if (preselectedPathway && preConflict) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
     return result(profile, request, "needs_review", [preConflict], {
@@ -251,14 +873,31 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  const activeProgramReferral = preselectedPathway ? activeProgramReferralReason(profile, answers, preselectedPathway) : undefined;
+  if (preselectedPathway && activeProgramReferral) {
+    return result(profile, request, "needs_review", [activeProgramReferral], {
+      pathwayId: preselectedPathway.id,
+      paymentAllowed: false
+    });
+  }
+  // Execute the exact retained TX event/subtype clock before mixed legacy
+  // summaries can classify petitioned nondisclosure as automatic guidance.
+  // Automatic information remains available even with missing timing facts.
+  const txClock = preselectedPathway ? texasNondisclosureClock(profile, preselectedPathway.id, answers, evaluationToday().toISOString().slice(0,10)) : null;
+  if (txClock && preselectedPathway && preselectedPathway.id !== TX_ND_ROUTES[0] && txClock.status !== "elapsed") {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, txClock.status === "missing" ? "needs_more_info" : txClock.status === "not_yet" ? "not_yet" : "needs_review",
+      [reason("TX", `nondisclosure_${txClock.code}`, TX_ND_TIMING_COPY[txClock.status][0], `TX.memo;GovtCode${txClock.section}`)],
+      { pathwayId: preselectedPathway.id, ...(plan ? {packetPlan:plan} : {}), missingQuestionIds: txClock.ids, paymentAllowed: false });
+  }
   const preProductGuidance = preselectedPathway ? productGuidanceReason(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preProductGuidance) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
-    return result(profile, request, "guidance_only", [preProductGuidance], {
+    return withFlConditionalInformation(withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [preProductGuidance], {
       pathwayId: preselectedPathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    });
+    })))), flConditionalInformationContext(profile, preselectedPathway.id, answers));
   }
   // Backstop for the same structural fact when the product-guidance checks
   // above stop firing (e.g. a later ratification flips the court-filed
@@ -337,7 +976,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
-  const presentationConflict = presentationConflictReason(profile, pathway);
+  const presentationConflict = presentationConflictReason(profile, pathway, answers);
   if (presentationConflict) {
     const plan = packetPlanForPathway(profile, pathway.id);
     return result(profile, request, "needs_review", [presentationConflict], {
@@ -349,11 +988,11 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   const guidanceOnlyProduct = productGuidanceReason(profile, answers, pathway);
   if (guidanceOnlyProduct) {
     const plan = packetPlanForPathway(profile, pathway.id);
-    return result(profile, request, "guidance_only", [guidanceOnlyProduct], {
+    return withFlConditionalInformation(withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [guidanceOnlyProduct], {
       pathwayId: pathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    });
+    })))), flConditionalInformationContext(profile, pathway.id, answers));
   }
   const plan = packetPlanForPathway(profile, pathway.id);
   // Structural, not plan-driven: an automatic/no-filing route resolves to
@@ -399,7 +1038,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   // the right route. Reporting the identity changes no result code, no
   // eligibility conclusion and no payment decision: all three stay exactly as
   // they were, paymentAllowed included.
-  const timing = evaluateCompiledTiming(profile, answers, route.rule, route.pathway);
+  const timing = evaluateCompiledTiming(profile, answers, route.rule, route.pathway, msSource);
   if (timing.status === "missing_anchor") {
     return result(profile, request, "needs_more_info", [timing.reason], {
       pathwayId: pathway.id,
@@ -421,6 +1060,12 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       pathwayId: pathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
+    });
+  }
+
+  if (jurisdiction === "IL" && pathway.id === IL_PROGRAM_ROUTE) {
+    return result(profile, request, "needs_review", [reason("IL", "program_form_mapping_unavailable", IL_PROGRAM_COPY.form[0], IL_PROGRAM_SOURCE)], {
+      pathwayId: pathway.id, ...(plan ? { packetPlan: plan } : {}), paymentAllowed: false
     });
   }
 
@@ -471,9 +1116,12 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     // control here, and the resolver enforces that rather than the caller.
     phase: "PRELIMINARY_SCREENING"
   });
+  // Missing authority grants nothing itself; the existing exact-route counsel ratification must permit payment.
   const legallyAuthorizedPayment = resolution.contract
     ? resolution.paymentAuthority === "packet_checkout" && resolution.delivery?.paymentAllowed === true
-    : pathway.legalAuthority?.paymentAuthority !== "closed" && pathway.legalAuthority?.paymentAuthority !== "attorney_review_required";
+    : pathway.legalAuthority === undefined
+      ? routeIsRatifiedDeployable(profile, pathway)
+      : pathway.legalAuthority?.paymentAuthority === "packet_checkout";
 
   // The resolver's answer, not only its payment bit.
   //
@@ -499,7 +1147,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     // held after authentication, not a public screening question, and naming a
     // non-public id here would ask a participant for something the answer
     // validator would then reject.
-    return result(profile, request, "needs_more_info", [reason(
+    const unavailable = result(profile, request, "needs_more_info", [reason(
       jurisdiction,
       "route_identified_packet_not_yet_available",
       preliminaryUnavailabilityText(resolution),
@@ -510,12 +1158,22 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       cautions: ["This is a preliminary screening result. Nothing is filed, purchased or generated by it."],
       paymentAllowed: false
     });
+    return jurisdiction === "GA" && pathway.id === "retroactive-first-offender-treatment-under-42-8-66"
+      ? { ...unavailable, nextSteps: [GA_RETROACTIVE_CONSENT_GUIDANCE[0]] } : unavailable;
   }
 
-  return result(profile, request, selectedCode, [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)], {
+  // Broad candidate lists can match another HI pathway; do not present that rule as DUI authority.
+  const successReason = jurisdiction === "HI" && pathway.id === "dui-under-21-conviction"
+    && !compiledRouteRuleMatchesPathway(route.rule, pathway)
+    && route.rule.sourceRef !== `manual_source_conversion:HI:${pathway.id}`
+    ? reason(jurisdiction, "dui_pathway_context", "The Hawaii DUI-under-21 pathway was selected for this packet decision.", pathway.sourceRef)
+    : reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef);
+  return result(profile, request, selectedCode, [successReason], {
     pathwayId: pathway.id,
     packetPlan: plan,
     paymentAllowed: paymentAllowed && legallyAuthorizedPayment
+      && (compiledRouteRuleMatchesPathway(route.rule, pathway)
+        || REVIEWED_OWN_CONTENT_PAYMENT_RULES[`${jurisdiction}:${pathway.id}`]?.includes(route.rule.id) === true)
   });
 }
 
@@ -632,6 +1290,24 @@ function exclusionReason(profile: EngineProfile, answers: Record<string, Screeni
   }
   const selectedExclusions = normalized.filter((value) => !value.includes("none of these"));
   if (selectedExclusions.length > 0) {
+    // JDF 612 section 8(b) preserves a misdemeanor review path even for an excluded offense.
+    if (jurisdiction === "CO"
+      && (normalizeCaseOutcome(answers.case_outcome) === "convicted_misdemeanor"
+        || normalizeCaseOutcome(answers.case_outcome) === "convicted_other"
+          && (answers.offense_level === "Misdemeanor"
+            || answers.offense_level === "Traffic or driving matter"
+              && selectedExclusions.every(value => value === "dui/dwi or serious traffic")))) {
+      return reason(jurisdiction, "state_exclusion_scope_unknown", "This category alone does not settle whether your misdemeanor conviction can be sealed. Section 8(b) of JDF 612 provides a district-attorney consent or hearing process, and, if the district attorney does not consent, requires you to prove certain conditions by clear and convincing evidence. Review the conviction and that process before continuing; this is not a finding that you qualify.", "JDF 612 Rev. 2024-08-07, section 8(b); held SHA-256 8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e");
+    }
+    // These legacy categories do not identify a Delaware statutory exclusion.
+    // In particular, § 4373(b) limits mandatory relief, while § 4374(a)(2)
+    // expressly permits consideration of those misdemeanors after seven years.
+    // The pardon and juvenile mechanisms have separate rules as well. Keep
+    // payment closed until the offense and mechanism are established; do not
+    // turn a broad pre-route answer into a statewide legal denial.
+    if (jurisdiction === "DE") {
+      return reason(jurisdiction, "state_exclusion_scope_unknown", "We need the exact offense and disposition from the court record. Delaware's mandatory, discretionary, pardon and juvenile procedures have different exclusions; this category alone does not establish ineligibility.", "https://delcode.delaware.gov/title11/c043/sc07/index.html");
+    }
     return reason(jurisdiction, "state_exclusion_selected", "A source-defined exclusion or review-required category was selected.");
   }
   return undefined;
@@ -648,10 +1324,36 @@ function ambiguityReason(
   // internal `source_question_*` questions that are never shown and never answered; scanning those
   // would treat every completed screening as ambiguous. Missing/empty public answers are not
   // ambiguity here — required public answers are enforced by requiredMissingPublicQuestionIds().
-  const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
+  const legalFields = publicProfile.questions.filter(question => flConditionalInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
+    .filter(question => dcGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => ctAutomaticInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => ctCannabisGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => !TX_ND_FACT_IDS.includes(question.id))
+    .filter(question => !ctPetitionContext(profile, selectedPathway?.id) || !CT_PETITION_FACT_IDS.includes(question.id))
+    .filter(question => !georgiaSb288Context(profile, selectedPathway?.id) || !GA_SB288_FACT_IDS.includes(question.id))
+    .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => newJerseyMarijuanaStatusFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => texasGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => westVirginiaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => southDakotaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => southCarolinaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => oklahomaCleanSlateFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
+    .filter(question => missouriClosedRecordQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id, profile))
+    .filter(question => maineNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
+    .filter(question => nebraskaNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
+    .filter(question => louisianaAutomationStatusQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter((question) => relevant.has(question.id))
+    // Current NY history/offense/clock gates always require their explicit facts.
+    // Retired ambiguous fields and elapsed buckets remain raw saved context.
+    .filter(question => profile.jurisdiction.code !== "NY" || selectedPathway?.id !== NY_16059_ROUTE
+      || ![...NY_16059_LEGACY_IDS, "resolved_timing_bucket"].includes(question.id))
+    .filter(question => !isCaProp64Pathway(jurisdiction, selectedPathway?.id)
+      || ![...CA_PROP64_LEGACY_IDS, "state_exclusion_categories", "resolved_timing_bucket", "pending_cases", "new_convictions_during_waiting_period", "financial_obligations", "court_requirements_completed"].includes(question.id))
     .find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
   return undefined;
@@ -661,6 +1363,7 @@ function requiredUnknownPublicDateQuestionIds(publicProfile: PublicJurisdictionP
   return publicProfile.questions
     .filter((question) => question.required && question.contextOnly !== true && isPrepaymentQuestion(question))
     .filter((question) => question.type === "date_or_unknown")
+    .filter(question => !IL_PROGRAM_FACT_IDS.includes(question.id))
     .filter((question) => isExplicitUnknownAnswer(answers[question.id]))
     .map((question) => question.id);
 }
@@ -671,43 +1374,75 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "CA" && caProp64Pathway(answers)) return profile.pathways.find(p => p.id === caProp64Pathway(answers));
+  if (profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) return undefined;
+  if (profile.jurisdiction.code === "NY" && ny16059Requested(answers)) return profile.pathways.find(p => p.id === NY_16059_ROUTE);
+  const nyMrta = nyMrtaDecision(profile, answers);
+  const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
+  if (nyMrta) return nyMrta.status === "guidance" ? profile.pathways.find(p => p.id === NY_MRTA_ROUTE) : undefined;
+  if (nyPartialSeal) return nyPartialSeal.status === "guidance" ? profile.pathways.find(p => p.id === NY_16055_ROUTE) : undefined;
+  if (profile.jurisdiction.code === "DE" && deAdultConviction(answers) && !isAffirmative(answers.pardon_status)) {
+    const id = delawareConvictionRoute(answers);
+    return profile.pathways.find(pathway => pathway.id === id);
+  }
+  if (profile.jurisdiction.code === "KS") {
+    const scope = kansasRecordScopeFromAnswers(answers);
+    if (scope.status === "selected") return profile.pathways.find(pathway => pathway.id === scope.pathwayId);
+    if (scope.status === "clarification" || scope.status === "district_arrest" || scope.status === "district_review") return undefined;
+  }
+  if (profile.jurisdiction.code === "IL") {
+    const cannabis = illinoisCannabisFromAnswers(answers);
+    if (cannabis.status === "selected") return profile.pathways.find(pathway => pathway.id === cannabis.pathwayId);
+    if (cannabis.status === "clarification") return undefined;
+  }
+  if (profile.jurisdiction.code === "GA") {
+    const firstOffender = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
+    if (firstOffender.status === "selected") return profile.pathways.find(pathway => pathway.id === firstOffender.pathwayId);
+    if (firstOffender.status === "clarification") return undefined;
+  }
+  if (profile.jurisdiction.code === "MS") {
+    const programRoute = mississippiProgramRouteFromAnswers(answers);
+    if (programRoute.status === "selected") return profile.pathways.find(pathway => pathway.id === programRoute.pathwayId);
+    if (programRoute.status === "clarification") return undefined;
+  }
+  const reliefRequest = convictionReliefRequest(profile, answers);
+  if (reliefRequest.status === "selected") return profile.pathways.find(pathway => pathway.id === reliefRequest.pathwayId);
+  if (reliefRequest.status !== "not_applicable") return undefined;
+  if (profile.jurisdiction.code === "MS" && isExplicitUnknownAnswer(answers.case_outcome)) return undefined;
+  const msNonConviction = profile.jurisdiction.code === "MS" ? mississippiNonConvictionPathway(answers) : undefined;
+  if (msNonConviction) return profile.pathways.find(pathway => pathway.id === msNonConviction);
   const context = answerText(answers.possible_pathway_context).toLowerCase();
   if (context) {
-    const exactContext = profile.pathways.find((pathway) => normalizeContextMatch(pathway.label) === normalizeContextMatch(context));
-    if (exactContext) return exactContext;
-
-    const byStatuteNumber = profile.pathways.find((pathway) => numericContextMatch(context, `${pathway.id} ${pathway.label} ${pathway.summary}`));
-    if (byStatuteNumber) return byStatuteNumber;
-
-    const byContext = profile.pathways.find((pathway) => contextTokenMatch(context, pathway.label) || contextTokenMatch(context, pathway.summary));
-    if (byContext) return byContext;
-
-    return undefined;
+    const requested = pathwayFromContext(profile, context);
+    return requested && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, requested.id) && convictionOutcomeCompatible(profile.jurisdiction.code, answers, requested.id) ? requested : undefined;
   }
 
+  const candidates = profile.pathways.filter(pathway => !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id)
+    && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id));
   const outcome = answerText(answers.case_outcome).toLowerCase();
-  const automatic = profile.pathways.find((pathway) => /automatic|clean slate|no-filing/i.test(`${pathway.label} ${pathway.summary}`));
+  const automatic = candidates.find((pathway) => /automatic|clean slate|no-filing/i.test(`${pathway.label} ${pathway.summary}`));
   if (/automatic|clean slate/.test(context) && automatic) return automatic;
 
-  const nonConviction = profile.pathways.find((pathway) => /non[- ]conviction|dismiss|acquit|arrest/i.test(`${pathway.label} ${pathway.summary}`));
+  const nonConviction = candidates.find((pathway) => /non[- ]conviction|dismiss|acquit|arrest/i.test(`${pathway.label} ${pathway.summary}`));
   if (/dismiss|acquit|no charge|not prosecuted|arrest/.test(outcome) && nonConviction) return nonConviction;
 
-  const juvenile = profile.pathways.find((pathway) => /juvenile|minor/i.test(`${pathway.label} ${pathway.summary}`));
+  const juvenile = candidates.find((pathway) => /juvenile|minor/i.test(`${pathway.label} ${pathway.summary}`));
   if (/juvenile|minor/.test(outcome) && juvenile) return juvenile;
 
   // A pardoned conviction is still a conviction by token, so the pardon branch
   // must run before the generic conviction branch or MD pardon participants
   // land on the first "non-conviction"-labeled pathway (label token overlap).
   if (profile.jurisdiction.code === "MD" && /pardon/.test(outcome)) {
-    const pardoned = profile.pathways.find((pathway) => /pardon/i.test(pathway.label));
+    const pardoned = candidates.find((pathway) => /pardon/i.test(pathway.label));
     if (pardoned) return pardoned;
   }
 
-  const conviction = profile.pathways.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`));
+  const conviction = candidates.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`) && !/without conviction|non[- ]conviction|no conviction|dismiss|acquit|not charged/i.test(pathway.label));
   if (/conviction|misdemeanor|felony/.test(outcome) && conviction) return conviction;
 
   return undefined;
 }
+
 
 function sourceCaution(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathwayId: string) {
   const pathway = profile.pathways.find((candidate) => candidate.id === pathwayId);
@@ -755,6 +1490,36 @@ function routeIsAdministrativeApplicationPacket(profile: EngineProfile, pathway:
 }
 
 function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code === "KS") {
+    const scope = kansasRecordScopeFromAnswers(answers);
+    if (scope.status === "selected" && scope.branch === "district_unfulfilled_diversion") {
+      return reason("KS", "district_diversion_not_fulfilled", "The district-court diversion agreement remains unfulfilled. Admission, another program's completion or a municipal agreement does not start this completed-diversion clock. Review the agreement and any applicable alternative procedure.", "KSA21-6614(a)(2);KS.memo:ks-21-6614-diversion");
+    }
+    if (scope.status === "selected" && scope.branch === "unfulfilled_diversion") {
+      return reason("KS", "municipal_diversion_not_fulfilled", "The answer says the diversion agreement remains unfulfilled. Do not start a completed-diversion waiting period from admission or arrest. Review the agreement and any specific statutory exception before choosing a filing procedure.", "KSA12-4516(a)(2),(b);KS.memo:ks-12-4516-municipal");
+    }
+  }
+  if (profile.jurisdiction.code === "IL" && pathway.id === IL_CANNABIS_PATHWAY) {
+    const cannabis = illinoisCannabisFromAnswers(answers);
+    if (cannabis.status === "selected" && cannabis.branch === "other_felony") {
+      return reason("IL", "cannabis_conviction_class_outside_motion", "The cannabis motion covers misdemeanor and Class 4 felony convictions. The class entered is outside that motion's scope. Review the final record and other available remedies; this is not a denial of every record-clearing option.", "20-ILCS-2630/5.2(i)(3);IL.memo:il-cannabis-vacate");
+    }
+    if (cannabis.status === "selected" && answers.il_cannabis_next_step === "status_check") {
+      return reason("IL", "cannabis_status_check_requires_record_review", "Checking whether this cannabis record was already cleared does not request a motion to set aside a conviction. Review the current criminal-history record and the applicable automatic or pardon process. This result does not confirm that expungement occurred or open a filing packet.", "IL.memo:il-cannabis-auto;20-ILCS-2630/5.2(i)");
+    }
+  }
+  if (profile.jurisdiction.code === "GA") {
+    const firstOffender = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
+    if (firstOffender.status === "selected" && firstOffender.pathwayId === pathway.id && firstOffender.branch === "revoked") {
+      return reason("GA", "original_first_offender_revoked", "The record says the First Offender sentence was revoked and guilt was adjudicated. The original First Offender restriction and sealing procedure cannot be treated as a successful discharge. Get help reviewing the final order and any other available procedure.", "HB162:section3:42-8-62.1(c),(g); GA.memo:ga-fo-*");
+    }
+  }
+  if (wy1502Context(profile, pathway.id)) {
+    const facts = wy1502Facts(answers, evaluationToday().toISOString().slice(0, 10));
+    return reason("WY", `felony1502_${facts.code}`, WY_1502_COPY[facts.code][0], WY_1502_SOURCE);
+  }
+  const msRecordClassGate = msFelonyRecordClassSafetyGate(profile, answers, pathway);
+  if (msRecordClassGate) return msRecordClassGate;
   const caGate = caRouteSafetyGate(profile, answers, pathway);
   if (caGate) return caGate;
   const nyGate = nyCpl16059SafetyGate(profile, answers, pathway);
@@ -778,6 +1543,28 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   const nvSubsection3 = nevada176ASubsection3Gate(profile, answers, pathway);
   if (nvSubsection3) return nvSubsection3;
   return undefined;
+}
+
+/**
+ * LD-MS-01 retains this exact felony-conviction route. The adopted ms-fel track
+ * (legal-design-track-registry.json) covers conviction / felony_conviction.
+ * An optional remedy hint cannot establish a final felony conviction. Charge
+ * severity is not the final disposition. A pardon, program or combined
+ * conviction/adjudication answer also does not establish that record class.
+ * This guard never selects a replacement route or establishes eligibility.
+ */
+function msFelonyRecordClassSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code !== "MS" || pathway.id !== "eligible-felony-conviction-expungement-99-19-71") return undefined;
+  if (answers.case_outcome === "Felony conviction") return undefined;
+  if (!["Dismissed, no-billed, nolle prosequi, or not prosecuted", "Misdemeanor conviction",
+    "Arrest or citation with no charge filed", "Acquitted or found not guilty"].includes(answerText(answers.case_outcome))) {
+    return reason("MS", "felony_route_case_outcome_unconfirmed",
+      "This option requires a final felony conviction in this case. The outcome entered does not confirm that fact. Check the final court record or get help identifying the disposition; the original charge level does not establish a conviction.",
+      "LD-MS-01; legal-design-track-registry:ms-fel:recordTypes,dispositions");
+  }
+  return reason("MS", "felony_route_case_outcome_conflict",
+    "The case outcome you entered does not match this felony-conviction option. Review the case outcome or get help confirming which option applies.",
+    "LD-MS-01; legal-design-track-registry:ms-fel:recordTypes,dispositions");
 }
 
 // Nevada NRS 176A.245(3), 176A.265(3) and 176A.295(3): the court may not order
@@ -849,23 +1636,31 @@ function akCourtViewExclusionSafetyGate(profile: EngineProfile, answers: Record<
 }
 
 // Delaware § 4374 discretionary Superior/Family Court expungement gate (legal signoff 2026-07-01).
-// § 4374 discretionary relief is unavailable for the statutorily excluded offenses (the § 4201(c)
-// violent-felony schedule, § 4373(b)-listed and domestic-violence offenses, and other named § 4372(f)
-// exclusions). The public state_exclusion_categories fact carries those flags; any flagged category
-// fails closed, and an unconfirmed ("I am not sure") answer also fails closed. The § 4375 post-pardon
-// route and the mandatory/automatic § 4373 track are separate pathways and are not sold here.
+// § 4374(b) adds its own exclusions to § 4372(f). Section 4373(b) is the
+// mandatory-track list, not a discretionary exclusion: § 4374(a)(2) addresses
+// its misdemeanors expressly. Broad legacy category answers require exact
+// offense/record review and cannot prove either eligibility or ineligibility.
+// Section 4375 post-pardon and juvenile relief remain separate mechanisms.
 function deSuperiorExpungementSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "DE" || pathway.id !== "discretionary-court-expungement-under-11-del-c-4374") return undefined;
   const jurisdiction = profile.jurisdiction.code;
+  if (delawareConvictionRoute(answers) === DE_COURT && delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") return undefined;
+  // Section4374(a) identifies conviction predicates. A mandatory-eligible
+  // case may be included WITH a discretionary request under (d)(2), but the
+  // broad dismissed/arrest/program answer alone does not establish that
+  // underlying conviction. Prosecutor-initiated (h) is a different actor.
+  if (!["Misdemeanor conviction", "Felony conviction"].includes(answerText(answers.case_outcome))) {
+    return reason(jurisdiction, "de_4374_conviction_scope_unconfirmed", "This answer does not establish the conviction records required for a discretionary request. Review the final outcomes for every case requested, including any conviction supporting a combined petition. A dismissal or program answer alone cannot open this conviction packet; mandatory, pardon and prosecutor-initiated procedures have separate requirements.", "11-Del-C-4374(a),(d)(2),(h);DE.memo:de_discretionary_superior_court,de_discretionary_family_court");
+  }
   const raw = Array.isArray(answers.state_exclusion_categories)
     ? answers.state_exclusion_categories.map((value) => String(value).toLowerCase())
     : [answerText(answers.state_exclusion_categories).toLowerCase()];
   const values = raw.filter((value) => value.trim().length > 0);
   if (values.length === 0 || values.some((value) => /not sure|unknown/.test(value)) || isExplicitUnknownAnswer(answers.state_exclusion_categories)) {
-    return reason(jurisdiction, "de_4374_exclusion_unconfirmed", "Delaware § 4374 discretionary expungement requires confirming the offense is not a § 4201(c) violent felony, a § 4373(b)-listed or domestic-violence offense, or another statutorily excluded offense before a packet decision.", pathway.sourceRef);
+    return reason(jurisdiction, "de_4374_exclusion_unconfirmed", "We need the exact offense and disposition to check Delaware §§ 4372(f) and 4374(b). A misdemeanor listed in § 4373(b) may instead be considered under § 4374(a)(2), subject to its seven-year waiting period and other conditions.", pathway.sourceRef);
   }
   if (values.some((value) => !/none of these/.test(value))) {
-    return reason(jurisdiction, "de_4374_excluded_offense_not_eligible", "Delaware § 4374 discretionary expungement excludes § 4201(c) violent felonies, § 4373(b)-listed and domestic-violence offenses, and other statutorily named offenses; those cannot open a discretionary court packet.", pathway.sourceRef);
+    return reason(jurisdiction, "de_4374_exclusion_unconfirmed", "This category alone does not establish a Delaware discretionary exclusion. Check the exact conviction against §§ 4372(f) and 4374(b), and the separate eligibility conditions in § 4374(a), before preparing a packet.", pathway.sourceRef);
   }
   return undefined;
 }
@@ -898,14 +1693,8 @@ function hiAdminApplicationSafetyGate(profile: EngineProfile, answers: Record<st
 
 function ilFelonyProstitutionSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "IL" || pathway.id !== "felony-prostitution-relief") return undefined;
-  // 20 ILCS 2630/5.2(j) relief is limited to a Class 4 felony prostitution conviction. A non-felony
-  // prostitution record uses a different sealing route, so the felony-prostitution packet must not
-  // open for a misdemeanor. Ratified by Lawrence 2026-07-01.
-  const level = `${answerText(answers.offense_level)} ${answerText(answers.charge)}`.toLowerCase();
-  if (!/felony/.test(level)) {
-    return reason(profile.jurisdiction.code, "il_prostitution_felony_required_not_eligible", "20 ILCS 2630/5.2(j) prostitution-conviction relief is limited to a Class 4 felony conviction; a misdemeanor prostitution record uses a different sealing route.", pathway.sourceRef);
-  }
-  return undefined;
+  const code = illinoisProstitutionContext(profile, pathway.id) ? illinoisProstitutionFacts(answers) : "source_review";
+  return reason("IL", `prostitution_${code}`, IL_PROSTITUTION_COPY[code][0], IL_PROSTITUTION_SOURCE);
 }
 
 function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
@@ -919,24 +1708,26 @@ function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, Scree
     }
   }
   if (pathway.id === "prop-64-currently-serving-petition-11361-8" || pathway.id === "prop-64-completed-sentence-application-11361-8") {
-    const branch = answerText(answers.ca_prop64_branch).toLowerCase();
-    if (!isAffirmative(answers.ca_prop64_qualifying_marijuana_offense)) {
-      return reason(jurisdiction, "ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible", "HSC § 11361.8 packet support requires a confirmed qualifying marijuana conviction.", pathway.sourceRef);
-    }
-    if (!isAffirmative(answers.ca_prop64_lesser_or_no_offense)) {
-      return reason(jurisdiction, "ca_prop64_lesser_or_no_offense_missing_or_not_eligible", "HSC § 11361.8 packet support requires confirmation that the offense would be no offense or a lesser offense under Prop 64/AUMA.", pathway.sourceRef);
-    }
-    if (pathway.id === "prop-64-currently-serving-petition-11361-8" && !branch.includes("currently")) {
+    const branch = caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch);
+    if (pathway.id === "prop-64-currently-serving-petition-11361-8" && branch !== "currently-serving petition") {
       return reason(jurisdiction, "ca_prop64_currently_serving_branch_not_confirmed", "The HSC § 11361.8 currently-serving petition branch must be confirmed before packet support opens.", pathway.sourceRef);
     }
     if (pathway.id === "prop-64-completed-sentence-application-11361-8") {
-      if (!branch.includes("completed")) {
+      if (branch !== "completed-sentence application") {
         return reason(jurisdiction, "ca_prop64_completed_sentence_branch_not_confirmed", "The HSC § 11361.8 completed-sentence application branch must be confirmed before packet support opens.", pathway.sourceRef);
       }
-      const requested = answerText(answers.ca_prop64_relief_requested).toLowerCase();
-      if (!/dismiss|seal|redesignat/.test(requested)) {
+      const requested = caProp64Choice("ca_prop64_relief_requested", answers.ca_prop64_relief_requested);
+      if (requested !== "dismissal/sealing" && requested !== "redesignation") {
         return reason(jurisdiction, "ca_prop64_relief_requested_missing", "The completed-sentence HSC § 11361.8 application must confirm dismissal/sealing or redesignation is requested.", pathway.sourceRef);
       }
+    }
+    if (pathway.id === CA_PROP64_CURRENT && isAffirmative(answers.sentence_completion_date)
+      || pathway.id === CA_PROP64_COMPLETED && isNegative(answers.sentence_completion_date)) {
+      return reason(jurisdiction, "ca_prop64_sentence_status_conflict", "The sentence status and completion answers for this case do not agree. Review both answers before continuing.", pathway.sourceRef);
+    }
+    if (caProp64RecordQuestions(profile, profile.questions, pathway.id)
+      .some((question) => caProp64RecordAnswerState(question.id, answers[question.id]) !== "known_valid")) {
+      return reason(jurisdiction, "ca_prop64_record_details_unconfirmed", "Review the court and charge details for this case before continuing.", pathway.sourceRef);
     }
   }
   return undefined;
@@ -960,49 +1751,36 @@ function nyCpl16058SafetyGate(profile: EngineProfile, answers: Record<string, Sc
 function nyCpl16059SafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "NY" || pathway.id !== "discretionary-conviction-sealing-by-petition-under-cpl-160-59") return undefined;
   const jurisdiction = profile.jurisdiction.code;
-  const totalConvictions = numericAnswer(answers.ny_16059_total_eligible_convictions ?? answers.eligible_conviction_count);
-  if (totalConvictions === undefined) {
-    return reason(jurisdiction, "ny_16059_numerosity_missing", "NY CPL 160.59 requires the total eligible conviction count before a packet decision.", pathway.sourceRef);
-  }
-  if (totalConvictions > 2) {
-    return reason(jurisdiction, "ny_16059_numerosity_not_eligible", "NY CPL 160.59 is limited to no more than two eligible convictions.", pathway.sourceRef);
-  }
-  const felonyConvictions = numericAnswer(answers.ny_16059_felony_convictions);
-  if (felonyConvictions === undefined) {
-    return reason(jurisdiction, "ny_16059_felony_count_missing", "NY CPL 160.59 requires the felony conviction count before a packet decision.", pathway.sourceRef);
-  }
-  if (felonyConvictions > 1) {
-    return reason(jurisdiction, "ny_16059_felony_count_not_eligible", "NY CPL 160.59 is limited to no more than one felony conviction.", pathway.sourceRef);
-  }
-  if (isAffirmative(answers.ny_16059_ineligible_offense) || isAffirmative(answers.ny_16059_sex_offender_registration)) {
+  if (isAffirmative(answers.ny_16059_requested_excluded) || isAffirmative(answers.ny_16059_sex_offender_registration)) {
     return reason(jurisdiction, "ny_16059_offense_bar_not_eligible", "NY CPL 160.59 excludes sex offenses, Article 263 offenses, felony Article 125 offenses, violent felonies, Class A felonies, ineligible attempts/conspiracies, and records requiring sex-offender registration.", pathway.sourceRef);
   }
-  if (!answerText(answers.ny_16059_ineligible_offense).trim() || !answerText(answers.ny_16059_sex_offender_registration).trim()) {
+  if (!isNegative(answers.ny_16059_requested_excluded) || !isNegative(answers.ny_16059_sex_offender_registration)) {
     return reason(jurisdiction, "ny_16059_offense_bar_missing", "NY CPL 160.59 offense-exclusion facts must be confirmed before a packet decision.", pathway.sourceRef);
   }
-  if (isAffirmative(answers.ny_16059_pending_charge) || isAffirmative(answers.pending_cases)) {
+  // The broad pending_cases question also covers probation/supervision. Only
+  // the scoped charge fact can establish this charge-specific bar; completion
+  // and timing remain evaluated by their existing separate predicates.
+  if (isAffirmative(answers.ny_16059_undisposed_arrest)) {
+    return reason(jurisdiction, "ny_16059_undisposed_arrest_not_eligible", "This sealing application cannot proceed while an arrest remains unresolved, even if no charge has been filed. Confirm its disposition before continuing.", "CPL160.59(3)(e)");
+  }
+  if (isAffirmative(answers.ny_16059_pending_charge)) {
     return reason(jurisdiction, "ny_16059_pending_charge_not_eligible", "NY CPL 160.59 does not open while a criminal charge is pending.", pathway.sourceRef);
   }
-  if (isAffirmative(answers.ny_16059_post_last_conviction_crime) || isAffirmative(answers.new_convictions_during_waiting_period)) {
-    return reason(jurisdiction, "ny_16059_post_last_conviction_crime_not_eligible", "NY CPL 160.59 requires no crime after the last conviction before the packet decision.", pathway.sourceRef);
+  if (isAffirmative(answers.new_convictions_during_waiting_period) || isAffirmative(answers.ny_16059_later_conviction_entered)) {
+    return reason(jurisdiction, "ny_16059_post_last_conviction_crime_not_eligible", "NY CPL 160.59 bars a later criminal conviction after the last conviction for which sealing is requested.", pathway.sourceRef);
   }
-  if (isAffirmative(answers.ny_16059_prior_sealing)) {
-    return reason(jurisdiction, "ny_16059_prior_sealing_cap_not_eligible", "NY CPL 160.59 prior-sealing caps must be clear before a packet decision.", pathway.sourceRef);
+  if (!isNegative(answers.ny_16059_undisposed_arrest)) {
+    return reason(jurisdiction, "ny_16059_arrest_status_unconfirmed", "Check whether any arrest is still unresolved. An answer about pending charges or supervision does not establish the status of an arrest with no charge filed.", "CPL160.59(3)(e)");
   }
-  for (const id of ["ny_16059_pending_charge", "ny_16059_post_last_conviction_crime", "ny_16059_prior_sealing"]) {
-    if (!answerText(answers[id]).trim() || isExplicitUnknownAnswer(answers[id])) {
-      return reason(jurisdiction, `${id}_missing`, "NY CPL 160.59 gate facts must be confirmed before a packet decision.", pathway.sourceRef);
-    }
+  // CPL160.59(3)(f) compares entry of a later conviction, even for conduct
+  // predating the requested conviction. Neither Yes nor No to the legacy
+  // question about a later "crime" establishes that distinct fact. Retain the
+  // earlier answer; an explicit current No can resolve its ambiguity.
+  if (!isNegative(answers.ny_16059_later_conviction_entered)) {
+    return reason(jurisdiction, "ny_16059_later_conviction_unconfirmed", "The earlier answer does not establish whether there was a later conviction. Check the disposition and date of the later case before deciding this sealing request.", pathway.sourceRef);
   }
+  if (!isNegative(answers.ny_16059_pending_charge)) return reason(jurisdiction, "ny_16059_pending_charge_missing", "NY CPL 160.59 gate facts must be confirmed before a packet decision.", pathway.sourceRef);
   return undefined;
-}
-
-function numericAnswer(value: ScreeningAnswerValue | undefined) {
-  if (typeof value === "number" && Number.isFinite(value)) return value;
-  const text = answerText(value);
-  if (!text.trim()) return undefined;
-  const parsed = Number(text);
-  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
 function dcSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
@@ -1083,8 +1861,18 @@ function packetCorrectionReason(profile: EngineProfile, pathway: CompiledPathway
   );
 }
 
-function presentationConflictReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
+function presentationConflictReason(profile: EngineProfile, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
   if (!PRESENTATION_CONFLICT_ROUTE_KEYS.has(`${profile.jurisdiction.code}:${pathway.id}`)) return undefined;
+  if (profile.jurisdiction.code === "GA" && pathway.id === GA_ORIGINAL_FIRST_OFFENDER_PATHWAY) {
+    const selected = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
+    if (selected.status === "selected" && selected.branch !== "revoked") {
+      return reason("GA", `original_first_offender_${selected.branch}`, GA_FIRST_OFFENDER_GUIDANCE[selected.branch][0],
+        selected.branch === "active_pre2026" ? "O.C.G.A. § 42-8-62.1(c); HB 162 § 3 (2026)"
+          : selected.branch === "sentencing_post2026" ? "O.C.G.A. § 42-8-62.1(b); HB 162 § 3 (2026)"
+          : selected.branch === "discharged_pre2026" ? "O.C.G.A. § 42-8-62.2(c); HB 162 § 4 (2026)"
+          : "O.C.G.A. § 42-8-62.2(b), (e)–(f); HB 162 § 4 (2026)");
+    }
+  }
   return reason(
     profile.jurisdiction.code,
     "route_presentation_conflicts_with_its_contract",
@@ -1095,6 +1883,13 @@ function presentationConflictReason(profile: EngineProfile, pathway: CompiledPat
 
 function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
   const jurisdiction = profile.jurisdiction.code;
+  // The exact DWI clock replaces the old unexecuted-timing review, not the
+  // separate adopted source predicates absent from this compiled questionnaire.
+  // TX.memo tracks 12/15/17 require qualifying offense, record and collision
+  // evidence. Calendar arithmetic cannot manufacture those facts or readiness.
+  if (pathway.id === TX_ND_ROUTES[3] && texasNondisclosureTimingContract(profile, pathway.id)) {
+    return reason("TX", "nondisclosure_dwi_source_facts_review", TX_ND_TIMING_COPY.dwi_source_review[0], "TX.memo:tracks/12,15,17;GovtCode411.0726,411.0731,411.0736");
+  }
   if (routeIsCorrectedAwaitingReconfirm(profile, pathway)) {
     return reason(jurisdiction, "lawrence_reconfirmation_required", "Lawrence corrected this route's timing or anchor; it must be re-confirmed before a paid packet decision.", pathway.sourceRef);
   }
@@ -1106,6 +1901,10 @@ function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway
 
 function specialRouteTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult | undefined {
   const key = routeKey(profile, pathway);
+  const txClock = texasNondisclosureClock(profile, pathway.id, answers, evaluationToday().toISOString().slice(0,10));
+  if (txClock) return txClock.status === "elapsed" ? {status:"satisfied"} : txClock.status === "missing"
+    ? { status:"missing_anchor", missingQuestionIds:txClock.ids, reason:reason("TX", `nondisclosure_${txClock.code}`, TX_ND_TIMING_COPY.missing[0], `TX.memo;GovtCode${txClock.section}`) }
+    : { status:txClock.status === "not_yet" ? "not_yet" : "needs_review", reason:reason("TX", `nondisclosure_${txClock.code}`, TX_ND_TIMING_COPY[txClock.status][0], `TX.memo;GovtCode${txClock.section}`) };
   if (key === "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8") {
     // Crim. Proc. § 10-105(a)(8) carries no minimum wait; § 10-105(c)(4) is the
     // opposite constraint — filing is barred more than 10 years AFTER the
@@ -1153,7 +1952,11 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
   if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };
   if (key === "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59") {
-    return latestAnchorTiming(profile, answers, rule, pathway, ["sentencing_date", "release_date"], { value: 10, unit: "years", raw: "10 years" }, "NY CPL 160.59 requires ten years from the later of sentencing or release; release captures incarceration tolling when present.");
+    const clock = ny16059Clock(answers, evaluationToday().toISOString().slice(0, 10));
+    if (clock.status === "satisfied") return { status: "satisfied" };
+    const clockReason = reason("NY", `ny_16059_${clock.code}`, NY_16059_REASON_COPY[clock.code!][0], NY_16059_SOURCE);
+    if (clock.status === "missing") return { status: "missing_anchor", reason: clockReason, missingQuestionIds: clock.ids ?? [] };
+    return { status: clock.status === "not_yet" ? "not_yet" : "needs_review", reason: clockReason };
   }
   if (key === "IN:non-conviction-arrest-or-criminal-charge-expungement") {
     return timingFromAnchor(profile, answers, rule, pathway, "arrest_date", { value: 1, unit: "years", raw: "1 year" }, "IC 35-38-9-1 one-year non-conviction wait runs from the arrest, charge, or allegation date.");
@@ -1197,11 +2000,70 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "no wait" }, "Tennessee non-conviction expunction has no five-year wait after dismissal, no true bill, or not guilty disposition.");
   }
+  if (profile.jurisdiction.code === "MS" && Object.hasOwn(MS_PROGRAM_COMPLETION_PATHWAYS, pathway.id)) {
+    const selected = mississippiProgramRouteFromAnswers(answers);
+    const source = pathway.id === "nonadjudication-under-99-15-26" ? "LD-MS-01;99-15-26(4)-(5)" : "LD-MS-01;99-15-123(1)-(3)";
+    const facts = msProgramCompletionPredicates(pathway.id, answers);
+    if (selected.status !== "selected" || selected.pathwayId !== pathway.id || facts.status === "missing") {
+      return { status: "missing_anchor", missingQuestionIds: facts.status === "missing" ? facts.ids : ["ms_program_order", "ms_program_record_status"],
+        reason: reason("MS", "program_completion_event_missing", "Check the program order, successful completion, final case disposition, and arrest and release record. A program name or elapsed time alone does not establish the completed event.", source) };
+    }
+    if (facts.status === "review") {
+      return { status: "needs_review", reason: reason("MS", "program_arrest_release_conflict", "This procedure requires an arrest and release in the case. Check the recorded answer before continuing; this does not decide whether another remedy is available.", source) };
+    }
+    // Dates can corroborate a completed event; they cannot replace it. Do not
+    // require an invented disposition date on the statutory no-disposition limb.
+    const dates = new Map<string, Date>();
+    for (const id of ["ms_program_completion_date", "ms_program_disposition_date"]) {
+      if (answers[id] === undefined || answers[id] === "") continue;
+      const date = parseDateAnswer(answers[id]);
+      if (!date || date.toISOString().slice(0, 10) !== answerText(answers[id]) || date > evaluationToday()) {
+        return { status: "missing_anchor", missingQuestionIds: [id], reason: reason("MS", "program_completion_date_invalid", "Check the supplied program completion or disposition date. It must be a real calendar date for an event that has already occurred.", source) };
+      }
+      dates.set(id, date);
+    }
+    const completion = dates.get("ms_program_completion_date"), disposition = dates.get("ms_program_disposition_date");
+    if (answers.ms_program_final_disposition === "no_disposition" && disposition
+      || completion && disposition && disposition < completion) {
+      return { status: "needs_review", reason: reason("MS", "program_completion_dates_conflict", "The recorded dates or disposition conflict. Check the completion and case records; do not substitute a date for a disposition that was never entered.", source) };
+    }
+    return { status: "satisfied" };
+  }
+  if (key === `MS:${MS_CONDITIONAL_DISCHARGE_PATHWAY}`) {
+    // LD-MS-01 / §41-29-150(d)(1)-(2): an event, not an elapsed conviction
+    // clock. Do not let an optional route label establish deferred adjudication,
+    // the qualifying subsection, first use, or discharge AND dismissal.
+    const selected = mississippiProgramRouteFromAnswers(answers);
+    if (selected.status !== "selected" || selected.pathwayId !== pathway.id) {
+      return { status: "missing_anchor", missingQuestionIds: ["ms_program_order", "ms_program_record_status"],
+        reason: reason("MS", "conditional_discharge_record_facts_missing", "Check the conditional-discharge order, completion and final dismissal. A drug charge or finished probation alone does not establish this procedure.", "legal-authority:LD-MS-01;41-29-150(d)") };
+    }
+    const facts = msConditionalDischargePredicates(answers);
+    if (facts.status === "missing") {
+      return { status: "missing_anchor", missingQuestionIds: facts.ids,
+        reason: reason("MS", "conditional_discharge_record_facts_missing", "Check the conditional-discharge order, completion and final dismissal. A drug charge or finished probation alone does not establish this procedure.", "legal-authority:LD-MS-01;41-29-150(d)") };
+    }
+    if (facts.status === "review") {
+      return { status: "needs_review", reason: reason("MS", "conditional_discharge_predicate_conflict", "The recorded subsection, earlier controlled-substance conviction, earlier conditional discharge, or judgment of guilt needs review under this specific procedure. This does not decide whether a different remedy is available.", "legal-authority:LD-MS-01;41-29-150(d)") };
+    }
+    // Anonymous screening can establish an already-entered event. Exact order
+    // dates remain packet facts. If supplied, they must not contradict that
+    // event; a broad timing bucket never substitutes for it.
+    for (const id of ["discharge_date"]) {
+      if (answers[id] !== undefined && answers[id] !== "") {
+        const date = parseDateAnswer(answers[id]);
+        if (!date || date.toISOString().slice(0, 10) !== answerText(answers[id]) || date > evaluationToday()) {
+          return { status: "missing_anchor", missingQuestionIds: [id], reason: reason("MS", "conditional_discharge_event_date_conflict", "The discharge or dismissal date must describe an event that has already occurred. Check the court record before continuing.", "legal-authority:LD-MS-01;41-29-150(d)(2)") };
+        }
+      }
+    }
+    return { status: "satisfied" };
+  }
   if (key === "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based" }, "MS non-conviction expungement runs from the case ending in dismissal, no disposition, or acquittal.");
   }
   if (key === "MS:additional-justice-or-municipal-court-misdemeanor-relief") {
-    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_last_conviction_date_any_court", { value: 2, unit: "years", raw: "2 years" }, "Miss. Code Ann. § 99-19-71(5) requires two years from the participant's last conviction in any court.");
+    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_last_conviction_date_any_court", { value: 2, unit: "years", raw: "2 years" }, "Miss. Code Ann. §§ 9-11-15(3) and 21-23-7(6) use two years from the participant's last conviction in any court for the corresponding lower-court route.");
   }
   if (key === "MS:first-offense-dui-expungement") {
     return timingFromExactAnchor(profile, answers, rule, pathway, "ms_successful_sentence_completion_date", { value: 5, unit: "years", raw: "5 years" }, "Miss. Code Ann. § 63-11-30 requires five years from successful completion of every term and condition of the DUI sentence.");
@@ -1209,7 +2071,15 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "MS:minor-in-possession-underage-alcohol-expungement") {
     const outcome = answerText(answers.case_outcome).toLowerCase();
     if (outcome.includes("dismiss") || outcome.includes("acquit") || outcome.includes("discharge")) {
-      return timingFromExactAnchor(profile, answers, rule, pathway, "ms_mip_dismissal_or_discharge_date", { value: 1, unit: "years", raw: "1 year" }, "Miss. Code Ann. § 67-3-70 requires one year from dismissal or discharge for this underage-alcohol route.");
+      // A historical OR scalar never establishes completion of both events.
+      // Unknown/differing dates or an unclear order require record review;
+      // never select the later date or infer a qualifying disposition.
+      const bothDate = msExactCalendarDate(answerText(answers[MS_MIP_BOTH_DATE_ID]));
+      if (isExplicitUnknownAnswer(answers[MS_MIP_BOTH_DATE_ID]) || bothDate && bothDate > evaluationToday()) {
+        return { status: "needs_review",
+          reason: reason("MS", "mip_dismissal_and_discharge_review", MS_MIP_BOTH_REVIEW_TEXT, rule.sourceRef ?? pathway.sourceRef) };
+      }
+      return timingFromExactAnchor(profile, answers, rule, pathway, MS_MIP_BOTH_DATE_ID, { value: 1, unit: "years", raw: "1 year" }, "For the dismissal-and-discharge branch of Mississippi Code § 67-3-70(6), at least one year must pass after the qualifying dismissal and discharge. We must verify the actual court disposition.");
     }
     const fineImposed = answerText(answers.ms_mip_fine_imposed).toLowerCase();
     if (!fineImposed) {
@@ -1352,18 +2222,14 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40") {
     return timingFromExactAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
   }
-  // ---- Delaware § 4374 discretionary court expungement (legal signoff 2026-07-01) ----
-  // 11 Del. C. § 4374 discretionary waits from the compiled DE waiting-period rules: a single
-  // misdemeanor not listed in § 4373(b) = 3 years (wait-06); a single nonviolent felony = 7 years
-  // (wait-09), each running from conviction (later of conviction/release/disposition used as the
-  // available anchor). The stricter § 4373(b)-listed (7yr) and multi-case (5yr) sub-tiers are folded
-  // into the exclusion gate; the § 4375 post-pardon no-wait relief is a separate pathway.
-  if (key === "DE:discretionary-court-expungement-under-11-del-c-4374") {
-    const level = `${answerText(answers.offense_level)} ${answerText(answers.case_outcome)} ${answerText(answers.charge)}`.toLowerCase();
-    if (/felony/.test(level)) {
-      return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date"], { value: 7, unit: "years", raw: "7 years" }, "Delaware § 4374 discretionary expungement of a single nonviolent felony requires seven years from conviction or release (later of conviction/release/disposition used as the available anchor).");
-    }
-    return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date"], { value: 3, unit: "years", raw: "3 years" }, "Delaware § 4374 discretionary expungement of a single misdemeanor not listed in § 4373(b) requires three years from conviction (later of conviction/release/disposition used as the available anchor).");
+  // Delaware's exact mechanism, history and exclusions establish the tier.
+  // Preserve the conviction/release dependency; generic disposition/buckets
+  // are never substitutes for these independently named source anchors.
+  if (profile.jurisdiction.code === "DE" && [DE_COURT, DE_SBI].includes(pathway.id)) {
+    const de = delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10));
+    if (de.status === "satisfied") return { status: "satisfied" };
+    if (de.status === "missing") return { status: "missing_anchor", missingQuestionIds: de.ids ?? [], reason: reason("DE", de.code!, DE_REASON_TEXT[de.code!], DE_SOURCE) };
+    if (de.status !== "not_applicable") return { status: de.status === "not_yet" ? "not_yet" : "needs_review", reason: reason("DE", de.code!, DE_REASON_TEXT[de.code!], DE_SOURCE) };
   }
   // ---- Massachusetts § 100A CORI conviction sealing (legal signoff 2026-07-01) ----
   // M.G.L. c. 276 § 100A sealing runs three years (misdemeanor) or seven years (felony) from the later
@@ -1429,13 +2295,18 @@ function latestAnchorTiming(profile: EngineProfile, answers: Record<string, Scre
   return timingFromAnchor(profile, syntheticAnswers, rule, pathway, latest.id, duration, text);
 }
 
+function parseExactTimingAnchor(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, id: string) {
+  return profile.jurisdiction.code === "MS" && MS_EXACT_TIMING_FACT_IDS.some(fact => fact === id)
+    ? msExactCalendarDate(answerText(answers[id])) : parseDateAnswer(answers[id]);
+}
+
 function latestExactAnchorTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, anchorIds: string[], duration: CompiledDuration, text: string): TimingResult {
   const askable = answerableAnchorIds(profile, anchorIds);
-  const missing = askable.filter((id) => !parseDateAnswer(answers[id]));
+  const missing = askable.filter((id) => !parseExactTimingAnchor(profile, answers, id));
   if (missing.length > 0) {
     return {
       status: "missing_anchor",
-      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", `The exact ${missing.join(", ")} value is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", (profile.jurisdiction.code === "MS" && missing.every(id => MS_TIMING_MISSING_TEXT[id]) ? missing.length === 1 ? MS_TIMING_MISSING_TEXT[missing[0]] : MS_TIMING_MULTIPLE_MISSING_TEXT : `The exact ${missing.join(", ")} value is needed before the source-specific waiting period can be evaluated.`), rule.sourceRef ?? pathway.sourceRef),
       missingQuestionIds: missing
     };
   }
@@ -1446,7 +2317,7 @@ function latestExactAnchorTiming(profile: EngineProfile, answers: Record<string,
     };
   }
   const latest = anchorIds
-    .map((id) => ({ id, date: parseDateAnswer(answers[id]) as Date }))
+    .map((id) => ({ id, date: parseExactTimingAnchor(profile, answers, id) as Date }))
     .sort((a, b) => b.date.getTime() - a.date.getTime())[0];
   return timingFromExactAnchor(profile, answers, rule, pathway, latest.id, duration, text);
 }
@@ -1460,11 +2331,11 @@ function timingFromExactAnchor(profile: EngineProfile, answers: Record<string, S
       reason: reason(jurisdiction, "waiting_anchor_not_publicly_askable", `The source-specific waiting period runs from ${anchorId}, and this exact anchor is not publicly askable.`, rule.sourceRef ?? pathway.sourceRef)
     };
   }
-  const anchor = parseDateAnswer(answers[anchorId]);
+  const anchor = parseExactTimingAnchor(profile, answers, anchorId);
   if (!anchor) {
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "waiting_anchor_missing", `The exact ${anchorId} value is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      reason: reason(jurisdiction, "waiting_anchor_missing", (profile.jurisdiction.code === "MS" && MS_TIMING_MISSING_TEXT[anchorId] || `The exact ${anchorId} value is needed before the source-specific waiting period can be evaluated.`), rule.sourceRef ?? pathway.sourceRef),
       missingQuestionIds: [anchorId]
     };
   }
@@ -1585,10 +2456,71 @@ function missingProductFactIds(profile: EngineProfile, answers: Record<string, S
   return missing;
 }
 
+function interventionCourtReferralReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
+  if (profile.jurisdiction.code !== "MS" || pathway.id !== MS_INTERVENTION_ROUTE || answers.ms_program_order !== "9-23-23"
+    || contract?.stage !== "enforcement" || contract.outcomeMode !== "referral" || contract.packetFamily !== null
+    || !profile.orderedDecisionRules?.some(rule => rule.when?.backendPathwayId === pathway.id
+      && rule.sourceRef === "legal-authority:LD-MS-01" && rule.stage === "pathway_routing"
+      && rule.then?.suggestedResultCode === "guidance_only" && rule.then?.frontendAction === "save_state_guidance_no_checkout")) return undefined;
+  const code = msInterventionReferralCode(answers);
+  return reason("MS", `icourt_${code}`, MS_INTERVENTION_COPY[code][0], MS_INTERVENTION_SOURCE);
+}
+
+function activeProgramReferralReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  const jurisdiction = profile.jurisdiction.code;
+  const legalContract = legalRouteContract(jurisdiction, pathway.id);
+  // LD-MS-01 keeps active-case admission separate from post-completion
+  // expungement. Only the fact-selected route and its exact compiled guidance
+  // rule can take this branch; an optional remedy label cannot authorize it.
+  const programRoute = jurisdiction === "MS" ? mississippiProgramRouteFromAnswers(answers) : null;
+  if (programRoute?.status === "selected" && programRoute.pathwayId === pathway.id
+    && answers.ms_program_record_status === "active"
+    && legalContract?.outcomeMode === "referral" && legalContract.stage === "active_case_admission"
+    && profile.orderedDecisionRules?.some(rule => rule.when?.backendPathwayId === pathway.id
+      && rule.sourceRef === "legal-authority:LD-MS-01"
+      && rule.stage === "pathway_routing"
+      && rule.then?.suggestedResultCode === "guidance_only"
+      && rule.then?.frontendAction === "save_state_guidance_no_checkout")) {
+    return reason(jurisdiction, "active_program_admission_referral", "This case is still in the program or admission stage. Discuss the active case with your lawyer or the program office. Admission is discretionary; this result does not establish admission eligibility, successful completion, dismissal, or expungement. No expungement packet opens at this stage.", "legal-authority:LD-MS-01");
+  }
+  return undefined;
+}
+
+// Both preselected and compiled product-guidance paths use the same exact
+// conditional explanation. Keep existing cautions and next steps intact.
+function withCtCannabisGuidancePresentation(evaluation: ScreeningEvaluation): ScreeningEvaluation {
+  if (!evaluation.reasons.some(item => item.code === "ct.cannabis_automatic_general_information"
+    && item.sourceRef === CT_CANNABIS_SOURCE && item.text === CT_CANNABIS_COPY.general)) return evaluation;
+  return { ...evaluation, nextSteps: [CT_CANNABIS_COPY.checks, ...evaluation.nextSteps],
+    cautions: [...evaluation.cautions, CT_CANNABIS_COPY.boundary, CT_CANNABIS_COPY.effect] };
+}
+
+function withDcGeneralInformationPresentation(evaluation: ScreeningEvaluation): ScreeningEvaluation {
+  const copy = Object.entries(DC_INFORMATION_COPY).find(([kind, copy]) => evaluation.reasons.some(item =>
+    item.code === `dc.${kind}_general_information` && item.sourceRef === DC_INFORMATION_SOURCE && item.text === copy.general))?.[1];
+  return copy ? { ...evaluation, nextSteps: [...copy.checks, ...evaluation.nextSteps], cautions: [...evaluation.cautions, ...copy.limits] } : evaluation;
+}
+
+function withCtAutomaticInformationPresentation(evaluation: ScreeningEvaluation): ScreeningEvaluation {
+  const copy = Object.entries(CT_AUTOMATIC_INFORMATION_COPY).find(([kind, copy]) => evaluation.reasons.some(item =>
+    item.code === `ct.automatic_${kind}_general_information` && item.sourceRef === CT_AUTOMATIC_INFORMATION_SOURCE && item.text === copy.general))?.[1];
+  return copy ? { ...evaluation, nextSteps: [...copy.checks, ...evaluation.nextSteps], cautions: [...evaluation.cautions, ...copy.limits] } : evaluation;
+}
+
 function productGuidanceReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   const jurisdiction = profile.jurisdiction.code;
   const legalContract = legalRouteContract(jurisdiction, pathway.id);
   if (legalContract?.outcomeMode === "referral") return undefined;
+  const flInformation = flConditionalInformationContext(profile, pathway.id, answers);
+  if (flInformation) return reason("FL", `${flInformation}_conditional_information`, FL_INFORMATION_COPY[flInformation].general, FL_INFORMATION_SOURCE);
+  const dcInformation = dcGeneralInformationContext(profile, pathway.id, answers);
+  if (dcInformation) return reason("DC", `${dcInformation}_general_information`, DC_INFORMATION_COPY[dcInformation].general, DC_INFORMATION_SOURCE);
+  const ctAutomatic = ctAutomaticInformationContext(profile, pathway.id, answers);
+  if (ctAutomatic) return reason("CT", `automatic_${ctAutomatic}_general_information`, CT_AUTOMATIC_INFORMATION_COPY[ctAutomatic].general, CT_AUTOMATIC_INFORMATION_SOURCE);
+  if (ctCannabisGeneralInformationContext(profile, pathway.id, answers)) {
+    return reason("CT", "cannabis_automatic_general_information", CT_CANNABIS_COPY.general, CT_CANNABIS_SOURCE);
+  }
   if (routeIsApprovedReleaseGuidance(profile, pathway)) {
     return reason(
       jurisdiction,
@@ -1615,6 +2547,7 @@ function productGuidanceReason(profile: EngineProfile, answers: Record<string, S
 }
 
 function guidanceTextForProductRoute(profile: EngineProfile, pathway: CompiledPathway) {
+  if (profile.jurisdiction.code === "OH" && pathway.id === OH_JUVENILE_ROUTE) return OH_JUVENILE_RESULT_COPY[0];
   if (profile.jurisdiction.code === "DC" && (pathway.id === "dc_auto_expungement_16_802" || pathway.id === "dc_auto_sealing_16_805")) {
     return "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option.";
   }
@@ -1638,6 +2571,10 @@ function result(
   overrides: Partial<ScreeningEvaluation> = {}
 ): ScreeningEvaluation {
   const paymentAllowed = overrides.paymentAllowed === true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
+  const caProcedure = isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId) ? caProp64ConcentrateProcedure(request.answers) : null;
+  const convictionRequestReason = reasons.find(item => Object.keys(CONVICTION_RELIEF_COPY)
+    .some(code => item.code === `${profile.jurisdiction.code.toLowerCase()}.conviction_relief_${code}`));
+  const specificNextStep = convictionRequestReason ?? reasons.find(item => Object.entries(GA_PARDON_COPY).some(([code, [text]]) => item.code === `ga.pardon_${code}` && item.text === text)) ?? reasons.find(isGeorgiaFirstOffenderGuidance);
   return {
     jurisdiction: profile.jurisdiction.code,
     profileVersion: profile.profileVersion,
@@ -1646,13 +2583,24 @@ function result(
     userLabel: labelForResult(resultCode),
     reasons,
     missingQuestionIds: overrides.missingQuestionIds ?? [],
-    cautions: overrides.cautions ?? [],
-    nextSteps: nextStepsForResult(resultCode),
+    cautions: [...(overrides.cautions ?? []), ...(profile.jurisdiction.code === "NY" && overrides.pathwayId === NY_16059_ROUTE
+      ? ny16059ClockDisplayLines(ny16059Clock(request.answers, evaluationToday().toISOString().slice(0, 10))) : []), ...(overrides.pathwayId === TX_ND_ROUTES[0]
+      && texasNondisclosureTimingContract(profile, overrides.pathwayId)
+      && TX_ND_FACT_IDS.some(id => Object.hasOwn(request.answers, id))
+      ? [TX_ND_TIMING_COPY[texasNondisclosureClock(profile, overrides.pathwayId, request.answers, evaluationToday().toISOString().slice(0,10))!.status][0]] : []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
+      ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : []), ...(caProcedure
+      ? [...(reasons.some(r => r.text === CA_PROP64_REASON_COPY[caProcedure.code][0]) ? [] : [CA_PROP64_REASON_COPY[caProcedure.code][0]]),
+        ...(caProcedure.pendingAppeal ? [CA_PROP64_REASON_COPY.concentrate_pending_appeal[0]] : [])] : [])],
+    nextSteps: specificNextStep ? [specificNextStep.text] : overrides.missingQuestionIds?.includes("financial_obligations")
+      ? [FINANCIAL_CLARIFICATION_TEXT, FINANCIAL_OTHER_QUESTIONS_TEXT] : nextStepsForResult(resultCode),
     paymentAllowed,
     ...(overrides.pathwayId ? { pathwayId: overrides.pathwayId } : {}),
     ...(overrides.packetPlan ? { packetPlan: overrides.packetPlan } : {})
   };
 }
+
+const FINANCIAL_CLARIFICATION_TEXT = "Review your saved answer about court-ordered financial obligations. Keep an unsure answer if you do not know, and update it when you have the information.";
+const FINANCIAL_OTHER_QUESTIONS_TEXT = "Also review any other questions marked as needing more information.";
 
 function labelForResult(resultCode: ScreeningResultCode) {
   const labels: Record<ScreeningResultCode, string> = {
@@ -1671,8 +2619,8 @@ function labelForResult(resultCode: ScreeningResultCode) {
 
 function nextStepsForResult(resultCode: ScreeningResultCode) {
   const nextSteps: Record<ScreeningResultCode, string[]> = {
-    packet_ready: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Complete packet fields in Briefcase after payment.", "External documents affect filing readiness, not checkout eligibility."],
-    packet_ready_with_caution: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Review the cautions and complete packet fields in Briefcase after payment.", "Do not file until external documents, fees, fingerprints, and instructions are complete."],
+    packet_ready: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Complete the required packet facts in Briefcase before verification or payment.", "External documents affect filing readiness, not checkout eligibility."],
+    packet_ready_with_caution: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Review the cautions and complete the required packet facts in Briefcase before verification or payment.", "Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps."],
     needs_more_info: [
       "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.",
       "Save your progress and update your answers when you have that detail."
@@ -1695,23 +2643,6 @@ function reason(jurisdiction: string, suffix: string, text: string, sourceRef?: 
   };
 }
 
-function contextTokenMatch(context: string, value: string) {
-  const stopwords = new Set(["pathway", "record", "records", "sealing", "expungement", "erasure", "petition", "relief", "compiled", "source"]);
-  if (numericContextMatch(context, value)) return true;
-  const tokens = value.toLowerCase().split(/[^a-z0-9]+/).filter((token) => token.length > 4 && !stopwords.has(token));
-  return tokens.some((token) => context.includes(token));
-}
-
-function numericContextMatch(context: string, value: string) {
-  const numericTokens = value.toLowerCase().match(/\b\d{2,}(?:-\d+)?\b/g) ?? [];
-  return numericTokens
-    .filter((token) => token.includes("-") || token.replace(/\D/g, "").length >= 3)
-    .some((token) => context.includes(token));
-}
-
-function normalizeContextMatch(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
-}
 
 type CompiledRule = EngineProfile["orderedDecisionRules"][number];
 type CompiledPathway = EngineProfile["pathways"][number];
@@ -1805,20 +2736,51 @@ const TIMING_BUCKET_WINDOWS: Record<string, TimingBucketWindow> = {
 function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>): RouteMatch {
   const jurisdiction = profile.jurisdiction.code;
   const selectedPathway = selectPathway(profile, answers);
+  // Complete DE factual predicates select the exact retained route rule;
+  // broad source prose and array ordering cannot select a different result.
+  if (jurisdiction === "DE" && selectedPathway && delawareConvictionRoute(answers) === selectedPathway.id
+    && delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") {
+    const exact = profile.orderedDecisionRules.find(rule => rule.id === `route-${selectedPathway.id}` && rule.when.backendPathwayId === selectedPathway.id);
+    if (exact) return { ok: true, deterministic: true, rule: exact, pathway: selectedPathway };
+  }
+  // Exact conduct facts satisfy the legacy rule predicates; participant legal
+  // self-certifications are neither required nor synthesized into saved answers.
+  if (selectedPathway && isCaProp64Pathway(jurisdiction, selectedPathway.id)
+    && caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") {
+    const exact = profile.orderedDecisionRules.find(rule => rule.id === `route-${selectedPathway.id}`
+      && rule.when.backendPathwayId === selectedPathway.id && rule.candidatePathwayIds?.length === 1
+      && rule.candidatePathwayIds[0] === selectedPathway.id);
+    if (exact) return { ok: true, deterministic: true, rule: exact, pathway: selectedPathway };
+  }
   const requestedPathwayContext = answerText(answers.possible_pathway_context).trim();
   if (requestedPathwayContext && !selectedPathway) {
+    const requested = pathwayFromContext(profile, requestedPathwayContext.toLowerCase());
+    const excluded = requested && pathwayExcludedByKnownFacts(jurisdiction, answers, requested.id);
     return {
       ok: false,
       resultCode: "needs_review",
-      reason: reason(jurisdiction, "pathway_context_not_matched", "The selected pathway context did not match a deterministic compiled pathway before a packet decision.")
+      reason: excluded && (jurisdiction === "IL" || jurisdiction === "GA")
+        ? reason(jurisdiction, "pathway_conflicts_with_saved_fact", FACTUAL_PATHWAY_EXCLUSION_COPY[jurisdiction])
+        : reason(jurisdiction, "pathway_context_not_matched", "The selected pathway context did not match a deterministic compiled pathway before a packet decision.")
     };
   }
+  // This boundary also applies to singleton/backend compiled fallbacks. A
+  // compiled broad outcome token cannot bypass the factual request above.
+  const reliefRequest = convictionReliefRequest(profile, answers);
+  if (reliefRequest.status === "clarification" || reliefRequest.status === "review") return {
+    ok: false, resultCode: "needs_review",
+    reason: reason(jurisdiction, "conviction_relief_missing", CONVICTION_RELIEF_COPY.missing[0], CONVICTION_RELIEF_SOURCE)
+  };
   const publicQuestionIds = new Set(publicProfile.questions.map((question) => question.id));
   const outcome = normalizeCaseOutcome(answers.case_outcome);
   const exactRouteRules = selectedPathway
     ? [...(profile.orderedDecisionRules ?? [])].filter((rule) => compiledRouteRuleMatchesPathway(rule, selectedPathway))
     : [];
   const matchedRules = [...(profile.orderedDecisionRules ?? [])]
+    .filter(rule => !(rule.candidatePathwayIds?.length === 1 && rule.candidatePathwayIds.some(id => pathwayExcludedByKnownFacts(jurisdiction, answers, id)))
+      && !(typeof rule.when.backendPathwayId === "string" && pathwayExcludedByKnownFacts(jurisdiction, answers, rule.when.backendPathwayId)))
+    .filter(rule => !(rule.candidatePathwayIds?.length === 1 && !convictionOutcomeCompatible(jurisdiction, answers, rule.candidatePathwayIds[0]))
+      && !(typeof rule.when.backendPathwayId === "string" && !convictionOutcomeCompatible(jurisdiction, answers, rule.when.backendPathwayId)))
     .filter((rule) => resultCodeIsKnown(rule.then?.suggestedResultCode))
     .filter((rule) => !["likely_not_eligible", "not_yet", "guidance_only"].includes(rule.then?.suggestedResultCode ?? ""))
     .filter((rule) => !String(rule.sourceRef ?? "").includes("exclusions:"))
@@ -1869,7 +2831,7 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     (rule.priority ?? Number.MAX_SAFE_INTEGER) === (first.priority ?? Number.MAX_SAFE_INTEGER)
     && safeResultRank(rule.then?.suggestedResultCode) === safeResultRank(first.then?.suggestedResultCode)
   );
-  const selected = selectedPathway ?? pathwayFromRule(profile, first);
+  const selected = selectedPathway ?? pathwayFromRule(profile, first, answers);
   if (!selected) {
     return {
       ok: false,
@@ -1878,6 +2840,12 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
       selectedPathwayId: selectedPathway?.id
     };
   }
+  // A singleton/backend source-fragment fallback cannot restore Tool 1 after
+  // the specific conviction contract refused the supplied disposition.
+  if (ca12034Contract(profile, selected.id)) return {
+    ok:false, resultCode:"needs_review",
+    reason:reason("CA", "probation_outcome", CA_12034_COPY.outcome[0], CA_12034_SOURCE)
+  };
   if (sameRank.length > 1 && !selectedPathway) {
     return {
       ok: false,
@@ -1904,20 +2872,70 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
   };
 }
 
-function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult {
+function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, msSource?: MsFirstOffenderSourceContext): TimingResult {
   const jurisdiction = profile.jurisdiction.code;
+  // Only the admitted LD-MS-01 facts can execute this event-trigger rule.
+  // Subsection1 has no numeric wait or felony payment/completion prerequisite.
+  // Route selection, exclusions and all independent output/authority gates
+  // still run normally; no result or plan is rewritten here.
+  if (msSource && pathway.id === MS_FIRST_OFFENDER_ROUTE) {
+    const source = msFirstOffenderSourceDecision(profile, pathway.id, answers, msSource);
+    return source.status === "satisfied" ? { status: "satisfied" }
+      : { status: "needs_review", reason: reason("MS", `first_offender_${source.code}`, "The subsection1 source facts remain unresolved.", MS_FIRST_OFFENDER_SOURCE) };
+  }
+  // The DE decision has already checked current supervision, restitution,
+  // court relief and the precise pending/history statutory exceptions. Do not
+  // apply the older blanket Yes/No gates again and erase those exceptions.
+  if (jurisdiction === "DE" && delawareConvictionRoute(answers) === pathway.id) {
+    const exact = specialRouteTiming(profile, answers, rule, pathway);
+    if (exact) return exact;
+  }
+  // §11361.8 has no generic paid-balance, pending-case or later-conviction
+  // waiting gate. Conduct and sentence-branch contradictions are checked above.
+  // The serving public-safety decision remains with the court.
+  if (isCaProp64Pathway(jurisdiction, pathway.id)
+    && caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") return { status: "satisfied" };
   const courtRequirement = answerText(answers[COURT_REQUIREMENTS_FIELD_ID]);
-  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) || isNegative(answers.financial_obligations) || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
+  const cannabis = jurisdiction === "IL" && pathway.id === IL_CANNABIS_PATHWAY ? illinoisCannabisFromAnswers(answers) : null;
+  // §5.2(i)(3) and the adopted il-cannabis-vacate contract distinguish money
+  // from nonfinancial completion. Never rewrite an unpaid answer as paid. This
+  // exact candidate still reaches the source-contract review below, not payment.
+  const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
+    && answers.il_cannabis_nonfinancial_complete === "yes";
+  const financialApplies = montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && oklahomaCleanSlateFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && newJerseyMarijuanaStatusFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && southCarolinaGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && southDakotaGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && westVirginiaGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && texasGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations");
+  const unpaidFinancialAnswer = financialApplies && isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
+  const paymentMeaningNeedsClarification = unpaidFinancialAnswer && courtRequirement === "yes"
+    && isIndependentPaidFinancialFact(routeKey(profile, pathway), profile.questions.find(question => question.id === "financial_obligations"));
+  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) || unpaidFinancialAnswer && !paymentMeaningNeedsClarification || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
     return {
       status: "not_yet",
       reason: reason(jurisdiction, "timing_or_completion_blocker", "This may not be ready yet. Most record-clearing paths require court-ordered requirements to be completed first.", rule.sourceRef)
     };
   }
-  if (courtRequirement === "not_sure" || isExplicitUnknownAnswer(answers.sentence_completion_date) || isExplicitUnknownAnswer(answers.financial_obligations)) {
+  if (paymentMeaningNeedsClarification) {
+    return {
+      status: "needs_review",
+      reason: reason(jurisdiction, "payment_and_completion_meaning_unconfirmed", "You reported that court requirements are complete but that not all amounts were paid. Check whether any amount was waived, changed, converted to a civil judgment, or remains unpaid, including restitution. Keep the payment answer as recorded; completing requirements does not by itself prove payment or a legal exception.", rule.sourceRef)
+    };
+  }
+  const unresolvedCompletionIds = [
+    ...(courtRequirement === "not_sure" ? [COURT_REQUIREMENTS_FIELD_ID] : []),
+    ...(isExplicitUnknownAnswer(answers.sentence_completion_date) ? ["sentence_completion_date"] : []),
+    ...(financialApplies && isExplicitUnknownAnswer(answers.financial_obligations) && !cannabisNonfinancialComplete ? ["financial_obligations"] : [])
+  ];
+  if (unresolvedCompletionIds.length) {
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "court_requirements_unknown", "We need one more detail before we can prepare the right packet.", rule.sourceRef),
-      missingQuestionIds: [COURT_REQUIREMENTS_FIELD_ID]
+      reason: reason(jurisdiction, "court_requirements_unknown", unresolvedCompletionIds.includes("financial_obligations")
+        ? FINANCIAL_CLARIFICATION_TEXT : "We need one more detail before we can prepare the right packet.", rule.sourceRef),
+      missingQuestionIds: unresolvedCompletionIds
     };
   }
   if (isNegative(answers.special_preconditions_confirmed) || isExplicitUnknownAnswer(answers.special_preconditions_confirmed)) {
@@ -1926,8 +2944,21 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
       reason: reason(jurisdiction, "special_preconditions_unconfirmed", "We need one more detail before we can prepare the right packet.", rule.sourceRef)
     };
   }
+  if (cannabis?.status === "selected" && cannabis.branch === "conviction") {
+    if (answers.il_cannabis_nonfinancial_complete === "no") {
+      return { status: "not_yet", reason: reason(jurisdiction, "cannabis_nonfinancial_conditions_incomplete", "The cannabis motion requires completion of the nonfinancial sentence and conditions. The answer says a nonfinancial requirement remains; paying a balance alone does not complete it.", "20-ILCS-2630/5.2(i)(3);IL.memo:il-cannabis-vacate") };
+    }
+    return { status: "needs_review", reason: reason(jurisdiction, "cannabis_motion_source_contract_review", "The record may fit the separate cannabis-conviction motion. Unpaid financial obligations alone do not establish that its nonfinancial completion requirement is unmet. The applicable form and route still require review before a packet can be prepared.", "20-ILCS-2630/5.2(i)(3);IL.memo:il-cannabis-vacate;LD-IL-02") };
+  }
   if (profile.jurisdiction.code === "WI" && pathway.id === "adult-conviction-expungement-under-wis-stat-973-015") {
     return { status: "satisfied" };
+  }
+  if (illinoisProgramContext(profile, pathway.id)) {
+    const program = illinoisProgramFacts(answers, evaluationToday().toISOString().slice(0, 10));
+    if (program.status === "satisfied") return { status: "satisfied" };
+    const programReason = reason("IL", `program_${program.status === "missing" ? "missing" : program.code}`, IL_PROGRAM_COPY[program.code][0], IL_PROGRAM_SOURCE);
+    return program.status === "missing" ? { status: "missing_anchor", reason: programReason, missingQuestionIds: program.missingQuestionIds }
+      : { status: program.status === "not_yet" ? "not_yet" : "needs_review", reason: programReason };
   }
   const routeOverride = specialRouteTiming(profile, answers, rule, pathway);
   if (routeOverride) return routeOverride;
@@ -1962,7 +2993,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     return { status: "not_applicable" };
   }
 
-  const anchorId = chooseTimingAnchor(rule, pathway, answers, selectedWaitingRule);
+  const anchorId = chooseTimingAnchor(rule, pathway, answers, selectedWaitingRule, jurisdiction);
   if (!anchorId) {
     if (!packetLikePathway(profile, pathway)) return { status: "not_applicable" };
     // The rule's own text does not name an anchor this evaluator recognises, so
@@ -2039,7 +3070,7 @@ function fieldsPresentOrInternal(fields: string[], publicQuestionIds: Set<string
   });
 }
 
-function normalizeCaseOutcome(value: ScreeningAnswerValue | undefined) {
+export function normalizeCaseOutcome(value: ScreeningAnswerValue | undefined) {
   const text = answerText(value).toLowerCase();
   if (/arrest|citation/.test(text) && /no charge/.test(text)) return "arrest_no_charge";
   if (/dismiss|nolle|no-bill|not prosecuted|quash/.test(text)) return "dismissed";
@@ -2058,10 +3089,12 @@ function caseOutcomeMatches(caseOutcomes: string[], outcome: string) {
   return caseOutcomes.length === 0 || caseOutcomes.includes(outcome);
 }
 
-function pathwayFromRule(profile: EngineProfile, rule: CompiledRule) {
+function pathwayFromRule(profile: EngineProfile, rule: CompiledRule, answers: Record<string, ScreeningAnswerValue>) {
   const candidates = rule.candidatePathwayIds ?? [];
   if (candidates.length !== 1) return undefined;
-  return profile.pathways.find((pathway) => pathway.id === candidates[0]);
+  return profile.pathways.find((pathway) => pathway.id === candidates[0]
+    && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id)
+    && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id));
 }
 
 function compiledRuleRelevantToPathway(rule: CompiledRule, pathway: CompiledPathway) {
@@ -2200,6 +3233,7 @@ export function isCourtFiledPetitionRoute(
   options?: { ignoreContractDeclaration?: boolean }
 ) {
   const code = profile.jurisdiction.code;
+  if (texasNondisclosureTimingContract(profile, pathway.id)) return pathway.id !== TX_ND_ROUTES[0];
   const text = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
   const plan = packetPlanForPathway(profile, pathway.id);
   // Structural veto before any ratification shortcut: an automatic/no-filing
@@ -2438,9 +3472,22 @@ function durationDays(duration: CompiledDuration | undefined) {
   return duration.value * 366;
 }
 
-function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>, waitingRule?: SelectedWaitingRule) {
+function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>, waitingRule?: SelectedWaitingRule, jurisdiction?: string) {
+  // The adopted TX memo anchors nondisclosure to discharge/dismissal or
+  // sentence/supervision completion. The legacy compiled summaries interleave
+  // Chapter 55A arrest-based expunction prose. Neither that prose nor a saved
+  // arrest answer may turn arrest into a nondisclosure clock. This removes only
+  // the invalid fallback; it does not establish a subtype, duration or completion.
+  const excludesArrest = jurisdiction === "TX" && [
+    "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07",
+    "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
+    "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+    "first-offense-dwi-nondisclosure"
+  ].includes(pathway.id);
+  const permittedAnchor = (field: string) => !excludesArrest || field !== "arrest_date";
   const configured = [rule.when?.timingAnchorFactId, ...(rule.when?.timingAnchorAlternateFactIds ?? [])]
     .filter((field): field is string => typeof field === "string" && field.length > 0)
+    .filter(permittedAnchor)
     .filter((field) => answerText(answers[field]).trim() !== "");
   if (configured.length > 0) {
     const dated = configured
@@ -2472,7 +3519,7 @@ function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answer
     "conviction_date",
     "probation_parole_supervision_end_date"
   ];
-  return preferred.find((field) => answerText(answers[field]).trim() !== "");
+  return preferred.find((field) => permittedAnchor(field) && answerText(answers[field]).trim() !== "");
 }
 
 function parseDateAnswer(value: ScreeningAnswerValue | undefined) {
@@ -2529,6 +3576,18 @@ function looksLikeProduction() {
   return nodeEnv.startsWith("prod") || vercelEnv.startsWith("prod");
 }
 
+const historicalEvaluationClock = new AsyncLocalStorage<number>();
+
+/** Server-owned snapshot compatibility proof only. The current eligibility
+ * result is always evaluated outside this scope. Never accepts a request clock,
+ * never changes process.env, and cannot leak a date into another owner's read. */
+export function compareAtProtectedSnapshotTime<T>(timestamp: unknown, compare: () => T): T | null {
+  if (typeof timestamp !== "string") return null;
+  const saved = new Date(timestamp);
+  if (!Number.isFinite(saved.getTime()) || saved.toISOString().replace(".000Z", "Z") !== timestamp.replace(".000Z", "Z") || saved.getTime() > evaluationToday().getTime()) return null;
+  return historicalEvaluationClock.run(saved.getTime(), compare);
+}
+
 function evaluationToday() {
   const pinned = process.env.RCAP_EVALUATOR_TODAY;
   if (pinned && looksLikeProduction()) {
@@ -2536,7 +3595,7 @@ function evaluationToday() {
       "RCAP_EVALUATOR_TODAY is set in a production environment. It pins the evaluator's idea of today for deterministic tests, and honouring it here would decide waiting periods against a frozen date. Unset it; production uses the authoritative clock."
     );
   }
-  return new Date(pinned ? `${pinned}T00:00:00.000Z` : Date.now());
+  return new Date(historicalEvaluationClock.getStore() ?? (pinned ? `${pinned}T00:00:00.000Z` : Date.now()));
 }
 
 function addDuration(date: Date, value: number, unit: string) {

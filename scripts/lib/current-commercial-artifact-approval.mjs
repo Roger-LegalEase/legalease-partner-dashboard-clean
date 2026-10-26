@@ -32,6 +32,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { assertDcInnocenceArtifactSuccessor, dcInnocenceArtifactMove,
+  DC_INNOCENCE_ARTIFACT_DECISION_PATH, DC_INNOCENCE_ARTIFACT_DECISION_SHA256, DC_INNOCENCE_ARTIFACT_MOVE_PATH
+} from '../../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
 export const CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_PATH =
   "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json";
@@ -60,10 +63,11 @@ const digest = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex"
  * what is missing. A throw here would take the whole build down over a gate that
  * is working correctly.
  */
-export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
+export function loadCurrentCommercialArtifactApprovals(root = process.cwd(),
+  readBytes = file => fs.readFileSync(path.join(root, file))) {
   const empty = new Map();
   let bytes;
-  try { bytes = fs.readFileSync(path.join(root, CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_PATH)); }
+  try { bytes = readBytes(CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_PATH); }
   catch { return empty; }
 
   let decision;
@@ -86,8 +90,8 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
   let batchBytes;
   let visualBytes;
   try {
-    batchBytes = fs.readFileSync(path.join(root, BATCH));
-    visualBytes = fs.readFileSync(path.join(root, VISUAL));
+    batchBytes = readBytes(BATCH);
+    visualBytes = readBytes(VISUAL);
   } catch { return empty; }
   if (decision.boundTo?.commit == null
     || decision.boundTo?.batch?.path !== BATCH
@@ -104,13 +108,13 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
    */
   for (const entry of decision.preservedUnedited ?? []) {
     let preserved;
-    try { preserved = fs.readFileSync(path.join(root, entry.path)); } catch { return empty; }
+    try { preserved = readBytes(entry.path); } catch { return empty; }
     if (digest(preserved) !== entry.sha256) return empty;
   }
   for (const entry of decision.supersedes ?? []) {
     if (entry.priorDecisionMutated !== false) return empty;
     let prior;
-    try { prior = fs.readFileSync(path.join(root, entry.path)); } catch { return empty; }
+    try { prior = readBytes(entry.path); } catch { return empty; }
     if (digest(prior) !== entry.sha256) return empty;
   }
 
@@ -121,7 +125,7 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
   for (const entry of approvedArtifacts) {
     // The bytes themselves. This is the check the approval exists to make.
     let artifact;
-    try { artifact = fs.readFileSync(path.join(root, entry.path)); } catch { return empty; }
+    try { artifact = readBytes(entry.path); } catch { return empty; }
     if (digest(artifact) !== entry.sha256) return empty;
     if (!(entry.pageCount > 0)) return empty;
     // And the visual review passed THESE bytes, not bytes that used to be here.
@@ -160,6 +164,101 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
         path: entry.path, sha256: entry.sha256, pageCount: entry.pageCount
       }))
     });
+  }
+  // An installed MS successor never falls back to obsolete bytes. Its source
+  // pin binds the owner instruction and the complete measured/reviewed tuple.
+  const msRoute = 'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
+  const msMovePath = 'data/rcap-grade-a/legal-decisions/MS_NONCONVICTION_ARTIFACT_MOVE_2026-10-20.json';
+  let msMovePresent = false;
+  try { readBytes(msMovePath); msMovePresent = true; }
+  catch (error) { if (error?.code !== 'ENOENT') approvals.delete(msRoute); }
+  if (msMovePresent) {
+    approvals.delete(msRoute);
+    try {
+      const readBound = binding => {
+        const value = readBytes(binding.path);
+        if (digest(value) !== binding.sha256) throw new Error(`MS successor evidence changed: ${binding.path}`);
+        return value;
+      };
+      const binding = {
+        path: 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_MS_NONCONVICTION_2026-10-20.json',
+        sha256: 'a36699d585649a2204f21bf02537b13144606c35c5bbf571b8ab0036db49f50b'
+      };
+      const next = JSON.parse(readBound(binding).toString('utf8'));
+      const move = JSON.parse(readBound(next.explainedMove).toString('utf8'));
+      readBound(next.supersedesArtifactDigestConditionOnly);
+      readBound(next.ownerInstructionEvidence);
+      for (const entry of next.preservedEvidence) readBound(entry);
+      const measured = JSON.parse(readBound(next.boundTo.batch).toString('utf8'));
+      const visual = JSON.parse(readBound(next.boundTo.visualReview).toString('utf8'));
+      readBound(visual.independentPreparation);
+      readBound(visual.evidence.custodySuccessor.copiedFromAcceptanceDraft);
+      if (move.routeId !== msRoute || next.routeId !== msRoute
+        || measured.worktreeHead !== next.boundTo.commit
+        || measured.results.length !== 3 || next.approvedArtifacts.length !== 3
+        || visual.evidence.rasterReview.artifacts.length !== 3) throw new Error('MS successor tuple mismatch');
+      for (const artifact of next.approvedArtifacts) {
+        const result = measured.results.find(row => row.id === artifact.artifactId);
+        const raster = visual.evidence.rasterReview.artifacts.find(row => row.id === artifact.artifactId);
+        const artifactBytes = readBound(artifact);
+        if (!result?.deterministic || result.sha256 !== artifact.sha256 || result.byteLength !== artifactBytes.length
+          || raster?.sourcePdf !== artifact.path || raster.sourcePdfSha256 !== artifact.sha256
+          || raster.pagesReviewed !== artifact.pageCount || raster.pageSha256.length !== artifact.pageCount) {
+          throw new Error('MS successor artifact/review mismatch');
+        }
+        for (const [index, sha256] of raster.pageSha256.entries()) readBound({
+          path: `${raster.rasterDirectory}/page-${String(index + 1).padStart(String(artifact.pageCount).length, '0')}.png`, sha256
+        });
+      }
+      const primary = next.approvedArtifacts.find(a => a.variant === 'full' && a.locale === 'en');
+      approvals.set(msRoute, { path: binding.path, sha256: binding.sha256,
+        recordId: next.decisionId, artifactSha256: primary.sha256,
+        artifactPageCount: primary.pageCount, decidedAt: next.decidedAt, owner: next.owner,
+        boundToCommit: next.boundTo.commit, boundToBatchSha256: next.boundTo.batch.sha256,
+        boundToVisualReviewSha256: next.boundTo.visualReview.sha256,
+        approvedArtifacts: next.approvedArtifacts,
+        preservedPriorApproval: next.supersedesArtifactDigestConditionOnly,
+        artifactSuccessor: { routeId: msRoute, decision: binding, rawOutput: next.boundTo.batch,
+          artifactDigests: next.approvedArtifacts, createsOwnerApproval: false,
+          commercialAuthorityGranted: false, productionAuthorized: false },
+        commercialAuthorityGranted: false, productionAuthorized: false });
+    } catch { /* Missing, unreadable or drifted successor evidence holds only MS. */ }
+  }
+  // An explained current move removes only this route's obsolete current-byte
+  // claim. It cannot add an approval. All 18 original approval artifacts remain.
+  let moveRecordPresent = false;
+  try { readBytes(DC_INNOCENCE_ARTIFACT_MOVE_PATH); moveRecordPresent = true; }
+  catch (error) {
+    if (error?.code !== 'ENOENT') {
+      // Installed/unreadable evidence is not evidence of absence. Never restore
+      // the obsolete DC claim on EACCES, EIO, or another read failure.
+      approvals.delete('DC:dc_actual_innocence_expungement_16_803');
+      return approvals;
+    }
+  }
+  const move = dcInnocenceArtifactMove(readBytes);
+  if (moveRecordPresent) {
+    // Corrupt or incomplete successor evidence cannot fall back to a stale
+    // current-byte claim for the old DC artifact set.
+    approvals.delete('DC:dc_actual_innocence_expungement_16_803');
+    if (!move) return approvals;
+    try {
+      const binding = { path: DC_INNOCENCE_ARTIFACT_DECISION_PATH,
+        sha256: DC_INNOCENCE_ARTIFACT_DECISION_SHA256 };
+      const proof = JSON.parse(readBytes(move.measuredOutput.path).toString('utf8'));
+      const successor = assertDcInnocenceArtifactSuccessor({ binding, proof, readBytes });
+      const nextBytes = readBytes(binding.path), next = JSON.parse(nextBytes.toString('utf8'));
+      const primary = next.approvedArtifacts.find(a => a.variant === 'full' && a.locale === 'en');
+      approvals.set(move.routeId, { path: binding.path, sha256: digest(nextBytes),
+        recordId: next.decisionId, artifactSha256: primary.sha256,
+        artifactPageCount: primary.pageCount, decidedAt: next.decidedAt, owner: next.owner,
+        boundToCommit: next.boundTo.commit, boundToBatchSha256: next.boundTo.batch.sha256,
+        boundToVisualReviewSha256: next.boundTo.visualReview.sha256,
+        approvedArtifacts: next.approvedArtifacts,
+        preservedPriorApproval: next.supersedesArtifactDigestConditionOnly,
+        artifactSuccessor: successor,
+        commercialAuthorityGranted: false, productionAuthorized: false });
+    } catch { /* Exact adoption absent/drifted: this route stays held. */ }
   }
   return approvals;
 }

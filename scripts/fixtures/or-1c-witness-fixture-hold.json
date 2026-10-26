@@ -1,0 +1,55 @@
+{
+  "sourceSha": "058d38235929fb9d5502956e10dc3b3c583dd156",
+  "sourcePath": "data/rcap-ledger/public-witness-fixtures.json",
+  "sourceSha256": "3c911a1585857f1d778e58a327cacfc147a071ff3ca7ddc52987e1613f704975",
+  "scope": "F-OR-RETIRED hold (lead m155): the clearable-record rule now reaches this retired ORS 137.225(1)(c) route only through a conviction answer, which contradicts the route. This exact committed row is kept until GA17's triage is ruled. It is a historical synthetic fixture, not current route authority; payment stays false.",
+  "fixture": {
+    "pathwayKey": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    "jurisdiction": "OR",
+    "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "publicRoute": "/expungement-ai/screening/oregon",
+    "evaluationEndpoint": "POST /api/expungement-ai/screening",
+    "answers": {
+      "case_outcome": "Arrest or citation with no charge filed",
+      "court_requirements_completed": "yes",
+      "financial_obligations": "Yes",
+      "jurisdiction_scope": "State or local",
+      "new_convictions_during_waiting_period": "No",
+      "offense_level": "Misdemeanor",
+      "ownership_scope": "Yes",
+      "pending_cases": "No",
+      "possible_pathway_context": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+      "record_documents": "Yes",
+      "resolved_timing_bucket": "gt_10_years",
+      "sentence_completion_date": "Yes",
+      "special_preconditions_confirmed": "Yes",
+      "state_exclusion_categories": [
+        "None of these"
+      ]
+    },
+    "rounds": [
+      {
+        "round": 0,
+        "droppedAsNotEvaluatorQuestions": [
+          "pardon_status",
+          "trafficking_status"
+        ]
+      },
+      {
+        "round": 1,
+        "requested": [
+          "resolved_timing_bucket"
+        ],
+        "supplied": {
+          "resolved_timing_bucket": "gt_10_years"
+        }
+      }
+    ],
+    "expected": {
+      "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "resultCode": "needs_review",
+      "paymentAllowed": false
+    }
+  }
+}

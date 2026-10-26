@@ -24,7 +24,7 @@
  *
  * WHAT THIS CHECKS
  *
- * Three lists, and whether they agree:
+ * The copy lists, runtime manifest and actual import graph must agree:
  *
  *   1. every COPY source in the Dockerfile is INCLUDED by the allowlist, so the
  *      build context actually carries it;
@@ -32,6 +32,7 @@
  *      path nothing provides;
  *   3. every runtime file the manifest says the worker reads is COPYed, so the
  *      image cannot be missing something the worker opens at render time.
+ *   4. emitted static JSON imports are included in all three packaging lists.
  *
  * The first is the one that breaks the build. The third is the one that breaks
  * a participant's packet quietly, which is worse.
@@ -42,6 +43,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import ts from "typescript";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCKERFILE = "deploy/rcap-render-worker/Dockerfile";
@@ -197,6 +199,58 @@ const uncopied = (manifest.files ?? []).map((entry) => entry.path).filter((fileP
 check(uncopied.length === 0,
   `every runtime file the manifest names is COPYed into the image (${(manifest.files ?? []).length} files)`,
   uncopied.slice(0, 20).map((filePath) => `the worker reads it, the image does not carry it: ${filePath}`));
+
+// Follow emitted imports: type-only edges do not load assets in the worker.
+const visited = new Set();
+const jsonImports = new Set();
+const unresolvedImports = [];
+function traceImports(file) {
+  if (visited.has(file)) return;
+  visited.add(file);
+  let source = fs.readFileSync(file, "utf8");
+  if (/\.tsx?$/.test(file)) source = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
+    fileName: file
+  }).outputText;
+  const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+  const follow = (specifier) => {
+    const base = specifier.startsWith("@/") ? path.join(rootDir, "src", specifier.slice(2))
+      : specifier.startsWith(".") ? path.resolve(path.dirname(file), specifier) : null;
+    if (!base) return;
+    const target = [base, ...[".ts", ".tsx", ".json"].map(ext => base + ext)]
+      .find(candidate => fs.existsSync(candidate) && fs.statSync(candidate).isFile());
+    if (!target) { unresolvedImports.push(`${path.relative(rootDir, file)}: ${specifier}`); return; }
+    if (target.endsWith(".json")) jsonImports.add(path.relative(rootDir, target));
+    else traceImports(target);
+  };
+  const walkImports = (node) => {
+    if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node))
+      && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) follow(node.moduleSpecifier.text);
+    if (ts.isCallExpression(node) && (node.expression.kind === ts.SyntaxKind.ImportKeyword
+      || ts.isIdentifier(node.expression) && node.expression.text === "require") && node.arguments.length === 1) {
+      const argument = node.arguments[0];
+      if (ts.isStringLiteral(argument)) follow(argument.text);
+      else if (ts.isCallExpression(argument) && ts.isPropertyAccessExpression(argument.expression)
+        && argument.expression.expression.getText(ast) === "path" && argument.expression.name.text === "join"
+        && argument.arguments[0]?.getText(ast) === "ROOT" && argument.arguments[1]
+        && ts.isStringLiteral(argument.arguments[1]) && argument.arguments.length === 2) {
+        follow(`@/../${argument.arguments[1].text}`);
+      }
+    }
+    ts.forEachChild(node, walkImports);
+  };
+  walkImports(ast);
+}
+traceImports(path.join(rootDir, "scripts/rcap-render-worker.mjs"));
+traceImports(path.join(rootDir, "deploy/rcap-render-worker/preflight.mjs"));
+check(unresolvedImports.length === 0, "the worker's local static imports resolve", unresolvedImports);
+const missingModules = [...visited].map(file => path.relative(rootDir, file))
+  .filter(file => !isCopied(file) || !includedByAllowlist(rules, file));
+check(missingModules.length === 0, `the worker and preflight's transitive emitted modules are packaged (${visited.size} modules)`, missingModules);
+const missingImports = [...jsonImports].filter(file => !isCopied(file) || !includedByAllowlist(rules, file)
+  || file.startsWith("data/") && !manifest.files.some(entry => entry.path === file));
+check(missingImports.length === 0,
+  `the worker's transitive static JSON imports are packaged and declared (${jsonImports.size} files)`, missingImports);
 
 console.log(`\n${failures.length === 0
   ? `PASS — ${ran} controls; the Dockerfile, the context allowlist and the runtime manifest agree`

@@ -258,7 +258,7 @@ const SPEC = {
         "T.C.A. § 40-39-202",
         "Was it pretrial diversion, where you did not plead guilty and prosecution was suspended, or judicial diversion, where you entered a plea but no judgment of conviction was entered?",
         "Did you successfully complete everything the diversion required, and were the charges then dismissed?",
-        "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+        "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
         "Have you already filed a petition to expunge this case?",
         "Did you sign a memorandum of understanding with the district attorney general suspending prosecution, without pleading guilty?",
         "A clerk's fee applies. Section 40-32-106(d)(3) requires the appropriate clerk's fee pursuant to T.C.A. § 8-21-401 for de",
@@ -1953,7 +1953,7 @@ const SPEC = {
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -2073,7 +2073,7 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_sexualOffence",
           "label": "Item C10 - sexual offence",
-          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
           "why": "the committed track registry records this as a required generation input for tn_pretrial_diversion, and the platform holds no value for it"
         },
         {
@@ -3237,7 +3237,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
+        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
         "",
         "WHO MUST BE SERVED",
         "",
@@ -3351,7 +3351,7 @@ const SPEC = {
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+        "[C10 - sexual offence] Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -3471,7 +3471,7 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_sexualOffence",
           "label": "Item C10 - sexual offence",
-          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged.",
+          "supply": "Was the offence a sexual offence or a violent sexual offence as Tennessee defines those for the registry? Those can be diverted but cannot be expunged. The definition includes unlawful photography under T.C.A. § 39-13-605(a)(1) or (a)(3) for acts committed on or after July 1, 2025 (added to § 40-39-202(20)(C) by 2025 Public Chapter 474, § 10; act-date rule in § 11), and grooming under § 39-13-536 for acts committed on or after July 1, 2026 (added to § 40-39-202(31)(Z) by 2026 Public Chapter 1021, § 2; act-date rule in § 3). Check the exact offence section and act date in your record. If either is uncertain, obtain legal review before filing.",
           "why": "the committed track registry records this as a required generation input for tn_judicial_diversion, and the platform holds no value for it"
         },
         {
@@ -3830,7 +3830,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
+        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
         "",
         "WHO MUST BE SERVED",
         "",
@@ -3897,73 +3897,73 @@ const SPEC = {
   },
   "composedFromNote": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
   "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
-  "routeSelectionNote": "This family carries more than one statutory route. Every composed page states its own route in its footer and its own statutory ground in its body, and the participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
+  "routeSelectionNote": "This family carries more than one statutory route. Each component's first-page title names its route. Continuation pages carry no route marker. The participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-only:TN:tn_arrest_no_court_record",
       "statute": "T.C.A. § 40-32-109; T.C.A. § 40-32-109(a); T.C.A. § 40-32-109(b); T.C.A. § 40-32-109(c); T.C.A. § 40-32-109(d); T.C.A. § 40-32-109(e); T.C.A. § 40-32-109(f); T.C.A. § 40-32-102(c)(1); T.C.A. § 40-32-110; T.C.A. § 8-21-401",
       "instrument": "petition: tn_arrest_no_court_record-petition-1; clerk_search_and_certification_instructions: tn_arrest_no_court_record-clerk-search-and-certification-instructi-2; fee_disclosure: tn_arrest_no_court_record-fee-disclosure-3; filing_and_after_order_instructions: tn_arrest_no_court_record-filing-and-after-order-instructions-4",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:TN:tn_illegal_voting",
       "statute": "T.C.A. § 40-32-107(c); T.C.A. § 40-32-107(c)(1); T.C.A. § 40-32-107(c)(2); T.C.A. § 2-19-107; T.C.A. § 40-32-108; T.C.A. § 40-32-108(a); T.C.A. § 40-32-108(d)(2); T.C.A. § 40-32-108(e); T.C.A. § 40-32-102(c); T.C.A. § 40-32-110; T.C.A. § 8-21-401",
       "instrument": "participant_request_to_district_attorney: tn_illegal_voting-participant-request-to-district-attorney-1; participant_eligibility_record: tn_illegal_voting-participant-eligibility-record-2; filing_and_handoff_instructions: tn_illegal_voting-filing-and-handoff-instructions-3",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:TN:tn_mistaken_identity",
       "statute": "T.C.A. § 40-32-106(a)(1)(H); T.C.A. § 40-32-101; T.C.A. § 40-32-106(a)(1); T.C.A. § 40-32-102(d); T.C.A. § 40-32-110",
       "instrument": "petition: tn_mistaken_identity-petition-1; expedited_request: tn_mistaken_identity-expedited-request-2; filing_and_after_order_instructions: tn_mistaken_identity-filing-and-after-order-instructions-3",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:TN:tn_nonconviction_petition",
       "statute": "T.C.A. § 40-32-106(a)(1); T.C.A. § 40-32-106(a)(2); T.C.A. § 40-32-102; T.C.A. § 40-32-102(d); T.C.A. § 40-32-102(e); T.C.A. § 40-32-110; T.C.A. § 40-6-204(b)",
       "instrument": "petition: tn_nonconviction_petition-petition-1; no_cost_statement: tn_nonconviction_petition-no-cost-statement-2; filing_and_after_order_instructions: tn_nonconviction_petition-filing-and-after-order-instructions-3; no_court_history_routing: tn_nonconviction_petition-no-court-history-routing-4",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:TN:tn_post_pardon",
       "statute": "T.C.A. § 40-32-107(d); T.C.A. § 40-32-107(d)(1)(A); T.C.A. § 40-32-107(d)(1)(B); T.C.A. § 40-32-107(d)(1)(C); T.C.A. § 40-32-107(d)(2); T.C.A. § 40-32-107(d)(3); T.C.A. § 40-32-108; T.C.A. § 40-32-108(d)(2); T.C.A. § 40-32-108(e); T.C.A. § 40-32-102(c); T.C.A. § 40-32-110; Public Chapter 719 (2026)",
       "instrument": "participant_request_to_district_attorney: tn_post_pardon-participant-request-to-district-attorney-1; participant_eligibility_record: tn_post_pardon-participant-eligibility-record-2; filing_and_handoff_instructions: tn_post_pardon-filing-and-handoff-instructions-3",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:TN:tn_pretrial_diversion",
       "statute": "T.C.A. § 40-32-106(d)(1); T.C.A. § 40-32-106(d)(2); T.C.A. § 40-32-106(d)(3); T.C.A. §§ 40-15-102 through 40-15-107; T.C.A. § 40-15-105; T.C.A. § 40-32-102(c); T.C.A. § 8-21-401; T.C.A. § 40-39-202",
       "instrument": "petition: tn_pretrial_diversion-petition-1; certification_and_fee_instructions: tn_pretrial_diversion-certification-and-fee-instructions-2; filing_and_after_order_instructions: tn_pretrial_diversion-filing-and-after-order-instructions-3",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:TN:tn_recovery_court",
       "statute": "T.C.A. § 40-32-107(e); T.C.A. § 40-32-107(e)(1); T.C.A. § 40-32-107(e)(2); T.C.A. § 40-32-107(e)(3); T.C.A. § 40-32-107(a)(1); T.C.A. § 40-32-107(a)(3)(A); T.C.A. § 55-10-401; T.C.A. § 40-32-108; T.C.A. § 40-32-108(d)(2); T.C.A. § 40-32-108(e); T.C.A. § 40-32-102(c); T.C.A. § 40-32-110; Public Chapter 1061 (2026)",
       "instrument": "participant_request_to_district_attorney: tn_recovery_court-participant-request-to-district-attorney-1; participant_eligibility_record: tn_recovery_court-participant-eligibility-record-2; filing_and_handoff_instructions: tn_recovery_court-filing-and-handoff-instructions-3",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:TN:tn_redaction",
       "statute": "T.C.A. § 40-32-106(c)(2); T.C.A. § 40-32-106(a); T.C.A. § 40-32-102(d); T.C.A. § 40-32-110",
       "instrument": "motion_for_partial_removal: tn_redaction-motion-for-partial-removal-1; count_by_count_schedule: tn_redaction-count-by-count-schedule-2; scope_disclosure: tn_redaction-scope-disclosure-3; filing_and_after_order_instructions: tn_redaction-filing-and-after-order-instructions-4",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
       "statute": "T.C.A. § 40-32-107(a); T.C.A. § 40-32-107(a)(1); T.C.A. § 40-32-107(a)(2); T.C.A. § 40-32-107(a)(3); T.C.A. § 40-32-107(a)(4); T.C.A. § 40-32-108; T.C.A. § 40-32-108(a); T.C.A. § 40-32-108(d)(2); T.C.A. § 40-32-108(e); T.C.A. § 40-32-102(c); T.C.A. § 40-32-110; T.C.A. § 8-21-401",
       "instrument": "request_to_district_attorney: tn_eligible_conviction-request-to-district-attorney-1; eligibility_record: tn_eligible_conviction-eligibility-record-2; process_and_expectation_instructions: tn_eligible_conviction-process-and-expectation-instructions-3; alternative_route_screening: tn_eligible_conviction-alternative-route-screening-4",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
       "statute": "T.C.A. § 40-32-106(d)(1); T.C.A. § 40-32-106(d)(2); T.C.A. § 40-32-106(d)(3); T.C.A. § 40-35-313; T.C.A. § 40-32-102(c); T.C.A. § 8-21-401; T.C.A. § 40-39-202",
       "instrument": "petition: tn_judicial_diversion-petition-1; certification_and_fee_instructions: tn_judicial_diversion-certification-and-fee-instructions-2; filing_and_after_order_instructions: tn_judicial_diversion-filing-and-after-order-instructions-3",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k",
       "statute": "T.C.A. § 40-32-107(b); T.C.A. § 40-32-107(b)(1); T.C.A. § 40-32-107(b)(2); T.C.A. § 40-32-107(b)(3); T.C.A. § 40-32-107(a)(1); T.C.A. § 40-32-108; T.C.A. § 40-32-108(e); T.C.A. § 40-32-102(c)",
       "instrument": "request_to_district_attorney: tn_two_offense-request-to-district-attorney-1; eligibility_record: tn_two_offense-eligibility-record-2; process_and_expectation_instructions: tn_two_offense-process-and-expectation-instructions-3; alternative_route_screening: tn_two_offense-alternative-route-screening-4",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     }
   ],
   "obligationTable": [
@@ -4101,7 +4101,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER — Expunge an eligible conviction",
-      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
+      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
     ],
     [
       "SERVICE — Expunge an eligible conviction",
@@ -4133,7 +4133,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER — Expunge up to two offences, once in your life",
-      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
+      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
     ],
     [
       "SERVICE — Expunge up to two offences, once in your life",
@@ -4200,7 +4200,7 @@ const SPEC = {
       ]
     ],
     "footnotes": [
-      "Every page states its own route in its footer. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
+      "Each component's first-page title names its route. Continuation pages carry no route marker. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
     ]
   },
   "documentsToObtain": [
@@ -4282,7 +4282,7 @@ const SPEC = {
     "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
     "**Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.",
     "**Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**",
-    "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.",
+    "**File the pages for your route where the filing instructions page says they go.** For the eligible-conviction and two-offense routes, ask the clerk of the court where the petition is filed what it charges and how it accepts filings before you go; for other routes, ask the filing office named for your route.",
     "**Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make."
   ],
   "deliberatelyBlank": [

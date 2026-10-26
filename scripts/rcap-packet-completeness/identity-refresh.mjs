@@ -1,3 +1,5 @@
+import path from "node:path";
+import { execFileSync } from "node:child_process";
 /**
  * A rebuild regenerates a source receipt. It must not regenerate away the
  * annotations a repair lane wrote on it by hand.
@@ -101,10 +103,11 @@ export function annotationIsSourceBound(annotation) {
  * `previous` is the receipt on disk (or at a ref); `next` is the document the
  * builder is about to write. `next` is mutated in place and returned.
  */
-export function carryForwardIdentityRefresh(previous, next) {
+export function carryForwardIdentityRefresh(previous, next, { on = new Date() } = {}) {
   const decisions = [];
+  const day = new Date(on).toISOString().slice(0, 10);
   if (!previous || typeof previous !== "object" || !next || typeof next !== "object") {
-    return { document: next, carried: [], dropped: [], decisions };
+    return { document: next, carried: [], dropped: [], history: [], decisions };
   }
 
   /* Index the previous receipt's annotated pins by path. A path carrying more
@@ -112,15 +115,31 @@ export function carryForwardIdentityRefresh(previous, next) {
    * against. */
   const before = new Map();
   eachPin(previous, (pin, at) => {
-    if (!pin.identityRefresh) return;
+    if (!pin.identityRefresh && !Array.isArray(pin.identityRefreshHistory)) return;
     if (!before.has(at)) before.set(at, []);
-    before.get(at).push({ pin, at, annotation: pin.identityRefresh, writtenAgainst: pin.sha256 });
+    before.get(at).push({ pin, at, annotation: pin.identityRefresh ?? null, history: Array.isArray(pin.identityRefreshHistory) ? pin.identityRefreshHistory : [], writtenAgainst: pin.sha256 });
   });
-  if (before.size === 0) return { document: next, carried: [], dropped: [], decisions };
+  if (before.size === 0) return { document: next, carried: [], dropped: [], history: [], decisions };
 
   const carried = [];
   const dropped = [];
+  const history = [];
   const claimed = new Set();
+  /* Ruling B' (2026-10-20): a source-bound block whose pin moved is never a
+   * live claim about the new bytes, and never lost either. It rides under
+   * identityRefreshHistory (oldest first), each entry naming the digest it was
+   * written against and the measurement that superseded it, until a measured
+   * re-pin folds the history into its new block. No doctrine reads the history
+   * key, so the moved pin still reads as moved. */
+  const asHistory = (candidate, measuredNow, why) => [
+    ...candidate.history.map((entry) => structuredClone(entry)),
+    ...(candidate.annotation ? [{
+      ...structuredClone(candidate.annotation),
+      writtenAgainst: candidate.writtenAgainst,
+      writtenAgainstByteLength: typeof candidate.pin.byteLength === "number" ? candidate.pin.byteLength : null,
+      supersededBy: { measuredNow, on: day, by: "rebuild", why }
+    }] : [])
+  ];
 
   eachPin(next, (pin, at) => {
     if (pin.identityRefresh) return;          // the builder wrote one; leave it alone
@@ -128,11 +147,19 @@ export function carryForwardIdentityRefresh(previous, next) {
     for (const candidate of held) {
       if (claimed.has(candidate)) continue;
 
+      if (!candidate.annotation) {
+        if (candidate.history.length) {
+          pin.identityRefreshHistory = [...(pin.identityRefreshHistory ?? []), ...candidate.history.map((entry) => structuredClone(entry))];
+          history.push({ path: at, writtenAgainst: candidate.writtenAgainst, measuredNow: pin.sha256, entries: pin.identityRefreshHistory.length, why: "prior history carried; the previous pin held no live block" });
+        }
+        claimed.add(candidate);
+        break;
+      }
       const shape = annotationIsSourceBound(candidate.annotation);
       if (!shape.ok) {
         claimed.add(candidate);
         dropped.push({ path: at, why: shape.why, wasSha256: candidate.annotation?.was?.sha256 ?? null });
-        continue;
+        break; // a refused block still uses up this pin's one previous pin
       }
 
       /*
@@ -142,27 +169,24 @@ export function carryForwardIdentityRefresh(previous, next) {
        */
       if (pin.sha256 !== candidate.writtenAgainst) {
         claimed.add(candidate);
-        dropped.push({
-          path: at,
-          why: `the source moved again: the annotation was written against ${String(candidate.writtenAgainst).slice(0, 12)} and this build measured ${String(pin.sha256).slice(0, 12)}. Nobody has compared anchors across that second move, so the recorded comparison is stale and is not carried forward.`,
-          wasSha256: candidate.annotation.was.sha256,
-          writtenAgainst: candidate.writtenAgainst,
-          measuredNow: pin.sha256
-        });
-        continue;
+        const why = `the source moved again: the annotation was written against ${String(candidate.writtenAgainst).slice(0, 12)} and this build measured ${String(pin.sha256).slice(0, 12)}. Nobody has compared anchors across that second move and this build cannot; a live note would assert that comparison, so the note is kept as history and the pin reads as moved until a measured re-pin`;
+        pin.identityRefreshHistory = [...(pin.identityRefreshHistory ?? []), ...asHistory(candidate, pin.sha256, why)];
+        history.push({ path: at, writtenAgainst: candidate.writtenAgainst, measuredNow: pin.sha256, entries: pin.identityRefreshHistory.length, why });
+        break; // one previous pin per pin: a path bound twice keeps each block on its own pin
       }
 
-      /* Reverted to the pre-refresh bytes: the move the annotation records has
-       * been undone, so the note describes a transition away from where we are.
-       * Unreachable while the comparison above holds, asserted because a future
-       * edit to it must not open this door. */
+      /* The measured bytes are the identity the annotation records as previous.
+       * A source reverted after the note was written is caught above (it is a
+       * move away from writtenAgainst); this is reached by a block recording a
+       * move from X to X, which describes no move at all (R3-CTV7-F2). */
       if (pin.sha256 === candidate.annotation.was.sha256) {
         claimed.add(candidate);
         dropped.push({ path: at, why: "the source reverted to the identity the annotation records as previous", wasSha256: candidate.annotation.was.sha256 });
-        continue;
+        break; // a refused block still uses up this pin's one previous pin
       }
 
       pin.identityRefresh = structuredClone(candidate.annotation);
+      if (candidate.history.length) pin.identityRefreshHistory = [...(pin.identityRefreshHistory ?? []), ...candidate.history.map((entry) => structuredClone(entry))];
       claimed.add(candidate);
       carried.push({ path: at, sha256: pin.sha256, wasSha256: candidate.annotation.was.sha256 });
       break;
@@ -180,8 +204,9 @@ export function carryForwardIdentityRefresh(previous, next) {
   }
 
   for (const c of carried) decisions.push(`carried  ${c.path} (unchanged at ${String(c.sha256).slice(0, 12)})`);
+  for (const h of history) decisions.push(`history  ${h.path} — ${h.why}`);
   for (const d of dropped) decisions.push(`dropped  ${d.path} — ${d.why}`);
-  return { document: next, carried, dropped, decisions };
+  return { document: next, carried, dropped, history, decisions };
 }
 
 /**
@@ -193,10 +218,32 @@ export function carryForwardIdentityRefresh(previous, next) {
  * not JSON leaves the document exactly as the builder composed it -- this
  * module may cost a build nothing.
  */
-export function preserveIdentityRefresh(fs, receiptPath, document, { log = null } = {}) {
+/* A builder that removes its output directory before it rebuilds (runFamily's
+ * fs.rmSync) reads nothing here: the receipt is gone from disk by the time it
+ * is written, so every prior refresh block was silently dropped and had to be
+ * restored by hand per repair (2026-10-20). The committed receipt is the one
+ * that carried the blocks, so when the file is absent on disk read it from
+ * HEAD instead. Still fail-safe: no HEAD copy, no git, or unreadable JSON
+ * leaves the document exactly as composed. */
+const defaultGit = (args, { cwd }) => execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], maxBuffer: 1 << 26 });
+export function committedReceiptText(receiptPath, { git = defaultGit } = {}) {
+  try {
+    const root = git(["rev-parse", "--show-toplevel"], { cwd: path.dirname(path.resolve(receiptPath)) }).trim();
+    const rel = path.relative(root, path.resolve(receiptPath)).split(path.sep).join("/");
+    if (!rel || rel.startsWith("..")) return null;
+    return git(["show", `HEAD:${rel}`], { cwd: root });
+  } catch { return null; }
+}
+
+export function preserveIdentityRefresh(fs, receiptPath, document, { log = null, git = defaultGit } = {}) {
   let previous = null;
   try { previous = JSON.parse(fs.readFileSync(receiptPath, "utf8")); }
-  catch { return document; }
+  catch {
+    const committed = committedReceiptText(receiptPath, { git });
+    if (committed === null) return document;
+    try { previous = JSON.parse(committed); } catch { return document; }
+    if (log) log(`identityRefresh: ${receiptPath} is absent on disk; carrying forward from the committed receipt at HEAD`);
+  }
   let result;
   try { result = carryForwardIdentityRefresh(previous, document); }
   catch { return document; }

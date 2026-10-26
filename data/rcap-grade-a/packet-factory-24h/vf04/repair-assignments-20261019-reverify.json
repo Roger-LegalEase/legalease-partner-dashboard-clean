@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF04",
+  "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "assignmentCount": 1,
+  "assignments": [
+    {
+      "itemId": "nd-deferred-imposition-records-set",
+      "lane": "VF04",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading",
+      "decisiveDefect": "the motion unit says nothing about service. The held record (ND.memo.json track nd-deferred-imposition-records, rules.service and rules.notice) reads \"None stated by the rule or the statute\", so no held source establishes a service duty; the packet must then either state affirmatively that nobody is served, with the mechanism, or name a checkable authority for the question. The verification unit does that (page 1: \"On this unit NOTHING IS FILED, because the court acts under a term of its own order\"). The motion unit does not: neither fixture (pages 2-3, the \u00a7 12.1-32-07.1 motion) nor participant-instructions.md says who, if anyone, receives a copy of the motion filed in the existing criminal case, by what method, or that nobody does, and no office is named for the question; the words serve/service do not occur in any participant-facing record of this family.",
+      "failedProofObligations": [
+        "SERVICE"
+      ],
+      "perObligation": {
+        "SERVICE": {
+          "measuredDetail": "Measured at 1b48eb358 on canonical.pdf 8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1 (12744 B, 4 pages) and boundary.pdf c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29 (12930 B, 4 pages) and on participant-instructions.md. Verification unit: affirmative nobody-is-served statement with mechanism present on page 1. Motion unit: silent on service in both fixtures and in the instructions (grep for serve/service over participant-instructions.md, approval-request.json, build-findings.json and production-field-map.json: no hits). Held record establishes no rule: rules.service \"None stated by the rule or the statute.\", rules.notice \"None stated by the rule or the statute.\" VF04 passed this obligation on a \"no invented service duty\" reading; under the standard applied here (VF11 standardApplied.SERVICE and DET-FEE-AND-WAIVER-001: silence does not meet it) the motion unit fails. Bytes unchanged since VF04; this is a standard-application difference, flagged for the lead.",
+          "whatRepairMustDo": "Add one affirmative statement for the motion unit, on the motion page (pages 2-3) and in participant-instructions.md, of who is served or that nobody is, with the mechanism: either that no held source states a service duty for this motion and the clerk of court of the sentencing court is the office that answers whether the state's attorney must receive a copy, or \u2014 only if the lead supplies a held source \u2014 the service rule that source establishes. Nothing else changes."
+        }
+      },
+      "repairMustNotDo": [
+        "do not invent a service rule, a recipient or a method that no held source establishes (N.D.R.Crim.P. 49 is cited only in the nd-nonconviction-auto-close-verify track and is not held for this route)",
+        "do not touch the verification unit, the legal-effect page, the route footers, the memo or the manifest",
+        "do not re-pin ND.memo.json or legal-design-packet-set-manifests.json as part of this repair; the drifted whole-file pins (ND.memo.json b39b420c\u2192ed711519, manifests b28edfb9\u2192fee93664) change no controlling entry and are recorded in the row for the lead",
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ],
+      "assignedBy": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996"
+    }
+  ],
+  "grantsNothing": "These assignments describe measured defects and the exact repair each owes. They open no route, set no price, re-pin no receipt and authorise no promotion."
+}

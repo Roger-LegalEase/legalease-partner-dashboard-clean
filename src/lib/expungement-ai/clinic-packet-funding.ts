@@ -25,6 +25,7 @@ export class SponsorCapacityRequiresCheckoutError extends Error {
   constructor() { super("Sponsor capacity is exhausted. Continue with checkout for this same verified matter."); }
 }
 
+/** The existing RPC allocates either protected acquisition mode atomically. */
 export async function reserveClinicPacketFunding(userId: string, itemId: string, verificationHash: string) {
   const db = getSupabaseAdminClient();
   if (!db) throw new Error("Packet funding authority is unavailable.");

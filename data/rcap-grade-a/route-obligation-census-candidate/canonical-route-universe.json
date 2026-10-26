@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
+    "sourceFingerprint": "sha256:9db910fe7025c7435a3729dcbaf635a5dcabe56c3d43cb816a0dbcc49a6df906",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -522,7 +522,8 @@
       "track:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "track:WY:wy_fel_1502",
       "track:WY:wy_misd_1501",
-      "track:WY:wy_nc_1401"
+      "track:WY:wy_nc_1401",
+      "track:WY:wy_traffick_6_2_708"
     ],
     "legalTrackUnitKeys": [
       "unit:AR:ar-act346:ar-act346-stage-1",
@@ -991,6 +992,7 @@
       "service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_post_2026_07_01",
       "service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
       "service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
       "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
       "service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:judgment_ambiguous",
       "service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:ordinance_expressly_adopts_311_326",
@@ -1013,6 +1015,8 @@
       "failure-disposition:GA:retroactive-first-offender-treatment-under-42-8-66:ga_consent_withdrawn",
       "failure-disposition:GA:retroactive-first-offender-treatment-under-42-8-66:ga_contested_hearing",
       "failure-disposition:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:la_985_3_timing_contested",
+      "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help",
+      "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-new-entry-closed",
       "failure-disposition:MO:first-minor-in-possession-alcohol-expungement-under-311-326:mo_311_326_judgment_ambiguous",
       "failure-disposition:MO:first-minor-in-possession-alcohol-expungement-under-311-326:mo_311_326_ordinance_out_of_scope",
       "failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
@@ -1042,32 +1046,32 @@
   },
   "counts": {
     "totalJurisdictions": 51,
-    "totalStatutoryLegalTracks": 502,
+    "totalStatutoryLegalTracks": 503,
     "totalLegalTrackUnits": 113,
     "totalRuntimeRoutes": 344,
-    "totalEffectiveServiceBranches": 17,
-    "totalEffectiveFailureDispositions": 20,
+    "totalEffectiveServiceBranches": 18,
+    "totalEffectiveFailureDispositions": 22,
     "totalUnattachedDecisionRoutes": 2,
     "totalResearchDecisionRoutes": 7,
     "totalCurrentDecisionRoutes": 9,
     "totalCrosswalkFidelityConflicts": 2,
     "totalDecisionFidelityConflicts": 2,
     "totalRouteKindAdjudications": 40,
-    "pendingRouteKindAdjudications": 39,
-    "appliedRouteKindAdjudications": 1,
+    "pendingRouteKindAdjudications": 38,
+    "appliedRouteKindAdjudications": 2,
     "totalRuntimeAuthorityDecisions": 74,
     "totalRuntimeAuthorityContractAssociations": 148,
     "runtimeAuthorityContractsWithoutCandidate": 12,
     "runtimeAuthorityRouteKeyRegistryGaps": 14,
     "ownerApprovedCandidateRoutes": 80,
     "ownerApprovedPacketFamilyIds": 15,
-    "totalTypedSourceEntities": 1005,
-    "totalCanonicalObligations": 708,
-    "totalCanonicalEntities": 708,
-    "totalDistinctParticipantActionBranches": 497,
-    "possibleCategoryA": 444,
-    "possibleCategoryB": 171,
-    "needsLegalReview": 93,
+    "totalTypedSourceEntities": 1009,
+    "totalCanonicalObligations": 710,
+    "totalCanonicalEntities": 710,
+    "totalDistinctParticipantActionBranches": 498,
+    "possibleCategoryA": 446,
+    "possibleCategoryB": 168,
+    "needsLegalReview": 96,
     "duplicateAliases": 0,
     "pendingAliasInstructions": 1,
     "pendingCensusPacketFamilies": 4,
@@ -1077,7 +1081,7 @@
     "hiddenParticipantFilingBranches": 87,
     "rawRouteContracts": 151,
     "effectiveRouteContracts": 148,
-    "branchSelectionParentsReplaced": 2
+    "branchSelectionParentsReplaced": 3
   },
   "representationEdges": [
     {
@@ -6423,6 +6427,28 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help",
+      "entityType": "failure_disposition",
+      "sourceIdentity": "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — Prior written request for a pre-2007 incident; timeliness is not established.",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "parentRouteKey": "pathway:MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "parentContractRouteKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-new-entry-closed",
+      "entityType": "failure_disposition",
+      "sourceIdentity": "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-new-entry-closed",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — Pre-2007 incident: all historical new-entry windows closed by October 2015.",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "parentRouteKey": "pathway:MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "parentContractRouteKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "failure-disposition:MO:first-minor-in-possession-alcohol-expungement-under-311-326:mo_311_326_judgment_ambiguous",
       "entityType": "failure_disposition",
       "sourceIdentity": "failure-disposition:MO:first-minor-in-possession-alcohol-expungement-under-311-326:mo_311_326_judgment_ambiguous",
@@ -11439,6 +11465,17 @@
       "statuteOrAuthority": "La. C.Cr.P. art. 985.3",
       "parentRouteKey": "pathway:LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
       "parentContractRouteKey": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — Pre-October 1, 2007 incident: historical request mechanism only; no current new entry.",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "parentRouteKey": "pathway:MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "parentContractRouteKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
       "hiddenParticipantBranch": false
     },
     {
@@ -17717,6 +17754,17 @@
       ]
     },
     {
+      "routeKey": "track:WY:wy_traffick_6_2_708",
+      "entityType": "legal_track",
+      "sourceIdentity": "track:WY:wy_traffick_6_2_708",
+      "jurisdiction": "WY",
+      "publicLabel": "Human-trafficking victim vacatur — W.S. 6-2-708",
+      "statuteOrAuthority": "not recorded",
+      "parentRouteKey": null,
+      "hiddenParticipantBranch": false,
+      "mappedRuntimePathwayIds": []
+    },
+    {
       "routeKey": "unattached-decision-route:AK:ak-cannabis-seal",
       "entityType": "unattached_decision_route",
       "sourceIdentity": "unattached-decision-route:AK:ak-cannabis-seal",
@@ -19162,6 +19210,19 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "obligation:failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help",
+      "entityType": "canonical_obligation",
+      "obligationKind": "conditional_failure_disposition",
+      "sourceIdentity": "obligation:failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — Prior written request for a pre-2007 incident; timeliness is not established.",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "sourceEntityKeys": [
+        "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
       "entityType": "canonical_obligation",
       "obligationKind": "conditional_failure_disposition",
@@ -20309,15 +20370,33 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+      "entityType": "canonical_obligation",
+      "obligationKind": "exhaustive_contract_service_branch",
+      "sourceIdentity": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — Pre-October 1, 2007 incident: historical request mechanism only; no current new entry.",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "sourceEntityKeys": [
+        "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-new-entry-closed",
+        "pathway:MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+        "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+        "track:MD:md_10103_legacy_police"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
       "entityType": "canonical_obligation",
-      "obligationKind": "contract_exception_branch",
+      "obligationKind": "exhaustive_contract_service_branch",
       "sourceIdentity": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
       "jurisdiction": "MD",
       "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MD-03",
       "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
       "sourceEntityKeys": [
-        "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance"
+        "pathway:MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+        "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
+        "track:MD:md_10103_legacy_police"
       ],
       "hiddenParticipantBranch": false
     },
@@ -22989,6 +23068,19 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "obligation:track-only:WY:wy_traffick_6_2_708",
+      "entityType": "canonical_obligation",
+      "obligationKind": "unmapped_legal_track",
+      "sourceIdentity": "obligation:track-only:WY:wy_traffick_6_2_708",
+      "jurisdiction": "WY",
+      "publicLabel": "Human-trafficking victim vacatur — W.S. 6-2-708",
+      "statuteOrAuthority": "not recorded",
+      "sourceEntityKeys": [
+        "track:WY:wy_traffick_6_2_708"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
       "entityType": "canonical_obligation",
       "obligationKind": "mapped_track_runtime_edge",
@@ -24609,20 +24701,6 @@
       "sourceEntityKeys": [
         "pathway:MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
         "track:MA:ma-seal-court"
-      ],
-      "hiddenParticipantBranch": false
-    },
-    {
-      "routeKey": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "entityType": "canonical_obligation",
-      "obligationKind": "mapped_track_runtime_edge",
-      "sourceIdentity": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "jurisdiction": "MD",
-      "publicLabel": "Clearing police records from an arrest before October 2007",
-      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103; Md. Rule 4-503.3; Md. Rule 4-503.4",
-      "sourceEntityKeys": [
-        "pathway:MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
-        "track:MD:md_10103_legacy_police"
       ],
       "hiddenParticipantBranch": false
     },
@@ -28766,6 +28844,22 @@
       ]
     },
     {
+      "sourceRouteKey": "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help",
+      "sourceEntityType": "failure_disposition",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-existing-request-help"
+      ]
+    },
+    {
+      "sourceRouteKey": "failure-disposition:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:legacy-new-entry-closed",
+      "sourceEntityType": "failure_disposition",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request"
+      ]
+    },
+    {
       "sourceRouteKey": "failure-disposition:MO:first-minor-in-possession-alcohol-expungement-under-311-326:mo_311_326_judgment_ambiguous",
       "sourceEntityType": "failure_disposition",
       "accountingRelation": "exact_source_to_terminal_representation",
@@ -29883,7 +29977,8 @@
       "sourceEntityType": "runtime_pathway",
       "accountingRelation": "exact_source_to_terminal_representation",
       "canonicalObligationKeys": [
-        "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103"
+        "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+        "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance"
       ]
     },
     {
@@ -31818,6 +31913,14 @@
       ]
     },
     {
+      "sourceRouteKey": "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request"
+      ]
+    },
+    {
       "sourceRouteKey": "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
       "sourceEntityType": "service_branch",
       "accountingRelation": "exact_source_to_terminal_representation",
@@ -33535,7 +33638,8 @@
       "sourceEntityType": "legal_track",
       "accountingRelation": "exact_source_to_terminal_representation",
       "canonicalObligationKeys": [
-        "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103"
+        "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:agency-request",
+        "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance"
       ]
     },
     {
@@ -36031,6 +36135,14 @@
       ]
     },
     {
+      "sourceRouteKey": "track:WY:wy_traffick_6_2_708",
+      "sourceEntityType": "legal_track",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:track-only:WY:wy_traffick_6_2_708"
+      ]
+    },
+    {
       "sourceRouteKey": "unattached-decision-route:AK:ak-cannabis-seal",
       "sourceEntityType": "unattached_decision_route",
       "accountingRelation": "exact_source_to_terminal_representation",
@@ -36984,7 +37096,7 @@
       "routeKey": "DC:dc_correct_misattributed_arrest",
       "trackId": "dc_correct_misattributed_arrest",
       "pathwayId": "dc_correct_misattributed_arrest",
-      "historical": true,
+      "historical": false,
       "canonicalObligationKeys": [
         "obligation:track-only:DC:dc_correct_misattributed_arrest"
       ]
@@ -37176,7 +37288,7 @@
       "routeKey": "VA:regime-1-expungement-available-now",
       "trackId": "va_exp_absolute_pardon",
       "pathwayId": "regime-1-expungement-available-now",
-      "historical": false,
+      "historical": true,
       "canonicalObligationKeys": [
         "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now"
       ]
@@ -37272,7 +37384,7 @@
         "obligation:track-pathway:NY:ny_160_50_nonconviction:automatic-non-conviction-sealing-under-cpl-160-50-160-55"
       ],
       "sourceFile": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-      "sourceSha256": "sha256:0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+      "sourceSha256": "sha256:63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
       "sourceProvenance": "Current research decision ny_160_55_violation separates § 160.55 treatment from the approved ny_160_50_nonconviction legal track, while the compiled pathway label and contract combine both sections.",
       "fidelityDisposition": "OVERBROAD_COMPILED_SCOPE_RETAINED_ONLY_FOR_160_50_REPRESENTATION_WITH_160_55_SEPARATELY_ACCOUNTED",
       "requiredPatch": "Split or narrow the compiled/runtime identity so the § 160.50 legal track does not purport to govern § 160.55; wire the separately governed § 160.55 branches only through the controlling approval process."
@@ -37330,6 +37442,22 @@
       "evidence": "Generated. The contract for AL:human-trafficking-victim-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Human-trafficking-victim expungement\" and do not. Today the route returns needs_more_info. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
       "canonicalObligationKeys": [
         "obligation:track-pathway:AL:al-trafficking:human-trafficking-victim-expungement"
+      ],
+      "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
+    },
+    {
+      "routeKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "status": "pending",
+      "adjudicatedOn": null,
+      "decisionId": "LEGAL-DESIGN-2026-07-30-AZ-01",
+      "contractSays": "outcomeMode participant_packet, packetFamily \"Arizona Petition for Notation of Clearance under § 13-4051\", statute Ariz. Rev. Stat. § 13-4051",
+      "heuristicSaid": "not a user-filed court petition",
+      "priorResultCode": "needs_more_info",
+      "priorResultCodeIsConclusive": false,
+      "proposedResultCode": "unmeasured until adjudicated",
+      "evidence": "Generated. The contract for AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051 declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Notation of clearance after a wrongful arrest, indictment or charge\" and do not. A generated answer set reaches needs_more_info — the run stops before the guidance branch, so this run does not measure the disagreement's effect. Adjudicating this row means reading the contract's own statement, running the route with real answers, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
+      "canonicalObligationKeys": [
+        "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
       ],
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },
@@ -37423,6 +37551,29 @@
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },
     {
+      "routeKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "status": "applied",
+      "adjudicatedOn": "2026-10-12",
+      "decisionId": "LEGAL-DESIGN-2026-08-02-KS-02",
+      "contractSays": "outcomeMode participant_packet, packetFamily \"Kansas Municipal Arrest Record Expungement Petition under § 12-4516a\", statute Kan. Stat. Ann. § 12-4516a",
+      "heuristicSaid": "not a user-filed court petition",
+      "priorResultCode": "guidance_only",
+      "priorResultCodeIsConclusive": true,
+      "proposedResultCode": "needs_more_info",
+      "evidence": "PR268 GA21 bounded implementation. Read LEGAL-DESIGN-2026-08-02-KS-02 outcomeMode participant_packet and its named municipal arrest petition, KS.memo ks-12-4516a-municipal-arrest controllingAuthority/destination/components, and K.S.A.12-4516a(a)-(b). The statute and adopted contract explicitly describe a petition; no legal interpretation or new commercial approval is needed to correct the keyword heuristic. Actual prechange municipal arrest, dismissal and acquittal fixtures return guidance_only_no_user_filed_court_petition. Actual candidate returns needs_more_info / route_identified_packet_not_yet_available with paymentAllowed=false. The same expected result is tested for all three municipal nonconviction outcomes under all optional labels and reversed route/rule order in scripts/test-ks-municipal-factual-boundaries.mjs. The former legacy guidance result is retained in scripts/fixtures/ks-scope-legacy-baseline.json; its precise correction is asserted separately. Local instrument and completed-artifact review delivery gates, legal-only approval and commercialPosture remain unchanged.",
+      "historicalPendingObservation": {
+        "status": "pending",
+        "priorResultCode": "needs_more_info",
+        "priorResultCodeIsConclusive": false,
+        "proposedResultCode": "unmeasured until adjudicated",
+        "evidence": "Generated. The contract for KS:municipal-arrest-record-expungement-under-12-4516a declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Municipal arrest record expungement\" and do not. A generated answer set reaches needs_more_info — the run stops before the guidance branch, so this run does not measure the disagreement's effect. Adjudicating this row means reading the contract's own statement, running the route with real answers, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist."
+      },
+      "canonicalObligationKeys": [
+        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "censusDisposition": "APPLIED_SOURCE_RECORD_PRESERVED_NO_NEW_AUTHORITY_GRANTED"
+    },
+    {
       "routeKey": "KY:juvenile-petition-610330",
       "status": "pending",
       "adjudicatedOn": null,
@@ -37484,22 +37635,6 @@
       "evidence": "Generated. The contract for LA:immediate-expungement-after-successful-court-program-completion-art-985-3 declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Immediate expungement after successful court-program completion (Art. 985.3)\" and do not. Today the route returns needs_more_info. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
       "canonicalObligationKeys": [
         "obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3"
-      ],
-      "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
-    },
-    {
-      "routeKey": "MA:marijuana-only-expungement",
-      "status": "pending",
-      "adjudicatedOn": null,
-      "decisionId": "LD-MA-02",
-      "contractSays": "outcomeMode participant_packet, packetFamily \"Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼\", statute Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
-      "heuristicSaid": "not a user-filed court petition",
-      "priorResultCode": "needs_more_info",
-      "priorResultCodeIsConclusive": false,
-      "proposedResultCode": "unmeasured until adjudicated",
-      "evidence": "Generated. The contract for MA:marijuana-only-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Marijuana-only expungement\" and do not. Today the route returns needs_more_info. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
-      "canonicalObligationKeys": [
-        "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement"
       ],
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },
@@ -37760,22 +37895,6 @@
       "evidence": "Generated. The contract for PA:path-g-underage-drinking-conviction-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Path G — Underage-drinking conviction expungement\" and do not. Today the route returns guidance_only. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
       "canonicalObligationKeys": [
         "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
-      ],
-      "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
-    },
-    {
-      "routeKey": "PA:path-k-human-trafficking-vacatur-expungement",
-      "status": "pending",
-      "adjudicatedOn": null,
-      "decisionId": "LD-PA-03",
-      "contractSays": "outcomeMode participant_packet, packetFamily \"Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet\", statute 18 Pa.C.S. § 3019",
-      "heuristicSaid": "not a user-filed court petition",
-      "priorResultCode": "guidance_only",
-      "priorResultCodeIsConclusive": true,
-      "proposedResultCode": "unmeasured until adjudicated",
-      "evidence": "Generated. The contract for PA:path-k-human-trafficking-vacatur-expungement declares a participant packet and names the family it produces; the pre-contract heuristics read the pathway label \"Path K — Human-trafficking vacatur / expungement\" and do not. Today the route returns guidance_only. Adjudicating this row means reading the contract's own statement, running the route, and recording what the change produces — especially if it produces a ready-packet presentation for a packet that does not exist.",
-      "canonicalObligationKeys": [
-        "obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement"
       ],
       "censusDisposition": "PENDING_PRODUCT_WIRING_AND_PARTICIPANT_PRESENTATION_PROOF_NO_COMMERCIAL_AUTHORITY_GRANTED"
     },

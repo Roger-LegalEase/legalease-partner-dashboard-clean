@@ -10,9 +10,15 @@ export const dynamic = "force-dynamic";
 
 const statuses: ClinicQueueCase["queueStatus"][] = ["started","in_progress","needs_information","attorney_review","packet_ready","referred","closed"];
 
+function privateResponse(response: NextResponse) {
+  response.headers.set("Cache-Control", "no-store, private, max-age=0");
+  response.headers.set("Vary", "Cookie");
+  return response;
+}
+
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
-  try { const { eventId } = await params; return NextResponse.json({ success: true, cases: await listClinicQueue(parseEventId(eventId)) }); }
-  catch (error) { return clinicErrorResponse(error); }
+  try { const { eventId } = await params; return privateResponse(NextResponse.json({ success: true, cases: await listClinicQueue(parseEventId(eventId)) })); }
+  catch (error) { return privateResponse(clinicErrorResponse(error)); }
 }
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
@@ -22,6 +28,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const body = await readBoundedJson(request) as { caseId?: unknown; queueStatus?: unknown };
     if (typeof body.caseId !== "string" || typeof body.queueStatus !== "string" || !statuses.includes(body.queueStatus as ClinicQueueCase["queueStatus"])) throw new Error("invalid queue transition");
     const outcome = await transitionClinicQueueCase(parseEventId(eventId), parseEventId(body.caseId), body.queueStatus as ClinicQueueCase["queueStatus"]);
-    return NextResponse.json({ success: true, outcome });
-  } catch (error) { return clinicErrorResponse(error); }
+    return privateResponse(NextResponse.json({ success: true, outcome }));
+  } catch (error) { return privateResponse(clinicErrorResponse(error)); }
 }

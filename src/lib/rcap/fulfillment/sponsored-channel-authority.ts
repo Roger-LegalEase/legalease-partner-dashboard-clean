@@ -3,19 +3,28 @@ import fs from "node:fs";
 import { createHash } from "node:crypto";
 import type { GradeAFulfillmentRecord } from "./grade-a-authority";
 import { resolveDeploymentEnvironment } from "@/lib/server-runtime-environment";
-import decision from "@/../data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json";
+import decision from "@/../data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json";
+import ordinaryInternalQaDecision from "@/../data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json";
 
 export type SponsoredChannelContext = {
   participantUserId: string;
   partnerSlug: string;
-  eventName: string;
-  eventId: string;
   registeredSpecificationSha256: string;
-};
-export type SponsoredChannelDecision = typeof decision;
-export const sponsoredChannelDecisions: readonly SponsoredChannelDecision[] = [decision];
+} & (
+  | { acquisitionMode?: "clinic"; eventName: string; eventId: string }
+  | { acquisitionMode: "partner"; eventName: null; eventId: null }
+);
+export type SponsoredChannelDecision = typeof decision | (
+  Omit<typeof decision, "eventName" | "eventId" | "eventIdentitySource"> & {
+    acquisitionMode: "partner"; eventName: null; eventId: null;
+  }
+);
+export const sponsoredChannelDecisions: readonly SponsoredChannelDecision[] = [decision, ordinaryInternalQaDecision as SponsoredChannelDecision];
 // Pin the adopted decision itself; edits require a new immutable decision.
-const decisionDigests = new Set(["4550b2bbeff33c890892d1a845e774981b38230ba538c7240928446cc5353f30"]);
+const decisionDigests = new Set([
+  "b33784d8509264f03466a379ac52028dc943477489ca4b9a4f1de94f3d7578f5",
+  "316a211790dbdaca3bd260beac0a854076ebed618390b339b1d68b6a40381ebb"
+]);
 const sha256 = (bytes: string | Buffer) => createHash("sha256").update(bytes).digest("hex");
 
 /** Pure scope comparison; callers supply only protected server context. Packet
@@ -26,7 +35,13 @@ export function matchesSponsoredChannel(
   context: SponsoredChannelContext | undefined,
   runtime: { environment: string; channel: string; routeState: string; projectUrl: string; scope: string }
 ): boolean {
-  if (!context || grant.approved !== true || grant.productionAuthorized !== false
+  const grantMode = "acquisitionMode" in grant ? grant.acquisitionMode : "clinic";
+  if (!context || !["clinic", "partner"].includes(grantMode)
+    || (context.acquisitionMode ?? "clinic") !== grantMode
+    || (grantMode === "clinic" && (!grant.eventId || !grant.eventName))
+    || (grantMode === "partner" && (grant.eventId !== null || grant.eventName !== null
+      || context.eventId !== null || context.eventName !== null))
+    || grant.approved !== true || grant.productionAuthorized !== false
     || grant.publicLaunchAuthorized !== false || grant.liveConsumerPaymentAuthorized !== false
     || grant.hostedFullAuthorized !== false || runtime.environment !== "preview"
     || runtime.channel !== grant.channel || runtime.routeState !== grant.routeState
@@ -68,4 +83,38 @@ export function currentSponsoredChannelAllowed(
       return grant.artifacts.every(a => sha256(fs.readFileSync(a.path)) === a.sha256);
     } catch { return false; }
   });
+}
+
+/** Prepares an exact scope registration for normal Start; it grants no participant entitlement. */
+export function prepareOrdinarySponsoredRouteRegistration(
+  partnerSlug: string, jurisdictions: readonly string[],
+  env: Readonly<Record<string, string | undefined>> = process.env
+) {
+  if (env.VERCEL_ENV !== "preview" || jurisdictions.length !== 1) return null;
+  const grant = sponsoredChannelDecisions.find(candidate => "acquisitionMode" in candidate
+    && candidate.acquisitionMode === "partner" && candidate.partnerSlug === partnerSlug);
+  if (!grant || !decisionDigests.has(sha256(JSON.stringify(grant)))
+    || grant.approved !== true || grant.productionAuthorized !== false
+    || grant.publicLaunchAuthorized !== false || grant.liveConsumerPaymentAuthorized !== false
+    || grant.hostedFullAuthorized !== false || grant.eventId !== null || grant.eventName !== null
+    || jurisdictions[0] !== grant.routeId.split(":")[0]
+    || env.SUPABASE_URL !== `https://${grant.acceptanceProjectRef}.supabase.co`
+    || env.NEXT_PUBLIC_SUPABASE_URL !== env.SUPABASE_URL
+    || env.RCAP_SPONSORED_PREVIEW_CHANNEL !== grant.channel
+    || env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE !== "staging_scoped"
+    || grant.routeState !== "staging_scoped"
+    || env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE !== grant.participantUserIds.join(",")
+    || sha256(env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE) !== grant.participantScopeSha256) return null;
+  try {
+    if (!grant.artifacts.every(artifact => sha256(fs.readFileSync(artifact.path)) === artifact.sha256)) return null;
+  } catch { return null; }
+  return {
+    schema: "rcap-ordinary-sponsored-route-registration/v1",
+    decisionId: grant.decisionId,
+    decisionSha256: sha256(JSON.stringify(grant)),
+    routeKey: grant.routeId,
+    packetSpecificationSha256: grant.packetSpecificationSha256,
+    participantScopeSha256: grant.participantScopeSha256,
+    partnerSlug: grant.partnerSlug
+  };
 }

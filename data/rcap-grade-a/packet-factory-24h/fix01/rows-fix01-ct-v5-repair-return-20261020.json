@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "baseSha": "4f387fa2d0819b963edd810b49b120afd1024815",
+  "branch": "codex/nationwide-question-corrections-20261011",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "CI & Factory Claude, landing the CT guidance V5 repair as this lane's return on the lead's ruling (LEAD_TO_CI 2026-10-20T01:40Z, option a). The repair itself was authored by Roger-LegalEase on 2026-10-19 (CT guidance V5) and re-cut patch-identically onto the base above; no cloud worker asserted a grant for it.",
+  "grantsAsserted": [],
+  "grantBasis": "The ledger holds this lane's rapid-repair grant for the family released since 2026-09-12T06:34:08Z and the dispatch at 4f387fa2d names FIX01 for it; this return lands on the record under the lead's ruling rather than through claim.mjs --assert. generate.mjs reads a released grant plus a completed repair row newer than the verdict as a completed repair (repairSupersedesFailedVerdict).",
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "SERVICE"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-20261019-reverify-census-5e7fe802c.json",
+          "sha256": "6e329e3b4b8d2db91c008b9fbefa06024ed18f3a2504ee5ccf0119acebf47e65",
+          "lane": "VFCT1",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "failedObligationNames": [
+            "SERVICE"
+          ],
+          "preserved": true
+        }
+      ],
+      "actualDefect": {
+        "SERVICE": "Silent. Neither the guide (canonical and boundary, read with pdftotext) nor participant-instructions.md contains any statement about service or notice: no rule, no 'nobody is served' statement, and no authority named for the question (grep for serv/notice/notif/copy finds nothing). The memo track records 'The source review does not state a service requirement' and 'does not state a notice requirement', and guidance-packets/ct.json says the review 'does not state a notice requirement for this request' - but that sentence is not delivered. The guide does state the mechanism ('The clerk acts on the accused's request'; 'not a court petition'), but under the brief's standard a mechanism without an affirmative nobody-is-served statement, or a named authority for the question, is silence."
+      },
+      "correction": "The guide and participant-instructions.md now carry a disclosed-gap statement on service: the committed Connecticut review states no service or notice requirement for this request, so the guide adds none, and before sending the participant asks that clerk's office whether anyone must be served or sent a copy. Guide copy only; the CT memo decision (guidance only) stands.",
+      "repairCommits": {
+        "authored": {
+          "558174db4": "558174db4a57022269c6089c243542ec678f8e69",
+          "f0b02088a": "f0b02088af51917cb7690df0673cb39d871b88cc",
+          "92db64cdd": "92db64cdd332e6a934213ec52e28486b984a3cb5",
+          "a45d54640": "a45d546407446f692b1fb5b1b4dda6db439d8833"
+        },
+        "reCutOnto": "4f387fa2d0819b963edd810b49b120afd1024815",
+        "reCut": {
+          "d5662d256": "d5662d256bfe9be9abbc62e086baefe8e2491f48",
+          "10278322e": "10278322e393ea81113ed9c16604d8d942eda147",
+          "c80eaf3ae": "c80eaf3ae78b960a923d8dfb2d1dddd343576557",
+          "c90d8c62f": "c90d8c62f151ee58dfbef428d45df83e9d18f019"
+        },
+        "note": "commit ids are named for provenance only; every base this row relies on is baseSha above and the historical verdict path"
+      },
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "7883f7a0748de173b5e424e9d67d45dce742222bb6493443a1a0118f42120c3c",
+          "byteLength": 5104,
+          "pageCount": 1,
+          "pageCountBasis": "pdfinfo (poppler) on the exact bytes",
+          "changed": true,
+          "sha256BeforeRepair": "f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "95229ca0c3ab7ad3a88615a3ab364337c2b22cede348f2476eb0e22f7591d364",
+          "byteLength": 5225,
+          "pageCount": 1,
+          "pageCountBasis": "pdfinfo (poppler) on the exact bytes",
+          "changed": true,
+          "sha256BeforeRepair": "682aeb934e38e4bc5280da02cfcda775b2e88ac0d52db03bf33a9bb978dda28b"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/reports/completeness-counters.json written by the V5 rebuild; verify-packet-completeness.mjs --family reports PASS_COMPLETE at the re-cut tip (corpus environment)",
+      "rasterRequired": "A central raster of the rebuilt bytes is still owed (owner dispatch); this row grants nothing and moves the family only through the generator.",
+      "independentRereadRequired": true
+    }
+  ]
+}

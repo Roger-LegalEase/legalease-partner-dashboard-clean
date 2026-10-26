@@ -65,11 +65,17 @@ includes(consumerSignInForm, "supabase.auth.signUp", "create-account uses Supaba
 includes(consumerSignInForm, "supabase.auth.signInWithPassword", "returning-user sign-in remains");
 includes(consumerSignInForm, "safeAppRedirectPath", "account gate preserves safe next");
 includes(consumerSignInForm, "const requestContext = readAuthRequestContext();", "auth submission reads pending context at click time");
-includes(consumerSignInForm, "claimPendingResult(requestContext.pendingId, requestContext.nextPath)", "pending claim reads live query context instead of a hydration-time snapshot");
+// 256b3bde0 moved the claim to src/lib/expungement-ai/claim/claim-handoff.ts. The click-time read is now
+// readAuthRequestContext() inside finishPendingClaim, which reads window.location on every call.
+const finishPendingClaim = consumerSignInForm.slice(consumerSignInForm.indexOf("async function finishPendingClaim()"), consumerSignInForm.indexOf("async function submitAuth("));
+includes(finishPendingClaim, "const requestContext = readAuthRequestContext();", "pending claim reads live query context instead of a hydration-time snapshot");
+includes(finishPendingClaim, "submitClaim(requestContext.claimToken)", "pending claim submits the click-time claim token");
+includes(consumerSignInForm, "return consumerAuthContinuationFrom(new URLSearchParams(window.location.search));", "auth request context reads the live URL");
 includes(consumerSignInForm, "If this email needs verification, check your inbox and spam folder for a confirmation link.", "email confirmation copy");
-includes(consumerSignInForm, "if (!response.ok || !payload?.redirectTo) return { ok: false }", "pending claim rejects non-2xx or missing redirect");
-includes(consumerSignInForm, "isExactBriefcaseMatterPath", "pending claim requires exact matter redirect");
-includes(consumerSignInForm, "You are signed in, but we could not save this matter", "pending claim visible failure copy");
+// Non-2xx / missing-redirect rejection and the exact-matter redirect live in claim-handoff.ts and are exercised by
+// verify-shared-claim-boundary-app.mjs sections 3 and 6 (npm test). Retired here as duplicates (Roger item 31).
+includes(consumerSignInForm, "You are signed in, but we could not save your result yet.", "pending claim visible failure copy");
+includes(consumerSignInForm, 'translate("signin.pending_claim_error", pendingClaimError)', "pending claim failure copy is shown when the claim fails");
 includes(consumerSignInForm, 'data-pending-claim-retry="true"', "pending claim retry control");
 assert(!consumerSignInForm.includes("return fallbackNext;"), "Failed pending claim must not silently fall back to a generic Briefcase.");
 includes(consumerSignInForm, "save this result in your free Briefcase, complete packet information, and return later", "free Briefcase create-account handoff copy");
@@ -88,7 +94,7 @@ includes(authHelper, 'redirect(`/expungement-ai/sign-in?mode=create&next=${encod
 includes(payPage, 'requireConsumerBriefcaseSession(`/expungement-ai/pay${queryString(params)}`)', "pay page preserves next");
 includes(packetReadyPage, "requireConsumerBriefcaseSession(next)", "legacy packet-ready return preserves the exact matter as its auth continuation");
 includes(packetReadyPage, "getBriefcaseItem(auth.userId, briefcaseItemId)", "legacy packet-ready return resolves only an owner-scoped matter");
-includes(screeningFlow, 'mode: "create"', "screening save-result conversion handoff");
+includes(screeningFlow, 'claimHandoffPath(pending.claimToken, "create")', "screening save-result conversion handoff");
 includes(briefcaseViews, 'href="/expungement-ai/sign-in?mode=create&next=/briefcase"', "Briefcase auth gate create handoff");
 
 for (const key of [

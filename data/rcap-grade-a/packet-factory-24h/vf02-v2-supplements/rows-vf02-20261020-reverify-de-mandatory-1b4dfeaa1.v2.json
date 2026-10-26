@@ -1,0 +1,289 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "status": "COMPLETED",
+  "reviewer": "VERIFICATION-REVIEWER-CLAUDE",
+  "sessionIdentity": "Claude Code session 0f8ca1b9-bf1b-46a6-bcfa-631c22894c87 (agent output-7c, PR #268 independent verification reviewer since 2026-10-20T12:07Z); the same session wrote the RV-11 row at 2026-10-20T12:57:40Z and commit e35a55467 and writes this supplement (its context was summarised in between, the session is unchanged)",
+  "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+  "actualHeadAtReview": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+  "builtAnything": false,
+  "repairsMade": 0,
+  "packetsSelfVerified": 0,
+  "supplements": {
+    "commit": "e35a55467f86d3e6c9fb070e0a651f1633ff1422",
+    "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261020-reverify-de-mandatory-1b4dfeaa1.json",
+    "sha256": "5a59a100e69c432b64ff79001c711e125c2ddefa82b99c2fc27c6fe78fd14af1",
+    "schemaVersion": "rcap-independent-verification-rows/v1",
+    "taskId": "RV-11"
+  },
+  "whatThisIs": "Record completion for the already-completed RV-11 review, written by the same reviewer at the lead's request (LEAD_TO_REVIEWER 2026-10-20T13:51:34Z; path and base named 14:19:20Z) so the DE guidance admission can read v2 fields. No packet was re-read for it and no verdict, hash, obligation result or counter differs from the v1 row it supplements.",
+  "attestations": {
+    "actualHeadAtReview": {
+      "value": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "basis": "facts.json base, written by measure-family.mjs from `git rev-parse HEAD` in the review worktree at measure time; the v1 commit's parent is the same sha."
+    },
+    "builtAnything": {
+      "value": false,
+      "basis": "For RV-11 this session ran claim.mjs --can-assert, measure-family.mjs (verify-packet-completeness.mjs read-only, no --write), pdfinfo, pdftotext, pdftoppm into review-evidence/reviewer/rv11-de-mandatory-vf02/, git show for the two pinned blobs, and the lane-returns assembler, which wrote only the row file. Commit e35a55467 changes exactly one path, the row (asserted above). No builder, generator, renderer or repair script was run on this family. Git authorship cannot tell agents apart on this repository (one account), so the basis is this session's own command record and the one-file commit."
+    },
+    "repairsMade": {
+      "value": 0,
+      "basis": "For RV-11 this session ran claim.mjs --can-assert, measure-family.mjs (verify-packet-completeness.mjs read-only, no --write), pdfinfo, pdftotext, pdftoppm into review-evidence/reviewer/rv11-de-mandatory-vf02/, git show for the two pinned blobs, and the lane-returns assembler, which wrote only the row file. Commit e35a55467 changes exactly one path, the row (asserted above). No builder, generator, renderer or repair script was run on this family. Git authorship cannot tell agents apart on this repository (one account), so the basis is this session's own command record and the one-file commit."
+    },
+    "packetsSelfVerified": {
+      "value": 0,
+      "basis": "This reviewer built, rendered and repaired no packet in this session, so no reviewed packet is its own."
+    },
+    "measured": {
+      "value": true,
+      "basis": "Each of the 15 obligation details states what was computed or read at the base (hashes from bytes, pdfinfo, pdftotext read-back and -bbox geometry, pins from disk, pinned blobs from git, the completeness verifier run here); none is copied from a builder report."
+    },
+    "notStated": []
+  },
+  "rows": [
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "familyId": "de_mandatory_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "verifiedAt": "2026-10-20T12:57:40Z",
+      "reviewer": "VERIFICATION-REVIEWER-CLAUDE",
+      "sessionIdentity": "Claude Code session 0f8ca1b9-bf1b-46a6-bcfa-631c22894c87 (agent output-7c, PR #268 independent verification reviewer since 2026-10-20T12:07Z); the same session wrote the RV-11 row at 2026-10-20T12:57:40Z and commit e35a55467 and writes this supplement (its context was summarised in between, the session is unchanged)",
+      "builtThisFamily": false,
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "routeKeys": [
+        "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "allRequiredObligationsScored": 15,
+      "obligationSummary": {
+        "PASS": 15,
+        "FAIL": 0,
+        "NOT_MEASURABLE_HERE": 0,
+        "BLOCKED_LEGAL_INPUT": 0
+      },
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "The single routeKey obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a is declared identically by source-receipt, product-wiring, production-field-map and the MASTER_QUEUE row; familyIdAgrees true (facts.json routeIdentity). It resolves in the current census at routes[348] (trackId de_mandatory_expungement, processActor agency, destination State Bureau of Identification) and in CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS reconciliation42 families[46] (SOURCE_READY, implementationStrategyOverride participant_agency_application). The guide's title and every section speak only to SBI mandatory/automatic expungement under 11 Del. C. Secs. 4373 and 4373A; the discretionary court petition and pardon routes are named only as other routes and as stop conditions."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Recomputed from disk at 1b4dfeaa14dbf4facf145fd408069acba22d4b32: 7 of the receipt's 9 compositionSources equal their pins (fee-scope correction 75c5466a, 27S23V sheet 963c8583, DSP page 47c8cc44, DE-SBI-MANDATORY receipt 1a26621d, DE.memo fdb976a3, DE-delaware profile 6e86afdb, route-product-metadata b4db39f6). Two records drifted. CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json is now ef7ac045\u2026 against the pin 054e593f\u2026; the pinned blob was recovered at c4fc31baa (sha256 equal to the pin) and this family's reconciliation42 entry compared object-for-object: IDENTICAL (only the de_discretionary_family_court-set entry and acquisitionEvidencePaths moved). route-obligation-candidate.json is now eeabd8b9\u2026 against the pin f6fc0814\u2026; the pinned blob was recovered at a3ca119bd and routes[345] pinned / routes[348] now are IDENTICAL. The CURRENT digests are the pins this row verified against; the receipt on disk is not edited by this lane."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "declared = rendered = ['agency_preparation_guide'] in both fixtures (rendered-artifacts componentSet; field map maps 1, officialForm null). The census instrument 'primary_filing: de_mandatory_expungement-primary-filing-1' is governed by the CAPTAIN determination for this family: satisfiedWithoutStandaloneBinary official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION, relationshipNote 'Current official materials expose no public application binary; SBI determines eligibility and supplies a letter with further instructions', exactNextAction 'Build the SBI contact and eligibility-letter process treatment; do not invent or substitute an application PDF'. The DE-SBI-MANDATORY source receipt agrees (no_public_binary_exposed, issuerAssignedFormNumber null). The guide builds exactly that treatment and tells the participant not to file it as a substitute application. The certified criminal history and SBI's own signed paperwork are participant-obtained records named with where to get them. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "All 5 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (facts.json readBack 5/5 both, 0 glyphs outside measured write boxes, no refused field inked). Canonical: Jordan Avery Reyes, 1991-04-17, 42 Larkspur Street, Dover, DE 19901, 302-555-0142, jordan.reyes@example.org. Boundary: Maria-Alejandra O'Shaughnessy-Whitfield, 1968-12-31, 1188 Brandywine Creek Crossing Road, Apartment 14B, Wilmington, Delaware 19810-2214 (wraps inside the margin on page 1), (302) 555-0199 ext. 4417 and the long email. canonical-vs-boundary.diff differs only in those five values and two whitespace-only reflows. knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "production-field-map requiredBeforeFiling 7 (requiredBeforeFilingCount 7): current record and automatic-expungement status; every case number, court, county, charge and statute section; disposition, conviction, release and sentence-completion dates; prior, later and pending matters; incarceration, parole or probation status; fines, fees and restitution status; SBI eligibility letter and current instructions. All 7 print on page 4 under 'FACTS YOU MUST CONFIRM BEFORE ACTING' with dotted lines and a 'Check with' authority, and all 7 rows appear in the instructions table. blankDispositions REQUIRED_BEFORE_FILING 7; requiredFactsNotCollected 0, unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "0 selection controls, 0 canonical refusals, routeSelectionsMade [] (routeSelectionNote: the route is fixed and no alternate instrument is presented). The only branch inside the route, automatic (Sec. 4373A, no participant filing) versus SBI application, is handled by 'First ask SBI whether the automatic process has already reached your case'; a discretionary-eligibility notice is sent to a different court route and is a stop condition. requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "No repeating structure is declared (repeatingRows 0). Multiple cases and charges are covered by one disclosed fact ('Every case number, court, county, charge, and statute section') that the participant confirms against the certified history; the guide composes no table that could be left incomplete. incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "The guide has no signature, date, notary, agency or court field. Page 4 'PROTECTED ITEMS': 'Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs. No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide.' The instructions' 'Protected items left blank' section matches. protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Recomputed here: canonical.pdf fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00/13688 B and boundary.pdf 45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb/13761 B, 4 pages each by pdfinfo. Both equal reports/rendered-artifacts.json and the RASTER_QUEUE row, whose RASTER_PASS receipt (workflow run 34628970364, job 103361882553) is bound to both digests and covers the whole family (documentsCovered canonical.pdf, boundary.pdf; 8 pages measured). No unrecorded PDFs, none recorded but missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Each fixture is 4 pages of the one component in reading order: page 1 title, route, identity block, 'WHAT THIS GUIDE IS - AND IS NOT', start of 'EXACT SBI DESTINATION AND NEXT STEPS'; page 2 the SBI steps, 'SBI PROCESS COSTS', the Sec. 4372(l) waiver paragraph, start of 'SELF-HELP STOP'; page 3 the nine recorded stop conditions; page 4 'FACTS YOU MUST CONFIRM BEFORE ACTING', 'PROTECTED ITEMS', route line."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "pdftotext -bbox via measure-family: 0 words outside the page box and 0 same-band overlapping word pairs in either fixture (1374 / 1380 words). Read on the 80-dpi renders (canonical-1..4.png, boundary-1..4.png, both sheets): every line sits inside the margins, the boundary's long address and email wrap cleanly, the route key wraps inside the margin, and page 3 ends early with no orphaned heading. visualDefects 0."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "The census destination is the agency 'State Bureau of Identification' (kind agency). The guide names the Delaware State Police, State Bureau of Identification, Expungement Section, 302-739-5884 (compiled profile DE-delaware.json: 'on request to the SBI (302-739-5884)'; CAPTAIN determination: 'the current DSP units page identifies the Expungement Section as the starting point'), the official process page https://dsp.delaware.gov/expungements/ (census requiredSourceIds source-url and the CAPTAIN authority binding), and enrolment through the 27S23V service or 1-866-761-8069 (27S23V sheet: 'calling 866.761.8069'). It asserts no mailing address, portal or submission method and sends the participant to SBI's eligibility letter for every later step, consistent with the CAPTAIN relationshipNote. The instructions agree."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "DET-FEE-AND-WAIVER-001 prong 1 (stated, sourced). The held DSP page (reference/delaware/sbi-process-20260907.html, 47c8cc44, retrieved 2026-09-07) reads 'The initial fee to apply for an expungement is $72.00 ... If you qualify for a mandatory expungement, you must return your signed paperwork within 30 days of receipt and a money order payable to the Delaware State Police for $75.00'; the guide states exactly $72 initially and a conditional $75 money order within 30 days, attributed to that page with its retrieval date. 'No separate court filing fee' is the family-scoped 2026-09-07 fee-scope correction (75c5466a), which supersedes the memo's extra court fee for this family only. Waiver: the guide states the 11 Del. C. Sec. 4372(l) court waiver or conversion as the record states it and makes it a stop condition (memo stop list), not a step. A4: the PDF and participant-instructions.md agree on every figure and condition; the memo's 'about $72' certified-history quote is attributed and the guide discloses, rather than resolves, whether the history and the application are one enrolment or two, telling the participant to confirm with SBI before paying."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "No held source requires the participant to serve or notify any other party on this agency route: the census serviceDisposition is non_filing_guidance, the automatic branch 'requires no participant filing' (memo: SBI notifies every court and agency holding the records under Sec. 4372(e)(2)), and the DSP page's only participant returns are to SBI. The guide asserts no service step, says 'No mailing address, portal, or submission method is asserted here', and names SBI and its eligibility letter as the checkable authority for every delivery direction (DET-FEE-AND-WAIVER-001 prong 3 applied to SERVICE)."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Three stop paragraphs on page 2 (SBI denies mandatory eligibility, directs a court petition or the record does not clear; uncertainty about charges, dates, prior or pending matters, supervision, unpaid balances or excluded offenses; a collateral attack or immigration, firearms, licensing, registry or law-enforcement-employment consequences) and the nine stop conditions the committed Delaware record states for this route on pages 2-3 (pending charges outside the three carve-outs; current incarceration, parole or probation; a prior expungement within ten years; Sec. 4373(b) domestic-violence, child or vulnerable-adult offenses; Sec. 4201(c) or Beau Biden Act offenses; mixed Title 21 charges; the Sec. 4372(l) waiver; collateral consequences; attacking the conviction). The instructions repeat the same list."
+        }
+      },
+      "measuredBasis": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set, run by measure-family.mjs in a detached worktree at base 1b4dfeaa14dbf4facf145fd408069acba22d4b32: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 5/12 written, counter line parsed from that run (facts.json verifierRun)."
+      },
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+          "byteLength": 13688,
+          "pageCount": 4,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+          "byteLength": 13761,
+          "pageCount": 4,
+          "recordAndRasterExact": true
+        }
+      ],
+      "rasterAcceptance": {
+        "status": "RASTER_PASS",
+        "runId": "34628970364",
+        "jobId": "103361882553",
+        "pdfs": 2,
+        "pages": 8,
+        "boundToCanonicalSha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+        "boundToBoundarySha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+        "coversTheWholeFamily": true,
+        "howThisReviewerUsedIt": "Read from RASTER_QUEUE.json at the base and compared with the digests recomputed from the fixture bytes; the run artifact was not re-downloaded (it expired 2026-09-25). The visual read in CLIPPING_AND_OVERLAP was made on this reviewer's own 80-dpi renders of the same bytes."
+      },
+      "sourceBindings": [
+        {
+          "path": "data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json",
+          "sha256": "75c5466ab6807ec872c768e11611a9b98b3c3d5d2bcaddb2ab7073327a9cbe86",
+          "byteLength": 2448,
+          "matchesReceipt": true
+        },
+        {
+          "path": "reference/delaware/DE-Service-Code-Form_27S23V.pdf",
+          "sha256": "963c85833f87a99563f2ed2ea3414332232c550f4c64bcd887f51a9d0039557a",
+          "byteLength": 276670,
+          "matchesReceipt": true
+        },
+        {
+          "path": "reference/delaware/sbi-process-20260907.html",
+          "sha256": "47c8cc44de90f49cea3bbedfe0f3426b70b2544cab5b6fdcd87e5a831a355e5f",
+          "byteLength": 64690,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "sha256": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
+          "byteLength": 82712,
+          "matchesReceipt": false,
+          "receiptPin": {
+            "sha256": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
+            "byteLength": 82180
+          },
+          "pinnedBlobRecoveredAt": "c4fc31baa",
+          "ownEntryUnmoved": true,
+          "ownEntryComparison": "reconciliation42.families entry de_mandatory_expungement-set (families[46]) pinned and now are IDENTICAL; between the pin and now only the de_discretionary_family_court-set entry and reconciliation42.acquisitionEvidencePaths changed (d70e5995e, b786fca78, da8aae614)"
+        },
+        {
+          "path": "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/sources/DE-SBI-MANDATORY/receipt.json",
+          "sha256": "1a26621dca464d4d8da3f0922e8a8e1f323a984c0cf2d4bfa51d750daaa85a12",
+          "byteLength": 2184,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/DE.memo.json",
+          "sha256": "fdb976a3cf5b47de42ebca1285dbd4f067bfa5461a0fac0c6efc98668fd1e618",
+          "byteLength": 83644,
+          "matchesReceipt": true
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+          "sha256": "6e86afdbe8cb283c261dc043f86bf2234b37b7ed10df760e7fd24c299566b801",
+          "byteLength": 140777,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/expungement-ai/route-product-metadata.json",
+          "sha256": "b4db39f66438f59caf5994de1c40fa8cb67c40d888c27f1ce258c1f260c8d05d",
+          "byteLength": 264608,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": false,
+          "receiptPin": {
+            "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "byteLength": 2629290
+          },
+          "pinnedBlobRecoveredAt": "a3ca119bd",
+          "ownEntryUnmoved": true,
+          "ownEntryComparison": "this route object routes[345] pinned and routes[348] now are IDENTICAL"
+        }
+      ],
+      "observations": [
+        {
+          "what": "Bare route key printed on participant pages",
+          "detail": "Page 1 ('ROUTE:') and page 4 ('Route:') of both fixtures and the last line of participant-instructions.md print obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a (the known PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class). Recorded, not scored."
+        },
+        {
+          "what": "Internal repository label printed on page 1",
+          "detail": "'The label DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION is an internal repository description, not a title or form number assigned by Delaware.' The sentence disclaims the label correctly, but a participant does not need the internal identifier (the builder-vocabulary class already raised to the lead). Recorded, not scored."
+        },
+        {
+          "what": "Repeated sentences",
+          "detail": "'Check your answer to \"What were the exact charges and statute sections ...\" against the certified Delaware criminal history, and correct the packet if they disagree.' prints twice (pages 1 and 2), and 'confirm ... with SBI before you enroll, pay, or send anything' prints three times on page 1-2. Nothing contradicts; it is copy length only. Recorded, not scored."
+        },
+        {
+          "what": "One enrolment or two is left open although the held DSP page speaks to it",
+          "detail": "The guide says the committed record does not state whether the certified history and the SBI expungement application are one enrolment or two. The held DSP page gives 'The service code to apply for an expungement is 27S23V' and 'The initial fee to apply for an expungement is $72.00', and separately '$72.00' for a certified Delaware history. The guide's hedge (confirm with SBI before paying) is conservative and not wrong; whether to resolve it from the page is a lead copy call. Recorded, not scored."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv11-de-mandatory-vf02/",
+        "claimCanAssert": "claim-can-assert.log (CLAIM_OK VF02, grant set b15f165126c84d71)",
+        "verifierRun": "facts.json verifierRun, measure.log",
+        "sourceRecomputation": "sources-digest-check.txt (9 composition sources, 7 exact, 2 drifted), captain-compare.txt + captain-pinned-054e593f.json (pinned blob at c4fc31baa), census-compare.txt (a3ca119bd pin vs now)",
+        "sources": "receipt.txt, fee-phone-sources.txt (DSP page fee paragraph, profile phone, memo), sbi-process-text.txt, service-code-sheet.txt, fieldmap-wiring-raster.txt, participant-instructions-1b4dfeaa1.md",
+        "byteReadBack": "text/canonical.txt, text/boundary.txt, text/canonical-vs-boundary.diff, facts.json readBack",
+        "wordGeometry": "facts.json geometry",
+        "renders": "renders/canonical-1..4.png, renders/boundary-1..4.png (pdftoppm -r 80), renders/canonical-sheet.png, renders/boundary-sheet.png"
+      }
+    }
+  ]
+}

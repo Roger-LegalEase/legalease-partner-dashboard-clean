@@ -6,7 +6,7 @@ export const ENTITLEMENT_ID='77000000-0000-4000-8000-000000000058';
 export const EVENT_ID='77000000-0000-4000-8000-000000000055';
 export const NOTE='Synthetic Mississippi Clinic Preview packet capacity only';
 export function clinicAllowance() {
-  const grant=JSON.parse(fs.readFileSync(new URL('../data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json',import.meta.url)));
+  const grant=JSON.parse(fs.readFileSync(new URL('../data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json',import.meta.url)));
   assert.equal(grant.eventId,EVENT_ID);assert.equal(grant.partnerSlug,'mvl-demo');
   assert.equal(grant.productionAuthorized,false);assert.equal(new Set(grant.participantUserIds).size,2);
   return grant.participantUserIds.length;

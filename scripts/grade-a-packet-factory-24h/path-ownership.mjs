@@ -40,6 +40,13 @@ export function pathsOverlap(left, right) {
   return globRegex(a).test(rb) || globRegex(b).test(ra);
 }
 
+/* Every modern claim that can prove a Wave 2 handoff, read from the claim
+ * ledger: live and released ones in `claims`, withdrawn ones in
+ * `withdrawals` (withdrawal moves a claim out of `claims`). */
+export function handoffClaimsFromLedger(ledger) {
+  return [...(ledger?.claims ?? []), ...(ledger?.withdrawals ?? [])];
+}
+
 export function unresolvedHistoricalRepairPaths(assignments, claims) {
   const modernRepairs = new Map();
   for (const claim of claims ?? []) {

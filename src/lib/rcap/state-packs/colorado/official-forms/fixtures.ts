@@ -112,6 +112,10 @@ export const JDF_612_CANONICAL: ColoradoFactSet = {
   ...PARTICIPANT,
   ...COURT,
   ...SERVICE,
+  "election.interpreter_needed": "no",
+  "election.appearance_mode": "in_person",
+  "service.mail_recipient_name": "Office of the District Attorney, Second Judicial District",
+  "service.mail_recipient_address": "201 West Colfax Avenue, Denver, CO 80202",
   "matter.division": "Division 12",
   "matter.courtroom": "Courtroom 5H",
   "service.court_records_included": "yes",
@@ -148,6 +152,11 @@ export const JDF_612_BOUNDARY: ColoradoFactSet = {
     "Maximiliana Aurelia Featherstonehaugh-Wintersgill de la Concepcion",
   "participant.mailing_address_full":
     "14827 North Meadowbrook Commons Professional Plaza, Building C, Suite 2200, Denver, Colorado 80202-4417",
+  "participant.street_address": "14827 North Meadowbrook Commons Professional Plaza, Building C, Suite 2200",
+  "participant.city_state_zip": "Denver, Colorado 80202-4417",
+  "election.interpreter_needed": "yes",
+  "election.interpreter_language": "Spanish",
+  "election.appearance_mode": "virtual",
   "participant.email": "maximiliana.featherstonehaugh.wintersgill@example.com",
   "matter.case_number": "2021CR004182-CONSOLIDATED-WITH-2021CR004183-AND-2021CR004184",
   "filing.court_address":

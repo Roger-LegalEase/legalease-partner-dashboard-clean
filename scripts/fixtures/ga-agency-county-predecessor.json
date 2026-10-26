@@ -1,0 +1,544 @@
+{
+  "classification": "FRESH_EXACT_BASELINE_PROTECTED_SAVE_REPRODUCTION_NOT_PRIOR_CAPTURE",
+  "sourceCommit": "d89de8d2d7cfbd50471fc743284f58fddd899fdd",
+  "originalObligation": "GA-14-M01022",
+  "originalFixtureRow": "GA-no-original-treatment/omitted",
+  "fixtureSha256": "2ae24351c3067a77f866796fb9b194c82c36124eca6a16adc1c3860db30a076e",
+  "sourceEstablishedNonconvictionAnswers": {
+    "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+    "court_requirements_completed": "yes",
+    "financial_obligations": "Yes",
+    "jurisdiction_scope": "State or local",
+    "new_convictions_during_waiting_period": "No",
+    "offense_level": "Misdemeanor",
+    "ownership_scope": "Yes",
+    "pardon_status": "No",
+    "pending_cases": "No",
+    "prior_relief": "Yes",
+    "record_documents": "Yes",
+    "resolved_timing_bucket": "gt_10_years",
+    "sentence_completion_date": "Yes",
+    "special_preconditions_confirmed": "Yes",
+    "state_exclusion_categories": [
+      "None of these"
+    ],
+    "ga_original_first_offender": "no",
+    "arrest_date": "2012-01-02"
+  },
+  "originalDraftHash": "2fa3f43b20281e6c69088f3a436ed78ca72e673b3395fdd9d681f7d249be23a6",
+  "answer": "Historical applicant county context: Clarke",
+  "record": {
+    "status": "unverified",
+    "reason": "final_verification_not_completed",
+    "draftHash": "18a58c417654d56ea7a41df68350f4ead949d648423220f05990a7ec5fbe9b49",
+    "draftSnapshot": {
+      "capturedAt": "2026-10-14T04:31:32.004Z",
+      "deferralComponentIds": [],
+      "dependencies": {
+        "commercialFlowVersion": null,
+        "entitlementSource": null,
+        "productId": null
+      },
+      "jurisdiction": "GA",
+      "packetAnswers": {
+        "county": "Historical applicant county context: Clarke"
+      },
+      "packetFamilyIdentifiers": {
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "sourceFormIds": []
+      },
+      "packetPlan": {
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "pathwayId": "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "requiredInputIds": [
+          "arrest_date",
+          "case_outcome",
+          "charge",
+          "contact_information",
+          "county",
+          "court",
+          "criminal_history",
+          "disposition_date",
+          "jurisdiction",
+          "offense_category",
+          "offense_level",
+          "pardon_status",
+          "participant_full_legal_name",
+          "pathway_id",
+          "pending_cases",
+          "prior_relief",
+          "record_type",
+          "residency_or_location",
+          "sentence_completion_date"
+        ],
+        "sourceFormIds": [],
+        "sourceRuleRefs": [
+          "pathways:68-115",
+          "section:260-272",
+          "section:68-115",
+          "corpus-unit:64",
+          "corpus-unit:25"
+        ]
+      },
+      "packetType": "guidance_packet",
+      "pathwayId": "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+      "paymentAllowed": false,
+      "prefilledAnswers": {
+        "arrest_date": "2012-01-02",
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "prior_relief": "Yes",
+        "sentence_completion_date": "Yes"
+      },
+      "profileAuthorityFingerprint": "c1fb763b5beede553b2e1e56947c5691021346ad1edddbb1e4a0ca11d135cfca",
+      "profileSourceFingerprint": "2e9c9d5f9ad17fefb315d71b4336f0ffd2de6c1b614453cd06abd45f06cf2812",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "arrest_date",
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "county",
+        "court",
+        "criminal_history",
+        "disposition_date",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "pending_cases",
+        "prior_relief",
+        "record_type",
+        "residency_or_location",
+        "sentence_completion_date"
+      ],
+      "resultCode": "guidance_only",
+      "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+      "screeningAnswers": {
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "ga_original_first_offender": "no",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "ownership_scope": "Yes",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "selectedTrackId": null,
+      "serverFacts": {
+        "jurisdiction": "GA",
+        "pathway_id": "non-conviction-record-restriction-through-the-agency-prosecutor-process"
+      },
+      "treatmentClassification": null
+    },
+    "revision": 1
+  },
+  "oldCountyQuestion": {
+    "id": "county",
+    "stage": "case_details",
+    "prompt": "Which county (or local area) handled the case?",
+    "type": "text",
+    "required": true,
+    "contextOnly": false,
+    "lifecyclePhase": "postpay_official_form_field",
+    "options": null,
+    "translations": {
+      "es": {
+        "prompt": "¿Qué condado o área local manejó el caso?"
+      }
+    }
+  },
+  "limits": [
+    "Synthetic original case-outcome/date fixture; no actual participant historical capture",
+    "Exact predecessor source protected seed/save, no database",
+    "No applicant county printed or substituted for arresting agency; no authority"
+  ],
+  "loadedSourceModules": [
+    {
+      "file": "src/components/expungement-ai/screening/answers.ts",
+      "sha256": "a25f157711618987d1fb53374752d9d25bfb44a727d1811f8e76830772ac21d8"
+    },
+    {
+      "file": "src/lib/expungement-ai/authoritative-screening-result.ts",
+      "sha256": "d4dd88a9e1b040a551e4e202b3e7a8b1e2272e17a2a269a3f87719ad0954a64b"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-caption-answer.ts",
+      "sha256": "7fa8e59e35f1c67e98ea52f58b1fffb4e796cc213672e6b1e645aa0663d4e54e"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-caption-facts.ts",
+      "sha256": "61cd6a76435112f22f9dc617d942c67b3e1fc5ee178d5d2deca557703d9669ad"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-caption-successor.ts",
+      "sha256": "1c981f3933e1ce4500c0bfb9a36ee9e7d12a5b3a50d448d103d40263b2ba8914"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-choices.ts",
+      "sha256": "87846064416e17df0207c02aaae4ac50cd91335ea4d5cea30c3220593fd1857a"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-contact-answer.ts",
+      "sha256": "98dce38fe17bf7575cb6eea94b5cc5fa1ac554b8b2e88431f574c9f9ef6392a9"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-contact-questions.ts",
+      "sha256": "0c04daef45590cc909abb1600afd6a6494bc60a7c4817e3c2f148cb0053d38d4"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-contact-successor.ts",
+      "sha256": "2e4814c017e543ce15fcd3e5cbade0f6f2f06b3c81d936d3e5dba8f8e7bafbb2"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-quantity.ts",
+      "sha256": "04d1dcf705665e4f9d9cefa6b54c56c60d0a01cb63f01d7b8b4546b72bc4dfa9"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-record-answer.ts",
+      "sha256": "2dd5c82f01373dfa0c627c1aea005a47f463156a3c02a194481c5b31c246c8b6"
+    },
+    {
+      "file": "src/lib/expungement-ai/ca-prop64-record-facts.ts",
+      "sha256": "7f41a04b60ac998b4eba0f6c6a88127d512e5a5229c801d67a9a57376a88d6bb"
+    },
+    {
+      "file": "src/lib/expungement-ai/contact-representation.ts",
+      "sha256": "b3a5a7f9f061aa7c79cedb3d88535c590be97b6e8432ec24d9d49ea020d79db3"
+    },
+    {
+      "file": "src/lib/expungement-ai/conviction-fallback-prior-contracts.json",
+      "sha256": "52b9acfc9f8a208ba2417f3661fd249ed489f4d41698d0cdc858de7b25af123d"
+    },
+    {
+      "file": "src/lib/expungement-ai/court-completion-fact-meaning.ts",
+      "sha256": "7bfcb7e5de90dd03acf4a05716ac61ab05553b50464a4547b69ce9ae5bcdbc07"
+    },
+    {
+      "file": "src/lib/expungement-ai/court-completion-reuse.ts",
+      "sha256": "99d13b7da823a0622537043143b7dc7483c3913f792fce7fcf5468fc0a670fa9"
+    },
+    {
+      "file": "src/lib/expungement-ai/frontend/ca-prop64-reviewed-choices.json",
+      "sha256": "7734e4428802e89a407bb84f2cf68336070e7e71bfeca2ca31f86f5ece8864a7"
+    },
+    {
+      "file": "src/lib/expungement-ai/frontend/profiles/all51.json",
+      "sha256": "baf0daeff56a7588021b5d49181b4b6828e38a7ecd545c11348188abefaf2bb5"
+    },
+    {
+      "file": "src/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json",
+      "sha256": "939f925a4d978cc6aa9cc644a5df624284c19f9007219774fb8166f56a372e00"
+    },
+    {
+      "file": "src/lib/expungement-ai/frontend/reviewed-participant-copy.json",
+      "sha256": "446252cf917b230501ef2f36fbb88260bef9d815b8ffc0cdfd718b17889f3ed9"
+    },
+    {
+      "file": "src/lib/expungement-ai/frontend/reviewed-question-spanish.json",
+      "sha256": "510d458f8ffc5120049e12846041c5238f377800aa0d12964b4f662d92c39f8a"
+    },
+    {
+      "file": "src/lib/expungement-ai/frontend/reviewed-source-question-copy.json",
+      "sha256": "e4399e300e5ab14df3b4ba8e219c4b510820793544e34f7e51341e90c33ec8bf"
+    },
+    {
+      "file": "src/lib/expungement-ai/ga-pardon-caption.ts",
+      "sha256": "02f20ae3f96199364c46de93a172abec9a66b973b74226523fa995d0f4d85b0e"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-case-classification.ts",
+      "sha256": "f299bca5cf001a24a45a9beb8637564c02c4edf828981e4d31d9e157ffcfba93"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-case-questions.ts",
+      "sha256": "a82a3f66841b1a165e53daf3b4026d43a6dd0d23f546ceebf57a4115955f374c"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-case-records.ts",
+      "sha256": "db926fb5c972b8d59909786ee8a4180a8a1043f666c3301fc0e2c54a1ff5f448"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-filing-venue.ts",
+      "sha256": "96274dc3ebd8469bc66cbf80cefe523617d5b433e275eb38c05c622b37cd3ce8"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-future-applications.ts",
+      "sha256": "c3fc17d0a7096e2a0184a2f939c2a5f5a7a693f2fe274849c85855a8b4e8e235"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-packet-facts.ts",
+      "sha256": "07b0d543b4320d4995e88e3455660946d508f9ec7f1384776a81b45178cc02a6"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-packet-successor.ts",
+      "sha256": "49a959105b980f089e9a6737e65685f806bea9bc14c6e0adc5391835e0b99b65"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-sealing-history.ts",
+      "sha256": "d42019a6ab00f54aede2585db1c8dfaa5f5c99b14ef28f6b9687f89c6a212219"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-16059-statutory-class.ts",
+      "sha256": "cbf766e5130e9e27a1164a0c8a4a56729f18af8a63b6304b5dee9fe4b6252b0f"
+    },
+    {
+      "file": "src/lib/expungement-ai/ny-custody-correction.ts",
+      "sha256": "4ba1a2aa0d05f3625d4b7eba7b4fce138e9e332f81040cf5c636b1430f852466"
+    },
+    {
+      "file": "src/lib/expungement-ai/packet-collection-overrides.ts",
+      "sha256": "076741f6a30be913779ff15fbc2e070de55a1fd32f1977632d7a64e85eef1cde"
+    },
+    {
+      "file": "src/lib/expungement-ai/packet-collection.ts",
+      "sha256": "5b44439d54bbebe0c5bedced5b38ba4fd89dce068a3a8c4136a296548507200a"
+    },
+    {
+      "file": "src/lib/expungement-ai/packet-contract-successors.ts",
+      "sha256": "40dfeb4731018b7a3c7d9f7e0af36e8bb0aa218848f05dfaa8b2f60b59d8d00e"
+    },
+    {
+      "file": "src/lib/expungement-ai/packet-information.ts",
+      "sha256": "730a8bd706f4bb286d28b33156ab0af4c769bfe557d96c8dfba0cbcdd3d26a15"
+    },
+    {
+      "file": "src/lib/expungement-ai/packet-route-safety.ts",
+      "sha256": "00868e80ddd0bb6056989123995d0ad936c1d9018486750d5a2785967b785a3d"
+    },
+    {
+      "file": "src/lib/expungement-ai/protected-legacy-answers.ts",
+      "sha256": "2c9116c8189c0daa9a0a08fd65f654966f90b3f0b3886c1026c39812c6f679bc"
+    },
+    {
+      "file": "src/lib/expungement-ai/question-answer-state.ts",
+      "sha256": "be64f0205ea282996f4576dbd9dd8786afd1f861dcc819f51ac1dd32d60463ff"
+    },
+    {
+      "file": "src/lib/expungement-ai/record-fact-clarification.ts",
+      "sha256": "579589406162ffd8dee24ab4db76014ffc9c91dbd0497fb428cff94eb96575d7"
+    },
+    {
+      "file": "src/lib/expungement-ai/reviewed-contact-contracts.json",
+      "sha256": "4695ed0447897a1bee94504f9f044f9eeb8b8c1bf92fe56fc818b0824317bf39"
+    },
+    {
+      "file": "src/lib/expungement-ai/reviewed-court-completion-contracts.json",
+      "sha256": "790f0fcdd42a1ca9a26fe5fa10d92cd60c42f3d42208f97813a7b08e24af4a0a"
+    },
+    {
+      "file": "src/lib/expungement-ai/reviewed-packet-contract-successors.json",
+      "sha256": "13b9b1273e7e117aabbdda880cf41262189d898f66c698c54a09756a1b74753f"
+    },
+    {
+      "file": "src/lib/expungement-ai/reviewed-question-copy.ts",
+      "sha256": "ca452650ba0259459ccfb99b20ae707f55c3cb47d6d4e563704bb66814aafe33"
+    },
+    {
+      "file": "src/lib/expungement-ai/sensitive-packet-facts.ts",
+      "sha256": "cfc553bd17753c96499b9f0479eeb1781fd5a7e6644716e2ec0d22384a5646af"
+    },
+    {
+      "file": "src/lib/expungement-ai/verification-cas.ts",
+      "sha256": "833b1a0615c3e70822c19b5b8fbed49adaaffbf7b9ca212de2cd5508259ee142"
+    },
+    {
+      "file": "src/lib/legal-authority/authority.json",
+      "sha256": "94bcec210a4c9ee627e4aef8bf0947c89cd97524ad51f658baaf44c3dd826e00"
+    },
+    {
+      "file": "src/lib/legal-authority/conditions.ts",
+      "sha256": "248b9dd73eac26a73389a9766d7ad9c3a512108ad41e1aecfc8644c89dd38f47"
+    },
+    {
+      "file": "src/lib/legal-authority/index.ts",
+      "sha256": "fec6ce109009e1d873c1d00290a9ff0f4adf862ac47ee43c862c4a64cfdbac7a"
+    },
+    {
+      "file": "src/lib/legal-authority/resolve-route.ts",
+      "sha256": "df02f1a53568092d8a41cb5a7f8acec8b7d2b19d54dbd47adc9af84bfaa0051d"
+    },
+    {
+      "file": "src/lib/legal-authority/routes/mississippi.json",
+      "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026"
+    },
+    {
+      "file": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b"
+    },
+    {
+      "file": "src/lib/legal-authority/routes/national-report-batch-b.json",
+      "sha256": "883d5bb82f9190dae66d78250e1dc9f1ee3055f580e43e6336ba36c1e30b4522"
+    },
+    {
+      "file": "src/lib/legal-authority/routes/national-report-batch-c.json",
+      "sha256": "7011eca1ae16e1f84317410d6739a36e69ed3dbeff5bc81423052e769a0eac28"
+    },
+    {
+      "file": "src/lib/legal-authority/routes/p0.json",
+      "sha256": "6b4188167447a5755503fa0ef8888af124431ce4367a30f20cb32006009cc058"
+    },
+    {
+      "file": "src/lib/legal-authority/routes/route-splits.json",
+      "sha256": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df"
+    },
+    {
+      "file": "src/lib/legal-authority/routes/single-routes.json",
+      "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8"
+    },
+    {
+      "file": "src/lib/legal-authority/types.ts",
+      "sha256": "2e24dab68128c237043336f6d9a25e8e2e13f3c888ba07d8fa2441bc764ccd25"
+    },
+    {
+      "file": "src/lib/rcap-engine/answer-normalization.ts",
+      "sha256": "efeda2f1fb06f9892a23456273f0df52f87618df972ab96bb04096e1d83dd2ec"
+    },
+    {
+      "file": "src/lib/rcap-engine/arkansas-record-origin.ts",
+      "sha256": "b93ff99cc9744c363e1ec5149578118dbdecb701373701d3a4de1bde7a69e0be"
+    },
+    {
+      "file": "src/lib/rcap-engine/california-prop64-facts.ts",
+      "sha256": "8bcaf7809c7e636758fb1509ab4d7a681426b01608fcb6d22c1d97dfe80815d9"
+    },
+    {
+      "file": "src/lib/rcap-engine/component-deferral-clamp.ts",
+      "sha256": "0c888c09d710610558e687fe59be560db2d15c6c21ec3b938f5afcd3b65973d8"
+    },
+    {
+      "file": "src/lib/rcap-engine/composed-route-selector.ts",
+      "sha256": "004c90d85afda512a7af66a5ba970dd5ecc5c64696d298add1873df549a6e531"
+    },
+    {
+      "file": "src/lib/rcap-engine/conviction-relief-request.ts",
+      "sha256": "22211226cdf3cf97953916384d3c4db93beca1aebafa89aac301adcdf026d1c6"
+    },
+    {
+      "file": "src/lib/rcap-engine/delaware-conviction-questions.ts",
+      "sha256": "f43635b1f57d35ce297dff1681e7193310d5601015f70c89f0867f030dba2e6b"
+    },
+    {
+      "file": "src/lib/rcap-engine/delaware-conviction-rules.ts",
+      "sha256": "b1ed971c40d7763ff4a76b6171cb7e7481a80fc03957e478ff20b646601bd128"
+    },
+    {
+      "file": "src/lib/rcap-engine/evaluator.ts",
+      "sha256": "c8e27a9417cabd4ecdaf36025eb3e3f5c53752df981701bec4dd6a1681609e8d"
+    },
+    {
+      "file": "src/lib/rcap-engine/expungement-ai-adapter.ts",
+      "sha256": "05c7f2204533b5c4d97f045325a3005e16642b097ba010e8d1f9792fdd7f4d5d"
+    },
+    {
+      "file": "src/lib/rcap-engine/factual-pathway-exclusions.ts",
+      "sha256": "d6dedc87694314db657aa21ff99f4f5909352842a51b2bd67aea617f86ac3716"
+    },
+    {
+      "file": "src/lib/rcap-engine/georgia-first-offender.ts",
+      "sha256": "7e7871597513d224589c679330e2052ffb74ba7ac5e6b511f8bf7e8c2974fdc1"
+    },
+    {
+      "file": "src/lib/rcap-engine/georgia-pardon-facts.ts",
+      "sha256": "e658a71f5b9a42eb4088c64094adf3f3f83935bb0265c538400b32a26ca76860"
+    },
+    {
+      "file": "src/lib/rcap-engine/illinois-cannabis-facts.ts",
+      "sha256": "815e1feb5eb99865196c376158ee33e6ab3c4dda765b06505d2eebc60c982e8e"
+    },
+    {
+      "file": "src/lib/rcap-engine/kansas-district-facts.ts",
+      "sha256": "c9a3205952097b27d5f6d4e77f05cf02c6a7f37830828962d4b12e5ebd67c631"
+    },
+    {
+      "file": "src/lib/rcap-engine/kansas-record-scope.ts",
+      "sha256": "f7d0df3523559913d1fbadbbc00ba66dfe6679e4e5a945655f88e86bdf5811f9"
+    },
+    {
+      "file": "src/lib/rcap-engine/mississippi-conditional-discharge.ts",
+      "sha256": "3ca3230909d8127b97270fc6bc717f7dd4a7a7f911f3a89a9591b2ac4f7a934b"
+    },
+    {
+      "file": "src/lib/rcap-engine/mississippi-exact-timing.ts",
+      "sha256": "11a7f75fad7c043e6064d781c01ca00558c267b62c838436b94290840b7ae516"
+    },
+    {
+      "file": "src/lib/rcap-engine/mississippi-program-completion.ts",
+      "sha256": "3f1d98524ccb5cbe09c4fe0341442c089fb6d449a4a659c0cf5f1a43a654d408"
+    },
+    {
+      "file": "src/lib/rcap-engine/nebraska-nonconviction-facts.ts",
+      "sha256": "90afc30d6649b0db9e5fef5236d01ab51073a44ea5d7f19d59f2c3697d6d1293"
+    },
+    {
+      "file": "src/lib/rcap-engine/nevada-176a-branch.ts",
+      "sha256": "ed6ab582827988ea5b30829e5b5f33900f8dc14387db2c36980c631e0a1572d6"
+    },
+    {
+      "file": "src/lib/rcap-engine/new-york-16059-facts.ts",
+      "sha256": "8256de730e002cde79fbcaa70ffb558a3e9422ff8d2544067c715d0dfd5d3184"
+    },
+    {
+      "file": "src/lib/rcap-engine/new-york-16059-questions.ts",
+      "sha256": "4b55311c070c5eb5a1d605ccd29e2b237e04ab42173c9785891a08fe7b3c489a"
+    },
+    {
+      "file": "src/lib/rcap-engine/packet-planner.ts",
+      "sha256": "dcfde438ee7c682023de075c1e58782c2b21765625d58e11ddc3fcd18b43cfe0"
+    },
+    {
+      "file": "src/lib/rcap-engine/pathway-context.ts",
+      "sha256": "fc1d9faf3cd06c69cc1f056ccf75d384bf13acb37ae2954003bd4a032e59ba9a"
+    },
+    {
+      "file": "src/lib/rcap-engine/profile-registry.ts",
+      "sha256": "8f1e46b7a76b94390ed15d82edfbf64fa598825adeb20b5cb226d99eaf853b5a"
+    },
+    {
+      "file": "src/lib/rcap-engine/public-profile-projection.ts",
+      "sha256": "c15ee40f504c0b784ea4055d2994b763e89e4de07f4a396112a33eb93c75b1cb"
+    },
+    {
+      "file": "src/lib/rcap-engine/route-fact-relevance.ts",
+      "sha256": "418cc2421a87890d946727a074e38910e58e10b3d59bbd17c078402da713a946"
+    },
+    {
+      "file": "src/lib/rcap-engine/screening-question-selection.ts",
+      "sha256": "0511df7e640a6901077450e4f8084c355a33abbeecd9b259a74729bb290f0465"
+    },
+    {
+      "file": "src/lib/rcap-engine/unavailable-packet-routes.ts",
+      "sha256": "ce54ba4432657cab48bacbb19005d66e86c7b088b91368e1f85679b4be179c7d"
+    },
+    {
+      "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+      "sha256": "721e952d504a6c7f68af2ec30e186ee4fab36ce632304353f4735d0e25fc2d55"
+    },
+    {
+      "file": "src/lib/rcap/grade-a/packet-specification.ts",
+      "sha256": "9ad628c0772b741b0d41a7bcb6ae3f51a18bd6ea7c7e1f83899b52d10369f8d8"
+    },
+    {
+      "file": "src/lib/supabase/server.ts",
+      "sha256": "fe5d61c96f62cafc2605267b63d0c48fca0ae07c20efc09896ba43cf6a0c535b"
+    }
+  ],
+  "loadedSourceModuleCount": 92,
+  "loadedSourceModuleManifestSha256": "76b75707ab39989150568b221df413913e3b04110ad86a0c33509d57407be01a"
+}

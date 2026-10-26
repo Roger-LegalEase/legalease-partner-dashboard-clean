@@ -1,0 +1,22 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF16",
+ "worker": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "assignmentCount": 1,
+ "assignments": [
+  {
+   "itemId": "ms-nonconv-set",
+   "lane": "VF16",
+   "assignedBy": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "a6ace3c7de8280d30ecdcfcce042b70672866a82",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+   "failedObligationNames": [
+    "COMPONENT_SET"
+   ],
+   "decisiveDefect": "COMPONENT_SET, two residuals on the 13-page fixtures (04589f0a / f13708bc): (1) the VERIFICATION caption (p6) prints the fixed plaintiff 'STATE OF MISSISSIPPI' while the petition, order and certificate captions carry the docket-plaintiff blank the specification's case_caption_plaintiff_name requires in every court caption; (2) the proposed order (p7-8) renders neither the declared 'Order identity' pleading_identity_list nor the declared 'Certified transmission' paragraph (clerk forwards the certified sealed copy with the MCIC identifier material to MCIC, the arresting agency and the other custodians), although the petition's prayer (p5) asks for exactly that direction. Everything else the 1b48eb358 read failed is resolved: SOURCE_IDENTITY, REQUIRED_BEFORE_FILING and SERVICE pass.",
+   "repairScope": "Caption of the verification page; the proposed order's identity list and transmission paragraph. No change to the certificate, exhibit checklist, cover or instructions is needed.",
+   "grantsNothing": "Assignment only; opens no route."
+  }
+ ],
+ "grantsNothing": "Assignments only; this file opens no route, sets no price and authorises no promotion."
+}

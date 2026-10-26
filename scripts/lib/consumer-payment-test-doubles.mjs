@@ -262,7 +262,7 @@ export function createServerSupabaseAuthClient() {
 
 export async function getRcapBriefcaseAuthState() {
   return session.isAuthenticated
-    ? { isAuthenticated: true, userId: session.userId, userEmail: session.email, mode: "supabase" }
+    ? { isAuthenticated: true, userId: session.userId, userEmail: session.email, isVerified: session.isVerified, mode: "supabase" }
     : { isAuthenticated: false, mode: "supabase" };
 }
 

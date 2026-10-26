@@ -130,6 +130,27 @@
   ],
   "requiredFacts": [
     {
+      "factId": "mailing_address",
+      "use": "petitioner mailing address, printed in the primary filing and certificate of service signature contact blocks",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the mailing address separately."
+    },
+    {
+      "factId": "phone_number",
+      "use": "petitioner telephone number, printed in the primary filing and certificate of service signature contact blocks",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the telephone separately."
+    },
+    {
+      "factId": "email_address",
+      "use": "petitioner email address, printed in the primary filing and certificate of service signature contact blocks",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the email separately."
+    },
+    {
       "factId": "participant_full_legal_name",
       "use": "petitioner identity in the caption and identifying block of the petition, proposed order and certificate",
       "inRegistryRequiredInputs": true,
@@ -273,6 +294,9 @@
   ],
   "fieldOwnership": {
     "participantOwnedFacts": [
+      "mailing_address",
+      "phone_number",
+      "email_address",
       "participant_full_legal_name",
       "date_of_birth",
       "contact_information",
@@ -302,12 +326,12 @@
     ],
     "notaryOwnedFields": [],
     "prosecutorOwnedFields": [
-      "proposed_order.approved_as_to_form"
+      "proposed_order.approved_as_to_form",
+      "order_approved_as_to_form"
     ],
     "courtOwnedFields": [
       "order_entry_date",
-      "order_judicial_signature",
-      "order_approved_as_to_form"
+      "order_judicial_signature"
     ],
     "participantCompletesBeforeFilingFields": [
       "court",
@@ -598,7 +622,7 @@
           "fieldTreatments": {
             "order_entry_date": "court_owned_space",
             "order_judicial_signature": "court_owned_space",
-            "order_approved_as_to_form": "court_owned_space"
+            "order_approved_as_to_form": "prosecutor_owned_space"
           }
         },
         {

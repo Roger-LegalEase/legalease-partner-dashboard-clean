@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { test } from 'node:test';
 import { ADAPTERS, Refusal, compareAnchors, planReceipt, composeRefreshedReceipt, readsAsUnmoved, sha256 } from './repin-lapsed-source-identities.mjs';
+import { isolateDrift } from './repin-test-fixtures.mjs';
 
 const manifestPath = 'data/record-clearing/legal-design-packet-set-manifests.json';
 const adapter = ADAPTERS.get(manifestPath);
@@ -57,6 +58,18 @@ test('ambiguous route and record-id scopes refuse', () => {
   assert.throws(() => compare(fixture(), fixture(), receipt, { recordId: 'guess:a' }), Refusal);
   assert.throws(() => compare(fixture(), fixture(), { ...receipt, routeKeys: ['runtime:unknown'] }), Refusal);
 });
+test('the singular legal-design-packet-set-manifest pin prefix names its packet set like the other two', () => {
+  assert.deepEqual(adapter.scopeFrom({ receipt: { familyId: 'zz' }, pin: { recordId: 'legal-design-packet-set-manifest:b' }, currentDoc: fixture() }).anchorIds, ['b']);
+  assert.throws(() => adapter.scopeFrom({ receipt: { familyId: 'zz' }, pin: { recordId: 'legal-design-packet-set:b' }, currentDoc: fixture() }), Refusal);
+});
+test('a unit route resolves through its track like a track route, and refuses when the track is not unique', () => {
+  const unitReceipt = { familyId: 'a', routeKeys: ['obligation:unit:ZZ:a-track:a-unit-one', 'obligation:unit:ZZ:a-track:a-unit-two'] };
+  assert.deepEqual(adapter.scopeFrom({ receipt: unitReceipt, pin: {}, currentDoc: fixture() }).anchorIds, ['a']);
+  const duplicateTrack = fixture(); duplicateTrack.packetSets[1].trackId = 'a-track';
+  assert.throws(() => adapter.scopeFrom({ receipt: { familyId: 'zz', routeKeys: ['obligation:unit:ZZ:a-track:a-unit-one'] }, pin: {}, currentDoc: duplicateTrack }), /ambiguous packet-set dependencies/);
+  assert.throws(() => adapter.scopeFrom({ receipt: { familyId: 'zz', routeKeys: ['obligation:unit:ZZ:no-such-track:x'] }, pin: {}, currentDoc: fixture() }), /names no current packet-set track/);
+  assert.throws(() => adapter.scopeFrom({ receipt: { ...unitReceipt, routeKeys: ['obligation:runtime-only:ZZ:a-track'] }, pin: {}, currentDoc: fixture() }), /ambiguous manifest dependency for route/);
+});
 test('nonunique track or component dependency refuses instead of guessing', () => {
   const duplicateTrack = fixture(); duplicateTrack.packetSets[1].trackId = 'a-track';
   assert.throws(() => compare(duplicateTrack, clone(duplicateTrack)), Refusal);
@@ -77,7 +90,7 @@ const oldManifest = fromGit(manifestPath);
 const queue = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json', 'utf8'));
 const wv = queue.families.find((f) => f.familyId === 'wv_conv_nonviolent_felony-set');
 const receiptPath = `${wv.directory}/source-receipt.json`;
-const beforeText = fromGit(receiptPath).toString('utf8');
+const beforeText = isolateDrift(fromGit(receiptPath).toString('utf8'), manifestPath, process.cwd());
 const measuredPlan = () => planReceipt({ familyId: wv.familyId, directory: wv.directory, receiptPath, beforeText });
 
 test('native planner recovers real prior manifest and safely refreshes unchanged WV dependencies', () => {
@@ -104,4 +117,43 @@ test('unavailable prior manifest refuses without composing any refresh', () => {
   const before = { familyId: 'il-seal-edu-set', committedRecords: [{ pathInRepository: manifestPath, recordId: 'packet-set-manifest:il-seal-edu-set', sha256: '0'.repeat(64) }] };
   const plan = planReceipt({ familyId: before.familyId, directory: '/tmp/unused', receiptPath: '/tmp/unused/source-receipt.json', beforeText: JSON.stringify(before, null, 2) + '\n' });
   assert.equal(plan.outcome, 'REFUSED'); assert.ok(plan.records.some((r) => /could not be recovered/.test(r.why))); assert.throws(() => composeRefreshedReceipt(plan));
+});
+
+// Adoption is part of the complete packet-set anchor, never an annotation to
+// discard. Its nested dependency semantics use the same strict recursive walk.
+test('unrelated procedure adoption is allowed without hiding own adoption changes', () => {
+  const old = fixture(), current = clone(old);
+  current.packetSets[1].procedureAdoption = { decisionId: 'VA-01', disposition: 'MODIFY' };
+  assert.deepEqual(compare(old, current).differing, []);
+  current.packetSets[0].procedureAdoption = { decisionId: 'VA-01', disposition: 'MODIFY' };
+  assert.deepEqual(compare(old, current).differing, ['packetSet:a']);
+});
+test('adoption dependency declarations remain transitive and ambiguous references refuse', () => {
+  const old = fixture(); old.packetSets[0].procedureAdoption = { dependsOn: 'b' };
+  const current = clone(old); current.packetSets[1].version = '2';
+  assert.ok(compare(old, current).differing.includes('packetSet:b'));
+  const missing = fixture(); missing.packetSets[0].procedureAdoption = { dependsOn: 'unavailable-set' };
+  assert.throws(() => compare(missing, clone(missing)), /ambiguous or unavailable dependency/);
+  const structured = fixture(); structured.packetSets[0].procedureAdoption = { dependsOn: { unknown: 'b' } };
+  assert.throws(() => compare(structured, clone(structured)), /ambiguous structured dependency/);
+  const unknown = fixture(); unknown.packetSets[0].unknownAdoption = { decisionId: 'VA-01' };
+  assert.throws(() => compare(unknown, clone(unknown)), /unsupported fields unknownAdoption/);
+});
+test('actual retained VA petition predecessor cannot refresh as unchanged adopted VA-01', () => {
+  const old = JSON.parse(oldManifest), current = JSON.parse(fs.readFileSync(manifestPath));
+  const beforeVa = old.packetSets.find(row => row.packetSetId === 'va_exp_absolute_pardon-set');
+  const currentVa = current.packetSets.find(row => row.packetSetId === 'va_exp_absolute_pardon-set');
+  assert.ok(beforeVa.components.some(c => c.role === 'primary_filing'), 'real retained predecessor has the former petition premise');
+  assert.equal(currentVa.procedureAdoption.decisionId, 'VA-01');
+  const r = { familyId: 'va_exp_absolute_pardon-set' }, p = { recordId: 'packet-set-manifest:va_exp_absolute_pardon-set' };
+  assert.ok(compare(old, current, r, p).differing.includes('packetSet:va_exp_absolute_pardon-set'));
+});
+test('predecessor schema refusal is reproduced by removing only adoption support', () => {
+  const current = JSON.parse(fs.readFileSync(manifestPath));
+  const source = adapter.index.toString();
+  const predecessor = source.replace(', "procedureAdoption"', '');
+  assert.notEqual(predecessor, source);
+  const index = new Function('Refusal', `return function ${predecessor};`)(Refusal);
+  assert.throws(() => index(current, 'current'), /unsupported fields procedureAdoption/);
+  assert.ok(adapter.index(current, 'current').has('va_exp_absolute_pardon-set'));
 });

@@ -1,3 +1,8 @@
+import { WY_1502_ROUTE, WY_1502_FACT_IDS } from "@/lib/rcap-engine/wyoming-1502-facts";
+import { SD_SIS_ROUTE, SD_SIS_FACT_IDS } from "@/lib/rcap-engine/south-dakota-sis-facts";
+import { IL_PROSTITUTION_ROUTE, IL_PROSTITUTION_FACT_ID } from "@/lib/rcap-engine/illinois-prostitution-facts";
+import { CT_PETITION_ROUTE, CT_PETITION_FACT_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { GA_SB288_ROUTE, GA_SB288_FACT_IDS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 
 type CompiledPathway = EngineProfile["pathways"][number];
@@ -49,6 +54,10 @@ export const UNIVERSAL_PREPAY_FACT_IDS: ReadonlySet<string> = new Set([
  * it. Keyed by `<JURISDICTION>:<pathway id>`, mirroring `routeSpecificSafetyGate`.
  */
 export const ROUTE_ESCALATION_FACT_IDS: Readonly<Record<string, readonly string[]>> = {
+  [`WY:${WY_1502_ROUTE}`]: [...WY_1502_FACT_IDS, "case_outcome"],
+  [`SD:${SD_SIS_ROUTE}`]: [...SD_SIS_FACT_IDS, "offense_level", "court_requirements_completed"],
+  [`CT:${CT_PETITION_ROUTE}`]: CT_PETITION_FACT_IDS,
+  [`GA:${GA_SB288_ROUTE}`]: GA_SB288_FACT_IDS,
   "CA:tool-4-arrest-record-sealing": ["case_outcome"],
   "CA:prop-64-currently-serving-petition-11361-8": ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense"],
   "CA:prop-64-completed-sentence-application-11361-8": ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense", "ca_prop64_relief_requested"],
@@ -61,7 +70,7 @@ export const ROUTE_ESCALATION_FACT_IDS: Readonly<Record<string, readonly string[
   "NY:conditional-treatment-sealing-under-cpl-160-58": ["ny_16058_treatment_program_completed", "sentence_completion_date"],
   "DC:dc_actual_innocence_expungement_16_803": ["actual_innocence_basis"],
   "DC:dc_motion_seal_felony_conviction_8yr_16_806": ["dc_offense_severity_group"],
-  "IL:felony-prostitution-relief": ["charge", "offense_level"],
+  [`IL:${IL_PROSTITUTION_ROUTE}`]: [IL_PROSTITUTION_FACT_ID, "case_outcome", "charge", "offense_level"],
   "HI:nonconviction-arrest-expungement": ["case_outcome"],
   "HI:first-time-drug-conviction": ["hi_court_order_confirmed"],
   "HI:dui-under-21-conviction": ["hi_court_order_confirmed"],
@@ -182,6 +191,10 @@ export type RouteFactScope = {
  */
 export function routeDecidingFactScope(profile: EngineProfile, pathway: CompiledPathway): RouteFactScope {
   const factIds = new Set<string>(UNIVERSAL_PREPAY_FACT_IDS);
+  // evaluator.sourceCaution reads prior_relief on every selected route. This is
+  // a result-caution consumer, not a new eligibility bar or uncertainty rule.
+  const sharedCautionFacts = new Set(["prior_relief"]);
+  for (const id of sharedCautionFacts) factIds.add(id);
   const unresolvedRules: RouteFactScope["unresolvedRules"] = [];
   const sections = [
     ["orderedDecisionRules", profile.orderedDecisionRules],
@@ -219,7 +232,7 @@ export function routeDecidingFactScope(profile: EngineProfile, pathway: Compiled
     if (explicitRulePathways(rule).length > 0) continue;
     const fields = new Set<string>();
     collectDecidingFieldIds(rule, fields);
-    const unresolved = [...fields].filter((id) => !UNIVERSAL_PREPAY_FACT_IDS.has(id) && !consumers.has(id));
+    const unresolved = [...fields].filter((id) => !UNIVERSAL_PREPAY_FACT_IDS.has(id) && !sharedCautionFacts.has(id) && !consumers.has(id));
     if (unresolved.length > 0) unresolvedRules.push({
       section,
       ruleId: String((rule as { id?: string })?.id ?? index),

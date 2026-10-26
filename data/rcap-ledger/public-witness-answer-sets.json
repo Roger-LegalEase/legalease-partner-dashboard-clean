@@ -32,21 +32,22 @@
     },
     "note": "Re-running this generator on the same commit reproduces this file byte for byte. --check proves it."
   },
-  "changesNothing": "Records what the deployed public evaluator does today. No runtime change, no classification, no approval.",
+  "changesNothing": "Records the current local evaluator under explicit synthetic premises. No hosted observation, participant fact, runtime change, classification, approval or commercial authority is established.",
   "totals": {
     "pathways": 267,
-    "settledOnATerminalEvaluation": 267,
-    "landedOnTheirOwnPathway": 267,
+    "settledOnATerminalEvaluation": 261,
+    "unresolvedPathways": 6,
+    "additionalSourceBoundSyntheticWitnesses": 6,
+    "landedOnTheirOwnPathway": 246,
     "terminalResultCodes": {
-      "packet_ready_with_caution": 34,
-      "guidance_only": 91,
+      "packet_ready_with_caution": 44,
+      "guidance_only": 87,
       "not_covered_yet": 22,
-      "needs_review": 107,
-      "needs_more_info": 8,
-      "likely_not_eligible": 4,
-      "packet_ready": 1
+      "needs_review": 97,
+      "needs_more_info": 9,
+      "likely_not_eligible": 2
     },
-    "paymentAllowedAtTheEvaluator": 28
+    "paymentAllowedAtTheEvaluator": 26
   },
   "witnesses": [
     {
@@ -834,9 +835,19 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ar_record_origin"
+          ],
+          "supplied": {
+            "ar_record_origin": "arkansas"
+          }
         }
       ],
       "finalAnswers": {
+        "ar_record_origin": "arkansas",
         "case_outcome": "Arrest or citation with no charge filed",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
@@ -867,6 +878,10 @@
         "missingQuestionIds": []
       },
       "landedOnThisPathway": true,
+      "syntheticOriginPremise": {
+        "value": "arkansas",
+        "basis": "The generic first-option rule supplies an explicit Arkansas origin for this NEW synthetic example. It is not inferred from a historical State/local, residence or venue answer; old missing-origin witnesses remain separate."
+      },
       "error": null
     },
     {
@@ -914,9 +929,19 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ar_record_origin"
+          ],
+          "supplied": {
+            "ar_record_origin": "arkansas"
+          }
         }
       ],
       "finalAnswers": {
+        "ar_record_origin": "arkansas",
         "case_outcome": "Arrest or citation with no charge filed",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
@@ -947,6 +972,10 @@
         "missingQuestionIds": []
       },
       "landedOnThisPathway": true,
+      "syntheticOriginPremise": {
+        "value": "arkansas",
+        "basis": "The generic first-option rule supplies an explicit Arkansas origin for this NEW synthetic example. It is not inferred from a historical State/local, residence or venue answer; old missing-origin witnesses remain separate."
+      },
       "error": null
     },
     {
@@ -994,9 +1023,19 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ar_record_origin"
+          ],
+          "supplied": {
+            "ar_record_origin": "arkansas"
+          }
         }
       ],
       "finalAnswers": {
+        "ar_record_origin": "arkansas",
         "case_outcome": "Arrest or citation with no charge filed",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
@@ -1027,6 +1066,10 @@
         "missingQuestionIds": []
       },
       "landedOnThisPathway": true,
+      "syntheticOriginPremise": {
+        "value": "arkansas",
+        "basis": "The generic first-option rule supplies an explicit Arkansas origin for this NEW synthetic example. It is not inferred from a historical State/local, residence or venue answer; old missing-origin witnesses remain separate."
+      },
       "error": null
     },
     {
@@ -1474,9 +1517,73 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ca_prop64_record_section"
+          ],
+          "supplied": {
+            "ca_prop64_record_section": "11357"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "ca_prop64_next_step"
+          ],
+          "supplied": {
+            "ca_prop64_next_step": "apply"
+          }
+        },
+        {
+          "round": 4,
+          "requested": [
+            "ca_prop64_age_at_offense",
+            "ca_prop64_court_type",
+            "ca_prop64_existing_relief",
+            "ca_prop64_offense_date",
+            "ca_prop64_possession_context",
+            "ca_prop64_substance"
+          ],
+          "supplied": {
+            "ca_prop64_age_at_offense": "30",
+            "ca_prop64_court_type": "adult",
+            "ca_prop64_existing_relief": "none",
+            "ca_prop64_offense_date": "2012-06-01",
+            "ca_prop64_possession_context": "ordinary",
+            "ca_prop64_substance": "flower"
+          }
+        },
+        {
+          "round": 5,
+          "requested": [
+            "ca_prop64_flower_grams"
+          ],
+          "supplied": {
+            "ca_prop64_flower_grams": "30"
+          }
+        },
+        {
+          "round": 6,
+          "requested": [
+            "case_outcome"
+          ],
+          "supplied": {
+            "case_outcome": "Arrest or citation with no charge filed"
+          }
         }
       ],
       "finalAnswers": {
+        "ca_prop64_age_at_offense": "30",
+        "ca_prop64_court_type": "adult",
+        "ca_prop64_existing_relief": "none",
+        "ca_prop64_flower_grams": "30",
+        "ca_prop64_next_step": "apply",
+        "ca_prop64_offense_date": "2012-06-01",
+        "ca_prop64_possession_context": "ordinary",
+        "ca_prop64_record_section": "11357",
+        "ca_prop64_substance": "flower",
         "case_outcome": "Arrest or citation with no charge filed",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
@@ -1494,20 +1601,206 @@
           "None of these"
         ]
       },
-      "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
-        "pathwayId": "prop-64-completed-sentence-application-11361-8",
-        "pathwayLabel": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "ca.ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible"
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "CA",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_review",
+        "userLabel": "We need one more detail before we can prepare the right packet.",
+        "reasons": [
+          {
+            "code": "ca.ca_prop64_conviction_record",
+            "text": "Confirm the final conviction or juvenile adjudication for this request. An arrest, charge or program alone is not a conviction.",
+            "sourceRef": "HSC11361.8(a)-(h),(m);11357-11360;11362.1-11362.4;CR400(2024-01-01)"
+          }
         ],
-        "missingQuestionIds": []
+        "missingQuestionIds": [
+          "case_outcome"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "Gather court records.",
+          "Save the result.",
+          "Save your progress and update your answers when you have that detail."
+        ],
+        "paymentAllowed": false
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "sourceBoundSyntheticWitness": {
+        "kind": "new_synthetic_factual_example_not_historical_or_participant_evidence",
+        "references": [
+          {
+            "file": "scripts/test-ca-prop64-integration.mjs",
+            "sha256": "5ae93595cbfe3dc0d330cd5f8836df8f6534a8ad0c094ef72a85f82639de73d1"
+          },
+          {
+            "file": "scripts/fixtures/ca-prop64-protected-baseline/completed.json",
+            "sha256": "f81fd9d09ff9607a018125a971e35669d2b69c9757238fe62380fadb9e9b59c5"
+          },
+          {
+            "file": "src/lib/rcap-engine/california-prop64-facts.ts",
+            "sha256": "1cb445a556851df640089640a831a2000173ee82072becbcb0060016b791ceeb"
+          }
+        ],
+        "explicitPremises": {
+          "case_outcome": "Felony conviction",
+          "offense_level": "Felony",
+          "charge": "HSC11357",
+          "court": "California trial court",
+          "ca_prop64_record_section": "11357",
+          "ca_prop64_next_step": "apply",
+          "ca_prop64_offense_date": "2000-01-01",
+          "ca_prop64_age_at_offense": 21,
+          "ca_prop64_court_type": "adult",
+          "ca_prop64_existing_relief": "none",
+          "ca_prop64_substance": "flower",
+          "ca_prop64_flower_grams": 28.5,
+          "ca_prop64_possession_context": "ordinary",
+          "sentence_completion_date": "Yes",
+          "ca_prop64_branch": "completed-sentence application",
+          "ca_prop64_relief_requested": "dismissal/sealing"
+        },
+        "expectedTreatment": {
+          "pathwayId": "prop-64-completed-sentence-application-11361-8",
+          "resultCodes": [
+            "packet_ready"
+          ],
+          "qualification": "Existing targeted legal-rule expectation; this does not establish a current commercial offer, document acceptance or authenticated delivery."
+        },
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+          "case_outcome": "Felony conviction",
+          "offense_level": "Felony",
+          "charge": "HSC11357",
+          "court": "California trial court",
+          "ca_prop64_record_section": "11357",
+          "ca_prop64_next_step": "apply",
+          "ca_prop64_offense_date": "2000-01-01",
+          "ca_prop64_age_at_offense": 21,
+          "ca_prop64_court_type": "adult",
+          "ca_prop64_existing_relief": "none",
+          "ca_prop64_substance": "flower",
+          "ca_prop64_flower_grams": 28.5,
+          "ca_prop64_possession_context": "ordinary",
+          "ca_prop64_branch": "completed-sentence application",
+          "ca_prop64_relief_requested": "dismissal/sealing"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "court_requirements_completed",
+              "trafficking_status"
+            ]
+          }
+        ],
+        "finalAnswers": {
+          "ca_prop64_age_at_offense": 21,
+          "ca_prop64_branch": "completed-sentence application",
+          "ca_prop64_court_type": "adult",
+          "ca_prop64_existing_relief": "none",
+          "ca_prop64_flower_grams": 28.5,
+          "ca_prop64_next_step": "apply",
+          "ca_prop64_offense_date": "2000-01-01",
+          "ca_prop64_possession_context": "ordinary",
+          "ca_prop64_record_section": "11357",
+          "ca_prop64_relief_requested": "dismissal/sealing",
+          "ca_prop64_substance": "flower",
+          "case_outcome": "Felony conviction",
+          "charge": "HSC11357",
+          "court": "California trial court",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Felony",
+          "ownership_scope": "Yes",
+          "pardon_status": "No",
+          "pending_cases": "No",
+          "possible_pathway_context": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes",
+          "state_exclusion_categories": [
+            "None of these"
+          ]
+        },
+        "convergenceStatus": "settled_observation",
+        "actualEvaluation": {
+          "jurisdiction": "CA",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "matterId": "public-witness",
+          "resultCode": "packet_ready",
+          "userLabel": "A source-defined packet pathway may be available.",
+          "reasons": [
+            {
+              "code": "ca.compiled_rule_match.route-prop-64-completed-sentence-application-11361-8",
+              "text": "Compiled source rule route-prop-64-completed-sentence-application-11361-8 matches HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application.",
+              "sourceRef": "pathways:71-114"
+            }
+          ],
+          "missingQuestionIds": [],
+          "cautions": [
+            "For a completed sentence, the court presumes eligibility unless the opposing party proves otherwise by clear and convincing evidence. The currently-serving branch's public-safety exception does not apply to this application. The court decides dismissal and sealing or redesignation; a hearing is not required unless requested by the applicant."
+          ],
+          "nextSteps": [
+            "Your packet has been started. A few details may still be needed before it is ready to file.",
+            "Complete the required packet facts in Briefcase before verification or payment.",
+            "External documents affect filing readiness, not checkout eligibility."
+          ],
+          "paymentAllowed": true,
+          "pathwayId": "prop-64-completed-sentence-application-11361-8",
+          "packetPlan": {
+            "pathwayId": "prop-64-completed-sentence-application-11361-8",
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "formMappingStatus": "custom_or_manual_mapping_required",
+            "sourceFormIds": [],
+            "requiredInputIds": [
+              "case_outcome",
+              "charge",
+              "court",
+              "ca_prop64_branch",
+              "ca_prop64_relief_requested",
+              "participant_full_legal_name",
+              "ca_prop64_court_case_number",
+              "ca_prop64_filing_court_county",
+              "ca_prop64_filer_representation",
+              "ca_prop64_filer_contact",
+              "ca_prop64_court_address"
+            ],
+            "sourceRuleRefs": [
+              "pathways:71-114"
+            ],
+            "packetReadyWhen": [
+              "backend result is packet_ready or packet_ready_with_caution",
+              "qualifying marijuana conviction is confirmed",
+              "offense would be no offense or a lesser offense under Prop 64/AUMA",
+              "branch is confirmed as currently-serving petition or completed-sentence application",
+              "no exclusion, ambiguity, or required-review flag remains"
+            ]
+          },
+          "pathwayLabel": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application"
+        },
+        "error": null
+      },
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "CA:prop-64-currently-serving-petition-11361-8",
@@ -1554,9 +1847,73 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ca_prop64_record_section"
+          ],
+          "supplied": {
+            "ca_prop64_record_section": "11357"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "ca_prop64_next_step"
+          ],
+          "supplied": {
+            "ca_prop64_next_step": "apply"
+          }
+        },
+        {
+          "round": 4,
+          "requested": [
+            "ca_prop64_age_at_offense",
+            "ca_prop64_court_type",
+            "ca_prop64_existing_relief",
+            "ca_prop64_offense_date",
+            "ca_prop64_possession_context",
+            "ca_prop64_substance"
+          ],
+          "supplied": {
+            "ca_prop64_age_at_offense": "30",
+            "ca_prop64_court_type": "adult",
+            "ca_prop64_existing_relief": "none",
+            "ca_prop64_offense_date": "2012-06-01",
+            "ca_prop64_possession_context": "ordinary",
+            "ca_prop64_substance": "flower"
+          }
+        },
+        {
+          "round": 5,
+          "requested": [
+            "ca_prop64_flower_grams"
+          ],
+          "supplied": {
+            "ca_prop64_flower_grams": "30"
+          }
+        },
+        {
+          "round": 6,
+          "requested": [
+            "case_outcome"
+          ],
+          "supplied": {
+            "case_outcome": "Arrest or citation with no charge filed"
+          }
         }
       ],
       "finalAnswers": {
+        "ca_prop64_age_at_offense": "30",
+        "ca_prop64_court_type": "adult",
+        "ca_prop64_existing_relief": "none",
+        "ca_prop64_flower_grams": "30",
+        "ca_prop64_next_step": "apply",
+        "ca_prop64_offense_date": "2012-06-01",
+        "ca_prop64_possession_context": "ordinary",
+        "ca_prop64_record_section": "11357",
+        "ca_prop64_substance": "flower",
         "case_outcome": "Arrest or citation with no charge filed",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
@@ -1574,20 +1931,205 @@
           "None of these"
         ]
       },
-      "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
-        "pathwayId": "prop-64-currently-serving-petition-11361-8",
-        "pathwayLabel": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "ca.ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible"
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "CA",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_review",
+        "userLabel": "We need one more detail before we can prepare the right packet.",
+        "reasons": [
+          {
+            "code": "ca.ca_prop64_conviction_record",
+            "text": "Confirm the final conviction or juvenile adjudication for this request. An arrest, charge or program alone is not a conviction.",
+            "sourceRef": "HSC11361.8(a)-(h),(m);11357-11360;11362.1-11362.4;CR400(2024-01-01)"
+          }
         ],
-        "missingQuestionIds": []
+        "missingQuestionIds": [
+          "case_outcome"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "Gather court records.",
+          "Save the result.",
+          "Save your progress and update your answers when you have that detail."
+        ],
+        "paymentAllowed": false
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "sourceBoundSyntheticWitness": {
+        "kind": "new_synthetic_factual_example_not_historical_or_participant_evidence",
+        "references": [
+          {
+            "file": "scripts/test-ca-prop64-integration.mjs",
+            "sha256": "5ae93595cbfe3dc0d330cd5f8836df8f6534a8ad0c094ef72a85f82639de73d1"
+          },
+          {
+            "file": "scripts/fixtures/ca-prop64-protected-baseline/currently-serving.json",
+            "sha256": "b57358e1730f285f35503e057ce81f89c49c05d96face51489e49bafabb5567c"
+          },
+          {
+            "file": "src/lib/rcap-engine/california-prop64-facts.ts",
+            "sha256": "1cb445a556851df640089640a831a2000173ee82072becbcb0060016b791ceeb"
+          }
+        ],
+        "explicitPremises": {
+          "case_outcome": "Felony conviction",
+          "offense_level": "Felony",
+          "charge": "HSC11357",
+          "court": "California trial court",
+          "ca_prop64_record_section": "11357",
+          "ca_prop64_next_step": "apply",
+          "ca_prop64_offense_date": "2000-01-01",
+          "ca_prop64_age_at_offense": 21,
+          "ca_prop64_court_type": "adult",
+          "ca_prop64_existing_relief": "none",
+          "ca_prop64_substance": "flower",
+          "ca_prop64_flower_grams": 28.5,
+          "ca_prop64_possession_context": "ordinary",
+          "sentence_completion_date": "No",
+          "ca_prop64_branch": "currently-serving petition",
+          "ca_prop64_relief_requested": "dismissal and sealing"
+        },
+        "expectedTreatment": {
+          "pathwayId": "prop-64-currently-serving-petition-11361-8",
+          "resultCodes": [
+            "packet_ready_with_caution"
+          ],
+          "qualification": "Existing targeted legal-rule expectation; this does not establish a current commercial offer, document acceptance or authenticated delivery."
+        },
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "No",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition",
+          "case_outcome": "Felony conviction",
+          "offense_level": "Felony",
+          "charge": "HSC11357",
+          "court": "California trial court",
+          "ca_prop64_record_section": "11357",
+          "ca_prop64_next_step": "apply",
+          "ca_prop64_offense_date": "2000-01-01",
+          "ca_prop64_age_at_offense": 21,
+          "ca_prop64_court_type": "adult",
+          "ca_prop64_existing_relief": "none",
+          "ca_prop64_substance": "flower",
+          "ca_prop64_flower_grams": 28.5,
+          "ca_prop64_possession_context": "ordinary",
+          "ca_prop64_branch": "currently-serving petition",
+          "ca_prop64_relief_requested": "dismissal and sealing"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "court_requirements_completed",
+              "trafficking_status"
+            ]
+          }
+        ],
+        "finalAnswers": {
+          "ca_prop64_age_at_offense": 21,
+          "ca_prop64_branch": "currently-serving petition",
+          "ca_prop64_court_type": "adult",
+          "ca_prop64_existing_relief": "none",
+          "ca_prop64_flower_grams": 28.5,
+          "ca_prop64_next_step": "apply",
+          "ca_prop64_offense_date": "2000-01-01",
+          "ca_prop64_possession_context": "ordinary",
+          "ca_prop64_record_section": "11357",
+          "ca_prop64_relief_requested": "dismissal and sealing",
+          "ca_prop64_substance": "flower",
+          "case_outcome": "Felony conviction",
+          "charge": "HSC11357",
+          "court": "California trial court",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Felony",
+          "ownership_scope": "Yes",
+          "pardon_status": "No",
+          "pending_cases": "No",
+          "possible_pathway_context": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "No",
+          "special_preconditions_confirmed": "Yes",
+          "state_exclusion_categories": [
+            "None of these"
+          ]
+        },
+        "convergenceStatus": "settled_observation",
+        "actualEvaluation": {
+          "jurisdiction": "CA",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "matterId": "public-witness",
+          "resultCode": "packet_ready_with_caution",
+          "userLabel": "A source-defined packet pathway may be available with cautions.",
+          "reasons": [
+            {
+              "code": "ca.compiled_rule_match.route-prop-64-currently-serving-petition-11361-8",
+              "text": "Compiled source rule route-prop-64-currently-serving-petition-11361-8 matches HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition.",
+              "sourceRef": "pathways:71-114"
+            }
+          ],
+          "missingQuestionIds": [],
+          "cautions": [
+            "For a sentence still being served, including probation, parole, PRCS or mandatory supervision, the court presumes eligibility unless the opposing party proves otherwise by clear and convincing evidence. The court may deny relief for an unreasonable risk of danger to public safety. These are court decisions, not facts you must certify."
+          ],
+          "nextSteps": [
+            "Your packet has been started. A few details may still be needed before it is ready to file.",
+            "Review the cautions and complete the required packet facts in Briefcase before verification or payment.",
+            "Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps."
+          ],
+          "paymentAllowed": true,
+          "pathwayId": "prop-64-currently-serving-petition-11361-8",
+          "packetPlan": {
+            "pathwayId": "prop-64-currently-serving-petition-11361-8",
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "formMappingStatus": "custom_or_manual_mapping_required",
+            "sourceFormIds": [],
+            "requiredInputIds": [
+              "case_outcome",
+              "charge",
+              "court",
+              "ca_prop64_branch",
+              "participant_full_legal_name",
+              "ca_prop64_court_case_number",
+              "ca_prop64_filing_court_county",
+              "ca_prop64_filer_representation",
+              "ca_prop64_filer_contact",
+              "ca_prop64_court_address"
+            ],
+            "sourceRuleRefs": [
+              "pathways:71-114"
+            ],
+            "packetReadyWhen": [
+              "backend result is packet_ready or packet_ready_with_caution",
+              "qualifying marijuana conviction is confirmed",
+              "offense would be no offense or a lesser offense under Prop 64/AUMA",
+              "branch is confirmed as currently-serving petition or completed-sentence application",
+              "no exclusion, ambiguity, or required-review flag remains"
+            ]
+          },
+          "pathwayLabel": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition"
+        },
+        "error": null
+      },
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "CA:tool-1-dismissal-set-aside",
@@ -1627,12 +2169,19 @@
         {
           "round": 1,
           "requested": [
-            "case_outcome",
-            "offense_level"
+            "case_outcome"
           ],
           "supplied": {
-            "case_outcome": "Arrest or citation with no charge filed",
-            "offense_level": "Misdemeanor"
+            "case_outcome": "Arrest or citation with no charge filed"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "case_outcome"
+          ],
+          "supplied": {
+            "case_outcome": "Arrest or citation with no charge filed"
           }
         }
       ],
@@ -1641,7 +2190,6 @@
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
         "pardon_status": "No",
         "pending_cases": "No",
@@ -1654,20 +2202,32 @@
           "None of these"
         ]
       },
-      "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
-        "pathwayId": "tool-1-dismissal-set-aside",
-        "pathwayLabel": "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)",
-        "paymentAllowed": true,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "ca.compiled_rule_match.rule-02-the-classic-california-expungement-a-person-may-petitio"
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "CA",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_review",
+        "userLabel": "This after-probation request concerns a conviction. An arrest without charges, a dismissed case, or an uncertain disposition does not establish that conviction. Correct an inaccurate disposition or clarify earlier context without changing a true outcome.",
+        "reasons": [
+          {
+            "code": "ca.probation_outcome",
+            "text": "This after-probation request concerns a conviction. An arrest without charges, a dismissed case, or an uncertain disposition does not establish that conviction. Correct an inaccurate disposition or clarify earlier context without changing a true outcome.",
+            "sourceRef": "CA.memo:ca-1203-4;CA:ca-1203-4-set;PC1203.4;GA17-Q-fa51657f98ce25890cc1"
+          }
         ],
-        "missingQuestionIds": []
+        "missingQuestionIds": [
+          "case_outcome"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "This after-probation request concerns a conviction. An arrest without charges, a dismissed case, or an uncertain disposition does not establish that conviction. Correct an inaccurate disposition or clarify earlier context without changing a true outcome."
+        ],
+        "paymentAllowed": false
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "CA:tool-3-petition-based-felony-sealing",
@@ -1735,14 +2295,14 @@
         ]
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "guidance_only",
         "pathwayId": "tool-3-petition-based-felony-sealing",
         "pathwayLabel": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ca.waiting_rule_not_executed"
+          "ca.lawrence_hold_guidance_only"
         ],
         "missingQuestionIds": []
       },
@@ -2708,14 +3268,14 @@
         ]
       },
       "terminalEvaluation": {
-        "resultCode": "packet_ready",
+        "resultCode": "needs_review",
         "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
         "pathwayLabel": "Discretionary court expungement under 11 Del. C. § 4374",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+          "de.de_4374_conviction_scope_unconfirmed"
         ],
         "missingQuestionIds": []
       },
@@ -3367,6 +3927,15 @@
             "offense_level": "Misdemeanor",
             "prior_relief": "Yes"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "case_outcome"
+          ],
+          "supplied": {
+            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+          }
         }
       ],
       "finalAnswers": {
@@ -3389,20 +3958,161 @@
           "None of these"
         ]
       },
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
-        "pathwayLabel": "Restriction and sealing of a pardoned felony",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "ga.route_gate_pending_lawrence_review"
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "GA",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_more_info",
+        "userLabel": "We need one more detail before we can prepare the right packet.",
+        "reasons": [
+          {
+            "code": "ga.pardon_classification",
+            "text": "Check the final conviction record and correct how the case ended. Both misdemeanor and felony convictions may be considered under this pardon procedure; a generic pardon label does not identify the conviction class.",
+            "sourceRef": "GA-02:2026-10-13;GA.memo:ga-pardon-j7;OCGA35-3-37(j)(7)"
+          }
         ],
-        "missingQuestionIds": []
+        "missingQuestionIds": [
+          "case_outcome"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "Check the final conviction record and correct how the case ended. Both misdemeanor and felony convictions may be considered under this pardon procedure; a generic pardon label does not identify the conviction class."
+        ],
+        "paymentAllowed": false,
+        "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+        "pathwayLabel": "Restriction and sealing of a pardoned felony"
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "sourceBoundSyntheticWitness": {
+        "kind": "new_synthetic_factual_example_not_historical_or_participant_evidence",
+        "references": [
+          {
+            "file": "scripts/test-ga-pardon-facts.mjs",
+            "sha256": "b48853d6e6a31094f9e516df33538563e266982104c9d1a8430d5f24a10b9881"
+          },
+          {
+            "file": "src/lib/rcap-engine/georgia-pardon-facts.ts",
+            "sha256": "e658a71f5b9a42eb4088c64094adf3f3f83935bb0265c538400b32a26ca76860"
+          }
+        ],
+        "explicitPremises": {
+          "case_outcome": "Misdemeanor conviction",
+          "offense_level": "Misdemeanor",
+          "ga_original_first_offender": "no",
+          "ga_record_help": "pardon_record",
+          "pardon_status": "Yes",
+          "ga_board_pardon": "yes",
+          "ga_pardon_date": "2021-01-02",
+          "ga_pardoned_offense_section": "16-8-14(a)",
+          "ga_convictions_since_pardon": "none",
+          "ga_pardon_pending_charges": "no"
+        },
+        "expectedTreatment": {
+          "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+          "resultCodes": [
+            "needs_review"
+          ],
+          "qualification": "Existing targeted legal-rule expectation; this does not establish a current commercial offer, document acceptance or authenticated delivery."
+        },
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "Yes",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Restriction and sealing of a pardoned felony",
+          "case_outcome": "Misdemeanor conviction",
+          "offense_level": "Misdemeanor",
+          "ga_original_first_offender": "no",
+          "ga_record_help": "pardon_record",
+          "ga_board_pardon": "yes",
+          "ga_pardon_date": "2021-01-02",
+          "ga_pardoned_offense_section": "16-8-14(a)",
+          "ga_convictions_since_pardon": "none",
+          "ga_pardon_pending_charges": "no"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "trafficking_status"
+            ]
+          },
+          {
+            "round": 1,
+            "requested": [
+              "prior_relief"
+            ],
+            "supplied": {
+              "prior_relief": "Yes"
+            }
+          }
+        ],
+        "finalAnswers": {
+          "case_outcome": "Misdemeanor conviction",
+          "court_requirements_completed": "yes",
+          "financial_obligations": "Yes",
+          "ga_board_pardon": "yes",
+          "ga_convictions_since_pardon": "none",
+          "ga_original_first_offender": "no",
+          "ga_pardon_date": "2021-01-02",
+          "ga_pardon_pending_charges": "no",
+          "ga_pardoned_offense_section": "16-8-14(a)",
+          "ga_record_help": "pardon_record",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pardon_status": "Yes",
+          "pending_cases": "No",
+          "possible_pathway_context": "Restriction and sealing of a pardoned felony",
+          "prior_relief": "Yes",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes",
+          "state_exclusion_categories": [
+            "None of these"
+          ]
+        },
+        "convergenceStatus": "settled_observation",
+        "actualEvaluation": {
+          "jurisdiction": "GA",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "matterId": "public-witness",
+          "resultCode": "needs_review",
+          "userLabel": "We need one more detail before we can prepare the right packet.",
+          "reasons": [
+            {
+              "code": "ga.pardon_court_review",
+              "text": "The reported conviction does not match the listed offense exclusions, and you reported no later convictions or pending charges. The court still decides whether the harm to you clearly outweighs the public interest in access to the record. This screening is not a court finding or authorization to buy or generate a packet.",
+              "sourceRef": "GA-02:2026-10-13;GA.memo:ga-pardon-j7;OCGA35-3-37(j)(7)"
+            }
+          ],
+          "missingQuestionIds": [],
+          "cautions": [],
+          "nextSteps": [
+            "The reported conviction does not match the listed offense exclusions, and you reported no later convictions or pending charges. The court still decides whether the harm to you clearly outweighs the public interest in access to the record. This screening is not a court finding or authorization to buy or generate a packet."
+          ],
+          "paymentAllowed": false,
+          "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+          "pathwayLabel": "Restriction and sealing of a pardoned felony"
+        },
+        "error": null
+      },
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
@@ -4950,7 +5660,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "adult-conviction-sealing",
         "pathwayLabel": "Adult conviction sealing",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -5235,6 +5945,24 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 1,
+          "requested": [
+            "il_program_type"
+          ],
+          "supplied": {
+            "il_program_type": "supervision"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "case_outcome"
+          ],
+          "supplied": {
+            "case_outcome": "Arrest or citation with no charge filed"
+          }
         }
       ],
       "finalAnswers": {
@@ -5242,6 +5970,7 @@
         "case_outcome": "Arrest or citation with no charge filed",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
+        "il_program_type": "supervision",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
@@ -5258,20 +5987,87 @@
         ],
         "trafficking_status": "No"
       },
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
-        "pathwayLabel": "Expungement after eligible supervision or qualified probation",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "il.waiting_rule_not_executed"
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "IL",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_more_info",
+        "userLabel": "We need one more detail before we can prepare the right packet.",
+        "reasons": [
+          {
+            "code": "il.program_missing",
+            "text": "Confirm the actual supervision or probation order and termination facts. A general completion answer or an old case date does not establish them.",
+            "sourceRef": "IL.memo:il-exp-supervision,il-exp-qualprob;20ILCS2630/5.2(a)(1)(C),(J),(b)(1)(iii)-(iv),(b)(2)(B)-(C)"
+          }
         ],
-        "missingQuestionIds": []
+        "missingQuestionIds": [
+          "case_outcome"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "Confirm the actual supervision or probation order and termination facts. A general completion answer or an old case date does not establish them."
+        ],
+        "paymentAllowed": false,
+        "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+        "packetPlan": {
+          "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+          "mode": "official_form_overlay_or_source_form_set",
+          "formMappingStatus": "source_candidate_identified",
+          "sourceFormIds": [
+            "IL:STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf:44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+            "IL:LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf:b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+            "IL:STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf:52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+            "IL:STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf:b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+          ],
+          "requiredInputIds": [
+            "age_at_offense",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "court",
+            "disposition_date",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "pardon_status",
+            "participant_full_legal_name",
+            "pathway_id",
+            "record_type",
+            "residency_or_location",
+            "sentence_completion_date",
+            "trafficking_status"
+          ],
+          "sourceRuleRefs": [
+            "section:55-88",
+            "section:89-114",
+            "section:139-156",
+            "overview:7-28",
+            "section:396-442",
+            "section:443-490",
+            "section:531-570",
+            "section:188-212",
+            "section:326-364",
+            "section:224-270",
+            "section:374-395",
+            "section:733-804",
+            "corpus-unit:18",
+            "waiting_periods:271-325",
+            "corpus-unit:20"
+          ],
+          "packetReadyWhen": [
+            "backend result is packet_ready or packet_ready_with_caution",
+            "every source-defined pathway fact is answered",
+            "all waiting and completion conditions are satisfied",
+            "no exclusion, ambiguity, or required-review flag remains",
+            "the selected form revision and filing location pass source-freshness checks"
+          ]
+        },
+        "pathwayLabel": "Expungement after eligible supervision or qualified probation"
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "IL:felony-prostitution-relief",
@@ -5344,7 +6140,7 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "il.il_prostitution_felony_required_not_eligible"
+          "il.prostitution_record_conflict"
         ],
         "missingQuestionIds": []
       },
@@ -5961,14 +6757,14 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "needs_more_info",
         "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
         "pathwayLabel": "Municipal arrest record expungement",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ks.guidance_only_no_user_filed_court_petition"
+          "ks.route_identified_packet_not_yet_available"
         ],
         "missingQuestionIds": []
       },
@@ -6678,7 +7474,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "felony-article-893-e-set-aside-followed-by-expungement",
         "pathwayLabel": "Felony Article 893(E) set-aside followed by expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -7234,7 +8030,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
         "pathwayLabel": "Misdemeanor Article 894(B) set-aside followed by expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -7390,7 +8186,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "non-conviction-arrest-expungement",
         "pathwayLabel": "Non-conviction arrest expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -8383,41 +9179,32 @@
         {
           "round": 1,
           "requested": [
-            "age_at_offense",
-            "case_outcome",
-            "offense_level",
-            "prior_relief"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-            "offense_level": "Misdemeanor",
-            "prior_relief": "Yes"
-          }
-        },
-        {
-          "round": 2,
-          "requested": [
             "arrest_date"
           ],
           "supplied": {
             "arrest_date": "2012-06-01"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "md_10103_released_without_charge"
+          ],
+          "supplied": {
+            "md_10103_released_without_charge": "yes"
+          }
         }
       ],
       "finalAnswers": {
-        "age_at_offense": "30",
         "arrest_date": "2012-06-01",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
+        "md_10103_released_without_charge": "yes",
         "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
         "pardon_status": "No",
         "pending_cases": "No",
         "possible_pathway_context": "Police-record expungement when no charge was filed under § 10-103",
-        "prior_relief": "Yes",
         "record_documents": "Yes",
         "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
@@ -8427,14 +9214,14 @@
         ]
       },
       "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
+        "resultCode": "guidance_only",
         "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
         "pathwayLabel": "Police-record expungement when no charge was filed under § 10-103",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "md.md_police_record_deadline_not_eligible"
+          "md.police_source_modern"
         ],
         "missingQuestionIds": []
       },
@@ -9334,7 +10121,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "petition-based-expungement-under-609a-02-03",
         "pathwayLabel": "Petition-based expungement under §§ 609A.02–.03",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -9920,18 +10707,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
-        "pathwayLabel": "Additional justice-court misdemeanor relief",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.guidance_only_no_user_filed_court_petition"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -9998,18 +10785,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
-        "pathwayLabel": "Additional municipal-court misdemeanor relief",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.guidance_only_no_user_filed_court_petition"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10077,17 +10864,17 @@
       },
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
-        "pathwayId": "eligible-felony-conviction-expungement-99-19-71",
-        "pathwayLabel": "Eligible felony-conviction expungement (§ 99-19-71)",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
         "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.compiled_rule_match.route-eligible-felony-conviction-expungement-99-19-71"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10154,18 +10941,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
-        "pathwayLabel": "First-offender nontraffic misdemeanor conviction expungement (§ 99-19-71(1))",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10232,18 +11019,189 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
-        "pathwayLabel": "First-offense controlled-substance conditional-discharge relief",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
+      "sourceBoundSyntheticWitness": {
+        "kind": "new_synthetic_factual_example_not_historical_or_participant_evidence",
+        "references": [
+          {
+            "file": "scripts/test-ms-conditional-discharge-event.mjs",
+            "sha256": "015c83ed54f22a86c6189376fe8b4a1dee9d19cbf2c80ef36cd7415336c35d4b"
+          },
+          {
+            "file": "src/lib/rcap-engine/mississippi-conditional-discharge.ts",
+            "sha256": "3ca3230909d8127b97270fc6bc717f7dd4a7a7f911f3a89a9591b2ac4f7a934b"
+          }
+        ],
+        "explicitPremises": {
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "ms_program_record_status": "completed_and_closed",
+          "ms_program_final_disposition": "discharged_and_dismissed",
+          "court_requirements_completed": "yes",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_order": "41-29-150",
+          "ms_drug_subsection": "41-29-139(c)",
+          "ms_prior_drug_conviction": "no",
+          "ms_prior_conditional_discharge": "no",
+          "ms_adjudication_deferred": "yes",
+          "discharge_date": "2012-06-01"
+        },
+        "expectedTreatment": {
+          "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
+          "resultCodes": [
+            "packet_ready",
+            "packet_ready_with_caution",
+            "needs_review"
+          ],
+          "qualification": "Existing targeted legal-rule expectation; this does not establish a current commercial offer, document acceptance or authenticated delivery."
+        },
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "First-offense controlled-substance conditional-discharge relief",
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "ms_program_record_status": "completed_and_closed",
+          "ms_program_final_disposition": "discharged_and_dismissed",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_order": "41-29-150",
+          "ms_drug_subsection": "41-29-139(c)",
+          "ms_prior_drug_conviction": "no",
+          "ms_prior_conditional_discharge": "no",
+          "ms_adjudication_deferred": "yes",
+          "discharge_date": "2012-06-01"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "pardon_status",
+              "record_documents",
+              "state_exclusion_categories",
+              "trafficking_status"
+            ]
+          },
+          {
+            "round": 1,
+            "requested": [
+              "offense_level"
+            ],
+            "supplied": {
+              "offense_level": "Misdemeanor"
+            }
+          }
+        ],
+        "finalAnswers": {
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "court_requirements_completed": "yes",
+          "discharge_date": "2012-06-01",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "ms_adjudication_deferred": "yes",
+          "ms_drug_subsection": "41-29-139(c)",
+          "ms_prior_conditional_discharge": "no",
+          "ms_prior_drug_conviction": "no",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_final_disposition": "discharged_and_dismissed",
+          "ms_program_order": "41-29-150",
+          "ms_program_record_status": "completed_and_closed",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pending_cases": "No",
+          "possible_pathway_context": "First-offense controlled-substance conditional-discharge relief",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes"
+        },
+        "convergenceStatus": "settled_observation",
+        "actualEvaluation": {
+          "jurisdiction": "MS",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "matterId": "public-witness",
+          "resultCode": "packet_ready_with_caution",
+          "userLabel": "A source-defined packet pathway may be available with cautions.",
+          "reasons": [
+            {
+              "code": "ms.compiled_rule_match.route-first-offense-controlled-substance-conditional-discharge-relief",
+              "text": "Compiled source rule route-first-offense-controlled-substance-conditional-discharge-relief matches First-offense controlled-substance conditional-discharge relief.",
+              "sourceRef": "pathways:15-155; section:15-155; corpus-unit:33"
+            }
+          ],
+          "missingQuestionIds": [],
+          "cautions": [],
+          "nextSteps": [
+            "Your packet has been started. A few details may still be needed before it is ready to file.",
+            "Review the cautions and complete the required packet facts in Briefcase before verification or payment.",
+            "Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps."
+          ],
+          "paymentAllowed": true,
+          "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
+          "packetPlan": {
+            "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "formMappingStatus": "custom_or_manual_mapping_required",
+            "sourceFormIds": [],
+            "requiredInputIds": [
+              "age_at_offense",
+              "case_outcome",
+              "charge",
+              "contact_information",
+              "county",
+              "court",
+              "disposition_date",
+              "financial_obligations",
+              "jurisdiction",
+              "offense_category",
+              "offense_level",
+              "participant_full_legal_name",
+              "pathway_id",
+              "pending_cases",
+              "prior_relief",
+              "record_type",
+              "residency_or_location",
+              "sentence_completion_date",
+              "trafficking_status"
+            ],
+            "sourceRuleRefs": [
+              "pathways:15-155",
+              "section:15-155",
+              "corpus-unit:33"
+            ],
+            "packetReadyWhen": [
+              "backend result is packet_ready or packet_ready_with_caution",
+              "every source-defined pathway fact is answered",
+              "all waiting and completion conditions are satisfied",
+              "no exclusion, ambiguity, or required-review flag remains",
+              "the selected form revision and filing location pass source-freshness checks"
+            ]
+          },
+          "pathwayLabel": "First-offense controlled-substance conditional-discharge relief"
+        },
+        "error": null
+      },
       "error": null
     },
     {
@@ -10293,15 +11251,6 @@
             "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
             "offense_level": "Misdemeanor"
           }
-        },
-        {
-          "round": 2,
-          "requested": [
-            "ms_successful_sentence_completion_date"
-          ],
-          "supplied": {
-            "ms_successful_sentence_completion_date": "2012-06-01"
-          }
         }
       ],
       "finalAnswers": {
@@ -10309,7 +11258,6 @@
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
-        "ms_successful_sentence_completion_date": "2012-06-01",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
@@ -10321,17 +11269,17 @@
       },
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
-        "pathwayId": "first-offense-dui-expungement",
-        "pathwayLabel": "First-offense DUI expungement",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
         "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.compiled_rule_match.route-first-offense-dui-expungement"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10398,18 +11346,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
-        "pathwayLabel": "Human-trafficking survivor expungement",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.legal_authority_attorney_review_required"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10476,18 +11424,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
-        "pathwayLabel": "Human-trafficking survivor vacatur",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.legal_authority_attorney_review_required"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10554,18 +11502,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
-        "pathwayLabel": "Intervention-court completion — dismissal-only branch where a record remains",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.guidance_only_no_user_filed_court_petition"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10615,15 +11563,6 @@
             "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
             "offense_level": "Misdemeanor"
           }
-        },
-        {
-          "round": 2,
-          "requested": [
-            "ms_mip_dismissal_or_discharge_date"
-          ],
-          "supplied": {
-            "ms_mip_dismissal_or_discharge_date": "2012-06-01"
-          }
         }
       ],
       "finalAnswers": {
@@ -10631,7 +11570,6 @@
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
-        "ms_mip_dismissal_or_discharge_date": "2012-06-01",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
@@ -10643,17 +11581,17 @@
       },
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
-        "pathwayId": "minor-in-possession-underage-alcohol-expungement",
-        "pathwayLabel": "Minor-in-possession / underage-alcohol expungement",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
         "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.compiled_rule_match.route-minor-in-possession-underage-alcohol-expungement"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -10798,18 +11736,179 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "nonadjudication-under-99-15-26",
-        "pathwayLabel": "Nonadjudication under § 99-15-26",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
+      "sourceBoundSyntheticWitness": {
+        "kind": "new_synthetic_factual_example_not_historical_or_participant_evidence",
+        "references": [
+          {
+            "file": "scripts/test-ms-program-completion-events.mjs",
+            "sha256": "9d8db2c6fd7147fad8a006dc1120354d2a5aa7ff5845d775b6efdb50af43e7ca"
+          },
+          {
+            "file": "src/lib/rcap-engine/mississippi-program-completion.ts",
+            "sha256": "3f1d98524ccb5cbe09c4fe0341442c089fb6d449a4a659c0cf5f1a43a654d408"
+          }
+        ],
+        "explicitPremises": {
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "ms_program_record_status": "completed_and_closed",
+          "ms_program_final_disposition": "dismissed_and_closed",
+          "court_requirements_completed": "yes",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_order": "99-15-26"
+        },
+        "expectedTreatment": {
+          "pathwayId": "nonadjudication-under-99-15-26",
+          "resultCodes": [
+            "packet_ready_with_caution"
+          ],
+          "qualification": "Existing targeted legal-rule expectation; this does not establish a current commercial offer, document acceptance or authenticated delivery."
+        },
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Nonadjudication under § 99-15-26",
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "ms_program_record_status": "completed_and_closed",
+          "ms_program_final_disposition": "dismissed_and_closed",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_order": "99-15-26"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "pardon_status",
+              "record_documents",
+              "state_exclusion_categories",
+              "trafficking_status"
+            ]
+          },
+          {
+            "round": 1,
+            "requested": [
+              "offense_level"
+            ],
+            "supplied": {
+              "offense_level": "Misdemeanor"
+            }
+          }
+        ],
+        "finalAnswers": {
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "court_requirements_completed": "yes",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_final_disposition": "dismissed_and_closed",
+          "ms_program_order": "99-15-26",
+          "ms_program_record_status": "completed_and_closed",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pending_cases": "No",
+          "possible_pathway_context": "Nonadjudication under § 99-15-26",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes"
+        },
+        "convergenceStatus": "settled_observation",
+        "actualEvaluation": {
+          "jurisdiction": "MS",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "matterId": "public-witness",
+          "resultCode": "packet_ready_with_caution",
+          "userLabel": "A source-defined packet pathway may be available with cautions.",
+          "reasons": [
+            {
+              "code": "ms.compiled_rule_match.route-nonadjudication-under-99-15-26",
+              "text": "Compiled source rule route-nonadjudication-under-99-15-26 matches Nonadjudication under § 99-15-26.",
+              "sourceRef": "pathways:15-155; section:15-155; section:227-287; corpus-unit:28; decision_tree:227-287; corpus-unit:14; corpus-unit:30; corpus-unit:51"
+            }
+          ],
+          "missingQuestionIds": [],
+          "cautions": [],
+          "nextSteps": [
+            "Your packet has been started. A few details may still be needed before it is ready to file.",
+            "Review the cautions and complete the required packet facts in Briefcase before verification or payment.",
+            "Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps."
+          ],
+          "paymentAllowed": true,
+          "pathwayId": "nonadjudication-under-99-15-26",
+          "packetPlan": {
+            "pathwayId": "nonadjudication-under-99-15-26",
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "formMappingStatus": "custom_or_manual_mapping_required",
+            "sourceFormIds": [],
+            "requiredInputIds": [
+              "age_at_offense",
+              "case_outcome",
+              "charge",
+              "contact_information",
+              "county",
+              "court",
+              "disposition_date",
+              "financial_obligations",
+              "jurisdiction",
+              "offense_category",
+              "offense_level",
+              "participant_full_legal_name",
+              "pathway_id",
+              "pending_cases",
+              "prior_relief",
+              "record_type",
+              "residency_or_location",
+              "sentence_completion_date",
+              "trafficking_status"
+            ],
+            "sourceRuleRefs": [
+              "pathways:15-155",
+              "section:15-155",
+              "section:227-287",
+              "corpus-unit:28",
+              "decision_tree:227-287",
+              "corpus-unit:14",
+              "corpus-unit:30",
+              "corpus-unit:51",
+              "corpus-unit:83",
+              "corpus-unit:160"
+            ],
+            "packetReadyWhen": [
+              "backend result is packet_ready or packet_ready_with_caution",
+              "every source-defined pathway fact is answered",
+              "all waiting and completion conditions are satisfied",
+              "no exclusion, ambiguity, or required-review flag remains",
+              "the selected form revision and filing location pass source-freshness checks"
+            ]
+          },
+          "pathwayLabel": "Nonadjudication under § 99-15-26"
+        },
+        "error": null
+      },
       "error": null
     },
     {
@@ -10876,18 +11975,172 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "pretrial-intervention-or-diversion-expungement",
-        "pathwayLabel": "Pretrial intervention or diversion expungement",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
+      "sourceBoundSyntheticWitness": {
+        "kind": "new_synthetic_factual_example_not_historical_or_participant_evidence",
+        "references": [
+          {
+            "file": "scripts/test-ms-program-completion-events.mjs",
+            "sha256": "9d8db2c6fd7147fad8a006dc1120354d2a5aa7ff5845d775b6efdb50af43e7ca"
+          },
+          {
+            "file": "src/lib/rcap-engine/mississippi-program-completion.ts",
+            "sha256": "3f1d98524ccb5cbe09c4fe0341442c089fb6d449a4a659c0cf5f1a43a654d408"
+          }
+        ],
+        "explicitPremises": {
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "ms_program_record_status": "completed_and_closed",
+          "ms_program_final_disposition": "dismissed_and_closed",
+          "court_requirements_completed": "yes",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_order": "99-15-101"
+        },
+        "expectedTreatment": {
+          "pathwayId": "pretrial-intervention-or-diversion-expungement",
+          "resultCodes": [
+            "packet_ready_with_caution"
+          ],
+          "qualification": "Existing targeted legal-rule expectation; this does not establish a current commercial offer, document acceptance or authenticated delivery."
+        },
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Pretrial intervention or diversion expungement",
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "ms_program_record_status": "completed_and_closed",
+          "ms_program_final_disposition": "dismissed_and_closed",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_order": "99-15-101"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "pardon_status",
+              "record_documents",
+              "state_exclusion_categories",
+              "trafficking_status"
+            ]
+          },
+          {
+            "round": 1,
+            "requested": [
+              "offense_level"
+            ],
+            "supplied": {
+              "offense_level": "Misdemeanor"
+            }
+          }
+        ],
+        "finalAnswers": {
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "court_requirements_completed": "yes",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "ms_program_arrest_release": "arrested_and_released",
+          "ms_program_final_disposition": "dismissed_and_closed",
+          "ms_program_order": "99-15-101",
+          "ms_program_record_status": "completed_and_closed",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pending_cases": "No",
+          "possible_pathway_context": "Pretrial intervention or diversion expungement",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes"
+        },
+        "convergenceStatus": "settled_observation",
+        "actualEvaluation": {
+          "jurisdiction": "MS",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "matterId": "public-witness",
+          "resultCode": "packet_ready_with_caution",
+          "userLabel": "A source-defined packet pathway may be available with cautions.",
+          "reasons": [
+            {
+              "code": "ms.compiled_rule_match.route-pretrial-intervention-or-diversion-expungement",
+              "text": "Compiled source rule route-pretrial-intervention-or-diversion-expungement matches Pretrial intervention or diversion expungement.",
+              "sourceRef": "pathways:15-155; section:15-155; corpus-unit:32"
+            }
+          ],
+          "missingQuestionIds": [],
+          "cautions": [],
+          "nextSteps": [
+            "Your packet has been started. A few details may still be needed before it is ready to file.",
+            "Review the cautions and complete the required packet facts in Briefcase before verification or payment.",
+            "Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps."
+          ],
+          "paymentAllowed": true,
+          "pathwayId": "pretrial-intervention-or-diversion-expungement",
+          "packetPlan": {
+            "pathwayId": "pretrial-intervention-or-diversion-expungement",
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "formMappingStatus": "custom_or_manual_mapping_required",
+            "sourceFormIds": [],
+            "requiredInputIds": [
+              "age_at_offense",
+              "case_outcome",
+              "charge",
+              "contact_information",
+              "county",
+              "court",
+              "disposition_date",
+              "financial_obligations",
+              "jurisdiction",
+              "offense_category",
+              "offense_level",
+              "participant_full_legal_name",
+              "pathway_id",
+              "pending_cases",
+              "prior_relief",
+              "record_type",
+              "residency_or_location",
+              "sentence_completion_date",
+              "trafficking_status"
+            ],
+            "sourceRuleRefs": [
+              "pathways:15-155",
+              "section:15-155",
+              "corpus-unit:32"
+            ],
+            "packetReadyWhen": [
+              "backend result is packet_ready or packet_ready_with_caution",
+              "every source-defined pathway fact is answered",
+              "all waiting and completion conditions are satisfied",
+              "no exclusion, ambiguity, or required-review flag remains",
+              "the selected form revision and filing location pass source-freshness checks"
+            ]
+          },
+          "pathwayLabel": "Pretrial intervention or diversion expungement"
+        },
+        "error": null
+      },
       "error": null
     },
     {
@@ -10954,18 +12207,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
-        "pathwayLabel": "Uncharged or unprosecuted misdemeanor — dismissal branch",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.guidance_only_no_user_filed_court_petition"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -11032,18 +12285,18 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-        "pathwayLabel": "Uncharged or unprosecuted misdemeanor after 12 months (§ 99-15-59)",
-        "paymentAllowed": false,
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "paymentAllowed": true,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ms.packet_correction_required"
+          "ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -11530,7 +12783,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "deferred-imposition-dismissal-and-sealing",
         "pathwayLabel": "Deferred-imposition dismissal and sealing",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -12178,7 +13431,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "set-aside-incarceration-one-year-or-less",
         "pathwayLabel": "Conviction set-aside after incarceration of one year or less under § 29-2264(3)",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -12262,7 +13515,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "set-aside-probation-fine-community-service",
         "pathwayLabel": "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -13593,10 +14846,16 @@
           "round": 1,
           "requested": [
             "case_outcome",
+            "nv_176a_charge_class",
+            "nv_176a_disposition_class",
+            "nv_176a_excluded_charge_class",
             "offense_level"
           ],
           "supplied": {
             "case_outcome": "Arrest or citation with no charge filed",
+            "nv_176a_charge_class": "Yes — battery constituting domestic violence, or driving under the influence",
+            "nv_176a_disposition_class": "I was discharged from probation",
+            "nv_176a_excluded_charge_class": "Yes — one of those was the charge",
             "offense_level": "Misdemeanor"
           }
         }
@@ -13607,6 +14866,9 @@
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
+        "nv_176a_charge_class": "Yes — battery constituting domestic violence, or driving under the influence",
+        "nv_176a_disposition_class": "I was discharged from probation",
+        "nv_176a_excluded_charge_class": "Yes — one of those was the charge",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
         "pardon_status": "No",
@@ -13618,14 +14880,14 @@
         "special_preconditions_confirmed": "Yes"
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "likely_not_eligible",
         "pathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
         "pathwayLabel": "Probation or specialty-court dismissal / set-aside sealing",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "nv.waiting_rule_not_executed"
+          "nv.nv_176a_subsection_3_not_eligible"
         ],
         "missingQuestionIds": []
       },
@@ -14019,7 +15281,7 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ny.ny_16059_numerosity_missing"
+          "ny.ny_16059_history_conflict"
         ],
         "missingQuestionIds": []
       },
@@ -16095,6 +17357,24 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "or_prosecutor_elected_not_to_proceed"
+          ],
+          "supplied": {
+            "or_prosecutor_elected_not_to_proceed": "yes"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "or_prosecutor_declination_date"
+          ],
+          "supplied": {
+            "or_prosecutor_declination_date": "2012-06-01"
+          }
         }
       ],
       "finalAnswers": {
@@ -16104,6 +17384,8 @@
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
+        "or_prosecutor_declination_date": "2012-06-01",
+        "or_prosecutor_elected_not_to_proceed": "yes",
         "ownership_scope": "Yes",
         "pending_cases": "No",
         "possible_pathway_context": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
@@ -16117,17 +17399,17 @@
       },
       "terminalEvaluation": {
         "resultCode": "needs_review",
-        "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-        "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+        "pathwayId": "set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c",
+        "pathwayLabel": "Set aside an arrest or citation with no court charge filed",
         "paymentAllowed": false,
         "treatmentClassification": null,
-        "selectedTrackId": null,
+        "selectedTrackId": "or_arrest_no_charges",
         "reasonCodes": [
-          "or.waiting_rule_not_executed"
+          "or.disposition_disposition_facts_supported"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
@@ -17627,6 +18909,34 @@
             "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "sd_sis_discharge_dismissal",
+            "sd_sis_granted",
+            "sd_sis_prior_felony",
+            "sd_sis_prior_sis",
+            "sd_sis_record_public",
+            "sd_sis_teaching_licence"
+          ],
+          "supplied": {
+            "sd_sis_discharge_dismissal": "Yes",
+            "sd_sis_granted": "Yes",
+            "sd_sis_prior_felony": "Yes",
+            "sd_sis_prior_sis": "Yes",
+            "sd_sis_record_public": "Yes",
+            "sd_sis_teaching_licence": "Yes"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "sd_sis_specified_charge"
+          ],
+          "supplied": {
+            "sd_sis_specified_charge": "Yes"
+          }
         }
       ],
       "finalAnswers": {
@@ -17643,6 +18953,13 @@
         "possible_pathway_context": "Suspended-imposition-of-sentence sealing",
         "record_documents": "Yes",
         "resolved_timing_bucket": "gt_10_years",
+        "sd_sis_discharge_dismissal": "Yes",
+        "sd_sis_granted": "Yes",
+        "sd_sis_prior_felony": "Yes",
+        "sd_sis_prior_sis": "Yes",
+        "sd_sis_record_public": "Yes",
+        "sd_sis_specified_charge": "Yes",
+        "sd_sis_teaching_licence": "Yes",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
         "trafficking_status": "No"
@@ -17655,7 +18972,8 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "sd.guidance_only_no_user_filed_court_petition"
+          "sd.guidance_only_no_user_filed_court_petition",
+          "sd.sis_prior_review"
         ],
         "missingQuestionIds": []
       },
@@ -18455,6 +19773,24 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_discharge_dismissal_date"
+          ],
+          "supplied": {
+            "tx_nd_discharge_dismissal_date": "2012-06-01"
+          }
         }
       ],
       "finalAnswers": {
@@ -18475,7 +19811,9 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
+        ],
+        "tx_nd_discharge_dismissal_date": "2012-06-01",
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
       "terminalEvaluation": {
         "resultCode": "needs_review",
@@ -18485,7 +19823,7 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "tx.waiting_rule_not_executed"
+          "tx.nondisclosure_dwi_source_facts_review"
         ],
         "missingQuestionIds": []
       },
@@ -18538,6 +19876,26 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_deferred_offense_class",
+            "tx_nd_discharge_dismissal_date"
+          ],
+          "supplied": {
+            "tx_nd_deferred_offense_class": "misdemeanor_other_chapter",
+            "tx_nd_discharge_dismissal_date": "2012-06-01"
+          }
         }
       ],
       "finalAnswers": {
@@ -18558,17 +19916,20 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
+        ],
+        "tx_nd_deferred_offense_class": "misdemeanor_other_chapter",
+        "tx_nd_discharge_dismissal_date": "2012-06-01",
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "needs_review",
         "pathwayId": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
         "pathwayLabel": "Petitioned nondisclosure after completed deferred adjudication (§ 411.0725)",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "tx.guidance_only_no_user_filed_court_petition"
+          "tx.route_gate_pending_lawrence_review"
         ],
         "missingQuestionIds": []
       },
@@ -18621,6 +19982,24 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
         }
       ],
       "finalAnswers": {
@@ -18641,22 +20020,92 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
-      },
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
-        "pathwayLabel": "Petitioned nondisclosure for an eligible conviction (§ 411.0735)",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "tx.route_gate_pending_lawrence_review"
         ],
-        "missingQuestionIds": []
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "TX",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_review",
+        "userLabel": "We need one more detail before we can prepare the right packet.",
+        "reasons": [
+          {
+            "code": "tx.nondisclosure_subtype_conflict",
+            "text": "The saved facts do not establish this nondisclosure timing branch. Review the actual court record; another procedure may apply.",
+            "sourceRef": "TX.memo;GovtCode411.0735"
+          }
+        ],
+        "missingQuestionIds": [
+          "tx_nd_supervision_type"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "Gather court records.",
+          "Save the result.",
+          "Save your progress and update your answers when you have that detail."
+        ],
+        "paymentAllowed": false,
+        "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+        "packetPlan": {
+          "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+          "mode": "official_form_overlay_or_source_form_set",
+          "formMappingStatus": "source_candidate_identified",
+          "sourceFormIds": [
+            "TX:LegalEase Texas/tx-statewide-expunction-nondisclosure-forms.html:d6f3d47523a2593098bf45c3831aead8265586b31f86200de64eadc30f433abe"
+          ],
+          "requiredInputIds": [
+            "arrest_date",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "court",
+            "disposition_date",
+            "financial_obligations",
+            "identity_error",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "pardon_status",
+            "participant_full_legal_name",
+            "pathway_id",
+            "pending_cases",
+            "record_type",
+            "residency_or_location"
+          ],
+          "sourceRuleRefs": [
+            "section:77-124",
+            "section:125-175",
+            "section:176-223",
+            "section:224-270",
+            "section:54-76",
+            "section:271-301",
+            "case_outcomes:224-270",
+            "corpus-unit:50",
+            "corpus-unit:64",
+            "corpus-unit:31",
+            "corpus-unit:43",
+            "waiting_periods:125-175",
+            "exclusions:176-223",
+            "corpus-unit:22",
+            "corpus-unit:30",
+            "corpus-unit:52",
+            "corpus-unit:71"
+          ],
+          "packetReadyWhen": [
+            "backend result is packet_ready or packet_ready_with_caution",
+            "every source-defined pathway fact is answered",
+            "all waiting and completion conditions are satisfied",
+            "no exclusion, ambiguity, or required-review flag remains",
+            "the selected form revision and filing location pass source-freshness checks"
+          ]
+        },
+        "pathwayLabel": "Petitioned nondisclosure for an eligible conviction (§ 411.0735)"
+      },
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
@@ -18959,7 +20408,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "path-i-traffic-offense-expungement-or-deletion",
         "pathwayLabel": "Path I — Traffic-offense expungement or deletion",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -19244,6 +20693,15 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 1,
+          "requested": [
+            "va_record_origin"
+          ],
+          "supplied": {
+            "va_record_origin": "virginia"
+          }
         }
       ],
       "finalAnswers": {
@@ -19265,7 +20723,8 @@
         "state_exclusion_categories": [
           "None of these"
         ],
-        "trafficking_status": "No"
+        "trafficking_status": "No",
+        "va_record_origin": "virginia"
       },
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
@@ -19322,6 +20781,15 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 1,
+          "requested": [
+            "va_record_origin"
+          ],
+          "supplied": {
+            "va_record_origin": "virginia"
+          }
         }
       ],
       "finalAnswers": {
@@ -19343,7 +20811,8 @@
         "state_exclusion_categories": [
           "None of these"
         ],
-        "trafficking_status": "No"
+        "trafficking_status": "No",
+        "va_record_origin": "virginia"
       },
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
@@ -20682,7 +22151,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "adult-conviction-expungement-under-wis-stat-973-015",
         "pathwayLabel": "Adult conviction expungement under Wis. Stat. § 973.015",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -21090,7 +22559,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
         "pathwayLabel": "Accelerated treatment / recovery / job-readiness expungement under § 61-11-26a",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -21598,7 +23067,7 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "wy.selected_pathway_rule_not_matched"
+          "wy.felony1502_disposition"
         ],
         "missingQuestionIds": []
       },

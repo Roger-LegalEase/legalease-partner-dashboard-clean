@@ -23,3 +23,18 @@ test('only the two demonstrated narrow name fields receive a readable eight-poin
   assert.deepEqual(limited,['ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS::Defendant',...(fixture.protectedInformation?['ND-CONFIDENTIAL-INFORMATION-CRIMINAL::undefined']:[])]);
  }
 });
+
+test('receipt route scope matches the exact census and worklist family',async()=>{
+ const fs=await import('node:fs');
+ const read=p=>JSON.parse(fs.readFileSync(new URL('../'+p,import.meta.url),'utf8'));
+ const family='nd-prohibit-remote-public-access-set';
+ const expected=['obligation:track-only:ND:nd-prohibit-remote-public-access'];
+ const receipt=read('data/rcap-all50/overlays/census-v1/nd/'+family+'--official-pdf-fill/source-receipt.json');
+ assert.deepEqual(receipt.routeKeys,expected,'receipt must identify its served route for scoped source comparison');
+ const census=read('data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json');
+ assert.deepEqual(census.routes.filter(r=>r.packetSetId===family).map(r=>r.routeKey),expected);
+ const worklist=read('data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json');
+ assert.deepEqual(worklist.packetFamilies.find(f=>f.worklistGroupId===family).routeKeys,expected);
+ const builder=await import('./build-census-v1-nd-prohibit-remote-public-access-set.mjs');
+ assert.deepEqual(builder.ROUTE_KEYS,expected,'native receipt generation retains this scope');
+});

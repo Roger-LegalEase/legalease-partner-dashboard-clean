@@ -64,7 +64,8 @@ const master = read(`${DIR}/MASTER_QUEUE.json`);
 if (!master) { console.error("REFUSED: the master queue is not readable; a raster queue built from nothing would queue nothing and say so cheerfully."); process.exit(1); }
 const active = read(`${DIR}/ACTIVE_ASSIGNMENTS.json`, { assignments: [] });
 const builderOf = new Map();
-for (const a of active.assignments ?? []) for (const f of a.items ?? []) if (typeof f === "string") builderOf.set(f, a.assignmentId);
+// Only a packet-build roster names a builder; verification and repair rosters hold families too and are not builders.
+for (const a of active.assignments ?? []) for (const f of a.items ?? []) if (typeof f === "string" && a.itemKind === "packetFamily") builderOf.set(f, a.assignmentId);
 
 // pdf-lib is what the builders use; the page count is read from the bytes, not
 // from anyone's report about the bytes.

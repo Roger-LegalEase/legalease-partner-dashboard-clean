@@ -1,0 +1,24 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF05",
+ "worker": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "assignmentCount": 1,
+ "assignments": [
+  {
+   "itemId": "rcap-wv-custom-pleading",
+   "lane": "VF05",
+   "assignedBy": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+   "failedObligationNames": [
+    "ROUTE_OPTIONS"
+   ],
+   "decisiveDefect": "ROUTE_OPTIONS: production-field-map.json routeSelectionsMade[0].statedOn promises the route is stated in the \"titles, bodies and footers\" of the composed pages, but none of the 25 pages prints a footer. The route line is a body line closing each component (canonical pp[4, 6, 8, 9, 12], boundary pp[4, 6, 9, 10, 13]), on the affidavit above the signature and jurat (canonical p6; boundary p6, jurat alone on p7). The routeSelectionNote also says every composed page states the statutory ground \"in its own title and body\", but the continuation pages have no title and the certificate of service cites no statute.",
+   "repairWriter": "the lead (lead/wv-statedon-20261020 @ 939b01de3a98e44612767c5174359dd419a417ce, three commits on 92ff5d436)",
+   "successorKind": "CONTENT rebuild: both PDFs move (renderer drops the Route: trailer), statedOn rewritten; A9 owed after push",
+   "repairScope": "CONTENT rebuild on the current renderer: canonical 51c4941b -> ac35af7e, boundary 4e79ef98 -> f35492b0 (the Route: trailers no longer print); statedOn becomes 'the composed pages for this route, in their titles and bodies; no page prints a route footer'; the wiring withdraws RASTER_PASS 34051987934 and the raster queue puts WV at RASTER_PENDING; a fresh central A9 is owed after the push. At 939b01de3 the routeSelectionNote is unchanged and still says every composed page states the statutory ground 'in its own title and body'; the continuation pages have no title and the certificate of service cites no statute, so the note needs the same repair or a ruling. A fresh VF05 read at the pushed repair, after its A9, can then return PASS if nothing else moves.",
+   "grantsNothing": "Assignment only; opens no route."
+  }
+ ],
+ "grantsNothing": "Assignments only; this file opens no route, sets no price and authorises no promotion."
+}

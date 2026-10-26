@@ -18,6 +18,7 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
     "package.json": "{}", "package-lock.json": "{}", "tsconfig.json": "{}",
     "scripts/rcap-render-worker.mjs": "export {};", "scripts/lib/loader.mjs": "export {};", "src/worker.ts": "export {};",
     "data/runtime/authority.json": "{}", "data/specifications/a.json": "{}",
+    "data/runtime/composed-treatment:obligation/map.json": "{}",
     // The two inputs CANONICAL_WORKER_INPUTS names unconditionally, rather than
     // deriving from the Dockerfile. A synthetic tree without them is a tree
     // missing a canonical worker input, which the planner correctly answers
@@ -32,6 +33,7 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
       "FROM node:22-slim", "COPY --from=deps /app/node_modules ./node_modules",
       "COPY src/ src/", "COPY data/runtime/authority.json data/runtime/",
       "COPY data/specifications/ data/specifications/",
+      "COPY data/runtime/composed-treatment:obligation/map.json data/runtime/composed-treatment:obligation/",
       "COPY deploy/rcap-render-worker/runtime-data-manifest.json \\",
       "     deploy/rcap-render-worker/preflight.mjs deploy/rcap-render-worker/"
     ].join("\n")
@@ -57,7 +59,7 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
   assert.equal(plan().aggregateInputSha256, initial.aggregateInputSha256);
 
   const changed = [
-    "data/runtime/authority.json", "data/specifications/new.json",
+    "data/runtime/authority.json", "data/specifications/new.json", "data/runtime/composed-treatment:obligation/map.json",
     "deploy/rcap-render-worker/runtime-data-manifest.json", "deploy/rcap-render-worker/preflight.mjs",
     "deploy/rcap-render-worker/Dockerfile.dockerignore"
   ];
@@ -89,8 +91,10 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
   assert(withoutGuides.missingCanonicalInputs.includes("data/record-clearing/supplemental-guides"));
   assert.equal(withoutGuides.image.digest, "pending");
 
-  write("deploy/rcap-render-worker/Dockerfile", "FROM node:22-slim\nCOPY data/*.json data/\n");
-  git("add", "--", "deploy/rcap-render-worker/Dockerfile");
-  git("commit", "--quiet", "-m", "synthetic unsupported COPY");
-  assert.throws(plan, /unsupported Dockerfile COPY source/);
+  for (const source of ["data/*.json", "../authority.json", "/authority.json"]) {
+    write("deploy/rcap-render-worker/Dockerfile", `FROM node:22-slim\nCOPY ${source} data/\n`);
+    git("add", "--", "deploy/rcap-render-worker/Dockerfile");
+    git("commit", "--quiet", "-m", "synthetic unsupported COPY");
+    assert.throws(plan, /unsupported Dockerfile COPY source/);
+  }
 });

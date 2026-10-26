@@ -28,12 +28,16 @@ import {
 } from "./identity-refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+// Each subject is read from git as the receipt that carried its three blocks (blobs at
+// 1b4dfeaa1): a later repair that moves a source rebuilds the live receipt, and a
+// moved pin rightly carries its block as history, so the file on disk stops being a subject.
 const SUBJECTS = [
-  "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json",
-  "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/source-receipt.json"
+  ["data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json", "7d1a453cc79d88ad1147adf5c062b93d10cae285"],
+  ["data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/source-receipt.json", "628efc570f033ee18e63b8e4c124d5406957a35b"]
 ];
 
 const load = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+const fromGit = (blob) => JSON.parse(execFileSync("git", ["cat-file", "blob", blob], { cwd: ROOT, encoding: "utf8" }));
 const clone = (x) => structuredClone(x);
 const annotationsIn = (doc) => {
   const found = [];
@@ -50,9 +54,9 @@ const asRebuilt = (doc) => {
 const results = [];
 const it = (name, fn) => { fn(); results.push(name); };
 
-for (const rel of SUBJECTS) {
+for (const [rel, blob] of SUBJECTS) {
   const name = rel.split("/").slice(-2, -1)[0];
-  const committed = load(rel);
+  const committed = fromGit(blob);
   const held = annotationsIn(committed);
   assert.equal(held.length, 3, `${name} is the subject because it carries three annotations`);
 
@@ -74,7 +78,9 @@ for (const rel of SUBJECTS) {
   });
 
   /* ---- direction two: stale evidence is not laundered ------------------- */
-  it(`${name}: an annotation whose source moved again is NOT carried forward`, () => {
+  /* Ruling B' (2026-10-20): the stale note is not laundered into a live claim,
+   * and it is not lost either -- it rides as history on the moved pin. */
+  it(`${name}: an annotation whose source moved again is carried as history, never as a live block`, () => {
     const rebuilt = asRebuilt(committed);
     const target = held[0].at;
     const movedTo = "f".repeat(64);
@@ -82,24 +88,59 @@ for (const rel of SUBJECTS) {
     eachPin(rebuilt, (pin, at) => { if (at === target) { pin.sha256 = movedTo; touched += 1; } });
     assert.ok(touched > 0, "the source this rebuild measured differs from the one the annotation was written against");
 
-    const { document, carried, dropped } = carryForwardIdentityRefresh(committed, rebuilt);
+    const { document, carried, dropped, history } = carryForwardIdentityRefresh(committed, rebuilt, { on: "2026-10-20T04:00:00Z" });
     const survived = annotationsIn(document).map((a) => a.at);
     assert.ok(!survived.includes(target), "a stale comparison does not become current by being copied forward");
     assert.equal(carried.length, 2, "and the two annotations that ARE still true are still preserved");
-    assert.equal(dropped.length, 1);
-    assert.equal(dropped[0].path, target);
-    assert.equal(dropped[0].measuredNow, movedTo);
-    assert.match(dropped[0].why, /moved again/);
+    assert.equal(dropped.length, 0);
+    assert.equal(history.length, 1);
+    assert.equal(history[0].path, target);
+    assert.equal(history[0].measuredNow, movedTo);
+    assert.match(history[0].why, /moved again/);
+    const moved = [];
+    eachPin(document, (pin, at) => { if (at === target) moved.push(pin); });
+    const entry = moved[0].identityRefreshHistory.at(-1);
+    assert.equal(moved[0].identityRefresh, undefined, "no live block sits on the moved pin");
+    assert.equal(moved[0].identityRefreshHistory.length, 1);
+    assert.equal(entry.writtenAgainst, held[0].sha256);
+    assert.deepEqual(entry.supersededBy, { measuredNow: movedTo, on: "2026-10-20", by: "rebuild", why: history[0].why });
+    assert.equal(entry.writtenAgainstByteLength, moved[0].byteLength ?? null);
+    const { writtenAgainst, writtenAgainstByteLength, supersededBy, ...verbatim } = entry;
+    assert.deepEqual(verbatim, held[0].annotation, "the prior block rides verbatim inside the history entry");
   });
 
-  it(`${name}: a source reverted to the pre-refresh identity is not annotated`, () => {
+  it(`${name}: a source reverted to the pre-refresh identity is a move too: history, no live block`, () => {
     const rebuilt = asRebuilt(committed);
     const target = held[0].at;
     const wasSha = held[0].annotation.was.sha256;
     eachPin(rebuilt, (pin, at) => { if (at === target) pin.sha256 = wasSha; });
-    const { document, dropped } = carryForwardIdentityRefresh(committed, rebuilt);
+    const { document, dropped, history } = carryForwardIdentityRefresh(committed, rebuilt);
     assert.ok(!annotationsIn(document).map((a) => a.at).includes(target));
-    assert.equal(dropped.length, 1);
+    assert.equal(dropped.length, 0);
+    assert.equal(history.length, 1);
+  });
+
+  it(`${name}: history survives the next rebuild, on an unmoved pin and on a pin that moves again`, () => {
+    const target = held[0].at;
+    const once = asRebuilt(committed);
+    eachPin(once, (pin, at) => { if (at === target) pin.sha256 = "f".repeat(64); });
+    const first = carryForwardIdentityRefresh(committed, once, { on: "2026-10-20T04:00:00Z" }).document;
+    /* unmoved second rebuild: the history rides along, still no live block */
+    const again = asRebuilt(first);
+    eachPin(again, (pin) => { delete pin.identityRefreshHistory; });
+    const second = carryForwardIdentityRefresh(first, again, { on: "2026-10-21T04:00:00Z" });
+    const pins = []; eachPin(second.document, (pin, at) => { if (at === target) pins.push(pin); });
+    assert.equal(pins[0].identityRefresh, undefined);
+    assert.equal(pins[0].identityRefreshHistory.length, 1);
+    assert.equal(second.carried.length, 2, "the two live blocks on unmoved pins still carry");
+    /* a planner re-pin later writes a live block; a further unmoved rebuild keeps both */
+    const repinned = structuredClone(second.document);
+    eachPin(repinned, (pin, at) => { if (at === target) pin.identityRefresh = { was: { sha256: held[0].sha256 }, anchorsCompared: 1, anchorsIdentical: 1, why: "measured re-pin" }; });
+    const third = asRebuilt(repinned);
+    eachPin(third, (pin) => { delete pin.identityRefreshHistory; });
+    const kept = []; eachPin(carryForwardIdentityRefresh(repinned, third).document, (pin, at) => { if (at === target) kept.push(pin); });
+    assert.equal(kept[0].identityRefresh.why, "measured re-pin");
+    assert.equal(kept[0].identityRefreshHistory.length, 1);
   });
 }
 
@@ -148,6 +189,98 @@ it("a pin the rebuild no longer binds is reported rather than resurrected", () =
   assert.match(dropped[0].why, /nothing to sit on/);
 });
 
+it("a path bound twice keeps each pin's block on that pin when the source moves (VA misdemeanor, 2026-10-21)", () => {
+  const block = (field) => ({ was: { sha256: "b".repeat(64), byteLength: 1 }, anchorsCompared: 1, anchorsIdentical: 1, why: field });
+  const previous = { committedRecordsBound: [
+    { path: "m.json", field: "fees", sha256: "a".repeat(64), identityRefresh: block("fees") },
+    { path: "other.json", sha256: "c".repeat(64) },
+    { path: "m.json", field: "service", sha256: "a".repeat(64), identityRefresh: block("service") }
+  ] };
+  const next = { committedRecordsBound: previous.committedRecordsBound.map(({ identityRefresh, ...pin }) => ({ ...pin, sha256: pin.path === "m.json" ? "f".repeat(64) : pin.sha256 })) };
+  const { document, history } = carryForwardIdentityRefresh(previous, next, { on: "2026-10-21T00:00:00Z" });
+  assert.equal(history.length, 2);
+  const [fees, , service] = document.committedRecordsBound;
+  assert.deepEqual(fees.identityRefreshHistory.map((e) => e.why), ["fees"], "the first pin keeps its own block, and only its own");
+  assert.deepEqual(service.identityRefreshHistory.map((e) => e.why), ["service"], "the second pin keeps its block too");
+});
+
+it("a path bound twice keeps each pin's own history when neither holds a live block", () => {
+  const entry = (field) => ({ was: { sha256: "b".repeat(64), byteLength: 1 }, writtenAgainst: "a".repeat(64), why: field });
+  const previous = { committedRecordsBound: [
+    { path: "m.json", field: "fees", sha256: "a".repeat(64), identityRefreshHistory: [entry("fees")] },
+    { path: "m.json", field: "service", sha256: "a".repeat(64), identityRefreshHistory: [entry("service")] }
+  ] };
+  const next = { committedRecordsBound: previous.committedRecordsBound.map(({ identityRefreshHistory, ...pin }) => pin) };
+  const [fees, service] = carryForwardIdentityRefresh(previous, next, { on: "2026-10-21T00:00:00Z" }).document.committedRecordsBound;
+  assert.deepEqual(fees.identityRefreshHistory.map((e) => e.why), ["fees"], "the first pin carries only its own history");
+  assert.deepEqual(service.identityRefreshHistory?.map((e) => e.why), ["service"], "the second pin keeps its history too");
+});
+
+/* One previous pin per pin, on every branch: a pin whose previous block is refused has used up its previous pin
+ * and must not take its neighbour's (Reviewer3 R3-CTV7-F1, 2026-10-21). */
+const sourceBlock = (why) => ({ was: { sha256: "b".repeat(64), byteLength: 1 }, anchorsCompared: 1, anchorsIdentical: 1, why });
+const boundTwice = (first, second) => ({ committedRecordsBound: [
+  { path: "m.json", field: "fees", sha256: "a".repeat(64), identityRefresh: first },
+  { path: "other.json", sha256: "c".repeat(64) },
+  { path: "m.json", field: "service", sha256: "a".repeat(64), identityRefresh: second }
+] });
+const rebuiltFrom = (previous, sha256) => ({ committedRecordsBound: previous.committedRecordsBound
+  .map(({ identityRefresh, ...pin }) => ({ ...pin, sha256: sha256 && pin.path === "m.json" ? sha256 : pin.sha256 })) });
+
+it("a path bound twice on an unchanged source carries both valid blocks verbatim, each on its own pin", () => {
+  const previous = boundTwice(sourceBlock("fees"), sourceBlock("service"));
+  const { document, carried, dropped } = carryForwardIdentityRefresh(previous, rebuiltFrom(previous));
+  assert.deepEqual(document, previous);
+  assert.equal(carried.length, 2);
+  assert.equal(dropped.length, 0);
+});
+
+it("a path bound twice: a rejected block on the first pin is dropped and the second pin keeps its own valid block", () => {
+  const previous = boundTwice({ ...sourceBlock("fees"), rasterReceipt: { run: "1" } }, sourceBlock("service"));
+  const { document, carried, dropped } = carryForwardIdentityRefresh(previous, rebuiltFrom(previous));
+  const [fees, , service] = document.committedRecordsBound;
+  assert.equal(fees.identityRefresh, undefined, "the artifact-bound block rides on no pin, and the first pin takes no other");
+  assert.equal(fees.identityRefreshHistory, undefined);
+  assert.deepEqual(service.identityRefresh, sourceBlock("service"), "the second pin keeps its own block, verbatim");
+  assert.equal(carried.length, 1);
+  assert.equal(dropped.length, 1);
+  assert.match(dropped[0].why, /artifact-bound/);
+});
+
+it("a path bound twice: a rejected block on the second pin leaves the first pin's valid block in place", () => {
+  const previous = boundTwice(sourceBlock("fees"), { was: { sha256: "b".repeat(64) }, approvedBy: "a reviewer" });
+  const { document, carried, dropped } = carryForwardIdentityRefresh(previous, rebuiltFrom(previous));
+  const [fees, , service] = document.committedRecordsBound;
+  assert.deepEqual(fees.identityRefresh, sourceBlock("fees"));
+  assert.equal(service.identityRefresh, undefined);
+  assert.equal(carried.length, 1);
+  assert.equal(dropped.length, 1);
+});
+
+it("a path bound twice: a first block recording a move from X to X is dropped and the second pin keeps its own block (R3-CTV7-F2)", () => {
+  const previous = boundTwice({ ...sourceBlock("fees"), was: { sha256: "a".repeat(64), byteLength: 1 } }, sourceBlock("service"));
+  const { document, carried, dropped } = carryForwardIdentityRefresh(previous, rebuiltFrom(previous));
+  const [fees, , service] = document.committedRecordsBound;
+  assert.equal(fees.identityRefresh, undefined, "a block whose previous identity is its own pin records no move, and the first pin takes no other");
+  assert.equal(fees.identityRefreshHistory, undefined);
+  assert.deepEqual(service.identityRefresh, sourceBlock("service"), "the second pin keeps its own block, verbatim");
+  assert.equal(carried.length, 1);
+  assert.equal(dropped.length, 1);
+  assert.match(dropped[0].why, /reverted/);
+});
+
+it("a path bound twice whose source moved: the rejected first block is dropped and the second pin's block is its own history", () => {
+  const previous = boundTwice({ ...sourceBlock("fees"), rasterReceipt: { run: "1" } }, sourceBlock("service"));
+  const { document, dropped, history } = carryForwardIdentityRefresh(previous, rebuiltFrom(previous, "f".repeat(64)), { on: "2026-10-21T00:00:00Z" });
+  const [fees, , service] = document.committedRecordsBound;
+  assert.equal(fees.identityRefresh, undefined);
+  assert.equal(fees.identityRefreshHistory, undefined, "the first pin takes no history that is not its own");
+  assert.equal(service.identityRefresh, undefined, "a moved pin holds no live block");
+  assert.deepEqual(service.identityRefreshHistory.map((e) => e.why), ["service"]);
+  assert.equal(dropped.length, 1);
+  assert.equal(history.length, 1);
+});
+
 it("a missing, unreadable or non-JSON previous receipt costs the build nothing", () => {
   const doc = { committedRecords: [{ pathInRepository: "p.json", sha256: "a".repeat(64) }] };
   assert.equal(preserveIdentityRefresh(fs, path.join(ROOT, "no/such/source-receipt.json"), doc), doc);
@@ -156,9 +289,11 @@ it("a missing, unreadable or non-JSON previous receipt costs the build nothing",
 });
 
 it("preserveIdentityRefresh restores from the receipt already on disk", () => {
-  const rel = SUBJECTS[0];
+  const [rel] = SUBJECTS[0];
   const committed = load(rel);
-  const restored = preserveIdentityRefresh(fs, path.join(ROOT, rel), asRebuilt(committed));
+  const plain = asRebuilt(committed);
+  eachPin(plain, (pin) => { delete pin.identityRefreshHistory; }); // a real builder emits no history, as the idempotence case models
+  const restored = preserveIdentityRefresh(fs, path.join(ROOT, rel), plain);
   assert.deepEqual(restored, committed);
 });
 
@@ -192,8 +327,8 @@ it("every receipt carrying an annotation is built through the preservation", () 
     if (!fs.existsSync(abs)) return false;
     const text = fs.readFileSync(abs, "utf8");
     if (text.includes("preserveIdentityRefresh")) return true;
-    for (const spec of text.match(/from\s+"(\.[^"]+\.mjs)"/g) ?? []) {
-      const rel = spec.replace(/^from\s+"/, "").replace(/"$/, "");
+    for (const spec of text.match(/from\s*["'](\.[^"']+\.mjs)["']/g) ?? []) {
+      const rel = spec.replace(/^from\s*["']/, "").replace(/["']$/, "");
       const next = path.posix.join(path.posix.dirname(script), rel);
       if (wired(next, seen)) return true;
     }

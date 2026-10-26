@@ -28,6 +28,7 @@ import {
   loadJurisdictionProfile,
   normalizeStateKey
 } from "@/lib/expungement-ai/frontend/profile-loader";
+import { invalidateNyClockConfirmations } from "@/lib/expungement-ai/ny-16059-clock-confirmation";
 import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
@@ -295,7 +296,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
   const stateName = profile.jurisdiction.name;
 
   function setAnswer(questionId: string, value: AnswerValue) {
-    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+    setAnswers((prev) => ({ ...invalidateNyClockConfirmations(prev, profile.jurisdiction.code, questionId, value), [questionId]: value }));
     setError(null);
   }
 
@@ -385,7 +386,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
       return;
     }
     const selectedScreens = screensFromQuestionIds(profile, selectedIds);
-    const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
+    const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds, profile);
     setQuestionIds(selectedIds);
     setAnswers(sanitizedAnswers);
     const currentPosition = selectedScreens.findIndex((screen) => screen.id === question.id);
@@ -447,7 +448,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
         return;
       }
       const selectedScreens = screensFromQuestionIds(profile, selectedIds);
-      const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
+      const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds, profile);
       const matchingIndex = selectedScreens.findIndex((screen) => screen.id === screens[currentIndex]?.id);
       const resumeIndex = matchingIndex >= 0 ? matchingIndex : Math.min(currentIndex, selectedScreens.length - 1);
       const activeQuestion = selectedScreens[resumeIndex];
@@ -516,6 +517,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
         <div ref={focusRef} tabIndex={-1} className="outline-none">
           <ScreeningResult
             evaluation={evaluation}
+            evaluatedAnswers={evaluatedAnswers ?? {}}
             stateName={stateName}
             questionPromptById={questionPromptById}
             onEditAnswers={goToQuestions}
@@ -559,6 +561,14 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
           </p>
         ) : null}
         <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
+          {question.id === "possible_pathway_context" && question.contextOnly === true && question.required === false ? <button
+            type="button"
+            onClick={() => void handleContinue()}
+            disabled={selectingQuestions}
+            className="min-h-[48px] rounded-[14px] border border-[#D7DEE8] px-6 py-3 text-base font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60"
+          >
+            {locale === "es" ? "Omitir / No estoy seguro" : "Skip / Not sure"}
+          </button> : null}
           <button
             type="button"
             onClick={() => void handleContinue()}

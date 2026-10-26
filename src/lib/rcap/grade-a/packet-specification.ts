@@ -38,6 +38,8 @@ export type PacketSpecificationFact = {
   factId: string;
   use: string;
   inRegistryRequiredInputs: boolean;
+  /** Explicit source permission to generate with this participant fact unknown. */
+  requiredForGeneration?: false;
   gapNote?: string;
   ownership?: "participant" | "server";
   prompt?: string;
@@ -70,8 +72,9 @@ export type PacketSpecificationSection = {
    *   value              the platform's fact, printed.
    *   ruled_blank        a labelled line the participant completes before filing.
    *   court_owned_space  a labelled space the court itself completes.
+   *   prosecutor_owned_space  a labelled blank only the prosecutor completes.
    */
-  fieldTreatments?: Record<string, "value" | "ruled_blank" | "court_owned_space">;
+  fieldTreatments?: Record<string, "value" | "value_or_ruled_blank" | "ruled_blank" | "court_owned_space" | "prosecutor_owned_space">;
   /**
    * An explicit caption, for a filing whose caption is not the generic
    * two-party one and whose caption values the participant writes on the page.
@@ -104,6 +107,10 @@ export type PacketSpecificationSection = {
    * internal, which is what every route but Illinois relies on.
    */
   headingPresentation?: "printed" | "internal";
+  /** Keep this ruled identity block with the following signature label. */
+  keepWithNext?: boolean;
+  /** Omit alphabetical markers where the source lists unnumbered field labels. */
+  listMarker?: "none";
   /**
    * The label above a signature block's date rule, where the adopted page
    * rules one. Absent where the page has only a signature line.
@@ -125,6 +132,8 @@ export type PacketSpecificationSection = {
     courtLines?: Array<{ prefix?: string; field?: string; suffix?: string }>;
     /** The adopted label before the number, where it is not "CASE NO.". */
     caseNumberLabel?: string;
+    /** Additional adopted caption blanks; only declared later-owned fields, never supplied values. */
+    blankFields?: string[];
     /** Replaces PLAINTIFF / VS. / DEFENDANT for an in-the-matter-of caption. */
     matterTitle?: string;
     /**
@@ -138,7 +147,13 @@ export type PacketSpecificationSection = {
     captionOrder?: "case_number_first" | "matter_title_first";
     caseNumber: string;
     caseNumberInstruction?: string;
+    /** Source-supported optional case identifier under the docket number. */
+    optionalIdentifier?: { field: string; label: string };
     documentTitle?: string;
+    /** Short component identification for continuation pages; full first-page title stays intact. */
+    continuationTitle?: string;
+    /** Wrap participant-supplied court lines within the pleading margins. */
+    wrapCourtLines?: boolean;
   };
   fieldValueTemplates?: Record<string, string>;
   assertions?: Array<{ id: string; text: string; facts: string[] }>;

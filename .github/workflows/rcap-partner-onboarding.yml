@@ -21,13 +21,68 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  onboarding:
-    name: Verify RCAP partner onboarding
+  groups:
+    name: Onboarding group ${{ matrix.group }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # One job per independent group so a failure anywhere reports in that group's time, not after
+    # the whole 118-minute boundary list. The groups share no state: every boundary script writes
+    # only to argv/env paths that CI does not set or to private system temp dirs, except the CT
+    # profile generator, which rewrites its in-tree output and asserts it unchanged. Each runner
+    # checks out fresh.
+    # Cuts are a contiguous re-cut of the original list by the per-command timings of runs 39268048249 and 39273766406, each normalised for its runner's speed.
+    # The cheap checks and the build sit on the leg the partition chose for them.
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [a, b, c, d, e, f, g]
+        # GA-17 DC/FL grows with every route R1 adds (31 cases now, about 198 at the end: GA1217,
+        # 2026-10-21), past what one 120-minute leg holds, so it runs as its own --shard=i/n legs.
+        include:
+          - { group: ga17-0, shard: 0/4 }
+          - { group: ga17-1, shard: 1/4 }
+          - { group: ga17-2, shard: 2/4 }
+          - { group: ga17-3, shard: 3/4 }
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Fetch pinned Georgia assembly comparison baseline
+        run: git fetch --no-tags --depth=1 origin 8af7a0641c8ff7ad126c40b1333994737e76dbe7
+
+      - name: Fetch pinned DC protected-save comparison baseline
+        run: git fetch --no-tags --depth=1 origin 0983b7fc34d8fa9299b71d4d8775634d0e4007c2
+
+      - name: Fetch pinned Alaska adopted-guidance source
+        run: git fetch --no-tags --depth=1 origin 36509c7377c5653db07fd5c43b3948aad079164a
+
+      - name: Fetch pinned North Dakota adopted-pleading source
+        run: git fetch --no-tags --depth=1 origin 69b215d3673600b18ead7422699eb4e6636de6fe
+
+      - name: Fetch pinned Wyoming saved-answer comparison baseline
+        run: git fetch --no-tags --depth=1 origin 560e8b54b0c03537ad3eaef4b8dbf2edc22ffe95
+
+      - name: Fetch pinned factory producer comparison baseline
+        run: git fetch --no-tags --depth=1 origin 4d00a1ffa16965290d55536787dca85981d0fced
+
+      - name: Fetch pinned Georgia pre-correction specification witness
+        run: git fetch --no-tags --depth=1 origin 75dcf56df74b2f3b00829a32bb90d99516bedafa
+
+      - name: Fetch pinned item-13b approval baseline (group g)
+        if: matrix.group == 'g'
+        run: git fetch --no-tags --depth=1 origin ed7356a733b5f47976e012c9ba386f0a021057ca
+
+      # test-md-scope-restatement replays every first-parent evaluator transition the MD
+      # approved-delta record restates (99d647bd5..ee40c239a, 93 transitions) from the actual
+      # historical bytes. 699 = the first-parent distance from ee40c239a back to 99d647bd5^, so
+      # the oldest parent it reads is the shallow root. Only group e runs it.
+      - name: Fetch the MD pardon scope-restatement history (group e)
+        if: matrix.group == 'e'
+        run: git fetch --no-tags --depth=699 origin ee40c239aab28c9cc090531da7e04464b88b104f
+
+      - name: Fetch published held packet copy comparison predecessor (group a)
+        if: matrix.group == 'a'
+        run: git fetch --no-tags --depth=1 origin 9066e1fb938a43c89766e3bbd8f4b20fe60e7977
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -38,26 +93,358 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci
 
+      # Every result is bound to the exact merge-ref commit this run tests; a checkout that drifted
+      # from GITHUB_SHA fails here before any command runs.
+      - name: Bind the tested source to the merge ref
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          echo "tested merge-ref $GITHUB_SHA (pull request head ${{ github.event.pull_request.head.sha || github.sha }})"
+
       - name: Lint
+        if: matrix.group == 'g'
         run: npm run lint
 
       - name: Typecheck
+        if: matrix.group == 'g'
         run: npm run typecheck
+
+      - name: Verify Clinic acceptance harness controls
+        if: matrix.group == 'g'
+        run: node --test scripts/test-typescript-mock-loader.mjs scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/clinic-qa/packet-status-answer.test.mjs scripts/clinic-qa/sponsored-cleanup.test.mjs scripts/test-private-download-denial.mjs
+
+      # Cheapest known failure first: this gate failed at the END of a 105-minute step on c98e7d422.
+      # Its only inputs are the lockfile install and committed report/metadata files.
+      - name: Verify prepayment question gate
+        if: matrix.group == 'g'
+        run: node scripts/verify-rcap-prepay-question-gate.mjs
+
+      # ~20 s. Payment permission follows reviewed route rules (807d35063) and needs explicit
+      # authority or ratification (f0f1eae4a); the held GA retroactive route only gets its consent
+      # next steps (713d50906). Committed fixtures only, no DB or private source.
+      - name: Verify payment authority ownership
+        if: matrix.group == 'g'
+        run: |
+          node scripts/test-payment-rule-ownership.mjs
+          node scripts/test-payment-authority-default.mjs
+          node scripts/test-ga-retroactive-consent-next-steps.mjs
+
+      # ~8 s. IL supervision/qualified-probation termination and waiting gates, with held
+      # drafts preserved (be77e3012). Candidate mode only; committed fixtures, no DB or private source.
+      - name: Verify Illinois program termination gates
+        if: matrix.group == 'g'
+        run: |
+          node scripts/test-il-program-termination-gates.mjs
+          node scripts/test-il-plan-form-successors.mjs
+          node scripts/test-nd-plan-form-successors.mjs
+
+      # ~8 s. Public Briefcase surfaces render no raw engine token, EN or ES, in text or attributes (d8b5bff4e).
+      # Gates the BriefcaseViews raw-code check retired from verify-expungement-launch-polish (Roger item 31).
+      - name: Verify Briefcase shows no raw status tokens
+        if: matrix.group == 'g'
+        run: node scripts/test-briefcase-raw-status-tokens.mjs
+
+      # ~7 s. The packet collection audit and its summary must match the compiled profiles and packet
+      # specs; three merges left them stale before Y4 (lead 2026-10-21T20:07:22Z). Committed files only.
+      - name: Verify packet collection audit is current
+        if: matrix.group == 'g'
+        run: node scripts/generate-packet-collection-audit.mjs --check
+
+      # ~4 s. Mississippi later-order effect: a "none" later order and every collected effect stay held for
+      # review (lead 2026-10-21T21:26:40Z, with MS1). Positive run only; the test's --mutation= cases are not run here.
+      - name: Verify Mississippi later-order effect handling
+        if: matrix.group == 'g'
+        run: node scripts/test-ms-later-order-effect.mjs
+
+      # 2 s. The compiled profiles are generated from the approved route contracts; a66ccc373
+      # rewrote GA/MT/ND participant wording through the generator and failed groups d/e/f at 0e7e94cad.
+      - name: Verify compiled profiles converge with the approved contracts
+        if: matrix.group == 'g'
+        run: node scripts/apply-legal-authority-to-profiles.mjs --check
+
+      - name: Install PDF text verification dependency
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          fi
+
+      # The TF-810 saved-checkout check drives the real Spanish control in Chromium;
+      # the browser comes from the committed package-lock's Playwright.
+      - name: Install the browser the Spanish control check drives
+        run: npx --yes playwright install --with-deps chromium
+
+      - name: Verify nationwide correction boundaries (group a)
+        if: matrix.group == 'a'
+        run: |
+          node scripts/generate-rcap-public-witness-answer-sets.mjs --check
+          node scripts/test-public-witness-convergence.mjs
+          node scripts/test-ar-record-origin.mjs
+          node scripts/test-ar-record-origin-render.mjs
+          node scripts/test-ar-record-origin-presentation.mjs
+          node scripts/test-composed-route-final-disposition.mjs
+          node scripts/test-md-automatic-county-collection.mjs
+          node scripts/test-md-10103-source-stage.mjs
+          node scripts/test-md-juvenile-held-county-consumer.mjs
+          node scripts/test-md-juvenile-county-source-purpose.mjs
+          node scripts/test-oh-juvenile-source-stage.mjs
+          node scripts/test-oh-juvenile-result-copy.mjs
+          node scripts/test-oh-juvenile-held-court-consumer.mjs
+          node scripts/test-ms-exact-timing-recovery.mjs
+          node scripts/test-ms-adopted-timing-display.mjs
+          node scripts/test-ms-first-offender-source-facts.mjs
+          node scripts/test-ms-program-factual-routing.mjs
+          node scripts/test-ms-program-final-disposition.mjs
+          node scripts/test-ms-conditional-discharge-event.mjs
+          node scripts/test-ms-program-completion-events.mjs
+          node scripts/test-guidance-result-packet-claims.mjs
+          node scripts/test-ga-first-offender-factual-routing.mjs
+          node scripts/test-il-cannabis-factual-boundaries.mjs
+          node scripts/test-il-ga-factual-pathway-exclusions.mjs
+          node scripts/test-il-ga-protected-exclusion-recovery.mjs
+          node scripts/test-conviction-relief-request.mjs
+          node scripts/test-conviction-fallback-labels.mjs
+          node scripts/test-ga-pardon-facts.mjs
+          node scripts/test-ga-pardon-caption.mjs
+          node scripts/test-ga-agency-county-context.mjs
+          node scripts/test-ga-agency-protected-county-successor.mjs
+          node scripts/test-ga-pardon-category-context.mjs
+          node scripts/test-ga-pardon-preparation.mjs
+          node scripts/test-ga-pardon-petition-readiness.mjs
+          node scripts/test-ga-participant-assembly.mjs --mapping-only
+          node scripts/test-ga-pardon-track-selection.mjs
+          node scripts/test-ga-pardon-packet-label.mjs
+          node scripts/test-ga-personalized-handoff.mjs "$RUNNER_TEMP/ga-personalized-handoff"
+          node scripts/test-ga-personalized-dispatch.mjs
+          node scripts/test-question-contract-output-continuity.mjs
+          node scripts/test-noncommercial-evidence-producer-reconciliation.mjs --task53-source-successor-controls-only
+          node scripts/test-ms-paid-packet-output-continuity.mjs
+          node scripts/test-ms-paid-packet-proof.mjs --proof-only
+          node scripts/test-ms-saved-proof-freshness.mjs
+          node scripts/verify-personalized-route-refusal.mjs
+          node scripts/test-ks-municipal-factual-boundaries.mjs
+          node scripts/test-ks-municipal-contact.mjs
+          node scripts/test-ks-municipal-category-context.mjs
+          node scripts/test-ks-district-factual-routing.mjs
+          node scripts/test-ga10-missing-witnesses.mjs
+          node scripts/test-ga10-ne-missing-witnesses.mjs
+
+      - name: Verify nationwide correction boundaries (group b)
+        if: matrix.group == 'b'
+        run: |
+          node scripts/test-ga10-la9852-missing-witness.mjs
+          node scripts/test-ga10-me-nonconviction-witness.mjs
+          node scripts/test-ga10-mo-closure-witness.mjs
+          node scripts/test-ga10-mo-marijuana-custody.mjs
+          node scripts/test-ga10-mt-deferred-facts.mjs
+          node scripts/test-mt-deferred-document-inputs.mjs
+          node scripts/test-mt-deferred-document-preparation.mjs
+          node scripts/test-mo-610105-court-context.mjs
+          node scripts/test-mo-610122-court-context.mjs
+          node scripts/test-mo-xiv-court-context.mjs
+          node scripts/test-mn-609a015-location-context.mjs
+          node scripts/test-mn-299c11-location-context.mjs
+          node scripts/test-mn-609a017-location-context.mjs
+          node scripts/test-mn-cannabis-location-context.mjs
+          node scripts/test-mo-610141-guidance-boundary.mjs
+          node scripts/test-ny-16055-guidance.mjs
+          node scripts/test-ny-mrta-stage-guidance.mjs
+          node scripts/test-ny-16057-guidance.mjs
+          node scripts/test-ny-16059-factual-boundaries.mjs
+          node scripts/test-ny-16059-guidance.mjs
+          node scripts/test-ny-16059-typed-completion.mjs
+          node scripts/test-ny-16059-packet-preparation.mjs
+          node scripts/test-ny-16059-case-records.mjs
+          node scripts/test-ny-16059-case-classification.mjs
+          node scripts/test-ny-16059-filing-venue.mjs
+          node scripts/test-ny-16059-sealing-history.mjs
+          node scripts/test-ny-16059-future-applications.mjs
+          node scripts/test-ny-16059-owned-completion.mjs
+          node scripts/test-ny-16059-current-document-review.mjs --inputs-only
+          node scripts/test-ny-16059-transaction-associations.mjs
+
+      - name: Verify nationwide correction boundaries (group c)
+        if: matrix.group == 'c'
+        run: |
+          node scripts/test-ny-16059-current-document-questions.mjs
+          node scripts/test-ny-16059-review-corrections.mjs
+          node scripts/test-ny-later-conviction-fact.mjs
+          node scripts/test-ny-adopted-clock-policy.mjs
+          node scripts/test-ny-history-clock.mjs
+          node scripts/test-ny-residual-order-transactions.mjs
+          node scripts/test-ca-prop64-conduct.mjs
+          node scripts/test-ca-prop64-integration.mjs
+          node scripts/test-ca-prop64-form-ownership.mjs
+          node scripts/test-ca-prop64-completeness-actors.mjs
+          node scripts/test-ca-prop64-caption-bindings.mjs
+          node scripts/test-ca-prop64-caption-collection.mjs
+          node scripts/test-ca-prop64-contact-collection.mjs
+          node scripts/test-ca-prop64-family-bridge.mjs
+          node scripts/test-ak-courtview-contact.mjs
+          node scripts/test-ak-tf810-sales-policy.mjs
+          node scripts/test-ak-tf810-saved-checkout.mjs
+          node scripts/test-ak-courtview-record-context.mjs
+          node scripts/test-ak-pardon-record-context.mjs
+          node scripts/test-ak-juvenile-record-context.mjs
+          node scripts/test-ak-agency-sis-record-context.mjs
+          node scripts/test-ak-agency-sis-record-context-consumers.mjs
+          node scripts/test-al-record-context.mjs
+          node scripts/test-al-record-context-consumers.mjs
+          node scripts/test-ar-nonconviction-record-context.mjs
+          node scripts/test-ar-nonconviction-record-context-consumers.mjs
+
+      - name: Verify nationwide correction boundaries (group d)
+        if: matrix.group == 'd'
+        run: |
+          node scripts/test-ar-felony-record-context.mjs
+          node scripts/test-ar-felony-record-context-consumers.mjs
+          node scripts/test-ca-1203-4a-record-context.mjs
+          node scripts/test-ca-1203-4a-record-context-consumers.mjs
+          node scripts/test-ca-1203-4-facts.mjs
+          node scripts/test-ct-clean-slate-contact.mjs
+          node scripts/test-ct-cannabis-automatic-authority.mjs
+          node scripts/test-ct-cannabis-automatic-guidance.mjs
+          node scripts/test-ct-automatic-source-guidance.mjs
+          node scripts/test-dc-general-source-guidance.mjs
+          node scripts/test-dc-misattributed-current-composer.mjs
+          node scripts/test-fl-conditional-source-information.mjs
+          node scripts/test-mn-two-county-source-facts.mjs
+          node scripts/test-dc-innocence-location-context.mjs
+          node scripts/test-nationwide-contact-representation.mjs
+          node scripts/test-nd-first-offense-family-inputs.mjs
+          node scripts/test-nd-first-offense-family-consumer.mjs
+          node scripts/test-nd-first-offense-participant-family.mjs
+          node scripts/test-nd-first-offense-contract-successor.mjs
+          node scripts/test-ks-registration-guidance.mjs
+          node scripts/test-va-record-origin.mjs
+
+      - name: Verify nationwide correction boundaries (group e)
+        if: matrix.group == 'e'
+        run: |
+          node scripts/test-nd-first-offense-record-context.mjs
+          node scripts/test-nd-first-offense-facts.mjs
+          node scripts/verify-nd-first-offense-possession-scope.mjs
+          node scripts/test-nd-record-context-save-receipt.mjs
+          node scripts/test-oregon-disposition-identity.mjs
+          node scripts/test-or-conviction-skips-retired-route.mjs
+          node scripts/test-oregon-disposition-protected-consumer.mjs
+          node scripts/test-oregon-disposition-contact.mjs
+          node scripts/test-oregon-contact-held-output.mjs
+          node scripts/test-packet-initial-save-revision.mjs
+          node scripts/test-tx-nondisclosure-arrest-anchor.mjs
+          node scripts/test-nevada-program-question-scope.mjs
+          node scripts/test-ms-felony-record-class-safety.mjs
+          node scripts/verify-de-exclusion-mechanism-boundary.mjs
+          node scripts/test-de-discretionary-date-anchor.mjs
+          node scripts/test-de-conviction-predicates.mjs
+          node scripts/test-de-public-profile-dates.mjs
+          node scripts/test-de-protected-corrections.mjs
+          node scripts/test-ks-document-responsibilities.mjs
+          node scripts/test-independent-paid-financial-meaning.mjs
+          node scripts/test-reused-completion-review-edit.mjs
+          node scripts/test-court-completion-source-successor.mjs
+          node scripts/test-financial-nonplan-recovery.mjs
+          node scripts/test-nm-guidance-financial.mjs
+          node scripts/test-wyoming-1401-facts.mjs
+          node scripts/test-oh-trafficking-court-context.mjs
+          node scripts/test-oh-trafficking-court-context-consumers.mjs
+          node scripts/test-ok-clean-slate-financial.mjs
+          node scripts/test-screening-completion-correction-save.mjs
+          node scripts/test-protected-legacy-answer-preservation.mjs
+          node scripts/test-protected-legacy-presentation.mjs
+          node scripts/test-protected-legacy-derivation-guard.mjs
+          node scripts/test-va-cc1472-fact-ownership.mjs
+          node scripts/test-va-absolute-pardon-procedure.mjs
+          node scripts/test-va-three-victim-applicability.mjs
+          node scripts/test-va-protected-pardon-type-source.mjs
+          node scripts/test-va-pardon-held-context.mjs
+          node scripts/test-va-pardon-category-history.mjs
+          node scripts/test-ga12-ct-information-category-history.mjs
+
+      # A17 O2. Its own step, and !cancelled(), so a failure earlier in group e cannot skip it.
+      - name: Verify the MD pardon parity scope restatement (group e)
+        if: matrix.group == 'e' && !cancelled()
+        run: node scripts/test-md-scope-restatement.mjs
+
+      - name: Verify nationwide correction boundaries (group f)
+        if: matrix.group == 'f'
+        run: |
+          node scripts/test-ga12-dc-innocence-category-history.mjs
+          node scripts/test-ga12-il-identity-category-history.mjs
+          node scripts/test-ga12-ms-additional-category-history.mjs
+          node scripts/test-ga12-sb288-facts.mjs
+          node scripts/test-ga12-sb288-review-counterexamples.mjs
+          node scripts/test-ga12-ct-petition-facts.mjs
+          node scripts/test-ga12-ct-petition-review-counterexamples.mjs
+          node scripts/test-ga12-ga-ct-review-convergence.mjs
+          node scripts/test-ga12-nv-program-category-history.mjs
+          node scripts/test-nv-program-location-history.mjs
+          node scripts/test-ga17-ca-tool4-record-history.mjs
+          node scripts/test-ga17-co-record-history.mjs
+          node scripts/test-ga17-dc-felony-record-history.mjs
+
+      - name: Verify nationwide correction boundaries (group g)
+        if: matrix.group == 'g'
+        run: |
+          node scripts/test-ga12-al-category-history.mjs
+          node scripts/test-ga12-ar-category-history.mjs
+          node scripts/test-ga12-sd-sis-facts.mjs
+          node scripts/test-ga12-wy1502-facts.mjs
+          node scripts/test-ga12-sd-wy-protected-records.mjs
+          node scripts/test-ga12-il-prostitution-facts.mjs
+          node scripts/test-ga12-il-wy-review-boundaries.mjs
+          node scripts/test-ga12-il-wy-result-localization.mjs
+          node scripts/test-ga17-ca-tool3-record-history.mjs
+          node scripts/test-ga17-ar-misd-record-history.mjs
+          node scripts/test-al-redeemer-classification.mjs
+          node scripts/verify-va-cc1472-two-branch-treatment.mjs
+          node scripts/verify-va-regime-1-caption-and-dead-end.mjs
+          node scripts/test-va-victim-memo-tamper-control.mjs
+          node scripts/test-consumer-checkout-stored-session.mjs
+          node scripts/test-item-13b-approval-preconditions.mjs
+          node scripts/test-explained-artifact-move-is-not-approval.mjs
+          node scripts/test-ms-section-branch-is-route-derived.mjs
+          node scripts/test-rcap-il-participant-renderer.mjs
+          node scripts/test-worker-image-copy-context-agreement.mjs
+          node scripts/test-ga12-ga17-no-consumer-collection.mjs
+
+      # The test asserts that the n legs run every case exactly once between them. Without
+      # GA17_SHARD (a local sweep of this file) the line runs every case.
+      - name: Verify GA-17 DC/FL record history (shard ${{ matrix.shard }})
+        if: matrix.shard
+        env:
+          GA17_SHARD: ${{ matrix.shard }}
+        run: |
+          node scripts/test-ga17-dc-fl-record-history.mjs --shard="${GA17_SHARD:-0/1}"
 
       # Every deterministic onboarding verifier, through the one entry point that also
       # fails when a verifier exists that no group owns.
       - name: Verify onboarding (local group)
+        if: matrix.group == 'g'
         run: npm run partners:verify-onboarding-all
 
       - name: Verify partner launch readiness
+        if: matrix.group == 'g'
         run: npm run partners:verify-launch-readiness
 
       # The contract the README and the partner setup checklist both promise: the
       # production build completes with no Supabase credentials present. Running it with
       # the variables explicitly empty is the point of the step.
       - name: Credential-free production build
+        if: matrix.group == 'g'
         env:
           NEXT_PUBLIC_SUPABASE_URL: ""
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
           SUPABASE_SERVICE_ROLE_KEY: ""
         run: npm run build
+
+  # The required check keeps its name. It passes only when every group succeeded: a failed,
+  # cancelled or skipped group, or a missing result, leaves needs.groups.result != success.
+  onboarding:
+    name: Verify RCAP partner onboarding
+    needs: [groups]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every group
+        run: test "${{ needs.groups.result }}" = success

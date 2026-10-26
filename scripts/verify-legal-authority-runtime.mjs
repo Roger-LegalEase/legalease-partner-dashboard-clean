@@ -47,6 +47,13 @@ const CONTRACT_BASELINE = {
       note: "West Virginia § 61-11-26a, § 61-11-26, § 61-11-25 and § 5-1-16a; Ohio R.C. 2953.321; New York CPL § 160.55. All six were uncontracted, and Ohio and New York had no route contract of any kind before this batch."
     }
   ],
+  sameKeyReplacements: [
+    {
+      routeKey: "CT:cannabis-conviction-erasure",
+      decisionId: "LD-CT-02",
+      note: "Retained E4-R2 automatic identity replaces the current exact-key binding only; historical LD-CT-02 and separate § 54-142v remain. No contract or decision-route count grows."
+    }
+  ],
   departures: [
     {
       batch: "NATIONAL-2026-08-28",
@@ -70,8 +77,13 @@ const expectedDecisionRouteKeys = CONTRACT_BASELINE.recordedDecisionRouteKeys
 assert(LEGAL_AUTHORITY.routes.length === expectedContracts, `expected ${expectedContracts} legal contracts, found ${LEGAL_AUTHORITY.routes.length}`);
 assert(decisionRouteKeys.size === expectedDecisionRouteKeys, `expected ${expectedDecisionRouteKeys} approved decision route keys, found ${decisionRouteKeys.size}`);
 // The departure is only real if the supersession actually happened.
-assert(SUPERSEDED_ROUTE_CONTRACTS.length === sum(CONTRACT_BASELINE.departures, "contracts"),
-  `baseline records ${sum(CONTRACT_BASELINE.departures, "contracts")} superseded contract(s); the registry reports ${SUPERSEDED_ROUTE_CONTRACTS.length}`);
+for (const replacement of CONTRACT_BASELINE.sameKeyReplacements) {
+  assert(SUPERSEDED_ROUTE_CONTRACTS.filter((entry) => entry.routeKey === replacement.routeKey
+    && entry.supersededByDecisionId === replacement.decisionId).length === 1,
+    `the named exact-key replacement ${replacement.routeKey} must actually exist`);
+}
+assert(SUPERSEDED_ROUTE_CONTRACTS.length === sum(CONTRACT_BASELINE.departures, "contracts") + CONTRACT_BASELINE.sameKeyReplacements.length,
+  `baseline records ${sum(CONTRACT_BASELINE.departures, "contracts")} historical and ${CONTRACT_BASELINE.sameKeyReplacements.length} named exact-key replacements; the registry reports ${SUPERSEDED_ROUTE_CONTRACTS.length}`);
 
 for (const contract of LEGAL_AUTHORITY.routes) {
   const profile = getProfileByJurisdiction(contract.jurisdiction);

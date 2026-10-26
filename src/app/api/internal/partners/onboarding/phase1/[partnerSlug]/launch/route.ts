@@ -20,7 +20,7 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{par
   try {
     assertSameOrigin(request);
     const context = await requireInternalOnboardingContext((await params).partnerSlug);
-    if(!realLaunchOrigin()&&!isDisposableLaunchEnvironment())throw new Phase1OnboardingError("feature_disabled","Live launch is disabled; only registered disposable loopback targets may launch.");
+    if(!realLaunchOrigin(process.env,context)&&!isDisposableLaunchEnvironment())throw new Phase1OnboardingError("feature_disabled","Live launch is disabled; only registered disposable loopback targets may launch.");
     const body = await readBoundedJson(request);
     const preflight=await getLaunchPreflight(context);
     return onboardingJson({success:true,result:await (preflight.mode==="real"?executeRealLaunch:executeSyntheticLaunch)(context,{requestId:requireRequestId(body.requestId),snapshotHash:String(body.snapshotHash??""),confirmed:body.confirmed===true})});

@@ -19,6 +19,7 @@
  *     none of its own.
  */
 import { register } from "node:module";
+import { MS_NONCONVICTION_PACKET_ANSWERS } from "./lib/rcap-ms-nonconviction-fixture.mjs";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -40,6 +41,34 @@ const check = (passed, message) => {
   console.log(`${passed ? "ok  " : "FAIL"} ${message}`);
   if (!passed) failures.push(message);
 };
+
+/** A single wrapped step must move its cursor before checking the next line. */
+async function nextStepFlowControl() {
+  const tokens = Array.from({ length: 800 }, (_, index) => `STEP${String(index).padStart(4, "0")}`);
+  const guide = {
+    schemaVersion: "rcap-supplemental-guide/v1", routeKey: "TEST:next-step-footer-flow", jurisdiction: "TEST",
+    supersedesPacketComponent: null, overview: [],
+    nextSteps: [{ text: tokens.join(" "), provenance: { kind: "product_copy" } }],
+    filingChecklist: [], feesAndCosts: [], carriedElsewhere: []
+  };
+  const pdf = await renderSupplementalGuidePdf(guide, { variant: "full", locale: "en" });
+  const file = path.join(os.tmpdir(), `next-step-footer-${process.pid}.pdf`);
+  fs.writeFileSync(file, pdf, { flag: "wx" });
+  try {
+    const xml = execFileSync("pdftotext", ["-bbox", file, "-"], { encoding: "utf8" });
+    const words = [...xml.matchAll(/<word [^>]*yMax="([\d.]+)"[^>]*>(STEP\d{4})<\/word>/g)];
+    check(words.map(word => word[2]).join(" ") === tokens.join(" "), "every wrapped next-step word survives in order");
+    check(words.every(word => Number(word[1]) <= 792 - 46 - 14), "wrapped next-step body stays above the footer rule on every page");
+    check(pagesOf(pdf).every(page => page.includes("KEEP FOR YOUR RECORDS")), "every next-step continuation retains its guide banner");
+  } finally { fs.rmSync(file); }
+}
+
+if (process.argv.includes("--next-step-flow-only")) {
+  await nextStepFlowControl();
+  if (failures.length) process.exitCode = 1;
+  console.log(`${failures.length ? "FAIL" : "PASS"}: focused next-step flow/footer controls`);
+  process.exit(process.exitCode ?? 0);
+}
 
 const guideDir = path.join(rootDir, "data/record-clearing/supplemental-guides");
 const guides = fs.readdirSync(guideDir).filter((f) => f.endsWith(".json"))
@@ -171,7 +200,18 @@ function recordedFixtureMatter(routeKey) {
     } catch { /* a malformed fixture is not this control's subject */ }
   }
   const delivery = candidates.find((fixture) => fixture.generationPurpose === "participant_delivery");
-  return delivery ?? candidates[0] ?? null;
+  const selected = delivery ?? candidates[0] ?? null;
+  if (selected && routeKey === "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    && selected.facts.ms_charged_trafficking_distribution_manufacture === undefined) {
+    // The historical specimen predates the charged-conduct clarification.
+    // Extend this synthetic test with the independently stated current fixture
+    // fact; never infer it from the old survivor/victimhood trafficking_status.
+    // The recorded fixture and all of its identifier/channel facts stay intact.
+    return { ...selected, facts: { ...selected.facts,
+      ms_charged_trafficking_distribution_manufacture: MS_NONCONVICTION_PACKET_ANSWERS.ms_charged_trafficking_distribution_manufacture
+    } };
+  }
+  return selected;
 }
 
 for (const guide of guides) {
@@ -407,6 +447,19 @@ for (const guide of guides) {
   const anySpanish = [...(guide.overview ?? []), ...(guide.nextSteps ?? []),
     ...(guide.filingChecklist ?? []), ...(guide.feesAndCosts ?? [])].every((entry) => entry.textEs?.trim());
   const stopsEs = guide.stopConditionsEs ?? {};
+  const translatedDetail = guide.documentDetails?.find(detail => detail.titleTranslation
+    && documents.some(document => document.documentId === detail.documentId));
+  if (translatedDetail) {
+    for (const fault of ["sourceTitle", "textEs"]) {
+      const changed = structuredClone(guide);
+      const detail = changed.documentDetails.find(detail => detail.documentId === translatedDetail.documentId);
+      detail.titleTranslation[fault] = fault === "textEs" ? "" : "UNREVIEWED COURT TITLE";
+      let failed = false;
+      try { await renderSupplementalGuidePdf(changed, { variant: "full", locale: "es", stops, documents, matter, stopsEs }); }
+      catch (error) { failed = /Spanish document title/.test(error.message); }
+      check(failed, `${where}: a ${fault} mutation cannot use the bound Spanish document title`);
+    }
+  }
   let refused = null;
   let spanishPdf = null;
   try {
@@ -688,6 +741,8 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   const lastParagraphReached = pages.join("\n").includes("Paragraph 40.");
   check(lastParagraphReached, "the final paragraph survives pagination rather than being dropped");
 }
+
+await nextStepFlowControl();
 
 /*
  * The banner belongs to guide pages and to nothing else. Telling someone not to

@@ -66,6 +66,7 @@
  *   ... --apply                      write the receipts (default is dry-run)
  *   ... --family <id>                restrict to one family (repeatable)
  *   ... --report <path>              write the machine-readable run report
+ *   ... --note "<text>"              record the apply ruling in each block (appliedUnder)
  */
 
 import crypto from "node:crypto";
@@ -318,7 +319,7 @@ const packetManifestAdapter = {
       throw new Refusal(`the ${side} packet manifest has an unsupported schema`);
     }
     const allowed = new Set(["packetSetId", "trackId", "jurisdiction", "version", "components",
-      "participantActionRequired", "requiredBeforeFiling", "packetSetCompleteness", "factoryV2RouteProductization"]);
+      "participantActionRequired", "requiredBeforeFiling", "packetSetCompleteness", "factoryV2RouteProductization", "procedureAdoption"]);
     const byId = new Map();
     for (const entry of doc.packetSets) {
       if (!entry || typeof entry.packetSetId !== "string" || !entry.packetSetId
@@ -340,7 +341,8 @@ const packetManifestAdapter = {
       anchors.add(id); declarations.push({ basis, packetSetId: id });
     };
     if (pin.recordId != null) {
-      const match = /^(?:packet-set-manifest|legal-design-packet-set-manifests):(.+)$/.exec(pin.recordId);
+      // Three spellings occur in committed receipts; ks-22-4908 uses the singular legal-design-packet-set-manifest.
+      const match = /^(?:packet-set-manifest|legal-design-packet-set-manifests?):(.+)$/.exec(pin.recordId);
       if (!match) throw new Refusal(`ambiguous packet-manifest recordId ${JSON.stringify(pin.recordId)}`);
       for (const id of match[1].split("+")) add(id, "pin.recordId");
     }
@@ -348,7 +350,9 @@ const packetManifestAdapter = {
     if (typeof receipt.familyId === "string" && byId.has(receipt.familyId)) add(receipt.familyId, "receipt.familyId exact packetSetId");
     for (const key of receipt.routeKeys ?? []) {
       const parts = String(key).split(":");
-      if (parts[0] !== "obligation" || !["track-only", "track-pathway"].includes(parts[1]) || !parts[3]) {
+      /* A unit route (obligation:unit:<JUR>:<trackId>:<unit>) names its track
+       * in the same position, so the same exactly-one-packet-set rule applies. */
+      if (parts[0] !== "obligation" || !["track-only", "track-pathway", "unit"].includes(parts[1]) || !parts[3]) {
         throw new Refusal(`ambiguous manifest dependency for route ${JSON.stringify(key)}`);
       }
       const matches = [...byId.values()].filter((entry) => entry.trackId === parts[3] && entry.jurisdiction === parts[2]);
@@ -357,7 +361,7 @@ const packetManifestAdapter = {
       for (const entry of matches) add(entry.packetSetId, `receipt.routeKeys:${key}`);
     }
     if (!anchors.size) throw new Refusal("the receipt declares no unambiguous packet-manifest dependency");
-    return { anchorIds: [...anchors].sort(), derivation: { declarations, globalMetadataComparedAsOneAnchor: true } };
+    return { anchorIds: [...anchors].sort(), derivation: { declarations, globalMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
   },
   anchorsOf(doc, scope, side) {
     const byId = this.index(doc, side);
@@ -399,6 +403,64 @@ const packetManifestAdapter = {
   }
 };
 
+const SPECIFICATIONS = "data/record-clearing/legal-design-specifications.json";
+const SPECIFICATION_ARRAYS = ["customPleadingSpecs", "officialFormAssignments", "processGuidanceSpecs", "participantFilingRequirements"];
+
+/* Legal-design specifications: four arrays whose every entry carries a trackId,
+ * plus schemaVersion. Scope is the pin's recordId only,
+ * `legal-design-specifications:<trackId>[+<trackId>...]`; each named track is
+ * one anchor holding its entries from all four arrays. Everything outside the
+ * arrays is compared whole, and an unknown top-level key refuses. */
+const specificationsAdapter = {
+  recordPath: SPECIFICATIONS,
+  describe: "legal-design specifications (per-track entries of the four spec arrays + schemaVersion)",
+  index(doc, side) {
+    if (!doc || doc.schemaVersion !== 1 || !SPECIFICATION_ARRAYS.every((k) => Array.isArray(doc[k]))) {
+      throw new Refusal(`the ${side} specifications record has an unsupported schema`);
+    }
+    const unknown = Object.keys(doc).filter((k) => k !== "schemaVersion" && !SPECIFICATION_ARRAYS.includes(k));
+    if (unknown.length) throw new Refusal(`the ${side} specifications record has fields this adapter does not describe: ${unknown.join(", ")}`);
+    const byTrack = new Map();
+    for (const array of SPECIFICATION_ARRAYS) {
+      for (const entry of doc[array]) {
+        if (typeof entry?.trackId !== "string" || !entry.trackId) throw new Refusal(`the ${side} specifications record holds a ${array} entry with no trackId`);
+        if (!byTrack.has(entry.trackId)) byTrack.set(entry.trackId, Object.fromEntries(SPECIFICATION_ARRAYS.map((k) => [k, []])));
+        byTrack.get(entry.trackId)[array].push(entry);
+      }
+    }
+    return byTrack;
+  },
+  scopeFrom({ receipt, pin, currentDoc }) {
+    const byTrack = this.index(currentDoc, "current");
+    const match = /^legal-design-specifications:(.+)$/.exec(pin.recordId ?? "");
+    if (!match) throw new Refusal(`ambiguous specifications recordId ${JSON.stringify(pin.recordId)}`, { recordId: pin.recordId ?? null });
+    const anchors = match[1].split("+").map((component) => {
+      const hash = component.indexOf("#");
+      if (hash < 0) return component;
+      // `<array>#<trackId>` (GA: processGuidance#ga-rfo) still anchors the WHOLE track; the array only has to be real (lead 16:26:14Z).
+      const array = component.slice(0, hash);
+      if (!SPECIFICATION_ARRAYS.some((k) => k === array || k.replace(/Specs$/, "") === array)) {
+        throw new Refusal(`the receipt's recordId names ${JSON.stringify(array)}, which is no array in the specifications`, { recordId: pin.recordId, component });
+      }
+      return component.slice(hash + 1);
+    });
+    for (const id of anchors) {
+      if (!byTrack.has(id)) throw new Refusal(`the receipt's recordId names ${JSON.stringify(id)}, which is no track in the current specifications`, { recordId: pin.recordId, component: id });
+    }
+    return { anchorIds: [...new Set(anchors)].sort(), derivation: { fromPinRecordId: match[1].split("+"), globalMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
+  },
+  anchorsOf(doc, scope, side) {
+    const byTrack = this.index(doc, side);
+    const shared = Object.fromEntries(Object.entries(doc).filter(([k]) => !SPECIFICATION_ARRAYS.includes(k)));
+    const out = new Map([["specificationsGlobalMetadata", shared]]);
+    for (const id of scope.anchorIds) {
+      if (!byTrack.has(id)) throw new Refusal(`anchor track ${id} is absent from the ${side} specifications; the entries this family binds left the record and it owes a fresh read`, { anchor: `specs:${id}`, side });
+      out.set(`specs:${id}`, byTrack.get(id));
+    }
+    return out;
+  }
+};
+
 const SOURCE_DETERMINATIONS = "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json";
 export function acceptedAcquisitionIdentity(evidence) {
   return ["ACQUIRED_CURRENT_OFFICIAL_BINARY", "OFFICIAL_SOURCE_ALREADY_HELD", "PASS"].includes(evidence?.result)
@@ -427,8 +489,20 @@ const sourceDeterminationAdapter = {
   scopeFrom({ receipt, pin, currentDoc }) {
     const byId = this.index(currentDoc, "current");
     const match = /^captain-source-identity-determination:(.+)$/.exec(pin.recordId ?? "");
-    const hits = currentDoc.determinations.filter(row => row.id === match?.[1]);
-    if (!match || hits.length !== 1 || !byId.has(receipt.familyId)
+    /* A pin written before this adapter existed carries no recordId
+     * (fl-administrative-set, 2026-10-20). Then the one determination naming
+     * this family is the scope; none or several is a refusal, never a guess.
+     * An explicit recordId still decides. */
+    let determinationId = match?.[1] ?? null;
+    let scopedBy = "recordId";
+    if (pin.recordId == null) {
+      const naming = currentDoc.determinations.filter(row => Array.isArray(row?.families) && row.families.includes(receipt.familyId));
+      if (naming.length !== 1) throw new Refusal(`source determination pin carries no recordId and ${naming.length} determination(s) name this family; exactly one is required`);
+      determinationId = naming[0].id;
+      scopedBy = "the unique determination naming this family";
+    }
+    const hits = currentDoc.determinations.filter(row => row.id === determinationId);
+    if (!determinationId || hits.length !== 1 || !byId.has(receipt.familyId)
       || !hits[0].families?.includes(receipt.familyId)) throw new Refusal("source determination pin does not uniquely bind this family");
     const priorProofs = pin.identityRefresh?.anchorScope?.derivation?.excludedAcquisitionEvidence ?? [];
     for (const proof of priorProofs) {
@@ -461,19 +535,58 @@ const sourceDeterminationAdapter = {
         || (evidence.selectedSourcePages && (!Array.isArray(evidence.selectedSourcePages) || evidence.selectedSourcePages.some(p => !Number.isInteger(p))))) continue;
       excludedAcquisitionEvidence.push({ path: p, sha256: sha256(bytes), byteLength: bytes.length, familyId: evidence.familyId, itemId: evidence.itemId });
     }
-    return { anchorIds: [receipt.familyId], derivation: { determinationId: match[1], globalMetadataComparedAsOneAnchor: true, excludedAcquisitionEvidence } };
+    return { anchorIds: [receipt.familyId], derivation: { determinationId, scopedBy, globalMetadataComparedAsOneAnchor: true, excludedAcquisitionEvidence } };
+  },
+  /* Shared keys that may be set aside under a measured-row admission, by name. */
+  ADMITTED_SHARED_KEYS: ["acquisitionEvidencePaths", "rhodeIslandProposedOrder"],
+  measuredRowAdmission({ receipt, oldDoc, currentDoc, measuredRows }) {
+    const familyId = receipt.familyId;
+    if (!Array.isArray(measuredRows) || measuredRows.length === 0) return { ok: false, why: "no PASS_COMPLETE_INDEPENDENT row for this family records the current record digest" };
+    const own = (doc) => doc.determinations.filter(r => Array.isArray(r?.families) && r.families.includes(familyId));
+    if (canonical(own(oldDoc)) !== canonical(own(currentDoc))) return { ok: false, why: "this family's own determination changed" };
+    const row = (doc) => doc.reconciliation42.families.find(r => r?.familyId === familyId) ?? null;
+    if (canonical(row(oldDoc)) !== canonical(row(currentDoc))) return { ok: false, why: "this family's own reconciliation row changed" };
+    const { reconciliation42: o42, determinations: oDet, ...oTop } = oldDoc;
+    const { reconciliation42: c42, determinations: cDet, ...cTop } = currentDoc;
+    const topChanged = [...new Set([...Object.keys(oTop), ...Object.keys(cTop)])].filter(k => canonical(oTop[k]) !== canonical(cTop[k])).sort();
+    if (topChanged.length) return { ok: false, why: `top-level field(s) changed: ${topChanged.join(", ")}` };
+    const { families: _oF, ...oShared } = o42;
+    const { families: _cF, ...cShared } = c42;
+    const sharedChanged = [...new Set([...Object.keys(oShared), ...Object.keys(cShared)])].filter(k => canonical(oShared[k]) !== canonical(cShared[k])).sort();
+    const outside = sharedChanged.filter(k => !this.ADMITTED_SHARED_KEYS.includes(k));
+    if (outside.length) return { ok: false, why: `shared key(s) outside the admitted list changed: ${outside.join(", ")}` };
+    const byIdO = new Map(oDet.map(d => [d.id, d])), byIdC = new Map(cDet.map(d => [d.id, d]));
+    const otherFamilyDeterminationsSetAside = [...new Set([...byIdO.keys(), ...byIdC.keys()])].filter(id => canonical(byIdO.get(id)) !== canonical(byIdC.get(id))).sort();
+    return { ok: true, admission: { rule: "measured-row admission: this family's own determination and reconciliation row are identical, a PASS row records the current digest, and the rest of the change is other families' determinations and the enumerated shared keys", measuredReVerification: measuredRows, ownDeterminationAndRowIdentical: true, otherFamilyDeterminationsSetAside, sharedKeysSetAside: sharedChanged } };
   },
   anchorsOf(doc, scope, side) {
     const byId = this.index(doc, side);
     const { reconciliation42, ...shared } = doc;
     const { families, acquisitionEvidencePaths, ...reconciliationShared } = reconciliation42;
     const excluded = new Set(scope.derivation.excludedAcquisitionEvidence.map(p => p.path));
-    const out = new Map([["sourceDeterminationSharedMetadata", { ...shared, reconciliation42: { ...reconciliationShared, acquisitionEvidencePaths: acquisitionEvidencePaths.filter(p => !excluded.has(p)) } }]]);
+    let sharedAnchor = { ...shared, reconciliation42: { ...reconciliationShared, acquisitionEvidencePaths: acquisitionEvidencePaths.filter(p => !excluded.has(p)) } };
+    /* MEASURED-ROW ADMISSION (lead ruling 2026-10-20, Roger's "reuse unchanged
+     * accepted output where applicability is demonstrated"). Granted only by
+     * measuredRowAdmission() below, which proved the family's own determination
+     * and row identical, a PASS row at the current digest, and every remaining
+     * difference confined to other families' determinations and the enumerated
+     * shared keys. Those set-aside parts leave this family's anchor, so the
+     * block records identical anchors, as generate.mjs requires. */
+    const admission = scope.derivation?.measuredRowAdmission ?? null;
+    if (admission) {
+      const { determinations, ...rest } = sharedAnchor;
+      const r42 = { ...sharedAnchor.reconciliation42 };
+      for (const key of admission.sharedKeysSetAside) delete r42[key];
+      sharedAnchor = { ...rest, determinations: (determinations ?? []).filter(row => Array.isArray(row?.families) && scope.anchorIds.some(id => row.families.includes(id))), reconciliation42: r42 };
+    }
+    const out = new Map([["sourceDeterminationSharedMetadata", sharedAnchor]]);
     for (const id of scope.anchorIds) {
       if (!byId.has(id)) throw new Refusal(`source reconciliation ${id} absent from ${side} record`);
       const row = byId.get(id);
-      const supported = new Set(["familyId", "group", "disposition", "sourceReplacements", "exactNextAction"]);
+      const supported = new Set(["familyId", "group", "disposition", "sourceReplacements", "exactNextAction", "satisfiedWithoutStandaloneBinary"]);
       if (Object.keys(row).some(k => !supported.has(k))) throw new Refusal(`ambiguous source reconciliation dependencies for ${id}`);
+      if (row.satisfiedWithoutStandaloneBinary !== undefined && (!Array.isArray(row.satisfiedWithoutStandaloneBinary)
+        || row.satisfiedWithoutStandaloneBinary.some(v => typeof v !== "string" || !v.startsWith("official-form:")))) throw new Refusal(`ambiguous satisfiedWithoutStandaloneBinary for ${id}`);
       if (row.sourceReplacements && (Array.isArray(row.sourceReplacements) || typeof row.sourceReplacements !== "object"
         || Object.entries(row.sourceReplacements).some(([key, values]) => !key.startsWith("official-form:") || !Array.isArray(values) || values.some(v => typeof v !== "string" || !v.startsWith("official-form:"))))) throw new Refusal(`ambiguous source replacements for ${id}`);
       out.set(`sourceReconciliation:${id}`, row);
@@ -833,11 +946,713 @@ const compiledProfileAdapter = {
   }
 };
 
+/*
+ * NY COMPILED PROFILE, ONE ROUTE. The DCJS correction submission for a CPL
+ * § 160.55 violation binds the NY profile as a held fee source through six
+ * builder statements. f5204e12d moved only questionLifecycle.routeConsumers,
+ * adding two facts that the § 160.59 petition alone consumes. Every other
+ * top-level field is one anchor, each questionLifecycle list is one anchor, the
+ * ids of the facts any other pathway consumes are one anchor (so a removed or
+ * re-pointed fact refuses), and each of those facts is its own anchor. Only a
+ * fact consumed by the § 160.59 pathway and nothing else is left out. Like the
+ * WV adapter, this is one route, not a compiled-profile framework.
+ */
+const NY_COMPILED_PROFILE = "src/lib/rcap-engine/compiled/profiles/NY-new-york.json";
+const NY_PROFILE_FAMILY = "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission";
+const NY_PROFILE_ROUTE_KEY = "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission";
+const NY_PROFILE_RECORD_ID = "compiled-profile:NY-new-york";
+const NY_UNRELATED_PATHWAY = "discretionary-conviction-sealing-by-petition-under-cpl-160-59";
+const NY_LIFECYCLE_KEYS = ["completionAliasIds", "exactPacketFactIds", "routeConsumers"];
+const NY_PROFILE_ANCHOR_STATEMENTS = Object.freeze([
+  "Automatic sealing (160.50/160.55/Clean Slate) $0 No filing",
+  "Certificate of Disposition (outside NYC) $5 per case",
+  "Certificate of Disposition (within NYC) $10 per case",
+  "DCJS record review (your own record) DCJS fee To confirm record / sealing status",
+  "obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and send the certified disposition to DCJS for correction",
+  "for a post-1991-11-01 qualifying disposition the participant ordinarily files nothing and the clerk notifies DCJS and the appropriate law-enforcement agencies"
+]);
+const nyOnlyUnrelated = (consumers) => consumers.length > 0 && consumers.every((id) => id === NY_UNRELATED_PATHWAY);
+const nyRouteConsumerAnchor = (fact) => `compiledProfile:questionLifecycle:routeConsumers:${fact}`;
+
+const nyCompiledProfileAdapter = {
+  recordPath: NY_COMPILED_PROFILE,
+  describe: "NY compiled profile (every field the DCJS correction route can read; facts only the CPL 160.59 petition consumes excluded)",
+
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || Array.isArray(doc) || doc.schemaVersion !== "2.0.0" || doc.jurisdiction?.code !== "NY") {
+      throw new Refusal(`the ${side} record is not the NY compiled profile schema this adapter describes`);
+    }
+    // The NY and WV profiles share the 2.0.0 top-level schema.
+    const unknown = Object.keys(doc).filter((key) => !WV_PROFILE_TOP_KEYS.has(key));
+    const lifecycle = doc.questionLifecycle;
+    const consumers = lifecycle?.routeConsumers;
+    if (unknown.length || !lifecycle || typeof lifecycle !== "object" || canonical(Object.keys(lifecycle).sort()) !== canonical(NY_LIFECYCLE_KEYS)
+      || !consumers || typeof consumers !== "object" || Array.isArray(consumers) || Object.values(consumers).some((v) => !Array.isArray(v))) {
+      throw new Refusal(`ambiguous ${side} NY compiled profile fields: ${unknown.join(", ") || "questionLifecycle"}`);
+    }
+    const out = new Map();
+    for (const key of [...WV_PROFILE_TOP_KEYS].filter((k) => k !== "questionLifecycle").sort()) out.set(`compiledProfile:${key}`, doc[key] ?? null);
+    out.set("compiledProfile:questionLifecycle:exactPacketFactIds", lifecycle.exactPacketFactIds);
+    out.set("compiledProfile:questionLifecycle:completionAliasIds", lifecycle.completionAliasIds);
+    out.set("compiledProfile:questionLifecycle:routeConsumerIds", Object.keys(consumers).filter((fact) => !nyOnlyUnrelated(consumers[fact])).sort());
+    for (const [fact, list] of Object.entries(consumers)) out.set(nyRouteConsumerAnchor(fact), list);
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
+    if (receipt.familyId !== NY_PROFILE_FAMILY || pin.recordId !== NY_PROFILE_RECORD_ID || pin.pathInRepository !== NY_COMPILED_PROFILE) {
+      throw new Refusal("compiled-profile pin does not uniquely bind the assigned NY DCJS correction route");
+    }
+    if (!Array.isArray(receipt.routeKeys) || receipt.routeKeys.length !== 1 || receipt.routeKeys[0] !== NY_PROFILE_ROUTE_KEY) {
+      throw new Refusal("the NY compiled-profile receipt has an ambiguous or unrelated route key");
+    }
+    const indexed = this.index(currentDoc, "current");
+    if (!(currentDoc.pathways ?? []).some((entry) => entry?.id === NY_UNRELATED_PATHWAY)) {
+      throw new Refusal(`the current NY compiled profile no longer carries the ${NY_UNRELATED_PATHWAY} pathway whose facts this adapter leaves out`);
+    }
+    const bytes = fs.readFileSync(path.join(ROOT, NY_COMPILED_PROFILE));
+    const text = bytes.toString("utf8");
+    const missing = NY_PROFILE_ANCHOR_STATEMENTS.filter((statement) => !text.includes(statement));
+    if (missing.length) throw new Refusal(`the NY compiled profile no longer contains ${missing.length} of the six builder anchor statements this route relies on`, { missing });
+    const digest = sha256(bytes);
+    const measuredReVerification = measuredReVerificationsRecording(receipt.familyId, digest, laneReturnRoot);
+    if (measuredReVerification.length === 0) {
+      throw new Refusal(`no independent re-verification row for ${receipt.familyId} records the current digest ${digest.slice(0, 12)} of this record; a refresh here follows a measured re-verification`, { digest });
+    }
+    const excluded = Object.keys(currentDoc.questionLifecycle.routeConsumers).filter((fact) => nyOnlyUnrelated(currentDoc.questionLifecycle.routeConsumers[fact])).sort();
+    const left = new Set(excluded.map(nyRouteConsumerAnchor));
+    return {
+      anchorIds: [...indexed.keys()].filter((id) => !left.has(id)),
+      derivation: {
+        recordId: NY_PROFILE_RECORD_ID,
+        familyId: receipt.familyId,
+        routeKey: NY_PROFILE_ROUTE_KEY,
+        builderAnchorStatements: [...NY_PROFILE_ANCHOR_STATEMENTS],
+        excludedKnownTransition: {
+          kind: "facts-consumed-only-by-the-cpl-160-59-petition",
+          reason: "this DCJS correction route reads the profile only for the fee and workflow statements above; a questionLifecycle fact that the § 160.59 petition alone consumes is not one it can read",
+          fields: excluded.map((fact) => `questionLifecycle.routeConsumers.${fact}`)
+        },
+        measuredReVerification
+      }
+    };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const indexed = this.index(doc, side);
+    const out = new Map();
+    for (const id of scope.anchorIds) {
+      if (!indexed.has(id)) throw new Refusal(`the ${side} NY compiled profile lacks required anchor ${id}`);
+      out.set(id, indexed.get(id));
+    }
+    return out;
+  }
+};
+
+// Compiled state profiles (schemaVersion 2.0.0, the WV/NY top-level key set)
+// pinned by one pathway: recordId "compiled-profile:<stem>#<pathwayId>". Scope
+// is that pathway's entry in `pathways` and in `packetGenerator.pathways` plus
+// every shared section of the profile; only the other pathways' entries are set
+// aside. The receipt's single route key must carry the pathway id as a segment,
+// and a refresh follows a measured re-verification row recording the current
+// digest, as the NY adapter requires. (OK human-trafficking-survivor-relief,
+// 2026-10-20: a66ccc373 reworded one waiting rule of the clean-slate pathway.)
+const PROFILES_DIR = "src/lib/rcap-engine/compiled/profiles";
+const PROFILE_PATHWAY_PREFIXES = ["compiledProfile:pathways:", "compiledProfile:packetGenerator:pathways:"];
+const profilePathwayId = (entry) => (entry && typeof entry === "object" && !Array.isArray(entry)) ? (entry.pathwayId ?? entry.id) : undefined;
+const pathwayScopedProfileAdapter = {
+  recordPath: PROFILES_DIR,
+  describe: "compiled state profile scoped by the pinned pathway (its rule and packet entries plus every shared section; the other pathways set aside)",
+
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || Array.isArray(doc) || doc.schemaVersion !== "2.0.0" || typeof doc.jurisdiction?.code !== "string") {
+      throw new Refusal(`the ${side} record is not the 2.0.0 compiled profile schema this adapter describes`);
+    }
+    const unknown = Object.keys(doc).filter((key) => !WV_PROFILE_TOP_KEYS.has(key));
+    if (unknown.length) throw new Refusal(`ambiguous ${side} compiled profile fields: ${unknown.join(", ")}`);
+    const packet = doc.packetGenerator;
+    if (!Array.isArray(doc.pathways) || !packet || typeof packet !== "object" || Array.isArray(packet) || !Array.isArray(packet.pathways)) {
+      throw new Refusal(`the ${side} compiled profile does not carry pathways and packetGenerator.pathways arrays`);
+    }
+    const out = new Map();
+    for (const key of [...WV_PROFILE_TOP_KEYS].filter((k) => k !== "pathways" && k !== "packetGenerator").sort()) out.set(`compiledProfile:${key}`, doc[key] ?? null);
+    for (const key of Object.keys(packet).filter((k) => k !== "pathways").sort()) out.set(`compiledProfile:packetGenerator:${key}`, packet[key]);
+    for (const [list, prefix] of [[doc.pathways, PROFILE_PATHWAY_PREFIXES[0]], [packet.pathways, PROFILE_PATHWAY_PREFIXES[1]]]) {
+      for (const entry of list) {
+        const id = profilePathwayId(entry);
+        if (typeof id !== "string" || !id) throw new Refusal(`a ${side} compiled profile pathway entry carries no id`);
+        if (out.has(prefix + id)) throw new Refusal(`the ${side} compiled profile names pathway ${id} twice`);
+        out.set(prefix + id, entry);
+      }
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
+    const stem = path.basename(this.recordPath, ".json");
+    const named = /^compiled-profile:([^#]+)#(.+)$/.exec(pin.recordId ?? "");
+    if (!named || named[1] !== stem || pin.pathInRepository !== this.recordPath) {
+      throw new Refusal(`compiled-profile pin does not name one pathway of ${stem} (recordId ${pin.recordId ?? "absent"})`);
+    }
+    const pathwayId = named[2];
+    if (!Array.isArray(receipt.routeKeys) || receipt.routeKeys.length !== 1 || !receipt.routeKeys[0].split(":").includes(pathwayId)) {
+      throw new Refusal(`the receipt's route keys do not corroborate pathway ${pathwayId}`);
+    }
+    const indexed = this.index(currentDoc, "current");
+    const own = PROFILE_PATHWAY_PREFIXES.map((prefix) => prefix + pathwayId);
+    const absent = own.filter((id) => !indexed.has(id));
+    if (absent.length) throw new Refusal(`the current compiled profile no longer carries pathway ${pathwayId} (${absent.join(", ")})`);
+    const digest = sha256(fs.readFileSync(path.join(ROOT, this.recordPath)));
+    const measuredReVerification = measuredReVerificationsRecording(receipt.familyId, digest, laneReturnRoot);
+    if (measuredReVerification.length === 0) {
+      throw new Refusal(`no independent re-verification row for ${receipt.familyId} records the current digest ${digest.slice(0, 12)} of this record; a refresh here follows a measured re-verification`);
+    }
+    const otherPathways = [...indexed.keys()].filter((id) => PROFILE_PATHWAY_PREFIXES.some((prefix) => id.startsWith(prefix)) && !own.includes(id)).sort();
+    return {
+      anchorIds: [...indexed.keys()].filter((id) => !otherPathways.includes(id)),
+      derivation: {
+        recordId: pin.recordId,
+        familyId: receipt.familyId,
+        routeKey: receipt.routeKeys[0],
+        pathwayId,
+        setAside: { kind: "other-pathways-of-this-profile", reason: "the pin names one pathway; another pathway's rules and packet entry are not ones this family reads", fields: otherPathways },
+        measuredReVerification
+      }
+    };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const indexed = this.index(doc, side);
+    const out = new Map();
+    for (const id of scope.anchorIds) {
+      if (!indexed.has(id)) throw new Refusal(`the ${side} compiled profile lacks required anchor ${id}`);
+      out.set(id, indexed.get(id));
+    }
+    return out;
+  }
+};
+const dedicatedProfiles = new Set([WV_COMPILED_PROFILE, NY_COMPILED_PROFILE]);
+const pathwayProfilePaths = (() => {
+  try { return fs.readdirSync(path.join(ROOT, PROFILES_DIR)).filter((n) => n.endsWith(".json")).map((n) => `${PROFILES_DIR}/${n}`).filter((p) => !dedicatedProfiles.has(p)); }
+  catch { return []; }
+})();
+
+// Whole-file route-contract pins may move for another jurisdiction. Scope is
+// the receipt's exact route-contract identity, corroborated by its own route
+// keys; compare the complete route (including every service/failure branch)
+// and all shared authority metadata. A branch-specific receipt never narrows
+// the comparison to just that branch, and unsupported key shapes refuse.
+const SINGLE_ROUTES = "src/lib/legal-authority/routes/single-routes.json";
+const singleRoutesAdapter = {
+  recordPath: SINGLE_ROUTES,
+  describe: "single-route contracts (shared authority metadata + complete exact route-contract recordId)",
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || Array.isArray(doc) || !Array.isArray(doc.routes)) {
+      throw new Refusal(`the ${side} route-contract record has no routes array`);
+    }
+    const indexed = new Map();
+    for (const route of doc.routes) {
+      if (!route || typeof route.routeKey !== "string" || !/^[A-Z]{2}:[a-z0-9-]+$/.test(route.routeKey)) {
+        throw new Refusal(`the ${side} route-contract record has a missing or malformed routeKey`);
+      }
+      if (indexed.has(route.routeKey)) throw new Refusal(`the ${side} route-contract record has duplicate route ${route.routeKey}`);
+      indexed.set(route.routeKey, route);
+    }
+    return indexed;
+  },
+  scopeFrom({ receipt, pin, currentDoc }) {
+    let recordId = pin.recordId;
+    /* A compositionSources pin ({path, sha256, byteLength}) has no recordId
+     * field by design. Only that shape is scoped here by the route contract
+     * every receipt route key names (JUR and pathway, runtime forms only);
+     * several, or none, refuse, and the corroboration below still runs on
+     * every key. A committedRecords pin (pathInRepository) must still name its
+     * recordId. */
+    if (recordId == null && pin.pathInRepository === undefined && pin.path === SINGLE_ROUTES) {
+      const named = new Set((receipt.routeKeys ?? []).map((key) => String(key).split(":"))
+        .filter((parts) => parts[0] === "obligation" && ["runtime-only", "runtime-contract-cohort"].includes(parts[1]) && parts[2] && parts[3])
+        .map((parts) => `${parts[2]}:${parts[3]}`));
+      if (named.size !== 1) throw new Refusal(`route-contract pin names no recordId and the receipt's route keys name ${named.size} route contracts; exactly one is needed`);
+      recordId = `route-contract:${[...named][0]}`;
+    } else if (pin.pathInRepository !== SINGLE_ROUTES || typeof recordId !== "string"
+      || !/^route-contract:[A-Z]{2}:[a-z0-9-]+$/.test(recordId)) {
+      throw new Refusal("route-contract pin must name one exact recordId and repository path");
+    }
+    if (!/^route-contract:[A-Z]{2}:[a-z0-9-]+$/.test(recordId)) throw new Refusal("route-contract pin must name one exact recordId and repository path");
+    const routeKey = recordId.slice("route-contract:".length);
+    const route = this.index(currentDoc, "current").get(routeKey);
+    if (!route) throw new Refusal(`the receipt's route-contract ${routeKey} is absent from the current record`);
+    const [jurisdiction, pathwayId] = routeKey.split(":");
+    if (route.jurisdiction !== jurisdiction || route.pathwayId !== pathwayId
+      || receipt.jurisdiction != null && receipt.jurisdiction !== jurisdiction) {
+      throw new Refusal("route-contract recordId, route identity and receipt jurisdiction disagree");
+    }
+    if (!Array.isArray(receipt.routeKeys) || receipt.routeKeys.length === 0
+      || new Set(receipt.routeKeys).size !== receipt.routeKeys.length) {
+      throw new Refusal("route-contract scope requires nonempty unique receipt routeKeys");
+    }
+    // Cohort suffixes identify the receipt's runtime grouping, not a child
+    // object in this source format. Never use them to select a partial anchor:
+    // the complete exact route (including every branch rule in its prose) is
+    // compared below. This proves source continuity, not cohort approval.
+    for (const key of receipt.routeKeys) {
+      if (typeof key !== "string") throw new Refusal("receipt routeKey is not a string");
+      const parts = key.split(":");
+      const common = parts[0] === "obligation" && parts[2] === jurisdiction && parts[3] === pathwayId;
+      const runtime = parts[1] === "runtime-only" && parts.length === 4;
+      const cohort = parts[1] === "runtime-contract-cohort" && parts.length === 5 && /^[a-z0-9_]+$/.test(parts[4]);
+      if (!common || !(runtime || cohort)) {
+        throw new Refusal(`receipt routeKey ${key} does not uniquely corroborate ${routeKey}`);
+      }
+    }
+    return { anchorIds: [routeKey], derivation: {
+      fromPinRecordId: pin.recordId ?? null, routeContractFromReceiptRouteKeys: pin.recordId == null ? recordId : null, fromReceiptRouteKeys: [...receipt.routeKeys],
+      completeRouteAndAllBranchesCompared: true, globalMetadataComparedAsOneAnchor: true
+    } };
+  },
+  anchorsOf(doc, scope, side) {
+    const indexed = this.index(doc, side);
+    const globalMetadata = { ...doc };
+    delete globalMetadata.routes;
+    const anchors = new Map([["routeContractGlobalMetadata", globalMetadata]]);
+    for (const routeKey of scope.anchorIds) {
+      if (!indexed.has(routeKey)) throw new Refusal(`route-contract ${routeKey} is absent from the ${side} record`);
+      anchors.set(`route-contract:${routeKey}`, indexed.get(routeKey));
+    }
+    return anchors;
+  }
+};
+
+const DECISIONS = "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json";
+const LANE_RETURNS = "data/rcap-grade-a/packet-factory-24h";
+/*
+ * The national legal decisions record: shared authority (the report document,
+ * its digest and currentThrough, the crosswalk) plus three decision lists --
+ * questionDecisions keyed by registerQuestionId + trackId,
+ * researchTrackDecisions by trackId, immediateAssignments by assignmentId +
+ * trackId -- and an implementationMatrix keyed by reportQuestionId.
+ *
+ * A receipt names the decision it rests on in the pin's recordId:
+ *   legal-decision:2026-08-28:Q-035:sc_17_22_950_summary   one question decision
+ *   legal-decision:2026-08-28:research-track:<trackId>     one research-track decision
+ *   legal-decision:2026-08-28:LA-IMM-03:<trackId>          one immediate assignment
+ *   legal-decision:2026-08-28:<trackId>                    the one decision, in any list, carrying that trackId
+ * A pin with no such recordId (a compositionSources or groundingRecords entry)
+ * is a refusal: the receipt does not say which decision it binds, and neither
+ * the family id nor its route keys are that statement.
+ *
+ * SHARED AUTHORITY IS AN ANCHOR. Everything outside the decision lists and the
+ * register bookkeeping (expected, scope, deliveryCounts: counts and the
+ * out-of-scope register, which move whenever a question is added) is what every
+ * decision reads, and is compared as one anchor. A question decision's
+ * implementationMatrix rows are compared beside it. Other decisions' memo
+ * digests moving is exactly the drift this adapter exists to see past; the
+ * family's own decision row, its memoSha256 included, must be identical.
+ *
+ * THE REFRESH NAMES ITS MEASUREMENT. A refresh here follows an independent
+ * re-verification row for this family that recorded the current digest of this
+ * record; the row is found in the lane returns by that digest and named in the
+ * scope, and none found is a refusal.
+ */
+function measuredReVerificationsRecording(familyId, digest, root) {
+  const out = [];
+  let lanes = [];
+  try { lanes = fs.readdirSync(root); } catch { return out; }
+  for (const lane of lanes) {
+    const dir = path.join(root, lane);
+    let names = [];
+    try { names = fs.readdirSync(dir).filter((n) => /^rows.*\.json$/.test(n)); } catch { continue; }
+    for (const name of names) {
+      let doc;
+      try { doc = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8")); } catch { continue; }
+      for (const row of Array.isArray(doc?.rows) ? doc.rows : []) {
+        if ((row?.itemId ?? row?.familyId) !== familyId || row.verdict !== "PASS_COMPLETE_INDEPENDENT") continue;
+        if (!JSON.stringify(row).includes(digest)) continue;
+        out.push({ evidencePath: path.relative(ROOT, path.join(dir, name)), lane: row.lane ?? doc.lane ?? lane.toUpperCase(), verifiedAtBase: row.verifiedAtBase ?? null });
+      }
+    }
+  }
+  return out;
+}
+/* The measured re-verification rows a refresh follows, named in its block. The
+ * decisions adapter refuses without one; the manifests, census, worklist and
+ * memo adapters record what exists (the lead's apply rule is enforced at apply
+ * time for them, so the existing manifests behaviour other lanes rely on is
+ * unchanged). */
+function measuredRowsFor(receipt, recordPath, laneReturnRoot = path.join(ROOT, LANE_RETURNS)) {
+  let bytes;
+  try { bytes = fs.readFileSync(path.join(ROOT, recordPath)); } catch { return []; }
+  return measuredReVerificationsRecording(receipt.familyId, sha256(bytes), laneReturnRoot);
+}
+/*
+ * FINGERPRINT-ONLY (lead ruling 2026-10-19). A census or worklist regeneration that moves
+ * nothing but metadata.sourceFingerprint -- the pinned document and the current one are
+ * identical once that field is removed -- may refresh on the PASS row that measured the
+ * pinned bytes. The refresh block then says fingerprintOnly and names that row. Any other
+ * difference, even one this family's anchors do not see, needs a row at the current digest.
+ */
+function fingerprintOnlyEvidence({ receipt, pin, recordPath, currentDoc, laneReturnRoot, recover = recoverBytesByDigest }) {
+  if (typeof pin?.sha256 !== "string") return {};
+  const recovered = recover(recordPath, pin.sha256);
+  if (!recovered?.bytes) return {};
+  const withoutFingerprint = (doc) => { const { sourceFingerprint: _f, ...metadata } = doc.metadata ?? {}; return canonical({ ...doc, metadata }); };
+  if (withoutFingerprint(JSON.parse(recovered.bytes.toString("utf8"))) !== withoutFingerprint(currentDoc)) return {};
+  const prior = measuredReVerificationsRecording(receipt.familyId, pin.sha256, laneReturnRoot);
+  return prior.length ? { fingerprintOnly: true, pinnedSha256: pin.sha256, priorMeasuredReVerification: prior } : {};
+}
+const measuredOrFingerprintOnly = (args) => {
+  const measuredReVerification = measuredRowsFor(args.receipt, args.recordPath, args.laneReturnRoot);
+  return { measuredReVerification, ...(measuredReVerification.length ? {} : fingerprintOnlyEvidence(args)) };
+};
+const decisionsAdapter = {
+  recordPath: DECISIONS,
+  describe: "national legal decisions (shared authority + the one decision the pin's recordId names)",
+
+  index(doc, side) {
+    const topKeys = ["schemaVersion", "generatedBy", "createsApproval", "authority", "crosswalk", "independentFields", "expected", "scope", "deliveryCounts", "immediateAssignments", "questionDecisions", "researchTrackDecisions", "implementationMatrix"];
+    const lists = ["immediateAssignments", "questionDecisions", "researchTrackDecisions", "implementationMatrix"];
+    if (!doc || typeof doc !== "object" || Object.keys(doc).some((k) => !topKeys.includes(k)) || lists.some((k) => !Array.isArray(doc[k]))) {
+      throw new Refusal(`the ${side} decisions record is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    const add = (key, ids, row) => {
+      if (ids.some((v) => typeof v !== "string" || !v)) throw new Refusal(`the ${side} decisions record holds a decision with no id (${key})`);
+      if (out.has(key)) throw new Refusal(`the ${side} decisions record holds duplicate decision ${key}; an anchor that is not unique cannot be compared`);
+      out.set(key, row);
+    };
+    for (const r of doc.questionDecisions) add(`question:${r?.registerQuestionId}:${r?.trackId}`, [r?.registerQuestionId, r?.trackId], r);
+    for (const r of doc.researchTrackDecisions) add(`research-track:${r?.trackId}`, [r?.trackId], r);
+    for (const r of doc.immediateAssignments) add(`immediate:${r?.assignmentId}:${r?.trackId}`, [r?.assignmentId, r?.trackId], r);
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, directory = null, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
+    const byId = this.index(currentDoc, "current");
+    const recordId = typeof pin.recordId === "string" ? pin.recordId : "";
+    const prefix = "legal-decision:2026-08-28:";
+    let keys;
+    let fromRouteKeys = null;
+    if (recordId === "") {
+      /* No recordId: the family's own route keys name the track, from the
+       * receipt or, when the receipt carries none, from the family's own
+       * product-wiring.json. Both present and different is a refusal. Every
+       * decision carrying that track is an anchor. */
+      let wiring = null;
+      if (directory) { try { wiring = JSON.parse(fs.readFileSync(path.join(ROOT, directory, "product-wiring.json"), "utf8")).routeKeys ?? null; } catch { wiring = null; } }
+      const own = Array.isArray(receipt.routeKeys) && receipt.routeKeys.length ? receipt.routeKeys : null;
+      const wired = Array.isArray(wiring) && wiring.length ? wiring : null;
+      if (own && wired && JSON.stringify([...own].sort()) !== JSON.stringify([...wired].sort())) {
+        throw new Refusal("the receipt's routeKeys and the family's product-wiring.json routeKeys differ, so which track it binds cannot be decided", { receiptRouteKeys: own, wiringRouteKeys: wired });
+      }
+      const routeKeys = own ?? wired;
+      if (!routeKeys) throw new Refusal("the pin names no legal-decision:2026-08-28:<decision> recordId and the family's own records name no routeKeys, so which decision this family binds cannot be decided");
+      const tracks = new Set(routeKeys.map((k) => String(k).split(":")[3]).filter(Boolean));
+      keys = [...byId.keys()].filter((k) => tracks.has(byId.get(k).trackId)).sort();
+      if (keys.length === 0) throw new Refusal(`no decision in the current record carries the track the family's routeKeys name (${[...tracks].join(", ")})`, { routeKeys });
+      fromRouteKeys = { routeKeys, from: own ? "receipt" : "product-wiring.json", tracks: [...tracks].sort() };
+    } else {
+      /* One receipt (NY 160.55 sentencing-court transmission) names its decision
+       * by the record's file stem and a track: legal-decision:2026-08-28-national#<trackId>.
+       * Only a bare track id is read from that shape, so it resolves through the
+       * exactly-one-decision rule below; the typed forms stay under the prefix. */
+      const national = /^legal-decision:2026-08-28-national#([a-z0-9_]+)$/.exec(recordId);
+      if (!national && !recordId.startsWith(prefix)) {
+        throw new Refusal("the pin names no legal-decision:2026-08-28:<decision> recordId, so which decision this family binds cannot be decided", { recordId });
+      }
+      const rest = national ? national[1] : recordId.slice(prefix.length);
+      let m;
+      let key;
+      if ((m = /^(Q-\d+):(.+)$/.exec(rest))) key = `question:${m[1]}:${m[2]}`;
+      else if ((m = /^research-track:(.+)$/.exec(rest))) key = `research-track:${m[1]}`;
+      else if ((m = /^(LA-IMM-\d+):(.+)$/.exec(rest))) key = `immediate:${m[1]}:${m[2]}`;
+      else {
+        const hits = [...byId.keys()].filter((k) => byId.get(k).trackId === rest);
+        if (hits.length !== 1) throw new Refusal(`the recordId names track ${rest}, which ${hits.length} decisions in the current record carry; exactly one is needed`, { recordId, hits });
+        key = hits[0];
+      }
+      if (!byId.has(key)) throw new Refusal(`the receipt's recordId names ${key}, which is no decision in the current record`, { recordId });
+      keys = [key];
+    }
+    const digest = sha256(fs.readFileSync(path.join(ROOT, DECISIONS)));
+    const measuredReVerification = measuredReVerificationsRecording(receipt.familyId, digest, laneReturnRoot);
+    if (measuredReVerification.length === 0) {
+      throw new Refusal(`no independent re-verification row for ${receipt.familyId} records the current digest ${digest.slice(0, 12)} of this record; a refresh here follows a measured re-verification`, { digest });
+    }
+    return {
+      anchorIds: keys,
+      derivation: { fromPinRecordId: recordId || null, fromRouteKeys, sharedAuthorityComparedAsOneAnchor: true, implementationMatrixRowsComparedForQuestions: true, measuredReVerification }
+    };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byId = this.index(doc, side);
+    const { questionDecisions: _q, researchTrackDecisions: _r, immediateAssignments: _i, implementationMatrix, expected: _e, scope: _s, deliveryCounts: _d, ...sharedAuthority } = doc;
+    const out = new Map([["decisionsSharedAuthority", sharedAuthority]]);
+    for (const id of scope.anchorIds) {
+      if (!byId.has(id)) {
+        throw new Refusal(`decision ${id} is absent from the ${side} record; the entry this family binds left the record and it owes a fresh read`, { anchor: id, side });
+      }
+      const row = byId.get(id);
+      out.set(id, row);
+      if (id.startsWith("question:")) out.set(`implementationMatrix:${row.reportQuestionId}`, implementationMatrix.filter((r) => r?.reportQuestionId === row.reportQuestionId));
+    }
+    return out;
+  }
+};
+
+const CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
+/*
+ * The national route-obligation census: metadata, whole-universe counts, and
+ * routes[] keyed by a unique routeKey. A receipt's own routeKeys are the routes
+ * its packet answers; those entries are the anchors, compared whole.
+ *
+ * Shared metadata is an anchor except `sourceFingerprint`, the digest of the
+ * generator's inputs, which by construction moves on any input change anywhere
+ * in the universe; `counts` are tallies of the whole universe and move with it.
+ * Neither says anything about one route. Every other metadata field (schema,
+ * generator, asOf, the createsApproval/changesRuntime/productionTouched
+ * statements, source inventory availability) is compared.
+ *
+ * A receipt with no routeKeys, or naming a routeKey the census does not carry,
+ * is a refusal: there is nothing to compare, or the route left the census.
+ */
+const censusAdapter = {
+  recordPath: CENSUS,
+  describe: "national route-obligation census (metadata except sourceFingerprint + the receipt's own routes)",
+
+  index(doc, side) {
+    const top = ["metadata", "counts", "routes"];
+    if (!doc || typeof doc !== "object" || Object.keys(doc).some((k) => !top.includes(k)) || !Array.isArray(doc.routes)
+      || doc.metadata?.schemaVersion !== "rcap-national-route-obligation-census/v1") {
+      throw new Refusal(`the ${side} census is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const r of doc.routes) {
+      const key = r?.routeKey;
+      if (typeof key !== "string" || !key) throw new Refusal(`the ${side} census holds a route with no routeKey`);
+      if (out.has(key)) throw new Refusal(`the ${side} census holds duplicate route ${key}; an anchor that is not unique cannot be compared`);
+      out.set(key, r);
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS), recover }) {
+    const byKey = this.index(currentDoc, "current");
+    const routeKeys = Array.isArray(receipt.routeKeys) ? receipt.routeKeys.filter((k) => typeof k === "string" && k) : [];
+    if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which census routes this family binds cannot be decided");
+    const absent = routeKeys.filter((k) => !byKey.has(k));
+    if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current census does not carry: ${absent.join(", ")}`, { absent });
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true, ...measuredOrFingerprintOnly({ receipt, pin, recordPath: this.recordPath, currentDoc, laneReturnRoot, recover }) } };
+  },
+
+  /* The one route field a measured-row admission may see past, by name. */
+  ADMITTED_ROUTE_FIELDS: ["requiredSourceIds"],
+  /*
+   * MEASURED-ROW ADMISSION FOR THE FAMILY'S OWN ROUTE (lead ruling 2026-10-20 for ND
+   * custom pleading: re-admit without a rebuild via a source-identity row plus a
+   * census re-pin). A route this family binds may differ only by ids ADDED to
+   * requiredSourceIds, and only when the family's own PASS row was read on the
+   * current census bytes and names the route and every added id. Nothing removed,
+   * no other field, no reordering; shared metadata is still compared whole.
+   */
+  measuredRowAdmission({ receipt, oldDoc, currentDoc, scope, differing, measuredRows }) {
+    if (!Array.isArray(measuredRows) || measuredRows.length === 0) return { ok: false, why: "no PASS_COMPLETE_INDEPENDENT row for this family records the current census digest" };
+    const notRoutes = differing.filter((name) => !name.startsWith("route:"));
+    if (notRoutes.length) return { ok: false, why: `an anchor other than this family's routes differs: ${notRoutes.join(", ")}` };
+    const currentDigest = sha256(fs.readFileSync(path.join(ROOT, this.recordPath)));
+    const readOnCurrentBytes = measuredRows.filter((m) => {
+      try { return sha256(execFileSync("git", ["show", `${m.verifiedAtBase}:${this.recordPath}`], { cwd: ROOT, maxBuffer: 1 << 28, stdio: ["ignore", "pipe", "ignore"] })) === currentDigest; }
+      catch { return false; }
+    });
+    if (readOnCurrentBytes.length === 0) return { ok: false, why: "no measured row was read at a base whose census bytes are the current ones" };
+    const oldBy = this.index(oldDoc, "recovered historical"), curBy = this.index(currentDoc, "current");
+    const admittedAdditions = {};
+    for (const name of differing) {
+      const key = name.slice("route:".length);
+      const o = oldBy.get(key), c = curBy.get(key);
+      if (!o || !c) return { ok: false, why: `route ${key} is not on both sides` };
+      const changed = [...new Set([...Object.keys(o), ...Object.keys(c)])].filter((f) => canonical(o[f]) !== canonical(c[f])).sort();
+      const outside = changed.filter((f) => !this.ADMITTED_ROUTE_FIELDS.includes(f));
+      if (outside.length) return { ok: false, why: `route ${key} changed outside the admitted field list: ${outside.join(", ")}` };
+      const before = o.requiredSourceIds, after = c.requiredSourceIds;
+      if (!Array.isArray(before) || !Array.isArray(after) || [...before, ...after].some((id) => typeof id !== "string")) return { ok: false, why: `route ${key} requiredSourceIds is not a list of ids on both sides` };
+      const repeated = after.filter((id, i) => after.indexOf(id) !== i);
+      if (repeated.length) return { ok: false, why: `route ${key} lists requiredSourceIds more than once: ${[...new Set(repeated)].join(", ")}` };
+      const removed = before.filter((id) => !after.includes(id));
+      if (removed.length) return { ok: false, why: `route ${key} removed requiredSourceIds: ${removed.join(", ")}` };
+      const added = after.filter((id) => !before.includes(id));
+      if (canonical(after.filter((id) => !added.includes(id))) !== canonical(before)) return { ok: false, why: `route ${key} reordered or duplicated requiredSourceIds` };
+      admittedAdditions[key] = { field: "requiredSourceIds", added };
+    }
+    /* Whole values only: a substring match would count a prefix of a named id as named. */
+    const rowStrings = (m) => {
+      const strings = new Set();
+      const walk = (v) => { if (typeof v === "string") strings.add(v); else if (v && typeof v === "object") Object.values(v).forEach(walk); };
+      try {
+        const doc = JSON.parse(fs.readFileSync(path.join(ROOT, m.evidencePath), "utf8"));
+        walk((doc.rows ?? []).find((r) => (r?.itemId ?? r?.familyId) === receipt.familyId && r.verdict === "PASS_COMPLETE_INDEPENDENT" && (r.verifiedAtBase ?? null) === m.verifiedAtBase));
+      } catch { /* an unreadable row names nothing */ }
+      return strings;
+    };
+    const unnamed = (strings) => Object.entries(admittedAdditions).flatMap(([key, a]) => [key, ...a.added]).filter((s) => !strings.has(s));
+    const naming = readOnCurrentBytes.filter((m) => unnamed(rowStrings(m)).length === 0);
+    if (naming.length === 0) return { ok: false, why: `no measured row read on the current bytes names the changed route and every added id (first row misses: ${unnamed(rowStrings(readOnCurrentBytes[0])).join(", ")})` };
+    /* The comparison without the admission stays on the record: it is why the measured row was needed. */
+    const withoutAdmission = { anchorsCompared: scope.anchorIds.length + 1, anchorsIdentical: scope.anchorIds.length + 1 - differing.length, differing: [...differing], outcome: "REFUSED" };
+    return { ok: true, admission: { rule: "measured-row admission (own route): the only change to a route this family binds is ids added to requiredSourceIds, nothing removed or reordered; the family's own PASS row was read on the current census bytes and names the route and every added id; shared metadata identical except sourceFingerprint", withoutAdmission, measuredReVerification: naming, admittedAdditions } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byKey = this.index(doc, side);
+    const { sourceFingerprint: _f, ...metadata } = doc.metadata;
+    const out = new Map([["censusSharedMetadata", metadata]]);
+    /* Granted only by measuredRowAdmission() above: the named additions leave the
+     * anchor on both sides (the historical side never carried them), so the block
+     * records identical anchors, as generate.mjs requires. */
+    const admitted = scope.derivation?.measuredRowAdmission?.admittedAdditions ?? {};
+    for (const key of scope.anchorIds) {
+      if (!byKey.has(key)) throw new Refusal(`route ${key} is absent from the ${side} census; the entry this family binds left the record and it owes a fresh read`, { anchor: key, side });
+      const entry = byKey.get(key);
+      const added = admitted[key]?.added ?? [];
+      out.set(`route:${key}`, added.length ? { ...entry, requiredSourceIds: entry.requiredSourceIds.filter((id) => !added.includes(id)) } : entry);
+    }
+    return out;
+  }
+};
+
+const MEMO_DIR = "data/record-clearing/legal-design-intake";
+/*
+ * A state legal-design memo (<JUR>.memo.json): memo metadata plus `tracks`
+ * keyed by trackId. Scope comes from the family's own records: the pin's
+ * recordId `legal-design-intake:<JUR>#<trackId>` when it names one, and the
+ * receipt's routeKeys `obligation:<mode>:<JUR>:<trackId>[:...]` whose fourth
+ * segment is a track in this memo. Route keys naming a decision or cohort id
+ * there are recorded, not guessed at.
+ *
+ * MEMO METADATA IS AN ANCHOR. Everything outside `tracks` -- memoVersion,
+ * submittedAt and every _review / _accounting / _correction block -- is the
+ * memo's authority over every track and is compared whole. Another track's
+ * edit is exactly the drift this adapter exists to see past.
+ */
+const memoAdapter = {
+  describe: "state legal-design memo (memo metadata + the receipt's own tracks)",
+
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || doc.schemaVersion !== 1 || typeof doc.jurisdiction !== "string" || !Array.isArray(doc.tracks)) {
+      throw new Refusal(`the ${side} memo is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const t of doc.tracks) {
+      const id = t?.trackId;
+      if (typeof id !== "string" || !id) throw new Refusal(`the ${side} memo holds a track with no trackId`);
+      if (out.has(id)) throw new Refusal(`the ${side} memo holds duplicate track ${id}; an anchor that is not unique cannot be compared`);
+      out.set(id, t);
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc }) {
+    const byId = this.index(currentDoc, "current");
+    const anchors = new Set();
+    const recordId = typeof pin.recordId === "string" ? pin.recordId : "";
+    const parsed = /^legal-design-intake:([A-Z]{2})#(.+)$/.exec(recordId);
+    const fromRecordId = parsed?.[2] ?? null;
+    if (recordId && !fromRecordId) throw new Refusal(`the pin's recordId ${JSON.stringify(recordId)} is not legal-design-intake:<JUR>#<trackId>`, { recordId });
+    if (parsed && parsed[1] !== currentDoc.jurisdiction) throw new Refusal(`the pin's recordId names jurisdiction ${parsed[1]}, but this memo is ${currentDoc.jurisdiction}`, { recordId });
+    if (fromRecordId) {
+      if (!byId.has(fromRecordId)) throw new Refusal(`the pin's recordId names track ${fromRecordId}, which the current memo does not carry`, { recordId });
+      anchors.add(fromRecordId);
+    }
+    const fromRouteKeys = [];
+    const routeKeysNamingNoTrack = [];
+    for (const routeKey of receipt.routeKeys ?? []) {
+      const s = String(routeKey).split(":");
+      if (s[2] === currentDoc.jurisdiction && byId.has(s[3])) { anchors.add(s[3]); if (!fromRouteKeys.includes(s[3])) fromRouteKeys.push(s[3]); }
+      else routeKeysNamingNoTrack.push(routeKey);
+    }
+    if (anchors.size === 0) throw new Refusal("the family's own records name no track in this memo, so there is nothing to compare", { recordId, routeKeys: receipt.routeKeys ?? [] });
+    return { anchorIds: [...anchors].sort(), derivation: { fromPinRecordId: fromRecordId, fromReceiptRouteKeys: fromRouteKeys, routeKeysNamingNoTrack, memoMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byId = this.index(doc, side);
+    const { tracks: _tracks, ...memoMetadata } = doc;
+    const out = new Map([["memoMetadata", memoMetadata]]);
+    for (const id of scope.anchorIds) {
+      if (!byId.has(id)) throw new Refusal(`anchor track ${id} is absent from the ${side} memo; the entry this family binds left the record and it owes a fresh read`, { anchor: `track:${id}`, side });
+      out.set(`track:${id}`, byId.get(id));
+    }
+    return out;
+  }
+};
+const memoPaths = (() => { try { return fs.readdirSync(path.join(ROOT, MEMO_DIR)).filter((n) => /^[A-Z]{2}\.memo\.json$/.test(n)).map((n) => `${MEMO_DIR}/${n}`); } catch { return []; } })();
+
+const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
+/*
+ * The census's packet-family build worklist, an output of the same
+ * regeneration: metadata, counts, the allowed work types and deliverable
+ * fields, and packetFamilies[] whose worklistGroupId is NOT unique -- but every
+ * routeKey sits in exactly one entry. So the scope rule is the census
+ * adapter's: the receipt's own routeKeys, each resolving to the one entry that
+ * carries it, compared whole. Shared anchor: metadata except sourceFingerprint,
+ * plus allowedWorkTypes and deliverableFields; counts are not compared.
+ */
+const worklistAdapter = {
+  recordPath: WORKLIST,
+  describe: "census packet-family build worklist (shared schema fields + the entry carrying each receipt routeKey)",
+
+  index(doc, side) {
+    const top = ["metadata", "counts", "allowedWorkTypes", "deliverableFields", "packetFamilies"];
+    if (!doc || typeof doc !== "object" || Object.keys(doc).some((k) => !top.includes(k)) || !Array.isArray(doc.packetFamilies)
+      || doc.metadata?.schemaVersion !== "rcap-national-route-obligation-census/v1") {
+      throw new Refusal(`the ${side} worklist is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const entry of doc.packetFamilies) {
+      const keys = Array.isArray(entry?.routeKeys) ? entry.routeKeys : null;
+      if (!keys || keys.some((k) => typeof k !== "string" || !k)) throw new Refusal(`the ${side} worklist holds an entry without routeKeys`);
+      for (const k of keys) {
+        if (out.has(k)) throw new Refusal(`the ${side} worklist carries route ${k} in more than one entry; an anchor that is not unique cannot be compared`);
+        out.set(k, entry);
+      }
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS), recover }) {
+    const byKey = this.index(currentDoc, "current");
+    const routeKeys = Array.isArray(receipt.routeKeys) ? receipt.routeKeys.filter((k) => typeof k === "string" && k) : [];
+    if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which worklist entries this family binds cannot be decided");
+    const absent = routeKeys.filter((k) => !byKey.has(k));
+    if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current worklist does not carry: ${absent.join(", ")}`, { absent });
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedFieldsComparedExceptSourceFingerprint: true, countsNotCompared: true, ...measuredOrFingerprintOnly({ receipt, pin, recordPath: this.recordPath, currentDoc, laneReturnRoot, recover }) } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byKey = this.index(doc, side);
+    const { sourceFingerprint: _f, ...metadata } = doc.metadata;
+    const out = new Map([["worklistSharedFields", { metadata, allowedWorkTypes: doc.allowedWorkTypes, deliverableFields: doc.deliverableFields }]]);
+    for (const key of scope.anchorIds) {
+      if (!byKey.has(key)) throw new Refusal(`route ${key} is absent from the ${side} worklist; the entry this family binds left the record and it owes a fresh read`, { anchor: key, side });
+      out.set(`entryFor:${key}`, byKey.get(key));
+    }
+    return out;
+  }
+};
+
 export const ADAPTERS = new Map([
   [REGISTRY, registryAdapter],
   [PACKET_MANIFESTS, packetManifestAdapter],
+  [SPECIFICATIONS, specificationsAdapter],
   [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
-  [WV_COMPILED_PROFILE, compiledProfileAdapter]
+  [WV_COMPILED_PROFILE, compiledProfileAdapter],
+  [NY_COMPILED_PROFILE, nyCompiledProfileAdapter],
+  [SINGLE_ROUTES, singleRoutesAdapter],
+  [DECISIONS, decisionsAdapter],
+  [CENSUS, censusAdapter],
+  [WORKLIST, worklistAdapter],
+  ...memoPaths.map((p) => [p, { ...memoAdapter, recordPath: p }]),
+  ...pathwayProfilePaths.map((p) => [p, { ...pathwayScopedProfileAdapter, recordPath: p }])
 ]);
 
 /* ------------------------------------------------------------------ *
@@ -965,11 +1780,20 @@ export function currentBytesOf(repoPath, { receipt = null, pin = null } = {}) {
  * They are separated out and reported rather than silently skipped: an
  * unmeasured pin is a fact a reader is owed, it is simply not a lapse.
  */
+/* generate.mjs does not read a pin on a file its own convergence rewrites from the
+ * queue each run (CONVERGENCE_REWRITTEN_RECORDS, d10f1f7de): SOURCE_RELATIONSHIP_REGISTRY.json
+ * carries every family's projectedState and would lapse a family on its own state change.
+ * The decider ignores it, so this planner must too: counting it here refused every
+ * family whose receipt pins it (fl-administrative-set, 2026-10-20) with "no adapter
+ * describes" a record the decider never asks about. Named one by one, like the decider. */
+export const CONVERGENCE_REWRITTEN_RECORDS = new Set(["data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"]);
+
 export function driftedPinsOf(receipt) {
   const drifted = [];
   const unmeasurable = [];
   eachPin(receipt, (pin, at) => {
     if (!isDigest(pin.sha256)) return;
+    if (CONVERGENCE_REWRITTEN_RECORDS.has(at)) return;
     if (pin.mountedHere === false) {
       unmeasurable.push({ path: at, sha256: pin.sha256, custody: pin.custody ?? null, receiptSays: pin.digestProvenance ?? "this pin declares mountedHere: false" });
       return;
@@ -977,10 +1801,30 @@ export function driftedPinsOf(receipt) {
     const { bytes, from, triedBases } = currentBytesOf(at, { receipt, pin });
     if (bytes === null) { drifted.push({ pin, at, now: null, from, triedBases, missing: true }); return; }
     const now = sha256(bytes);
-    if (now !== pin.sha256) drifted.push({ pin, at, now, bytes, from, triedBases, missing: false });
+    if (now !== pin.sha256) { drifted.push({ pin, at, now, bytes, from, triedBases, missing: false }); return; }
+    /* Ruling B' (2026-10-20): a rebuild re-pins from disk and carries the prior
+     * block as history, so the pin equals the bytes while nobody has compared
+     * the last proven digest (the newest entry's writtenAgainst) with them. That
+     * is the drift to plan: recover that blob, compare through the adapter, and
+     * write the live block with the entry as its predecessor. */
+    const newest = historyPredecessorOf(pin);
+    if (newest && newest.writtenAgainst !== now) {
+      drifted.push({
+        pin: { ...pin, sha256: newest.writtenAgainst, byteLength: typeof newest.writtenAgainstByteLength === "number" ? newest.writtenAgainstByteLength : undefined },
+        at, now, bytes, from, triedBases, missing: false,
+        fromHistory: { writtenAgainst: newest.writtenAgainst, supersededBy: newest.supersededBy ?? null }
+      });
+    }
   });
   drifted.unmeasurable = unmeasurable;
   return drifted;
+}
+
+/** The newest history entry of a pin that carries history and no live block, when it names a digest. */
+export function historyPredecessorOf(pin) {
+  if (pin.identityRefresh || !Array.isArray(pin.identityRefreshHistory) || pin.identityRefreshHistory.length === 0) return null;
+  const newest = pin.identityRefreshHistory[pin.identityRefreshHistory.length - 1];
+  return newest && isDigest(newest.writtenAgainst) ? newest : null;
 }
 
 /* ------------------------------------------------------------------ *
@@ -1016,6 +1860,7 @@ export function doctrineNormalise(text, refreshedPathsFromCurrent) {
   doctrineEachPin(doc, (rec, at) => {
     if (!refreshedPathsFromCurrent.has(at)) return;
     delete rec.identityRefresh;
+    delete rec.identityRefreshHistory;
     delete rec.sha256;
     delete rec.byteLength;
   });
@@ -1074,9 +1919,18 @@ export function planFamily({ familyId, directory, on = new Date() }) {
  * which is how the tests exercise it after the tree has already been re-pinned,
  * and how a reviewer can re-run a past decision without restoring the tree.
  */
+// Receipts are written in one of two deterministic styles: two-space JSON, or the same
+// with non-ASCII escaped as \uXXXX (DE's retained receipts, OK juvenile). A rewrite
+// reproduces the style the receipt already has, so every byte outside the refreshed
+// pins is unchanged; a receipt in any other formatting is refused.
+const escapedJson = value => JSON.stringify(value, null, 2).replace(/[\u007f-\uffff]/g,
+  character => `\\u${character.charCodeAt(0).toString(16).padStart(4, "0")}`);
+const RECEIPT_STYLES = [value => `${JSON.stringify(value, null, 2)}\n`, value => `${escapedJson(value)}\n`];
+const receiptStyleOf = text => { const value = JSON.parse(text); return RECEIPT_STYLES.find(style => style(value) === text) ?? null; };
+
 export function planReceipt({ familyId, directory, receiptPath, beforeText, on = new Date() }) {
-  if (beforeText !== `${JSON.stringify(JSON.parse(beforeText), null, 2)}\n`) {
-    return { familyId, directory, receiptPath, outcome: "REFUSED", why: "the receipt is not two-space-indented JSON with a trailing newline; rewriting it would reformat bytes this tool has no business touching" };
+  if (!receiptStyleOf(beforeText)) {
+    return { familyId, directory, receiptPath, outcome: "REFUSED", why: "the receipt is not two-space-indented JSON (plain or with escaped Unicode) with a trailing newline; rewriting it would reformat bytes this tool has no business touching" };
   }
 
   const receipt = JSON.parse(beforeText);
@@ -1092,7 +1946,7 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
 
   const records = [];
   for (const d of drifted) {
-    const record = { path: d.at, pinned: d.pin.sha256, now: d.missing ? "MISSING" : d.now, resolvedFrom: d.from, recordId: d.pin.recordId ?? null };
+    const record = { path: d.at, pinned: d.pin.sha256, now: d.missing ? "MISSING" : d.now, resolvedFrom: d.from, recordId: d.pin.recordId ?? null, ...(d.fromHistory ? { fromHistory: d.fromHistory } : {}) };
     if (d.missing) {
       record.outcome = "REFUSED";
       record.triedBases = d.triedBases;
@@ -1119,16 +1973,26 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
     try {
       const oldDoc = JSON.parse(recovered.bytes.toString("utf8"));
       const currentDoc = JSON.parse(d.bytes.toString("utf8"));
-      const scope = adapter.scopeFrom({ receipt, pin: d.pin, currentDoc });
+      const scope = adapter.scopeFrom({ receipt, pin: d.pin, currentDoc, directory });
       record.scope = scope;
-      const comparison = compareAnchors({ adapter, oldDoc, currentDoc, scope });
+      let comparison = compareAnchors({ adapter, oldDoc, currentDoc, scope });
+      if (comparison.differing.length > 0 && typeof adapter.measuredRowAdmission === "function") {
+        const measuredRows = measuredRowsFor(receipt, d.at);
+        const verdict = adapter.measuredRowAdmission({ receipt, oldDoc, currentDoc, scope, differing: comparison.differing, measuredRows });
+        if (verdict.ok) {
+          const narrowed = { ...scope, derivation: { ...scope.derivation, measuredRowAdmission: verdict.admission } };
+          const again = compareAnchors({ adapter, oldDoc, currentDoc, scope: narrowed });
+          if (again.differing.length === 0 && again.anchorsCompared > 0) { record.scope = narrowed; record.measuredRowAdmission = verdict.admission; comparison = again; }
+          else record.measuredRowAdmissionRefused = `the set-aside parts do not account for the difference: ${again.differing.join(", ")}`;
+        } else record.measuredRowAdmissionRefused = verdict.why;
+      }
       record.anchorsCompared = comparison.anchorsCompared;
       record.anchorsIdentical = comparison.anchorsIdentical;
       record.anchorDetail = comparison.anchorDetail;
 
       if (comparison.differing.length > 0) {
         record.outcome = "REFUSED";
-        record.why = `${comparison.differing.length} of ${comparison.anchorsCompared} entries this family binds changed between the recovered historical record and the current one: ${comparison.differing.join(", ")}`;
+        record.why = `${comparison.differing.length} of ${comparison.anchorsCompared} entries this family binds changed between the recovered historical record and the current one: ${comparison.differing.join(", ")}${record.measuredRowAdmissionRefused ? ` (measured-row admission refused: ${record.measuredRowAdmissionRefused})` : ""}`;
         record.differences = describeDifference({ adapter, oldDoc, currentDoc, scope, differing: comparison.differing });
         records.push(record); continue;
       }
@@ -1183,17 +2047,34 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
  * Write it
  * ------------------------------------------------------------------ */
 
-export function composeRefreshedReceipt(plan) {
+/* Under the own-route admission the family's own route did move (Acceptance F1 on 9c1040951),
+ * so the block names it, the admitted ids and the row instead of the unmoved-anchor wording. */
+function admittedWhy(record, admitted) {
+  const moved = record.entriesThatMovedInThisRecord;
+  const keys = Object.keys(admitted);
+  if (keys.some((key) => !moved.includes(key))) throw new Refusal("an admitted route is not among the entries that moved; the admission does not describe this record");
+  const own = keys.map((key) => `${key} (${admitted[key].added.length} id${admitted[key].added.length === 1 ? "" : "s"} added to ${admitted[key].field}, nothing removed or reordered)`);
+  const rows = record.measuredRowAdmission.measuredReVerification.map((r) => `${r.lane} at ${r.verifiedAtBase} (${r.evidencePath})`);
+  const without = record.measuredRowAdmission.withoutAdmission;
+  return `The record was rewritten around this receipt's anchors. ${moved.length} named entr${moved.length === 1 ? "y" : "ies"} moved between the blob carrying the previous pin and the bytes on disk (${moved.join(", ")}). ${own.length === 1 ? "One of them is a route" : `${own.length} of them are routes`} this receipt binds: ${own.join("; ")}. The additions are admitted under measuredRowAdmission on the family's own PASS row${rows.length === 1 ? "" : "s"} ${rows.join(", ")}, read on the current bytes of this record and naming the route and every added id. Every entry this receipt binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record: without the admission ${without.anchorsIdentical} of ${without.anchorsCompared} were identical and the refresh was refused; with the admitted ids set aside, all ${record.anchorsCompared} were identical.`;
+}
+
+export function composeRefreshedReceipt(plan, { note = null } = {}) {
   const receipt = JSON.parse(plan.beforeText);
   const byPathAndPin = new Map(plan.records.map((r) => [`${r.path}\u0000${r.was.sha256}`, r]));
   const applied = [];
+  const style = receiptStyleOf(plan.beforeText);
+  if (!style) throw new Refusal("the receipt's formatting is not one this tool writes back byte for byte");
   eachPin(receipt, (pin, at) => {
-    const record = byPathAndPin.get(`${at}\u0000${pin.sha256}`);
+    const predecessor = historyPredecessorOf(pin);
+    const record = byPathAndPin.get(`${at}\u0000${pin.sha256}`)
+      ?? (predecessor ? byPathAndPin.get(`${at}\u0000${predecessor.writtenAgainst}`) : undefined);
     if (!record) return;
+    const admitted = record.measuredRowAdmission?.admittedAdditions ?? null;
     const block = {
       refreshedOn: new Date(record.on).toISOString().slice(0, 10),
       was: { sha256: record.was.sha256, byteLength: record.was.byteLength },
-      why: `The record was rewritten around this receipt's anchors. ${record.entriesThatMovedInThisRecord.length} named entr${record.entriesThatMovedInThisRecord.length === 1 ? "y" : "ies"} moved between the blob carrying the previous pin and the bytes on disk (${record.entriesThatMovedInThisRecord.join(", ") || "none"}), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all ${record.anchorsCompared} were identical.`,
+      why: admitted ? admittedWhy(record, admitted) : `The record was rewritten around this receipt's anchors. ${record.entriesThatMovedInThisRecord.length} named entr${record.entriesThatMovedInThisRecord.length === 1 ? "y" : "ies"} moved between the blob carrying the previous pin and the bytes on disk (${record.entriesThatMovedInThisRecord.join(", ") || "none"}), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all ${record.anchorsCompared} were identical.`,
       anchorsCompared: record.anchorsCompared,
       anchorDetail: record.anchorDetail,
       anchorsIdentical: record.anchorsIdentical,
@@ -1202,8 +2083,16 @@ export function composeRefreshedReceipt(plan) {
       anchorScope: record.scope,
       entriesThatMovedInThisRecord: record.entriesThatMovedInThisRecord,
       recoveredFrom: record.recovery,
-      previousIdentityRefresh: pin.identityRefresh ? structuredClone(pin.identityRefresh) : null,
-      whatThisDoesNotClaim: "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      ...(record.measuredRowAdmission ? { measuredRowAdmission: record.measuredRowAdmission } : {}),
+      /* The lead's apply ruling, recorded where the receipt reader sees it (2026-10-20):
+       * a refresh that names no measured row must say under which rule it was
+       * applied and what the family still owes. Free text from the operator,
+       * never composed here. */
+      ...(note ? { appliedUnder: String(note) } : {}),
+      previousIdentityRefresh: pin.identityRefresh ? structuredClone(pin.identityRefresh) : predecessor ? structuredClone(predecessor) : null,
+      whatThisDoesNotClaim: admitted
+        ? "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed when ids were added to a route this family binds; it is restored only under measuredRowAdmission, on the family's own PASS row read on the current bytes of this record, which names that route and every added id. It opens no route and grants no approval."
+        : "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
     };
     const shape = annotationIsSourceBound(block);
     if (!shape.ok) throw new Refusal(`refusing to write a block that is not a source-identity note: ${shape.why}`);
@@ -1215,11 +2104,11 @@ export function composeRefreshedReceipt(plan) {
   if (applied.length !== plan.records.length) {
     throw new Refusal(`planned ${plan.records.length} pin refreshes but matched ${applied.length} pins in the receipt`);
   }
-  return { text: `${JSON.stringify(receipt, null, 2)}\n`, applied };
+  return { text: style(receipt), applied };
 }
 
-export function applyFamily(plan) {
-  const { text, applied } = composeRefreshedReceipt(plan);
+export function applyFamily(plan, { note = null } = {}) {
+  const { text, applied } = composeRefreshedReceipt(plan, { note });
   const verdict = readsAsUnmoved(plan.beforeText, text);
   if (!verdict.ok) throw new Refusal(`the rewritten receipt would still read as a moved family: ${verdict.why}`);
   const abs = path.join(ROOT, plan.receiptPath);
@@ -1252,6 +2141,7 @@ function main(argv) {
   const apply = argv.includes("--apply");
   const only = new Set(argv.flatMap((a, i) => a === "--family" ? [argv[i + 1]] : []).filter(Boolean));
   const reportAt = argv.includes("--report") ? argv[argv.indexOf("--report") + 1] : null;
+  const note = argv.includes("--note") ? argv[argv.indexOf("--note") + 1] : null;
 
   const families = lapsedFamilies().filter((f) => only.size === 0 || only.has(f.familyId));
   const rows = [];
@@ -1269,7 +2159,7 @@ function main(argv) {
     }
 
     if (plan.outcome === "REFRESHABLE" && apply) {
-      try { Object.assign(plan, applyFamily(plan)); plan.outcome = "REFRESHED"; }
+      try { Object.assign(plan, applyFamily(plan, { note })); plan.outcome = "REFRESHED"; }
       catch (err) { plan.outcome = "REFUSED"; plan.why = err instanceof Refusal ? err.why : err.message; }
     }
     delete plan.beforeText;

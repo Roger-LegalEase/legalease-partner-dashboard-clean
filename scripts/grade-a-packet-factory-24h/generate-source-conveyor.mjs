@@ -400,7 +400,9 @@ const SELF_WRITTEN = [
   "SOURCE_URL_PROMOTION_CANDIDATES.json", "SOURCE_IDENTITY_FINDINGS.json",
   "SOURCE_ACQUISITION_MANIFEST.json", "SOURCE_CONVEYOR_ASSIGNMENTS.json", "STALE_LANE_RETURNS.json"
 ];
-const isSelfWritten = (rel) => SELF_WRITTEN.some((n) => rel.endsWith(`/${n}`));
+// This inventory repeats original source locators; it supplies no independent evidence.
+const isSelfWritten = (rel) => SELF_WRITTEN.some((n) => rel.endsWith(`/${n}`))
+  || rel === "data/rcap-grade-a/source-custody/generator-preflight-20261013/manifest.json";
 
 function corroboratedUrls() {
   const seen = new Map();

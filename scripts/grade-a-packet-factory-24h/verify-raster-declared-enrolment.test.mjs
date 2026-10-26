@@ -303,17 +303,90 @@ test("reader: an enrolment is judged against the declaration, not against the fi
  * correctly stops describing the row. That is the packet changing, which this test
  * has nothing to say about; it is only the reader that is on trial here.
  */
-test("no family loses a RASTER_PASS it had already earned", () => {
-  const lost = [];
+/*
+ * A family outside the matrix for a VERDICT reason is not a lost receipt.
+ *
+ * The census landing (batch23b, 2026-10-19) moved seventeen baseline families
+ * to FAIL_REPAIR_REQUIRED and one to LEGAL_BLOCKED; generate-raster-queue.mjs
+ * then left them out of the matrix, and this test read that as seventeen
+ * receipts a reader change had cost. The generator says why each one is out
+ * (MASTER_QUEUE rasterEnrolmentRefusal: "the current failed obligations have
+ * not been repaired", "an open legal input"), and OUT_OF_SCOPE is a verdict of
+ * its own. Those are listed by name with the reason and not counted. A family
+ * the generator still expects a receipt from (no refusal, in scope) is counted
+ * exactly as before, and the test below proves the exemption cannot swallow one.
+ */
+const familyOf = (id) => (master.families ?? []).find((x) => x.familyId === id) ?? null;
+const outsideForAVerdictReason = (id, lookup = familyOf) => {
+  const f = lookup(id);
+  if (Array.isArray(f?.rasterEnrolmentRefusal) && f.rasterEnrolmentRefusal.length) return `${f.state}: ${f.rasterEnrolmentRefusal.join("; ")}`;
+  if (f?.state === "OUT_OF_SCOPE") return "OUT_OF_SCOPE";
+  return null;
+};
+/*
+ * A REBUILT PACKET IS NOT A LOST RECEIPT EITHER.
+ *
+ * The cost ledger above exempts a family whose canonical or boundary bytes moved,
+ * but only the digest test applied it; the state comparison did not, so the
+ * Nevada footer rerender (batch25, 2026-10-20) read as a receipt the reader cost
+ * when it is the packet that changed and its RASTER_PASS correctly lapsed to
+ * RASTER_PENDING. The moved bytes are read from the live row, so a family that
+ * dropped out of the matrix entirely is still counted exactly as before, and a
+ * family whose bytes stand still is still counted on any state change.
+ */
+const bytesMovedSinceBaseline = (row, b) =>
+  row.canonicalPdfSha256 !== b.canonicalPdfSha256 || row.boundaryPdfSha256 !== b.boundaryPdfSha256;
+const lostReceipts = (rows, lookup = familyOf) => {
+  const lost = [], outside = [], rebuilt = [];
   for (const b of baseline.rows) {
-    const row = rowOf(b.familyId);
-    if (!row) { lost.push(`${b.familyId}: dropped out of the live raster matrix entirely`); continue; }
-    if (row.currentRasterState !== "RASTER_PASS") {
-      lost.push(`${b.familyId}: RASTER_PASS -> ${row.currentRasterState}`);
-    }
+    const row = rows.find((r) => r.familyId === b.familyId) ?? null;
+    const reason = outsideForAVerdictReason(b.familyId, lookup);
+    const line = !row ? `${b.familyId}: dropped out of the live raster matrix entirely`
+      : row.currentRasterState !== "RASTER_PASS" ? `${b.familyId}: RASTER_PASS -> ${row.currentRasterState}` : null;
+    if (!line) continue;
+    if (reason) outside.push(`${line} (${reason})`);
+    else if (row && bytesMovedSinceBaseline(row, b)) rebuilt.push(`${line} (canonical or boundary bytes moved since the baseline)`);
+    else lost.push(line);
   }
+  return { lost, outside, rebuilt };
+};
+
+test("no family loses a RASTER_PASS it had already earned", () => {
+  const { lost, outside, rebuilt } = lostReceipts(queue.rows ?? []);
+  for (const line of outside) console.log(`outside the matrix for a verdict reason, not counted: ${line}`);
+  for (const line of rebuilt) console.log(`rebuilt packet, its old receipt no longer describes the row, not counted: ${line}`);
   assert.deepEqual(lost, [],
     `a reader change must cost no standing receipt; ${lost.length} of ${baseline.count} were lost`);
+});
+
+test("the verdict exemption is not silent: a family dropped from the matrix with no verdict reason is still a lost receipt, proven or not", () => {
+  const victim = baseline.rows.find((b) => !outsideForAVerdictReason(b.familyId) && rowOf(b.familyId)?.currentRasterState === "RASTER_PASS");
+  assert.ok(victim, "a baseline family with a standing receipt and no verdict reason exists");
+  const without = (queue.rows ?? []).filter((r) => r.familyId !== victim.familyId);
+  assert.deepEqual(lostReceipts(without).lost, [`${victim.familyId}: dropped out of the live raster matrix entirely`]);
+  /* A state alone is not a reason. The same family seen as VERIFY_PENDING with
+   * no refusal (AK and DC on 2026-10-20) still expects its receipt. */
+  const asPending = (id) => id === victim.familyId ? { ...familyOf(id), state: "VERIFY_PENDING", rasterEnrolmentRefusal: null } : familyOf(id);
+  assert.deepEqual(lostReceipts(without, asPending).lost, [`${victim.familyId}: dropped out of the live raster matrix entirely`]);
+});
+
+test("the moved-bytes exemption is not silent: the same state change with the baseline's bytes is a lost receipt, and a dropped family is never exempt", () => {
+  const b = baseline.rows.find((x) => !outsideForAVerdictReason(x.familyId) && rowOf(x.familyId)?.currentRasterState === "RASTER_PASS");
+  assert.ok(b, "a baseline family with a standing receipt and no verdict reason exists");
+  const live = rowOf(b.familyId);
+  const withRow = (row) => (queue.rows ?? []).map((r) => r.familyId === b.familyId ? row : r);
+  const pending = { ...live, currentRasterState: "RASTER_PENDING", canonicalPdfSha256: b.canonicalPdfSha256, boundaryPdfSha256: b.boundaryPdfSha256 };
+  assert.ok(lostReceipts(withRow(pending)).lost.includes(`${b.familyId}: RASTER_PASS -> RASTER_PENDING`),
+    "bytes that stand still give the state change no excuse");
+  const movedCanonical = { ...pending, canonicalPdfSha256: "0".repeat(64) };
+  const moved = lostReceipts(withRow(movedCanonical));
+  assert.equal(moved.lost.some((l) => l.startsWith(`${b.familyId}:`)), false, "a rebuilt canonical packet is not a lost receipt");
+  assert.ok(moved.rebuilt.some((l) => l.startsWith(`${b.familyId}: RASTER_PASS -> RASTER_PENDING`)), "and it is listed, not silent");
+  const movedBoundary = { ...pending, boundaryPdfSha256: "0".repeat(64) };
+  assert.ok(lostReceipts(withRow(movedBoundary)).rebuilt.some((l) => l.startsWith(`${b.familyId}:`)), "a rebuilt boundary packet counts the same");
+  const dropped = (queue.rows ?? []).filter((r) => r.familyId !== b.familyId);
+  assert.ok(lostReceipts(dropped).lost.includes(`${b.familyId}: dropped out of the live raster matrix entirely`),
+    "with no row there are no moved bytes to read, so a dropped family is still a lost receipt");
 });
 
 test("no family's document set is restated while its bytes stand still", () => {

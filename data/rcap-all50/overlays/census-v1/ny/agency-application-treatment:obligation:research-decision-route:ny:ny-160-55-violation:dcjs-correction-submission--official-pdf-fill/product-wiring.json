@@ -38,18 +38,11 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33839480114",
-      "jobId": "100919892431",
-      "artifactId": "9924636078",
-      "boundToCanonicalSha256": "8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf01",
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1"
+      "lane": "vf02",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -59,7 +52,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec",
+        "replacedByCanonicalSha256": "c1bcf833d1ab454aa7ba15c494e7ba8ee674651ad15ec4da4a90d9afb9c0868b",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33839480114",
+          "jobId": "100919892431",
+          "artifactId": "9924636078",
+          "boundToCanonicalSha256": "8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -72,7 +80,7 @@
         "order": 1,
         "documentId": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec",
+        "sha256": "c1bcf833d1ab454aa7ba15c494e7ba8ee674651ad15ec4da4a90d9afb9c0868b",
         "requirement": "required"
       }
     ]

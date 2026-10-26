@@ -7,6 +7,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFName, PDFString, StandardFonts, type PDFFont } from "pdf-lib";
+import { fitTextToWidget, applyFitToTextField } from "../../../../../../scripts/rcap-official-forms/rcap-text-fitting.mjs";
+import { ensureDefaultAppearances, sanitizeAndFlatten, scanBytesForActiveContent } from "../../../../../../scripts/rcap-official-forms/rcap-active-content.mjs";
+import { preserveSourceMetadata, carryDates } from "../../../../../../scripts/rcap-official-forms/rcap-official-form-finalize.mjs";
 
 import { buildFormSpec, type FieldCensus } from "./build-spec";
 import { bindForm } from "./bind";
@@ -16,9 +20,7 @@ import { auditProtection, COLORADO_PROTECTED_CATEGORIES } from "./protected-fiel
 import { readLabelEvidence } from "./label-evidence";
 import {
   COLORADO_OVERLAY_ROOT,
-  DANGLING_RENDERER_FAMILIES,
   PORTING_COMMIT,
-  SPECIFIED_FAMILIES,
   UNRECOVERABLE_RENDERER,
   UNRECOVERABLE_RENDERER_COMMIT,
   type SpecifiedFamily,
@@ -155,18 +157,56 @@ export interface FamilyContext {
   readonly spec: ColoradoFormSpec;
   readonly specText: string;
   readonly specSha256: string;
+  readonly labelEvidenceBasis: string;
+}
+
+export async function currentSourceCensus(bytes: Buffer, expectedSha256: string): Promise<FieldCensus> {
+  if (sha256(bytes) !== expectedSha256) throw new Error("Current official source drift");
+  const document = await PDFDocument.load(bytes, { updateMetadata: false });
+  const pages = document.getPages();
+  const fields = document.getForm().getFields().map(field => {
+    const type = field instanceof PDFTextField ? "text" : field instanceof PDFDropdown ? "dropdown"
+      : field instanceof PDFRadioGroup ? "radio" : field instanceof PDFCheckBox ? "checkbox" : "unsupported";
+    if (type === "unsupported") throw new Error(`${field.getName()}: unsupported source control`);
+    return {
+      name: field.getName(), type,
+      widgets: field.acroField.getWidgets().map(widget => {
+        const page = pages.findIndex(page => page.ref.toString() === widget.P()?.toString()) + 1;
+        if (!page) throw new Error(`${field.getName()}: source widget page unresolved`);
+        const rect = widget.getRectangle();
+        const round = (n: number) => Math.round(n * 100) / 100;
+        return { page, rect: { x: round(Math.min(rect.x, rect.x + rect.width)),
+          y: round(Math.min(rect.y, rect.y + rect.height)), width: round(Math.abs(rect.width)), height: round(Math.abs(rect.height)) } };
+      }),
+      maxLength: field instanceof PDFTextField ? field.getMaxLength() ?? null : null,
+      multiline: field instanceof PDFTextField && field.isMultiline(),
+      ...(field instanceof PDFDropdown ? { options: field.getOptions() } : {}),
+    };
+  });
+  return { censusBasis: "first_hand_inspection_of_verified_binary", sha256: expectedSha256,
+    structuralClass: "acroform", fieldCount: fields.length,
+    pageGeometry: pages.map((page, index) => ({ page: index + 1, width: page.getWidth(), height: page.getHeight() })), fields };
 }
 
 export async function loadFamilyContext(rootDir: string, family: SpecifiedFamily): Promise<FamilyContext> {
   const familyDir = path.join(rootDir, COLORADO_OVERLAY_ROOT, family.family);
-  const census = readJson<FieldCensus>(path.join(familyDir, "field-census.json"));
   const sourceRecord = readJson<Record<string, unknown>>(path.join(familyDir, "source-record.json"));
 
-  const artifact = path.join(familyDir, "fixtures/canonical-filled.pdf");
+  const currentSource = typeof sourceRecord.sourcePath === "string" ? sourceRecord.sourcePath : null;
+  const census = currentSource
+    ? await currentSourceCensus(fs.readFileSync(path.join(rootDir, currentSource)), String(sourceRecord.sha256))
+    : readJson<FieldCensus>(path.join(familyDir, "field-census.json"));
+  const artifact = currentSource ? path.join(rootDir, currentSource) : path.join(familyDir, "fixtures/canonical-filled.pdf");
+  if (currentSource && sha256(fs.readFileSync(artifact)) !== census.sha256) {
+    throw new Error(`${family.family}: official source does not match its census`);
+  }
+  const labelEvidenceBasis = currentSource
+    ? `retained official source ${currentSource}; exact SHA256 verified against the first-hand census`
+    : "retained participant artifact fixtures/canonical-filled.pdf, which carries the official form's own page content; the official binary is not mounted in this environment";
   const evidence = await readLabelEvidence(
     artifact,
     census.fields.map((field) => ({ name: field.name, widgets: [...field.widgets] })),
-    "retained participant artifact fixtures/canonical-filled.pdf, which carries the official form's own page content; the official binary is not mounted in this environment",
+    labelEvidenceBasis,
     census.sha256,
   );
 
@@ -182,7 +222,126 @@ export async function loadFamilyContext(rootDir: string, family: SpecifiedFamily
     spec,
     specText,
     specSha256: sha256(specText),
+    labelEvidenceBasis,
   };
+}
+
+/** Render only the current source; historical artifacts retain their own recorded identities. */
+export async function renderCurrentFixture(context: FamilyContext, fixture: "canonical" | "boundary" | "negative") {
+  const sourcePath = context.sourceRecord.sourcePath;
+  if (typeof sourcePath !== "string") throw new Error("A current fixture requires a retained official source");
+  const source = fs.readFileSync(path.join(context.rootDir, sourcePath));
+  if (sha256(source) !== context.spec.sourceSha256) throw new Error("Current fixture source drift");
+  const document = await PDFDocument.load(source, { updateMetadata: false });
+  const form = document.getForm();
+  const font = await document.embedFont(StandardFonts.Helvetica);
+  ensureDefaultAppearances(form);
+  const facts = mergeFacts(context.spec, context.family.fixtures[fixture]);
+  const plan = bindForm(context.spec, facts, context.specSha256, { documentFieldNames: form.getFields().map(field => field.getName()) });
+  const written = new Set<string>();
+  const refused: { field: string; reason: string }[] = [];
+  for (const field of form.getFields()) {
+    if (field instanceof PDFTextField) field.setText("");
+    else if (field instanceof PDFCheckBox) field.uncheck();
+    else if (field instanceof PDFRadioGroup || field instanceof PDFDropdown) field.clear();
+  }
+  for (const outcome of plan.outcomes) {
+    if (!outcome.written || outcome.value === null) continue;
+    const spec = context.spec.fields.find(field => field.field === outcome.field)!;
+    const field = form.getField(outcome.field);
+    if (field instanceof PDFTextField) {
+      const fits = spec.anchors.map(anchor => fitTextToWidget({ font, text: outcome.value, rect: anchor.rect,
+        multiline: spec.multiline, evaluateDeclaredMinimumSize: true }));
+      const failed = fits.find(fit => fit.outcome === "refused");
+      if (failed) { refused.push({ field: outcome.field, reason: failed.reason! }); continue; }
+      const fit = fits.reduce((a, b) => a.fontSize! < b.fontSize! ? a : b);
+      applyFitToTextField(field, fit);
+      // Every repeated widget must use the size measured for the tightest box.
+      for (const widget of field.acroField.getWidgets()) {
+        const appearance = widget.getDefaultAppearance() ?? field.acroField.getDefaultAppearance();
+        if (!appearance) throw new Error(`${outcome.field}: default appearance is absent`);
+        widget.dict.set(PDFName.of("DA"), PDFString.of(appearance.replace(/(^|\s)(\d*\.?\d+)(\s+Tf\b)/,
+          (_whole, lead, _size, tail) => `${lead}${fit.fontSize}${tail}`)));
+      }
+    } else if (field instanceof PDFCheckBox) field.check();
+    else if (field instanceof PDFDropdown) field.select(outcome.value);
+    else if (field instanceof PDFRadioGroup) {
+      const selected = spec.options.find(option => option.label === outcome.value);
+      const widgets = field.acroField.getWidgets();
+      const pages = document.getPages();
+      const widget = widgets.find(widget => {
+        const rect = widget.getRectangle();
+        return selected && pages[selected.anchor.page - 1]?.ref.toString() === widget.P()?.toString()
+          && Math.abs(rect.x - selected.anchor.rect.x) < 0.05 && Math.abs(rect.y - selected.anchor.rect.y) < 0.05;
+      });
+      const onValue = widget?.getOnValue();
+      if (!onValue) throw new Error(`${outcome.field}: selected printed widget is absent`);
+      field.acroField.setValue(onValue);
+      form.markFieldAsDirty(field.ref);
+    } else throw new Error(`${outcome.field}: unsupported current control`);
+    written.add(outcome.field);
+  }
+  // The JS helper's inferred null default omits its supported PDFFont argument.
+  const flatten = sanitizeAndFlatten as (document: PDFDocument,
+    options: Omit<NonNullable<Parameters<typeof sanitizeAndFlatten>[1]>, "defaultFont"> & { defaultFont?: PDFFont | null }
+  ) => ReturnType<typeof sanitizeAndFlatten>;
+  const { clean, report: sanitation } = await flatten(document, { defaultFont: font, writtenFields: written,
+    suppressSynthesizedWidgetBorders: true, suppressSynthesizedAppearances: true,
+    preserveUnwrittenSelectionBackgrounds: true, preserveWrittenSelectionBackgrounds: true, fitAppearancesToRect: true,
+    normalizeInvertedWidgetRects: true, honorWidgetBorderStyle: true });
+  preserveSourceMetadata(document, clean);
+  carryDates(document, clean);
+  const bytes = Buffer.from(await clean.save({ useObjectStreams: false }));
+  const active = scanBytesForActiveContent(bytes);
+  if (!active.inspectable || active.hits.length) throw new Error("Current fixture retained active content");
+  return { bytes, report: { fixture, sourceSha256: context.spec.sourceSha256, specSha256: context.specSha256,
+    outputSha256: sha256(bytes), byteLength: bytes.length, writtenFields: [...written], refused, sanitation,
+    plan, textWrites: plan.outcomes.filter(outcome => written.has(outcome.field) && ["text", "dropdown"].includes(outcome.control))
+      .map(outcome => ({ field: outcome.field, factId: outcome.factId, value: outcome.value })),
+    independentReview: "pending" } };
+}
+
+/** The current fixture bytes and their evidence are produced by the same run. */
+export async function computeCurrentRenderFiles(context: FamilyContext) {
+  const prefix = `${COLORADO_OVERLAY_ROOT}/${context.family.family}`;
+  const files: EmittedFile[] = [];
+  const artifacts: { path: string; bytes: Buffer }[] = [];
+  const reports = [];
+  for (const fixture of ["canonical", "boundary", "negative"] as const) {
+    const result = await renderCurrentFixture(context, fixture);
+    artifacts.push({ path: `${prefix}/fixtures/${fixture}-filled.pdf`, bytes: result.bytes });
+    reports.push(result.report);
+    files.push({ path: `${prefix}/fixtures/${fixture}.json`, text: canonicalJson({
+      schemaVersion: "rcap-fixture/v3", fixture,
+      note: "Synthetic participant facts and explicit document-derived facts; no person is described.",
+      facts: mergeFacts(context.spec, context.family.fixtures[fixture]),
+    } as never) });
+  }
+  files.push({ path: `${prefix}/reports/current-fixtures.json`, text: canonicalJson({
+    sourceSha256: context.spec.sourceSha256, specSha256: context.specSha256, fixtures: reports,
+  } as never) });
+  files.push({ path: `${prefix}/production-field-map.json`, text: canonicalJson({
+    schemaVersion: "rcap-colorado-current-source-map/v1", family: context.family.family,
+    sourceSha256: context.spec.sourceSha256, revision: context.spec.revision,
+    bindings: writableFields(context.spec).map(field => ({ field: field.field, factId: field.factId, condition: field.condition })),
+    protectedFields: context.spec.fields.filter(field => field.fieldClass === "protected").map(field => field.field),
+    supersededRecord: context.sourceRecord.supersededProductionFieldMap,
+  } as never) });
+  files.push({ path: `${prefix}/reports/rendered-artifacts.json`, text: canonicalJson({
+    schemaVersion: "rcap-rendered-artifacts/v2-provenance", sourceSha256: context.spec.sourceSha256,
+    renderer: "src/lib/rcap/state-packs/colorado/official-forms/run-emit.mjs",
+    implementation: "src/lib/rcap/state-packs/colorado/official-forms/pipeline.ts#renderCurrentFixture",
+    revision: context.spec.revision, independentReview: "pending",
+    artifacts: Object.fromEntries(artifacts.map(artifact => [artifact.path.slice(prefix.length + 1),
+      { sha256: sha256(artifact.bytes), bytes: artifact.bytes.length }])),
+    historicalArtifacts: context.sourceRecord.historicalArtifacts,
+  } as never) });
+  for (const [name, data] of [["field-classification.json", classificationRecord(context)],
+    ["field-classification-policy.json", classificationPolicyRecord(context)],
+    ["reports/protected-fields.json", protectedFieldsRecord(context)]] as const) {
+    files.push({ path: `${prefix}/${name}`, text: canonicalJson(data as never) });
+  }
+  return { files, artifacts };
 }
 
 function writableFields(spec: ColoradoFormSpec): readonly ColoradoFieldSpec[] {
@@ -197,7 +356,12 @@ function coverageRecord(context: FamilyContext, plans: Record<string, ReturnType
   const priorMap = readJson<{ bindings?: { field: string }[] }>(
     path.join(context.familyDir, "production-field-map.json"),
   );
-  const priorBound = (priorMap.bindings ?? []).map((binding) => binding.field).sort();
+  const current = typeof context.sourceRecord.sourcePath === "string";
+  const historicalMap = context.sourceRecord.supersededProductionFieldMap as typeof priorMap | undefined;
+  const priorBound = ((current ? historicalMap : priorMap)?.bindings ?? []).map((binding) => binding.field).sort();
+  const currentReports = current ? readJson<{ fixtures: { writtenFields: string[] }[] }>(
+    path.join(context.familyDir, "reports/current-fixtures.json")) : null;
+  const realized = currentReports ? new Set(currentReports.fixtures.flatMap(fixture => fixture.writtenFields)).size : priorBound.length;
 
   return {
     schemaVersion: "rcap-colorado-binding-coverage/v1",
@@ -217,9 +381,10 @@ function coverageRecord(context: FamilyContext, plans: Record<string, ReturnType
     boundByNegativeFixture: plans.negative.writtenCount,
     priorBindingCount: priorBound.length,
     priorBoundFields: priorBound,
-    realizedInRetainedArtifacts: priorBound.length,
-    realizedNote:
-      "The retained fixtures were rendered by the D3A run on 2026-08-12 under the narrow binding named in priorBoundFields. This lane specifies and verifies the expanded binding; it does not claim it is on any committed artifact, because the official binary this family is pinned to is not mounted in this environment and nothing could be re-rendered.",
+    realizedInRetainedArtifacts: realized,
+    realizedNote: current
+      ? "Current 2025 fixtures were regenerated from the exact retained official source by the executable Colorado binder; this counts distinct fields actually written across the three fixtures, not every potentially writable field. Independent review remains pending."
+      : "The retained fixtures were rendered by the D3A run on 2026-08-12 under the narrow binding named in priorBoundFields. This lane specifies and verifies the expanded binding; it does not claim it is on any committed artifact, because the official binary this family is pinned to is not mounted in this environment and nothing could be re-rendered.",
   };
 }
 
@@ -591,15 +756,22 @@ export async function computeSpecifiedFamilyFiles(
       text: canonicalJson({
         schemaVersion: "rcap-colorado-label-evidence/v1",
         family: family.family,
-        basis:
-          "retained participant artifact fixtures/canonical-filled.pdf, which carries the official form's own page content; the official binary is not mounted in this environment",
+        basis: context.labelEvidenceBasis,
         documentSha256: context.spec.sourceSha256,
         byField: Object.fromEntries(context.spec.fields.map((field) => [field.field, field.labelEvidence])),
       } as never),
     },
     {
       path: familyRel("reports/renderer-provenance.json"),
-      text: canonicalJson(rendererProvenanceRecord(determination, family.family, context.spec.sourceSha256) as never),
+      text: canonicalJson((typeof context.sourceRecord.sourcePath === "string" ? {
+        schemaVersion: "rcap-colorado-current-renderer-provenance/v1",
+        sourceSha256: context.spec.sourceSha256, revision: context.spec.revision,
+        renderer: "src/lib/rcap/state-packs/colorado/official-forms/run-emit.mjs",
+        implementation: "src/lib/rcap/state-packs/colorado/official-forms/pipeline.ts#renderCurrentFixture",
+        sourcePath: context.sourceRecord.sourcePath, independentReview: "pending",
+        supersededRecord: context.sourceRecord.supersededRendererProvenance,
+        historicalArtifacts: context.sourceRecord.historicalArtifacts,
+      } : rendererProvenanceRecord(determination, family.family, context.spec.sourceSha256)) as never),
     },
     {
       path: rel("reports/binding-plans.json"),
@@ -616,6 +788,10 @@ export async function computeSpecifiedFamilyFiles(
       } as never),
     },
   ];
+
+  if (typeof context.sourceRecord.sourcePath === "string") {
+    files.push({ path: familyRel("field-census.json"), text: canonicalJson(context.census as never) });
+  }
 
   for (const name of ["canonical", "boundary", "negative"] as const) {
     files.push({
@@ -729,12 +905,17 @@ export async function computeArtifactReviewFiles({
   const rel = (name: string) =>
     `${COLORADO_OVERLAY_ROOT}/${context.family.family}/specification/${name}`;
 
+  const current = typeof context.sourceRecord.sourcePath === "string";
+  const currentReports = current ? readJson<{ fixtures: { fixture: string; textWrites: { field: string; factId: string; value: string }[]; refused: { field: string; reason: string }[] }[] }>(
+    path.join(context.familyDir, "reports/current-fixtures.json")) : null;
   const fixtures = ["canonical", "boundary", "negative"] as const;
   const readings = [];
   for (const fixture of fixtures) {
     const artifactPath = path.join(context.familyDir, `fixtures/${fixture}-filled.pdf`);
     if (!fs.existsSync(artifactPath)) continue;
-    const declared = declaredValuesOfRetainedRender(context.familyDir, fixture);
+    const declared = currentReports
+      ? currentReports.fixtures.find(entry => entry.fixture === fixture)!.textWrites
+      : declaredValuesOfRetainedRender(context.familyDir, fixture);
     const reading = await readArtifact(
       artifactPath,
       context.spec,
@@ -763,18 +944,19 @@ export async function computeArtifactReviewFiles({
   }
 
   const contactSheet = path.join(context.familyDir, "contact-sheet/blank-vs-filled.pdf");
-  const contactSheetReading = fs.existsSync(contactSheet)
+  const contactSheetReading = !current && fs.existsSync(contactSheet)
     ? await readArtifact(contactSheet, context.spec, [], sha256)
     : null;
 
   const actualWrites = {
     schemaVersion: "rcap-colorado-actual-writes/v1",
     family: context.family.family,
-    basis:
-      "each retained fixture's page content stream was decoded and searched for the values the D3A run declared it wrote; the fixtures are flattened, so a value set on a field but never drawn would not be found",
+    basis: current
+      ? "Current-source fixture text read from flattened bytes against the render run's actual text writes; selection marks are recorded separately and require visual review."
+      : "each retained fixture's page content stream was decoded and searched for the values the D3A run declared it wrote; the fixtures are flattened, so a value set on a field but never drawn would not be found",
     specVersion: context.spec.specVersion,
     specSha256: context.specSha256,
-    bindingUnderReview: "production-field-map.json — the narrow binding the retained artifacts were rendered under",
+    bindingUnderReview: current ? "binding-specification.json and reports/current-fixtures.json" : "production-field-map.json — the narrow binding the retained artifacts were rendered under",
     fixtures: readings.map((entry) => ({
       fixture: entry.fixture,
       artifactSha256: entry.reading.sha256,
@@ -789,8 +971,9 @@ export async function computeArtifactReviewFiles({
       ),
     })),
     protectedRowEvidence: protectedRowEvidence(readings),
-    note:
-      "This is a reading of the bytes that are here. It is not a re-render: the official binary these artifacts were built from is not mounted in this environment.",
+    note: current
+      ? "Author readback of newly rendered 2025 bytes; no independent visual acceptance is asserted."
+      : "This is a reading of the bytes that are here. It is not a re-render: the official binary these artifacts were built from is not mounted in this environment.",
   };
 
   const visualReview = {
@@ -842,13 +1025,14 @@ export async function computeArtifactReviewFiles({
         : []),
     ],
     findings: [
-      context.spec.documentId === "JDF-612"
+      current ? "Exact 2025 source geometry and labels; source text is not replaced by historical 2024 decoding claims." : context.spec.documentId === "JDF-612"
         ? "JDF 612's text layer is drawn with a transposed encoding: 'Sheriff's Department' decodes as 'Sheriff¶s De Sartment' and 'Misdemeanor Offenses' as '0LVGHPHDQRU RI2 IIHQVH V'. The glyphs on the page are correct — the encoding is what does not round-trip — so reviewed labels are recorded separately from the machine reading rather than one standing in for the other."
         : "JDF 417's footer reads 'Page 3 of 2' on its third page. That is the official form's own text, present in the source, and is left as the court publishes it.",
       "Every retained fixture is flattened: no AcroForm survives in it, so the values on the page are the values that were drawn.",
     ],
-    reviewScope:
-      "the artifacts retained in this repository. No page was re-rendered, because the official binary is not mounted here.",
+    reviewScope: current
+      ? "Author byte readback of the current-source fixtures only. The historical contact sheet is retained under its original identity and is not current proof. Independent visual review remains pending."
+      : "the artifacts retained in this repository. No page was re-rendered, because the official binary is not mounted here.",
   };
 
   const outputReview = {
@@ -857,9 +1041,10 @@ export async function computeArtifactReviewFiles({
     specVersion: context.spec.specVersion,
     specSha256: context.specSha256,
     reviewOf: "the binding that produced the retained artifacts, read against the document itself",
-    defectsFound: outputDefects(context.spec.documentId),
-    note:
-      "These are findings about the narrow binding the retained artifacts carry. Each one is corrected in the specification and none of them is corrected on any artifact, because nothing could be re-rendered here.",
+    defectsFound: current ? currentReports!.fixtures.flatMap(fixture => fixture.refused.map(refusal => ({ fixture: fixture.fixture, ...refusal }))) : outputDefects(context.spec.documentId),
+    note: current
+      ? "Current rendering refusals are retained explicitly; historical output findings remain in Git at the source record's retained commit. Independent review is still pending."
+      : "These are findings about the narrow binding the retained artifacts carry. Each one is corrected in the specification and none of them is corrected on any artifact, because nothing could be re-rendered here.",
   };
 
   return [

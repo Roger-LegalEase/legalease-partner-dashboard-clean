@@ -1,0 +1,270 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { register } from 'node:module';
+register('./lib/ts-esm-loader.mjs', import.meta.url);
+const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
+const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
+const { evaluateScreening } = await import('../src/lib/rcap-engine/evaluator.ts');
+const { selectScreeningQuestionIds } = await import('../src/lib/rcap-engine/screening-question-selection.ts');
+const { convictionReliefRequest, convictionReliefQuestions, CONVICTION_RELIEF_COPY } = await import('../src/lib/rcap-engine/conviction-relief-request.ts');
+const { parseJurisdictionProfile } = await import('../src/lib/expungement-ai/frontend/schemas.ts');
+const { sanitizeAnswersForQuestionIds, sanitizeResumedAnswersForQuestionIds } = await import('../src/components/expungement-ai/screening/screens.ts');
+const { resolveRuntimeText } = await import('../src/lib/expungement-ai/localization.ts');
+const { POST } = await import('../src/app/api/expungement-ai/evaluate/route.ts');
+const P = await import('../src/lib/expungement-ai/packet-information.ts');
+const B = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
+const { evaluateAuthoritativeScreeningResult } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
+const fixtures = JSON.parse(fs.readFileSync(new URL('./fixtures/conviction-fallback-predecessors.json', import.meta.url)));
+const checks = [], rows = [];
+const check = (id, pass) => checks.push({ id, pass: !!pass });
+const same = (a, b) => { try { assert.deepEqual(a, b); return true; } catch { return false; } };
+const maps = ['screeningAnswers', 'prefilledAnswers', 'packetAnswers'];
+for (const state of ['MS', 'GA', 'IL']) {
+  const fixture = fixtures.rows.find(r => r.id.startsWith(state) && r.id.endsWith('/omitted'));
+  const p = getProfileByJurisdiction(state), pub = projectPublicProfile(p), parsed = parseJurisdictionProfile(pub);
+  check(state + '/strict-profile', parsed.ok);
+  const answers = fixture.answers;
+  const before = structuredClone(answers), pathways = p.pathways, rules = p.orderedDecisionRules;
+  const wrong = pathways.find(path => path.id === fixture.verification.draftSnapshot.pathwayId);
+  const evaluate = a => evaluateScreening({ jurisdiction: state, profileVersion: p.profileVersion, matterId: 'synthetic-fallback-test', answers: a });
+  const helpId = `${state.toLowerCase()}_record_help`;
+  for (const reversed of [false, true]) {
+    p.pathways = reversed ? [...pathways].reverse() : pathways;
+    p.orderedDecisionRules = reversed ? [...rules].reverse() : rules;
+    for (const hint of [undefined, '', 'Skip', 'None of these / I am not sure', wrong.label, wrong.id]) {
+      const a = { ...answers, possible_pathway_context: hint }, result = evaluate(a), selected = selectScreeningQuestionIds(p, pub, a);
+      const id = `${state}/${reversed}/${hint}`;
+      check(id + '/asks-real-election', result.resultCode === 'needs_more_info' && same(result.missingQuestionIds, [helpId]));
+      check(id + '/no-wrong-authority', !result.pathwayId && !result.packetPlan && !result.paymentAllowed);
+      check(id + '/visible', result.missingQuestionIds.every(q => selected.includes(q) && pub.questions.some(question => question.id === q)));
+      check(id + '/es-reason', result.reasons.every(r => resolveRuntimeText('es', r.text) !== r.text));
+      rows.push({ state, hint, reversed, result });
+    }
+    const selected = evaluate({ ...answers, [helpId]: 'conviction_record' });
+    check(`${state}/${reversed}/ordinary-request`, state === 'MS'
+      ? selected.resultCode === 'needs_more_info' && selected.missingQuestionIds.includes('case_outcome') && !selected.pathwayId
+      : selected.pathwayId === (state === 'GA' ? 'sb-288-misdemeanor-conviction-restriction-and-sealing' : 'adult-conviction-sealing'));
+  }
+  p.pathways = pathways; p.orderedDecisionRules = rules;
+  try {
+    p.pathways = [wrong];
+    p.orderedDecisionRules = rules.filter(r => r.candidatePathwayIds?.length === 1 && r.candidatePathwayIds[0] === wrong.id);
+    const result = evaluate(answers);
+    check(state + '/sole-rule-not-proof', !result.pathwayId && !result.paymentAllowed && result.missingQuestionIds.includes(helpId));
+  } finally { p.pathways = pathways; p.orderedDecisionRules = rules; }
+  for (const invalid of [[], ['conviction_record'], {}, { value: 'conviction_record' }, true, 1, 'not_a_choice']) {
+    const r = evaluate({ ...answers, [helpId]: invalid });
+    check(state + '/strict-election/' + JSON.stringify(invalid), !r.pathwayId && !r.paymentAllowed && r.missingQuestionIds.includes(helpId));
+  }
+  for (const q of convictionReliefQuestions(state)) {
+    const projected = pub.questions.find(question => question.id === q.id);
+    check(state + '/' + q.id + '/copy-and-wire', same(projected.options, q.options) && !!projected.translations?.es?.prompt
+      && q.options.every(value => q.optionDisplay[value].translations.es.label));
+    if (parsed.ok) {
+      const a = { ...answers, [q.id]: q.options[0] };
+      check(state + '/' + q.id + '/inactive-retention', same(sanitizeAnswersForQuestionIds(a, pub.questions.map(q => q.id), [], parsed.data)[q.id], a[q.id]));
+      check(state + '/' + q.id + '/resumed-retention', same(sanitizeResumedAnswersForQuestionIds(parsed.data, a, [helpId])[q.id], a[q.id]));
+    }
+  }
+  check(state + '/raw-unchanged', same(answers, before));
+  const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jurisdiction: state, profileVersion: p.profileVersion, matterId: 'synthetic-fallback-handler', answers }) }));
+  const body = await response.json();
+  check(state + '/actual-handler', response.status === 200 && !body.pathwayId && !body.paymentAllowed && body.missingQuestionIds.includes(helpId));
+  if (state === 'GA') for (const outcome of ['Pardoned conviction', 'Other conviction or adjudication', 'Misdemeanor conviction', 'Felony conviction']) {
+    const a = { ...answers, case_outcome: outcome, ga_record_help: 'pardon_record', pardon_status: 'Yes' }, r = evaluate(a);
+    check('GA/pardon-class/' + outcome, ['Felony conviction', 'Misdemeanor conviction'].includes(outcome) ? r.pathwayId === 'restriction-and-sealing-of-a-pardoned-felony'
+      : !r.pathwayId && !r.paymentAllowed && r.missingQuestionIds.includes('case_outcome'));
+  }
+  if (state === 'GA') {
+    for (const outcome of ['Misdemeanor conviction', 'Felony conviction']) for (const severity of ['Felony', 'Misdemeanor', 'I am not sure']) {
+      for (const pardon of ['Yes', true, 'No', false, 'I am not sure', undefined, ['Yes']]) {
+        const a = { ...answers, case_outcome: outcome, offense_level: severity, ga_record_help: 'pardon_record', pardon_status: pardon };
+        const before = structuredClone(a), selection = convictionReliefRequest(p, a), r = evaluate(a);
+        const prefix = `GA/adopted-pardon/${outcome}/${severity}/${JSON.stringify(pardon)}`;
+        check(prefix + '/class-does-not-narrow-statute', selection.status === (pardon === 'Yes' || pardon === true ? 'selected' : pardon === 'No' || pardon === false ? 'review' : 'clarification'));
+        check(prefix + '/raw-preserved', same(a, before));
+        check(prefix + '/no-commercial-promotion', !r.paymentAllowed);
+      }
+    }
+    const request = pub.questions.find(q => q.id === 'ga_record_help').optionDisplay.pardon_record;
+    check('GA/pardon-request-no-felony-limit', !/felony/i.test(request.label) && !/delito grave/i.test(request.translations.es.label));
+    const a = { ...answers, case_outcome: 'Misdemeanor conviction', ga_record_help: 'pardon_record', pardon_status: 'Yes' };
+    const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jurisdiction: state, profileVersion: p.profileVersion, matterId: 'synthetic-ga02-misdemeanor', answers: a }) }));
+    const body = await response.json();
+    check('GA/pardon-misdemeanor-actual-handler', response.status === 200 && body.pathwayId === 'restriction-and-sealing-of-a-pardoned-felony' && !body.paymentAllowed);
+  }
+  if (state === 'IL') for (const later of ['vacated', 'reversed', 'none', 'dismissed', 'unknown', ['vacated']]) {
+    const a = { ...answers, il_record_help: 'later_order', il_later_order: later }, r = evaluate(a);
+    check('IL/later/' + later, ['vacated', 'reversed'].includes(later) ? r.pathwayId === wrong.id : !r.pathwayId && !r.paymentAllowed);
+    check('IL/later/original-unchanged/' + later, a.case_outcome === 'Misdemeanor conviction');
+  }
+  if (state === 'MS') for (const court of ['justice', 'municipal', 'county', 'circuit']) {
+    const a = { ...answers, case_outcome: 'Misdemeanor conviction', ms_record_help: 'conviction_record', ms_conviction_traffic: 'other_traffic', ms_conviction_court: court };
+    const result = evaluate(a), ids = selectScreeningQuestionIds(p, pub, a);
+    check('MS/other-traffic/' + court, result.pathwayId === (court === 'justice' ? 'additional-justice-court-misdemeanor-relief-9-11-15-3' : court === 'municipal' ? 'additional-municipal-court-misdemeanor-relief-21-23-7-6' : undefined));
+    check('MS/other-traffic/no-first-offender-burden/' + court, !ids.includes('ms_other_convictions') && !ids.includes('ms_prior_conviction_expungement'));
+  }
+  if (state === 'MS') for (const other of ['no', 'yes']) for (const cleared of ['no', 'yes']) for (const court of ['justice', 'municipal', 'county']) {
+    const a = { ...answers, case_outcome: 'Misdemeanor conviction', ms_record_help: 'conviction_record', ms_conviction_traffic: 'nontraffic', ms_other_convictions: other, ms_prior_conviction_expungement: cleared, ms_conviction_court: court };
+    const r = evaluate(a), expected = other === 'no' && cleared === 'no' ? 'first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1'
+      : court === 'justice' ? 'additional-justice-court-misdemeanor-relief-9-11-15-3' : court === 'municipal' ? 'additional-municipal-court-misdemeanor-relief-21-23-7-6' : undefined;
+    check(`MS/history/${other}/${cleared}/${court}`, r.pathwayId === expected);
+    check(`MS/history/${other}/${cleared}/${court}/not-nonconv`, r.pathwayId !== wrong.id);
+  }
+}
+
+for (const row of fixtures.rows) for (const [kind, fixture] of [['draft', row.verification], ['afterCompletion', row.afterCompletion]]) {
+  if (!fixture) continue;
+  const original = structuredClone(fixture), state = original.draftSnapshot.jurisdiction, helpId = `${state.toLowerCase()}_record_help`;
+  const item = { id: 'synthetic-fallback-owner', jurisdiction: state, artifactRefs: {} }, before = structuredClone(original);
+  const model = P.protectedPacketInformationModelFor(original), prefix = `${row.id}/${kind}`;
+  check(prefix + '/readable-held', model && model.pathwayId === null && !model.packetPlan && !model.reviewSafety.safe);
+  if (!model) continue;
+  check(prefix + '/actual-control', model.builderQuestions.some(q => q.id === helpId) && P.editablePacketInputIds(model).has(helpId));
+  check(prefix + '/read-immutable', same(original, before));
+  const decorated = await B.decorateBriefcaseItemForPresentationWithDependencies({ consumerAuthUserId: 'synthetic-owner', item }, {
+    readProtectedArtifact: async () => ({ ok: true, value: null }), readProtectedVerification: async () => ({ ok: true, value: original }),
+    readTrustedPendingSource: async () => ({ ok: false, reason: 'synthetic_source_absent' }), readPaymentAuthority: async () => ({ valid: false, reason: 'unpaid' }),
+    evaluateAuthoritative: evaluateAuthoritativeScreeningResult,
+    readCommercialActions: async () => ({ fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false })
+  });
+  check(prefix + '/actual-presentation-readable', decorated.authorityStatus === 'protected_draft' && decorated.packetDraft.status === 'available' && decorated.pathwayId === null);
+  check(prefix + '/actual-presentation-no-readiness', decorated.resultCode === 'needs_more_info' && decorated.verificationStatus !== 'verified' && Object.values(decorated.commercialActions).every(value => value === false));
+  check(prefix + '/actual-presentation-request-summary', decorated.summary === CONVICTION_RELIEF_COPY.missing[0]);
+  check(prefix + '/actual-presentation-request-next-step', same(decorated.nextSteps, [CONVICTION_RELIEF_COPY.missing[0]]));
+  check(prefix + '/actual-presentation-spanish-request', resolveRuntimeText('es', decorated.summary) === CONVICTION_RELIEF_COPY.missing[1]);
+
+  check(prefix + '/cannot-inherit-verification', !P.packetInformationPatch({ existingItem: item, protectedVerification: original, answers: {}, verify: true })?.readyToGenerate);
+  const noop = P.packetInformationPatch({ existingItem: item, protectedVerification: original, answers: {} });
+  check(prefix + '/noop-immutable', same(noop?.protectedTransition.nextVerification, original));
+  let current = original;
+  const edits = [{ [helpId]: 'conviction_record' }, ...(state === 'MS' && row.answers.case_outcome === 'Other conviction or adjudication' ? [{ case_outcome: 'Misdemeanor conviction' }, { ms_conviction_traffic: 'nontraffic' }, { ms_other_convictions: 'no' }, { ms_prior_conviction_expungement: 'no' }] : [])];
+  for (const [index, answers] of edits.entries()) {
+    const previous = current, update = P.packetInformationPatch({ existingItem: item, protectedVerification: current, answers });
+    current = update?.protectedTransition.nextVerification;
+    check(prefix + '/' + index + '/explicit-save', current && update.protectedTransition.expectedPriorRevision === previous.revision && current.status !== 'verified' && !update.readyToGenerate);
+    if (!current) break;
+    for (const source of maps) for (const [id, value] of Object.entries(previous.draftSnapshot[source])) if (!(id in answers)) check(prefix + '/' + index + '/' + source + '/' + id, same(current.draftSnapshot[source][id], value));
+    for (const source of maps) for (const id of Object.keys(answers)) if (Object.hasOwn(previous.draftSnapshot[source], id)) check(prefix + '/' + index + '/history/' + source + '/' + id, current.draftSnapshot.dependencies.semanticAnswerHistory?.some(e => e.factId === id && e.source === source && same(e.value, previous.draftSnapshot[source][id])));
+    check(prefix + '/' + index + '/current-readable', P.protectedPacketInformationModelFor(current));
+  }
+  for (const [key, value] of Object.entries({ profileVersion: 'wrong', profileSourceFingerprint: 'wrong', profileAuthorityFingerprint: 'wrong', pathwayId: 'wrong', resultCode: 'packet_ready', paymentAllowed: !original.draftSnapshot.paymentAllowed, packetType: 'wrong', selectedTrackId: 'wrong', treatmentClassification: 'wrong', deferralComponentIds: ['wrong'], requiredInputIds: [], packetPlan: null, packetFamilyIdentifiers: { mode: null, sourceFormIds: [] }, serverFacts: { jurisdiction: state } })) {
+    if (same(original.draftSnapshot[key], value)) continue;
+    const bad = structuredClone(original); bad.draftSnapshot[key] = value; bad.draftHash = P.protectedPacketDraftHash(bad.draftSnapshot);
+    check(prefix + '/tampered/' + key, P.protectedPacketInformationModelFor(bad) === null);
+  }
+}
+// GA21-MD-GA21-01 / GA21-CONVICTION-REQUEST-01: the five remaining source links.
+// Same retained facts and explicit election, across every current optional hint;
+// this proves invariance of existing holds, not the missing actual-order predicates.
+for (const [state, name, election] of [
+  ["MS", "nonprogram-later-order", { ms_record_help: "later_order", ms_later_order: "dismissed" }],
+  ["GA", "later-order", { ga_record_help: "later_order", ga_later_order: "reversed" }],
+  ["GA", "separate-charge", { ga_record_help: "mixed_charges" }],
+  ["GA", "retroactive-treatment", { ga_record_help: "retroactive_treatment", ga_original_first_offender: "no" }],
+  ["IL", "program-record", { il_record_help: "program_record" }]
+]) {
+  const profile = getProfileByJurisdiction(state), pub = projectPublicProfile(profile);
+  const fixture = fixtures.rows.find(row => row.id.startsWith(state) && row.id.endsWith("/omitted"));
+  const premise = { ...fixture.answers, ...election };
+  delete premise.possible_pathway_context;
+  const evaluate = answers => evaluateScreening({ jurisdiction: state, profileVersion: profile.profileVersion,
+    matterId: "synthetic-ga21-same-election", answers });
+  const expected = evaluate(premise), request = convictionReliefRequest(profile, premise);
+  const hints = pub.questions.find(question => question.id === "possible_pathway_context").options;
+  for (const hint of [undefined, "Skip", ...hints]) {
+    const input = { ...premise, ...(hint === undefined ? {} : { possible_pathway_context: hint }) };
+    const before = structuredClone(input), prefix = `GA21/same-election/${state}/${name}/${hint}`;
+    check(prefix + "/selector", same(convictionReliefRequest(profile, input), request));
+    check(prefix + "/full-evaluation", same(evaluate(input), expected));
+    const resumed = sanitizeResumedAnswersForQuestionIds(pub, input, selectScreeningQuestionIds(profile, pub, input));
+    check(prefix + "/literal-optional-context", same(resumed.possible_pathway_context, input.possible_pathway_context)
+      && Object.hasOwn(resumed, "possible_pathway_context") === Object.hasOwn(input, "possible_pathway_context"));
+    check(prefix + "/election-preserved", Object.entries(premise).every(([id, value]) => same(resumed[id], value)));
+    const response = await POST(new Request("http://localhost/api/expungement-ai/evaluate", { method: "POST",
+      headers: { "content-type": "application/json" }, body: JSON.stringify({ jurisdiction: state,
+        profileVersion: profile.profileVersion, matterId: "synthetic-ga21-same-election", answers: input }) }));
+    const body = await response.json();
+    check(prefix + "/public-handler", response.status === 200 && body.resultCode === expected.resultCode
+      && body.pathwayId === expected.pathwayId && same(body.reasons, expected.reasons)
+      && same(body.missingQuestionIds, expected.missingQuestionIds) && body.paymentAllowed === false);
+    check(prefix + "/raw-preserved", same(input, before));
+    rows.push({ state, name, hint: hint ?? null, sameElection: true, result: expected });
+  }
+}
+
+// DEF-GA21-RETRO-HINT-PRECONDITION: a hint keeps the actual original-treatment prerequisite.
+{
+  const profile = getProfileByJurisdiction('GA'), pub = projectPublicProfile(profile);
+  const fixture = fixtures.rows.find(row => row.id.startsWith('GA') && row.id.endsWith('/omitted'));
+  const hint = 'Petition for retroactive First Offender treatment, exoneration and discharge';
+  check('GA21/retro-hint/offered-choice', pub.questions.find(q => q.id === 'possible_pathway_context').options.includes(hint));
+  for (const fact of [undefined, 'no', 'unknown', 'yes']) {
+    const answers = { ...fixture.answers, possible_pathway_context: hint };
+    delete answers.ga_record_help;
+    if (fact === undefined) delete answers.ga_original_first_offender;
+    else answers.ga_original_first_offender = fact;
+    const before = structuredClone(answers), prefix = 'GA21/retro-hint/' + String(fact);
+    const result = evaluateScreening({ jurisdiction: 'GA', profileVersion: profile.profileVersion, matterId: 'synthetic-retro-hint', answers });
+    const expectedMissing = fact === 'no' ? [] : [fact === 'yes' ? 'ga_first_offender_status' : 'ga_original_first_offender'];
+    check(prefix + '/exact-prerequisite', same(result.missingQuestionIds, expectedMissing));
+    check(prefix + '/identified-only-when-no', (result.pathwayId ?? null) === (fact === 'no' ? 'retroactive-first-offender-treatment-under-42-8-66' : null));
+    check(prefix + '/held-without-payment', result.resultCode === 'needs_more_info' && result.paymentAllowed === false
+      && (fact === 'no' ? result.reasons.some(reason => reason.code === 'ga.route_identified_packet_not_yet_available') : !result.packetPlan));
+    const selected = selectScreeningQuestionIds(profile, pub, answers);
+    check(prefix + '/correction-visible', expectedMissing.every(id => selected.includes(id)));
+    const resumed = sanitizeResumedAnswersForQuestionIds(pub, answers, selected);
+    check(prefix + '/retained-answers', Object.entries(answers).every(([id, value]) => same(resumed[id], value)));
+    const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jurisdiction: 'GA', profileVersion: profile.profileVersion, matterId: 'synthetic-retro-hint', answers }) }));
+    const body = await response.json();
+    check(prefix + '/handler', response.status === 200 && same(body.missingQuestionIds, expectedMissing) && (body.pathwayId ?? null) === (result.pathwayId ?? null) && body.paymentAllowed === false);
+    check(prefix + '/source-immutable', same(answers, before));
+    rows.push({ state: 'GA', defect: 'DEF-GA21-RETRO-HINT-PRECONDITION', fact: fact ?? null, result });
+  }
+}
+
+// GA21 review T1: hints neither override an explicit election nor borrow another route's prerequisite.
+{
+  const profile = getProfileByJurisdiction('GA'), pub = projectPublicProfile(profile);
+  const fixture = fixtures.rows.find(row => row.id === 'GA-no-original-treatment/omitted');
+  const sb288 = 'sb-288-misdemeanor-conviction-restriction-and-sealing';
+  const evaluate = answers => evaluateScreening({ jurisdiction: 'GA', profileVersion: profile.profileVersion,
+    matterId: 'synthetic-ga21-negative-boundary', answers });
+  for (const [name, election, hint] of [
+    ['N1-explicit-election-retro-hint', 'conviction_record', 'Petition for retroactive First Offender treatment, exoneration and discharge'],
+    ['N2-nonretro-hint-no-election', undefined, profile.pathways.find(path => path.id === sb288).label],
+  ]) {
+    const premise = { ...fixture.answers };
+    delete premise.ga_original_first_offender;
+    delete premise.ga_record_help;
+    delete premise.possible_pathway_context;
+    if (election !== undefined) premise.ga_record_help = election;
+    const input = { ...premise, possible_pathway_context: hint }, before = structuredClone(input);
+    const expected = evaluate(premise), result = evaluate(input), prefix = 'GA21/negative-boundary/' + name;
+    check(prefix + '/offered-hint', pub.questions.find(q => q.id === 'possible_pathway_context').options.includes(hint));
+    check(prefix + '/no-hint-control', expected.paymentAllowed === false && (election === undefined
+      ? !expected.pathwayId && !expected.packetPlan && same(expected.missingQuestionIds, ['ga_record_help'])
+      : expected.pathwayId === sb288 && !!expected.packetPlan));
+    check(prefix + '/hint-result', election === undefined
+      ? result.resultCode === 'needs_more_info' && result.pathwayId === sb288 && result.packetPlan?.pathwayId === sb288
+        && result.paymentAllowed === false && same(result.missingQuestionIds, ['ga_sb288_conviction_count', 'ga_sb288_final_citations', 'ga_sb288_convictions_before_filing'])
+      : same(result, expected));
+    check(prefix + '/no-borrowed-prerequisite', !result.missingQuestionIds.includes('ga_original_first_offender'));
+    const resumed = sanitizeResumedAnswersForQuestionIds(pub, input, selectScreeningQuestionIds(profile, pub, input));
+    check(prefix + '/retained-answers', Object.entries(input).every(([id, value]) => same(resumed[id], value))
+      && !Object.hasOwn(resumed, 'ga_original_first_offender'));
+    check(prefix + '/resumed-result', same(evaluate(resumed), result));
+    const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jurisdiction: 'GA', profileVersion: profile.profileVersion, matterId: 'synthetic-ga21-negative-boundary', answers: input }) }));
+    const body = await response.json();
+    check(prefix + '/handler', response.status === 200 && body.pathwayId === result.pathwayId
+      && same(body.packetPlan, result.packetPlan) && same(body.missingQuestionIds, result.missingQuestionIds) && body.paymentAllowed === false);
+    check(prefix + '/raw-preserved', same(input, before) && same(fixture.answers.ga_original_first_offender, 'no'));
+    rows.push({ state: 'GA', defect: 'GA21-T1', name, result });
+  }
+}
+
+const report = { status: checks.every(c => c.pass) ? 'PASS' : 'FAIL', checks: checks.length, failed: checks.filter(c => !c.pass), details: checks, rows,
+  limits: ['No legal/language/source-currency approval. Actual later-order/program/mixed-charge acceptance, authority and owner browser/DB verification remain separately required. This is not GA21 or nationwide closure.'] };
+if (process.argv[2]) fs.writeFileSync(process.argv[2], JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+console.log(JSON.stringify({ status: report.status, checks: report.checks, failed: report.failed }, null, 2));
+assert.equal(report.failed.length, 0);

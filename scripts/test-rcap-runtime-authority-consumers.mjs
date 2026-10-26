@@ -11,6 +11,26 @@ import {
   tracingIncludeKey,
   tracingKeyMatches,
 } from './rcap-runtime-authority-consumers.mjs';
+import { MS_INTERVENTION_SOURCE_PATH } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+
+test('current dynamic source-guard inputs are traced as raw files only for their actual consumers', () => {
+  const contract = JSON.parse(fs.readFileSync(path.join(DEFAULT_ROOT_DIR, MS_INTERVENTION_SOURCE_PATH)));
+  assert.equal(contract.additionalRuntimeSources.length, 2, 'the actual missing evaluator and referral source files');
+  const { consumers, entries } = discoverRuntimeAuthorityConsumers();
+  const includes = createRuntimeAuthorityTracingIncludes();
+  const guard = path.join(DEFAULT_ROOT_DIR, 'src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
+  const preview = consumers.find(entry => entry.route === '/briefcase/[packetId]/mn-caption-preview/[documentId]');
+  assert.ok(preview?.reachable.has(guard), 'the compiled route with the demonstrated missing-source failure');
+  for (const entry of consumers) {
+    for (const input of contract.additionalRuntimeSources) {
+      assert.equal(includes[entry.tracingKey].includes(input.file), entry.reachable.has(guard), `${entry.route}: ${input.file}`);
+    }
+    assert.equal(includes[entry.tracingKey].includes('src/**'), false, 'no whole source-tree fallback');
+  }
+  const unrelated = entries.find(entry => entry.authorityPaths.length === 0);
+  assert.ok(unrelated, 'real non-consumers remain outside the tracing scope');
+  assert.equal(Object.hasOwn(includes, unrelated.tracingKey), false);
+});
 
 test('every current authority consumer matches exactly its route, with no other entry admitted', () => {
   const { entries, consumers } = discoverRuntimeAuthorityConsumers();
@@ -105,6 +125,16 @@ test('runtime import discovery follows new consumers and inherited layouts but r
     assert.throws(() => discoverRuntimeAuthorityConsumers({ root }), /Unresolved runtime import/);
     await assert.rejects(independentConsumers(root), /Unresolved runtime import/);
     fs.rmSync(path.join(root, 'src/app/dynamic'), { recursive: true });
+    write('src/app/static-require/route.ts', 'import {createRequire as nodeRequire} from "node:module";const require=nodeRequire(import.meta.url);export const GET=()=>require("@/lib/rcap/fulfillment/paid-consumer-successor");');
+    assert.ok(discoverRuntimeAuthorityConsumers({root}).consumers.some(e=>e.route==='/static-require'));
+    assert.ok((await independentConsumers(root)).consumers.some(e=>e.route==='/static-require'));
+    write('src/app/static-require/route.ts', 'const require=otherLoader(import.meta.url);export const GET=()=>require("@/lib/rcap/fulfillment/paid-consumer-successor");');
+    assert.throws(()=>discoverRuntimeAuthorityConsumers({root}),/Unsupported require reference/);
+    await assert.rejects(independentConsumers(root),/Unsupported require reference/);
+    write('src/app/static-require/route.ts', 'import {createRequire} from "node:module";const require=createRequire(import.meta.url);export const GET=(name)=>require(name);');
+    assert.throws(()=>discoverRuntimeAuthorityConsumers({root}),/Unresolved runtime import/);
+    await assert.rejects(independentConsumers(root),/Unresolved runtime import/);
+    fs.rmSync(path.join(root,'src/app/static-require'),{recursive:true});
     write('src/app/unsupported/route.ts', 'const loader = require; export const GET=()=>loader("@/lib/rcap/fulfillment/paid-consumer-successor");');
     assert.throws(() => discoverRuntimeAuthorityConsumers({root}), /Unsupported require reference/);
     await assert.rejects(independentConsumers(root), /Unsupported require reference/);

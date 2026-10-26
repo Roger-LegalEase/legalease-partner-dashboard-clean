@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VFOK1",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief": "GRANTED_ELSEWHERE_BUT_RELEASED: composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief is recorded on VF01, not VFOK1, and VF01 RELEASED it at 2026-09-12T07:25:43.365Z. No lane is executing it. Captain can hand it over with: --transfer VF01 VFOK1 composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief": "LIMB_2_NO_SERVICE_WITH_BASIS"
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "lane": "VFOK1",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief run here at 5e7fe802c (inside measure-family.mjs, then re-run directly): PASS_COMPLETE 7/24 written"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:runtime-only:OK:human-trafficking-survivor-relief is declared identically by product-wiring, source-receipt, production-field-map and MASTER_QUEUE and resolves to exactly one census route entry (pinned and current)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Every pin in source-receipt.json recomputed from disk here. Five committed records exact (sha256 and byteLength): route-splits.json c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df/127996, OK-oklahoma.json 741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1/227605, OK.memo.json 142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909/298493, 2026-09-06-owner-relayed-research-batch-03.json ee50b52818eca749cbb6afc8d248a14bcc9d8450a263bbb61549390db331d02f/5054, Packet_Blocker_Batch_03_Handoff.md c58932150c17c069de518e2be23d59d25a2aedc666800b172eab0f83a8e64917/23221; governingLegalDecision LEGAL_BLOCKED_RESOLUTION_2026-09-11.json 5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2/22372 exact. The census pin lapsed: current route-obligation-candidate.json eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B (pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B; lapsed at C1). The family's one route entry (routes[] by routeKey) compared object-for-object between the pinned blob and the current file: IDENTICAL, every field. Census metadata identical except sourceFingerprint. The worklist is not pinned by this receipt. No official form is bound (the receipt and formIdentityNote say none exists for this route). Nothing the packet relies on moved; only the whole-file identity did."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "3 declared components (primary-filing-1, proposed-order-2, filing-instructions-3) equal the 3 rendered and appear in both fixtures' page manifests. The route contract's second packetComponent, 'Trafficking nexus evidence', is a participant-obtained document and is named under 'Documents you must obtain before filing'. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "7/7 written values per fixture (name, date of birth, mailing address, telephone, email, and the name on the order and instructions) re-found in pdftotext output of the artifact bytes here, both fixtures; 0 not found. knownRequiredFieldsMissing=0, invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "11 requiredBeforeFiling blanks (C1-C9 on the petition, O1-O2 on the order); every disclosure label found verbatim in participant-instructions.md with what to write. The one document to obtain (trafficking-nexus evidence) is named with where it comes from, and the conditional IFP input (28 O.S. 152(H) affidavit from the district court clerk) is disclosed. requiredFactsNotCollected=0, unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls in the field map; the one route selection (22 O.S. 19c petition) is stated in the titles and bodies of the petition and order. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating-row structure in the field map; incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "17 canonical refusals: 11 required-before-filing, 4 signature_or_date_participant_completion, 2 court_prosecutor_clerk_or_agency_owned. refusedFieldsWithInk=0 in both fixtures; the 7 recorded writes are all participant identity/contact fields; protectedWrites=0 measured here. Signing lines, their dates and every caption case number are left blank and said so."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2/2 PDFs on disk recorded; canonical.pdf 67be3cdb44bd2de086b4cd429c961348f547893e172faf67a5286db6e6c5ff09/16208 and boundary.pdf ca9b3234b184f78ea057a3e512ddf36fc0f0e3d022863952bc7e2cbdfd469797/16412 recomputed here, both matching the record. 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures' manifests run 1..6: petition pp.1-3, proposed order p.4, filing instructions pp.5-6, contiguous and in declared order; the first text line of every page read here matches its component; pdfinfo reads 6 pages for both, equal to the record."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox here: 1546/1550 words, 0 outside the page box, 0 same-band overlapping word pairs in either fixture; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 both fixtures. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Instructions name the Oklahoma district court (22 O.S. 4A) for the district or county holding the arrest information, and step 8 'File with the proper Oklahoma district court clerk'. That is the destination the controlling memo track ok-ls-1 records ('The Oklahoma district court'); the census entry records 'not recorded' and the route contract none, so the memo is the record that names it."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Per DET-FEE-AND-WAIVER-001 as written: no held source establishes the court fee (ok-ls-1 rules.fees keeps it separately sourced and denies a universal $0), and the packet names the Oklahoma district court clerk for the current filing cost, says OSBI's processing charge does not establish a zero fee, and gives the 28 O.S. 152(H) in-forma-pauperis mechanism the governing decision OK-TRAFFICKING-SURVIVOR-22-OS-19C requires, with the clerk as the source of the current affidavit. No figure invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative nobody-is-served statement with its mechanism: 'The court arranges the notice; the petitioner serves nothing and certifies nothing', with the court setting the hearing and giving 30 days' notice to the prosecuting agency, arresting agency and OSBI under 22 O.S. 19(B) as amended by SB 2030, and the petitioner listing them at C9. Matches ok-ls-1 rules.notice and rules.service."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against ok-ls-1 selfHelpStopConditions ('Every trafficking-survivor matter ... routes it to legal aid or a survivor clinic') and decision OK-TRAFFICKING-SURVIVOR-22-OS-19C. The packet makes legal aid or an attorney a precondition for C5-C9 and O1-O2, lists 'you do not yet have legal aid or an attorney' as the first stop, and adds safety/protected-filing, scope, immigration and truthful-nexus stops. It signs nothing, leaves court lines blank and states it is not legal advice or a decision. It says 'legal aid or an attorney' where the memo says 'legal aid or a survivor clinic'; the routing is to the same kind of help and nothing is inverted."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE 7/24 written; 1 family audited; all nine counters 0",
+        "sourceRecomputation": "6/6 non-census pins exact (5 committed records + governing decision); census lapsed to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B; route entry identical object-for-object; census metadata identical except sourceFingerprint; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash and byteLength to record; pdfinfo 6/6 pages",
+        "byteReadBack": "14/14 written values (7 per fixture) re-found in the artifact bytes here",
+        "stopConditions": "memo stop (legal aid for every trafficking-survivor matter) carried as the packet's precondition and first stop; 4 further stops added; none inverted",
+        "lapseResolved": "The only lapse is the whole-file census identity (f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 -> eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9). The bound route entry and census metadata are unchanged, so a refresh to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B is supported by this measurement. This row does not itself re-pin."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

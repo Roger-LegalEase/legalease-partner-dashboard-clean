@@ -113,3 +113,36 @@ for(const verdict of ['PASS_COMPLETE_INDEPENDENT','FAIL_REPAIR_REQUIRED'])test(`
  const before=JSON.stringify(x);const result=assessCurrentMapping(root,x,{readBytes:p=>p===nextPath?Buffer.from(JSON.stringify(next)):liveRead(p)});
  assert.deepEqual(result.evidence.documents.map(d=>d.pageCount),[9,9]);assert.equal(result.evidence.finalAcceptance,false);assert.equal(JSON.stringify(x),before);
 });
+
+// Census identity successor (2026-10-19): the live bytes, the selected census read, and a git that, like
+// GitHub's checkout, has never seen the unpushed base the census reads declare.
+{
+  const UNPUSHED = '5e7fe802ca21d39c444d5e110b8e8f63be1a1f27';
+  const CENSUS = 'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
+  const RECEIPT = `${WA_SUD_DIRECTORY}/source-receipt.json`;
+  const CERT = 'data/rcap-grade-a/packet-factory-24h/vfwasud3/wa-sud-census-identity-successor-certificate-20261019.json';
+  const vr = JSON.parse(liveRead('data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json'));
+  const selected = vr.rows.find(r => r.familyId === WA_SUD_FAMILY && !r.superseded && r.isIndependentVerification && r.verdict !== 'BLOCKED_BEFORE_CLAIM');
+  const liveInput = {...input, independentReturn: selected};
+  const ciGit = args => { assert(!args.some(a => String(a).includes(UNPUSHED.slice(0, 7))), `git asked about the unpushed base: ${args.join(' ')}`);
+    return execFileSync('git', args, {cwd: root, stdio: ['ignore','pipe','ignore'], maxBuffer: 1 << 26}); };
+  const live = (overrides = {}) => assessCurrentMapping(root, liveInput, {git: ciGit, ...overrides});
+  const swap = (p, edit) => q => q === p ? edit(liveRead(p)) : liveRead(q);
+  test('census successor: the live mapping holds on the selected census read without the unpushed base', () => {
+    assert.equal(selected.verifiedAtBase, UNPUSHED);
+    const result = live();
+    assert.equal(result.familyId ?? WA_SUD_FAMILY, WA_SUD_FAMILY);
+  });
+  test('census successor: one changed byte in the WA SUD route entry is refused', () => {
+    const edit = bytes => { const doc = JSON.parse(bytes); const e = doc.routes.find(r => r.routeKey === WA_SUD_ROUTE);
+      e.routeKey = WA_SUD_ROUTE; e.mutatedByTest = 'x'; return Buffer.from(JSON.stringify(doc, null, 2) + '\n'); };
+    assert.throws(() => live({readBytes: swap(CENSUS, edit)}), /different current census|route entry/);
+  });
+  test('census successor: a tampered certificate is refused', () => {
+    assert.throws(() => live({readBytes: swap(CERT, b => Buffer.concat([b, Buffer.from(' ')]))}), /Unrecognized census identity successor certificate/);
+  });
+  test('census successor: any receipt change beyond the census pin is refused', () => {
+    const edit = bytes => { const doc = JSON.parse(bytes); doc.commercialRoutesOpened = 0; doc.legalName = `${doc.legalName} (changed)`; return Buffer.from(JSON.stringify(doc, null, 2) + '\n'); };
+    assert.throws(() => live({readBytes: swap(RECEIPT, edit)}), /Custom candidate changed/);
+  });
+}

@@ -1,10 +1,11 @@
 import "server-only";
+import {prepareOrdinarySponsoredRouteRegistration} from "@/lib/rcap/fulfillment/sponsored-channel-authority";
 import {randomUUID,createHash} from "node:crypto";
 import {getSupabaseAdminClient} from "@/lib/supabase/server";
 import type {InternalOnboardingContext} from "./auth-context";
 import {getLaunchPreflight} from "./launch-preflight";
 import {isDisposableLaunchEnvironment,syntheticVerificationToken} from "./synthetic-launch-security";
-import {realLaunchOrigin,realVerificationToken} from "./real-launch-security";
+import {realLaunchOrigin,realVerificationToken,acceptancePreviewLaunchBinding} from "./real-launch-security";
 import {Phase1OnboardingError} from "./errors";
 import { diagnoseWorkspaceLoad, workspaceReadError } from "./workspace-loading";
 export async function executeSyntheticLaunch(context:InternalOnboardingContext,input:{requestId:string;snapshotHash:string;confirmed:boolean}){
@@ -14,15 +15,20 @@ export async function executeRealLaunch(context:InternalOnboardingContext,input:
  return executeLaunch(context,input,true);
 }
 async function executeLaunch(context:InternalOnboardingContext,input:{requestId:string;snapshotHash:string;confirmed:boolean},real:boolean){
- const origin=real?realLaunchOrigin():process.env.RCAP_SYNTHETIC_PUBLIC_ORIGIN;
+ const origin=real?realLaunchOrigin(process.env,context):process.env.RCAP_SYNTHETIC_PUBLIC_ORIGIN;
+ const previewRelease=real?acceptancePreviewLaunchBinding():null;
  const compensate=real?"rcap_service_compensate_real_launch":"rcap_service_compensate_synthetic_launch";
  if(real&&!origin)throw new Phase1OnboardingError("feature_disabled","Real launch requires separate release authorization.");
  if(!real&&!isDisposableLaunchEnvironment())throw new Phase1OnboardingError("feature_disabled","Live launch is disabled. Only registered disposable loopback targets may launch.");
  if(context.role!=="internal_admin" || !input.confirmed)throw new Phase1OnboardingError("forbidden","An internal administrator must explicitly confirm this exact partner launch.");
  const admin=getSupabaseAdminClient()!;
+ async function fetchReadback(url:URL,headers:Record<string,string>={}){
+  if(url.origin!==origin)throw new Error("Launch readback must remain on its authorized origin.");
+  return fetch(url,{method:"GET",headers:{...headers,...(previewRelease?{"x-vercel-protection-bypass":process.env.VERCEL_AUTOMATION_BYPASS_SECRET!,"x-vercel-skip-toolbar":"1"}:{})},cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});
+ }
  async function verifyIntake(jurisdictions:string[],accessMode:string){
   for(const jurisdiction of jurisdictions){
-  const response=await fetch(new URL(`/intake/${context.partnerSlug}?jurisdiction=${encodeURIComponent(jurisdiction)}`,origin!),{cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});const html=await response.text();
+  const response=await fetchReadback(new URL(`/intake/${context.partnerSlug}?jurisdiction=${encodeURIComponent(jurisdiction)}`,origin!));const html=await response.text();
   if(response.status!==200||!html.includes(`data-rcap-intake-partner="${context.partnerSlug}"`)||!html.includes(`data-rcap-access="${accessMode}"`)||!html.includes(`data-rcap-jurisdiction="${jurisdiction}"`))throw new Error("Public CTA, intake access, jurisdiction, or attribution readback failed.");
   }
  }
@@ -30,7 +36,7 @@ async function executeLaunch(context:InternalOnboardingContext,input:{requestId:
   const assets=[...html.matchAll(/data-rcap-asset="([a-f0-9-]+)"/g)].map(match=>match[1]);
   if(!assets.length && !html.includes('data-rcap-brand="text"'))throw new Error("Approved branding absent from public readback.");
   for(const id of assets){
-   const response=await fetch(new URL(`/api/partners/public-page/${context.partnerSlug}/assets/${id}`,origin!),{headers:token?{"x-rcap-synthetic-verification":token}:{},cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});
+   const response=await fetchReadback(new URL(`/api/partners/public-page/${context.partnerSlug}/assets/${id}`,origin!),token?{"x-rcap-synthetic-verification":token}:{});
    if(response.status!==200||!response.headers.get("content-type")?.startsWith("image/"))throw new Error("Approved branding asset readback failed.");
    const asset=await admin.from("partner_onboarding_assets").select("sha256_hex").eq("id",id).eq("workspace_id",(await admin.from("partner_onboarding").select("id").eq("partner_slug",context.partnerSlug).single()).data?.id??"").single();
    if(asset.error||!asset.data.sha256_hex||createHash("sha256").update(Buffer.from(await response.arrayBuffer())).digest("hex")!==asset.data.sha256_hex)throw new Error("Approved branding bytes mismatch.");
@@ -38,8 +44,12 @@ async function executeLaunch(context:InternalOnboardingContext,input:{requestId:
  }
  const prior=await admin.from("rcap_launch_operation_events").select("*").eq("partner_slug",context.partnerSlug).eq("request_id",input.requestId).order("created_at",{ascending:false});
  if(prior.error)throw new Phase1OnboardingError("persistence_failed","Launch journal unavailable.");
- if(prior.data?.length){const last=prior.data[0];if(last.snapshot_hash!==input.snapshotHash || last.actor_auth_user_id!==context.authUserId)throw new Phase1OnboardingError("duplicate_request","Request identity was used with different inputs.");if(last.step==="complete"){
- if(real){const url=new URL(`/p/${context.partnerSlug}`,origin!);const response=await fetch(url,{cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});const html=await response.text();if(response.status!==200||!html.includes(`data-rcap-operation="${last.operation_id}"`))throw new Phase1OnboardingError("invalid_transition","The completion receipt exists, but current public verification is held.");
+ if(prior.data?.length){const last=prior.data[0];const preparedReceipt=previewRelease?prior.data.find(receipt=>receipt.step==="prepared"
+ &&receipt.operation_id===last.operation_id&&receipt.request_id===last.request_id&&receipt.workspace_id===last.workspace_id
+ &&receipt.partner_slug===last.partner_slug&&receipt.actor_auth_user_id===last.actor_auth_user_id&&receipt.snapshot_hash===last.snapshot_hash):null;
+ if(previewRelease&&(Object.keys(preparedReceipt?.evidence?.previewRelease??{}).length!==Object.keys(previewRelease).length
+ ||Object.entries(previewRelease).some(([key,value])=>preparedReceipt?.evidence?.previewRelease?.[key]!==value)))throw new Phase1OnboardingError("invalid_transition","The prior launch belongs to a different Preview release.");if(last.snapshot_hash!==input.snapshotHash || last.actor_auth_user_id!==context.authUserId)throw new Phase1OnboardingError("duplicate_request","Request identity was used with different inputs.");if(last.step==="complete"){
+ if(real){const url=new URL(`/p/${context.partnerSlug}`,origin!);const response=await fetchReadback(url);const html=await response.text();if(response.status!==200||!html.includes(`data-rcap-operation="${last.operation_id}"`))throw new Phase1OnboardingError("invalid_transition","The completion receipt exists, but current public verification is held.");
  const current=await getLaunchPreflight(context);
  if(!last.evidence.activationRecord||Object.entries(last.evidence.activationRecord).some(([key,value])=>(current.reviewedSnapshot.activationRecord as Record<string,unknown>|null)?.[key]!==value))throw new Phase1OnboardingError("invalid_transition","The completion receipt exists, but the authoritative partner record changed.");
  const packageNow=current.reviewedVersions.filter(v=>v.type!=="partner_launch_kit");
@@ -68,19 +78,21 @@ async function executeLaunch(context:InternalOnboardingContext,input:{requestId:
  const legacyOnboarding=real?await admin.from("partner_records").select("onboarding_status,onboarding_completed_at").eq("partner_slug",context.partnerSlug).single():{data:null,error:null};
  if(legacyOnboarding.error)throw new Phase1OnboardingError("persistence_failed","Legacy onboarding reconciliation source unavailable.");
  const operationId=randomUUID();const publicUrl=new URL(`/p/${context.partnerSlug}`,origin!).href;
+ const ordinarySponsoredRoute=previewRelease?prepareOrdinarySponsoredRouteRegistration(context.partnerSlug,preflight.intakeJurisdictions):null;
+ if(previewRelease&&!ordinarySponsoredRoute)throw new Phase1OnboardingError("invalid_transition","The exact ordinary sponsored route source and Preview scope are required before Start.");
  const base={workspace_id:preflight.workspaceId,partner_slug:context.partnerSlug,operation_id:operationId,request_id:input.requestId,actor_auth_user_id:context.authUserId,snapshot_hash:preflight.snapshotHash,authority_reference:target.data.authority_reference};
- async function receipt(step:string,evidence:Record<string,unknown>){const {error}=await admin.from("rcap_launch_operation_events").insert({...base,step,evidence:{...evidence,...(real?{mode:"real",commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null}:{})}});if(error){diagnoseWorkspaceLoad("launch.receipt",`launch.receipt.${step}`,workspaceReadError(`launch.receipt.${step}`,error,"Publication receipt refused."));throw new Error(`Receipt ${step} failed.`);}}
+ async function receipt(step:string,evidence:Record<string,unknown>){const {error}=await admin.from("rcap_launch_operation_events").insert({...base,step,evidence:{...evidence,...(previewRelease?{previewRelease}:{}),...(real?{mode:"real",commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null}:{})}});if(error){diagnoseWorkspaceLoad("launch.receipt",`launch.receipt.${step}`,workspaceReadError(`launch.receipt.${step}`,error,"Publication receipt refused."));throw new Error(`Receipt ${step} failed.`);}}
  let failedStep="prepared",prepared=false;
  try{
-  await receipt("prepared",{previousPublication:previous.data,workspaceVersion:preflight.workspaceVersion,...(real?{mode:"real",snapshot:preflight.reviewedSnapshot,intakeJurisdiction:preflight.intakeJurisdiction,intakeJurisdictions:preflight.intakeJurisdictions,previousLegacyOnboarding:legacyOnboarding.data,commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null,releaseAuthorization:process.env.RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION,checks:preflight.readiness.checks.map(c=>({key:c.key,status:c.status,checkedAt:c.checkedAt}))}:{})});
+  await receipt("prepared",{...(ordinarySponsoredRoute?{ordinarySponsoredRoute}:{}),previousPublication:previous.data,workspaceVersion:preflight.workspaceVersion,...(real?{mode:"real",snapshot:preflight.reviewedSnapshot,intakeJurisdiction:preflight.intakeJurisdiction,intakeJurisdictions:preflight.intakeJurisdictions,previousLegacyOnboarding:legacyOnboarding.data,commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null,releaseAuthorization:process.env.RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION,checks:preflight.readiness.checks.map(c=>({key:c.key,status:c.status,checkedAt:c.checkedAt}))}:{})});
   prepared=true;
   failedStep="publication_staged";
   const staged=await admin.rpc(real?"rcap_service_stage_real_launch":"rcap_service_stage_synthetic_launch",{p_slug:context.partnerSlug,p_actor:context.authUserId,p_operation:operationId,p_version:preflight.workspaceVersion,p_hash:preflight.snapshotHash,p_versions:preflight.reviewedVersions.filter(v=>v.type!=="partner_launch_kit"),...(real?{p_authority:preflight.launchAuthority.id!}:{})});
   if(staged.error)throw new Error("Publication staging refused current authority or source.");
   failedStep="public_verified";
   if(target.data.failure_step==="public_verified")throw new Error("Registered synthetic partial-failure fixture.");
-  const hidden=await fetch(publicUrl,{cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});if(hidden.status!==404)throw new Error("Premature public visibility detected.");
-  const readback=await fetch(publicUrl,{headers:{"x-rcap-synthetic-verification":(real?realVerificationToken:syntheticVerificationToken)(context.partnerSlug,operationId)},cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});const html=await readback.text();
+  const hidden=await fetchReadback(new URL(publicUrl));if(hidden.status!==404)throw new Error("Premature public visibility detected.");
+  const readback=await fetchReadback(new URL(publicUrl),{"x-rcap-synthetic-verification":(real?realVerificationToken:syntheticVerificationToken)(context.partnerSlug,operationId)});const html=await readback.text();
   if(readback.status!==200 || !html.includes(`/partner/intake/${context.partnerSlug}`) && !html.includes(`/intake/${context.partnerSlug}`))throw new Error("Staged public route or attribution verification failed.");
   if(real){
    const expectedPage=preflight.reviewedVersions.find(v=>v.type==="co_branded_page_configuration");
@@ -98,7 +110,7 @@ async function executeLaunch(context:InternalOnboardingContext,input:{requestId:
   const capacityAfter=await admin.from("partner_entitlement").select("screenings_allowed,screenings_used").eq("partner_slug",context.partnerSlug).maybeSingle();
   if(publication.error||publication.data.status!=="live"||!publication.data.landing_page_ready||authorityAfter.error||capacityAfter.error||JSON.stringify(authorityBefore.data)!==JSON.stringify(authorityAfter.data)||JSON.stringify(capacityBefore.data)!==JSON.stringify(capacityAfter.data))throw new Error("Publication or immutable activation/capacity readback failed.");
   await receipt("public_verified",{publicUrl,status:readback.status,anonymousStatusBeforeComplete:hidden.status,attributionVerified:true,activationUnchanged:true,screeningCapacityUnchanged:true,accessMode:preflight.program?.access.configured});
-  failedStep="public_readback";const publicReadback=await fetch(publicUrl,{cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});const publicHtml=await publicReadback.text();if(publicReadback.status!==200 || (real && (!publicHtml.includes(`data-rcap-operation="${operationId}"`) || !publicHtml.includes(`/intake/${context.partnerSlug}`))))throw new Error("Public readback failed.");
+  failedStep="public_readback";const publicReadback=await fetchReadback(new URL(publicUrl));const publicHtml=await publicReadback.text();if(publicReadback.status!==200 || (real && (!publicHtml.includes(`data-rcap-operation="${operationId}"`) || !publicHtml.includes(`/intake/${context.partnerSlug}`))))throw new Error("Public readback failed.");
   if(real){await verifyBranding(publicHtml);await verifyIntake(preflight.intakeJurisdictions,preflight.launchAuthority.accessMode!);}
   failedStep="complete";await receipt("complete",{publicUrl,verified:true,anonymousStatus:publicReadback.status,...(real?{mode:"real",commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null,snapshotHash:preflight.snapshotHash,activationRecord:preflight.reviewedSnapshot.activationRecord,reviewedVersions:preflight.reviewedVersions.filter(v=>v.type!=="partner_launch_kit"),intakeJurisdiction:preflight.intakeJurisdiction,intakeJurisdictions:preflight.intakeJurisdictions,pageHash:preflight.reviewedVersions.find(v=>v.type==="co_branded_page_configuration")?.hash,accessMode:preflight.launchAuthority.accessMode!}: {})});
   return {status:"complete",operationId,publicUrl,duplicate:false,mode:real?"real":"synthetic"};

@@ -1,0 +1,197 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF05",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+  "verifier": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26": "CLAIM_OK VF05 composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26 (independent-verification, grant set b15f165126c84d71)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "lane": "VF05",
+      "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "verifiedAt": "2026-10-20T12:30:44Z",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26', run by measure-family.mjs in a detached worktree at base 1b4dfeaa14dbf4facf145fd408069acba22d4b32: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 7/21 written, counter line parsed from that run (facts.json verifierRun). The counters are all zero; the failure below is a content defect the counters do not measure."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "src/lib/legal-authority/routes/mississippi.json",
+          "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026",
+          "byteLength": 37570,
+          "matchesReceipt": true
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689",
+          "byteLength": 416327,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": false,
+          "receiptPin": {
+            "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "byteLength": 2629290
+          },
+          "pinnedBlobRecoveredAt": "a3ca119bd",
+          "ownEntryUnmoved": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2",
+          "byteLength": 13425,
+          "pageCount": 5,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90",
+          "byteLength": 13627,
+          "pageCount": 5,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:runtime-only:MS:nonadjudication-under-99-15-26 is declared identically by source-receipt, product-wiring, production-field-map and the MASTER_QUEUE row (VERIFY_PENDING); familyIdAgrees true. It resolves in the current census at routes[67] (runtimePathwayId and routeContractId MS:nonadjudication-under-99-15-26, statute Miss. Code Ann. \u00a7 99-15-26(5), LD-MS-01, participantFacingInstrument 'Post-Nonadjudication Petition under \u00a7 99-15-26(5)', trackId null), in the route contract mississippi.json /routes/13 (outcomeMode participant_packet) and in the compiled profile pathways[5]. Every page heading prints this route's title and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 1b4dfeaa14dbf4facf145fd408069acba22d4b32: mississippi.json 1d533e72\u2026/37570 and MS-mississippi.json d30c78bc\u2026/416327 equal the receipt pins. route-obligation-candidate.json is now eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9/2635434 against the receipt pin f6fc0814\u2026/2629290 (the only drifted record); the pinned blob was recovered from history (a3ca119bd, sha256 equal to the pin) and this route's object compared object-for-object: routes[66] pinned and routes[67] now are IDENTICAL (index moved by the MD route insertion; the census delta touches no field of this route). The CURRENT digest is the pin this row verified against; the receipt on disk is not edited by this lane."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The route contract (/routes/13) names packetComponents ['Petition under \u00a7 99-15-26(5)', 'Completion and closure proof', 'Proposed order']. rendered-artifacts componentSet is [ms-post-nonadjudication-primary-filing-1 (petition, pp1-2), -proposed-order-2 (p3), -filing-instructions-3 (pp4-5)] in both fixtures, declared = rendered. Completion and closure proof is a participant-obtained record: the instructions list it under 'Documents you must obtain before filing' (the clerk of the court that granted nonadjudication) and the filing-instructions page says to obtain it and file it with the petition. requiredComponentsMissing 0. Scored on the A2 held scope (bound records plus census requiredSourceIds); see the observation on the ms-nonadj registry design."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 7 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (facts.json readBack 7/7 both, 0 glyphs outside measured write boxes). Canonical: Jordan Avery Reyes (caption, B, printed name), 1991-04-17, 42 Magnolia Street, Springfield 62704, 555-0142, jordan.reyes@example.org. Boundary: Maria-Alejandra O'Shaughnessy-Whitfield, 1968-12-31, the long Fort Saint Clairsville address (wraps inside the margin on page 2), (228) 555-0199 ext. 4417 and the long email. knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "reports/blanks-left-for-the-participant.json lists 7 requiredBeforeFiling items, fact_q1..fact_q7 on the petition, which are the route contract's seven requiredFacts verbatim (completed matter; offense and exclusion; court level; prior use; DUI/implied-consent/trafficking element; every requirement completed; dismissal or closure order), printed as C1-C7 with dotted lines and listed in the instructions' 'The items you must supply' table. requiredFactsNotCollected 0, unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "production-field-map has 0 selection controls and 0 canonical refusals; the branch facts (exclusion, court level, prior use, DUI element) are labelled blanks and each is also a stop condition. requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "One petition for one nonadjudicated matter; the contract's 'Once only' condition excludes a repeating structure and none is declared (repeatingRows 0). incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "7 protectedBlanks: petition case number, petitioner's signature and its date, and the proposed order's case number, decision line, court signing line and date line. All print as empty dotted lines in both fixtures (canonical.txt, boundary.txt, 80-dpi renders); the order carries 'EVERY DECISION ON THIS PAGE IS THE COURT'S' and the petition says nothing is signed or dated for the petitioner. protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2/13425 B and boundary.pdf c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90/13627 B. Both equal reports/rendered-artifacts.json and the RASTER_QUEUE row (RASTER_PASS, canonical and boundary rastered), so the central raster receipt binds these exact bytes. No unrecorded PDFs."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Each fixture is 5 pages by pdfinfo: pages 1-2 the petition (caption, A route record, B petitioner, C facts C1-C7, D request, signature and printed contact block), page 3 the proposed order, pages 4-5 the filing instructions, in componentSet order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox via measure-family: 0 words outside the page box and 0 same-band overlapping word pairs in either fixture (1202 / 1206 words). Read on the 80-dpi renders (canonical-sheet.png, boundary-sheet.png): every line sits inside the margins and no text collides. visualDefects 0."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census destination is 'court identified in exact route contract; exact filing destination not recorded'; the route contract identifies it by function. The petition and proposed-order caption parentheticals, the instructions' FILING_DESTINATION row and the filing-instructions page all name 'the Mississippi court that granted nonadjudication and entered the dismissal or closure order', which is the most specific destination the held records establish (A1: the repository answer first) and agrees with the ms-nonadj registry venue ('The court that ordered the nonadjudication')."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "detail": "FEE_AND_WAIVER: both fixtures (canonical b6c18f61\u2026/13425, boundary c31fa423\u2026/13627), filing-instructions page 5, and participant-instructions.md line 22 (FEE_AND_WAIVER row) print 'So: expect to be asked for $150, and ask the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order what that court charges for this petition before you go'. That publishes a figure to the participant as the amount to expect on a \u00a7 99-15-26(5) petition, which no held record supports: the profile's only $150 line is keyed to \u00a7 99-19-72 petitions under \u00a7 99-19-71 (A3: a line keyed to a different statute is a sibling inference), the packet itself says no bound record settles whether that fee reaches \u00a7 99-15-26(5), and owner decision Q4 (OWNER_BATCH_ADOPTION_2026-09-02, 'DO NOT PUBLISH AN UNCONFIRMED FEE \u2026 direct the participant to the specific clerk or agency for the current amount. Add a figure only when current primary authority or the official form supports it') forbids exactly this. The registry design for this remedy (legal-design-track-registry tracks[251] ms-nonadj) agrees: 'No amount is published here. Section 99-19-72's fee applies by its terms to petitions under \u00a7 99-19-71 and does not reach \u00a7 99-15-26. The participant confirms with the clerk.' Everything else in the fee section holds: it attributes the profile's \u00a7 99-19-72 lines correctly, separates \u00a7 99-15-26(5) from \u00a7 99-19-71, names the specific clerk for the amount, and says no record states a waiver (A4 holds; nothing stated is denied). Only the instruction to expect $150 is the defect. Prior PASS reads of this wording (vf03 at e10890c11, vf36 at 5c718222c) did not measure it against owner Q4; the sibling RV-02 route on the same profile (intervention-court \u00a7 99-19-71(4), VF04 PASS today) publishes no figure, and ms-fel-set now prints 0 '$150' after Q4."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Scored on the A2 held scope: the route contract (/routes/13), profile pathways[5] and the census route (trackId null) state no service or notice. The packet says no committed record it binds states who must be served and names the clerk's office of the court that granted nonadjudication as the authority that answers it (DET-FEE-AND-WAIVER-001 appliesTo SERVICE). No internal contradiction. See the observation: the ms-nonadj registry design holds a service rule this scope does not bind."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the route contract exclusions and timing. 'When to stop and get help instead' (filing-instructions page 5 and instructions) carries: still on nonadjudication or no dismissal/closure order (timing anchor); prior use ('Once only'); DUI, implied consent or trafficking; an excluded court level; and any immigration question. Every contract exclusion is covered."
+        }
+      },
+      "observations": [
+        {
+          "what": "Bare route key printed on participant pages",
+          "detail": "Pages 2, 3 and 5 of both fixtures end 'Route: obligation:runtime-only:MS:nonadjudication-under-99-15-26' (the known PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class). Recorded, not scored."
+        },
+        {
+          "what": "The registry design for this remedy is outside the bound scope (lead's scoping call)",
+          "detail": "legal-design-track-registry tracks[251] ms-nonadj (the design for the same \u00a7 99-15-26 remedy, also behind the separate family ms-nonadj-set) holds: service 'United States mail or hand delivery, evidenced by the certificate of service'; notice 'The prosecuting authority for the court receives a copy'; three required participant documents (certified nonadjudication order, certified dismissal order, proof of completion); five selfHelpStopConditions including a \u00a7 99-15-26 vs \u00a7 99-19-71(4) routing doubt; and 'Do not conflate \u00a7 99-15-26 and \u00a7 99-19-71 \u2026 Do not copy the Fourth District form's dual citation'. This census route has trackId null and requiredSourceIds that do not name the registry, so SERVICE and COMPONENT_SET pass on A2 as written; whether this runtime-only route should bind tracks[251] is a legal/scoping question for the lead, not a defect scored here."
+        },
+        {
+          "what": "Fee figure path back",
+          "detail": "If counsel answers the registry's \u00a7 99-19-72 question for \u00a7 99-15-26(5) or primary authority is acquired, owner Q4 permits adding a figure; until then the refusal plus the named clerk is the required behaviour (as RV-02 does)."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv03-ms-nonadj-vf05/",
+        "claimCanAssert": "claim-can-assert.log (CLAIM_OK VF05, grant set b15f165126c84d71)",
+        "verifierRun": "facts.json verifierRun, measure.log",
+        "sourceRecomputation": "facts.json sourceIdentity, sources.txt (census pinned vs now)",
+        "sources": "sources.txt, registry-ms-nonadj.txt, controlling-design-fee.txt, prior-verdicts-and-rulings.txt, prior-rows-service-scope.txt; owner Q4 text at ../rv02-ms-icd-vf04/owner-q4-fee-correction.txt",
+        "byteReadBack": "canonical.txt, boundary.txt, facts.json readBack",
+        "wordGeometry": "facts.json geometry",
+        "renders": "canonical-p-1..5.png, boundary-p-1..5.png (pdftoppm -r 80), canonical-sheet.png, boundary-sheet.png",
+        "rasterBinding": "artifacts-blanks-raster.txt"
+      },
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

@@ -28,7 +28,7 @@ async function getLegacyLaunchPreflight(context:InternalOnboardingContext){
  const view=await getInternalLaunchReadiness(context, { readOnly: true });const admin=getSupabaseAdminClient()!;
  const {data:workspace,error:workspaceError}=await admin.from("partner_onboarding").select("id,aggregate_version,status,landing_page_ready,agreement_status").eq("partner_slug",context.partnerSlug).single();
  if(workspaceError)throw workspaceReadError("partner_onboarding.preflight",workspaceError,"Program source unavailable.");
- const realEnabled=Boolean(realLaunchOrigin());
+ const realEnabled=Boolean(realLaunchOrigin(process.env,context));
  const [commercial,documents,packets,financial,capacitySource,geography,signedReceipt]=await Promise.all([
  admin.from("rcap_commercial_authorizations").select("*").eq("workspace_id",workspace.id).order("created_at",{ascending:false}).limit(1).maybeSingle(),
  admin.from("partner_onboarding_assets").select("id,original_filename,sha256_hex").eq("workspace_id",workspace.id).eq("category","procurement_document").eq("lifecycle_status","active").eq("review_status","approved").is("deleted_at",null),

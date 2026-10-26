@@ -12,6 +12,7 @@ import {
 } from "@/lib/rcap/supplemental/guide-registry";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 import { normalizeLocale } from "@/lib/expungement-ai/localization";
+import { gaPardonDocumentFacts, GA_PERSONALIZED_DELIVERY_ROUTE } from "@/lib/rcap/render/ga-pardon-facts";
 
 /**
  * THE ONE PLACE A PARTICIPANT'S PACKET IS ASSEMBLED.
@@ -187,6 +188,10 @@ export async function assembleParticipantPacket(
     documents: guideDocuments(packet),
     stops: guideStopConditions(options.specification),
     stopsEs: guide.stopConditionsEs,
+    ...(options.routeKey === GA_PERSONALIZED_DELIVERY_ROUTE
+      && options.specification.routeKey === GA_PERSONALIZED_DELIVERY_ROUTE
+      && options.specification.trackId === "ga-pardon-j7"
+      ? { keepStopConditionsTogether: true } : {}),
     verifiedAt: options.verifiedAt
   });
 
@@ -357,12 +362,22 @@ export function participantGuideMatter(
     ? specificationCaseIdentifierFactId(specification)
     : undefined;
   const caseNumber = declaredCaseIdentifier ? plain(declaredCaseIdentifier) : null;
+  // This exact pleading uses the confirmed convicting court, not the generic
+  // court_name fact. Reuse its protected document mapping so the cover cannot
+  // contradict the pleading or turn an unconfirmed historical answer into a
+  // court caption. The sibling sealing track keeps its existing contract.
+  const gaPardon = specification?.routeKey === GA_PERSONALIZED_DELIVERY_ROUTE
+    && specification.trackId === "ga-pardon-j7";
+  if (gaPardon && snapshot.selectedTrackId !== "ga-pardon-j7") {
+    throw new Error("Georgia pardon guide track mismatch");
+  }
+  const gaFacts = gaPardon ? gaPardonDocumentFacts(snapshot) : null;
 
   return {
     preparedFor: plain("participant_full_legal_name"),
     preparedOn: participantGuideDate(snapshot.verifiedAt, locale),
     jurisdiction: snapshot.jurisdiction ?? null,
-    courtOrAgency: plain("court_name"),
+    courtOrAgency: gaFacts ? gaFacts.court : plain("court_name"),
     caseOrMatter: caseNumber,
     /*
      * The route's own label, not its id. `pathwayId` is a slug --

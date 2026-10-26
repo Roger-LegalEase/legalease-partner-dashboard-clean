@@ -53,10 +53,20 @@ const PROFILE_DIR = "src/lib/rcap-engine/compiled/profiles";
  * Jurisdictions whose compiled profile a governance control currently pins.
  * Maryland's 2026-08-25 approval explicitly covers the final legal-contract
  * profile bytes and retains before/after evidence, so LD-MD-03 is no longer
- * exempt from runtime profile binding.
+ * exempt from runtime profile binding. Item 11 (2026-10-19) reconciles its
+ * source-stage branches and the MD/OK/SC exact consumer bindings in one batch.
  */
 const BLOCKED_JURISDICTIONS = {};
 const checkOnly = process.argv.includes("--check");
+// A scoped correction must not regenerate another writer's jurisdiction.
+const jurisdictionArgs = process.argv.filter((arg) => arg.startsWith("--jurisdiction="));
+if (jurisdictionArgs.length > 1 || process.argv.includes("--jurisdiction")) {
+  throw new Error("Use exactly one --jurisdiction=XX selector.");
+}
+const jurisdictionOnly = jurisdictionArgs[0]?.slice("--jurisdiction=".length);
+if (jurisdictionOnly !== undefined && !/^[A-Z]{2}$/.test(jurisdictionOnly)) {
+  throw new Error("The jurisdiction selector must be an exact two-letter uppercase code.");
+}
 
 const profilePaths = new Map();
 for (const file of readdirSync(PROFILE_DIR)) {
@@ -82,10 +92,26 @@ function routeTypeFor(contract, current) {
  * reading "three years" on a Mississippi felony needs to know that number is
  * the post-July-2026 rule and that the five-year figure elsewhere is stale.
  */
+/**
+ * Routes whose effective-date sentence reads "took effect on" instead of
+ * "governs filings on or after": the CT automatic erasure route and the two
+ * no-filing routes item 11 (2026-10-19) adopted exactly. The participant-facing
+ * sentence is adopted wording, not a derivation from filingRequired: a general
+ * no-filing rule rewrote GA/MT/ND text nobody adopted and failed their exact
+ * profile pins (Onboarding at 0e7e94cad).
+ */
+const NO_FILING_EFFECTIVE_DATE_WORDING = new Set([
+  "CT:cannabis-conviction-erasure",
+  "OK:clean-slate-automatic-expungement",
+  "SC:diversion-or-program-completion-expungement"
+]);
+
 function waitingRulesFor(contract) {
   const lines = [contract.timing.anchorText];
   if (contract.effectiveFrom) {
-    lines.push(`This rule governs filings on or after ${contract.effectiveFrom}.`);
+    lines.push(NO_FILING_EFFECTIVE_DATE_WORDING.has(contract.routeKey)
+      ? `This rule took effect on ${contract.effectiveFrom}.`
+      : `This rule governs filings on or after ${contract.effectiveFrom}.`);
   }
   if (contract.supersedes) {
     const duration = typeof contract.supersedes.value === "number"
@@ -360,7 +386,11 @@ for (const contract of LEGAL_AUTHORITY.routes) {
   byJurisdiction.get(contract.jurisdiction).push(contract);
 }
 
+if (jurisdictionOnly && (!byJurisdiction.has(jurisdictionOnly) || !profilePaths.has(jurisdictionOnly))) {
+  throw new Error(`No contract/profile target exists for jurisdiction ${jurisdictionOnly}.`);
+}
 for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeCompare(b))) {
+  if (jurisdictionOnly && code !== jurisdictionOnly) continue;
   if (BLOCKED_JURISDICTIONS[code]) {
     blocked.push(`${code} (${contracts.length} contracts): ${BLOCKED_JURISDICTIONS[code]}`);
     continue;

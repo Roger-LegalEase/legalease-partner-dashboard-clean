@@ -139,14 +139,16 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
   t.after(()=>{for(const key of configured)if(priorEnv[key]===undefined)delete process.env[key];else process.env[key]=priorEnv[key];});
   register('./lib/consumer-payment-test-loader.mjs',import.meta.url);
   const doubles=await import('./lib/consumer-payment-test-doubles.mjs');
-  const [briefcase,packetInformation,identity,deliveryControl,delivery,nextServer,screening]=await Promise.all([
+  const [briefcase,packetInformation,identity,deliveryControl,delivery,nextServer,screening,apiSession]=await Promise.all([
     import('../src/lib/expungement-ai/briefcase.ts'),
     import('../src/lib/expungement-ai/packet-information.ts'),
     import('../src/lib/expungement-ai/consumer-identity.ts'),
     import('../src/lib/rcap/render/consumer-delivery-control.ts'),
     import('../src/lib/rcap/render/packet-delivery.ts'),
     import('./lib/next-server-esm-bridge.mjs'),
-    import('../src/lib/expungement-ai/authoritative-screening-result.ts')
+    import('../src/lib/expungement-ai/authoritative-screening-result.ts'),
+    // the shipped session gate, reading the doubles' session through the loader: never a constant owner here
+    import('../src/lib/expungement-ai/privacy/api-session.ts')
   ]);
   const db=packetApplicationTestDatabase(root,{attributionSuccessors:false});t.after(()=>{doubles.bindEphemeralDb(null);doubles.setSession(null);db.stop();});
   doubles.bindEphemeralDb(db);
@@ -194,6 +196,7 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
   const route=sourceModule('src/app/api/rcap/packets/[jobId]/download/route.ts',{
     'next/server':nextServer,
     '@/lib/rcap/briefcase/auth':doubles,
+    '@/lib/expungement-ai/privacy/api-session':apiSession,
     '@/lib/expungement-ai/briefcase':briefcase,
     '@/lib/expungement-ai/packet-information':packetInformation,
     '@/lib/expungement-ai/consumer-identity':identity,
@@ -216,7 +219,7 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     assert.equal(gate().passed,false);
     assert.ok(gate().failures.some(f=>f.name==='column:packet_render_jobs.sponsored_consumer_auth_user_id'));
     assert.equal(await frozenQueue.getRenderJob(id),null);
-    doubles.setSession({isAuthenticated:true,userId:owner});
+    doubles.setSession({isAuthenticated:true,userId:owner,isVerified:true});
     assert.equal((await request()).status,404);
     assert.equal(reads,0);
   });
@@ -239,7 +242,7 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     assert.equal(job?.id,id);assert.equal(job.outputSha256,hash);assert.equal(job.consumerAuthUserId,owner);
   });
   await t.test('actual owner handler returns 200 and precisely the finalized PDF bytes and hash',async()=>{
-    doubles.setSession({isAuthenticated:true,userId:owner});
+    doubles.setSession({isAuthenticated:true,userId:owner,isVerified:true});
     const response=await request();
     assert.equal(response.status,200,response.status===200?'':await response.text());
     assert.match(response.headers.get('content-type'),/application\/pdf/);
@@ -276,7 +279,8 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
   });
   await t.test('stranger and anonymous GET requests remain denied before reading storage',async()=>{
     const priorReads=reads;
-    doubles.setSession({isAuthenticated:true,userId:stranger});assert.equal((await request()).status,404);
+    doubles.setSession({isAuthenticated:true,userId:stranger,isVerified:true});assert.equal((await request()).status,404);
+    doubles.setSession({isAuthenticated:true,userId:owner});assert.equal((await request()).status,403,'the owner without a verified account is refused by the shipped gate');
     doubles.setSession(null);assert.equal((await request()).status,401);
     assert.equal(reads,priorReads);
   });

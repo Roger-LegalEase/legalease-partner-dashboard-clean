@@ -1,0 +1,633 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF67",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "ks-21-6614-conviction-set": "ALREADY_RELEASED: ks-21-6614-conviction-set at 2026-09-12T04:40:27.903Z",
+    "ks-21-6614-diversion-set": "ALREADY_RELEASED: ks-21-6614-diversion-set at 2026-09-12T04:40:28.060Z",
+    "ks-21-6614-prostitution-coercion-set": "ALREADY_RELEASED: ks-21-6614-prostitution-coercion-set at 2026-09-12T04:40:28.216Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "ks-21-6614-conviction-set": "LIMB_1_NAMED_RULE_WHO_AND_HOW",
+    "ks-21-6614-diversion-set": "LIMB_2_NO_SERVICE_WITH_BASIS",
+    "ks-21-6614-prostitution-coercion-set": "LIMB_2_NO_SERVICE_WITH_BASIS"
+  },
+  "rows": [
+    {
+      "itemId": "ks-21-6614-conviction-set",
+      "lane": "VF67",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family ks-21-6614-conviction-set run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (via measure-family.mjs): PASS_COMPLETE, 55/227 written; counters line: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:track-pathway:KS:ks-21-6614-conviction:conviction-or-diversion-216614 is declared identically by receipt, product-wiring, field map and MASTER_QUEUE, and resolves to exactly one census entry (routes[396], trackId ks-21-6614-conviction, packetSetId ks-21-6614-conviction-set). Both fixtures print the route label 'Kansas conviction expungement - K.S.A. 21-6614(a)(1)', as declared (printedRouteLineCarriesTheLabelNotTheKey)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All 4 committedRecords recomputed from disk here. Exact: legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 (16781025 B) exact; legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 (16830109 B) exact; OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json 9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6 (1927 B) exact. Drifted: route-obligation-candidate.json pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B), CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). Compared object-for-object against the recovered pinned version: this family's census entry routes[] routeKey obligation:track-pathway:KS:ks-21-6614-conviction:conviction-or-diversion-216614 (now routes[396]) is IDENTICAL (canonical sha256 11a87406a3ac7eef0fb70aa69e84783c568d6271b43ec24ef376f80af48445a2), and census metadata other than sourceFingerprint is identical. No worklist pin. The six official forms are NOT mounted in this worktree (custodyRoot private/source-imports/Nationwide_Recovery_Pool_2026-09-02 is absent), so they are bound by the committed hash record only: KS-CRIMINAL-COVER-SHEET-10-14-2025 6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60 (126589 B, 1 pp); KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c (234581 B, 6 pp); KSJC-NOTICE-OF-HEARING-12-2016 a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd (19255 B, 1 pp); KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016 d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537 (67384 B, 1 pp); KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683 (124641 B, 5 pp); KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016 b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba (126038 B, 3 pp). Each receipt digest equals the MASTER_QUEUE sourceHashes entry and appears in data/rcap-all50/local-source-corpus-index.json. In both fixtures, every official page's sourceSha256 in the rendered page manifests equals its document's receipt digest. The source bytes themselves were not re-hashed here. The republication restriction stands as recorded (disposition LEGAL_CLEAR on the exact owner attestation); this reading changes nothing there."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "7 declared components: cover-sheet-1, primary-filing-2, notice-3, cover-sheet-4, proposed-order-5, proposed-order-6 and process-guidance-7. They equal the committed track registry's packetSet (7 required components, same order), the specifications' 6 officialFormAssignments plus the registry's guidance component, and the rendered componentSet. All 7 appear in both fixtures' page manifests in declared order. No component from another route. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Per fixture: 56 actual writes across 7 documents. 54 text values were read back from pdftotext of the bytes by this lane. The other 2, Check Box1 (opening request: conviction) and Check Box3 (item 8: Option A), are route-determined marks with no text. I rasterised each at its measured widget rectangle (pdftoppm, 150 dpi) in both fixtures: both show an X, and the adjacent diversion box and the four item 8.A.i year boxes are empty. Of the 16 held facts per fixture in participant-facts.json, the 11 value facts (name, street, city-state-zip, phone, email, date of birth, birth year, judicial district, county, case number, offence date) are each written where the field map maps them. The 5 screening answers (disposition, felony in the past two years, registration, specialty court, pending felony) are build gates, not printed values. matter.offense_date is written as the cover sheet's VIOLATION DATE. The arrest date and conviction date are not held, so they are REQUIRED_BEFORE_FILING. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 51 REQUIRED_BEFORE_FILING blanks. All 51 disclosure labels are in participant-instructions.md, in per-document tables with page and what to write. The 10 later-completion items (the hearing setting) are disclosed as the court's to supply. blanks-left records 51 with everyRequiredBeforeFilingItemIsDisclosed true. The two documents to obtain are named with where to get them. requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "2 route-determined selections are made, each with its basis and a stop telling the participant to use the other route if it does not fit: 'conviction', not diversion, and 'Option A', not the specialty-court Option B. The 4 waiting-period boxes at 8.A.i are left to the participant as a genuine election, with the Judicial Council chart named. The diversion, Option B and coercion alternatives are refused as other routes. Race, ethnicity and sex boxes are left to the participant. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure: one conviction per petition. Alias lines are optional or REQUIRED_BEFORE_FILING single lines, and caption repeats are single-value copies. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "58 protected blanks. refusedFieldsWithInk is empty in all 14 document readings. A raster of page 8 shows the Certificate of Service and Mailing on the Notice of Hearing blank, as are the hearing setting, findings, ruling and judge's signature on both proposed orders, paragraph 8 of the denial order, the petitioner's signature and date, and race, ethnicity and SSN. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, SHA-256 and byte length recomputed here and matching: boundary.pdf 3bc6c62ba0d183cda4ef05e9dfb17f87e1d70a68a157b81dc03c8811a4851324 (674302 B, pdfinfo 20 pp, recorded 20 pp, hash matches); canonical.pdf e546bdfa7a3783ce450f1b1ef6b961946387b14fc3a2f90dcacc5731b0b84adb (673233 B, pdfinfo 20 pp, recorded 20 pp, hash matches). 0 unrecorded. The canonical hash equals product-wiring acceptanceReceipt.boundToCanonicalSha256."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures run 1..20 sequentially. The components are contiguous in declared order with 1, 6, 1, 1, 5, 3 and 3 pages, and each official document's page count equals its receipt pageCount. pdfinfo gives 20 for both."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "0 words outside the page box in either fixture. The bbox pass counts 53 (canonical) and 74 (boundary) same-band overlapping word pairs. I listed every pair: each is a written value lying on the form's own printed underscore fill-rule (tokens like '_____' or 'Address:_____'), and no pair has two printed or two written words. Rasters of canonical pages 4 and 14 and boundary page 8 (the longest values) show each value on its rule, clear of its label. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in all documents. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The instructions quote the registry's rules.filing verbatim: 'File with the clerk of the convicting district court, docketed in the original criminal action, with the Criminal Cover Sheet and the required number of copies. Confirm the copy count with the clerk before filing.' That matches the census destination 'Clerk of the convicting district court'. The packet does not promise a new case number."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Amount stated and sourced. The registry's rules.fees and feeWaiver are quoted verbatim: docket fee $176 under K.S.A. 21-6614(g)(2), plus a possible charge of up to $19 under 2026 SB 430 through June 30, 2030; no waiver in this lane, because the only K.S.A. 21-6614 waiver is the (a)(3) specialty-court waiver and HB 2724 died. First limb met."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Named rule, quoted from the registry: the participant files the Notice of Hearing original plus two copies, the clerk sends them to the prosecutor and the arresting agency, and the participant does not serve and does not sign the certificate. Notice under K.S.A. 21-6614(g)(1) is the court's. The Certificate of Service is left blank for the clerk."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the committed track registry ks-21-6614-conviction (no separate decision record): 11/11 selfHelpStopConditions are carried verbatim in 'When to stop and get help instead of filing'. The K.S.A. 21-6614(f) registration scope restriction is carried as 'anything that stops this route entirely', and the no-eligibility/no-classification restriction is stated. No inversion: the two marked boxes are route-determined, and the packet tells the participant to stop and use the diversion or specialty-court route if either fits instead."
+        }
+      },
+      "evidence": {
+        "verifierRun": "verify-packet-completeness.mjs --family ks-21-6614-conviction-set at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: PASS_COMPLETE, 55/227 written, all nine counters zero",
+        "sourceRecomputation": "4/4 committedRecords recomputed from disk: 3 exact; route-obligation-candidate.json drifted from f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B) to CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B) with this family's 1 census route entry and census metadata (except sourceFingerprint) identical; worklist not pinned; 6 official forms not mounted here, bound by committed hash record (receipt = MASTER_QUEUE sourceHashes = corpus index = page-manifest sourceSha256)",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo 20 pages each, equal to record",
+        "byteReadBack": "108/112 written values read back from pdftotext (54 per fixture); the remaining 4 are the 2 route-determined checkbox marks per fixture, confirmed by raster at their measured rectangles",
+        "stopConditions": "11/11 registry stop conditions carried verbatim, plus the K.S.A. 21-6614(f) registration bar",
+        "lapseResolved": "MASTER_QUEUE verificationLapsedBecause is null. The only drifted pin is the census, and its bound entry and metadata are identical at eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). This measured PASS supports re-pinning that one record; nothing was re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "ks-21-6614-diversion-set",
+      "lane": "VF67",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family ks-21-6614-diversion-set run here at 5e7fe802c (inside measure-family.mjs, then re-run directly): PASS_COMPLETE 55/227 written"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across all family records and MASTER_QUEUE; routeKey obligation:track-only:KS:ks-21-6614-diversion declared identically by product-wiring, source-receipt, production-field-map and MASTER_QUEUE; resolves to one census entry under trackId ks-21-6614-diversion. The printed route line carries the label 'Kansas diversion expungement - K.S.A. 21-6614(a)(2)', as the receipt declares."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Committed records recomputed from disk here: legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0/16781025, legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792/16830109 and OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json 9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6/1927 exact. Census pin lapsed: current route-obligation-candidate.json eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B (pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B; lapsed at C1); route entry compared object-for-object pinned vs current: IDENTICAL; metadata identical except sourceFingerprint; worklist not pinned. The 6 official KJC binaries (KS-CRIMINAL-COVER-SHEET-10-14-2025, KSJC-PETITION-...-08-2022, KSJC-NOTICE-OF-HEARING-12-2016, KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016, KSJC-ORDER-FOR-EXPUNGEMENT-...-08-2022, KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016) are NOT mounted in this worktree (neither Nationwide_Recovery_Pool_2026-09-02 nor the Master Library KS paths). They are bound by the committed hash record only: each receipt sha256 and byteLength equals an entry in data/rcap-all50/local-source-corpus-index.json (6/6). They were not rehashed from source bytes here. The census requiredSourceIds also lists source-sha256:69edb32e... (the SB 430 statute text the KS memo records); it is unchanged since the pin and is relied on through the registry's quoted rules."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "7 declared components (6 official forms + process-guidance-7) equal the 7 rendered and the registry/specification set; all appear in the 20-page manifest. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "53 text writes per fixture re-found in the artifact bytes here, and each lies inside its own recorded rect (max extent beyond the rect 0 pt). The 2 selection writes (petition Check Box2 'DIVERSION record', Check Box3 'Option A') are painted marks, not text, so measure-family's text search reports them as not found (11/13). Measured separately here: rasterising each box's interior (2 pt inset) gives 313/841 and 260/1190 dark pixels, and the rendered crops show an X in each box, in both fixtures. 55/55 per fixture are present. knownRequiredFieldsMissing=0, invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "51 requiredBeforeFiling blanks across five documents, each disclosure label found verbatim in the instructions with what to write. The documents to obtain (diversion agreement and its fulfilment record; own evidence for the (h) findings) are named with where to get them. requiredFactsNotCollected=0, unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "46 selection controls: 2 selected because the route decides them (diversion, not conviction; Option A, not the (a)(3) specialty-court Option B), 44 refused, including the 8.A.i year boxes, which go to the participant as required-before-filing because they turn on offence classification. The instructions explain both marks and the unmarked year boxes. requiredOptionsMissing=0 measured here. Observation only: the field map's internal reason text for Check Box3 says 'the K.S.A. 21-6614(a)(1) conviction route this packet is built for'. That is builder rationale, not participant-facing; the instructions and the marked box are correct for (a)(2)."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating-row structure in the field map; incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "172 canonical refusals, including 58 court/prosecutor/clerk/agency-owned, 18 sworn-narrative or legal-election, 14 attorney-only, plus the hearing date/time/room and the clerk's Certificate of Service. refusedFieldsWithInk=0 in every document of both fixtures. Both proposed orders are captionOnly. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2/2 assembled PDFs recorded; canonical 4985daae9ca05a4ebd82ac15c05b4bd0f61f2883279de41dea763cfc49f0ecc9/673855 and boundary e703bb7cfda795a9adf05f363bfd7a897d646aa6fc8544f5f522914def8f8f2c/674922 recomputed here and matching. Component artifacts are carried inside the assembly, not committed as separate files, as recorded. 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Manifests run 1..20 in declared component order: cover sheet p1, petition pp.2-7 (source pages 1-6), notice p8, order cover sheet p9, order for expungement pp.10-14, order denying pp.15-17, guidance pp.18-20. Page text confirms each; pdfinfo 20 = record for both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "0 words outside the page box in either fixture. measure-family counts 53 (canonical) and 74 (boundary) same-band overlapping word pairs. Every one was classified here: each pairs a written value with the form's own printed underscore fill-line, inside that write's recorded rect (53/53 and 74/74 touch a write rect). No written value extends past its rect (0 pt), and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in every document. That is a value sitting on its blank line, not a collision. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Instructions: 'File with the clerk of the district court, docketed in the original criminal action, with the Criminal Cover Sheet'. That is the destination the census entry and the registry track record (Clerk of the district court; K.S.A. 21-6614(g)(3)). The venue release blocker (arrest county vs convicting county) is carried as a stop."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Sourced amount: docket fee $176 under K.S.A. 21-6614(g)(2), plus the up-to-$19 surcharge carried by 2026 SB 430. Waiver: 'None in this lane', sourced (the only waiver is the (a)(3) specialty-court waiver; HB 2724 died). Both are the registry's rules quoted."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative nobody-is-served statement with its mechanism: the participant files the Notice of Hearing with the original plus two copies, the clerk sends them, the participant does not serve and does not sign the certificate; the court causes notice to the prosecutor and arresting agency under K.S.A. 21-6614(g)(1). Matches the registry's notice and service rules."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the registry track's 13 selfHelpStopConditions: all 13 carried verbatim, in the instructions and on the guidance pages. The decision record in the receipt (OWNER_KJC_PERMISSION_ATTESTATION) concerns republication and adds no stop. The packet leaves signature, eligibility classification, the coercion assertion and every court finding to the participant, a lawyer or the court, and states it is not legal advice."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE 55/227 written; 1 family audited; all nine counters 0",
+        "sourceRecomputation": "3/3 non-census committed records exact; 6/6 official binaries bound by committed corpus-index record only (not mounted, not rehashed here); census lapsed to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B; route entry identical; metadata identical except sourceFingerprint; worklist not pinned",
+        "artifactRecomputation": "2/2 assembled PDFs hash and byteLength to record; pdfinfo 20/20 pages",
+        "byteReadBack": "106/106 text writes re-found in the bytes, each inside its own rect; 4/4 checkbox marks confirmed painted by raster of each box interior",
+        "stopConditions": "13/13 registry stops carried verbatim",
+        "lapseResolved": "Whole-file census identity only (f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 -> eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9); bound entry and metadata unchanged; refresh to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B supported. Not re-pinned by this row."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "ks-21-6614-prostitution-coercion-set",
+      "lane": "VF67",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "PYTHONDONTWRITEBYTECODE=1 MASTER_LIBRARY_SOURCE_DIR=/tmp/ci-census-landing/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set, run by measure-family.mjs against the read-only worktree at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27; the counter line was parsed from that run, and reports/completeness-counters.json was read only as the thing being checked (it agrees: all nine zero)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across all records read. The single routeKey obligation:track-pathway:KS:ks-21-6614-prostitution-coercion:prostitution-coercion is identical in source-receipt, product-wiring, production-field-map, rendered-artifacts routeArtifactRoutes and the MASTER_QUEUE row; the printed route line carries its label 'Prostitution case under coercion - K.S.A. 21-6614(b)' as the receipt declares; it resolves to one census entry (trackId ks-21-6614-prostitution-coercion, destination clerk of the convicting district court, packetSetId ks-21-6614-prostitution-coercion-set). The sentence at instructions line 202 that places the coercion box 'on a different statutory route' is scored under ROUTE_OPTIONS, not here."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Every receipt pin recomputed from disk at 5e7fe802c: private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf pinned 6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60 / 126589 B, not mounted here (bound by committed hash record); private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf pinned 1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c / 234581 B, not mounted here (bound by committed hash record); private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf pinned a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd / 19255 B, not mounted here (bound by committed hash record); private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf pinned d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537 / 67384 B, not mounted here (bound by committed hash record); private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf pinned 104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683 / 124641 B, not mounted here (bound by committed hash record); private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf pinned b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba / 126038 B, not mounted here (bound by committed hash record); data/record-clearing/legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 / 16781025 B exact; data/record-clearing/legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 / 16830109 B exact; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B, now eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B; data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json 9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6 / 1927 B exact. Census read against the pinned bytes (drift copy rehashed to f6fc0814\u2026, the blob at a3ca119bd, C1's parent): routes[obligation:track-pathway:KS:ks-21-6614-prostitution-coercion:prostitution-coercion] identical object-for-object (canonical anchor 5a6c1ea88bea0ebaf5044477e909bbb66b88e2a998d3de18590ecfcc27134919 both sides, changed fields: none); census metadata except sourceFingerprint identical (anchor dc6cae03cce1813b786ae0a8693a33f25dc46794b14535d5259949b496c0b5e0 both sides); routes 708 -> 710. Current census digest eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B. The worklist is not pinned by this receipt. No controlling section drifted; the census pin is refreshable to the current digest under evidence.sourceRecomputation.newPinsIfAccepted. Not re-pinned here. The six official Kansas forms are not mounted in this worktree (neither private/source-imports/Nationwide_Recovery_Pool_2026-09-02 nor the Master Library's STATES/KS is present), so they are bound by the committed hash record only, as the brief directs: each receipt sha256 and byteLength matches its entry in data/rcap-ledger/source-custody-census.json exactly (6/6). The census also names the K.S.A. 21-6614 / SB 430 enrolled text (source-sha256:69edb32e\u2026) as a required source; the receipt does not bind it, its bytes are not held here, and the packet relies on the registry's exact-pinned transcription of it."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "7 declared components, identical in production-field-map, rendered-artifacts, the committed manifest packetSets[ks-21-6614-prostitution-coercion-set] and the registry packetSet (6 official_pdf_fill forms and 1 process_guidance page, all required), all present in both fixtures' page manifests, contiguous and in declared order (1 + 6 + 1 + 1 + 5 + 3 + 3 = 20 pages). requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "55 recorded writes per fixture: 54 text values found in pdftotext output of the fixture bytes; the 55th, Check Box3 (Option A at item 8), is a mark with no text and was verified by ink inside its widget rectangle (see ROUTE_OPTIONS). The 53 text writes that carry a widget rectangle were each located on their packet page with PyMuPDF and every word of the value lies wholly inside its rectangle in both fixtures (53/53), including the boundary fixture's long street and email values. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "56 requiredBeforeFiling field-map entries across the six forms; every disclosure label is found verbatim in participant-instructions.md with what to write. The registry's participantFilingRequirements are carried: case information from the clerk of the convicting court (required), optional supporting material for the coercion element, and the $176 docket fee plus any non-judicial personnel charge. The ten LATER_COMPLETION hearing blanks are disclosed separately as filled after filing."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "detail": "FAIL. participant-instructions.md contradicts itself on this route's own elections. Lines 75 and 120 are route-specific and right: on K.S.A. 21-6614(b) the one-year box at 8.A.i is 'the only one of the four you will ever mark' and the packet 'has declared the three, five and ten year boxes outside this route' (the registry's waitingPeriods: 1 year under (b)(1); the field map refuses Check Box5/6/7 as NOT_APPLICABLE_ON_THIS_ROUTE). Three other sentences, copied verbatim from the ks-21-6614-conviction-set and ks-21-6614-diversion-set instructions (where they are correct), say the opposite. Line 190, step 3 of 'What you do, in order': '3. Read pages 4, 5 and 6 of the petition. Page 4 lists the convictions that can never be expunged. Pages 5 and 6 are the Judicial Council chart of waiting periods. Decide from the chart which of the year boxes at item 8.A.i is yours, and mark it.' Line 201, 'Things the platform deliberately left blank': 'Every box at item 8.A.i of the petition. Which waiting period applies is a classification of your offence, and the committed record says LegalEase does not classify the offence into a grid severity level.' Line 202: 'The coercion box at item 8.A.iii. That is a sworn assertion about what happened to you, on a different statutory route, and no packet may make it on your behalf.' On this route the coercion box is not on a different statutory route; it is this route's own ground, which the same document says at line 71 ('it is the whole of what makes this shorter route available'). A participant who follows step 3 is told to choose among year boxes the packet elsewhere declares outside the route, on a sworn petition. Per DET-FEE-AND-WAIVER-001-A4 an internal contradiction fails under the obligation that carries the false sentence; these sentences are about the route's elections. The PDF's own guidance pages (18-20) do not carry them. The marks themselves are right: Check Box3 (Option A) is the one mark made, measured by ink inside its widget rectangle on packet page 3 of both fixtures (224 dark pixels at 300 dpi inside a 2.5 pt inset), while Check Box1/2 (conviction/diversion), Check Box4 (one year) and the 8.A.iii coercion box read 0 interior ink in both fixtures. requiredOptionsMissing=0 from the verifier; this FAIL is a reading of the participant-facing text, which that counter does not measure."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating-row structure in the field map; incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "58 PROTECTED_FIELD refusals (signatures, the clerk's Certificate of Service and Mailing, judicial findings and signatures, paragraph 8 of the denial order, the Submitted-by signature lines) among 173 refusals. For every refused field with a widget rectangle (176 widgets per fixture) the words lying wholly inside the rectangle were read from the delivered page: none carries a written fact token; the only word found inside any refused rectangle is a printed underscore rule. refusedFieldsWithInk empty in both fixtures. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, recomputed here and matching the record by digest, byte length and page count: canonical 94ecee6cfbd2875b4f89d361a7b900e89b56e6ba96eff6b04b3292d81e7e8528 / 674963 B / 20 pp; boundary 5c2cb0b4cb5dc953308d8d437250b30aa7891e5699b09a5077191f230f028db0 / 676027 B / 20 pp. 0 unrecorded files, 0 recorded files missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both page manifests run 1..20 contiguously; each form's source pages appear in source order and match the receipt's per-form pageCount (cover 1, petition 6, notice 1, KBI cover 1, order 5, denial 3) plus 3 guidance pages; pdfinfo reads 20 pages from each fixture, equal to the recorded pageCount."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: 4601 (canonical) and 4643 (boundary) word boxes, 0 outside the page box. The raw same-band overlap count is 53 (canonical) and 74 (boundary); every one of those pairs (53/53, 74/74) is a written value sitting on the form's own printed underscore fill-in rule, i.e. the value on its blank line, and none is two inked words colliding. With printed rules excluded, 0 overlapping pairs. 53/53 rect-bearing values lie wholly inside their widget rectangles in both fixtures. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census and registry name 'Clerk of the convicting district court', docketed in the original criminal action with the Criminal Cover Sheet. participant-instructions.md quotes that rule under 'Which court does this go to?' and step 5 says to file the petition with the Criminal Cover Sheet at the clerk of the convicting district court."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Sourced amount: 'Docket fee $176 under K.S.A. 21-6614(g)(2)', plus the up-to-$19 non-judicial personnel charge under 2026 SB 430, quoted from the registry's rules.fees in the instructions and on the guidance page. Waiver: 'None in this lane', with the reason (the only waiver in 21-6614 is the specialty-court waiver at (a)(3); HB 2724 died), quoted from rules.feeWaiver."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative nobody-is-served statement with its mechanism, quoted from the registry's rules.service: 'The clerk sends the Notice of Hearing. The participant does not serve and does not sign the certificate.' Notice: the court sets the hearing and causes notice to the prosecutor and the arresting agency. The clerk's Certificate of Service and Mailing is left blank and labelled the clerk's."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The registry track ks-21-6614-prostitution-coercion holds 14 selfHelpStopConditions; all 14 are carried verbatim in participant-instructions.md 'When to stop and get help instead of filing' and on the guidance page. The extra selfHelpBoundaries item (opposition or a contested coercion hearing ends self-help) is covered by the first, second and twelfth stops. The packet says it is not legal advice, not a filed petition, not an eligibility decision, signs nothing, and leaves the coercion assertion to the petitioner, as the scope restriction requires. No inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok ks-21-6614-prostitution-coercion-set PASS_COMPLETE 54/227 written | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "currentCensusDigest": {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+            "byteLength": 2635434
+          },
+          "censusComparison": {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "pinnedSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "pinnedByteLength": 2629290,
+            "currentSha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+            "currentByteLength": 2635434,
+            "pinnedBytesRecoveredFrom": "git blob at a3ca119bd (parent of C1 5e7fe802c); saved copy drift/route-obligation-candidate.json.pinned.f6fc0814, rehashed here to f6fc0814\u2026",
+            "canonicalisation": "keys sorted recursively, JSON with no spacing, UTF-8 unescaped, one trailing newline",
+            "metadataExceptSourceFingerprint": {
+              "pinnedAnchorSha256": "dc6cae03cce1813b786ae0a8693a33f25dc46794b14535d5259949b496c0b5e0",
+              "currentAnchorSha256": "dc6cae03cce1813b786ae0a8693a33f25dc46794b14535d5259949b496c0b5e0",
+              "identical": true
+            },
+            "routeEntries": [
+              {
+                "routeKey": "obligation:track-pathway:KS:ks-21-6614-prostitution-coercion:prostitution-coercion",
+                "pinnedEntries": 1,
+                "currentEntries": 1,
+                "pinnedAnchorSha256": "5a6c1ea88bea0ebaf5044477e909bbb66b88e2a998d3de18590ecfcc27134919",
+                "currentAnchorSha256": "5a6c1ea88bea0ebaf5044477e909bbb66b88e2a998d3de18590ecfcc27134919",
+                "identical": true,
+                "changedFields": []
+              }
+            ],
+            "routesCountPinnedToCurrent": [
+              708,
+              710
+            ],
+            "worklistPinnedByThisReceipt": false
+          },
+          "receiptPinsRecomputed": [
+            {
+              "where": "$.documents[0]",
+              "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+              "pinnedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+              "pinnedByteLength": 126589,
+              "heldHere": false,
+              "exact": null,
+              "boundBy": "committed hash record only (bytes not mounted in this worktree)"
+            },
+            {
+              "where": "$.documents[1]",
+              "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+              "pinnedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+              "pinnedByteLength": 234581,
+              "heldHere": false,
+              "exact": null,
+              "boundBy": "committed hash record only (bytes not mounted in this worktree)"
+            },
+            {
+              "where": "$.documents[2]",
+              "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+              "pinnedSha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+              "pinnedByteLength": 19255,
+              "heldHere": false,
+              "exact": null,
+              "boundBy": "committed hash record only (bytes not mounted in this worktree)"
+            },
+            {
+              "where": "$.documents[3]",
+              "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+              "pinnedSha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+              "pinnedByteLength": 67384,
+              "heldHere": false,
+              "exact": null,
+              "boundBy": "committed hash record only (bytes not mounted in this worktree)"
+            },
+            {
+              "where": "$.documents[4]",
+              "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+              "pinnedSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "pinnedByteLength": 124641,
+              "heldHere": false,
+              "exact": null,
+              "boundBy": "committed hash record only (bytes not mounted in this worktree)"
+            },
+            {
+              "where": "$.documents[5]",
+              "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+              "pinnedSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "pinnedByteLength": 126038,
+              "heldHere": false,
+              "exact": null,
+              "boundBy": "committed hash record only (bytes not mounted in this worktree)"
+            },
+            {
+              "where": "$.committedRecords[0]",
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinnedSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "pinnedByteLength": 16781025,
+              "recomputedSha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "byteLengthOnDisk": 16781025,
+              "exact": true,
+              "heldHere": true
+            },
+            {
+              "where": "$.committedRecords[1]",
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "pinnedSha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "pinnedByteLength": 16830109,
+              "recomputedSha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "byteLengthOnDisk": 16830109,
+              "exact": true,
+              "heldHere": true
+            },
+            {
+              "where": "$.committedRecords[2]",
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "pinnedSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "pinnedByteLength": 2629290,
+              "recomputedSha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+              "byteLengthOnDisk": 2635434,
+              "exact": false,
+              "heldHere": true
+            },
+            {
+              "where": "$.committedRecords[3]",
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+              "pinnedSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "pinnedByteLength": 1927,
+              "recomputedSha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+              "byteLengthOnDisk": 1927,
+              "exact": true,
+              "heldHere": true
+            }
+          ],
+          "officialFormsBoundByCommittedHashRecord": [
+            {
+              "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+              "pinnedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+              "pinnedByteLength": 126589,
+              "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+              "pathInCustody": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+              "mountedHere": false,
+              "committedHashRecord": "data/rcap-ledger/source-custody-census.json",
+              "recordEntry": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+              "recordSizeBytes": 126589,
+              "recordCustodyStatus": "SOURCE_PRESENT_AND_REVERIFIED",
+              "exactAgainstRecord": true
+            },
+            {
+              "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "pinnedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+              "pinnedByteLength": 234581,
+              "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+              "pathInCustody": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+              "mountedHere": false,
+              "committedHashRecord": "data/rcap-ledger/source-custody-census.json",
+              "recordEntry": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+              "recordSizeBytes": 234581,
+              "recordCustodyStatus": "SOURCE_PRESENT_AND_REVERIFIED",
+              "exactAgainstRecord": true
+            },
+            {
+              "documentId": "KSJC-NOTICE-OF-HEARING-12-2016",
+              "pinnedSha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+              "pinnedByteLength": 19255,
+              "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+              "pathInCustody": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+              "mountedHere": false,
+              "committedHashRecord": "data/rcap-ledger/source-custody-census.json",
+              "recordEntry": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+              "recordSizeBytes": 19255,
+              "recordCustodyStatus": "SOURCE_PRESENT_AND_REVERIFIED",
+              "exactAgainstRecord": true
+            },
+            {
+              "documentId": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+              "pinnedSha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+              "pinnedByteLength": 67384,
+              "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+              "pathInCustody": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+              "mountedHere": false,
+              "committedHashRecord": "data/rcap-ledger/source-custody-census.json",
+              "recordEntry": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+              "recordSizeBytes": 67384,
+              "recordCustodyStatus": "SOURCE_PRESENT_AND_REVERIFIED",
+              "exactAgainstRecord": true
+            },
+            {
+              "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+              "pinnedSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+              "pinnedByteLength": 124641,
+              "custodyRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+              "pathInCustody": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+              "mountedHere": false,
+              "committedHashRecord": "data/rcap-ledger/source-custody-census.json",
+              "recordEntry": "LegalEase Kansas/source-gated/KSJC__order-for-expungement-of-conviction-or-diversion__rev-2022-08.pdf",
+              "recordSizeBytes": 124641,
+              "recordCustodyStatus": "SOURCE_IDENTIFIED_NOT_MATERIALIZED",
+              "exactAgainstRecord": true
+            },
+            {
+              "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+              "pinnedSha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+              "pinnedByteLength": 126038,
+              "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+              "pathInCustody": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+              "mountedHere": false,
+              "committedHashRecord": "data/rcap-ledger/source-custody-census.json",
+              "recordEntry": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+              "recordSizeBytes": 126038,
+              "recordCustodyStatus": "SOURCE_PRESENT_AND_REVERIFIED",
+              "exactAgainstRecord": true
+            }
+          ],
+          "committedHashRecord": {
+            "path": "data/rcap-ledger/source-custody-census.json",
+            "sha256": "5b607a825327afea36583db73e52f6c87ab597799b515b6c534bbf3a532ba8ca",
+            "byteLength": 309161
+          },
+          "newPinsIfAccepted": [
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+              "byteLength": 2635434
+            }
+          ]
+        },
+        "artifactRecomputation": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/canonical.pdf",
+            "recordedSha256": "94ecee6cfbd2875b4f89d361a7b900e89b56e6ba96eff6b04b3292d81e7e8528",
+            "recomputedSha256": "94ecee6cfbd2875b4f89d361a7b900e89b56e6ba96eff6b04b3292d81e7e8528",
+            "recordedByteLength": 674963,
+            "byteLengthOnDisk": 674963,
+            "recordedPageCount": 20,
+            "pdfinfoPages": 20,
+            "manifestPages": 20,
+            "contiguousFromOne": true,
+            "componentsInOrder": [
+              "ks-21-6614-prostitution-coercion-cover-sheet-1",
+              "ks-21-6614-prostitution-coercion-primary-filing-2",
+              "ks-21-6614-prostitution-coercion-notice-3",
+              "ks-21-6614-prostitution-coercion-cover-sheet-4",
+              "ks-21-6614-prostitution-coercion-proposed-order-5",
+              "ks-21-6614-prostitution-coercion-proposed-order-6",
+              "ks-21-6614-prostitution-coercion-process-guidance-7"
+            ],
+            "matched": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/fixtures/boundary.pdf",
+            "recordedSha256": "5c2cb0b4cb5dc953308d8d437250b30aa7891e5699b09a5077191f230f028db0",
+            "recomputedSha256": "5c2cb0b4cb5dc953308d8d437250b30aa7891e5699b09a5077191f230f028db0",
+            "recordedByteLength": 676027,
+            "byteLengthOnDisk": 676027,
+            "recordedPageCount": 20,
+            "pdfinfoPages": 20,
+            "manifestPages": 20,
+            "contiguousFromOne": true,
+            "componentsInOrder": [
+              "ks-21-6614-prostitution-coercion-cover-sheet-1",
+              "ks-21-6614-prostitution-coercion-primary-filing-2",
+              "ks-21-6614-prostitution-coercion-notice-3",
+              "ks-21-6614-prostitution-coercion-cover-sheet-4",
+              "ks-21-6614-prostitution-coercion-proposed-order-5",
+              "ks-21-6614-prostitution-coercion-proposed-order-6",
+              "ks-21-6614-prostitution-coercion-process-guidance-7"
+            ],
+            "matched": true
+          }
+        ],
+        "byteReadBack": [
+          {
+            "fixture": "canonical",
+            "writesRecorded": 55,
+            "foundInExtractedText": 54,
+            "notFound": [
+              "Check Box3"
+            ],
+            "valuesReportedByFinalizer": 55,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          },
+          {
+            "fixture": "boundary",
+            "writesRecorded": 55,
+            "foundInExtractedText": 54,
+            "notFound": [
+              "Check Box3"
+            ],
+            "valuesReportedByFinalizer": 55,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        ],
+        "stopConditions": {
+          "registry": "legal-design-track-registry.json tracks[trackId=ks-21-6614-prostitution-coercion].selfHelpStopConditions, 14 items",
+          "carriedVerbatim": 14,
+          "instructionsSection": "participant-instructions.md 'When to stop and get help instead of filing'; guidance page 'WHEN TO STOP AND GET HELP INSTEAD OF FILING'"
+        },
+        "lapseResolved": "No lapse is recorded: the MASTER_QUEUE row carries verificationLapsedBecause null and verifierSourceHold null at 5e7fe802c. The census entry is identical at the current digest, so the census drift alone would be refreshable; this row nonetheless returns FAIL_REPAIR_REQUIRED on ROUTE_OPTIONS, a defect in participant-instructions.md that is independent of the census and was present before C1 (unchanged since 26a8d2c31)."
+      },
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

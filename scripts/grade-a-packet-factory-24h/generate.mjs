@@ -16,7 +16,9 @@
  * source, which is far fewer than the roster would hold. That is what the source
  * conveyor is for, and it is reported rather than smoothed.
  */
+import { pushedEquivalent, contentCommit, diffBase } from "./verifier-base-stand-ins.mjs";
 import { onlyReviewBoundReportChanged } from "./review-bound-report-currentness.mjs";
+import { changedAcceptanceCycle, retainedVerificationLaneCount } from "./verification-cycle.mjs";
 import { assessWaSudCustomMapping } from "./wa-sud-custom-mapping.mjs";
 import { visualOnlyRasterPending } from "./visual-only-raster-pending.mjs";
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
@@ -51,7 +53,7 @@ import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
 import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
-import { pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
+import { handoffClaimsFromLedger, pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
 import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
 import {
   repairRowDischargesFailure,
@@ -82,6 +84,7 @@ function reconcileGeneratedClaimsWithPriorOwnership(generatedClaims, priorClaims
     if (prior?.released === true) {
       row.released = true;
       row.releasedAt = prior.releasedAt;
+      if (Object.hasOwn(prior, "releaseReason")) row.releaseReason = prior.releaseReason;
       carriedReleases++;
     }
   }
@@ -163,8 +166,8 @@ function consumedVerificationVerdicts() {
   return consumed;
 }
 
-function reportUnassertableVerificationDispatch(assignments, claims) {
-  const problems = verificationClaimProblems(assignments, claims, consumedVerificationVerdicts());
+function reportUnassertableVerificationDispatch(assignments, claims, consumed = consumedVerificationVerdicts()) {
+  const problems = verificationClaimProblems(assignments, claims, consumed);
   if (!problems.length) return false;
   console.error(`REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH ${problems.length}`);
   for (const problem of problems.slice(0, 12)) console.error(`  ${problem}`);
@@ -421,6 +424,7 @@ const INPUTS = {
   utRemoveLinkSelector: "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
   recoveredSourceWave1: "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
   recoveredKnownResidual: "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
+  coCurrentFormAdoption: "data/rcap-grade-a/source-wave-integration/SOURCE_CO_CURRENT_FORM_ADOPTION_2026-10-21.json",
   sdCurrentSourceAdoption: "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-source-adoption-20260912.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
   ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
@@ -538,8 +542,11 @@ const commitDateOf = (c) => {
   commitDateCache.set(c, d);
   return d;
 };
-const readIsLaterThan = (candidate, prior) => {
-  if (!isCommitish(candidate) || !isCommitish(prior) || candidate === prior) return false;
+const readIsLaterThan = (candidateBase, priorBase) => {
+  if (!isCommitish(candidateBase) || !isCommitish(priorBase) || candidateBase === priorBase) return false;
+  // A base no pushed history holds is ordered as its declared pushed equivalent (verifier-base-stand-ins.mjs).
+  const candidate = pushedEquivalent(candidateBase), prior = pushedEquivalent(priorBase);
+  if (candidate === prior) return false;
   try { execFileSync("git", ["merge-base", "--is-ancestor", prior, candidate], { cwd: ROOT, stdio: "ignore" }); return true; }
   catch { /* unrelated branches; the dates decide */ }
   const a = commitDateOf(prior), b = commitDateOf(candidate);
@@ -994,6 +1001,9 @@ const walkAcquisitionEvidence = (node, evidencePath, inherited = {}) => {
     if (value && typeof value === "object") walkAcquisitionEvidence(value, evidencePath, { result: inheritedResult, families });
   }
 };
+// 0605160e4 adopted the July 1, 2025 JDF 612/615 beside the indexed 2024 bytes. Walked first so its
+// binding outranks the older equal-rank acquisitions; without it JDF-612 is two identities.
+walkAcquisitionEvidence(IN.coCurrentFormAdoption, INPUTS.coCurrentFormAdoption);
 for (const evidencePath of sourceReconciliationDoc?.acquisitionEvidencePaths ?? []) {
   const doc = readIf(evidencePath);
   if (doc) walkAcquisitionEvidence(doc, evidencePath);
@@ -1333,12 +1343,13 @@ for (const a of ACTIVE_LANES) {
 }
 /* Historical Wave 2 rows remain protective until a modern repair claim proves
  * who took custody. Once every such claim is released, keeping the historical
- * glob active would make the next repair own and prohibit the same family. */
+ * glob active would make the next repair own and prohibit the same family.
+ * A withdrawn modern claim is the same proof: withdrawal moves it out of
+ * `claims` into `withdrawals`, and reading `claims` alone kept
+ * ny_160_59_petition-set's Wave 2 glob alive after FIX05 had held it. */
 let priorClaimsForOwnership = [];
 try {
-  priorClaimsForOwnership = JSON.parse(
-    fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")
-  ).claims ?? [];
+  priorClaimsForOwnership = handoffClaimsFromLedger(JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")));
 } catch { /* first generation: every historical hold stays conservative */ }
 activePaths.push(...unresolvedHistoricalRepairPaths(IN.wave2Repairs.assignments, priorClaimsForOwnership));
 
@@ -1476,14 +1487,29 @@ const hashOnDisk = (rel) => {
   return h;
 };
 const sourceDriftCache = new Map();
+const CONVERGENCE_REWRITTEN_RECORDS = new Set([`${OUT_DIR}/SOURCE_RELATIONSHIP_REGISTRY.json`]);
 function boundSourceDriftedSinceVerdict(directory) {
   if (sourceDriftCache.has(directory)) return sourceDriftCache.get(directory);
   let drifted = null;
   const all = [];
   try {
     const receipt = JSON.parse(fs.readFileSync(path.join(ROOT, directory, "source-receipt.json"), "utf8"));
-    for (const rec of receipt.committedRecords ?? []) {
-      const rel = rec.pathInRepository;
+    /* compositionSources pin repository records the same way committedRecords
+     * do (DE pins CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS there and lapsed on
+     * 2026-09-12 unseen). A private/ path is custody the conveyor measures,
+     * not a committed record, so it is not read here. Nor is a file this
+     * factory's own convergence rewrites from the queue each run:
+     * SOURCE_RELATIONSHIP_REGISTRY.json carries every family's projectedState,
+     * so a family pinning it would lapse on its own state change and flip back
+     * on the next run. Its source facts are the captain determinations, which
+     * stay pinned and checked. Named one by one; nothing else is exempt. */
+    const pinnedRecords = [
+      ...(receipt.committedRecords ?? []).map((rec) => ({ rel: rec?.pathInRepository, sha256: rec?.sha256 })),
+      ...(receipt.compositionSources ?? []).map((rec) => ({ rel: rec?.pathInRepository ?? rec?.path, sha256: rec?.sha256 }))
+        .filter((rec) => typeof rec.rel === "string" && !rec.rel.startsWith("private/") && !CONVERGENCE_REWRITTEN_RECORDS.has(rec.rel))
+    ];
+    for (const rec of pinnedRecords) {
+      const rel = rec.rel;
       if (!rel || !/^[0-9a-f]{64}$/.test(String(rec.sha256 ?? ""))) continue;
       const now = hashOnDisk(rel);
       /* A record that is GONE is a different failure -- the conveyor reports a
@@ -1528,8 +1554,10 @@ const movedSinceCache = new Map();
  * re-binding from slipping through here: binding a new source, dropping one, or
  * changing a record's role all survive the normalisation and read as movement.
  */
-function onlyChangeIsAnIdentityRefresh(base, directory) {
+function onlyChangeIsAnIdentityRefresh(declaredBase, directory) {
   const receipt = `${directory}/source-receipt.json`;
+  const base = diffBase(declaredBase, [directory]);
+  if (base === null) return false;
   const others = spawnSync("git", ["diff", "--name-only", base, "HEAD", "--",
     directory, `:(exclude)${receipt}`,
     ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT, encoding: "utf8" });
@@ -1575,6 +1603,10 @@ function onlyChangeIsAnIdentityRefresh(base, directory) {
     eachPin(doc, (rec, key) => {
       if (!paths.has(key)) return;
       delete rec.identityRefresh;
+      /* Ruling B' (2026-10-20): a rebuild carries a superseded block as
+       * identityRefreshHistory on the pin; on a refreshed path it is part of
+       * the same normalised identity. A path without a live block keeps it. */
+      delete rec.identityRefreshHistory;
       delete rec.sha256;
       delete rec.byteLength;
     });
@@ -1644,9 +1676,11 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
   const key = `${base}\u0000${directory}`;
   if (movedSinceCache.has(key)) return movedSinceCache.get(key);
   let moved = false;
+  // A base no pushed history holds is diffed from its content stand-in; an unanswerable one answers nothing.
+  const from = diffBase(base, pathsOf());
   try {
     const paths = pathsOf();
-    const r = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", ...paths], { cwd: ROOT });
+    const r = from === null ? { status: 128 } : spawnSync("git", ["diff", "--quiet", from, "HEAD", "--", ...paths], { cwd: ROOT });
     /* 0 = identical, 1 = differs. Anything else (an unknown base after a
      * shallow clone, a path git cannot resolve) is not an answer, and an
      * unanswered question must not release the family from FAIL. */
@@ -1674,14 +1708,14 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
      * the rebuild gate's question rather than this one's.
      */
     if (moved) {
-      const dirOnly = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--",
+      const dirOnly = spawnSync("git", ["diff", "--quiet", from, "HEAD", "--",
         directory, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT });
       if (dirOnly.status === 0) moved = false;
       else if (onlyChangeIsAnIdentityRefresh(base, directory)) moved = false;
     }
   } catch { moved = false; }
   if (moved) {
-    const changes = spawnSync("git", ["diff", "--name-only", base, "HEAD", "--", directory,
+    const changes = spawnSync("git", ["diff", "--name-only", from, "HEAD", "--", directory,
       ...GENERATED_BOOKKEEPING.map(f => `:(exclude)${directory}/${f}`)], {cwd: ROOT, encoding:"utf8"});
     const rawReview = independentReturn.evidencePath ? readIf(independentReturn.evidencePath) : null;
     const matchingReviews = (rawReview?.rows ?? []).filter(r => r.familyId === independentReturn.familyId
@@ -1897,18 +1931,18 @@ function repairCompletionAfterVerdict(independentReturn) {
   const base = independentReturn?.verifiedAtBase;
   const failed = independentReturn?.failedObligationNames ?? [];
   if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || failed.length === 0) return null;
-  try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
+  try { execFileSync("git", ["cat-file", "-e", `${pushedEquivalent(base)}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
   catch { return null; }
   const orderedCandidates = [];
   for (const candidate of repairCompletionsByFamily.get(familyId) ?? []) {
     if (!countersAreMeasuredZero(candidate.row.countersAfter)) continue;
     let priorDocument = null;
     try {
-      priorDocument = execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
+      priorDocument = execFileSync("git", ["show", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`],
         { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
     } catch {
       try {
-        execFileSync("git", ["cat-file", "-e", `${base}:${candidate.evidencePath}`],
+        execFileSync("git", ["cat-file", "-e", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`],
           { cwd: ROOT, stdio: "ignore" });
       } catch { orderedCandidates.push(candidate); continue; /* the exact repair-return file is new after the verdict */ }
       continue; /* an unreadable pre-verdict record proves no ordering */
@@ -2014,7 +2048,9 @@ try {
 function pathChangedAfterVerdict(base, rel) {
   if (!/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || !rel) return false;
   try {
-    const result = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", rel], { cwd: ROOT });
+    const from = diffBase(base, [rel]);
+    if (from === null) return false;
+    const result = spawnSync("git", ["diff", "--quiet", from, "HEAD", "--", rel], { cwd: ROOT });
     return result.status === 1;
   } catch { return false; }
 }
@@ -3130,7 +3166,7 @@ const ELASTICITY = [
     creates: ["PF17", "PF18", "PF19", "PF20", "PF21", "PF22", "PF23", "PF24"] }
 ];
 const laneCount = (id) => { const e = ELASTICITY.find((x) => x.id === id); return e.triggered ? e.lanesWith : e.lanesWithout; };
-const VF_LANES = laneCount("verification");
+
 const FIX_LANES = laneCount("repair");
 let packetClaimsForPacking = [];
 try {
@@ -3138,6 +3174,7 @@ try {
     fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")
   ).claims ?? [];
 } catch { /* no ledger yet */ }
+const VF_LANES = retainedVerificationLaneCount(laneCount("verification"), VF_LANES_ELASTIC, packetClaimsForPacking, families);
 const livePacketLane = livePacketLaneByFamily(packetClaimsForPacking);
 const PF_LANES = effectivePacketLaneCount(laneCount("build"), livePacketLane);
 
@@ -4185,6 +4222,7 @@ for (const e of ELASTICITY) {
     : assignments.filter((a) => e.creates.includes(a.assignmentId)).length;
   const expected = e.id === "build"
     ? PF_LANES - e.lanesWithout
+    : e.id === "verification" ? VF_LANES - e.lanesWithout
     : e.triggered ? e.creates.length : 0;
   if (have !== expected) problems.push(`${e.id} capacity requires ${expected} extra lane(s) at ${e.measured}, but ${have} exist`);
 }
@@ -4514,7 +4552,7 @@ const promptFor = (a) => {
   return p.join("\n");
 };
 
-const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h" });
+const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h", candidateDirectory: process.env.FACTORY_CANDIDATE_DIR || null });
 
 /* Queue writes; flush after the destruction guard. See the guard below. */
 const PENDING_EMITS = [];
@@ -4776,6 +4814,8 @@ const OPERATION_THE_STATE_OWES = {
   SOURCE_READY: "packet-build"
 };
 const reissuedNow = [];
+const previousFamilyStates = new Map(JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/MASTER_QUEUE.json`), "utf8")).families.map(row => [row.familyId, row]));
+const currentFamilyStates = new Map(families.map(row => [row.familyId, row]));
 const stateOfFamily = new Map(families.map((r) => [r.familyId, r.state]));
 const sourceFamilyOfItem = new Map(assignments
   .filter((a) => a.itemKind === "sourceObligation")
@@ -4833,6 +4873,8 @@ for (const asg of assignments) {
       .sort((x, y) => String(x.reissuedAt).localeCompare(String(y.reissuedAt)))
       .pop();
     const holdReclassification = legalHoldReclassifications.get(id) ?? null;
+    const acceptanceCycle = dispatchedOperation === "independent-verification"
+      ? changedAcceptanceCycle(previousFamilyStates.get(familyId), currentFamilyStates.get(familyId)) : null;
     const reclassificationAlreadyReissued = (priorLedger.reissues ?? []).some((r) =>
       r.subjectId === id
       && r.operation === dispatchedOperation
@@ -4843,7 +4885,7 @@ for (const asg of assignments) {
        * not the just-completed cycle this guard protects. Re-open it once,
        * name the decision record, and then restore the ordinary anti-loop
        * rule on every later regeneration. */
-      if (releasedAfter && (!holdReclassification || reclassificationAlreadyReissued)) continue;
+      if (releasedAfter && (!holdReclassification || reclassificationAlreadyReissued) && !acceptanceCycle) continue;
     }
     /*
      * ONLY the claim the current dispatch's own lane holds.
@@ -4867,6 +4909,7 @@ for (const asg of assignments) {
       familyState,
       reissuedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
       reason: `the current dispatch names ${asg.assignmentId} for this subject, its family is ${familyState} and owes ${owed}, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.`,
+      ...(acceptanceCycle ? { acceptanceCycle } : {}),
       ...(holdReclassification ? { decisionRecord: LEGAL_HOLD_RECLASSIFICATION,
         reclassificationDisposition: holdReclassification.disposition } : {})
     });
@@ -4919,7 +4962,8 @@ if (artifactsOnlyRereadProblems.length > 0) {
  * to reopen a just-completed work cycle; this guard keeps that anti-loop rule
  * while refusing to publish the unassertable assignment it leaves behind.
  */
-if (reportUnassertableVerificationDispatch(assignments, mergedClaims)) process.exit(1);
+// A historical verdict cannot make a newly dispatched, released grant usable.
+if (reportUnassertableVerificationDispatch(assignments, mergedClaims, new Set())) process.exit(1);
 
 const claimLedgerRecord = {
   schemaVersion: "rcap-claim-ledger/v2",

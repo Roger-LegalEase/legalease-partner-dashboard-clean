@@ -11,7 +11,7 @@ The platform wrote only the identity and contact facts it holds: full legal name
 | Blank printed in the guide | What you must supply |
 | --- | --- |
 | Current Board eligibility and timing requirements | confirmation that the participant may apply now under the Board's current rules; confirm it with the Board's own current ePardon materials |
-| Current ePardon application, attachments, hearing rules, and fee | the Board's current instrument, portal steps, attachments, hearing mechanics, and any charge; confirm it with the Connecticut Board of Pardons and Paroles |
+| Current ePardon application, attachments, hearing rules, and fee | the Board's current instrument, portal steps, attachments, hearing mechanics, and the State Police (DESPP) charge for the criminal history report; confirm it with the Connecticut Board of Pardons and Paroles, and DESPP for its report charge |
 | Clean Slate erasure reach checked before applying | which convictions, if any, are already reached by Clean Slate and which require the pardon route; confirm it with the Connecticut Clean Slate channel and Connecticut counsel if uncertain |
 | Every conviction included in the absolute-pardon application | each court, docket number, offense, disposition date, and sentence-completion date; confirm it with the court records and the participant's complete criminal-history record |
 | Confirmation that this is the on-or-after-October 1, 1974 absolute-pardon pathway | the pathway confirmation; a pre-October 1, 1974 pardon belongs to the separate Superior Court petition branch; confirm it with the Board's records and Connecticut counsel |
@@ -21,7 +21,9 @@ The platform wrote only the identity and contact facts it holds: full legal name
 Use the Board's own ePardon application. This guide is not that application and does not open or prepare the separate pre-October 1, 1974 Superior Court petition branch.
 Apply through https://epardonportal.ct.gov/portal . Read the current Absolute Pardon instructions at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions . Follow the portal's current application and attachment steps; this guide opens no application and supplies no Board decision.
 The Board decides whether a hearing is required or an expedited review without a hearing is available. There is no separate expedited application; do not assume that path applies to you.
-Confirm first whether Clean Slate already reaches the convictions and verify the Board's current eligibility, timing, fee, and process rules; this packet quotes no unverified number.
+Confirm first whether Clean Slate already reaches the convictions and verify the Board's current eligibility, timing, and process rules.
+Fee: the Board's own Pardon FAQ (https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs, as captured on 2026-09-08) says the Board of Pardons and Paroles does not currently charge a fee to apply for a pardon. It also says you must pay the State Police, now the Department of Emergency Services and Public Protection (DESPP), for your State Police criminal history report, and that the Board does not set that charge; ask DESPP what it costs.
+Service: you serve no one. The absolute-pardon application is made online through the Board's ePardon portal; it is an executive-branch application, not a court filing.
 Stop and obtain counsel if the Board sets a hearing or an immigration issue is pending or possible.
 
 ## Protected items left blank

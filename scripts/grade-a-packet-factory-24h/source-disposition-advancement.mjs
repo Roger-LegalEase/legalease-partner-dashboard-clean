@@ -5,6 +5,11 @@ import { assessWashingtonReviewedGuidance } from './wa-reviewed-guidance.mjs';
 import { WA_AUTOMATIC } from './treatment-reconciliation.mjs';
 import {loadLegalBlockResolutions, assessLegalResolutionAtReviewBase, sourcePermissionHoldResolved} from './legal-block-resolution.mjs';
 
+// A decision-aware independent read discharges a legally cleared product-path hold whether it passes the packet
+// or sends it to repair: a failed read moves the family downstream of the source gate, it does not reinstate the
+// hold. A source or legal refusal (BLOCKED_SOURCE, BLOCKED_LEGAL_INPUT) does not advance.
+const ADVANCING_VERDICTS = new Set(['PASS_COMPLETE_INDEPENDENT', 'FAIL_REPAIR_REQUIRED']);
+
 // Preserve the original source decision and identify the exact later evidence
 // that discharged it. A generated ready flag alone cannot overrule a hold.
 export function sourceDispositionAdvancement(root, decision, family) {
@@ -15,7 +20,7 @@ export function sourceDispositionAdvancement(root, decision, family) {
     if (resolution?.disposition === 'LEGAL_CLEAR' && resolution.decisionId === family.currentLegalResolution.decisionId
       && resolution.decisionRecord === family.currentLegalResolution.decisionRecord
       && (!decision.permissionHold || sourcePermissionHoldResolved(decision.familyId, decision, resolution))
-      && review.available && family.selectedIndependentVerdict?.verdict === 'PASS_COMPLETE_INDEPENDENT') {
+      && review.available && ADVANCING_VERDICTS.has(family.selectedIndependentVerdict?.verdict)) {
       return {effectiveDisposition:'SOURCE_READY', evidencePath:resolution.decisionRecord,
         decisionId:resolution.decisionId, reviewedAuthorityBindings:review.recordBindings};
     }

@@ -36,7 +36,7 @@ export async function getProgramLaunchPreflight(context:InternalOnboardingContex
  const reviewedInputs={operatingModel:decision.operatingModel,operatingDecisionId:managed?decision.authorityId:null,intakeJurisdictions,partnerSlug:context.partnerSlug,workspaceVersion:decision.sourceVersion,activationRecord:activation.data,scopeHash:decision.scopeHash,materialsHash:decision.materialsHash,delegationId,commercialAuthority:authority.data,screeningCapacity:screening.data,versions};
  const snapshotHash=createHash("sha256").update(JSON.stringify(reviewedInputs)).digest("hex");
  const latestOperation=journal.data;const inProgress=Boolean(latestOperation&&["prepared","publication_staged","public_verified"].includes(latestOperation.step));
- const releaseAuthorized=Boolean(realLaunchOrigin());
+ const releaseAuthorized=Boolean(realLaunchOrigin(process.env,context));
  const contentIssues=programPageIssues(source,board.entries.find(e=>e.artifactType==="co_branded_page_configuration")?.currentVersion?.document?.pagePreview);
  const canLaunch=contentIssues.length===0&&releaseAuthorized&&decision.allowed&&!inProgress&&!decision.live&&!["live","paused","closed"].includes(decision.status)&&versions.length===2&&versions.every(v=>v.freshness==="current");
  const canAuthorizeStart=contentIssues.length===0&&releaseAuthorized&&!inProgress&&!decision.live&&!["live","paused","closed"].includes(decision.status)&&versions.length===2&&versions.every(v=>v.freshness==="current")&&(managed?decision.canAuthorizeStart===true:decision.setupComplete&&(decision.allowed||(decision.blockers.length===1&&decision.blockers[0].key==="legalease_final_review_complete")));

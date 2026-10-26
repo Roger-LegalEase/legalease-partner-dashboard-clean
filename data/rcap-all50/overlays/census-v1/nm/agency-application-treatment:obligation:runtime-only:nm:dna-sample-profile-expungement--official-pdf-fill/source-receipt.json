@@ -28,13 +28,64 @@
     },
     {
       "path": "src/lib/legal-authority/routes/single-routes.json",
-      "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
-      "byteLength": 67533
+      "sha256": "1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd",
+      "byteLength": 102577,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-19",
+        "was": {
+          "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+          "byteLength": 67533
+        },
+        "why": "The record was rewritten around this receipt's anchors. 6 named entries moved between the blob carrying the previous pin and the bytes on disk (AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051, CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a, CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v, KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276, MD:police-record-expungement-when-no-charge-was-filed-under-10-103, NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "route-contract:NM:dna-sample-profile-expungement: identical",
+          "routeContractGlobalMetadata: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "route-contract:NM:dna-sample-profile-expungement": "ef8f8d1807714ad67e764e9979e94db228cfabd5d45731ac4168b1770bfd67d7",
+          "routeContractGlobalMetadata": "825abbf7fffc2046c5d46cb956bf85e743bc61c1eda41e8003093e86f51f6524"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "NM:dna-sample-profile-expungement"
+          ],
+          "derivation": {
+            "fromPinRecordId": null,
+            "routeContractFromReceiptRouteKeys": "route-contract:NM:dna-sample-profile-expungement",
+            "fromReceiptRouteKeys": [
+              "obligation:runtime-only:NM:dna-sample-profile-expungement"
+            ],
+            "completeRouteAndAllBranchesCompared": true,
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+          "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+          "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+          "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+          "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+          "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "3b4c5122841fe747669942014e589212eac4d682",
+          "commit": "38a83db1b67314b449417dab45641d84df07b582",
+          "commitsWithThisPath": 7,
+          "distinctBlobs": 7,
+          "blobsHashed": 3
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
     },
     {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-      "byteLength": 2607149
+      "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+      "byteLength": 2635434
     }
   ],
   "formIdentityNote": "No official request format or receiving-office document is bound. The PDF is a source-free preparation guide, not the written request, an affidavit, a court petition, or a Rule 1-077.1 NMRA form.",

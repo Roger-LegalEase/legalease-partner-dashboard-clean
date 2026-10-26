@@ -6,7 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {auditPreparedInputs} from '../../rcap-packet-completeness/verify-packet-completeness.mjs';
-import {auditMdNativeCandidate, prepareMdNativeFixture, MD_NATIVE_DIRECTORY as directory, MD_NATIVE_FAMILY as familyId} from '../../rcap-packet-completeness/md-favorable-native-candidate.mjs';
+import {auditMdNativeCandidate, prepareMdNativeFixture, assertMdA46Review, MD_A46_REVIEW, MD_NATIVE_DIRECTORY as directory, MD_NATIVE_FAMILY as familyId} from '../../rcap-packet-completeness/md-favorable-native-candidate.mjs';
 import {validateMdFavorable, BASIS_FIELDS} from '../chat5/md-favorable.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -17,9 +17,10 @@ const cases = [], result = auditMdNativeCandidate({root, directory, familyId}, a
 function test(name, fn) { fn(); cases.push({name, result: 'PASS'}); }
 test('all 15 actual retained PDFs and 60 pages pass the existing classifier', () => {
   assert.equal(result.result, 'PASS_COMPLETE', JSON.stringify(result.findings));
-  assert.equal(result.fixtureResults.length, 15); assert.equal(result.totals.terminalFields, 47 * 15);
+  // A46: CC-DC-CR-072A Rev. 10/01/2026 has 48 fields (Storage census 47 -> 48: No Finding added).
+  assert.equal(result.fixtureResults.length, 15); assert.equal(result.totals.terminalFields, 48 * 15);
   assert.equal(result.totals.written, 268 + 46);
-  for (const fixture of result.fixtureResults) { assert.equal(fixture.totals.terminalFields, 47); assert.equal(fixture.ledger.length, 47); }
+  for (const fixture of result.fixtureResults) { assert.equal(fixture.totals.terminalFields, 48); assert.equal(fixture.ledger.length, 48); }
   assert(Object.values(result.counters).every(value => value === 0));
   assert.equal(result.runtimeIntakeCounters, null); assert.equal(result.packetRebuilds, 0);
 });
@@ -29,6 +30,7 @@ test('optional fax and source-owned attorney blocks are accounted for in every f
     assert.equal(fixture.ledger.filter(row => row.accounting === 'ATTORNEY_BLOCK_NOT_APPLICABLE').length, 9);
     assert.equal(fixture.ledger.filter(row => row.accounting === 'PROTECTED_EXECUTION').length, 2);
     assert.equal(fixture.ledger.filter(row => row.accounting === 'SOURCE_VIEWER_CONTROL').length, 1);
+    assert.deepEqual(fixture.ledger.filter(row => row.accounting === 'UNADOPTED_SOURCE_STATEMENT').map(row => row.field), ['No Finding']);
   }
 });
 test('boundary has its own absent agency and tracking facts; canonical does not donate facts', () => {
@@ -48,7 +50,11 @@ function altered(edit, fixture = 'canonical') {
   return input;
 }
 const refuse = (name, edit, expected, fixture) => test(name, () => assert.throws(() => prepareMdNativeFixture(altered(edit, fixture)), expected));
-refuse('an unbound 48th field is refused', input => input.census.push({...input.census[0], name: 'Unbound Required Fact'}), /47-field census/);
+refuse('an unbound 49th field is refused', input => input.census.push({...input.census[0], name: 'Unbound Required Fact'}), /48-field census/);
+refuse('the unadopted No Finding statement cannot be marked', input => {
+  const source = input.census.find(field => field.name === 'No Finding');
+  input.report.writes.push({field: source.name, page: 1, kind: 'explicit_selection', value: true, widgets: source.widgets.map(widget => ({rect: widget.rect}))});
+}, /unadopted No Finding statement written/);
 refuse('a same-size source census with an unknown actor is refused', input => { input.census.find(field => field.name === 'Attorney Fax').name = 'Prosecutor Approval'; }, /unbound source field or unknown actor/);
 refuse('a caller-supplied actor or verified flag cannot authenticate an attorney blank', input => { input.report.blanks.find(blank => blank.field === 'Attorney Fax').sourceActorEvidence = {verified: true, actor: 'clerk'}; }, /unrecognized native actor/);
 refuse('a selected disposition mark cannot disappear', input => { input.report.writes = input.report.writes.filter(write => write.field !== BASIS_FIELDS.dismissal); }, /required selected field is missing/);
@@ -99,6 +105,23 @@ test('changed actual PDF bytes refuse before any old review can be reused', () =
     assert.equal(changed.result, 'FAIL_COMPONENT_SET'); assert.equal(changed.independentReviewReused, false);
     assert.match(changed.findings[0].why, /reviewed input mismatch: .*\.pdf/);
   } finally { fs.rmSync(scratch, {recursive: true, force: true}); }
+});
+test('A46 record: unbound, unclean, other-helper or uncovered-output records refuse', () => {
+  const binding = JSON.parse(fs.readFileSync(path.join(root, 'scripts/rcap-packet-completeness/md-reviewed-candidate-inputs.json')));
+  const index = json('reports/rendered-artifacts.json').pdfs, record = JSON.parse(fs.readFileSync(path.join(root, MD_A46_REVIEW)));
+  const args = (edit = r => r, files = binding.files) => {
+    const changed = structuredClone(record); edit(changed.rows.find(row => row.familyId === familyId));
+    return {files, read: () => Buffer.from(JSON.stringify(changed)), familyId, helperPath: 'scripts/rcap-packet-recovery/chat5/md-favorable.mjs',
+      helperBlob: binding.review.acceptedHelperGitBlob, source: {documentId: 'CC-DC-CR-072A', path: 'reference/md-law-2026-10-21/CC-DC-CR-072A.pdf',
+        sha256: '04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90', edition: '10/01/2026'},
+      pdfs: index.map(item => ({file: item.file, sha256: item.sha256, bytes: item.byteLength, pages: item.pageCount}))};
+  };
+  assert.equal(assertMdA46Review(args()).verdict, 'PASS_A46_MAPPING_AND_OUTPUT');
+  assert.throws(() => assertMdA46Review(args(r => r, binding.files.filter(file => file.path !== MD_A46_REVIEW))), /not bound/);
+  assert.throws(() => assertMdA46Review(args(row => { row.failedObligations = ['x']; })), /not a clean pass/);
+  assert.throws(() => assertMdA46Review(args(row => { row.measuredIdentities.newHelperGitBlob = '0'.repeat(40); })), /different helper/);
+  assert.throws(() => assertMdA46Review(args(row => { row.measuredIdentities.wholePdfs[0].sha256 = '0'.repeat(64); })), /does not cover output/);
+  assert.throws(() => assertMdA46Review(args(row => { row.measuredIdentities.wholePdfs.pop(); })), /inventory differs/);
 });
 test('wrong family or directory refuses and cannot reuse this candidates review', () => {
   assert.equal(auditMdNativeCandidate({root, directory, familyId: 'md_10110_conviction-set'}, audit).auditable, false);

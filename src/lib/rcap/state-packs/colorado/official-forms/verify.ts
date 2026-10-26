@@ -18,6 +18,7 @@ import { mergeFacts, DerivedFactOverrideError } from "./derived-facts";
 import { auditProtection, derivedProtection } from "./protected-fields";
 import {
   computeArtifactReviewFiles,
+  computeCurrentRenderFiles,
   computeSpecifiedFamilyFiles,
   determineRenderer,
   inheritedRendererProvenance,
@@ -61,7 +62,7 @@ export async function verifyColoradoOfficialForms(options: ComputeOptions): Prom
   );
   record(
     !determination.supersedingRendererCoversColorado,
-    "no renderer in accepted history claims Colorado",
+    "the historical D1 renderer does not claim Colorado",
     determination.supersedingRendererCoversColorado
       ? "the d1 renderer now names CO; the manifests should be repointed to it"
       : `${determination.supersedingRendererInAcceptedHistory ?? "none"} does not name CO among its jurisdictions`,
@@ -73,6 +74,15 @@ export async function verifyColoradoOfficialForms(options: ComputeOptions): Prom
   for (const family of SPECIFIED_FAMILIES) {
     const { files, context } = await computeSpecifiedFamilyFiles(family, options);
     expected.push(...files);
+    if (typeof context.sourceRecord.sourcePath === "string") {
+      const current = await computeCurrentRenderFiles(context);
+      expected.push(...current.files);
+      for (const artifact of current.artifacts) {
+        const absolute = path.join(options.rootDir, artifact.path);
+        record(fs.existsSync(absolute) && fs.readFileSync(absolute).equals(artifact.bytes),
+          `${artifact.path}: current source and saved facts reproduce the exact PDF bytes`, sha256(artifact.bytes));
+      }
+    }
     expected.push(...(await computeArtifactReviewFiles({ context, readArtifact })));
 
     // ---- 3. Protection re-derives the same way ----------------------------
@@ -137,6 +147,8 @@ export async function verifyColoradoOfficialForms(options: ComputeOptions): Prom
   }
 
   for (const family of DANGLING_RENDERER_FAMILIES) {
+    const source = JSON.parse(fs.readFileSync(path.join(options.rootDir, COLORADO_OVERLAY_ROOT, family, "source-record.json"), "utf8"));
+    if (typeof source.sourcePath === "string") continue;
     expected.push(rewriteRenderReceipt(options.rootDir, family, determination));
     if (!SPECIFIED_FAMILIES.some((specified) => specified.family === family)) {
       expected.push(inheritedRendererProvenance(options.rootDir, family, determination));

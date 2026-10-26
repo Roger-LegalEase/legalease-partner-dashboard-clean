@@ -4,6 +4,8 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
+import { MN_CAPTION_SOURCE_FILES } from "./rcap-official-forms/mn-caption-source-files.mjs";
+import { assertGa21MsFactsSourceSuccession } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
 const require = createRequire(import.meta.url);
 const { normalizeAppPath } = require('next/dist/shared/lib/router/utils/app-paths');
@@ -39,6 +41,12 @@ export const RUNTIME_AUTHORITY_FILES = Object.freeze([
   'data/record-clearing/supplemental-guides/**',
   'data/rcap-ledger/grade-a/*.json',
   'data/rcap-ledger/grade-a/artifacts/**',
+  // Exact runtime approval/source-successor custody categories. These dynamic
+  // readers accept an explicit root, so Next cannot infer all evidence paths.
+  'data/rcap-grade-a/legal-decisions/*.json',
+  'data/rcap-grade-a/participant-data-rights/question-contract-*.json',
+  'data/rcap-grade-a/participant-data-rights/question-contract-predecessors/*.json',
+  'data/rcap-grade-a/participant-data-rights/*-paid-packet-proof-*.json',
 
 ]);
 
@@ -70,10 +78,17 @@ export function tracingKeyMatches(key, appPath) {
 
 function runtimeImports(file, source) {
   const input = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+  const createRequireBindings = new Set(input.statements.flatMap(statement =>
+    ts.isImportDeclaration(statement) && statement.moduleSpecifier.text === 'node:module'
+      && statement.importClause?.namedBindings && ts.isNamedImports(statement.importClause.namedBindings)
+      ? statement.importClause.namedBindings.elements.filter(element => (element.propertyName ?? element.name).text === 'createRequire').map(element => element.name.text) : []));
+  const staticRequireDeclaration = node => ts.isVariableDeclaration(node.parent) && node.parent.name === node
+    && node.parent.initializer && [...createRequireBindings].some(binding =>
+      node.parent.initializer.getText(input).replace(/\s/g, '') === `${binding}(import.meta.url)`);
   function rejectUnsupported(node) {
     if (ts.isImportEqualsDeclaration(node) && !node.isTypeOnly) throw new Error(`Unsupported runtime import-equals in ${file}`);
     if (ts.isIdentifier(node) && node.text === 'require') {
-      if (!(ts.isCallExpression(node.parent) && node.parent.expression === node)) throw new Error(`Unsupported require reference in ${file}`);
+      if (!staticRequireDeclaration(node) && !(ts.isCallExpression(node.parent) && node.parent.expression === node)) throw new Error(`Unsupported require reference in ${file}`);
     }
     ts.forEachChild(node, rejectUnsupported);
   }
@@ -241,9 +256,19 @@ export function discoverRuntimeAuthorityConsumers({ root = DEFAULT_ROOT_DIR, roo
 }
 
 export function createRuntimeAuthorityTracingIncludes(options = {}) {
-  const { consumers, entries } = discoverRuntimeAuthorityConsumers(options);
-  const includes = Object.fromEntries(consumers.map((entry) => [entry.tracingKey, [...RUNTIME_AUTHORITY_FILES]]));
+  const { rootDir, consumers, entries } = discoverRuntimeAuthorityConsumers(options);
+  const sourceGuard = path.join(rootDir, 'src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
+  // The current source contract hashes these raw files; compiled imports cannot replace them.
+  const rawSources = consumers.some(entry => entry.reachable.has(sourceGuard))
+    ? assertGa21MsFactsSourceSuccession(file => fs.readFileSync(path.join(rootDir, file))).additionalRuntimeSources.map(row => row.file)
+    : [];
+  const includes = Object.fromEntries(consumers.map((entry) => [entry.tracingKey,
+    [...RUNTIME_AUTHORITY_FILES, ...(entry.reachable.has(sourceGuard) ? rawSources : [])]]));
   for (const entry of entries) {
+    if (entry.route === '/briefcase/[packetId]/mn-caption-preview/[documentId]') {
+      if (!includes[entry.tracingKey]) throw new Error('MN held preview authority closure is missing');
+      includes[entry.tracingKey].push(...Object.values(MN_CAPTION_SOURCE_FILES));
+    }
     const matches = Object.keys(includes).some((key) => tracingKeyMatches(key, entry.appPath));
     if (matches !== (entry.authorityPaths.length > 0)) {
       throw new Error(`Runtime authority tracing scope mismatch: ${entry.entry}`);

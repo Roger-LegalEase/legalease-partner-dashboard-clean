@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {register,createRequire} from 'node:module';
+register('./lib/ts-esm-loader.mjs',import.meta.url);
+const {mcicIdentifierAuthority,packetAnswersForOwnerEditing,fullSsnLastFour,maskedSensitiveAnswer}=await import('../src/lib/expungement-ai/sensitive-packet-facts.ts');
+const at='2026-10-11T12:00:00Z', ssn='900-12-3456'; // unassignable 900 prefix; never a real identifier
+const authority={mcic_identifier_delivery_method:'Court-approved MCIC identifier sheet',mcic_identifier_method_confirmation_source:'Confirmed by Synthetic County Clerk on 2026-10-10'};
+assert.equal(mcicIdentifierAuthority(authority,at).safe,true);
+for(const patch of [{mcic_identifier_delivery_method:''},{mcic_identifier_delivery_method:'ordinary email'},{mcic_identifier_method_confirmation_source:'Confirmed by participant on 2026-10-10'},{mcic_identifier_method_confirmation_source:'Confirmed by Synthetic Court on 2026-10-12'},{mcic_identifier_method_confirmation_source:'Confirmed by Synthetic Court on 2026-02-30'},{mcic_identifier_method_confirmation_source:{value:authority.mcic_identifier_method_confirmation_source,unknown:true}}])assert.equal(mcicIdentifierAuthority({...authority,...patch},at).safe,false);
+const pathway='non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
+assert.equal(packetAnswersForOwnerEditing('MS',pathway,{social_security_number:ssn},at).social_security_number,undefined);
+assert.equal(packetAnswersForOwnerEditing('MS',pathway,{...authority,social_security_number:ssn},at).social_security_number,undefined);
+assert.equal(packetAnswersForOwnerEditing('MS',pathway,{...authority,social_security_number:ssn},at,true).social_security_number,ssn);
+assert.equal(mcicIdentifierAuthority({...authority,mcic_identifier_method_confirmation_source:'Confirmed by Synthetic Court on 0099-01-01'},at).safe,false);
+assert.equal(fullSsnLastFour(ssn),'3456');assert.equal(fullSsnLastFour('000000000'),null);assert.equal(fullSsnLastFour({value:ssn,unknown:true}),null);assert.equal(maskedSensitiveAnswer(ssn),'XXX-XX-3456');
+const require=createRequire(import.meta.url), {createElement}=require('react'),{renderToStaticMarkup}=require('react-dom/server');
+const {QuestionField}=await import('../src/components/expungement-ai/screening/QuestionField.tsx');
+const question={id:'social_security_number',stage:'packet_information',type:'text',prompt:'Synthetic identifier',required:true,contextOnly:false,options:null};
+const markup=renderToStaticMarkup(createElement(QuestionField,{question,stateCode:'MS',value:ssn,onChange:()=>{},sensitiveInputAllowed:true}));assert.match(markup,/type="password"/);assert.doesNotMatch(markup,/type="text"/);
+const blocked=renderToStaticMarkup(createElement(QuestionField,{question,stateCode:'MS',value:ssn,onChange:()=>{},sensitiveInputAllowed:false}));assert.doesNotMatch(blocked,/<input/);assert.ok(!blocked.includes(ssn));
+const packet=await import('../src/lib/expungement-ai/packet-information.ts');
+const {evaluateAuthoritativeScreeningResult}=await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
+const {MS_NONCONVICTION_SCREENING_ANSWERS:screening,MS_NONCONVICTION_ROUTE:route}=await import('./lib/rcap-ms-nonconviction-fixture.mjs');
+const authoritative=evaluateAuthoritativeScreeningResult({jurisdiction:'MS',profileVersion:route.profileVersion,matterId:'synthetic-sensitive-boundary',answers:screening});
+const seed=packet.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:screening,prefilledAnswers:{social_security_number_last_four:'1111'},packetAnswers:{...authority,social_security_number:ssn,social_security_number_last_four:'2222'},dependencies:{commercialFlowVersion:1,entitlementSource:'consumer_payment',productId:'expungement_packet'},capturedAt:at});
+assert.equal(seed.snapshot.prefilledAnswers.social_security_number_last_four,'3456');assert.equal(seed.snapshot.packetAnswers.social_security_number_last_four,undefined);
+const model=packet.protectedPacketInformationModelFor({status:'unverified',reason:'test',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot});assert.ok(model);const about=model.builderSections.find(s=>s.id==='about_you');assert.ok(about.questionIds.indexOf('mcic_identifier_delivery_method')<about.questionIds.indexOf('social_security_number'));
+assert.equal(model.builderQuestions.some(q=>q.id==='social_security_number_last_four'),false);assert.match(model.questions.find(q=>q.id==='social_security_number_last_four').helperText,/calculated/);
+const cleared=packet.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:{...screening,social_security_number_last_four:'9876'},packetAnswers:{social_security_number:null},dependencies:{commercialFlowVersion:1,entitlementSource:'consumer_payment',productId:'expungement_packet'},capturedAt:at});
+assert.equal(cleared.snapshot.screeningAnswers.social_security_number_last_four,undefined);
+assert.equal(cleared.snapshot.prefilledAnswers.social_security_number_last_four,undefined);
+for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const source of [ssn,'', 'invalid']){
+ const legacy=structuredClone(seed.snapshot);delete legacy.prefilledAnswers.social_security_number_last_four;
+ legacy[map].social_security_number_last_four='9999';legacy.packetAnswers.social_security_number=source;
+ const record={status:'unverified',reason:'synthetic-legacy-only',revision:4,draftHash:packet.protectedPacketDraftHash(legacy),draftSnapshot:legacy};
+ const before=packet.protectedPacketInformationModelFor(record);assert.ok(before);assert.equal(before.initialAnswers.social_security_number_last_four,source===ssn?'3456':undefined);
+ const patched=packet.packetInformationPatch({existingItem:{id:'synthetic-legacy-only',state:'MS',artifactRefs:{}},answers:{social_security_number:source},verify:false,protectedVerification:record});
+ assert.ok(patched);assert.equal(patched.protectedTransition.expectedPriorRevision,4);assert.notEqual(patched.protectedTransition.nextVerification.draftHash,record.draftHash);
+ assert.notEqual(patched.protectedTransition.nextVerification.status,'verified');
+ const after=packet.protectedPacketInformationModelFor(patched.protectedTransition.nextVerification);assert.equal(after.initialAnswers.social_security_number_last_four,source===ssn?'3456':undefined);
+ assert.equal(after.initialAnswers.social_security_number,source);
+ const repeated=packet.packetInformationPatch({existingItem:{id:'synthetic-legacy-only',state:'MS',artifactRefs:{}},answers:{social_security_number:source},verify:false,protectedVerification:patched.protectedTransition.nextVerification});
+ assert.equal(repeated.protectedTransition.nextVerification.draftHash,patched.protectedTransition.nextVerification.draftHash);
+}
+console.log('PASS: existing court authority reused; invalid/future/unknown sources refused; unauthorized readback omitted; masked SSR; stale last-four recomputed; derived target has no duplicate prompt. Protected/persistence/document acceptance separate.');

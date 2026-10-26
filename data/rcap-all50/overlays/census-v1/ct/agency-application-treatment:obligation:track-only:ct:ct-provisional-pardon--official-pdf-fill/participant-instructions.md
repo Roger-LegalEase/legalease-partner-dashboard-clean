@@ -11,7 +11,7 @@ The platform wrote only the identity and contact facts it holds: full legal name
 | Blank printed in the guide | What you must supply |
 | --- | --- |
 | Current Board eligibility and timing requirements | confirmation that the participant may apply now under the Board's current rules; confirm it with the Board's own current application and instructions |
-| Current Board application, portal, attachments, and fee | the Board's current instrument, submission method, attachments, and any charge; confirm it with the Connecticut Board of Pardons and Paroles |
+| Current Board application, portal, attachments, and fee | the Board's current instrument, submission method, attachments, and confirmation that no application fee applies; confirm it with the Connecticut Board of Pardons and Paroles |
 | Every conviction relevant to the Board application | each court, docket number, offense, disposition date, and sentence-completion date; confirm it with the court records and the participant's complete criminal-history record |
 | Employment or licensing barrier this relief is intended to address | the specific job, license, credential, or occupational barrier and how the conviction creates it; confirm it with the employer or licensing authority and the Board's application |
 | Current supervision status, remaining days, and supervising officer contact | whether currently on probation and whether more than 90 days remain; if so, apply through the probation officer; verify unknown status or remaining time before selecting the destination; confirm it with the supervising officer and the Board's current Certificate of Employability eligibility page |
@@ -23,6 +23,7 @@ Use the Board's own current application and instructions. This guide is not that
 If currently on probation with more than 90 days of supervision remaining, apply through your probation officer. Verify unknown supervision status or remaining time with your supervising officer first. Exactly 90 days does not satisfy this more-than-90-day handoff and does not establish eligibility.
 For the Board application route, use https://epardonportal.ct.gov/portal . Review current eligibility at https://portal.ct.gov/bopp/pardon-division/pardon/coe-eligibility .
 Use the required-document list at https://portal.ct.gov/bopp/pardon-division/pardon/coe-documents-required-for-certificate-of-employability . The Background Investigation Authorization supports the application; it is not the application. Bring it unsigned to a notary and sign in the notary's presence. If under supervision, have your supervising officer complete the required questionnaire; leave officer answers to that officer.
+Fee: the Board's own Pardon FAQ (https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs, as captured on 2026-09-08) says the Board of Pardons and Paroles does not currently charge a fee to apply for a pardon, and it names the Certificate of Employability, also called a provisional pardon, as one of its two pardon types. Confirm the current eligibility, timing, fee, and notice rules on the Board's portal before applying.
 Stop and obtain counsel if the Board sets a hearing or an immigration issue is pending or possible.
 
 ## Protected items left blank

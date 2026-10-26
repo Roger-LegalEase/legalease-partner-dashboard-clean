@@ -1,426 +1,819 @@
 {
-  "schemaVersion": "rcap-acroform-map/v6-d0",
-  "factoryVersion": "d0-remediated-v1",
-  "family": "jdf-612-form-motion-en",
-  "jurisdiction": "CO",
-  "documentOwnership": "participant_completed",
-  "componentRole": "participant_completed_filing",
-  "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-  "pageGeometry": [
-    {
-      "page": 1,
-      "width": 612,
-      "height": 792,
-      "orientation": "portrait"
-    },
-    {
-      "page": 2,
-      "width": 612,
-      "height": 792,
-      "orientation": "portrait"
-    },
-    {
-      "page": 3,
-      "width": 612,
-      "height": 792,
-      "orientation": "portrait"
-    },
-    {
-      "page": 4,
-      "width": 612,
-      "height": 792,
-      "orientation": "portrait"
-    },
-    {
-      "page": 5,
-      "width": 612,
-      "height": 792,
-      "orientation": "portrait"
-    }
-  ],
-  "captionOnly": false,
-  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), unmodified; every field starts protected",
-  "explicitMappings": {},
   "bindings": [
     {
-      "field": "County",
-      "class": "participant",
+      "condition": null,
+      "factId": "matter.court_type",
+      "field": "Court"
+    },
+    {
+      "condition": null,
       "factId": "matter.county",
-      "kind": "text"
+      "field": "County"
     },
     {
-      "field": "Case Number",
-      "class": "participant",
+      "condition": null,
+      "factId": "filing.court_address",
+      "field": "Court Address"
+    },
+    {
+      "condition": null,
+      "factId": "participant.full_legal_name",
+      "field": "∆"
+    },
+    {
+      "condition": null,
       "factId": "matter.case_number",
-      "kind": "text"
+      "field": "Case Number"
     },
     {
-      "field": "∆ DoB",
-      "class": "participant",
+      "condition": null,
+      "factId": "matter.division_or_courtroom",
+      "field": "D/C"
+    },
+    {
+      "condition": null,
       "factId": "participant.date_of_birth",
-      "kind": "text"
+      "field": "∆ DoB"
     },
     {
-      "field": "Address",
-      "class": "participant",
+      "condition": null,
       "factId": "participant.street_address",
-      "kind": "text"
+      "field": "∆ Street Address"
     },
     {
-      "field": "Phone",
-      "class": "participant",
+      "condition": null,
+      "factId": "participant.city_state_zip",
+      "field": "∆ CSZ"
+    },
+    {
+      "condition": null,
       "factId": "participant.phone",
-      "kind": "text"
+      "field": "∆ Phone"
     },
     {
-      "field": "Email",
-      "class": "participant",
+      "condition": null,
       "factId": "participant.email",
-      "kind": "text"
+      "field": "∆ Email"
+    },
+    {
+      "condition": null,
+      "factId": "election.interpreter_needed",
+      "field": "Group_Interp"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "election.interpreter_needed"
+      },
+      "factId": "election.interpreter_language",
+      "field": "Language"
+    },
+    {
+      "condition": null,
+      "factId": "election.appearance_mode",
+      "field": "Group_Event"
+    },
+    {
+      "condition": null,
+      "factId": "service.court_records_included",
+      "field": "3Z.0"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.court_records_included"
+      },
+      "factId": "matter.case_number",
+      "field": "3Z.1"
+    },
+    {
+      "condition": null,
+      "factId": "service.prosecuting_attorney_served",
+      "field": "3A.0"
+    },
+    {
+      "condition": null,
+      "factId": "service.sheriff_served",
+      "field": "3B.0"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.sheriff_served"
+      },
+      "factId": "service.sheriff_mailing_address",
+      "field": "3B.1"
+    },
+    {
+      "condition": null,
+      "factId": "derived.cbi_required",
+      "field": "3C"
+    },
+    {
+      "condition": null,
+      "factId": "service.law_enforcement_1_served",
+      "field": "3D.0"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_1_served"
+      },
+      "factId": "service.law_enforcement_1_name",
+      "field": "3D.1"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_1_served"
+      },
+      "factId": "service.law_enforcement_1_case_number",
+      "field": "3D.3"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_1_served"
+      },
+      "factId": "service.law_enforcement_1_address",
+      "field": "4D.2"
+    },
+    {
+      "condition": null,
+      "factId": "service.law_enforcement_2_served",
+      "field": "3E.0"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_2_served"
+      },
+      "factId": "service.law_enforcement_2_name",
+      "field": "3E.1"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_2_served"
+      },
+      "factId": "service.law_enforcement_2_case_number",
+      "field": "3E.3"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_2_served"
+      },
+      "factId": "service.law_enforcement_2_address",
+      "field": "4E.2"
+    },
+    {
+      "condition": null,
+      "factId": "service.other_agency_1_served",
+      "field": "3F.0"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.other_agency_1_served"
+      },
+      "factId": "service.other_agency_1_name",
+      "field": "3F.1"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.other_agency_1_served"
+      },
+      "factId": "service.other_agency_1_address",
+      "field": "3F.2"
+    },
+    {
+      "condition": null,
+      "factId": "service.other_agency_2_served",
+      "field": "3G.0"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.other_agency_2_served"
+      },
+      "factId": "service.other_agency_2_name",
+      "field": "3G.1"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "service.other_agency_2_served"
+      },
+      "factId": "service.other_agency_2_address",
+      "field": "3G.2"
+    },
+    {
+      "condition": null,
+      "factId": "conviction.petty_offenses_present",
+      "field": "4.1"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "conviction.petty_offenses_present"
+      },
+      "factId": "conviction.petty_offenses",
+      "field": "4.2"
+    },
+    {
+      "condition": null,
+      "factId": "conviction.misdemeanor_offenses_present",
+      "field": "4.3"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "conviction.misdemeanor_offenses_present"
+      },
+      "factId": "conviction.misdemeanor_offenses",
+      "field": "4.4"
+    },
+    {
+      "condition": null,
+      "factId": "conviction.felony_offenses_present",
+      "field": "4.5"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "conviction.felony_offenses_present"
+      },
+      "factId": "conviction.felony_offenses",
+      "field": "4.6"
+    },
+    {
+      "condition": null,
+      "factId": "conviction.sentence_date",
+      "field": "4.7"
+    },
+    {
+      "condition": null,
+      "factId": "conviction.supervision_termination_date",
+      "field": "4.8"
+    },
+    {
+      "condition": null,
+      "factId": "election.drug_offense_before_2013_10_01",
+      "field": "Group_4A"
+    },
+    {
+      "condition": null,
+      "factId": "election.human_trafficking_victim",
+      "field": "Group_4B"
+    },
+    {
+      "condition": null,
+      "factId": "election.eligibility_ground",
+      "field": "Group_5B"
+    },
+    {
+      "condition": {
+        "equals": "misdemeanor_not_eligible_706",
+        "factId": "election.eligibility_ground"
+      },
+      "factId": "election.district_attorney_position",
+      "field": "Group_5B_1"
+    },
+    {
+      "condition": {
+        "equals": "does_not_consent",
+        "factId": "election.district_attorney_position"
+      },
+      "factId": "narrative.clear_and_convincing_showing",
+      "field": "5B.2"
+    },
+    {
+      "condition": null,
+      "factId": "election.believes_automatic_sealing_applies",
+      "field": "Group_9A"
+    },
+    {
+      "condition": null,
+      "factId": "election.case_appealed",
+      "field": "Group_9B"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "election.case_appealed"
+      },
+      "factId": "appeal.case_number",
+      "field": "9B.1"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "election.case_appealed"
+      },
+      "factId": "appeal.court",
+      "field": "9B.2"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "election.case_appealed"
+      },
+      "factId": "appeal.result",
+      "field": "9B.3"
+    },
+    {
+      "condition": {
+        "equals": "yes",
+        "factId": "election.case_appealed"
+      },
+      "factId": "appeal.result_date",
+      "field": "9B.4"
+    },
+    {
+      "condition": null,
+      "factId": "election.restitution_outstanding",
+      "field": "Group_9C"
+    },
+    {
+      "condition": null,
+      "factId": "election.criminal_history_attached",
+      "field": "Group_10"
+    },
+    {
+      "condition": null,
+      "factId": "narrative.harm_or_adverse_consequences",
+      "field": "11.1"
+    },
+    {
+      "condition": null,
+      "factId": "service.service_date",
+      "field": "CoS_Date"
+    },
+    {
+      "condition": null,
+      "factId": "service.method",
+      "field": "GroupCoS"
+    },
+    {
+      "condition": {
+        "equals": "regular_mail",
+        "factId": "service.method"
+      },
+      "factId": "service.mail_recipient_name",
+      "field": "CoS_Name"
+    },
+    {
+      "condition": {
+        "equals": "regular_mail",
+        "factId": "service.method"
+      },
+      "factId": "service.mail_recipient_address",
+      "field": "CoS_Address"
+    },
+    {
+      "condition": {
+        "equals": "other",
+        "factId": "service.method"
+      },
+      "factId": "service.other_method_explanation",
+      "field": "CoS_Other"
     }
   ],
-  "bindingRefusals": [
-    {
-      "field": "Group_CourtType",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "Court Address",
-      "reason": "explicit_mapping_conflicts_with_field_name",
-      "category": "mapping_conflict",
-      "factId": null
-    },
-    {
-      "field": "Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "Courtroom",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6A.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6A.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6C.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6C.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6B.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6D.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6E.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6E.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6E.2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6E.3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6F.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6F.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6F.2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6F.3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6G.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6G.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6G.2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6H.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "6H.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "6H.2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "7A.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "7A.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "7B.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "7B.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "7C.0",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "7C.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "7D",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "Group_7A",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "Group_7B",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "Group_7C",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "Group_8B",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "Group_8B_1",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "7E",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "8B.2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "Group_9A",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "Group_9B",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "9B.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "9B.2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "9B.3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "9B.4",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "Group_9C",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "Group_10",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "11.1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "Group_CoS",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
-    },
-    {
-      "field": "CoS_Mail",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "CoS_Date",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "∆",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "CoS_Other",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
-    },
-    {
-      "field": "Sig1_Signature",
-      "reason": "protected_category",
-      "category": "signature",
-      "factId": null
-    },
-    {
-      "field": "Sig1_Date",
-      "reason": "protected_category",
-      "category": "signature",
-      "factId": null
-    },
-    {
-      "field": "Sig_LawyerSignature",
-      "reason": "protected_category",
-      "category": "signature",
-      "factId": null
-    },
-    {
-      "field": "Sig_Esq",
-      "reason": "protected_category",
-      "category": "signature",
-      "factId": null
-    },
-    {
-      "field": "Sig_Bar",
-      "reason": "protected_category",
-      "category": "signature",
-      "factId": null
-    }
-  ]
+  "family": "jdf-612-form-motion-en",
+  "protectedFields": [
+    "Sig",
+    "Sig_Date",
+    "Sig_Aty"
+  ],
+  "revision": "REV-2025-07-01",
+  "schemaVersion": "rcap-colorado-current-source-map/v1",
+  "sourceSha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+  "supersededRecord": {
+    "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), unmodified; every field starts protected",
+    "bindingRefusals": [
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_CourtType",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "mapping_conflict",
+        "factId": null,
+        "field": "Court Address",
+        "reason": "explicit_mapping_conflicts_with_field_name"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "Division",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "Courtroom",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6A.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6A.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6C.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6C.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6B.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6D.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6E.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6E.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6E.2",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6E.3",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6F.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6F.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6F.2",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6F.3",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6G.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6G.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6G.2",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "6H.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6H.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "6H.2",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "7A.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "7A.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "7B.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "7B.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "7C.0",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "7C.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "7D",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_7A",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_7B",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_7C",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_8B",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_8B_1",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "7E",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "8B.2",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_9A",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_9B",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "9B.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "9B.2",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "9B.3",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "9B.4",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_9C",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_10",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "11.1",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "type_guard",
+        "factId": null,
+        "field": "Group_CoS",
+        "reason": "non_text_field_type"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "CoS_Mail",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "CoS_Date",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "∆",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": null,
+        "factId": null,
+        "field": "CoS_Other",
+        "reason": "no_allowlisted_fact_matches"
+      },
+      {
+        "category": "signature",
+        "factId": null,
+        "field": "Sig1_Signature",
+        "reason": "protected_category"
+      },
+      {
+        "category": "signature",
+        "factId": null,
+        "field": "Sig1_Date",
+        "reason": "protected_category"
+      },
+      {
+        "category": "signature",
+        "factId": null,
+        "field": "Sig_LawyerSignature",
+        "reason": "protected_category"
+      },
+      {
+        "category": "signature",
+        "factId": null,
+        "field": "Sig_Esq",
+        "reason": "protected_category"
+      },
+      {
+        "category": "signature",
+        "factId": null,
+        "field": "Sig_Bar",
+        "reason": "protected_category"
+      }
+    ],
+    "bindings": [
+      {
+        "class": "participant",
+        "factId": "matter.county",
+        "field": "County",
+        "kind": "text"
+      },
+      {
+        "class": "participant",
+        "factId": "matter.case_number",
+        "field": "Case Number",
+        "kind": "text"
+      },
+      {
+        "class": "participant",
+        "factId": "participant.date_of_birth",
+        "field": "∆ DoB",
+        "kind": "text"
+      },
+      {
+        "class": "participant",
+        "factId": "participant.street_address",
+        "field": "Address",
+        "kind": "text"
+      },
+      {
+        "class": "participant",
+        "factId": "participant.phone",
+        "field": "Phone",
+        "kind": "text"
+      },
+      {
+        "class": "participant",
+        "factId": "participant.email",
+        "field": "Email",
+        "kind": "text"
+      }
+    ],
+    "captionOnly": false,
+    "componentRole": "participant_completed_filing",
+    "documentOwnership": "participant_completed",
+    "explicitMappings": {},
+    "factoryVersion": "d0-remediated-v1",
+    "family": "jdf-612-form-motion-en",
+    "jurisdiction": "CO",
+    "pageGeometry": [
+      {
+        "height": 792,
+        "orientation": "portrait",
+        "page": 1,
+        "width": 612
+      },
+      {
+        "height": 792,
+        "orientation": "portrait",
+        "page": 2,
+        "width": 612
+      },
+      {
+        "height": 792,
+        "orientation": "portrait",
+        "page": 3,
+        "width": 612
+      },
+      {
+        "height": 792,
+        "orientation": "portrait",
+        "page": 4,
+        "width": 612
+      },
+      {
+        "height": 792,
+        "orientation": "portrait",
+        "page": 5,
+        "width": 612
+      }
+    ],
+    "schemaVersion": "rcap-acroform-map/v6-d0",
+    "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e"
+  }
 }

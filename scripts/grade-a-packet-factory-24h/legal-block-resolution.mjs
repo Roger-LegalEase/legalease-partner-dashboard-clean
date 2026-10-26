@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { contentCommit } from "./verifier-base-stand-ins.mjs";
 
 export const LEGAL_BLOCK_RESOLUTION_PATHS = Object.freeze([
   "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
@@ -208,7 +209,7 @@ export function assessLegalResolutionAtReviewBase(root, verifiedAtBase, resoluti
     const current = fs.readFileSync(path.join(root, recordPath));
     let reviewed;
     try {
-      reviewed = execFileSync("git", ["show", `${verifiedAtBase}:${recordPath}`], {
+      reviewed = execFileSync("git", ["show", `${contentCommit(verifiedAtBase, recordPath)}:${recordPath}`], {
         cwd: root, stdio: ["ignore", "pipe", "ignore"], maxBuffer: 1 << 26,
       });
     } catch {

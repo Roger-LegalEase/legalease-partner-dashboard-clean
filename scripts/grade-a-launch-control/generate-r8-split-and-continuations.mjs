@@ -391,7 +391,7 @@ const promptFor = (a) => {
   p.push(`It must print **\`${PREFLIGHT_MUST_RETURN}\`**.`, a.preflightObserved
     ? (observedStillCurrent
       ? ` Captain ran exactly this for this family and observed \`${a.preflightObserved}\`, so a different answer is a change in the container, not in the dispatch.`
-      : ` Captain observed \`${a.preflightObserved}\` for this family against the then-current roster of ${a.preflightObservedAgainstRoster}; the roster has grown since, so expect the number above and not that one.`)
+      : ` Captain's historical observation was \`${a.preflightObserved.replace(/^PACKET_BUILD_ENVIRONMENT_READY:?\s*/, "")}\` for this family against the then-current roster of ${a.preflightObservedAgainstRoster}. The current gate requires every registered applicable check to pass.`)
     : "", "");
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF09",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "lane": "VF09",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this family> run read-only in /tmp/ci-queue-23bb at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR exported: PASS_COMPLETE, 6/12 written, all nine counters printed as 0"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request is declared identically by product-wiring.json, source-receipt.json, production-field-map.json and the MASTER_QUEUE row; familyId agrees across 7 records. It resolves in the committed census at routes[33] (destination 'sentencing court', instrument 'written request asking the sentencing court to transmit or correct the \u00a7 160.55 sealing notice', no trackId and no runtime pathway, which is the declared research-decision shape). The printed trailer on canonical and boundary pages 2 and 4 reassembles exactly to the key, breaking on its own underscore ('correction_' / 'request')."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "2 committed records bound. (1) data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json: pinned 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef / 184365 B, on disk 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B, so the whole-file pin had lapsed. Re-verified here: the controlling decision is researchTrackDecisions[7] (trackId ny_160_55_violation, heading 'New York \u2014 ny_160_55_violation', report lines 1394-1440), deep-equal between the recovered pinned blob and the current file (canonical-JSON sha256 prefix 5b99109ce8c41cca both sides). Its holding is what the packet implements: automatic partial sealing under CPL \u00a7 160.55; 'For a post-November 1, 1991 qualifying disposition, the participant ordinarily files nothing. The clerk notifies DCJS and appropriate law-enforcement agencies'; the seal reaches fingerprints/palmprints, booking photographs, DCJS, police and prosecutor records and does not seal the court file; the correction workflow (certificate of disposition -> criminal-history result -> ask sentencing court to transmit/correct -> send certified disposition to DCJS -> motion or counsel if an interests-of-justice nonsealing order was entered); product disposition OUTPUT: GUIDANCE + CORRECTION REQUEST, INITIAL PETITION: NONE FOR ORDINARY MODERN CASE, CONTESTED NONSEALING: ATTORNEY HANDOFF. The whole-file drift between the pinned blob and the current bytes was located by a key-by-key deep comparison of the two parsed JSON documents: it is confined to questionDecisions[0..5,9..15].memoSha256 (13 Kentucky, Louisiana, North Dakota and Nebraska intake-memo digests) and scope.registerOpenQuestions / scope.registerQuestionsOutOfReportScope (Q-057's reason reworded, Q-058 added), introduced by commit 66be051f4 on 2026-09-19. The pinned blob was recovered from git history and rehashes to 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes; the current file hashes to 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 at 184885 bytes. None of the changed paths touches this family. New pin: 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B. (2) data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json rehashed here f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B, equal to the receipt's refreshed pin, and routes[33] holds the family's routeKey. The facts file's familyKeyOccurrences of 0 for both records is an artifact of deriving a search key from the recordId suffix; the anchors were located directly by trackId and routeKey. The receipt file still carries the old decisions-record pin; this row does not edit it."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "2 components declared (ny-160-55-sentencing-court-correction-request-1, ny-160-55-process-guidance-2) = rendered componentSet = receipt composedComponentsAuthoredByThisBuild; page manifest pages 1-2 then 3-4 in both fixtures, confirmed against each page's first line. This matches the decision's disposition exactly: guidance plus a correction request, and no petition. No component from another route appears."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "6 written values per fixture (petitioner_name on both documents, date_of_birth, mailing_address, telephone, email); 6/6 read back from each fixture's pdftotext output in the facts measurement and seen by me in the extracted text ('FROM: Jordan Avery Reyes', 'DATE OF BIRTH: 1991-04-17', 'This page is for Jordan Avery Reyes', and the boundary persona's values). 0 reported invisible; knownRequiredFieldsMissing 0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 4 = 4 items (C1 case, C2 outcome, C3 criminal-history result, C4 the ask); 4 of 4 disclosureLabel strings found in participant-instructions.md by exact match run here; blanks report everyRequiredBeforeFilingItemIsDisclosed true. The two documents the workflow requires, the certificate of disposition (clerk of the sentencing court) and the official criminal-history result (DCJS), are each named with the office that supplies them, and the packet states in terms that nothing is filed on this route in the ordinary case."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls; no election printed on the 4 delivered pages of either fixture; requiredOptionsMissing 0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "0 repeating-row structures; items C1 to C4 are standalone dot-leader pairs; incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "2 protected blanks recorded (request_signature, request_signature_date). The only DATE / SIGNATURE line in each fixture ('DATE ...... SIGNATURE ......') was read from the extracted text and carries only dot leaders; no court caption exists, which the packet explains (a letter, not a pleading); refusedFieldsWithInk empty in both fixtures; protectedWrites 0 measured here. The 'DATE OF BIRTH: 1991-04-17' line is the declared date_of_birth prefill, not a protected field."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, both rehashed here: canonical.pdf de86d7e42feb083f9b96ab9a76d4d819a754b30dbac739909ad1dea39c9850e9 / 12693 B, boundary.pdf 6bc300bff357cda42ba34c9717f58c9bc364874aeca8f663ea3c68fd064a8e93 / 12853 B; both equal rendered-artifacts.json. 0 mismatches, 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Manifest 1..4 in both fixtures, two components contiguous in declared order (request then guidance); pdfinfo reads 4 pages from each fixture = recorded pageCount 4; the first line of each page matches the manifest's component."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Recomputed here with pdftotext -bbox: canonical 1194 words, boundary 1201 words; 0 outside the 612x792 page box; 0 same-band overlapping pairs; minimum margins 72.0 pt left, 70.4 pt right, 64.5 pt top, 79.6 pt bottom (canonical 94.1 pt bottom). nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both fixtures; visualDefects 0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The decision records that the participant ordinarily files nothing and that the correction workflow's step is 'ask sentencing court to transmit/correct sealing notice'; the census records the destination as 'sentencing court'. The packet states both: the request page is addressed 'TO: The clerk of the New York court that sentenced you in this case' with a blank for the exact office and postal address confirmed with that office, the guidance page says the participant ordinarily files nothing and that the request page is the sentencing-court step, and participant-instructions.md carries a FILING_DESTINATION row saying the same."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the sourced no-fee limb for the route's own instrument: no participant filing arises in the ordinary case, so no filing fee does, and the delivered guidance page says so under 'WHAT IT COSTS, AND WHETHER A WAIVER EXISTS'. Two held sources agree: the controlling decision ('the participant ordinarily files nothing') and the compiled New York profile (src/lib/rcap-engine/compiled/profiles/NY-new-york.json, fee table line 'Automatic sealing (160.50/160.55/Clean Slate) $0 No filing'). For the two ancillary costs the workflow itself creates, the packet states that no committed record it binds prices the certificate of disposition or the criminal-history result and names the clerk of the sentencing court and the New York State Division of Criminal Justice Services as the offices that answer. Observation, not a failure: the compiled NY profile prices the certificate of disposition ($5 per case outside NYC, $10 in the five boroughs) on lines keyed 'Required for each 160.59 case' and records 'DCJS record review (your own record) DCJS fee' without an amount; under DET-FEE-AND-WAIVER-001 A3 a line keyed to the \u00a7 160.59 petition does not establish this \u00a7 160.55 route's figure, and the packet's sentence about the records it binds is literally accurate. Whether the certificate fee is route-independent is an owner call this verifier does not make; it would be a one-sentence instruction change if it is."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Met on the affirmative nobody-is-served limb with the mechanism that replaces it. The decision records 'The clerk notifies DCJS and appropriate law-enforcement agencies'; the delivered guidance page states under 'WHO MUST BE SERVED, AND WHO IS NOTIFIED': 'Nothing is served, because in the ordinary case nothing is filed. The committed decision records that the CLERK notifies DCJS and the appropriate law-enforcement agencies. The request page in this packet is a letter to the sentencing court, not a pleading served on an opposing party.' participant-instructions.md adds that sending the certified disposition to DCJS is a transmission, not service. The compiled NY profile holds no service rule for \u00a7 160.55 ('no form \u2014 sealing is directed by the court / done by OCA-DCJS')."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The decision holds three stops: 'motion or counsel if court previously entered an interests-of-justice nonsealing order', 'A pre-November 1, 1991 qualifying case may require a motion under the statute's legacy branch', and CONTESTED NONSEALING: ATTORNEY HANDOFF. The delivered page 'WHEN TO STOP AND GET HELP INSTEAD' carries all three, plus DWAI (CPL \u00a7 160.57(1)(a)), needing the court file closed (which \u00a7 160.55 does not do) and any immigration question; 'WHERE TO GO WHEN SELF-HELP STOPS' names DCJS for the record and a motion or counsel for the rest; numbered step 6 in participant-instructions.md says 'stop' on a prior nonsealing order. 'WHAT YOU DO NOT DO' bars filing a sealing petition first and conflating Clean Slate. The signing line and date are refused and the packet states it is not legal advice, not sent for you and seals nothing by itself. 3/3 held stops carried."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 6/12 written, all nine counters zero (run here at f3ff92ac2)",
+        "sourceRecomputation": "2/2 committed records re-verified: decisions record whole-file pin lapsed (0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef -> 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373) with researchTrackDecisions[7] deep-equal on both sides, new pin 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B; census record exact at f6fc0814... / 2629290 B with routes[33] holding the routeKey",
+        "artifactRecomputation": "2/2 PDFs rehashed here and equal to rendered-artifacts.json (de86d7e4... 12693 B; 6bc300bf... 12853 B); pdfinfo 4 pages each",
+        "byteReadBack": "12/12 written values (6 per fixture) read back from the fixture bytes; 0 reported invisible; 0 non-whitespace glyphs outside measured write boxes",
+        "stopConditions": "3/3 stops held by the controlling decision carried on the delivered guidance page and in participant-instructions.md; the packet's additions (DWAI, court file, immigration) do not contradict it",
+        "lapseResolved": "The receipt's SHA-256 pin on 2026-08-28-national-legal-decisions.json no longer matched disk. The pinned blob was recovered from git history and rehashes exactly to the pinned value; the current file was compared key-by-key against it; every difference lies in questionDecisions[*].memoSha256 and scope.register* (commit 66be051f4, 2026-09-19) and none in researchTrackDecisions[7]; the controlling section's completeSectionText, serviceWorkflow, productDisposition and reportSection.sha256 (c4d0488a...) are identical on both sides. The anchor the packet names has not left the source: re-pin, not rebuild. New pin: 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B. The census pin was already refreshed in the receipt and is exact on disk."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

@@ -111,6 +111,10 @@ export type GuideRenderOptions = {
   stops?: ReadonlyArray<GuideStopCondition>;
   /** Spanish for the stop conditions, keyed by situation. */
   stopsEs?: Readonly<Record<string, { situation: string; whatItMeans: string }>>;
+  /** Keep an explicitly selected route's help conditions and explanations together. */
+  keepStopConditionsTogether?: boolean;
+  /** Opt-in layout for a source-bound checklist; ordinary route bytes stay unchanged. */
+  keepFilingChecklistItemsTogether?: boolean;
   verifiedAt?: string;
   /**
    * Render without the brand asset instead of refusing.
@@ -227,8 +231,8 @@ const COPY: Record<GuideLocale, Words> = {
     inside: [
       { title: "Pasos siguientes", description: "Adónde ir, qué hacer y qué ocurre después de presentar." },
       { title: "Lista de verificación", description: "Una revisión final antes, durante y después de presentar." },
-      { title: "Tarifas y costos", description: "Tarifas del tribunal o agencia, pagos e información sobre exención." },
-      { title: "Documentos para el tribunal", description: "Sus formularios, escritos, mociones y órdenes comienzan después de esta guía." }
+      { title: "Tarifas y costos", description: "Tarifas conocidas del tribunal o de la agencia, detalles de pago e información sobre la exención de tarifas." },
+      { title: "Documentos para el tribunal", description: "Sus formularios, escritos, mociones, órdenes y anexos comienzan después de esta guía." }
     ],
     important: "IMPORTANTE",
     importantBody: "Estas páginas complementarias son para usted. No las presente ante el secretario ni el tribunal. "
@@ -243,7 +247,7 @@ const COPY: Record<GuideLocale, Words> = {
     colDocument: "DOCUMENTO PARA EL TRIBUNAL", colSigned: "¿FIRMADO?", colCopies: "COPIAS", colAttach: "¿ADJUNTAR / PRESENTAR?",
     fees: "Tarifas y costos",
     feesLead: "Separe el costo de su paquete de Expungement.ai de los costos del tribunal, la agencia, "
-      + "la notificación, las certificaciones y otros terceros.",
+      + "la notificación, las certificaciones y otros costos de terceros que puedan aplicarse a su presentación.",
     estimate: "COSTO ESTIMADO DE PRESENTACIÓN",
     lastVerified: "Verificado por última vez", officialSource: "Fuente oficial",
     breakdown: "DESGLOSE DE TARIFAS",
@@ -588,11 +592,12 @@ function drawNextSteps(sheet: Sheet, guide: SupplementalGuide, options: GuideRen
       text(sheet, String(index + 1), MARGIN, BODY, sheet.fonts.bold, MUTED);
     }
     const lines = wrap(sanitize(body), sheet.fonts.body, BODY, CONTENT_WIDTH - 26);
-    lines.forEach((line, lineIndex) => {
-      if (lineIndex > 0) ensure(sheet, LINE);
-      sheet.page.drawText(line, { x: MARGIN + 26, y: sheet.y - lineIndex * LINE, size: BODY, font: sheet.fonts.body, color: INK });
+    lines.forEach((line) => {
+      ensure(sheet, LINE);
+      sheet.page.drawText(line, { x: MARGIN + 26, y: sheet.y, size: BODY, font: sheet.fonts.body, color: INK });
+      sheet.y -= LINE;
     });
-    sheet.y -= lines.length * LINE + 8;
+    sheet.y -= 8;
   });
 }
 
@@ -614,8 +619,14 @@ function drawFilingChecklist(sheet: Sheet, guide: SupplementalGuide, options: Gu
       [w.colDocument, w.colSigned, w.colCopies, w.colAttach],
       documents.map((document) => {
         const detail = details.get(document.documentId);
+        const translatedTitle = detail?.titleTranslation;
+        if (sheet.locale === "es" && translatedTitle
+          && (translatedTitle.sourceTitle !== document.title || !translatedTitle.textEs.trim())) {
+          throw new SupplementalGuideRenderError(guide.routeKey,
+            `the Spanish document title for ${document.documentId} does not match the current court-facing title`);
+        }
         return [
-          document.title,
+          sheet.locale === "es" && translatedTitle ? translatedTitle.textEs : document.title,
           "[   ]",
           detail?.copies ?? "-",
           fieldText(sheet, detail?.instruction ?? null, guide.routeKey, `the filing instruction for ${document.documentId}`)
@@ -625,8 +636,22 @@ function drawFilingChecklist(sheet: Sheet, guide: SupplementalGuide, options: Gu
     );
   }
 
-  for (const entry of guide.filingChecklist ?? []) {
-    paragraph(sheet, `- ${fieldText(sheet, entry, guide.routeKey, "a Filing Checklist entry")}`, { indent: 6 });
+  const entries = (guide.filingChecklist ?? []).map(entry =>
+    `- ${fieldText(sheet, entry, guide.routeKey, "a Filing Checklist entry")}`);
+  // Use paragraph's exact body font, indent, wrap width and trailing gap.
+  // Preserve the full group when it fits; oversized groups fall back to whole
+  // items, and an item taller than a page retains ordinary readable wrapping.
+  const itemHeight = (value: string) =>
+    wrap(sanitize(value), sheet.fonts.body, BODY, CONTENT_WIDTH - 6 - RIGHT_INSET).length * LINE + 5;
+  const pageCapacity = PAGE_HEIGHT - MARGIN - 76 - (MARGIN + 34);
+  const groupHeight = entries.reduce((height, entry) => height + itemHeight(entry), 0);
+  const groupFits = options.keepFilingChecklistItemsTogether === true && groupHeight <= pageCapacity;
+  if (groupFits) ensure(sheet, groupHeight);
+  for (const entry of entries) {
+    if (options.keepFilingChecklistItemsTogether && !groupFits && itemHeight(entry) <= pageCapacity) {
+      ensure(sheet, itemHeight(entry));
+    }
+    paragraph(sheet, entry, { indent: 6 });
   }
 }
 
@@ -688,9 +713,7 @@ function drawFeesAndCosts(sheet: Sheet, guide: SupplementalGuide, options: Guide
 function drawStopConditions(sheet: Sheet, guide: SupplementalGuide, options: GuideRenderOptions) {
   const blocking = (options.stops ?? []).filter((stop) => stop.stopAndGetHelp);
   if (blocking.length === 0) return;
-  ensure(sheet, LINE * 5);
-  smallLabel(sheet, sheet.words.stops);
-  for (const stop of blocking) {
+  const localized = blocking.map((stop) => {
     let situation = stop.situation;
     let meaning = stop.whatItMeans;
     if (sheet.locale === "es") {
@@ -704,6 +727,24 @@ function drawStopConditions(sheet: Sheet, guide: SupplementalGuide, options: Gui
       situation = translated.situation;
       meaning = translated.whatItMeans;
     }
+    return { situation, meaning };
+  });
+  // Match paragraph's actual font, indent, wrapping and trailing gaps. The
+  // existing defaults retain their pagination. The GA pleading explicitly
+  // opts in after its measured guide split a warning from its explanation.
+  const itemHeight = ({ situation, meaning }: { situation: string; meaning: string }) =>
+    wrap(sanitize(`- ${situation}`), sheet.fonts.body, BODY, CONTENT_WIDTH - 6 - RIGHT_INSET).length * LINE + 1
+    + wrap(sanitize(meaning), sheet.fonts.italic, BODY - 0.5, CONTENT_WIDTH - 18 - RIGHT_INSET).length * LINE + 5;
+  const pageCapacity = PAGE_HEIGHT - MARGIN - 76 - (MARGIN + 34);
+  const groupHeight = LINE + 8 - 6 + localized.reduce((height, stop) => height + itemHeight(stop), 0);
+  const groupFits = options.keepStopConditionsTogether === true && groupHeight <= pageCapacity;
+  ensure(sheet, groupFits ? groupHeight : LINE * 5);
+  smallLabel(sheet, sheet.words.stops);
+  for (const stop of localized) {
+    if (options.keepStopConditionsTogether && !groupFits && itemHeight(stop) <= pageCapacity) {
+      ensure(sheet, itemHeight(stop));
+    }
+    const { situation, meaning } = stop;
     paragraph(sheet, `- ${situation}`, { indent: 6, gap: 1 });
     paragraph(sheet, meaning, { indent: 18, font: sheet.fonts.italic, color: MUTED, size: BODY - 0.5 });
   }

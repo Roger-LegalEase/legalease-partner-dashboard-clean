@@ -1,0 +1,101 @@
+{
+  "sourceSha": "ef0455de16b5789529572358c71d17a996df57bf",
+  "sourcePath": "data/rcap-ledger/public-witness-answer-sets.json",
+  "sourceSha256": "86d39e1a4c8b8381604eb0ff025da907ada3e379d04666d80142e6236ecd7b3e",
+  "witness": {
+    "pathwayKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+    "jurisdiction": "MD",
+    "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
+    "pathwayLabel": "Police-record expungement when no charge was filed under \u00a7 10-103",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "publicRoute": "/expungement-ai/screening/maryland",
+    "evaluationEndpoint": "POST /api/expungement-ai/screening",
+    "seedAnswers": {
+      "ownership_scope": "Yes",
+      "jurisdiction_scope": "State or local",
+      "state_exclusion_categories": [
+        "None of these"
+      ],
+      "pending_cases": "No",
+      "new_convictions_during_waiting_period": "No",
+      "sentence_completion_date": "Yes",
+      "financial_obligations": "Yes",
+      "court_requirements_completed": "yes",
+      "special_preconditions_confirmed": "Yes",
+      "trafficking_status": "No",
+      "pardon_status": "No",
+      "record_documents": "Yes",
+      "resolved_timing_bucket": "gt_10_years",
+      "possible_pathway_context": "Police-record expungement when no charge was filed under \u00a7 10-103"
+    },
+    "pathwayContextOffered": "Police-record expungement when no charge was filed under \u00a7 10-103",
+    "rounds": [
+      {
+        "round": 0,
+        "droppedAsNotEvaluatorQuestions": [
+          "court_requirements_completed",
+          "trafficking_status"
+        ]
+      },
+      {
+        "round": 1,
+        "requested": [
+          "age_at_offense",
+          "case_outcome",
+          "offense_level",
+          "prior_relief"
+        ],
+        "supplied": {
+          "age_at_offense": "30",
+          "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "offense_level": "Misdemeanor",
+          "prior_relief": "Yes"
+        }
+      },
+      {
+        "round": 2,
+        "requested": [
+          "arrest_date"
+        ],
+        "supplied": {
+          "arrest_date": "2012-06-01"
+        }
+      }
+    ],
+    "finalAnswers": {
+      "age_at_offense": "30",
+      "arrest_date": "2012-06-01",
+      "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "financial_obligations": "Yes",
+      "jurisdiction_scope": "State or local",
+      "new_convictions_during_waiting_period": "No",
+      "offense_level": "Misdemeanor",
+      "ownership_scope": "Yes",
+      "pardon_status": "No",
+      "pending_cases": "No",
+      "possible_pathway_context": "Police-record expungement when no charge was filed under \u00a7 10-103",
+      "prior_relief": "Yes",
+      "record_documents": "Yes",
+      "resolved_timing_bucket": "gt_10_years",
+      "sentence_completion_date": "Yes",
+      "special_preconditions_confirmed": "Yes",
+      "state_exclusion_categories": [
+        "None of these"
+      ]
+    },
+    "terminalEvaluation": {
+      "resultCode": "likely_not_eligible",
+      "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "pathwayLabel": "Police-record expungement when no charge was filed under \u00a7 10-103",
+      "paymentAllowed": false,
+      "treatmentClassification": null,
+      "selectedTrackId": null,
+      "reasonCodes": [
+        "md.md_police_record_deadline_not_eligible"
+      ],
+      "missingQuestionIds": []
+    },
+    "landedOnThisPathway": true,
+    "error": null
+  }
+}

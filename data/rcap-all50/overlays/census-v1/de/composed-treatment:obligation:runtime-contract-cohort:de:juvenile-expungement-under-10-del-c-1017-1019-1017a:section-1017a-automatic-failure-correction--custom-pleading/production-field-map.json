@@ -7,8 +7,7 @@
   "renderStrategy": "composed_pleading",
   "jurisdiction": "DE",
   "statutes": [
-    "10 Del. C. § 1017A",
-    "11 Del. C. § 4373A"
+    "10 Del. C. § 1017A"
   ],
   "legalName": "Delaware § 1017A automatic juvenile expungement — request and guidance where the automatic process did not occur",
   "implementationStrategy": "custom_pleading",
@@ -32,31 +31,41 @@
     {
       "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "statute": "10 Del. C. § 1017A",
-      "instrument": "a request to the State Bureau of Identification, with guidance — not a court petition",
-      "statedOn": "both composed pages, in their titles, bodies and footers"
+      "instrument": "a correction inquiry to the confirmed office, with process-confirmation guidance",
+      "statedOn": "both composed pages, in their titles and bodies; no page prints a route footer"
     }
   ],
-  "routeSelectionNote": "One route, and its instrument is not a pleading. The § 1017A branch is automatic; the composed pages state that, state who runs it, and state what the participant does where it has not happened. The § 1018 discretionary petition is a different branch with its own family in this same lane, and nothing here is its instrument.",
+  "routeSelectionNote": "This is the section 1017A automatic-failure correction branch. The section 1017 mandatory and section 1018 discretionary branches remain separate; no adult SBI procedure is imported.",
   "participantFacingObligations": [
     {
       "question": "FILING_DESTINATION",
-      "answer": "**The participant does not file this one; the State Bureau of Identification runs it.** The compiled Delaware profile records that mandatory-eligible cases are expunged by the SBI monthly with no filing, and that the way to raise it is to contact the SBI on 302-739-5884. Where the automatic process did not occur, the committed contract records that a petition or correction path exists — and that is the point at which the question stops being an agency one. No court destination is asserted here, because no committed record establishes one for this branch."
+      "answer": "No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request."
     },
     {
       "question": "FEE_AND_WAIVER",
-      "answer": "Nothing here is a court filing, so no filing fee arises from it. The compiled profile states what happens on a request: if the person is eligible, the SBI sends a letter with instructions and any fees. The office that answers what any fee would be is the SBI, on 302-739-5884."
+      "answer": "No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying."
     },
     {
       "question": "SERVICE",
-      "answer": "**Nothing is served, because nothing is filed.** The compiled record describes a request to an agency and a letter back from it. There is no opposing party to serve on this branch."
+      "answer": "The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required."
     },
     {
       "question": "SELF_HELP_STOP",
-      "answer": "**Stop and get help if:** the SBI says the record is not eligible and you believe it is. **Stop and get help if:** the SBI does not answer, or answers and nothing changes. **Stop and get help if:** you are told a court petition is now needed — that is the point at which this stops being an agency question. **Stop and get help if:** the record belongs to the § 1017 mandatory branch or the § 1018 discretionary branch instead. **Stop and get help if:** any immigration question is involved."
+      "answer": "Stop and seek a lawyer or a legal-aid office if the office disputes eligibility, does not resolve the request, a court petition is required, the record belongs to a different juvenile branch, or an immigration question is involved."
     }
   ],
-  "requiredBeforeFilingCount": 4,
+  "requiredBeforeFilingCount": 5,
   "requiredBeforeFiling": [
+    {
+      "document": "de-1017a-automatic-failure-correction-agency-request-1",
+      "field": "de-1017a-automatic-failure-correction-agency-request-1.exact_office_postal_address",
+      "page": 1,
+      "printedContext": "Exact office and postal address, confirmed with that office",
+      "disclosureLabel": "Exact office and postal address, confirmed with that office",
+      "identity": "de-1017a-automatic-failure-correction-agency-request-1 field exact_office_postal_address",
+      "why": "the held sources do not establish a destination; the participant must confirm the receiving office and postal address before sending",
+      "participantMustSupply": "Contact the clerk of the Family Court that entered the adjudication to identify the office handling a section 1017A automatic-failure correction. Confirm the exact office name and postal address with that office and write them on the labelled line before sending. Do not guess an address."
+    },
     {
       "document": "de-1017a-automatic-failure-correction-agency-request-1",
       "field": "de-1017a-automatic-failure-correction-agency-request-1.fact_adjudication",
@@ -187,6 +196,30 @@
         }
       ],
       "canonicalRefusals": [
+        {
+          "field": "de-1017a-automatic-failure-correction-agency-request-1.exact_office_postal_address",
+          "fieldName": "de-1017a-automatic-failure-correction-agency-request-1.exact_office_postal_address",
+          "page": 1,
+          "printedLabel": "Exact office and postal address, confirmed with that office",
+          "printedLine": "Exact office and postal address, confirmed with that office",
+          "effectiveLabel": "Exact office and postal address, confirmed with that office",
+          "regionHeading": "Exact office and postal address, confirmed with that office",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: Contact the clerk of the Family Court that entered the adjudication to identify the office handling a section 1017A automatic-failure correction. Confirm the exact office name and postal address with that office and write them on the labelled line before sending. Do not guess an address.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "de-1017a-automatic-failure-correction-agency-request-1 field exact_office_postal_address",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "de-1017a-automatic-failure-correction-agency-request-1",
+          "why": "the held sources do not establish a destination; the participant must confirm the receiving office and postal address before sending",
+          "participantMustSupply": "Contact the clerk of the Family Court that entered the adjudication to identify the office handling a section 1017A automatic-failure correction. Confirm the exact office name and postal address with that office and write them on the labelled line before sending. Do not guess an address."
+        },
         {
           "field": "de-1017a-automatic-failure-correction-agency-request-1.fact_adjudication",
           "fieldName": "de-1017a-automatic-failure-correction-agency-request-1.fact_adjudication",
@@ -393,6 +426,30 @@
         }
       ],
       "boundaryRefusals": [
+        {
+          "field": "de-1017a-automatic-failure-correction-agency-request-1.exact_office_postal_address",
+          "fieldName": "de-1017a-automatic-failure-correction-agency-request-1.exact_office_postal_address",
+          "page": 1,
+          "printedLabel": "Exact office and postal address, confirmed with that office",
+          "printedLine": "Exact office and postal address, confirmed with that office",
+          "effectiveLabel": "Exact office and postal address, confirmed with that office",
+          "regionHeading": "Exact office and postal address, confirmed with that office",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: Contact the clerk of the Family Court that entered the adjudication to identify the office handling a section 1017A automatic-failure correction. Confirm the exact office name and postal address with that office and write them on the labelled line before sending. Do not guess an address.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "de-1017a-automatic-failure-correction-agency-request-1 field exact_office_postal_address",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "de-1017a-automatic-failure-correction-agency-request-1",
+          "why": "the held sources do not establish a destination; the participant must confirm the receiving office and postal address before sending",
+          "participantMustSupply": "Contact the clerk of the Family Court that entered the adjudication to identify the office handling a section 1017A automatic-failure correction. Confirm the exact office name and postal address with that office and write them on the labelled line before sending. Do not guess an address."
+        },
         {
           "field": "de-1017a-automatic-failure-correction-agency-request-1.fact_adjudication",
           "fieldName": "de-1017a-automatic-failure-correction-agency-request-1.fact_adjudication",

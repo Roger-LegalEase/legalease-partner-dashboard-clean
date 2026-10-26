@@ -15,6 +15,7 @@ const { evaluateScreening } = await import("@/lib/rcap-engine/evaluator");
 const { getProfileByJurisdiction } = await import("@/lib/rcap-engine/profile-registry");
 const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
 const { LEGAL_AUTHORITY, routePaymentAuthority } = await import("@/lib/legal-authority/index");
+const { AR_RECORD_ORIGIN_ID, arkansasRecordOriginApplies } = await import("@/lib/rcap-engine/arkansas-record-origin");
 
 const closure = JSON.parse(fs.readFileSync(path.join(root, "data/expungement-ai/corrections-a/closure.json"), "utf8"));
 const metadata = JSON.parse(fs.readFileSync(path.join(root, "data/expungement-ai/route-product-metadata.json"), "utf8"));
@@ -124,12 +125,32 @@ expect(msMip, { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Ye
 expect(msMip, { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: "2024-01-01", ms_mip_fine_payment_date: "2025-09-01" }, "not_yet", false);
 expect(msMip, { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: null, ms_mip_fine_payment_date: "2025-08-25" }, "needs_more_info", false);
 
+// Since d20049b88 Arkansas sealing reaches Arkansas records only, and "State or local" does not say which
+// state created the record. The stored fixture states no origin, so it stays the missing-origin negative.
+// The unsupported-service positive declares an explicitly synthetic Arkansas origin, applied here and never
+// written into the stored answers. The other-state, federal, exclusion and venue-no-inference boundaries
+// live in test-ar-record-origin.
+const SYNTHETIC_ARKANSAS_ORIGIN = { [AR_RECORD_ORIGIN_ID]: "arkansas" };
+const arOriginRoutes = [...INTENTIONAL_UNSUPPORTED].filter((key) => key.startsWith("AR:") && arkansasRecordOriginApplies("AR", key.slice(3)));
+let arOriginNegatives = 0;
 for (const key of INTENTIONAL_UNSUPPORTED) {
-  const result = evaluate(key, {});
+  const arOrigin = arOriginRoutes.includes(key);
+  if (arOrigin) {
+    assert.ok(!(AR_RECORD_ORIGIN_ID in byRoute.get(key).answers), `${key}: stored fixture declares no record origin`);
+    const missing = evaluate(key, {});
+    assert.equal(missing.resultCode, "needs_more_info", `${key}: missing record origin`);
+    assert.deepEqual(missing.missingQuestionIds, [AR_RECORD_ORIGIN_ID], `${key}: missing record origin is asked`);
+    assert.ok(missing.reasons.some((reason) => reason.code.endsWith("record_origin_unknown")), `${key}: missing record origin reason`);
+    assert.equal(missing.paymentAllowed, false, `${key}: missing record origin keeps checkout closed`);
+    arOriginNegatives += 1;
+  }
+  const result = evaluate(key, arOrigin ? SYNTHETIC_ARKANSAS_ORIGIN : {});
   assert.equal(result.resultCode, "not_covered_yet", `${key}: intentional unsupported result`);
   assert.equal(result.paymentAllowed, false, `${key}: unsupported checkout closed`);
   assert.ok(result.reasons.some((reason) => reason.code.endsWith("intentional_unsupported_route")), `${key}: unsupported reason is explicit`);
 }
+
+assert.ok(arOriginRoutes.length > 0 && arOriginNegatives === arOriginRoutes.length, "every Arkansas origin route ran its missing-origin negative");
 
 const sevenApprovedClosures = [
   "MS:dui-nonadjudication",

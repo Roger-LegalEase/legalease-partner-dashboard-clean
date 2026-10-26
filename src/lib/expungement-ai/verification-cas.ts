@@ -243,8 +243,9 @@ export async function readProtectedPacketVerification(input: {
     p_briefcase_item_id: input.briefcaseItemId
   });
   if (error) return { ok: false, reason: error.message };
-  const value = protectedVerificationRecord(rowFor(data));
-  return value ? { ok: true, value } : { ok: false, reason: "protected_verification_authority_missing" };
+  const row = rowFor(data);
+  const value = protectedVerificationRecord(row);
+  return value ? { ok: true, value } : { ok: false, reason: row ? "protected_verification_authority_invalid" : "protected_verification_authority_missing" };
 }
 
 export async function persistProtectedPacketVerification(input: {

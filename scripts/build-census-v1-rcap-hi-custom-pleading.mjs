@@ -1857,9 +1857,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     componentRoutes: Object.fromEntries(SPEC.components.map((c) => [c.id, c.routeKey])),
     componentKinds: Object.fromEntries(SPEC.components.map((c) => [c.id, c.kind])),
     dispositionVocabulary: [SIGNATURE, COURT_OWNED],
-    routeSelectionsMade: SPEC.routes.map((r) => ({ routeKey: r.routeKey, statute: r.statute, statedOnEveryPageOfThisRoute: true })),
+    routeSelectionsMade: SPEC.routes.map((r) => ({ routeKey: r.routeKey, statute: r.statute, statedOnEveryPageOfThisRoute: false })),
     routeSelectionNote:
-      "No election box is printed anywhere. Each route's pages state their own statute in the title, the body and the footer, and the participant instructions carry a table saying which set is whose.",
+      "No election box is printed anywhere. Each route's composed motion and order state their own statute in their first-page title and in the body of every page; the attached official HCJDC 159(b) Expungement Application page names no single route. The participant instructions carry a table saying which set is whose.",
     participantFacingObligations: SPEC.obligationTable.map(([question, answer]) => ({ question, answer })),
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0

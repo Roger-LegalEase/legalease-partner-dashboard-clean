@@ -22,7 +22,7 @@ const DATE_FACT_IDS = new Set([
 ]);
 
 const PROOF_CASES = [
-  { code: "CA", route: /petition-based felony sealing/i, waitId: "wait-08", name: "CA petition felony sealing", caseOutcome: "Felony conviction", offenseLevel: "Felony" },
+  { code: "CA", route: /petition-based felony sealing/i, waitId: "wait-08", name: "CA tool-3 containment (no paid-wait coverage)", caseOutcome: "Felony conviction", offenseLevel: "Felony" },
   { code: "CT", route: /petitioned clean slate/i, waitId: "wait-04", name: "CT pre-2000 JD-CR-202 petition" },
   { code: "DC", route: /misdemeanor conviction after 5 years/i, waitId: "wait-dc-806-misdemeanor-5yr", name: "DC §16-806 misdemeanor motion" },
   { code: "GA", route: /sb 288 misdemeanor/i, waitId: "wait-07", name: "GA SB-288 court petition" },
@@ -87,6 +87,7 @@ function answerFor(question, fixture) {
   if (id === "waiting_rule_id") return fixture.waitId ?? "";
   if (DATE_FACT_IDS.has(id)) return fixture.date;
   if (id === "state_exclusion_categories") return ["None of these"];
+  if (id === "ca_12034_current_status") return ["none"];
   if (id === "sentence_completion_date" || id === "financial_obligations" || id === "special_preconditions_confirmed") return "Yes";
   if (id === "pending_cases" || id === "new_convictions_during_waiting_period" || id === "pardon_status" || id === "identity_error" || id === "trafficking_status") return "No";
   if (id === "dc_offense_severity_group") return "Not in Offense Severity Group 1, 2, or 3";
@@ -119,7 +120,12 @@ function answerFor(question, fixture) {
 
 function evaluateFixture(fixture, date, mutate) {
   const answers = {};
-  for (const question of projectPublicProfile(fixture.profile).questions) answers[question.id] = answerFor(question, { ...fixture, date });
+  for (const question of projectPublicProfile(fixture.profile).questions) {
+    // A tool-3 containment fixture does not request a separate Proposition 64 application.
+    if (fixture.profile.jurisdiction.code === "CA" && fixture.pathway.id === "tool-3-petition-based-felony-sealing"
+      && ["ca_prop64_next_step", "ca_prop64_branch"].includes(question.id)) continue;
+    answers[question.id] = answerFor(question, { ...fixture, date });
+  }
   if (mutate) mutate(answers);
   return evaluateScreening({
     jurisdiction: fixture.profile.jurisdiction.code,
@@ -152,10 +158,21 @@ for (const proof of PROOF_CASES) {
   const missing = evaluateFixture(fixture, dates.over, (answers) => {
     for (const id of DATE_FACT_IDS) delete answers[id];
   });
-  assert(!packetOpen(under), `${proof.name}: just-under wait offered payment.`);
-  assert(packetOpen(over), `${proof.name}: just-over wait did not offer payment.`);
-  assert(over.resultCode !== "packet_ready_with_caution" || over.paymentAllowed === true, `${proof.name}: packet_ready_with_caution did not offer $50.`);
-  assert(missing.paymentAllowed === false && ["needs_more_info", "needs_review"].includes(missing.resultCode), `${proof.name}: missing anchor did not fail closed.`);
+  if (proof.code === "CA" && pathway.id === "tool-3-petition-based-felony-sealing") {
+    // Roger's 2026-10-21 14:01:42Z hold; Reviewer2 ACCEPT 215512e79..57f16ba91 at 14:49:09Z.
+    // Containment only: no CA paid-wait coverage; missing anchors also yield guidance_only, not needs_more_info/review.
+    for (const [boundary, result] of [["under", under], ["over", over], ["missing", missing]]) {
+      assert(result.pathwayId === pathway.id, `${proof.name}: ${boundary} fixture selected another route.`);
+      assert(result.resultCode === "guidance_only" && result.paymentAllowed === false
+        && result.reasons.length === 1 && result.reasons[0].code === "ca.lawrence_hold_guidance_only",
+      `${proof.name}: ${boundary} did not preserve the approved tool-3 hold.`);
+    }
+  } else {
+    assert(!packetOpen(under), `${proof.name}: just-under wait offered payment.`);
+    assert(packetOpen(over), `${proof.name}: just-over wait did not offer payment.`);
+    assert(over.resultCode !== "packet_ready_with_caution" || over.paymentAllowed === true, `${proof.name}: packet_ready_with_caution did not offer $50.`);
+    assert(missing.paymentAllowed === false && ["needs_more_info", "needs_review"].includes(missing.resultCode), `${proof.name}: missing anchor did not fail closed.`);
+  }
   proofRows.push(`${proof.code} | ${pathway.label} | ${wait.id}:${wait.duration.value} ${wait.duration.unit} | under=${under.resultCode}/${under.paymentAllowed} | over=${over.resultCode}/${over.paymentAllowed} | missing=${missing.resultCode}/${missing.paymentAllowed}`);
 }
 

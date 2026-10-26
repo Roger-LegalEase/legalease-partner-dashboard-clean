@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF04",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "nd-deferred-imposition-records-set": "ALREADY_RELEASED: nd-deferred-imposition-records-set at 2026-09-02T00:06:52.063Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "nd-deferred-imposition-records-set",
+      "lane": "VF04",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-deferred-imposition-records-set run in this session from inside /tmp/ci-queue-b18 at 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR=/tmp/ci-queue-b18/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and PYTHONDONTWRITEBYTECODE=1: PASS_COMPLETE, exit 0, every counter printed 0; git status unchanged before and after (only the untracked private/ mount)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across source-receipt, product-wiring, production-field-map, rendered-artifacts and the MASTER_QUEUE row, and all four declare the same two keys obligation:unit:ND:nd-deferred-imposition-records:nd_deferred_dismissal_motion and \u2026:nd_deferred_verify_automatic_seal, which are the two units of the memo track (compositionMode alternative). The composed pages print a Route: footer on pages 1, 3 and 4 of both fixtures and it is always the dismissal_motion key \u2014 product-wiring.routeKey and the routeKey every field-map component carries. Scored PASS on the standard VF11 applied to me-nonconv-set (where a Route: line is printed it prints one of the declared keys). Recorded rather than smoothed: nd_deferred_verify_automatic_seal is printed nowhere in either fixture (0 occurrences; participant-instructions.md lists both keys), and page 1 \u2014 the verification unit, which says NOTHING IS FILED \u2014 carries the motion unit's key. VF04's row records each unit \"printing its own route key footer\"; the bytes do not show that."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Both compositionSources recomputed from disk here. (1) data/record-clearing/legal-design-intake/ND.memo.json: pinned b39b420c\u2026/218868 B, current ed711519\u2026/224879 B (drifted). Drift read object-for-object from drift/ND.memo.json.pinned.b39b420c against the current file: the ONLY track that changed is tracks[1] nd-nonconviction-auto-close-verify: exclusions[3] (appealed case) extended with the 2026-09-06 research correction; waitingPeriods[0] condition and duration rewritten with the N.D.R.Crim.P. 45 computation and calendar examples; rules gained researchProductMechanismVersusLaw, researchEnforcementPacket and researchClerkRequestDraft; the release_blocker unresolvedQuestion on the day-61 remedy removed and carried into a new researchResolvedQuestions block (2 \u2192 1 unresolved). This family's own track tracks[7] nd-deferred-imposition-records is identical under a recursive sorted-key compare \u2014 same two units, same rules (filing, fees 'none identified for either unit', feeWaiver 'not applicable', service and notice 'None stated by the rule or the statute', notarization 'none required'), same three components, same six selfHelpStopConditions, same two unresolvedQuestions; the memo's non-track metadata (_controllingReview, _sourceSlotAccounting, _officialAuthorityConfirmation, schemaVersion, jurisdiction, memoVersion, submittedAt) is identical; 15 tracks on both sides. Unrelated track only. New pin to record: ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3 / 224879 B. (2) legal-design-packet-set-manifests.json: pinned b28edfb9\u2026/3708050 B, current fee93664\u2026/3738732 B (drifted). packetSets['nd-deferred-imposition-records-set'] is identical pinned\u2192current under a recursive sorted-key compare, the record's non-packetSets metadata is identical, 497 entries on both sides, and the only changed entries are co_motion_seal_conviction-set, co_petition_seal_arrest-set, de_discretionary_family_court-set, de_discretionary_superior_court-set, il-seal-edu-set, va_exp_absolute_pardon-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set \u2014 none of them this family. The receipt's identicalAnchorSha256 values reproduce exactly against the CURRENT record under the receipt's own canonicalisation (recordGlobalMetadata eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead; packetSet:nd-deferred-imposition-records-set c3ae8b4ad7f87346f71d71e3f5fe7ee8baa5591bb219e8911c84765df21eed99). New pin to record: fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732 B. Not re-pinned here. No official source is bound (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialSources empty, officialFormFamily NONE). Nothing this family binds has moved; the whole-file pins are stale and that is recorded, not repaired, here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Three declared components (verification_instructions, primary_filing, legal_effect_explanation) equal the three rendered and the three composedComponentsAuthoredByThisBuild, and the memo track's components list (verification_instructions required, primary_filing conditional on the motion unit, legal_effect_explanation required). Each is on the face under its heading (VERIFYING THE AUTOMATIC WITHDRAWAL\u2026, MOTION UNDER N.D.C.C. SEC. 12.1-32-07.1\u2026, WHAT THIS SEAL IS, AND WHAT IT IS NOT) in both fixtures; the motion opens with its FILE THIS MOTION ONLY IF condition. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Every value reports/actual-writes.json records was searched for by this lane in the pdftotext text of its fixture: canonical 6/6, boundary 6/6, none missing. Name, mailing address, telephone and email are on the motion face and the name in every Prepared for line and the caption. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "participant-instructions.md names the three records and who holds them \u2014 the final order, the deferral order and the probation discharge, from the clerk of court of the sentencing court or DOCR Parole and Probation \u2014 which is the memo track's supportingDocuments list, and names the five dotted blanks on the motion with what to write and which record answers each. Page 1 prints the same four-step clerk's-file walkthrough and says that until the final order is held nothing can be said about status. requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade is empty and selectionControls=0: neither unit is selected for the participant (the clerk's file decides), and the one mark on the face \u2014 the felony-reduction application in FIFTH \u2014 is unmarked and printed as the defendant's own application. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "incompleteRows=0 measured here; no repeating row structure."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites=0 measured here and refusedFieldsWithInk is empty in both fixtures. The motion's DATE and SIGNATURE OF DEFENDANT are dotted blanks with the printed statement that nothing is signed or dated for the defendant and that no notarization is required by the record (memo rules.notarization \"none required\"); nothing is signed on the verification unit; the court's dismissal order is not in the packet."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Two PDFs on disk, both recorded, no unrecorded PDF. Recomputed here: canonical.pdf 8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1 / 12744 B, boundary.pdf c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29 / 12930 B, both equal to reports/rendered-artifacts.json; pdfinfo reads 4 pages for each, equal to the recorded 4."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read from the page headings of the bytes: 1 verification instructions, 2-3 motion, 4 legal-effect explanation, identical on both fixtures and equal entry for entry to the pageManifest in rendered-artifacts.json. 4 pages read by pdfinfo = 4 recorded."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox run here on both fixtures: canonical 1189 words, boundary 1195 words, 0 words outside the 612x792 page box, 0 same-band overlapping word pairs. visualDefects=0 measured here. RASTER_QUEUE row reads RASTER_PASS (run 33547709781); no raster produced in this lane."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The memo track's destination is \"Clerk of Court of the sentencing court that deferred imposition\" with rules.filing \"Nothing is filed on the verification unit. On the motion unit, file in the existing criminal case with the clerk.\" The packet states both: page 1 \"On this unit NOTHING IS FILED, because the court acts under a term of its own order\"; the motion is captioned IN THE DISTRICT COURT OF \u2026 COUNTY, NORTH DAKOTA \"(the county of the sentencing court that deferred imposition)\", \"moves the Court in the existing criminal case\", and the instructions say the motion is filed in the existing criminal case, not as a new one, with the clerk of court of the sentencing court named as the office that confirms the county."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Scored under DET-FEE-AND-WAIVER-001. The held record states \"fees: none identified for either unit\" and \"feeWaiver: not applicable; no fee is identified\", and no bound record states a figure. Page 1 MONEY line: \"No fee is identified for either unit in the family's own record; nothing here states one.\" participant-instructions.md adds that the clerk of court of the sentencing court can confirm whether that court expects one. A sourced no-fee-identified statement plus a named checkable authority; no figure invented."
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "detail": "The held record (memo track rules.service and rules.notice) reads \"None stated by the rule or the statute\", so no held source establishes a service duty and the packet must either state affirmatively that nobody is served, with the mechanism, or name a checkable authority for the question. Verification unit: met \u2014 page 1 states \"On this unit NOTHING IS FILED, because the court acts under a term of its own order.\" Motion unit: silent \u2014 neither fixture nor participant-instructions.md says who, if anyone, receives a copy of the \u00a7 12.1-32-07.1 motion filed in the existing criminal case, by what method, or that nobody does, and no office is named for that question; the words serve/service do not occur in any participant-facing record of this family. Under the standard applied in this lane (VF11 standardApplied.SERVICE and DET-FEE-AND-WAIVER-001: silence does not meet it) the motion unit fails. VF04 passed this obligation on a different formulation (\"the packet imposes no invented service duty, matching that record\"); this is a standard-application difference on unchanged bytes, flagged for the lead rather than decided quietly. The repair is one sentence on the motion page and in the instructions: either the service treatment the record establishes (none is held) or the clerk of court of the sentencing court as the office that answers whether the state's attorney must receive a copy."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The memo track holds six selfHelpStopConditions; page 4 prints all six under WHEN TO STOP AND GET HELP INSTEAD OF FILING (deferred status unclear; no final order and no explanation from the clerk; registration consequence survives; firearm consequence survives; revocation petition or bench warrant; expectation of invisibility in a later prosecution, which \u00a7 12.1-32-02(4) forecloses), and page 1 repeats the no-final-order stop as \"stop and get help before filing anything\". The instructions add the pre-March-2019 felony deferral open question as a stop. 6/6 held stops carried; nothing inverted."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 6/14 written, all nine counters zero, run here at 1b48eb358",
+        "sourceRecomputation": "2/2 compositionSources recomputed from disk; 2 whole-file pins drifted (ND.memo.json b39b420c\u2192ed711519, manifests b28edfb9\u2192fee93664); 0 controlling entries changed \u2014 the nd-deferred-imposition-records track and the family's manifest entry are object-identical pinned\u2192current (the memo change is confined to the nd-nonconviction-auto-close-verify track); current hashes recorded as the new pins, not re-pinned",
+        "artifactRecomputation": "2/2 PDFs hash and size to rendered-artifacts.json; pdfinfo page counts 4/4",
+        "byteReadBack": "12/12 recorded write values found by this lane in pdftotext output (6 canonical, 6 boundary)",
+        "stopConditions": "6/6 memo selfHelpStopConditions printed on page 4 of both fixtures",
+        "lapseResolved": "no lapse is recorded on the MASTER_QUEUE row (lapse null); nothing to resolve",
+        "compositionSourcesRecomputed": [
+          {
+            "path": "data/record-clearing/legal-design-intake/ND.memo.json",
+            "pinnedSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+            "pinnedByteLength": 218868,
+            "currentSha256": "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3",
+            "currentByteLength": 224879,
+            "exact": false
+          },
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinnedSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "pinnedByteLength": 3708050,
+            "currentSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+            "currentByteLength": 3738732,
+            "exact": false
+          }
+        ]
+      },
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

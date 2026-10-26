@@ -43,7 +43,8 @@ const FAMILY = makeAgencyGuidanceFamily({
       heading: "Route boundary",
       paragraphs: [
         "This route is only for the actual physical destruction of records already erased under Section 54-142a. It does not erase a record, does not seal a record, and is not a court petition. Connecticut's word for the underlying relief is erasure; physical destruction goes further.",
-        "The receiving office is the Superior Court clerk at the court location holding the erased records. The clerk acts on the accused's request. Before acting, ask that clerk to confirm the accepted request format and destination."
+        "The receiving office is the Superior Court clerk at the court location holding the erased records. The clerk acts on the accused's request. Before acting, ask that clerk to confirm the accepted request format and destination.",
+        "Service and notice: the committed Connecticut review states none for this request, so this guide adds none. Before you send it, ask that clerk's office whether anyone must be served or sent a copy."
       ]
     },
     {
@@ -64,6 +65,7 @@ const FAMILY = makeAgencyGuidanceFamily({
   instructions: [
     "Do not use this route until the clerk confirms the records are already erased and the three-year period has passed.",
     "Ask the clerk holding the erased records how it wants the request made. This packet deliberately does not draft a request against an unconfirmed format or destination.",
+    "Service and notice: the committed Connecticut review states none for this request, so this guide adds none. Before you send it, ask that clerk's office whether anyone must be served or sent a copy.",
     "Stop and obtain counsel if the record is not erased, the clerk asks for something not established here, or any immigration matter is pending or possible."
   ],
   buildFindings: [

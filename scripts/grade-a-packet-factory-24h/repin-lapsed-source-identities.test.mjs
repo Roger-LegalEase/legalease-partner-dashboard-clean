@@ -25,6 +25,7 @@ import {
   doctrineRefreshedPaths, planFamily, planReceipt, composeRefreshedReceipt,
   readsAsUnmoved, recoverBytesByDigest, sha256, lapsedFamilies, currentBytesOf
 } from "./repin-lapsed-source-identities.mjs";
+import { isolateDrift } from "./repin-test-fixtures.mjs";
 
 const ROOT = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const REGISTRY = "data/record-clearing/legal-design-track-registry.json";
@@ -37,13 +38,175 @@ const test = (name, run) => {
 };
 const readReceipt = (dir) => JSON.parse(fs.readFileSync(path.join(ROOT, dir, "source-receipt.json"), "utf8"));
 
+/* Focused route-contract controls use only committed JSON/git history and
+ * temporary in-memory receipts. No corpus restore, app import or receipt write.
+ * The historical registry controls below remain unchanged and run normally
+ * unless this explicit focused test flag is supplied. */
+function singleRouteContractTests() {
+  const recordPath = "src/lib/legal-authority/routes/single-routes.json";
+  const routeAdapter = ADAPTERS.get(recordPath);
+  assert.ok(routeAdapter);
+  const current = JSON.parse(fs.readFileSync(path.join(ROOT, recordPath), "utf8"));
+  const queue = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), "utf8"));
+  const ids = [
+    "census-pending-family:ME:juvenile-sealing",
+    "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+    "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+    "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+    "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+  ];
+  const examples = ids.map(familyId => {
+    const family = queue.families.find(row => row.familyId === familyId);
+    assert.ok(family, familyId);
+    const receiptPath = `${family.directory}/source-receipt.json`;
+    // Remain non-vacuous after the proposed receipt refresh is integrated:
+    // recover an actual pre-refresh receipt rather than comparing current to itself.
+    const revisions = ["HEAD", ...execFileSync("git", ["log", "--format=%H", "-12", "--", receiptPath],
+      { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean)];
+    let receipt, pin, beforeText;
+    for (const revision of [...new Set(revisions)]) {
+      const candidateText = execFileSync("git", ["show", `${revision}:${receiptPath}`],
+        { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 24 });
+      const candidate = JSON.parse(candidateText);
+      const binding = candidate.committedRecords.find(row => row.pathInRepository === recordPath);
+      if (binding && binding.sha256 !== sha256(fs.readFileSync(path.join(ROOT, recordPath)))) {
+        receipt = candidate; pin = binding; beforeText = isolateDrift(candidateText, recordPath, ROOT); break;
+      }
+    }
+    assert.ok(pin, `no actual stale route-contract receipt found for ${familyId}`);
+    const recovered = recoverBytesByDigest(recordPath, pin.sha256);
+    assert.ok(recovered.bytes, recovered.why);
+    assert.equal(sha256(recovered.bytes), pin.sha256);
+    return { family, receipt, pin, beforeText, old: JSON.parse(recovered.bytes.toString("utf8")) };
+  });
+  const compare = (oldDoc, currentDoc, receipt, pin) => compareAnchors({
+    adapter: routeAdapter, oldDoc, currentDoc,
+    scope: routeAdapter.scopeFrom({ receipt, pin, currentDoc })
+  });
+  for (const example of examples) test(`route-contract ACCEPT recovered whole route and all branches: ${example.family.familyId}`, () => {
+    const { old, receipt, pin } = example;
+    const result = compare(old, current, receipt, pin);
+    assert.deepEqual(result.differing, []);
+    assert.equal(result.anchorsCompared, 2);
+    assert.equal(result.anchorsIdentical, 2);
+    assert.ok(result.anchorNames.includes("routeContractGlobalMetadata"));
+    assert.ok(result.anchorNames.includes(pin.recordId));
+    assert.notEqual(sha256(Buffer.from(JSON.stringify(old))), sha256(Buffer.from(JSON.stringify(current))),
+      "the recovered source must genuinely precede the unrelated MD correction");
+  });
+  const { receipt, pin, old, family } = examples[1];
+  const routeKey = pin.recordId.slice("route-contract:".length);
+  const mutate = change => { const copy = structuredClone(current); change(copy); return copy; };
+  test("route-contract compares complete other branches, not only the receipt's cohort", () => {
+    // DE's full route notes carry the automatic and discretionary branch rules;
+    // this source format has no serviceBranches child array.
+    const changed = mutate(doc => { doc.routes.find(row => row.routeKey === routeKey).notes += " different automatic branch requirement"; });
+    assert.deepEqual(compare(current, changed, receipt, pin).differing, [pin.recordId]);
+  });
+  test("route-contract changed required facts, clocks, exclusions and shared authority all refuse", () => {
+    for (const change of [
+      doc => { doc.routes.find(row => row.routeKey === routeKey).requiredFacts.push("different fact"); },
+      doc => { doc.routes.find(row => row.routeKey === routeKey).timing.anchorText += " changed"; },
+      doc => { doc.routes.find(row => row.routeKey === routeKey).exclusions.push("different exclusion"); },
+      doc => { doc.authority = "different global authority"; }
+    ]) assert.ok(compare(current, mutate(change), receipt, pin).differing.length);
+  });
+  test("route-contract absent historical/current anchors and duplicate routes refuse", () => {
+    const absent = mutate(doc => { doc.routes = doc.routes.filter(row => row.routeKey !== routeKey); });
+    assert.throws(() => compare(current, absent, receipt, pin), Refusal);
+    assert.throws(() => compare(absent, current, receipt, pin), Refusal);
+    const duplicate = mutate(doc => { doc.routes.push(structuredClone(doc.routes.find(row => row.routeKey === routeKey))); });
+    assert.throws(() => compare(current, duplicate, receipt, pin), Refusal);
+    assert.throws(() => compare(duplicate, current, receipt, pin), Refusal);
+  });
+  test("route-contract unknown/multiple recordId or wrong source path refuses", () => {
+    for (const changed of [
+      { ...pin, recordId: undefined }, { ...pin, recordId: "route-contract:DE:missing" },
+      { ...pin, recordId: pin.recordId + "+ME:juvenile-sealing" },
+      { ...pin, recordId: "other:" + routeKey }, { ...pin, pathInRepository: "unrelated.json" }
+    ]) assert.throws(() => compare(old, current, receipt, changed), Refusal);
+  });
+  test("route-contract missing/duplicate/mismatched/unsupported receipt route scope refuses", () => {
+    for (const changed of [
+      { ...receipt, routeKeys: [] }, { ...receipt, routeKeys: undefined },
+      { ...receipt, routeKeys: [receipt.routeKeys[0], receipt.routeKeys[0]] },
+      { ...receipt, routeKeys: [receipt.routeKeys[0].replace(":DE:", ":ME:")] },
+      { ...receipt, routeKeys: [receipt.routeKeys[0] + ":extra"] },
+      { ...receipt, routeKeys: ["obligation:track-pathway:DE:invented:" + routeKey.split(":")[1]] },
+      { ...receipt, jurisdiction: "ME" }
+    ]) assert.throws(() => compare(old, current, changed, pin), Refusal);
+  });
+  test("route-contract malformed cohort suffix refuses; cohort never narrows source scope", () => {
+    const malformed = { ...receipt, routeKeys: [receipt.routeKeys[0].replace(/:[^:]+$/, ":invalid/suffix")] };
+    assert.throws(() => compare(old, current, malformed, pin), Refusal);
+    const differentGrouping = { ...receipt, routeKeys: [receipt.routeKeys[0].replace(/:[^:]+$/, ":another_runtime_group")] };
+    const result = compare(old, current, differentGrouping, pin);
+    assert.deepEqual(result.anchorNames.sort(), ["routeContractGlobalMetadata",pin.recordId].sort());
+    assert.equal(result.anchorsCompared,2);
+  });
+  test("route-contract complete identity mutation refuses, unrelated MD mutation may refresh", () => {
+    const changed = mutate(doc => { doc.routes.find(row => row.routeKey === routeKey).pathwayId = "different"; });
+    assert.throws(() => compare(current, changed, receipt, pin), Refusal);
+    const unrelated = mutate(doc => { doc.routes.find(row => row.jurisdiction === "MD").notes = "unrelated source edit"; });
+    assert.deepEqual(compare(current, unrelated, receipt, pin).differing, []);
+  });
+  for (const example of examples.slice(1,3)) test(`route-contract escaped DE lexical repair preserves all unrelated bytes: ${example.family.familyId}`, () => {
+    const beforeText = example.beforeText; // exact recovered pre-refresh bytes, including escaped Unicode
+    const plan = planReceipt({familyId: example.family.familyId, directory:example.family.directory,
+      receiptPath:`${example.family.directory}/source-receipt.json`,beforeText,on:new Date("2026-10-16T00:00:00Z")});
+    assert.equal(plan.outcome,"REFRESHABLE",plan.why);
+    const composed=composeRefreshedReceipt(plan), after=JSON.parse(composed.text);
+    const before=JSON.parse(beforeText), index=before.committedRecords.findIndex(pin=>pin.pathInRepository===recordPath);
+    const stringify=value=>JSON.stringify(value,null,2).replace(/[\u007f-\uffff]/g,character=>`\\u${character.charCodeAt(0).toString(16).padStart(4,"0")}`);
+    const indent=value=>stringify(value).split("\n").map((line,i)=>i?`    ${line}`:line).join("\n");
+    const oldPin=indent(before.committedRecords[index]), newPin=indent(after.committedRecords[index]);
+    assert.equal(beforeText.split(oldPin).length,2);
+    assert.equal(composed.text, beforeText.replace(oldPin,newPin));
+    assert.ok(composed.text.includes("\\u00a7"));
+    assert.ok(readsAsUnmoved(beforeText,composed.text).ok);
+    after.committedRecords[index]=before.committedRecords[index];assert.deepEqual(after,before);
+    const duplicated=JSON.parse(beforeText);duplicated.copy=structuredClone(before.committedRecords[index]);
+    assert.throws(()=>composeRefreshedReceipt({...plan,beforeText:stringify(duplicated)+"\n"}),Refusal);
+    const wrongSpacing=beforeText.replace('  "familyId"',' "familyId"');
+    assert.equal(planReceipt({...plan,beforeText:wrongSpacing}).outcome,"REFUSED");
+  });
+  test("route-contract native temporary-receipt planner preserves source-bound annotation and prior history", () => {
+    const fixture = { familyId: family.familyId, jurisdiction: receipt.jurisdiction,
+      routeKeys: receipt.routeKeys, committedRecords: [structuredClone(pin)] };
+    const beforeText = JSON.stringify(fixture, null, 2) + "\n";
+    const plan = planReceipt({ familyId: family.familyId, directory: family.directory,
+      receiptPath: `${family.directory}/source-receipt.json`, beforeText, on: new Date("2026-10-16T00:00:00Z") });
+    assert.equal(plan.outcome, "REFRESHABLE", plan.why);
+    const composed = composeRefreshedReceipt(plan);
+    const after = JSON.parse(composed.text).committedRecords[0];
+    assert.equal(after.sha256, sha256(fs.readFileSync(path.join(ROOT, recordPath))));
+    assert.equal(after.identityRefresh.anchorsCompared, 2);
+    assert.equal(after.identityRefresh.anchorsIdentical, 2);
+    assert.deepEqual(after.identityRefresh.previousIdentityRefresh, pin.identityRefresh);
+    assert.ok(readsAsUnmoved(beforeText, composed.text).ok);
+    const material = JSON.parse(composed.text); material.committedRecords[0].role += " changed";
+    assert.equal(readsAsUnmoved(beforeText, JSON.stringify(material, null, 2) + "\n").ok, false);
+  });
+}
+singleRouteContractTests();
+if (process.argv.includes("--single-routes-only")) {
+  const failed = results.filter(row => !row.passed);
+  for (const row of results) console.log(`${row.passed ? "pass" : "FAIL"}  ${row.name}${row.passed ? "" : `\n      ${row.error}`}`);
+  console.log(JSON.stringify({ passed: results.length - failed.length, failed: failed.length, scope: "single-route-contract adapter only; no app imports, DB or receipt writes" }));
+  process.exit(failed.length ? 1 : 0);
+}
+
 /* ------------------------------------------------------------------ *
  * Recover the real historical registry, from history, by digest
  * ------------------------------------------------------------------ */
 
 const families = lapsedFamilies();
-assert.ok(families.length > 0, "the queue reports no lapsed family; these tests need at least one");
-const sample = families.find((f) => f.familyId === "rcap-wi-custom-pleading") ?? families[0];
+// The original WI registry fixture remains valid after its live lapse clears.
+// Dispatch order and unrelated lapsed families cannot choose this fixture.
+const sample = JSON.parse(fs.readFileSync(path.join(ROOT,
+  "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), "utf8"))
+  .families.find((f) => f.familyId === "rcap-wi-custom-pleading");
+assert.ok(sample, "the retained WI registry fixture must exist in the queue");
 const receiptPath = `${sample.directory}/source-receipt.json`;
 const currentBytes = currentBytesOf(REGISTRY).bytes;
 const NOW = JSON.parse(currentBytes.toString("utf8"));
@@ -59,7 +222,11 @@ const NOW = JSON.parse(currentBytes.toString("utf8"));
  */
 const gitText = (rev) => execFileSync("git", ["show", `${rev}:${receiptPath}`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 });
 const prePinRevision = (() => {
-  for (const rev of ["HEAD", "HEAD~1", "HEAD~2", "HEAD~3", "HEAD~4", "HEAD~5"]) {
+  // Search this receipt's actual history; six unrelated recent commits say
+  // nothing about whether its retained pre-refresh revision exists.
+  const revisions = execFileSync("git", ["rev-list", "HEAD", "--", receiptPath],
+    { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+  for (const rev of ["HEAD", ...revisions]) {
     try {
       const pin = JSON.parse(gitText(rev)).committedRecords.find((r) => r.pathInRepository === REGISTRY);
       if (pin && pin.sha256 !== sha256(currentBytes)) return rev;
@@ -68,7 +235,7 @@ const prePinRevision = (() => {
   return null;
 })();
 assert.ok(prePinRevision, "no revision of this receipt carries a stale registry pin, so the accept path has no fixture");
-const beforeText = gitText(prePinRevision);
+const beforeText = isolateDrift(gitText(prePinRevision), REGISTRY, ROOT);
 const sampleReceipt = JSON.parse(beforeText);
 const samplePin = sampleReceipt.committedRecords.find((r) => r.pathInRepository === REGISTRY);
 assert.ok(samplePin, "the sample family does not pin the registry");
@@ -134,20 +301,37 @@ test("ACCEPT: comparison is order-independent", () => {
  * IT MUST REFUSE
  * ------------------------------------------------------------------ */
 
+/*
+ * The Colorado change is a fixed pair from history, not "pre-pin vs live": the
+ * receipt's pin at d4984cbc5 and at 2a27a1fc3 ("re-pin 21 source identities
+ * lapsed by the Colorado track correction") bracket that one real change. The
+ * live-tree pair flipped with every later registry move (the rules block stopped
+ * differing at 2af21d873 and nothing differed at 66e80e5b9).
+ */
+const CO_CHANGE = { before: "d4984cbc58923c10b3bfa71b684611980b5ae7d7", after: "2a27a1fc3aa5b214de67554f2a01fd51defc0ef9" };
+const registryPinnedAt = (rev) => {
+  const pin = JSON.parse(gitText(rev)).committedRecords.find((r) => r.pathInRepository === REGISTRY);
+  const found = recoverBytesByDigest(REGISTRY, pin.sha256);
+  assert.ok(found.bytes, `could not recover the registry pinned at ${rev}: ${found.why}`);
+  return JSON.parse(found.bytes.toString("utf8"));
+};
+
 test("REFUSE (real change, real family): a family binding co_motion_seal_conviction is refused, and the differing entry is named", () => {
   const co = "co_motion_seal_conviction";
-  assert.ok(NOW.tracks.some((t) => t.trackId === co) && OLD.tracks.some((t) => t.trackId === co),
+  const BEFORE = registryPinnedAt(CO_CHANGE.before);
+  const AFTER = registryPinnedAt(CO_CHANGE.after);
+  assert.ok(AFTER.tracks.some((t) => t.trackId === co) && BEFORE.tracks.some((t) => t.trackId === co),
     "the Colorado track must exist on both sides for this to be a real comparison");
   /* The real family's own records: its route key and the recordId shape every
    * registry pin uses. Nothing of that family's directory is read or written. */
   const receipt = { routeKeys: [`obligation:track-pathway:CO:${co}:petition-based-conviction-sealing-jdf-612-24-72-706`] };
   const pin = { recordId: `legal-design-track-registry:${co}`, pathInRepository: REGISTRY };
-  const scope = adapter.scopeFrom({ receipt, pin, currentDoc: NOW });
+  const scope = adapter.scopeFrom({ receipt, pin, currentDoc: AFTER });
   assert.deepEqual(scope.anchorIds, [co]);
-  const c = compareAnchors({ adapter, oldDoc: OLD, currentDoc: NOW, scope });
+  const c = compareAnchors({ adapter, oldDoc: BEFORE, currentDoc: AFTER, scope });
   assert.deepEqual(c.differing, [`track:${co}`], "the changed Colorado track must be named as differing");
   assert.notEqual(c.anchorsCompared, c.anchorsIdentical);
-  const detail = describeDifference({ adapter, oldDoc: OLD, currentDoc: NOW, scope, differing: c.differing });
+  const detail = describeDifference({ adapter, oldDoc: BEFORE, currentDoc: AFTER, scope, differing: c.differing });
   assert.ok(detail[0].changedFields.includes("rules"), `expected the changed rules block, got ${detail[0].changedFields}`);
   assert.match(detail[0].firstChangedFieldCurrent + detail[0].firstChangedFieldHistorical, /feeWaiver|packetSet/);
 });
@@ -201,6 +385,133 @@ test("REFUSE: a family whose own records name no entry at all -- anchorsCompared
 
 test("REFUSE: a drifted record with no adapter is never guessed at", () => {
   assert.equal(ADAPTERS.has("data/some/other/shared-record.json"), false);
+});
+
+/* ------------------------------------------------------------------ *
+ * The specifications adapter, on two fixed changes from history:
+ * 56cea6685 moved only co_motion_seal_conviction (officialFormAssignments),
+ * c58b91551 moved only tn_pretrial_diversion + tn_judicial_diversion
+ * (customPleadingSpecs). Neither touched the WI track.
+ * ------------------------------------------------------------------ */
+
+const SPECS = "data/record-clearing/legal-design-specifications.json";
+const specsAdapter = ADAPTERS.get(SPECS);
+const specsAt = (rev) => JSON.parse(execFileSync("git", ["show", `${rev}:${SPECS}`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
+const SPECS_CHANGES = {
+  co: [specsAt("ec715deaecd3ad4e4b3d890050aaf2723f0b4a73"), specsAt("56cea6685a094aa86f5e6bccc52bbb255297889d")],
+  tn: [specsAt("1310ab5d9551fd29839e8ef39b7c5895d468523b"), specsAt("c58b915511d080536e93f93deb615329177a9143")]
+};
+const specsPinAt = (rev, dir) => {
+  const receipt = JSON.parse(execFileSync("git", ["show", `${rev}:${dir}/source-receipt.json`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
+  return { receipt, pin: receipt.committedRecords.find((r) => r.pathInRepository === SPECS) };
+};
+const WI_SPECS = specsPinAt("2f6985f6478247d71de78447bc16680a29136427", "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading");
+const TN_SPECS = specsPinAt("2f6985f6478247d71de78447bc16680a29136427", "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading");
+const CO_SPECS = { receipt: {}, pin: { recordId: "legal-design-specifications:co_motion_seal_conviction", pathInRepository: SPECS } };
+
+/* The three properties, as functions of an adapter, so each mutant below is
+ * run through exactly the checks the real adapter passes. */
+const specsCompare = (a, { receipt, pin }, [oldDoc, currentDoc]) =>
+  compareAnchors({ adapter: a, oldDoc, currentDoc, scope: a.scopeFrom({ receipt, pin, currentDoc }) });
+const specsAcceptsWi = (a) => Object.values(SPECS_CHANGES).every((pair) => {
+  const c = specsCompare(a, WI_SPECS, pair);
+  return c.anchorsCompared === c.anchorsIdentical && c.anchorNames.includes("specs:wi_exp_certificate_of_discharge_followup");
+});
+const specsRefusesTn = (a) => canonical(specsCompare(a, TN_SPECS, SPECS_CHANGES.tn).differing) === canonical(["specs:tn_judicial_diversion", "specs:tn_pretrial_diversion"]);
+const specsRefusesCo = (a) => canonical(specsCompare(a, CO_SPECS, SPECS_CHANGES.co).differing) === canonical(["specs:co_motion_seal_conviction"]);
+
+test("specifications ACCEPT: the WI family's own track is identical across both changes, so it compares clean", () => {
+  assert.ok(specsAdapter, "the specifications record must have an adapter");
+  assert.deepEqual(specsAdapter.scopeFrom({ ...WI_SPECS, currentDoc: SPECS_CHANGES.co[1] }).anchorIds, ["wi_exp_certificate_of_discharge_followup"]);
+  assert.ok(specsAcceptsWi(specsAdapter));
+});
+
+test("specifications REFUSE: the real TN family is refused over the TN change, naming exactly the two changed tracks", () => {
+  assert.ok(specsRefusesTn(specsAdapter));
+  const c = specsCompare(specsAdapter, TN_SPECS, SPECS_CHANGES.tn);
+  const scope = specsAdapter.scopeFrom({ ...TN_SPECS, currentDoc: SPECS_CHANGES.tn[1] });
+  const detail = describeDifference({ adapter: specsAdapter, oldDoc: SPECS_CHANGES.tn[0], currentDoc: SPECS_CHANGES.tn[1], scope, differing: c.differing });
+  assert.ok(detail.every((d) => canonical(d.changedFields) === canonical(["customPleadingSpecs"])));
+});
+
+test("specifications REFUSE: a family binding co_motion_seal_conviction is refused over the CO change", () => {
+  assert.ok(specsRefusesCo(specsAdapter));
+});
+
+test("specifications REFUSE: a recordId naming no track, or not in the specifications shape, is refused", () => {
+  const currentDoc = SPECS_CHANGES.co[1];
+  for (const recordId of ["legal-design-specifications:no-such-track", "legal-design-specifications:noSuchArray#ga-rfo", "legal-design-specifications:processGuidance#no-such-track", "committed-record", undefined]) {
+    assert.throws(() => specsAdapter.scopeFrom({ receipt: {}, pin: { recordId, pathInRepository: SPECS }, currentDoc }),
+      (e) => e instanceof Refusal, `recordId ${recordId} must refuse`);
+  }
+  assert.throws(() => specsAdapter.anchorsOf({ ...currentDoc, extra: 1 }, { anchorIds: [] }, "current"), (e) => e instanceof Refusal);
+});
+
+/* GA's receipt names its specifications entry as `processGuidance#ga-rfo`. The lead's rule (16:26:14Z) reads
+ * `<array>#<trackId>` as the WHOLE track, so GA refreshes only when every ga-rfo entry in all four arrays is unchanged. */
+const GA_SPECS = specsPinAt("2f6985f6478247d71de78447bc16680a29136427", "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading");
+
+test("specifications ACCEPT: GA's processGuidance#ga-rfo anchors the whole ga-rfo track, unchanged across both changes", () => {
+  assert.equal(GA_SPECS.pin.recordId, "legal-design-specifications:processGuidance#ga-rfo");
+  const scope = specsAdapter.scopeFrom({ ...GA_SPECS, currentDoc: SPECS_CHANGES.co[1] });
+  assert.deepEqual(scope.anchorIds, ["ga-rfo"]);
+  for (const pair of Object.values(SPECS_CHANGES)) {
+    const c = specsCompare(specsAdapter, GA_SPECS, pair);
+    assert.equal(c.anchorsCompared, c.anchorsIdentical);
+    assert.deepEqual(c.anchorNames, ["specificationsGlobalMetadata", "specs:ga-rfo"]);
+  }
+});
+
+test("specifications REFUSE: a changed ga-rfo participantFilingRequirements entry refuses GA, though its recordId names processGuidance", () => {
+  const [oldDoc, currentDoc] = SPECS_CHANGES.co;
+  const moved = structuredClone(currentDoc);
+  const entry = moved.participantFilingRequirements.find((e) => e.trackId === "ga-rfo");
+  entry.requirement = `${entry.requirement} (changed)`;
+  const c = specsCompare(specsAdapter, GA_SPECS, [oldDoc, moved]);
+  assert.deepEqual(c.differing, ["specs:ga-rfo"]);
+  const scope = specsAdapter.scopeFrom({ ...GA_SPECS, currentDoc: moved });
+  assert.deepEqual(describeDifference({ adapter: specsAdapter, oldDoc, currentDoc: moved, scope, differing: c.differing })[0].changedFields, ["participantFilingRequirements"]);
+});
+
+test("specifications MUTANT: without the <array>#<trackId> rule GA is refused", () => {
+  const asTrackId = { ...specsAdapter, scopeFrom({ pin, currentDoc }) {
+    const byTrack = specsAdapter.index(currentDoc, "current");
+    const ids = pin.recordId.slice("legal-design-specifications:".length).split("+");
+    for (const id of ids) if (!byTrack.has(id)) throw new Refusal(`no track ${id}`);
+    return { anchorIds: ids };
+  } };
+  assert.throws(() => specsCompare(asTrackId, GA_SPECS, SPECS_CHANGES.co), (e) => e instanceof Refusal);
+});
+
+/* Reviewer (16:30:51Z): 0be1fee76 changed a NON-last officialFormAssignments entry of mt_mmrta_completed and
+ * mt_mmrta_serving. An index that kept only the last entry per track and array would report both unchanged. */
+const MT_CHANGE = [specsAt("ad64ed58780f0757fa71bc693c2e72264f214380"), specsAt("0be1fee769162cf337ad79daaa3d5a94d88b4f5e")];
+const MT_SPECS = { receipt: {}, pin: { recordId: "legal-design-specifications:mt_mmrta_completed+mt_mmrta_serving", pathInRepository: SPECS } };
+const specsRefusesMt = (a) => canonical(specsCompare(a, MT_SPECS, MT_CHANGE).differing) === canonical(["specs:mt_mmrta_completed", "specs:mt_mmrta_serving"]);
+
+test("specifications REFUSE: a change to a non-last entry of a track is seen (0be1fee76, both MT tracks)", () => {
+  assert.ok(specsRefusesMt(specsAdapter));
+  const lastOnly = { ...specsAdapter, index(doc, side) {
+    const byTrack = specsAdapter.index(doc, side);
+    for (const entries of byTrack.values()) for (const k of Object.keys(entries)) entries[k] = entries[k].slice(-1);
+    return byTrack;
+  } };
+  assert.equal(specsRefusesMt(lastOnly), false, "an index keeping only the last entry per track and array must lose this change");
+});
+
+test("specifications MUTANTS: a widened or narrowed scope is caught", () => {
+  const everyTrack = (doc) => [...specsAdapter.index(doc, "current").keys()].sort();
+  const widened = { ...specsAdapter, scopeFrom: ({ currentDoc }) => ({ anchorIds: everyTrack(currentDoc) }) };
+  const narrowedToCustomPleading = { ...specsAdapter, anchorsOf(doc, scope, side) {
+    const out = specsAdapter.anchorsOf(doc, scope, side);
+    for (const [k, v] of out) if (k.startsWith("specs:")) out.set(k, { customPleadingSpecs: v.customPleadingSpecs });
+    return out;
+  } };
+  const narrowedToNothing = { ...specsAdapter, scopeFrom: () => ({ anchorIds: [] }) };
+  assert.equal(specsAcceptsWi(widened), false, "widened scope: the WI ACCEPT must fail because the CO and TN tracks enter it");
+  assert.equal(specsRefusesCo(narrowedToCustomPleading), false, "narrowed to one array: the CO change must stop being seen");
+  assert.equal(specsAcceptsWi(narrowedToNothing), false, "narrowed to no track: the WI ACCEPT must fail because its own track is not compared");
+  assert.equal(specsRefusesTn(narrowedToNothing), false);
 });
 
 /* ------------------------------------------------------------------ *
@@ -308,8 +619,25 @@ test("a pin that is not repository-relative is resolved against the bases its re
 test("a pin whose own receipt declares its custody unmounted is reported, not counted as drift", () => {
   const dir = "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill";
   if (!fs.existsSync(path.join(ROOT, dir, "source-receipt.json"))) return;
-  const p = planFamily({ familyId: "co_motion_seal_conviction-set", directory: dir });
-  assert.ok(Array.isArray(p.unmeasurablePins) && p.unmeasurablePins.length > 0, "expected unmounted-custody pins to be reported");
+  // Current CO custody was later supplied. Exercise the original unmounted
+  // declaration using its actual retained receipt, never a fabricated flag.
+  const receiptPath = `${dir}/source-receipt.json`;
+  const revisions = execFileSync("git", ["rev-list", "HEAD", "--", receiptPath],
+    { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+  let beforeText;
+  for (const revision of revisions) {
+    const candidate = execFileSync("git", ["show", `${revision}:${receiptPath}`],
+      { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 24 });
+    const receipt = JSON.parse(candidate);
+    if (receipt.componentSetDelivery?.undelivered?.some(component =>
+      component.binaryRecordedInCommittedIndex?.mountedHere === false)) {
+      beforeText = candidate; break;
+    }
+  }
+  assert.ok(beforeText, "actual historical CO unmounted-custody receipt required");
+  const p = planReceipt({ familyId: "co_motion_seal_conviction-set", directory: dir,
+    receiptPath, beforeText });
+  assert.equal(p.unmeasurablePins.length, 2, "both retained unmounted order pins must be reported");
   for (const u of p.unmeasurablePins) {
     assert.ok(u.receiptSays, "each unmeasurable pin must carry the receipt's own words about why");
     assert.equal((p.records ?? []).some((r) => r.path === u.path), false, "an unmeasurable pin must not be reported as a drifted record");

@@ -11,7 +11,7 @@ const { resolveDeploymentEnvironment } = await import('../src/lib/server-runtime
 const read = p => JSON.parse(fs.readFileSync(p));
 const authority = { candidate: read('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'),
   binding: read('data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'),
-  grant: read('data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json') };
+  grant: read('data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json') };
 const {grant,binding,candidate}=authority;
 const preview={previewVerified:true,stripeConfigured:false,productionAliasCount:0,
   applicationSha:candidate.applicationSha,workerSourceSha:candidate.workerSourceSha,workerDigest:candidate.workerDigest,

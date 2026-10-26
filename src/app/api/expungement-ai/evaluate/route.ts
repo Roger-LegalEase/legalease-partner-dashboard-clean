@@ -1,3 +1,7 @@
+import { SD_SIS_FACT_IDS, southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
+import { WY_1502_FACT_IDS, wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
+import { CT_PETITION_FACT_IDS, ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import { packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { NextResponse } from "next/server";
 import type { ScreeningEvaluationRequest } from "@/lib/rcap-engine/contracts";
@@ -37,10 +41,18 @@ export async function POST(request: Request) {
     const authoritative = evaluateAuthoritativeScreeningResult(clientInput);
     const evaluation = authoritative.evaluation;
     const binding = { trackId: authoritative.selectedTrackId };
+    // Exact record review stays in protected intake; internal review still receives every fact.
+    const protectedRecordIds = new Set(southDakotaSisContext(authoritative.profile, evaluation.pathwayId) ? SD_SIS_FACT_IDS
+      : wy1502Context(authoritative.profile, evaluation.pathwayId) ? WY_1502_FACT_IDS : []);
+    // Record details remain review requirements in the protected editor, not anonymous correction screens.
+    const packetFactIds = new Set(ctPetitionContext(authoritative.profile, evaluation.pathwayId)
+      ? projectPublicProfile(authoritative.profile).questions.filter(question => CT_PETITION_FACT_IDS.includes(question.id)
+        && question.lifecyclePhase === "postpay_packet_field").map(question => question.id) : []);
     // Legal evaluator signals remain intact. Availability is read separately
     // from Grade-A authority; neither field authorizes an anonymous checkout.
     return NextResponse.json({
       ...evaluation,
+      missingQuestionIds: evaluation.missingQuestionIds.filter(id => !protectedRecordIds.has(id) && !packetFactIds.has(id)),
       consumerPacketAvailable: packetFulfillmentAuthority(evaluation.jurisdiction, evaluation.pathwayId, "checkout creation", binding).allowed,
       sponsoredPacketAvailable: packetFulfillmentAuthority(evaluation.jurisdiction, evaluation.pathwayId, "sponsored entitlement", binding).allowed
     });

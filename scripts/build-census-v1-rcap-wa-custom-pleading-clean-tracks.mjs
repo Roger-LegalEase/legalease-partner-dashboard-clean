@@ -267,6 +267,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "court_identity",
+          "label": "Court name in the IN THE ... COURT caption",
+          "supply": "the name of the sentencing court copied from the existing case record, using the same court on the petition and proposed order",
+          "why": "this petition and proposed order belong to the existing sentencing case; the platform does not hold its court name"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_otherName",
           "label": "Item C1 - any other name the case was filed under",
           "supply": "any other name the case was filed under, or write none if there is no other name",
@@ -408,6 +415,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "order_court_identity",
+          "label": "Court name in the IN THE ... COURT caption",
+          "supply": "the name of the sentencing court copied from the existing case record, using the same court on the petition and proposed order",
+          "why": "this petition and proposed order belong to the existing sentencing case; the platform does not hold its court name"
+        },
         {
           "kind": "rbf",
           "id": "order_case_number",

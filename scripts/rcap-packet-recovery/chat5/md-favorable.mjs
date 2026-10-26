@@ -22,9 +22,9 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 export const FAMILY = 'md_10105_favorable-set';
 export const ROUTE = 'obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105';
 export const OUT = 'data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill';
-export const SOURCE = 'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf';
-export const SOURCE_SHA = '8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2';
-export const SOURCE_SIZE = 195791;
+export const SOURCE = 'reference/md-law-2026-10-21/CC-DC-CR-072A.pdf';
+export const SOURCE_SHA = '04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90';
+export const SOURCE_SIZE = 218004;
 export const AS_OF = '2026-09-07';
 export const sha256 = b => crypto.createHash('sha256').update(b).digest('hex');
 const clone = value => structuredClone(value);
@@ -34,19 +34,19 @@ const MIN_SIZE = 7;
 const MAX_SIZE = 10;
 
 export const BASIS_FIELDS = Object.freeze({
-  acquittal: 'I was Acquitted/found not guilty of the charge',
-  dismissal: 'The charge was otherwise dismissed',
-  pbj_no_longer_crime: 'A Probation before Judgment was entered on the charge but the conduct on which the charge was based is no longer a crime',
-  pbj: 'A Probation before Judgment was entered on the charge and the conduct on which the charge was based is still a crime. Either three years have passed or I have been discharged from probation, whichever is later',
-  pbj_dui: 'A Probation before Judgment was entered on the violation and it has been fifteen years since being discharged from probation and more',
-  nolle: 'Nolle Prosequi was entered',
-  stet: 'A Stet was entered',
-  ncr: 'I was found not criminally responsible',
-  compromise: 'The case was compromised or dismissed',
-  juvenile_transfer: 'The case was transferrred to Juvenile Court'
+  acquittal: 'Checkbox 1',
+  dismissal: 'Dismissed',
+  pbj_no_longer_crime: 'PBJ no longer a crime',
+  pbj: 'PBJ still a crime',
+  pbj_dui: 'PBJ DUI',
+  nolle: 'NP',
+  stet: 'Stet',
+  ncr: 'NCR',
+  compromise: 'Compromised',
+  juvenile_transfer: 'Transferred to Juvenile'
 });
 const EVENT_FIELDS = Object.freeze({ arrest: 'Arrested', summons: 'Served with a Summons', citation: 'Served with a Citation by an Officer' });
-const TRANSFER_FIELD = 'The case began in one court and was transferred to another court other than Juvenile court';
+const TRANSFER_FIELD = 'Transferred to a Court Not Juvenile';
 const PROTECTED = [
   'Signature of Defendant', 'Date Defendant Signed', 'Signature of Attorney', 'Attorney Number', 'Date Attorney Signed',
   'Attorney Printed Name', 'Attorney Address', 'Attorney City, State, Zip', 'Attorney Telephone Number', 'Attorney E-mail', 'Attorney Fax'
@@ -224,7 +224,15 @@ export async function renderMdFavorable(input, sourceBytes = fs.readFileSync(pat
   // Add two points of separation without moving the source text or its rule.
   const incidentWidget = form.getTextField('List the Incident').acroField.getWidgets()[0];
   const originalIncidentRect = incidentWidget.getRectangle();
-  incidentWidget.setRectangle({ ...originalIncidentRect, x: originalIncidentRect.x + 2, width: originalIncidentRect.width - 2 });
+  incidentWidget.setRectangle({ ...originalIncidentRect, x: originalIncidentRect.x + 2, width: originalIncidentRect.width - 2, height: 11 });
+  // Two widgets reach into printed text above them: Case Number into the
+  // "City/County" caption, and the incident line into "Agency"'s descenders.
+  // Lower only their tops (bottom, width and source text stay), so the centred
+  // value shrinks and clears it: Case Number to 7pt, both incident lines to 9pt.
+  const caseWidget = form.getTextField('Case Number').acroField.getWidgets()[0];
+  caseWidget.setRectangle({ ...caseWidget.getRectangle(), height: 9 });
+  const continuedWidget = form.getTextField('Incident Continued').acroField.getWidgets()[0];
+  continuedWidget.setRectangle({ ...continuedWidget.getRectangle(), height: 11 });
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   // WinAnsi accents and punctuation are preserved, not transliterated. A
   // character absent from the common font requires handoff before any file
@@ -232,7 +240,7 @@ export async function renderMdFavorable(input, sourceBytes = fs.readFileSync(pat
   try { font.encodeText(JSON.stringify(input)); }
   catch { throw new Error('UNSUPPORTED_TEXT_ENCODING: preserve the original input and obtain supported-font/manual assistance; no partial packet was generated'); }
   const census = form.getFields().map(field => ({ name: field.getName(), type: field.constructor.name, widgets: field.acroField.getWidgets().map(w => ({ page: 1, rect: w.getRectangle() })) }));
-  assert.equal(census.length, 47, 'SOURCE_FIELD_CENSUS_DRIFT');
+  assert.equal(census.length, 48, 'SOURCE_FIELD_CENSUS_DRIFT');
   const writes = [], blanks = [...checked.missing], written = new Set();
   const required = (name, key, why, value) => blanks.push(problem(name, why, value ?? null, OPTIONAL.has(key) ? 'optional_blank' : 'required_before_filing'));
   const writeText = (name, key, raw) => {
@@ -326,14 +334,14 @@ function instructionSections(f, blanks, earliest) {
       'Court help: Maryland Court Help Center, 410-260-1392. Bring your docket, dispositions, this packet and any objection or notice. This packet supplies forms and instructions, not representation or a promise of an expungement.'
     ]],
     ['Official sources and packet contents', [
-      'CC-DC-CR-072A, revision 09/2025: the held official form is the one-page filing in this packet. The other pages are participant instructions. No new petition template was drawn.',
+      'CC-DC-CR-072A, revision 10/01/2026: the held official form is the one-page filing in this packet. The other pages are participant instructions. No new petition template was drawn.',
       'Maryland Criminal Procedure 10-105 (instrument, waiting periods, venue, service, objections and compliance), 10-105.1 (automatic expungement), 10-107 (unit rule), and Maryland Rule 4-510 (custodian compliance).',
       'https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105',
       'https://www.mdcourts.gov/legalhelp/expungement',
       'https://www.mdcourts.gov/district/directories/courtmap',
       'https://www.mdcourts.gov/guideandfile',
       'https://www.mdcourts.gov/helpcenter/inperson/dc',
-      'Source and legal-page checks: September 7, 2026. A later law or form edition needs revalidation. This renderer does not enable live delivery, payment, or a commercial route.'
+      'Source and legal-page checks: CC-DC-CR-072A form face October 21, 2026; statutes and legal pages September 7, 2026. A later law or form edition needs revalidation. This renderer does not enable live delivery, payment, or a commercial route.'
     ]]
   ];
 }
@@ -384,6 +392,6 @@ export async function runMdFavorable({ outDir = path.join(ROOT, OUT), inputFile 
   fs.writeFileSync(path.join(outDir, 'reports/rendered-artifacts.json'), json({ schemaVersion: 'rcap-rendered-artifacts/v1', familyId: FAMILY, renderedFresh: true, derivedFromBytes: true, componentSet: ['CC-DC-CR-072A'], pdfs: records, artifacts: records, everyPageRastered: false, independentVerificationPending: true, byteDerivedHashes: true }));
   fs.writeFileSync(path.join(outDir, 'production-field-map.json'), json({ schemaVersion: 'rcap-official-form-field-map/v1-census-v1', familyId: FAMILY, jurisdiction: 'MD', implementationStrategy: 'official_pdf_fill', renderStrategy: 'official_pdf_fill', routeKeys: [ROUTE], componentSet: ['CC-DC-CR-072A'], maps: [{ documentId: 'CC-DC-CR-072A', documentRole: 'primary_filing', structuralClass: 'acroform_official_pdf', explicitMappings: MAP, protectedFields: PROTECTED, canonicalWrites: maps.canonical?.writes ?? [], boundaryWrites: maps.boundary?.writes ?? [], canonicalRefusals: maps.canonical?.blanks ?? [], boundaryRefusals: maps.boundary?.blanks ?? [] }], fixtures: maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0 }));
   fs.writeFileSync(path.join(outDir, 'build-status.json'), json({ schemaVersion: 'rcap-family-build-status/v1', familyId: FAMILY, buildStatus: 'state_built', reviewStatus: 'qa_review_pending', builtBy: 'scripts/build-census-v1-md_10105_favorable-set.mjs', renderedArtifacts: records.length, rasterState: 'BUILT_RASTER_PENDING', independentVerificationStatus: 'PENDING', selfVerified: false, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0, productionTouched: false, scopeLimitations: ['Ordinary 072A with a single disposition/date per incident. Unlike charge dispositions are not collapsed.', 'Early 072C, waiver/release, conviction, cannabis-conviction and pardon instruments are separate families; no source-A substitution.', 'Current track registry also lists conviction-related subroutes that must not be mislabeled as 072A. Central mapping correction remains required.'] }));
-  fs.writeFileSync(path.join(outDir, 'source-receipt.json'), json({ schemaVersion: 'chat5-held-official-source/v1', familyId: FAMILY, officialFormId: 'CC-DC-CR-072A', edition: '09/2025', sourcePath: SOURCE, sha256: SOURCE_SHA, byteLength: SOURCE_SIZE, sourcePageCount: 1, acquisition: { channel: 'connected Google Drive retained official source', fileId: '1uAzzy61RUarShj92Z1K482mrUPwT9xE5', retrievedAndHashedOn: AS_OF }, issuerUrl: 'https://www.mdcourts.gov/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf', issuerPageAndEditionVisuallyCheckedOn: AS_OF, liveIssuerBinaryDigestIndependentlyMeasured: false, requiredComponents: ['CC-DC-CR-072A'], fee: { dollars: 0, feeWaiverSelected: false }, noParticipantServiceCertificate: true, noProposedOrder: true, independentReview: 'PENDING' }));
+  fs.writeFileSync(path.join(outDir, 'source-receipt.json'), json({ schemaVersion: 'chat5-held-official-source/v1', familyId: FAMILY, officialFormId: 'CC-DC-CR-072A', edition: '10/01/2026', sourcePath: SOURCE, sha256: SOURCE_SHA, byteLength: SOURCE_SIZE, sourcePageCount: 1, acquisition: { channel: 'official Judiciary HTTPS source retained by Storage', retrievedAndHashedOn: '2026-10-21' }, issuerUrl: 'https://www.mdcourts.gov/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf', issuerPageAndEditionVisuallyCheckedOn: '2026-10-21', liveIssuerBinaryDigestIndependentlyMeasured: true, requiredComponents: ['CC-DC-CR-072A'], fee: { dollars: 0, feeWaiverSelected: false }, noParticipantServiceCertificate: true, noProposedOrder: true, independentReview: 'PENDING' }));
   return records;
 }

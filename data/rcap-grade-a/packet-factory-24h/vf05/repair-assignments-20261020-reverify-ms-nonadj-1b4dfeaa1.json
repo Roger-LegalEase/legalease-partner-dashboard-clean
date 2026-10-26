@@ -1,0 +1,22 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF05",
+ "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "assignmentCount": 1,
+ "assignments": [
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "lane": "VF05",
+   "assignedBy": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+   "failedObligationNames": [
+    "FEE_AND_WAIVER"
+   ],
+   "decisiveDefect": "FEE_AND_WAIVER: both fixtures (canonical b6c18f61\u2026/13425, boundary c31fa423\u2026/13627), filing-instructions page 5, and participant-instructions.md line 22 (FEE_AND_WAIVER row) print 'So: expect to be asked for $150, and ask the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order what that court charges for this petition before you go'. That publishes a figure to the participant as the amount to expect on a \u00a7 99-15-26(5) petition, which no held record supports: the profile's only $150 line is keyed to \u00a7 99-19-72 petitions under \u00a7 99-19-71 (A3: a line keyed to a different statute is a sibling inference), the packet itself says no bound record settles whether that fee reaches \u00a7 99-15-26(5), and owner decision Q4 (OWNER_BATCH_ADOPTION_2026-09-02, 'DO NOT PUBLISH AN UNCONFIRMED FEE \u2026 direct the participant to the specific clerk or agency for the current amount. Add a figure only when current primary authority or the official form supports it') forbids exactly this. The registry design for this remedy (legal-design-track-registry tracks[251] ms-nonadj) agrees: 'No amount is published here. Section 99-19-72's fee applies by its terms to petitions under \u00a7 99-19-71 and does not reach \u00a7 99-15-26. The participant confirms with the clerk.'",
+   "repairScope": "The fee paragraph on the filing-instructions component (page 5 of both fixtures) and the FEE_AND_WAIVER row of participant-instructions.md: remove the $150 figure from the participant instruction ('So: expect to be asked for $150, and ...') and keep the rest: the \u00a7 99-19-71 / \u00a7 99-15-26(5) distinction, the statement that no bound record settles whether \u00a7 99-19-72 reaches this petition, the named clerk's office of the court that granted nonadjudication for the current amount, and the waiver line. Smallest form: 'So: ask the clerk's office of ... what that court charges for this petition before you go'. Whether to keep quoting the profile's $150 \u00a7 99-19-71 line at all is a copy call (RV-02's accepted wording on the same profile publishes no figure). No other component, field or page changes; the rebuild changes the fixture bytes, so a new raster is owed.",
+   "grantsNothing": "Assignment only; opens no route."
+  }
+ ],
+ "grantsNothing": "Assignments only; this file opens no route, sets no price and authorises no promotion."
+}

@@ -1,0 +1,406 @@
+{
+  "sourceSha": "727f8984ddabf5b43cb9bba2c99823b4bc383401",
+  "sourcePath": "data/rcap-ledger/public-witness-answer-sets.json",
+  "sourceSha256": "81e4a7f6231994093aa8212cf5e32c3a8a618ab17c800e17c60ae766ecba6080",
+  "scope": "Five exact existing synthetic witnesses retained only to reconstruct the original 253-row and 266-row digests after the batch31e witness regeneration. Attributed changes: CA tool-3 needs_review\u2192guidance_only (6e271b424); IL adult sealing, LA non-conviction and NE incarceration set-aside paymentAllowed true\u2192false (807d35063 D1\u2033, Roger-approved D1 17:43:33Z; kept closed by the lead's 18:54:33Z D1 '3 CLOSED' ruling; asserted at 215097ea3 (LA/NE) and 146f6206a (IL/NE/LA/HI)); IL supervision unresolved on il.program_missing (IL1 be77e3012). These are historical observations, not current route authority or real participant facts. Current successors are independently checked; payment remains false.",
+  "witnesses": [
+    {
+      "pathwayKey": "CA:tool-3-petition-based-felony-sealing",
+      "jurisdiction": "CA",
+      "pathwayId": "tool-3-petition-based-felony-sealing",
+      "pathwayLabel": "Tool 3 \u2014 Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/california",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Tool 3 \u2014 Petition-based felony sealing (SB 731 / PC 1203.49 framework)"
+      },
+      "pathwayContextOffered": "Tool 3 \u2014 Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "court_requirements_completed",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "supplied": {
+            "case_outcome": "Arrest or citation with no charge filed",
+            "offense_level": "Misdemeanor"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "case_outcome": "Arrest or citation with no charge filed",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Tool 3 \u2014 Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "tool-3-petition-based-felony-sealing",
+        "pathwayLabel": "Tool 3 \u2014 Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+        "paymentAllowed": false,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "ca.waiting_rule_not_executed"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    },
+    {
+      "pathwayKey": "IL:adult-conviction-sealing",
+      "jurisdiction": "IL",
+      "pathwayId": "adult-conviction-sealing",
+      "pathwayLabel": "Adult conviction sealing",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/illinois",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Adult conviction sealing"
+      },
+      "pathwayContextOffered": "Adult conviction sealing",
+      "rounds": [
+        {
+          "round": 0,
+          "requested": [
+            "age_at_offense",
+            "case_outcome",
+            "offense_level"
+          ],
+          "supplied": {
+            "age_at_offense": "30",
+            "case_outcome": "Arrest or citation with no charge filed",
+            "offense_level": "Misdemeanor"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "age_at_offense": "30",
+        "case_outcome": "Arrest or citation with no charge filed",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Adult conviction sealing",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "trafficking_status": "No"
+      },
+      "terminalEvaluation": {
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "adult-conviction-sealing",
+        "pathwayLabel": "Adult conviction sealing",
+        "paymentAllowed": true,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "il.compiled_rule_match.rule-06-order-of-supervision-successfully-completed-expungement"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    },
+    {
+      "pathwayKey": "IL:expungement-after-eligible-supervision-or-qualified-probation",
+      "jurisdiction": "IL",
+      "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+      "pathwayLabel": "Expungement after eligible supervision or qualified probation",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/illinois",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Expungement after eligible supervision or qualified probation"
+      },
+      "pathwayContextOffered": "Expungement after eligible supervision or qualified probation",
+      "rounds": [
+        {
+          "round": 0,
+          "requested": [
+            "age_at_offense",
+            "case_outcome",
+            "offense_level"
+          ],
+          "supplied": {
+            "age_at_offense": "30",
+            "case_outcome": "Arrest or citation with no charge filed",
+            "offense_level": "Misdemeanor"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "age_at_offense": "30",
+        "case_outcome": "Arrest or citation with no charge filed",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Expungement after eligible supervision or qualified probation",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "trafficking_status": "No"
+      },
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+        "pathwayLabel": "Expungement after eligible supervision or qualified probation",
+        "paymentAllowed": false,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "il.waiting_rule_not_executed"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    },
+    {
+      "pathwayKey": "LA:non-conviction-arrest-expungement",
+      "jurisdiction": "LA",
+      "pathwayId": "non-conviction-arrest-expungement",
+      "pathwayLabel": "Non-conviction arrest expungement",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/louisiana",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Non-conviction arrest expungement"
+      },
+      "pathwayContextOffered": "Non-conviction arrest expungement",
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "supplied": {
+            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+            "offense_level": "Misdemeanor"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Non-conviction arrest expungement",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "terminalEvaluation": {
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "non-conviction-arrest-expungement",
+        "pathwayLabel": "Non-conviction arrest expungement",
+        "paymentAllowed": true,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "la.compiled_rule_match.rule-09-if-article-894-b-was-not-already-completed-but-appears-"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    },
+    {
+      "pathwayKey": "NE:set-aside-incarceration-one-year-or-less",
+      "jurisdiction": "NE",
+      "pathwayId": "set-aside-incarceration-one-year-or-less",
+      "pathwayLabel": "Conviction set-aside after incarceration of one year or less under \u00a7 29-2264(3)",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/nebraska",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Conviction set-aside after incarceration of one year or less under \u00a7 29-2264(3)"
+      },
+      "pathwayContextOffered": "Conviction set-aside after incarceration of one year or less under \u00a7 29-2264(3)",
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "age_at_offense",
+            "case_outcome",
+            "identity_error",
+            "offense_level"
+          ],
+          "supplied": {
+            "age_at_offense": "30",
+            "case_outcome": "Arrest or citation with no charge filed",
+            "identity_error": "Yes",
+            "offense_level": "Misdemeanor"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "age_at_offense": "30",
+        "case_outcome": "Arrest or citation with no charge filed",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "identity_error": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Conviction set-aside after incarceration of one year or less under \u00a7 29-2264(3)",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "terminalEvaluation": {
+        "resultCode": "packet_ready_with_caution",
+        "pathwayId": "set-aside-incarceration-one-year-or-less",
+        "pathwayLabel": "Conviction set-aside after incarceration of one year or less under \u00a7 29-2264(3)",
+        "paymentAllowed": true,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "ne.compiled_rule_match.rule-05-the-sentence-conditions-must-be-satisfactorily-complete"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    }
+  ]
+}

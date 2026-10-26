@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { getProgramOperations } from "@/lib/partners/onboarding/program-operations-service";
 import type { ProgramConfiguration } from "@/lib/partners/onboarding/program-configuration";
@@ -40,7 +40,7 @@ function nextStep(ops: Operations, materialsCurrent: boolean): NextStep | null {
     program_scope: ["Complete program scope", "#program-field-jurisdictions"],
     support_and_referral_contacts_configured: ["Complete participant support", "#program-field-participant_support_email"],
     operating_authority: ["Review operating authority", "#program-field-operator_authority_reference"],
-    packet_entitlement: ["Review packet funding", authority],
+    packet_entitlement: view.decision.operatingModel === "legalease_managed" ? ["Allocate sponsored access", "#program-capacity"] : ["Review packet funding", authority],
     commercial_gate_cleared: ["Review service authority", authority],
     agreements_and_procurement_recorded: ["Review required agreements", authority],
     access_model_and_capacity_present: ["Review access and capacity", authority],
@@ -114,6 +114,28 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
         ? {reason:preparationError,label:"Retry Update Materials",action:"prepare"}
         : authoritativeNext;
 
+  async function allocate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!view || pendingOperation || !snapshotCurrent) return;
+    const values = new FormData(event.currentTarget);
+    const payload = JSON.stringify({ confirmed: true, workspaceVersion: view.version,
+      screeningsAllowed: Number(values.get("screeningsAllowed")), packetCap: Number(values.get("packetCap")),
+      authorityReference: String(values.get("authorityReference") ?? "").trim() });
+    if (request.current?.payload !== payload) request.current = { payload, id: crypto.randomUUID() };
+    setBusy(true); setMessage("");
+    try {
+      const response = await fetch(`/api/internal/partners/onboarding/phase1/${encodeURIComponent(ops.identity.partnerSlug)}/launch-capacity`, {
+        method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...JSON.parse(payload), requestId: request.current.id })
+      });
+      const body = await response.json();
+      if (!response.ok || body.success !== true) throw new Error(body.error ?? "Allocation could not be confirmed. Retry this same request to check its result.");
+      request.current = null; setConfirmedReview(null);
+      setMessage("Sponsored allocation saved. Review the current program materials before Start Program.");
+      startRefresh(() => router.refresh());
+    } catch (error) { setMessage(error instanceof Error ? error.message : "Allocation could not be confirmed."); }
+    finally { setBusy(false); }
+  }
+
   async function run(action: string) {
     if (!view || (action === "start" && (!readyForConfirmation || !confirmed))) return;
     setBusy(true); setMessage(""); setPreparationError(null);
@@ -158,6 +180,16 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
     <details open={!live} className="rounded-xl border bg-white p-4"><summary className="min-h-11 cursor-pointer py-3 text-lg font-bold">Configure program details</summary>
     {configuration ? <ManagedProgramEditor configuration={configuration} onDraftChange={() => { setConfigurationDirty(true); setConfirmedReview(null); setMessage(""); setPreparationError(null); }} onSavingChange={setConfigurationSaving} onSaved={(version, operations, error) => { setSavedVersion(version); if(operations)setOps(operations); setConfigurationDirty(false); setConfirmedReview(null); setMessage(""); setPreparationError(error??null); }} /> : null}
     </details>
+    {managed && view?.data.program_goals?.service_mode === "sponsored_packets" && !["live", "paused", "closed"].includes(view.decision.status) ? <section id="program-capacity" tabIndex={-1} className="scroll-mt-32 rounded-xl border bg-white p-6" aria-labelledby="program-capacity-heading">
+      <h2 id="program-capacity-heading" className="text-2xl font-bold">Allocate sponsored access</h2>
+      <p className="mt-3">Record the actual internal allocation for this LegalEase-managed program. Enter total limits, including any existing usage. This does not record an external payment or consume a packet.</p>
+      <form className="mt-4 space-y-4" onSubmit={allocate}>
+        <label className="block font-bold">Screening allowance (total)<input className="mt-2 min-h-11 rounded border px-3 font-normal" type="number" name="screeningsAllowed" min="1" step="1" required disabled={pendingOperation} /></label>
+        <label className="block font-bold">Sponsored packet limit (total)<input className="mt-2 min-h-11 rounded border px-3 font-normal" type="number" name="packetCap" min="1" step="1" required disabled={pendingOperation} /></label>
+        <label className="block font-bold">Internal allocation basis<input className="mt-2 min-h-11 w-full rounded border px-3 font-normal" name="authorityReference" minLength={10} maxLength={1000} required disabled={pendingOperation} /></label>
+        <button className={button} type="submit" disabled={pendingOperation || !snapshotCurrent}>Save sponsored allocation</button>
+      </form>
+    </section> : null}
     <section id="program-materials" tabIndex={-1} className="scroll-mt-32 rounded-xl border bg-white p-6" aria-labelledby="program-materials-heading">
       <h2 id="program-materials-heading" className="text-2xl font-bold">Preview</h2>
       <p className="mt-3" role="status">{busy || configurationSaving ? "Preparing — saved content and materials are being checked." : preparationError ? "Failed — preparation did not complete." : materialsCurrent ? "Ready — both materials are complete and current." : "Needs attention — materials are not ready for publication."}</p>

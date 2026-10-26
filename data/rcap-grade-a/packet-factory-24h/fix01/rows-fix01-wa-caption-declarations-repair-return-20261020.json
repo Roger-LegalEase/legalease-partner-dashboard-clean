@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "baseSha": "0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f",
+  "branch": "codex/batch26-repair-returns-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker under Lead Claude's 2026-10-20T04:33Z release. This is an implementation return, not independent verification or a cloud-worker grant.",
+  "grantsAsserted": [],
+  "grantBasis": "Lead 2026-10-20T04:33Z assigns rcap-wa-custom-pleading-clean-tracks to FIX01. The claim ledger at 0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f records released=true. No claim is asserted or changed here. The existing grant is released; independent acceptance of the Washington repair remains a landing prerequisite.",
+  "rows": [
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261019-reverify-census-5e7fe802c.json",
+          "sha256": "63fa64acd8bfa74bd0b0c18c0243715b1c818ae51c9e8e2882e881feb132adb8",
+          "lane": "VF08",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "failedObligationNames": [
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "preserved": true,
+          "readAt": "8b6452ff5b05c8fd488d1c35b8c87036a698617f"
+        }
+      ],
+      "actualDefect": {
+        "REQUIRED_BEFORE_FILING": "21 declared blanks (C1, C3-C13, both cause-number captions, C1 and C3-C8 on the WSP request) are each named in participant-instructions.md, and the cause-number misstatement VF11 failed is fixed. But the 'IN THE ............ COURT' court-name line on the petition (page 1) and on the proposed order (page 4) of both fixtures is a labelled dotted blank the participant must complete before filing. It is not in production-field-map.json (the petition and order maps declare case_number and order_case_number, but no caption-court field) and carries no disposition. It is absent from both 'items you must supply' tables. participant-instructions.md mentions it only under 'Things the platform deliberately left blank' as 'The court's own caption styling ... ask that clerk how it styles the court-name line if you are unsure', which classes a participant-completed item as platform-left and never says to write the sentencing court's name there. The verifier's unclassifiedBlanks=0 is computed over declared fields only. VF11 failed exactly this class on AZ at 79f886f2, and AZ and IL both now declare their caption-court line."
+      },
+      "correction": "The petition and proposed-order court-name blanks are now declared required before filing in the field map, blank-disposition report and participant instructions. The participant supplies the sentencing court name from the existing case record and uses the same court in both captions. The already-correct PDFs and owned facts are unchanged. This implementation return may land only after independent acceptance of e370557f1.",
+      "repairCommits": {
+        "authored": {
+          "e370557f1": "e370557f19b15fb774a63f406c8fcde2766feac8"
+        },
+        "note": "Exact provenance: e370557f19b15fb774a63f406c8fcde2766feac8 bounded product correction. Artifacts and counters measured at e370557f19b15fb774a63f406c8fcde2766feac8; dispatch base is baseSha above. Historical verdict bytes remain preserved."
+      },
+      "packetBytesChanged": false,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "78910c462040fbed6980384c0eb342b44eb8ec80d09eceb3ef97783ae119b050",
+          "byteLength": 46258,
+          "pageCount": 17,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": false,
+          "sha256BeforeRepair": "78910c462040fbed6980384c0eb342b44eb8ec80d09eceb3ef97783ae119b050",
+          "byteLengthBeforeRepair": 46258,
+          "pageCountBeforeRepair": 17,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "e370557f19b15fb774a63f406c8fcde2766feac8"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "587838be98adfff4f4f0e4e91d56aab08897551380ee1411b9e528e1b3bad471",
+          "byteLength": 46776,
+          "pageCount": 17,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": false,
+          "sha256BeforeRepair": "587838be98adfff4f4f0e4e91d56aab08897551380ee1411b9e528e1b3bad471",
+          "byteLengthBeforeRepair": 46776,
+          "pageCountBeforeRepair": 17,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "e370557f19b15fb774a63f406c8fcde2766feac8"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/reports/completeness-counters.json at e370557f19b15fb774a63f406c8fcde2766feac8, sha256 5464747dfdac4faa84f6ef7c86ab81975d52b518c919b1289d13ef59ee877af6. All nine native builder counters are numeric zero. This is retained implementation evidence, not an independent PASS_COMPLETE or new raster.",
+      "rasterState": "PDF_BYTES_UNCHANGED_REUSE_REQUIRES_ADMISSION",
+      "rasterRequired": false,
+      "independentRereadRequired": true,
+      "supportingArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md",
+          "sha256": "d665e93e65922533b2e2f1da8c8f051a6f237bbc45477993c7e971f71f3c16d3",
+          "byteLength": 21889,
+          "sha256BeforeRepair": "da6fdc18d6193e148297294a2352be608a0a61e66698303a7fe6b748c0f90557",
+          "byteLengthBeforeRepair": 21537,
+          "changed": true,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "e370557f19b15fb774a63f406c8fcde2766feac8"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/production-field-map.json",
+          "sha256": "c65593503e93f53a7680bf40d194edc4369cf9cb95ed3ed6ae23c0d06828007f",
+          "byteLength": 149045,
+          "sha256BeforeRepair": "e1933d8d9b1ecd40e28396bf488c18700a6b78ee3ffd8fcd49703444a3fccb9e",
+          "byteLengthBeforeRepair": 141297,
+          "changed": true,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "e370557f19b15fb774a63f406c8fcde2766feac8"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/reports/blanks-left-for-the-participant.json",
+          "sha256": "da19068beea3fbbfe549c0d560a33a49284c22a2397ef47e606337be07b06fca",
+          "byteLength": 18255,
+          "sha256BeforeRepair": "637ab0242a63f9d26dbbb3493e04167634bed8275cfae5ec1e8fa55117123203",
+          "byteLengthBeforeRepair": 16839,
+          "changed": true,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "e370557f19b15fb774a63f406c8fcde2766feac8"
+        }
+      ],
+      "rasterBasis": "Both fixtures are byte-identical to the selected failed-verdict base and the repair parent. No new raster is claimed or requested solely for this correction; Lead and Acceptance determine admission or reuse of existing exact-byte raster evidence.",
+      "remainingAcceptance": "Independent acceptance of e370557f19b15fb774a63f406c8fcde2766feac8 is required before this row lands; the later independent obligation reread remains required."
+    }
+  ]
+}

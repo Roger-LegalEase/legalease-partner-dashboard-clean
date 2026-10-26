@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { packetMatterTitleCopy, packetMatterSubtitleCopy, packetMatterSummaryCopy, packetMatterSentenceCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { ArrowRight, Check, CreditCard, Download, LifeBuoy, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import type { ConsumerPaymentHistoryItem } from "@/lib/expungement-ai/briefcase-consumer-presentation";
 import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { humanMatterState, matterCareState, type MatterCareState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
-import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
+import { LocalizedCopy, LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 
 /* ------------------------------------------------------------------ */
 /* Status + stepper model (presentation only; reads engine status)     */
@@ -81,14 +82,6 @@ function firstName(email?: string) {
   if (!email) return "";
   const token = (email.split("@")[0] ?? "").split(/[._+\-]/).filter(Boolean)[0];
   return token ? token.charAt(0).toUpperCase() + token.slice(1) : "";
-}
-
-function matterSubtitle(item: BriefcasePresentationItem) {
-  const year = (() => {
-    const d = new Date(item.createdAt);
-    return Number.isNaN(d.getTime()) ? null : String(d.getFullYear());
-  })();
-  return [item.jurisdiction, item.pathwayLabel, year].filter(Boolean).join(", ");
 }
 
 /* ------------------------------------------------------------------ */
@@ -208,7 +201,8 @@ function EmptyBriefcase() {
 /* Briefcase home                                                      */
 /* ------------------------------------------------------------------ */
 
-type NextStep = { headline: string; body: string; ctaLabel: string; href: string };
+type NextStepCopy = string | { en: string; es?: string };
+type NextStep = { headline: NextStepCopy; body: NextStepCopy; ctaLabel: string; href: string };
 
 function pickNextStep(matters: BriefcasePresentationItem[]): NextStep | null {
   const order: MatterCareState[] = ["needs_attention", "packet_ready", "completed", "waiting", "guidance_only", "saved"];
@@ -216,13 +210,12 @@ function pickNextStep(matters: BriefcasePresentationItem[]): NextStep | null {
     const item = matters.find((m) => matterCareState(m) === target);
     if (!item) continue;
     const href = `/briefcase/${item.id}`;
-    const where = matterSubtitle(item) || item.jurisdiction || "saved matter";
     if (humanMatterState(item) === "Packet not available yet") {
       return { headline: "Packet not available yet", body: "Your eligibility result and saved information remain available. There is no packet to purchase for this route yet.", ctaLabel: "Open matter", href };
     }
     switch (target) {
       case "needs_attention":
-        return { headline: `Finish your ${item.title} check`, body: "We need one more thing before this can move forward. Open it to see what to add.", ctaLabel: "See what we need", href };
+        return { headline: packetMatterSentenceCopy(item, "Finish your {title} check"), body: "We need one more thing before this can move forward. Open it to see what to add.", ctaLabel: "See what we need", href };
       case "packet_ready":
         if (item.packetDraft.status === "unavailable") {
           return { headline: "Packet details unavailable", body: "We could not verify the saved packet details right now. Open the matter to try again.", ctaLabel: "Open matter", href };
@@ -244,13 +237,13 @@ function pickNextStep(matters: BriefcasePresentationItem[]): NextStep | null {
         }
         return { headline: humanMatterState(item), body: "Your Briefcase is free. Complete the packet information before deciding whether to generate it.", ctaLabel: "Complete packet information", href: `/briefcase/${item.id}/packet-information` };
       case "completed":
-        return { headline: "Packet ready", body: `Your packet for ${item.title} is ready with filing next steps.`, ctaLabel: "Download my packet", href };
+        return { headline: "Packet ready", body: packetMatterSentenceCopy(item, "Your packet for {title} is ready with filing next steps."), ctaLabel: "Download my packet", href };
       case "waiting":
-        return { headline: "Your case is with the court", body: `${item.title} is filed and waiting on a decision. There's nothing to do right now. We'll help you keep track.`, ctaLabel: "See your matter", href };
+        return { headline: "Your case is with the court", body: packetMatterSentenceCopy(item, "{title} is filed and waiting on a decision. There's nothing to do right now. We'll help you keep track."), ctaLabel: "See your matter", href };
       case "guidance_only":
-        return { headline: "Your next steps are saved", body: `We saved step-by-step guidance for ${item.title}. Open it whenever you're ready.`, ctaLabel: "View next steps", href };
+        return { headline: "Your next steps are saved", body: packetMatterSentenceCopy(item, "We saved step-by-step guidance for {title}. Open it whenever you're ready."), ctaLabel: "View next steps", href };
       case "saved":
-        return { headline: "See where your check stands", body: `Open ${item.title} (${where}) to review what we found and what you can do next.`, ctaLabel: "Open matter", href };
+        return { headline: "See where your check stands", body: packetMatterSentenceCopy(item, "Open {title} ({where}) to review what we found and what you can do next."), ctaLabel: "Open matter", href };
       default:
         break;
     }
@@ -297,8 +290,8 @@ export function BriefcaseOverview({ items, userEmail }: { items: BriefcasePresen
             <p className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#7FE9DE]">
               <span className="h-[7px] w-[7px] rounded-full bg-[#00A99D] shadow-[0_0_8px_#00A99D]" aria-hidden="true" /> <LocalizedText k="briefcase.your_next_step" fallback="Your next step" />
             </p>
-            <h3 className="text-[20px] font-bold"><LocalizedRuntimeText text={next.headline} /></h3>
-            <p className="mt-1.5 max-w-[52ch] text-[13px] leading-6 text-white/70"><LocalizedRuntimeText text={next.body} /></p>
+            <h3 className="text-[20px] font-bold">{typeof next.headline === "string" ? <LocalizedRuntimeText text={next.headline} /> : <LocalizedCopy {...next.headline} />}</h3>
+            <p className="mt-1.5 max-w-[52ch] text-[13px] leading-6 text-white/70">{typeof next.body === "string" ? <LocalizedRuntimeText text={next.body} /> : <LocalizedCopy {...next.body} />}</p>
           </div>
           <Link href={next.href} className="inline-flex shrink-0 items-center gap-2 rounded-[11px] bg-[#C2350A] px-5 py-3 text-[14px] font-bold text-white">
             <LocalizedRuntimeText text={next.ctaLabel} /> <ArrowRight className="h-4 w-4" strokeWidth={2.4} aria-hidden="true" />
@@ -335,7 +328,7 @@ export function BriefcaseOverview({ items, userEmail }: { items: BriefcasePresen
 
 function MatterCard({ item }: { item: BriefcasePresentationItem }) {
   const status = matterStatus(item);
-  const subtitle = matterSubtitle(item) || item.summary;
+  const subtitle = packetMatterSubtitleCopy(item);
   if (item.authorityStatus === "unavailable") {
     return <UnavailableMatterCard item={item} />;
   }
@@ -348,8 +341,8 @@ function MatterCard({ item }: { item: BriefcasePresentationItem }) {
     >
       <div className="mb-4 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="truncate text-[16px] font-bold text-[#0B1320]">{item.title}</p>
-          {subtitle ? <p className="mt-0.5 truncate text-[12px] text-[#5E687A]">{subtitle}</p> : null}
+          <p className="truncate text-[16px] font-bold text-[#0B1320]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></p>
+          {subtitle.en ? <p className="mt-0.5 truncate text-[12px] text-[#5E687A]"><LocalizedCopy {...subtitle} /></p> : null}
         </div>
         <StatusPill label={status.pillLabel} tone={status.pillTone} />
       </div>
@@ -459,8 +452,8 @@ export function PaymentsView({ items }: { items: ConsumerPaymentHistoryItem[] })
                     ? <LocalizedText k="payment.no_charge" fallback="No charge" />
                     : <LocalizedText k="payment.paid" fallback="paid" />}
               </p>
-              <p className="mt-1 text-[#5A6275]">{item.title}</p>
-              <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.packet_label" fallback="Packet" />: {item.artifact.status === "ready" ? "ready" : "not ready"}</p>
+              <p className="mt-1 text-[#5A6275]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></p>
+              <p className="mt-1 text-[#5A6275]">{item.artifact.status === "ready" ? <LocalizedText k="packet.display.RCOPY-28a386a1003aa04eb354" fallback="Packet ready" /> : <LocalizedText k="commercial.unavailable" fallback="Packet not available yet" />}</p>
               {item.paymentHistory!.receipt ? (
                 <a className="mt-3 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] bg-white px-4 text-sm font-bold text-[#0B1320]" href={item.paymentHistory!.receipt.actionPath}>
                   <LocalizedText k="briefcase.view_receipt" fallback="View receipt" />
@@ -533,13 +526,13 @@ export function BriefcaseItemCard({ item }: { item: BriefcasePresentationItem })
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[16px] font-bold text-[#0B1320]">{item.title}</p>
-          <p className="mt-0.5 text-[12px] text-[#5E687A]">{matterSubtitle(item) || item.summary}</p>
+          <p className="text-[16px] font-bold text-[#0B1320]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></p>
+          <p className="mt-0.5 text-[12px] text-[#5E687A]"><LocalizedCopy {...packetMatterSubtitleCopy(item)} /></p>
         </div>
         <StatusPill label={status.pillLabel} tone={status.pillTone} />
       </div>
 
-      {item.summary ? <p className="mt-3 text-[13px] leading-6 text-[#5A6275]">{item.summary}</p> : null}
+      {item.summary ? <p className="mt-3 text-[13px] leading-6 text-[#5A6275]"><LocalizedCopy {...packetMatterSummaryCopy(item)} /></p> : null}
 
       {item.nextSteps.length ? <h3 className="mt-4 text-[13px] font-bold text-[#0B1320]"><LocalizedText k="common.next_steps" fallback="Next steps" /></h3> : null}
       <ul className="mt-2 space-y-1 text-[13px] leading-6 text-[#5A6275]">

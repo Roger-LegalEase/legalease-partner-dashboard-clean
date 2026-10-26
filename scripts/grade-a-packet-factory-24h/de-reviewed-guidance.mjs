@@ -15,6 +15,12 @@ const SOURCE_REGISTRY = 'data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURC
 const ORIGINAL_REGISTRY_COMMIT = '97d5b4ba933537f8baf0371c7ba99c0dae5e6d00';
 const REVIEW = 'data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json';
 export const CURRENT_REVIEW = 'data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json';
+export const VF02_REVIEW = 'data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261020-reverify-de-mandatory-1b4dfeaa1.json';
+export const VF02_SUPPLEMENT = 'data/rcap-grade-a/packet-factory-24h/vf02-v2-supplements/rows-vf02-20261020-reverify-de-mandatory-1b4dfeaa1.v2.json';
+const VF02_COMMIT = 'e35a55467f86d3e6c9fb070e0a651f1633ff1422';
+const ROUTE_CENSUS = 'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
+const ROUTE_PRODUCT_METADATA = 'data/expungement-ai/route-product-metadata.json';
+const DE_RPM_MANDATORY_KEY = 'DE:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a';
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const blob = b => crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
 
@@ -198,6 +204,28 @@ export function additiveOtherFamilyRegistry(oldBytes, currentBytes, familyId) {
     changedFamilyIds, addedEvidencePaths: addedPaths};
 }
 
+// The DE builder only hashes route-product-metadata.json (a composition source);
+// it never parses it. So a regeneration may move the whole-file hash only when
+// every Delaware row is deep-equal and nothing at the top level moved except
+// headCommit (Reviewer2 de-vf02-rpm-pin/DECISION.md). Any other change refuses.
+export function deRoutesUnchangedProductMetadata(oldBytes, currentBytes) {
+  const old = JSON.parse(oldBytes), now = JSON.parse(currentBytes);
+  // Only the generator's own serialization; a hand edit that parses equal is still a change.
+  assert.equal(Buffer.from(currentBytes).toString(), JSON.stringify(now, null, 2) + '\n', 'route product metadata is not generator output');
+  assert.deepEqual(Object.keys(now), Object.keys(old), 'route product metadata shape changed');
+  for (const key of Object.keys(old)) {
+    if (key === 'headCommit' || key === 'routes') continue;
+    assert.deepEqual(now[key], old[key], `route product metadata ${key} changed`);
+  }
+  const deRows = routes => Object.entries(routes ?? {}).filter(([key]) => key.startsWith('DE:'));
+  const before = deRows(old.routes), after = deRows(now.routes);
+  assert.equal(before.length, 4, 'historical Delaware route product metadata is not the four reviewed rows');
+  assert.ok(before.some(([key]) => key === DE_RPM_MANDATORY_KEY), 'historical DE mandatory route product metadata is missing');
+  assert.deepEqual(after, before, 'Delaware route product metadata changed');
+  return {scopeUnchanged: true, comparison: 'all four Delaware route product metadata rows are deep-equal; only headCommit and non-Delaware rows moved',
+    deRoutesSha256: sha(Buffer.from(JSON.stringify(before)))};
+}
+
 function assessLegacyDeReviewedGuidance(root, returned, overrides = {}) {
   if (returned?.familyId !== DE_FAMILY || returned.verdict !== 'PASS_COMPLETE_INDEPENDENT') return null;
   const bytes = overrides.readBytes ?? (p => fs.readFileSync(path.join(root, p)));
@@ -289,17 +317,47 @@ function assessLegacyDeReviewedGuidance(root, returned, overrides = {}) {
 }
 
 function assessCurrentDeReviewedGuidance(root, returned, overrides = {}) {
+  const supplemented = returned.evidencePath === VF02_REVIEW;
+  const reviewPath = supplemented ? VF02_REVIEW : CURRENT_REVIEW;
   const bytes = overrides.readBytes ?? (relative => fs.readFileSync(path.join(root, relative)));
   const json = relative => JSON.parse(bytes(relative));
   const historical = overrides.readHistorical ?? ((commit, relative) => execFileSync('git', ['show', `${commit}:${relative}`],
     {cwd: root, maxBuffer: 1 << 24, stdio: ['ignore', 'pipe', 'ignore']}));
   try {
-    assert.equal(returned.evidencePath, CURRENT_REVIEW);
+    assert.equal(returned.evidencePath, reviewPath);
     assert.equal(returned.familyId, DE_FAMILY);
     assert.equal(returned.verdict, 'PASS_COMPLETE_INDEPENDENT');
     assert.equal(returned.isIndependentVerification, true);
     assert.match(returned.verifiedAtBase, /^[0-9a-f]{40}$/);
-    const doc = json(CURRENT_REVIEW);
+    const doc = json(supplemented ? VF02_SUPPLEMENT : CURRENT_REVIEW);
+    if (supplemented) {
+      const originalBytes = bytes(VF02_REVIEW);
+      assert.equal(sha(originalBytes), returned.evidenceSha256, 'review bytes changed since extraction');
+      assert.equal(sha(originalBytes), sha(historical(VF02_COMMIT, VF02_REVIEW)), 'original RV-11 review changed');
+      assert.deepEqual(doc.supplements, {
+        commit: VF02_COMMIT, path: VF02_REVIEW, sha256: sha(originalBytes),
+        schemaVersion: 'rcap-independent-verification-rows/v1', taskId: 'RV-11'
+      }, 'supplement does not bind the exact original RV-11 review');
+      const original = JSON.parse(originalBytes);
+      assert.equal(original.schemaVersion, doc.supplements.schemaVersion);
+      assert.equal(original.lane, doc.lane);
+      assert.equal(original.generatedAtBase, doc.verifiedAtBase);
+      const originalRows = original.rows.filter(row => row.itemId === DE_FAMILY);
+      const supplementalRows = doc.rows.filter(row => row.itemId === DE_FAMILY);
+      assert.equal(originalRows.length, 1);
+      assert.equal(supplementalRows.length, 1);
+      const prior = originalRows[0], next = supplementalRows[0];
+      for (const key of ['itemId', 'verdict', 'verifiedAtBase', 'verifiedAt', 'familyDirectory', 'nineCounters', 'artifactHashes'])
+        assert.deepEqual(next[key], prior[key], `supplement changed original ${key}`);
+      assert.deepEqual(next.sourceBindings, prior.sourceIdentityEvidence, 'supplement changed source measurements');
+      assert.deepEqual(next.failedObligations, prior.failedObligationNames, 'supplement changed failed obligations');
+      for (const obligation of OBLIGATIONS) {
+        const {measured, ...originalProof} = next.proofObligations[obligation];
+        assert.equal(measured, true);
+        assert.deepEqual(originalProof, prior.proofObligations[obligation], `supplement changed ${obligation}`);
+      }
+      assert.deepEqual(doc.attestations?.notStated, [], 'supplement leaves required attestations unstated');
+    }
     assert.equal(doc.schemaVersion, 'rcap-verifier-rows/v2');
     assert.equal(doc.laneKind, 'independent-verification');
     assert.equal(doc.isIndependentVerification, true);
@@ -397,11 +455,55 @@ function assessCurrentDeReviewedGuidance(root, returned, overrides = {}) {
     const sourceChecks = receipt.compositionSources.map(source => {
       const declared = declaredSources.get(source.path);
       assert.ok(declared, `review omitted source ${source.path}`);
-      assert.equal(declared.sha256, source.sha256);
       const currentBytes = bytes(source.path);
       const historicalBytes = historical(row.verifiedAtBase, source.path);
+      if (supplemented) {
+        assert.equal(sha(historicalBytes), declared.sha256, `reviewed source changed: ${source.path}`);
+        assert.equal(historicalBytes.length, declared.byteLength);
+        if (source.path === ROUTE_PRODUCT_METADATA && sha(currentBytes) !== declared.sha256) {
+          assert.equal(declared.sha256, source.sha256, `reviewed and receipt pins differ: ${source.path}`);
+          assert.equal(historicalBytes.length, source.byteLength);
+          return {path: source.path, sha256: source.sha256, byteLength: source.byteLength,
+            matched: false, currentSha256: sha(currentBytes), currentByteLength: currentBytes.length,
+            ...deRoutesUnchangedProductMetadata(historicalBytes, currentBytes)};
+        }
+        assert.equal(sha(currentBytes), declared.sha256, `current source changed: ${source.path}`);
+        assert.equal(currentBytes.length, declared.byteLength);
+        if (declared.sha256 === source.sha256) {
+          assert.equal(currentBytes.length, source.byteLength);
+          return {path: source.path, sha256: source.sha256, byteLength: currentBytes.length, matched: true};
+        }
+        assert.ok([SOURCE_REGISTRY, ROUTE_CENSUS].includes(source.path), `unrecognized historical source drift: ${source.path}`);
+        const oldCommit = source.path === SOURCE_REGISTRY
+          ? 'c4fc31baad63d00707a2b07a023cafa2ff6a8e43'
+          : 'a3ca119bd26536cdde7a1b325f7ac3e3594e75c8';
+        const oldBytes = historical(oldCommit, source.path);
+        assert.equal(sha(oldBytes), source.sha256, `historical receipt source changed: ${source.path}`);
+        assert.equal(oldBytes.length, source.byteLength);
+        let delta;
+        if (source.path === SOURCE_REGISTRY) {
+          delta = deFamilyCourtSourceDelta(oldBytes, currentBytes, {proofBytes: bytes(DEFC_ADOPTION_PROOF)});
+        } else {
+          const oldRoutes = JSON.parse(oldBytes).routes.filter(route => route.routeKey === DE_ROUTE);
+          const currentRoutes = JSON.parse(currentBytes).routes.filter(route => route.routeKey === DE_ROUTE);
+          assert.equal(oldRoutes.length, 1, 'historical DE census route is missing or duplicated');
+          assert.equal(currentRoutes.length, 1, 'current DE census route is missing or duplicated');
+          assert.deepEqual(currentRoutes, oldRoutes, 'DE mandatory census route changed');
+          delta = {scopeUnchanged: true, comparison: 'exact DE mandatory census route object unchanged',
+            routeKey: DE_ROUTE, routeSha256: sha(Buffer.from(JSON.stringify(oldRoutes[0])))};
+        }
+        return {path: source.path, sha256: source.sha256, byteLength: source.byteLength,
+          matched: false, currentSha256: sha(currentBytes), currentByteLength: currentBytes.length,
+          historicalCommit: oldCommit, ...delta};
+      }
+      assert.equal(declared.sha256, source.sha256);
       assert.equal(sha(historicalBytes), source.sha256, `reviewed source changed: ${source.path}`);
       const currentSha256 = sha(currentBytes);
+      if (currentSha256 !== source.sha256 && source.path === ROUTE_PRODUCT_METADATA) {
+        return {path: source.path, sha256: source.sha256, byteLength: source.byteLength,
+          matched: false, currentSha256, currentByteLength: currentBytes.length,
+          ...deRoutesUnchangedProductMetadata(historicalBytes, currentBytes)};
+      }
       if (currentSha256 !== source.sha256) {
         assert.equal(source.path, SOURCE_REGISTRY, `current source changed: ${source.path}`);
         const delta = deFamilyCourtSourceDelta(historicalBytes, currentBytes, {
@@ -433,18 +535,20 @@ function assessCurrentDeReviewedGuidance(root, returned, overrides = {}) {
       assert.equal(queued?.sha256, output.sha256);
       assert.equal(queued?.pageCount, output.pageCount);
     }
-    return {eligible: true, terminalTreatment: 'GUIDANCE_READY', reviewPath: CURRENT_REVIEW,
-      reviewSha256: sha(bytes(CURRENT_REVIEW)), reviewer: doc.reviewer, sessionIdentity: doc.sessionIdentity,
+    return {eligible: true, terminalTreatment: 'GUIDANCE_READY', reviewPath,
+      reviewSha256: sha(bytes(reviewPath)),
+      ...(supplemented ? {supplementPath: VF02_SUPPLEMENT, supplementSha256: sha(bytes(VF02_SUPPLEMENT))} : {}),
+      reviewer: doc.reviewer, sessionIdentity: doc.sessionIdentity,
       reviewedAtBase: row.verifiedAtBase, outputs, sourceChecks, rasterRunId: String(row.rasterAcceptance.runId),
       reviewAuthoredByIntegrator: false, packetBytesChanged: false, runtimeInstalled: false,
       filingPermitted: false, paymentEligible: false, sponsorshipEligible: false};
   } catch (error) {
-    return {eligible: false, reason: error.message, reviewPath: CURRENT_REVIEW};
+    return {eligible: false, reason: error.message, reviewPath};
   }
 }
 
 export function assessDeReviewedGuidance(root, returned, overrides = {}) {
   if (returned?.familyId !== DE_FAMILY || returned.verdict !== 'PASS_COMPLETE_INDEPENDENT') return null;
-  if (returned.evidencePath === CURRENT_REVIEW) return assessCurrentDeReviewedGuidance(root, returned, overrides);
+  if ([CURRENT_REVIEW, VF02_REVIEW].includes(returned.evidencePath)) return assessCurrentDeReviewedGuidance(root, returned, overrides);
   return assessLegacyDeReviewedGuidance(root, returned, overrides);
 }

@@ -54,6 +54,19 @@ check(
   "the class is the constructor name only -- never the message, parameters or stack"
 );
 
+// A missing fulfillment proof is a typed refusal, not a provider outage.
+const fulfillmentRefusal = route.match(/if \(error instanceof PacketFulfillmentNotProvenError\) \{([\s\S]*?)\n    \}/)?.[1] ?? "";
+check(
+  fulfillmentRefusal.includes('resultCode: "fulfillment_not_proven"')
+    && fulfillmentRefusal.includes('status: 403')
+    && fulfillmentRefusal.includes('"Cache-Control": "private, no-store"'),
+  "unproven fulfillment answers a private, non-cacheable typed 403 refusal"
+);
+check(
+  fulfillmentRefusal.length > 0 && !/\berror\.(?:message|detail|missing|routeKey|stack)\b/.test(fulfillmentRefusal),
+  "fulfillment refusal does not expose authority details or internal route identifiers"
+);
+
 // --- the classification carries no free text -------------------------------------
 const failureType = adapter.slice(
   adapter.indexOf("export type ConsumerCheckoutProviderFailure"),
@@ -135,10 +148,10 @@ check(
     && adapter.includes("function expectedStripeAccountId()"),
   "the expected merchant account is pinned rather than inferred from whichever key is loaded"
 );
-const earlyRecovery = adapter.slice(
-  adapter.indexOf('if (item.checkoutSessionId?.startsWith("cs_"))'),
-  adapter.indexOf("let verification;")
-);
+const earlyRecoveryStart = adapter.indexOf('if (item.checkoutSessionId?.startsWith("cs_"))');
+const earlyRecoveryEnd = adapter.indexOf("const { verification, verifiedSnapshot, purchaseReadiness } = await requireConsumerPacketPurchaseReadiness(userId, item);");
+check(earlyRecoveryStart >= 0 && earlyRecoveryEnd > earlyRecoveryStart, "stored-session recovery is bounded before current purchase readiness");
+const earlyRecovery = adapter.slice(earlyRecoveryStart, earlyRecoveryEnd);
 check(
   earlyRecovery.includes("storedSessionIsAbsentFromTheVerifiedAccount(error, await stripeAccountIdentity(stripe))")
     && earlyRecovery.includes("throw error;"),

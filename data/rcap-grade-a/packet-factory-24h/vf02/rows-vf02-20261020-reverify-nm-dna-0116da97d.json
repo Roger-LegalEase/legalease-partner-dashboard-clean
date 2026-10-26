@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimLedger": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/review-evidence/lead-batch29/a9-claims/claim-ledger.json",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement": "CLAIM_OK VF02 agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement (independent-verification, grant set 1c6319b6441f6094)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "lane": "VF02",
+      "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T14:16:14Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node review-evidence/ci-factory/vf-reverify-f3ff92ac2/measure-family.mjs (verify-packet-completeness.mjs --family) in /tmp/legalease-reviewer-20261020 detached at 0116da97daa896e517323f18c01a1a33de0ceaee: PASS_COMPLETE 5/11 written"
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-intake/NM.memo.json",
+          "sha256Prefix": "94fe9d381be4",
+          "byteLength": 199178,
+          "matchesReceipt": true
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+          "sha256Prefix": "ec03515fa44d",
+          "byteLength": 134214,
+          "matchesReceipt": true
+        },
+        {
+          "path": "src/lib/legal-authority/routes/single-routes.json",
+          "sha256Prefix": "1bd1efb03ad5",
+          "byteLength": 102577,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256Prefix": "eeabd8b97786",
+          "byteLength": 2635434,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "e09efa5a584ec871e105bda77e90a689c009407997ab556f809837e1ddda9927",
+          "byteLength": 6994,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "2da49ffb4298de85e17dd12710b338cb4ca8643395c7352917af3b06fa592318",
+          "byteLength": 7133,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across source-receipt, production-field-map, product-wiring and MASTER_QUEUE, all on obligation:runtime-only:NM:dna-sample-profile-expungement; the census carries the same routeKey (routes[74]) with authority N.M. Stat. Sec. 29-16-10 and destination \"not recorded\", which the packet states as no held source."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 0116da97daa896e517323f18c01a1a33de0ceaee: all 4 receipt pins equal the bytes (NM.memo.json 94fe9d381be4/199178 B; NM-new-mexico.json ec03515fa44d/134214 B; single-routes.json 1bd1efb03ad5/102577 B; route-obligation-candidate.json eeabd8b97786/2635434 B); receipt-pins.txt."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "declared = rendered = agency_preparation_guide (requiredComponentsMissing 0); the route is an administrative written request, not a court filing, and the guide says it does not use the Rule 1-077.1 NMRA form set."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 5 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (5/5 both): full legal name, date of birth, mailing address, telephone and email; the boundary differs from the canonical only in those values (text/canonical.txt vs text/boundary.txt). No signature, date, election or authority field is inked."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map requiredBeforeFilingCount 6, each a labelled dotted blank with a \"Check with\" authority (qualifying branch, case identifiers, arresting agency and date, certified disposition or sworn affirmation, confirmed administrative center and format, prior-felony screen); participant-instructions.md lists the same six."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade 0. The qualifying Sec. 29-16-10 branch is a participant blank confirmed with the certified disposition and counsel; none is pre-selected, and the one-year condition is stated as a lookback for the no-felony-charge branch only."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating structure is declared (repeatingRows 0) and none is printed."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "\"Do not sign or date this guide\"; no court, clerk, prosecutor, agency, notary or hearing-officer field is completed (p2, instructions \"Protected items left blank\"); protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf e09efa5a584ec871e105bda77e90a689c009407997ab556f809837e1ddda9927/6994 B and boundary.pdf 2da49ffb4298de85e17dd12710b338cb4ca8643395c7352917af3b06fa592318/7133 B, 2 pages each by pdfinfo, equal to reports/rendered-artifacts.json; product-wiring binds the canonical sha. A9 run 39430479568 (RASTER_PASS, rendered at dba387ad6f1fa778edbccd7873772c9c5e7cf839) binds both pins, 4 pages, every PNG sha256 recomputed from the downloaded bytes (rv16-a9-39430479568/RV16-REVIEW-39430479568.json)."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "One component on 2 pages per fixture: p1 title, guide status, identity block, STOP BEFORE APPLYING, WHO MUST RECEIVE A COPY OR NOTICE, WHAT THIS ROUTE IS, DOCUMENTS AND STOP CONDITIONS; p2 continues that sentence, then the six required blanks and PROTECTED ITEMS. Reading order is continuous."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox at 0116da97d: 0 words outside the page box and 0 same-band overlapping pairs on either fixture (canonical 560 / boundary 569 words). Every page of A9 run 39430479568 viewed: legible, inside margins, the boundary's long name, address and email wrap cleanly, no collision."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "No held source establishes the destination (census \"not recorded\"); the packet says so (\"No held source identifies the administrative center, receiving unit, destination, accepted request format, or fee\"), names the state DNA identification system's administrative center as the recorded addressee, supplies no address, and names the New Mexico Department of Public Safety to confirm it. Not a court filing."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "DET-FEE-AND-WAIVER-001 third prong exactly: \"No held source identifies ... or fee. Confirm every one with the New Mexico Department of Public Safety before sending anything\" (p1-p2), and the instructions repeat \"fee if any; confirm it with the New Mexico Department of Public Safety\". No figure; no waiver route arises where no fee is established."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "p1 \"WHO MUST RECEIVE A COPY OR NOTICE?\": not served on anyone and not a court filing; \"The held sources do not establish a service or notice rule for the agency request\"; ask DPS whether anyone besides the receiving agency must receive a copy or notice."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Stops carried: Sec. 29-16-10 not verified at an official source -> stop before applying, ask a New Mexico attorney (p1); receiving agency and format not established -> confirm with DPS first; prior felony conviction or pending authorized-felony charge -> stop and obtain counsel (p1); the 30/45-day agency periods are never prefiling waits (instructions)."
+        }
+      },
+      "observations": [
+        {
+          "what": "Route key printed to the participant (PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class)",
+          "detail": "p1 prints \"ROUTE: obligation:runtime-only:NM:dna-sample-profile-expungement\". The rebuild since 1b48eb358 removed only the trailing \"Route:\" footer line; participant-instructions.md still ends with it. Recorded, not scored."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv17-nm-dna/read-0116da97d",
+        "measure": "facts.json, measure.log",
+        "receipt": "source-receipt.json, receipt-pins.txt",
+        "text": "text/canonical.txt, text/boundary.txt, text/*.1b48eb358-vs-now.diff (old/ holds the 1b48eb358 bytes)",
+        "records": "participant-instructions.md, product-wiring.json, production-field-map.json, json-diff-1b48eb358.txt",
+        "raster": "review-evidence/reviewer/rv16-a9-39430479568/RV16-REVIEW-39430479568.json"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

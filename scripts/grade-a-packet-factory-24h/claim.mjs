@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { pushedEquivalent } from "./verifier-base-stand-ins.mjs";
 
 /*
  * WHICH LEDGER THIS IS, SAID OUT LOUD.
@@ -87,7 +88,7 @@ function validate(ledger) {
   if ((ledger.claims ?? []).some((c) => !CLOSED_LANE_KINDS.includes(c.laneKind))) die(13, "UNDECLARED_LANE_KIND: a grant uses an unknown kind");
   const digest = claimsDigest(ledger.claims ?? []);
   if (digest !== ledger.claimsDigest) die(11, `LEDGER_DIGEST_MISMATCH: expected ${ledger.claimsDigest}, computed ${digest}`);
-  if (!ledger.generatedAtCommit || git(["cat-file", "-e", `${ledger.generatedAtCommit}^{commit}`]) === null) die(5, `LEDGER_BASE_NOT_IN_CHECKOUT: ${ledger.generatedAtCommit ?? "missing"}`);
+  if (!ledger.generatedAtCommit || git(["cat-file", "-e", `${pushedEquivalent(ledger.generatedAtCommit)}^{commit}`]) === null) die(5, `LEDGER_BASE_NOT_IN_CHECKOUT: ${ledger.generatedAtCommit ?? "missing"}`);
   const seen = new Set();
   for (const c of ledger.claims ?? []) {
     const key = `${c.subjectType}\0${c.subjectId}\0${c.operation}`;

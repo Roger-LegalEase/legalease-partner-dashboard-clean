@@ -2,6 +2,8 @@ import "server-only";
 
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
+import { stableStringify } from "@/lib/rcap/fulfillment/grade-a-registry";
 import { loadMsPaidConsumerSuccessor } from "@/lib/rcap/fulfillment/paid-consumer-successor";
 
 import {
@@ -176,6 +178,13 @@ export type FactoryV2LegalApprovalEvidence = {
   }>;
 };
 
+type DcCurrentComposerAudit = {
+  path: "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json";
+  sha256: "4b721136c19ef03ea3862322c6fd662adcfa02580224e6613329b1552753ab3f";
+  verdict: "COVERED_BY_EXISTING_APPROVAL";
+  scope: "exact_dc_current_composer_only";
+};
+
 export type FactoryV2ExactRouteProductization = {
   obligationRouteKey: string;
   runtimeRouteId: string;
@@ -185,7 +194,7 @@ export type FactoryV2ExactRouteProductization = {
   packetFamilyId: string;
   scope: "route_track_family_only";
   legalApproval: FactoryV2LegalApprovalEvidence | null;
-  postApprovalChangeAudit: null;
+  postApprovalChangeAudit: DcCurrentComposerAudit | null;
   createsCommercialAuthority: false;
   opensRoute: false;
   nextGate: string;
@@ -435,7 +444,9 @@ function loadCtCleanSlateProductization(): FactoryV2ExactRouteProductization | n
  * has no pathway row to borrow. The literal crosswalk below is therefore the
  * whole admission surface: one runtime route, one server-owned track and one
  * packet family. The owner adoption is preserved as evidence, while the absent
- * post-approval audit remains null and keeps the specification non-composable.
+ * historical post-approval audit remains null in the retained tuple. The exact
+ * current-specification successor is validated separately below; neither tuple
+ * grants commercial authority.
  */
 function loadDcMisattributedProductization(): FactoryV2ExactRouteProductization | null {
   try {
@@ -487,6 +498,55 @@ function loadDcMisattributedProductization(): FactoryV2ExactRouteProductization 
   }
 }
 
+// Exact DC-only successor of the retained technical productization tuple.
+// This admits the existing composer connection, never commercial fulfillment.
+// The source content pin includes all eight unchanged factual prerequisites,
+// the existing 25 sections, seven source bindings and manual-slot ownership.
+// Bind only the six owner-adopted DC proof files to literal runtime paths.
+// The original SHA checks remain in the caller. Literal reads keep Turbopack
+// from tracing the entire repository through a variable file argument.
+function readDcPinnedProofFile(file: string) {
+  switch (file) {
+    case "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_DC_MISATTRIBUTED_2026-10-16.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_DC_MISATTRIBUTED_2026-10-16.json"));
+    case "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json"));
+    case "data/record-clearing/legal-design-intake/DC.memo.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-intake/DC.memo.json"));
+    case "data/rcap-grade-a/mission-lock/task54-dc-render/render-evidence.json":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-grade-a/mission-lock/task54-dc-render/render-evidence.json"));
+    case "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf"));
+    case "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf":
+      return fs.readFileSync(path.join(process.cwd(), "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf"));
+    default:
+      throw new Error("Unexpected DC proof source");
+  }
+}
+
+function dcMisattributedCurrentSourceMatches(specification: Parameters<typeof specificationContentSha256>[0]): boolean {
+  if (!specificationLegalSectionsBound(specification)
+    || specificationContentSha256(specification) !== "6ecd622fc6cbd49dce3642c1a979caf2492e885efadf9ece3b1436184b18c2da") return false;
+  const content = { ...specification } as Record<string, unknown>;
+  delete content.specificationSha256;
+  if (createHash("sha256").update(stableStringify(content)).digest("hex") !== specificationContentSha256(specification)) return false;
+  try {
+    for (const [file, expected] of [
+      ["data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_DC_MISATTRIBUTED_2026-10-16.json", "db6829c860a8492df5780675b64e27fbdee7e3b0a8fe00ef67951c00346dda0c"],
+      ["data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json", "4b721136c19ef03ea3862322c6fd662adcfa02580224e6613329b1552753ab3f"],
+      ["data/record-clearing/legal-design-intake/DC.memo.json", "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"],
+      ["data/rcap-grade-a/mission-lock/task54-dc-render/render-evidence.json", "3ae534f98bcd3305b6b335d2c991c07823fd57c01024bd958a4f1ebe35b0d034"],
+      ["data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf", "31beb81d0a97122b9517b17d58d04527aba2bae88ecd157e05b9755a4dd35a27"],
+      ["data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf", "f1086e078bce597b9629f86afc4e0f683d4d1c41ff704d3aee5d94caeccb0d72"]
+    ]) {
+      if (createHash("sha256").update(readDcPinnedProofFile(file)).digest("hex") !== expected) return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function dcMisattributedSpecificationMatches(
   exactProductization: FactoryV2ExactRouteProductization
 ): boolean {
@@ -534,9 +594,7 @@ function dcMisattributedSpecificationMatches(
     || exact.packetFamily !== DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId
     || exact.packetSetId !== DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId
     || exact.profileVersion !== DC_MISATTRIBUTED_PRODUCTIZATION.profileVersion
-    || specificationLegalSectionsBound(exact)
     || !dcLegalApproval(exact.legalApproval)
-    || exact.postApprovalChangeAudit !== null
     || !exactStringList(requiredInputIds, DC_MISATTRIBUTED_PRODUCTIZATION.requiredInputIds)
     || documents.length !== DC_MISATTRIBUTED_PRODUCTIZATION.components.length
     || reference?.sha256 !== DC_MISATTRIBUTED_PRODUCTIZATION.referenceSourceSha256
@@ -557,6 +615,8 @@ function dcMisattributedSpecificationMatches(
       || document.order !== order
     ) return false;
   }
+  if (specificationLegalSectionsBound(exact)) return dcMisattributedCurrentSourceMatches(exact);
+  if (exact.postApprovalChangeAudit !== null) return false;
   if (!Array.isArray(exact.artifactEvidence)
     || exact.artifactEvidence.length !== DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins.length) return false;
   for (let index = 0; index < DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins.length; index += 1) {
@@ -707,7 +767,20 @@ function loadAll(): Map<string, FactoryV2Route> {
           officialFormIds: [],
           packetFamilyId: specification?.packetFamily ?? null,
           retiredLegacyRouteMigration: null,
-          exactRouteProductization: dcMisattributedProductization,
+          // Preserve the historical manifest tuple as source ancestry; expose
+          // the dated audit only after the exact current-source predicate above.
+          exactRouteProductization: specification && specificationLegalSectionsBound(specification)
+            ? {
+                ...dcMisattributedProductization,
+                postApprovalChangeAudit: {
+                  path: "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json",
+                  sha256: "4b721136c19ef03ea3862322c6fd662adcfa02580224e6613329b1552753ab3f",
+                  verdict: "COVERED_BY_EXISTING_APPROVAL",
+                  scope: "exact_dc_current_composer_only"
+                },
+                nextGate: "exact fulfillment-authority evidence and authorized protected generation/delivery acceptance; no route or commercial authority is granted"
+              }
+            : dcMisattributedProductization,
           exactTrackSelectionRequired: true
         });
       }

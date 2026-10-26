@@ -13,6 +13,43 @@ const IL_SPEC_SHA="bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed0
 const IL_PARTNER="il-clinic-sponsor";
 const q=v=>v==null?"null":"'"+String(v).replaceAll("'","''")+"'";
 const sha=v=>createHash("sha256").update(v).digest("hex");
+
+// Real current program predicates on a synthetic legacy partner. Unused
+// onboarding branches keep their shipped definitions; this fixture certifies
+// legacy partner scope, not a real launch or the LegalEase-managed branch.
+function installCurrentSponsoredAuthority(db) {
+  db.sql(`
+    alter table partner_records add qualification_status text default 'qualified',
+      add provisioning_status text default 'provisioned', add payment_status text default 'demo_paid',
+      add target_state text default 'IL', add state text default 'IL', add access_mode text default 'open',
+      add stripe_payment_intent_id text, add paid_at timestamptz, add payment_amount integer;
+    alter table partner_packet_entitlement add column if not exists entitlement_scope text default 'sponsored_packets';
+    create table partner_onboarding(id uuid primary key,partner_slug text,partner_record_id uuid,
+      operating_model text,rcap_policy_version text,status text,landing_page_ready boolean,
+      internal_approved_at timestamptz,launched_at timestamptz,rcap_launch_operation_id uuid,agreement_status text);
+    create table partner_onboarding_sections(workspace_id uuid,section_key text,response_data jsonb,status text);
+    create table rcap_launch_operation_events(workspace_id uuid,operation_id uuid,step text,evidence jsonb,created_at timestamptz);
+    create table rcap_commercial_authorizations(id uuid,workspace_id uuid,document_id uuid,document_hash text,
+      expires_at timestamptz,access_mode text,kind text,packet_entitlement_id uuid,created_at timestamptz);
+    create table partner_onboarding_assets(id uuid,workspace_id uuid,sha256_hex text,lifecycle_status text,review_status text);
+  `);
+  const operating=fs.readFileSync('supabase/migrations/20261010023000_rcap_operating_authority.sql','utf8');
+  const policy=fs.readFileSync('supabase/migrations/20261009224252_rcap2_program_policy_and_start.sql','utf8');
+  const names=['rcap_screening_jurisdictions','rcap_program_internal_authority','rcap_program_funding_valid',
+    'rcap_program_commercial_valid','rcap_partner_activation_for_launch','rcap_program_screening_jurisdictions',
+    'rcap_program_packet_scope_authorized','sponsored_packet_render_authority'];
+  for(const [source,name] of [[policy,'rcap_program_policy_source'],...names.map(name=>[operating,name])]) {
+    const start=source.search(new RegExp(`create (?:or replace )?function public\\.${name}\\(`,'i'));
+    if(start<0)throw Error(`missing current program predicate ${name}`);
+    const body=source.slice(start),tag=body.match(/\bas\s+(\$[a-z_]*\$)/i)?.[1];
+    if(!tag)throw Error(`missing predicate body ${name}`);
+    const end=body.indexOf(tag+';',body.indexOf(tag)+tag.length);
+    if(end<0)throw Error(`missing predicate terminator ${name}`);
+    db.sql('set check_function_bodies=off;'+body.slice(0,end+tag.length+1));
+  }
+  db.applyFile(path.resolve('supabase/migrations/20261023151500_ordinary_sponsored_packet_authority.sql'));
+}
+
 export function createFundingFixture() {
 const db=startEphemeralPg();
 function baseline() {
@@ -110,9 +147,9 @@ function seedParticipant({ jurisdiction = "IL", track = IL_TRACK, pathway = "fel
         ${q(product)},${q(partnerSlug)},${q(jurisdiction)},${q(event)});
     insert into screening_sessions(session_id,flow_mode,partner_benefit_active,partner_slug,jurisdiction,
       claimed_slot_state,status) values(${q(sessionId)},'rcap',${benefit},${q(partnerSlug)},${q(jurisdiction)},'claimed','in_progress');
-    insert into clinic_cases(id,event_id,participant_user_id,screening_session_id,matter_id,jurisdiction,
+    ${event === null && caseEvent === null ? '' : `insert into clinic_cases(id,event_id,participant_user_id,screening_session_id,matter_id,jurisdiction,
       route_disposition,queue_status) values(${q(randomUUID())},${q(caseEvent)},${q(userId)},${q(sessionId)},
-        ${q(itemId)},${q(jurisdiction)},${q(disposition)},'in_progress');
+        ${q(itemId)},${q(jurisdiction)},${q(disposition)},'in_progress');`}
   `);
   return { userId, itemId, personId, pendingId, sessionId, matterId, snapshot, verificationHash };
 }
@@ -182,7 +219,8 @@ try {
     "20260917090000_consumer_promotion_codes.sql", "20260924120347_packet_delivery_dependency_and_retry_errors.sql",
     "20260924172645_preserve_sponsored_regeneration_attribution.sql",
     "20260927152649_clinic_packet_funding_choice.sql"]) db.applyFile(path.resolve("supabase/migrations",migration));
-  db.sql(`insert into partner_records values (${q(partnerId)},${q(IL_PARTNER)}),(${q(otherPartnerId)},'wrong-partner');
+  installCurrentSponsoredAuthority(db);
+  db.sql(`insert into partner_records(id,partner_slug) values (${q(partnerId)},${q(IL_PARTNER)}),(${q(otherPartnerId)},'wrong-partner');
     insert into partner_packet_entitlement(partner_id,packet_cap,overage_enabled,overage_cap) values(${q(partnerId)},1,false,0);
     insert into clinic_events(id,partner_slug,name,jurisdiction,status,sponsorship_allocation) values
       (${q(eventId)},${q(IL_PARTNER)},'Synthetic Clinic','IL','published',1),

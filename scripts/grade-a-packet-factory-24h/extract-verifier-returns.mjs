@@ -22,6 +22,7 @@
  * anything else refuses, because a verdict nobody can read is not a verdict and
  * guessing at it is how a passing obligation becomes a repair lane.
  */
+import { loadStandIns, assertStandInMatches } from "./verifier-base-stand-ins.mjs";
 import { chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure, attachChatReviewAddenda, supersededChatEvidencePath, supersededChatEvidencePaths } from "./chat-review-inputs.mjs";
 import fs from "node:fs";
 import path from "node:path";
@@ -195,18 +196,22 @@ const returnFilesIn = (base, dir) => {
   }
   return out;
 };
+/* A directory whose only return is the canonical name keeps its original
+ * shape, so a lane that never wrote one is still reported as silent rather
+ * than quietly dropped from the sweep. The canonical rows.json is swept even
+ * when it fails the shape test above: vf10/rows.json carries rows with no
+ * verdict, and it used to be read only because nothing else in vf10 had the
+ * shape -- the first well-shaped return written alongside it dropped all of
+ * its verdicts from the sweep. */
+const sweepDir = (s) => {
+  const found = returnFilesIn(s.base, s.name);
+  const canonical = `${s.base}/${s.name}/rows.json`;
+  return found.length === 0 ? [s]
+    : found.some((f) => f.file === canonical) || !fs.existsSync(path.join(ROOT, canonical)) ? found : [...found, s];
+};
 const sweep = [
-  ...dirsUnder(RETURNS, () => true).flatMap((s) => {
-    const found = returnFilesIn(s.base, s.name);
-    /* A directory whose only return is the canonical name keeps its original
-     * shape, so a lane that never wrote one is still reported as silent
-     * rather than quietly dropped from the sweep. */
-    return found.length ? found : [s];
-  }),
-  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf[a-z0-9]+$/i.test(n)).flatMap((s) => {
-    const found = returnFilesIn(s.base, s.name);
-    return found.length ? found : [s];
-  }),
+  ...dirsUnder(RETURNS, () => true).flatMap(sweepDir),
+  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf[a-z0-9]+$/i.test(n)).flatMap(sweepDir),
   ...chatReviewInputs(ROOT)
 ];
 const dirs = sweep.map((s) => s.name);
@@ -492,6 +497,26 @@ const isAncestorOf = (a, b) => {
   return answer;
 };
 /*
+ * A DECLARED BASE THAT EXISTS IN NO REACHABLE HISTORY IS ORDERED BY AN
+ * EXPLICIT, REVIEWED STAND-IN — NEVER BY THIS FILE'S OWN PREVIOUS OUTPUT.
+ *
+ * Six rows declared worker commits that were never pushed (GitHub answers 422;
+ * the unshallowed checkout has no object). merge-base answers "not an
+ * ancestor" for every pair that touches them, lane precedence takes over, and
+ * three accepted families silently change verdict (DE pardon and FL bridge
+ * PASS -> BLOCKED_SOURCE; ND row swap). UNREACHABLE_VERIFIER_BASES.json names
+ * each such row and the commit that first added its evidence file — the
+ * latest point that read can have happened — and that commit stands in for
+ * ordering only. A fresh read whose base descends from the stand-in therefore
+ * supersedes the row as usual. Any other content of the row is untouched, and
+ * a listed base that becomes reachable is a stale record entry, refused here.
+ */
+// Record loading, validation and the exact-match check live in verifier-base-stand-ins.mjs, which every
+// other reader of a row's base also consults.
+const standIns = loadStandIns({ root: ROOT });
+assertStandInMatches(standIns, rows);
+const orderingBase = (r) => standIns.byKey.get(`${r.verifiedAtBase}\0${r.evidencePath}`)?.standInBase ?? r.verifiedAtBase;
+/*
  * Only the base a lane DECLARES is used. The commit that last wrote a lane's
  * rows file looks like the same signal and is not: a merge that touches an old
  * lane's file incidentally makes a stale read look fresh, and using it put
@@ -503,8 +528,8 @@ const isAncestorOf = (a, b) => {
 const supersedes = (r, prior) => {
   if (r.supersedesEvidencePath === prior.evidencePath || r.supersedesEvidencePaths?.includes(prior.evidencePath)) return true;
   if (prior.supersedesEvidencePath === r.evidencePath || prior.supersedesEvidencePaths?.includes(r.evidencePath)) return false;
-  if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
-  if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
+  if (isAncestorOf(orderingBase(prior), orderingBase(r))) return true;
+  if (isAncestorOf(orderingBase(r), orderingBase(prior))) return false;
   /*
    * A row that states the commit it read at has made a checkable claim about
    * when it read; one that states nothing has not. Lane number is only a proxy
@@ -640,7 +665,20 @@ if (problems.length) {
 const text = `${JSON.stringify(doc, null, 2)}\n`;
 if (CHECK) {
   const committed = fs.existsSync(path.join(ROOT, OUT)) ? fs.readFileSync(path.join(ROOT, OUT), "utf8") : null;
-  if (committed !== text) { console.error(`VERIFIER_RETURNS.json does not converge with the return directories.`); process.exit(1); }
+  if (committed !== text) {
+    /* Name what moved. On 2026-10-20 a pushed-history clone refused 40 rows twice
+     * where the committed file carries 39, and the 40th was past the ten printed
+     * above, so the flaky refusal left no identity behind. The committed file is
+     * the durable copy of the last run's refusals; print only the delta. */
+    let prior = {};
+    try { prior = JSON.parse(committed ?? "{}"); } catch { prior = {}; }
+    const was = new Set(prior.refusedRows ?? []), now = new Set(problems);
+    for (const p of problems) if (!was.has(p)) console.error(`  refused now, not in the committed file: ${p}`);
+    for (const p of prior.refusedRows ?? []) if (!now.has(p)) console.error(`  refused in the committed file, not now: ${p}`);
+    const sections = Object.keys({ ...prior, ...doc }).filter((k) => JSON.stringify(prior[k]) !== JSON.stringify(doc[k]));
+    console.error(`VERIFIER_RETURNS.json does not converge with the return directories (sections that differ: ${sections.join(", ") || "none; byte-level only"}).`);
+    process.exit(1);
+  }
   console.log(`verifier returns converge: ${doc.counts.independentVerdicts} independent verdict(s), ${failed.length} FAIL_REPAIR_REQUIRED.`);
   process.exit(0);
 }

@@ -1,4 +1,5 @@
 import "server-only";
+import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 
 import type { EngineProfile, PublicJurisdictionProfile, ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 
@@ -78,7 +79,7 @@ export function requiredMissingPublicQuestionIds(publicProfile: PublicJurisdicti
     .filter((question) => publicIds.has(question.id))
     .filter((question) => isPrepaymentQuestion(question))
     .filter((question) => question.required && question.contextOnly !== true)
-    .filter((question) => !hasAnswer(answers[question.id]))
+    .filter((question) => !hasAnswer(answers[question.id]) || (question.type === "multi_select" && questionAnswerState(question, answers[question.id]) === "invalid"))
     .map((question) => question.id);
 }
 
@@ -89,7 +90,12 @@ export function validateAnswerQuestionIds(profile: EngineProfile, answers: Recor
 
 export function validatePublicAnswerQuestionIds(publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>) {
   const valid = publicQuestionIdSet(publicProfile);
-  return Object.keys(answers).filter((questionId) => !valid.has(questionId));
+  const byId = new Map(publicProfile.questions.map((question) => [question.id, question]));
+  return Object.keys(answers).filter((questionId) => {
+    if (!valid.has(questionId)) return true;
+    const question = byId.get(questionId);
+    return question?.type === "multi_select" && questionAnswerState(question, answers[questionId]) === "invalid";
+  });
 }
 
 function hasAnswer(value: ScreeningAnswerValue | undefined) {

@@ -27,10 +27,33 @@ function gitObjectExists(sha) {
   }
 }
 
+const requestedFamily = process.argv.find(arg => arg.startsWith("--family="))?.slice("--family=".length);
+if (requestedFamily && !SPECIFIED_FAMILIES.some(family => family.family === requestedFamily)) throw new Error(`Unknown Colorado family: ${requestedFamily}`);
 const files = [];
+let written = 0;
+let binaryWritten = 0;
+const writeText = file => {
+  const absolute = path.join(rootDir, file.path);
+  if (fs.existsSync(absolute) && fs.readFileSync(absolute, "utf8") === file.text) return;
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  fs.writeFileSync(absolute, file.text); written += 1;
+  process.stdout.write(`  wrote ${file.path}\n`);
+};
 const determination = pipeline.determineRenderer(rootDir, gitObjectExists);
 
-for (const family of SPECIFIED_FAMILIES) {
+for (const family of SPECIFIED_FAMILIES.filter(family => !requestedFamily || family.family === requestedFamily)) {
+  const currentContext = await pipeline.loadFamilyContext(rootDir, family);
+  if (typeof currentContext.sourceRecord.sourcePath === "string") {
+    const current = await pipeline.computeCurrentRenderFiles(currentContext);
+    for (const artifact of current.artifacts) {
+      const absolute = path.join(rootDir, artifact.path);
+      if (!fs.existsSync(absolute) || !fs.readFileSync(absolute).equals(artifact.bytes)) {
+        fs.mkdirSync(path.dirname(absolute), { recursive: true }); fs.writeFileSync(absolute, artifact.bytes); binaryWritten += 1;
+      }
+    }
+    for (const file of current.files) writeText(file);
+    files.push(...current.files);
+  }
   const { files: familyFiles, context } = await pipeline.computeSpecifiedFamilyFiles(family, {
     rootDir,
     gitObjectExists,
@@ -41,25 +64,18 @@ for (const family of SPECIFIED_FAMILIES) {
   );
 }
 
-for (const family of DANGLING_RENDERER_FAMILIES) {
+for (const family of DANGLING_RENDERER_FAMILIES.filter(family => !requestedFamily || family === requestedFamily)) {
+  const source = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-all50/overlays/production/colorado", family, "source-record.json"), "utf8"));
+  if (typeof source.sourcePath === "string") continue;
   files.push(pipeline.rewriteRenderReceipt(rootDir, family, determination));
   if (!SPECIFIED_FAMILIES.some((specified) => specified.family === family)) {
     files.push(pipeline.inheritedRendererProvenance(rootDir, family, determination));
   }
 }
 
-let written = 0;
-for (const file of files) {
-  const absolute = path.join(rootDir, file.path);
-  const existing = fs.existsSync(absolute) ? fs.readFileSync(absolute, "utf8") : null;
-  if (existing === file.text) continue;
-  fs.mkdirSync(path.dirname(absolute), { recursive: true });
-  fs.writeFileSync(absolute, file.text);
-  written += 1;
-  process.stdout.write(`  wrote ${file.path}\n`);
-}
+for (const file of files) writeText(file);
 
 process.stdout.write(
-  `\nColorado specification emit: ${files.length} record(s) computed, ${written} written, ${files.length - written} already current.\n`,
+  `\nColorado specification emit: ${files.length} record(s) computed, ${written} written, ${files.length - written} already current; ${binaryWritten} PDF(s) written.\n`,
 );
 void pathToFileURL;

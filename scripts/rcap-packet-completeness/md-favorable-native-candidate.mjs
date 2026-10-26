@@ -13,13 +13,17 @@ import {PASS_COUNTERS} from './completeness-contract.mjs';
 export const MD_NATIVE_FAMILY = 'md_10105_favorable-set';
 export const MD_NATIVE_DIRECTORY = 'data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill';
 const FORM = 'CC-DC-CR-072A';
-const SOURCE = 'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf';
-const SOURCE_SHA = '8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2';
+const SOURCE = 'reference/md-law-2026-10-21/CC-DC-CR-072A.pdf';
+const SOURCE_SHA = '04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90';
+const EDITION = '10/01/2026';
 const HELPER = 'scripts/rcap-packet-recovery/chat5/md-favorable.mjs';
-const HELPER_BLOB = '4f7f87558c98691b1ff77825ede2f13dbf7ebd7c';
-const REVIEW = 'data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/';
+const HELPER_BLOB = '4fc3b2f6e86dbcf94d6a4728af12ffef03ac4369';
+// A46: outputs re-rendered from the Oct-2026 sources are admitted only against this independent record, byte-bound in the
+// caller's binding. The 2026-09-07 chat4/session08/session10 reviews covered the old outputs and are never reused for these.
+export const MD_A46_REVIEW = 'data/rcap-grade-a/md-a46-20261021/md-a46-independent-review.json';
+export const MD_A46_VERDICT = 'PASS_A46_MAPPING_AND_OUTPUT';
 const BINDING = path.join(path.dirname(fileURLToPath(import.meta.url)), 'md-reviewed-candidate-inputs.json');
-const BINDING_SHA = 'b5006d7fd203571627af2dbc4cd4bf68a0086b5ba89b045738655f36a9ba0ca9';
+const BINDING_SHA = 'eb8b934266c6cd4f373e756287b07e29f3ca41156d70a51337139ae034133818';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const held = value => value !== undefined && value !== null && value !== '';
@@ -47,7 +51,8 @@ const ATTORNEY_FIELDS = new Set([
 const PARTICIPANT_EXECUTION = new Set(['Signature of Defendant', 'Date Defendant Signed']);
 const EVENTS = Object.freeze({arrest: 'Arrested', summons: 'Served with a Summons', citation: 'Served with a Citation by an Officer'});
 const COURTS = Object.freeze({district: 'District Court', circuit: 'Circuit Court'});
-const TRANSFER = 'The case began in one court and was transferred to another court other than Juvenile court';
+const TRANSFER = 'Transferred to a Court Not Juvenile';
+const NO_FINDING = 'No Finding';
 const NARRATIVE_FIELDS = ['List the Incident', 'Incident Continued'];
 
 function read(root, relative) {
@@ -57,6 +62,25 @@ function read(root, relative) {
   return fs.readFileSync(target);
 }
 function requireCondition(condition, message) { if (!condition) throw Error(message); }
+/** files: the caller's verified binding members; read(path) returns those bound bytes; pdfs: [{file, sha256, bytes, pages}]. */
+export function assertMdA46Review({files, read: readBound, familyId, helperPath, helperBlob, source, pdfs}) {
+  const member = files.find(file => file.path === MD_A46_REVIEW);
+  requireCondition(member, 'A46 independent review record is not bound');
+  const rows = (JSON.parse(readBound(MD_A46_REVIEW)).rows ?? []).filter(row => row.familyId === familyId);
+  requireCondition(rows.length === 1, 'A46 review has no single row for ' + familyId);
+  const [row] = rows, measured = row.measuredIdentities ?? {}, primary = measured.primarySource ?? {};
+  requireCondition(row.verdict === MD_A46_VERDICT && Array.isArray(row.failedObligations) && row.failedObligations.length === 0, 'A46 review is not a clean pass');
+  requireCondition(measured.helperPath === helperPath && measured.newHelperGitBlob === helperBlob, 'A46 review covers a different helper');
+  requireCondition(primary.documentId === source.documentId && primary.path === source.path && primary.sha256 === source.sha256
+    && primary.edition === source.edition, 'A46 review covers a different source');
+  const reviewed = new Map((measured.wholePdfs ?? []).map(pdf => [pdf.file, pdf]));
+  requireCondition(reviewed.size === pdfs.length && measured.wholePdfs.length === pdfs.length, 'A46 review PDF inventory differs');
+  for (const pdf of pdfs) {
+    const seen = reviewed.get(pdf.file);
+    requireCondition(seen?.sha256 === pdf.sha256 && seen.bytes === pdf.bytes && seen.pages === pdf.pages, 'A46 review does not cover output ' + pdf.file);
+  }
+  return {file: MD_A46_REVIEW, sha256: member.sha256, verdict: row.verdict, freshVisualReview: true, priorReviewsReused: false};
+}
 function failure(directory, familyId, error) {
   return {familyId, directory, result: 'FAIL_COMPONENT_SET', auditable: false,
     counters: Object.fromEntries(PASS_COUNTERS.map(key => [key, key === 'requiredComponentsMissing' ? 1 : null])),
@@ -100,8 +124,9 @@ export function prepareMdNativeFixture({fixture, census, fieldMap, report, check
   requireCondition(Object.keys(basisFields).length === 10 && selections.size === 16, 'source selection vocabulary differs');
   const expectedFields = new Set([...Object.keys(TEXT_FACTS), ...NARRATIVE_FIELDS,
     ...ATTORNEY_FIELDS, ...PARTICIPANT_EXECUTION, ...selections.keys(), 'Reset Form']);
-  requireCondition(census.length === 47 && expectedFields.size === 47
-    && new Set(census.map(field => field.name)).size === 47, 'incomplete or duplicate 47-field census');
+  expectedFields.add(NO_FINDING);
+  requireCondition(census.length === 48 && expectedFields.size === 48
+    && new Set(census.map(field => field.name)).size === 48, 'incomplete or duplicate 48-field census');
   for (const sourceField of census) requireCondition(expectedFields.has(sourceField.name), 'unbound source field or unknown actor: ' + sourceField.name);
   const recorded = new Map();
   for (const write of report.writes) {
@@ -121,7 +146,7 @@ export function prepareMdNativeFixture({fixture, census, fieldMap, report, check
   for (const key of Object.values(TEXT_FACTS)) if (held(at(facts, key))) mapped.availableFacts[key] = at(facts, key);
   for (const sourceField of census) {
     const name = sourceField.name, write = recorded.get(name), blank = blankByField.get(name);
-    const expectedType = selections.has(name) ? 'PDFCheckBox' : name === 'Reset Form' ? 'PDFButton'
+    const expectedType = selections.has(name) || name === NO_FINDING ? 'PDFCheckBox' : name === 'Reset Form' ? 'PDFButton'
       : name === "Court's City/County" ? 'PDFDropdown' : 'PDFTextField';
     requireCondition(sourceField.type === expectedType && sourceField.widgets.length === 1 && sourceField.widgets[0].page === 1, 'source type/page mismatch: ' + name);
     const row = {fieldId: name, fieldName: name, field: name, label: name, documentId: FORM, page: 1,
@@ -131,6 +156,7 @@ export function prepareMdNativeFixture({fixture, census, fieldMap, report, check
     if (write) {
       requireCondition(!blank && !ATTORNEY_FIELDS.has(name) && !PARTICIPANT_EXECUTION.has(name)
         && name !== 'Reset Form', 'protected or simultaneously blank field written: ' + name);
+      requireCondition(name !== NO_FINDING, 'unadopted No Finding statement written');
       requireCondition(write.page === 1 && same(write.widgets, sourceField.widgets.map(widget => ({rect: widget.rect}))), 'source write geometry differs: ' + name);
       if (selections.has(name)) {
         requireCondition(write.kind === 'explicit_selection' && write.value === true && expectedSelections.has(name), 'unsupported selected field: ' + name);
@@ -158,6 +184,11 @@ export function prepareMdNativeFixture({fixture, census, fieldMap, report, check
     } else if (name === 'Reset Form') {
       reason = 'Exact source PDFButton Reset Form is a viewer UI control; never a filing fact.';
       mapped.refusals.push({...row, reason}); accounting = 'SOURCE_VIEWER_CONTROL';
+    } else if (name === NO_FINDING) {
+      requireCondition(!blank && Object.hasOwn(basisFields, facts.case.basis), 'No Finding statement not left unmarked on a supported basis');
+      reason = `Official 072A Rev. ${EDITION} adds the No Finding statement; no adopted route selects it (basis no_finding is refused pending the A46(a) qualified review). This fixture supplies case.basis=${facts.case.basis}, so the statement is left unmarked.`;
+      mapped.refusals.push({...row, reason, completenessDisposition: 'NOT_APPLICABLE_ON_THIS_ROUTE', routeConditionThatMakesItInapplicable: reason});
+      accounting = 'UNADOPTED_SOURCE_STATEMENT';
     } else if (selections.has(name)) {
       requireCondition(!expectedSelections.has(name), 'required selected field is missing: ' + name);
       const alternative = selections.get(name);
@@ -185,7 +216,7 @@ export function prepareMdNativeFixture({fixture, census, fieldMap, report, check
   requireCondition(recorded.size === 0, 'native report has unconsumed writes');
   const narrative = NARRATIVE_FIELDS.map(name => report.writes.find(write => write.field === name)?.value ?? '').join(' ');
   requireCondition(held(facts.case.incidentNarrative) && normalizeSpace(narrative) === normalizeSpace(facts.case.incidentNarrative), 'complete incident narrative was not written');
-  requireCondition(mapped.writes.length + mapped.refusals.length === 47, 'source accounting is incomplete');
+  requireCondition(mapped.writes.length + mapped.refusals.length === 48, 'source accounting is incomplete');
   return {fieldMap: mapped, ledger};
 }
 
@@ -204,15 +235,12 @@ export function auditMdNativeCandidate({root, directory, familyId}, auditPrepare
     const receipt = get('source-receipt.json'), index = get('reports/rendered-artifacts.json').pdfs;
     requireCondition(isMdNativeCandidate(familyId, fieldMap), 'native source map schema mismatch');
     requireCondition(receipt.officialFormId === FORM && receipt.sourcePath === SOURCE && receipt.sha256 === SOURCE_SHA
-      && receipt.sourcePageCount === 1 && receipt.edition === '09/2025' && sha(read(root, SOURCE)) === SOURCE_SHA, 'exact 072A source receipt mismatch');
+      && receipt.sourcePageCount === 1 && receipt.edition === EDITION && sha(read(root, SOURCE)) === SOURCE_SHA, 'exact 072A source receipt mismatch');
     requireCondition(index.length === 15 && new Set(index.map(item => item.fixture)).size === 15
       && index.reduce((sum, item) => sum + item.pageCount, 0) === 60, 'incomplete or duplicate 15-PDF/60-page inventory');
-    const original = JSON.parse(read(root, REVIEW + 'md-independent-review.json')).rows.find(row => row.familyId === familyId);
-    const delta = JSON.parse(read(root, REVIEW + 'md-guard-delta-03.json')).rows.find(row => row.familyId === familyId);
-    const measurements = JSON.parse(read(root, REVIEW + 'md-measurements.json'));
-    requireCondition(original?.suppliedPdfVerdict === 'PASS_REVIEWED_FIXTURES' && delta?.verdict === 'PASS'
-      && delta.failedObligations.length === 0 && delta.measuredIdentities.newHelperGitBlob === HELPER_BLOB
-      && measurements.familyId === familyId && measurements.wholePdfs.length === 15, 'independent source/output or guard review binding differs');
+    const review = assertMdA46Review({files: binding.files, read: relative => read(root, relative), familyId, helperPath: HELPER, helperBlob: HELPER_BLOB,
+      source: {documentId: FORM, path: SOURCE, sha256: SOURCE_SHA, edition: EDITION},
+      pdfs: index.map(item => ({file: item.file, sha256: item.sha256, bytes: item.byteLength, pages: item.pageCount}))});
     const helperBytes = read(root, HELPER);
     requireCondition(createHash('sha1').update(Buffer.from(`blob ${helperBytes.length}\0`)).update(helperBytes).digest('hex') === HELPER_BLOB, 'accepted chronology helper differs');
     const allFacts = index.map(item => get('fixtures/' + item.fixture + '.facts.json'));
@@ -224,10 +252,9 @@ export function auditMdNativeCandidate({root, directory, familyId}, auditPrepare
     const fixtureResults = [];
     for (const [i, item] of index.entries()) {
       const report = get('reports/' + item.fixture + '.json');
-      const measured = measurements.wholePdfs.find(pdf => directory + '/' + pdf.file === item.file);
       requireCondition(item.file === `${directory}/fixtures/${item.fixture}.pdf` && report.inputPath === `fixtures/${item.fixture}.facts.json`
         && report.inputSha256 === sha(read(root, directory + '/' + report.inputPath)), 'fixture fact path/digest differs: ' + item.fixture);
-      requireCondition(measured?.sha256 === item.sha256 && measured.bytes === item.byteLength && measured.pages.length === 4
+      requireCondition(sha(read(root, item.file)) === item.sha256
         && report.output.sha256 === item.sha256 && report.output.file === item.file
         && report.output.byteLength === item.byteLength && report.output.pageCount === 4 && item.pageCount === 4
         && report.sourceSha256 === SOURCE_SHA && report.sourcePath === SOURCE, 'reviewed output identity differs: ' + item.fixture);
@@ -253,12 +280,11 @@ export function auditMdNativeCandidate({root, directory, familyId}, auditPrepare
     const total = key => fixtureResults.reduce((sum, result) => sum + result.totals[key], 0);
     return {familyId, directory, result: fixtureResults.find(result => result.result !== 'PASS_COMPLETE')?.result ?? 'PASS_COMPLETE',
       auditable: true, counters, totals: {terminalFields: total('terminalFields'), written: total('written'), blank: total('blank'),
-        blanksByDisposition, rowsInspected: total('rowsInspected'), fieldMapSchema: 'native-md-47-source-fields-per-fixture'},
+        blanksByDisposition, rowsInspected: total('rowsInspected'), fieldMapSchema: 'native-md-48-source-fields-per-fixture'},
       findings: fixtureResults.flatMap(result => result.findings.map(finding => ({...finding, fixture: result.fixture}))), findingsTruncated: 0,
       sourceCurrentness: 'EXACT', fixtureResults, reviewInputFilesMatched: binding.files.length, independentReviewReused: binding.review,
-      staticCounterScope: 'Exhaustive 47-source-field classification for all 15 exact retained fixtures, using each fixture facts and actual delivered instructions. Existing independent visual/source/output and guard evidence is reused only for its unchanged bounded scope.',
-      visualProofReuse: {originalReviewCommit: binding.review.originalCommit, guardDeltaCommit: binding.review.guardDeltaCommit,
-        unchangedPdfs: 15, unchangedPages: 60, actualTextChecksReused: 268, selectedInkChecksReused: 46, protectedRegionChecksReused: 165, freshVisualReview: false},
+      staticCounterScope: 'Exhaustive 48-source-field classification for all 15 exact fixtures re-rendered from the Rev. 10/01/2026 source, using each fixture facts and actual delivered instructions. Output identity is bound to the independent A46 review record; the 2026-09-07 review of the 09/2025 outputs is not reused.',
+      visualProofReuse: {a46Review: review, unchangedPdfs: 0, freshVisualReview: true},
       runtimeIntakeCounters: null, runtimeInstalled: false, centralRasterAdmission: false, terminalPromotions: 0, packetRebuilds: 0};
   } catch (error) { return failure(directory, familyId, error); }
 }

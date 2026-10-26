@@ -45,7 +45,8 @@ const EXPECTED_CLINIC_DEMO_MODE = CLINIC_DEMO_MODE || "none";
 // Source/project/deployment checks always apply. Sponsored/reuse phases do
 // not inspect shared DTC configuration; only an explicit DTC phase requires it.
 const REQUIRE_DTC_READINESS = process.env.HOSTED_REQUIRE_DTC_READINESS !== "false";
-const EXPECTED_STRIPE_CONFIGURED = "true";
+const EXPECT_CLOSED_PREVIEW = process.env.PHASE_INPUT === "replace_preview";
+const EXPECTED_STRIPE_CONFIGURED = EXPECT_CLOSED_PREVIEW ? "false" : "true";
 // Which catalog Product the Preview must be built to sell. It is baked into the
 // deployment at creation like every other environment variable, so a Preview
 // built without it sells the inline fallback and is NOT the deployment a run
@@ -88,8 +89,13 @@ const routeStateOf = (deployment) => deployment?.meta?.rcapRouteState ?? null;
 const isPreviewTarget = (target) => target === null || target === "preview";
 
 /** The route state is acceptable for this phase, or it is not. Never inferred. */
+function closedPreviewPosture(meta) {
+  return !EXPECT_CLOSED_PREVIEW || (meta.rcapStripeConfigured === "false"
+    && meta.rcapRouteState === "disabled" && meta.rcapPartnerOnboardingEnabled === "true"
+    && meta.rcapClosedPreview === "true");
+}
 function routeStateAcceptable(state) {
-  return REQUIRE_STAGING_SCOPED ? state === REQUIRED_ROUTE_STATE : true;
+  return EXPECT_CLOSED_PREVIEW ? state === "disabled" : REQUIRE_STAGING_SCOPED ? state === REQUIRED_ROUTE_STATE : true;
 }
 
 const problems = [];
@@ -113,8 +119,8 @@ function emit(outcome, extra = {}) {
     // Emitted explicitly, always — an unstated route state is how a disabled
     // Preview passed for a staging-scoped one.
     routeState: extra.routeState ?? null,
-    requiredRouteState: REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "any",
-    routeStateRequired: REQUIRE_STAGING_SCOPED,
+    requiredRouteState: EXPECT_CLOSED_PREVIEW ? "disabled" : REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "any",
+    routeStateRequired: EXPECT_CLOSED_PREVIEW || REQUIRE_STAGING_SCOPED,
     checks,
     ...extra.rest
   };
@@ -166,7 +172,7 @@ async function findExistingExactPreview() {
       && isPreviewTarget(full.target)
       && meta.rcapApplicationSha === APPLICATION_SHA
       && meta.rcapAcceptanceProjectRef === PROJECT_REF
-      && (!REQUIRE_DTC_READINESS || meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED)
+      && (closedPreviewPosture(meta) && (!REQUIRE_DTC_READINESS || meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED))
       && (!REQUIRE_DTC_READINESS || (meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT)
       && meta.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
       && (!ISOLATED_CLINIC_PREVIEW || meta.rcapPreviewPurpose === "mississippi_clinic")
@@ -214,7 +220,7 @@ if (!HOSTNAME_INPUT && !DEPLOYMENT_ID_INPUT) {
   emit("created_one_new_preview", {
     routeState: null,
     rest: {
-      note: `no exact ${REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "matching"} Preview exists; the deploy path creates exactly one`,
+      note: `no exact ${EXPECT_CLOSED_PREVIEW ? "disabled" : REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "matching"} Preview exists; the deploy path creates exactly one`,
       deploymentsExamined: examined.length,
       // Named, so "nothing matched" can be audited rather than trusted.
       nearMisses: examined.filter((e) => !e.matches).slice(0, 10)
@@ -275,7 +281,7 @@ deployedReturnOrigin === EXPECTED_RETURN_ORIGIN
 meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE && (!ISOLATED_CLINIC_PREVIEW || meta.rcapPreviewPurpose === "mississippi_clinic")
   ? ok("deployment_carries_the_exact_clinic_mode", EXPECTED_CLINIC_DEMO_MODE)
   : bad("deployment_carries_the_exact_clinic_mode", `deployment records ${meta.rcapClinicDemoMode ?? "(none)"}, expected ${EXPECTED_CLINIC_DEMO_MODE}`);
-(!REQUIRE_DTC_READINESS || meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED)
+(closedPreviewPosture(meta) && (!REQUIRE_DTC_READINESS || meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED))
   ? ok("deployment_carries_the_expected_stripe_posture", REQUIRE_DTC_READINESS ? `rcapStripeConfigured=${EXPECTED_STRIPE_CONFIGURED}` : "not required for sponsored/read-only execution")
   : bad("deployment_carries_the_expected_stripe_posture", `deployment records ${meta.rcapStripeConfigured ?? "(none)"}, expected ${EXPECTED_STRIPE_CONFIGURED}`);
 
@@ -303,9 +309,9 @@ try {
 // and an illegitimate payment one; only the phase decides which.
 const observedRouteState = routeStateOf(deployment);
 routeStateAcceptable(observedRouteState)
-  ? ok("route_state_matches_this_phase", `rcapRouteState=${observedRouteState ?? "(absent)"}; this phase requires ${REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "any route state"}`)
+  ? ok("route_state_matches_this_phase", `rcapRouteState=${observedRouteState ?? "(absent)"}; this phase requires ${EXPECT_CLOSED_PREVIEW ? "disabled" : REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "any route state"}`)
   : bad("route_state_matches_this_phase",
-      `rcapRouteState=${observedRouteState ?? "(absent)"}, but this phase runs Checkout, payment, worker, artifact or delivery acceptance and requires ${REQUIRED_ROUTE_STATE}. `
+      `rcapRouteState=${observedRouteState ?? "(absent)"}, but this phase requires ${EXPECT_CLOSED_PREVIEW ? "disabled" : REQUIRED_ROUTE_STATE}. `
       + "A disabled Preview refuses unauthenticated delivery with 503 and a staging-scoped one with 401; both look safe, and only one can transact. "
       + "Deployment metadata is fixed at deploy time, so this Preview cannot be promoted — it needs a staging-scoped deployment.");
 

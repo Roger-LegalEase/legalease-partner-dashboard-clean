@@ -44,7 +44,8 @@ const FAMILY = makeAgencyGuidanceFamily({
       heading: "Exact pathway",
       paragraphs: [
         "This route is the Board of Pardons and Paroles' absolute-pardon application for convictions Clean Slate erasure cannot reach. It is discretionary, and the participant applies through the Board's own ePardon process. The Board may require a hearing or consider an expedited review without one; the Board decides the review path. It is not a court filing.",
-        "Keep it distinct from a provisional pardon or certificate of employability, which addresses employment or licensing barriers and erases nothing. This exact pathway is the absolute pardon resulting in erasure."
+        "Keep it distinct from a provisional pardon or certificate of employability, which addresses employment or licensing barriers and erases nothing. This exact pathway is the absolute pardon resulting in erasure.",
+        "Service: you serve no one. The absolute-pardon application is made online through the Board's ePardon portal; it is an executive-branch application, not a court filing."
       ]
     },
     {
@@ -53,7 +54,8 @@ const FAMILY = makeAgencyGuidanceFamily({
         "An absolute pardon received on or after October 1, 1974 results in erasure without a petition under Section 54-142a(d). The pre-October 1, 1974 branch requires a separate Superior Court petition and is not this route.",
         "Use the Board's own current ePardon application and instructions and sign there personally; this preparation guide is not an application and cannot be submitted as a substitute.",
         "Apply through https://epardonportal.ct.gov/portal . The Board's current Absolute Pardon instructions are at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions . Follow the portal's current application and attachment steps; this guide opens no application and supplies no Board decision.",
-        "This guide does not state a waiting period or fee. Confirm current eligibility, timing, fee, and hearing mechanics from the Board's current rules. Stop for counsel if a hearing is set or any immigration issue exists."
+        "Fee: the Board's own Pardon FAQ (https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs, as captured on 2026-09-08) says the Board of Pardons and Paroles does not currently charge a fee to apply for a pardon. It also says you must pay the State Police, now the Department of Emergency Services and Public Protection (DESPP), for your State Police criminal history report, and that the Board does not set that charge; ask DESPP what it costs.",
+        "This guide does not state a waiting period. Confirm current eligibility, timing, and hearing mechanics from the Board's current rules. Stop for counsel if a hearing is set or any immigration issue exists."
       ]
     }
   ],
@@ -62,17 +64,19 @@ const FAMILY = makeAgencyGuidanceFamily({
     { id: "convictions", label: "Every conviction included in the absolute-pardon application", what: "each court, docket number, offense, disposition date, and sentence-completion date", authority: "the court records and the participant's complete criminal-history record", why: "no participant criminal history or court record is held" },
     { id: "clean_slate_check", label: "Clean Slate erasure reach checked before applying", what: "which convictions, if any, are already reached by Clean Slate and which require the pardon route", authority: "the Connecticut Clean Slate channel and Connecticut counsel if uncertain", why: "the platform cannot determine current automated erasure from the participant's unknown record" },
     { id: "board_eligibility", label: "Current Board eligibility and timing requirements", what: "confirmation that the participant may apply now under the Board's current rules", authority: "the Board's own current ePardon materials", why: "the committed waiting-period figures are explicitly unverified" },
-    { id: "board_process", label: "Current ePardon application, attachments, hearing rules, and fee", what: "the Board's current instrument, portal steps, attachments, hearing mechanics, and any charge", authority: "the Connecticut Board of Pardons and Paroles", why: "no stable application or verified fee is bound" }
+    { id: "board_process", label: "Current ePardon application, attachments, hearing rules, and fee", what: "the Board's current instrument, portal steps, attachments, hearing mechanics, and the State Police (DESPP) charge for the criminal history report", authority: "the Connecticut Board of Pardons and Paroles, and DESPP for its report charge", why: "no stable application is bound; the bound Board Pardon FAQ (captured 2026-09-08) states no Board application fee and leaves the DESPP report charge to DESPP" }
   ],
   instructions: [
     "Use the Board's own ePardon application. This guide is not that application and does not open or prepare the separate pre-October 1, 1974 Superior Court petition branch.",
     "Apply through https://epardonportal.ct.gov/portal . Read the current Absolute Pardon instructions at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions . Follow the portal's current application and attachment steps; this guide opens no application and supplies no Board decision.",
     "The Board decides whether a hearing is required or an expedited review without a hearing is available. There is no separate expedited application; do not assume that path applies to you.",
-    "Confirm first whether Clean Slate already reaches the convictions and verify the Board's current eligibility, timing, fee, and process rules; this packet quotes no unverified number.",
+    "Confirm first whether Clean Slate already reaches the convictions and verify the Board's current eligibility, timing, and process rules.",
+    "Fee: the Board's own Pardon FAQ (https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs, as captured on 2026-09-08) says the Board of Pardons and Paroles does not currently charge a fee to apply for a pardon. It also says you must pay the State Police, now the Department of Emergency Services and Public Protection (DESPP), for your State Police criminal history report, and that the Board does not set that charge; ask DESPP what it costs.",
+    "Service: you serve no one. The absolute-pardon application is made online through the Board's ePardon portal; it is an executive-branch application, not a court filing.",
     "Stop and obtain counsel if the Board sets a hearing or an immigration issue is pending or possible."
   ],
   buildFindings: [
-    { finding: "No stable Board application is bound and every waiting-period and fee figure in the committed review is unverified.", consequence: "The build composes only a preparation guide and quotes no unverified number." },
+    { finding: "No stable Board application is bound and every waiting-period figure in the committed review is unverified; the bound Board Pardon FAQ (captured 2026-09-08) states no Board application fee and that DESPP sets its criminal-history report charge.", consequence: "The build composes only a preparation guide, states the Board's fee answer with its source and capture date, quotes no other figure, and states that the participant serves no one." },
     { finding: "The exact route is the on-or-after-October 1, 1974 absolute-pardon pathway resulting in erasure without a petition.", consequence: "The guide selects that path and excludes the earlier-pardon Superior Court petition branch." }
   ],
   counselQuestions: [

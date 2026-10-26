@@ -49,6 +49,12 @@ if (!fs.existsSync(path.join(ROOT, "src/lib/rcap-engine/profile-registry.ts"))) 
 }
 
 const MUTATIONS = process.argv.includes("--mutations");
+const scopedIndex = process.argv.indexOf("--route-key");
+const scopedRoute = scopedIndex === -1 ? null : process.argv[scopedIndex + 1];
+if (scopedIndex !== -1) {
+  assert.equal(scopedRoute, "DC:dc_correct_misattributed_arrest", "only the exact DC successor scoped control is supported");
+  assert.equal(MUTATIONS, false, "scoped control does not claim full mutation-suite coverage");
+}
 const MIGRATIONS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
 const FACTORY_REGISTRY_PATH = "data/record-clearing/factory-v2-route-registry.json";
 const FULFILLMENT_REGISTRY_PATH = "data/rcap-grade-a/fulfillment-authority-registry.json";
@@ -429,7 +435,7 @@ const fulfillment = read(FULFILLMENT_REGISTRY_PATH);
 const ownerDecision = read(OWNER_DECISION_PATH);
 const postApprovalAudit = read(POST_APPROVAL_AUDIT_PATH);
 assert.equal(ownerDecision.recordId, "OWN-ADOPT-2026-09-02-BATCH-53");
-for (const route of ROUTES) {
+for (const route of ROUTES.filter(route => !scopedRoute || route.routeId === scopedRoute)) {
   const raw = rawRegistry.routes.find((row) => row.pathwayKey === route.routeId);
   if (route.generatedRegistryRow) {
     assert.ok(raw, `${route.routeId}: generated factory-v2 row missing`);
@@ -452,7 +458,17 @@ for (const route of ROUTES) {
   assert.ok((spec.routeKeys ?? [spec.routeKey]).includes(route.routeId));
   assert.equal(packetSpecificationForTrack(route.routeId, route.trackIds[0]), spec,
     `${route.routeId}: exact track did not resolve its server-owned specification`);
-  if (route.postApprovalAudited) {
+  const currentDc = route.routeId === "DC:dc_correct_misattributed_arrest";
+  if (currentDc) {
+    assert.equal(specificationLegalSectionsBound(spec), true);
+    assert.equal(spec.legalSectionsBoundBy?.ownerDecisionRecordId, "OWN-ARTIFACT-REREVIEW-DC-MISATTRIBUTED-2026-10-16");
+    assert.equal(spec.postApprovalChangeAudit?.verdict, "COVERED_BY_EXISTING_APPROVAL");
+    assert.equal(spec.postApprovalChangeAudit?.path, "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json");
+    assert.equal(spec.nextGate, "exact fulfillment-authority evidence and authorized protected generation/delivery acceptance; no route or commercial authority is granted");
+    assert.equal(spec.historicalProductization?.legalSectionsBound, false);
+    assert.equal(spec.historicalProductization?.postApprovalChangeAudit, null);
+    assert.deepEqual(spec.historicalProductization?.legalApproval, spec.legalApproval);
+  } else if (route.postApprovalAudited) {
     assert.equal(spec.legalSectionsBoundBy?.ownerDecisionRecordId, ownerDecision.recordId);
     assert.equal(spec.legalSectionsBoundBy?.postApprovalAuditVerdict, "COVERED_BY_EXISTING_APPROVAL");
     assert.equal(specificationLegalSectionsBound(spec), true);
@@ -520,7 +536,15 @@ for (const route of ROUTES) {
       `${route.routeId}: CT unexpectedly appears in the post-approval audit`);
   }
   const reportArtifacts = rendered.pdfs ?? rendered.artifacts;
-  for (const [fixture, [expectedSha, expectedBytes, expectedPages]] of Object.entries(route.artifacts)) {
+  // The September cohort/adoption remains historical. Only this exact DC
+  // artifact successor uses the later scoped owner-relayed digest approval.
+  const currentArtifacts = currentDc ? {
+    canonical: ["31beb81d0a97122b9517b17d58d04527aba2bae88ecd157e05b9755a4dd35a27", 13447, 5],
+    boundary: ["f1086e078bce597b9629f86afc4e0f683d4d1c41ff704d3aee5d94caeccb0d72", 13698, 5]
+  } : route.artifacts;
+  if (currentDc) assert.deepEqual(Object.fromEntries(spec.historicalProductization.artifactEvidence.map(a =>
+    [a.fixture, [a.sha256, a.byteLength, a.pageCount]])), route.artifacts);
+  for (const [fixture, [expectedSha, expectedBytes, expectedPages]] of Object.entries(currentArtifacts)) {
     const artifact = specificationArtifacts.find((candidate) => candidate.fixture === fixture);
     const reportArtifact = reportArtifacts.find((candidate) => candidate.fixture === fixture);
     const adoptedArtifact = adoptedArtifacts?.find((candidate) => candidate.fixture === fixture) ?? null;
@@ -540,7 +564,7 @@ for (const route of ROUTES) {
     if (reportArtifact.pageCount !== undefined) assert.equal(reportArtifact.pageCount, expectedPages);
     if (adoptedArtifact) {
       assert.equal(adoptedArtifact.file, artifact.file);
-      assert.equal(adoptedArtifact.sha256, expectedSha);
+      assert.equal(adoptedArtifact.sha256, currentDc ? route.artifacts[fixture][0] : expectedSha);
     }
     const bytes = readBytes(artifact.file);
     assert.equal(sha256(bytes), expectedSha, `${route.routeId}/${fixture}: shipping bytes changed`);
@@ -572,9 +596,9 @@ for (const route of ROUTES) {
     assert.equal(resolution.factoryV2?.legalApprovalEstablished, route.ownerApproved);
     assert.equal(resolution.factoryV2?.legalApprovalRecordId,
       route.ownerApproved ? ownerDecision.recordId : undefined);
-    assert.equal(resolution.factoryV2?.postApprovalChangeAuditEstablished, false);
+    assert.equal(resolution.factoryV2?.postApprovalChangeAuditEstablished, currentDc);
     assert.equal(resolution.factoryV2?.obligationRouteKey, route.obligationRouteKey);
-    assert.equal(resolution.factoryV2?.nextGate, route.nextGate
+    assert.equal(resolution.factoryV2?.nextGate, (currentDc ? spec.nextGate : route.nextGate)
       ?? "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation");
   }
   assert.equal(resolution.sellable, false, `${route.routeId}: productization must not open checkout`);
@@ -594,6 +618,11 @@ for (const route of ROUTES) {
     assert.equal(fulfillmentRecord, undefined,
       `${route.routeId}: this lane must not create an unrelated fulfillment record`);
   }
+}
+
+if (scopedRoute) {
+  console.log(`First-route cohort productization SCOPED PASS (${scopedRoute}; historical snapshots plus current exact route/spec/resolver/artifact checks only; full cohort not claimed).`);
+  process.exit(0);
 }
 
 const siblings = [

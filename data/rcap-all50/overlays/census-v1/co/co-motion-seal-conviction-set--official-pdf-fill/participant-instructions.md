@@ -26,13 +26,13 @@ File the forms JDF 611 directs you to file with the **clerk of the Colorado cour
 
 ## The Colorado Bureau of Investigation is not optional
 
-JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipling St. STE 3000, Lakewood, CO 80215 — and marks it **required**. Tick it. The signed order is what reaches the CBI, so the agency list on the motion is what decides who is bound by it.
+JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipling St., STE 3000, Lakewood, CO 80215 — and marks it **required**. Tick it. The signed order is what reaches the CBI, so the agency list on the motion is what decides who is bound by it.
 
 ## What you must do before you file
 
 1. **Fill in every item in the tables below.** Each names the form, the section and the blank.
 2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.
-3. **Get the offence, sentencing and supervision facts from the court record.** Section 7 of JDF 612 asks what you were convicted of, when you were sentenced, and when supervision ended. The clerk of the convicting court holds all three; do not estimate them.
+3. **Get the offence, sentencing and supervision facts from the court record.** Section 4 of JDF 612 asks what you were convicted of, when you were sentenced, and when supervision ended. The clerk of the convicting court holds all three; do not estimate them.
 4. **Serve a copy on the prosecuting attorney**, then complete the certificate of service on JDF 612 — the date, the method, and who you sent it to. Do it after you have served, not before.
 5. **Sign JDF 612 yourself, and date it when you sign.** Neither is filled in for you.
 6. **Submit JDF 612, JDF 613, JDF 614 and JDF 615 together, as JDF 611 directs.** Complete only sections A–C on JDF 613, JDF 614 and JDF 615.
@@ -44,28 +44,28 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
 | Section A — Court | Court Address | the street address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory |
-| Section 6 — Records to be Sealed | Court case number of the records to be sealed | the number of the case you are asking to seal, which is the same number printed in the caption of this motion. Colorado hides this box until you tick the court box beside it, so nothing typed into it before then would appear on the paper; copy the number across once the box appears, or write it in by hand |
-| Section 6 — Records to be Sealed | Sheriff's Department — Mailing Address | the mailing address of the Sheriff's Department that holds records in this case |
-| Section 6 — Records to be Sealed | Law Enforcement agency — Name | the name of the law enforcement agency that arrested or cited you |
-| Section 6 — Records to be Sealed | Law Enforcement agency — that agency's own file number | that agency's own file number, which is usually different from the court case number |
-| Section 6 — Records to be Sealed | Law Enforcement agency — Mailing Address | that agency's mailing address |
-| Section 6 — Records to be Sealed | Second law enforcement agency — Name | the name of any second law enforcement agency that holds records in this case |
-| Section 6 — Records to be Sealed | Second law enforcement agency — that agency's own file number | that second agency's own file number |
-| Section 6 — Records to be Sealed | Second law enforcement agency — Mailing Address | that second agency's mailing address |
-| Section 6 — Records to be Sealed | Other agency — Name | the name of any other agency holding records in this case |
-| Section 6 — Records to be Sealed | Other agency — Mailing Address | that agency's mailing address |
-| Section 6 — Records to be Sealed | Second other agency — Name | the name of a second other agency holding records, if there is one |
-| Section 6 — Records to be Sealed | Second other agency — Mailing Address | that second other agency's mailing address |
-| Section 7 — Offence Information | Petty offence(s) you were convicted of | the petty offence or offences you were convicted of in this case, exactly as they read on the court record |
-| Section 7 — Offence Information | Misdemeanor offence(s) you were convicted of | the misdemeanor offence or offences you were convicted of in this case, exactly as they read on the court record |
-| Section 7 — Offence Information | Felony offence(s) you were convicted of | the felony offence or offences you were convicted of in this case, exactly as they read on the court record |
-| Section 7 — Offence Information | Date sentenced | the date you were sentenced in this case, from the court record |
-| Section 7 — Offence Information | Probation or parole supervision termination date | the date your probation or parole supervision in this case ended; the supervising department or the clerk of the convicting court holds it |
-| Section 8 — Eligibility | Explain why your records should be sealed if the district attorney does not consent | your own explanation of why the records should be sealed, in your words, if the district attorney does not consent. The platform does not write a sworn narrative for you |
-| Section 9 — Other Proceedings | Appeal — the number the appellate court gave the appeal | the number the appellate court gave your appeal, if there was one; the appellate court clerk holds it |
-| Section 9 — Other Proceedings | Appeal — what the appellate court decided | what the appellate court decided, if there was an appeal |
-| Section 9 — Other Proceedings | Appeal — when the appellate court decided it | when the appellate court decided the appeal, if there was one |
-| Section 11 — Statement in Support | Explain, in your own words, why the court should seal these records | your own statement of why the court should seal these records. The platform does not write a sworn narrative for you |
+| Section 2 — My Information | Interpreter language, if you need one | the language you need an interpreter in, if you ticked Yes; leave it blank if you ticked No |
+| Section 3 — Records to be Sealed | Law Enforcement agency — Agency Name | the name of the law enforcement agency that arrested or cited you |
+| Section 3 — Records to be Sealed | Law Enforcement agency — Agency Case Number | that agency's own case number, which is usually different from the court case number |
+| Section 3 — Records to be Sealed | Law Enforcement agency — Agency Mailing Address | that agency's mailing address |
+| Section 3 — Records to be Sealed | Second law enforcement agency — Agency Name | the name of any second law enforcement agency that holds records in this case |
+| Section 3 — Records to be Sealed | Second law enforcement agency — Agency Case Number | that second agency's own case number |
+| Section 3 — Records to be Sealed | Second law enforcement agency — Agency Mailing Address | that second agency's mailing address |
+| Section 3 — Records to be Sealed | Other agency — Name | the name of any other agency holding records in this case |
+| Section 3 — Records to be Sealed | Other agency — Mailing Address | that agency's mailing address |
+| Section 3 — Records to be Sealed | Second other agency — Name | the name of a second other agency holding records, if there is one |
+| Section 3 — Records to be Sealed | Second other agency — Mailing Address | that second other agency's mailing address |
+| Section 4 — Offence Information | Petty offence(s) you were convicted of | the petty offence or offences you were convicted of in this case, exactly as they read on the court record |
+| Section 4 — Offence Information | Misdemeanor offence(s) you were convicted of | the misdemeanor offence or offences you were convicted of in this case, exactly as they read on the court record |
+| Section 4 — Offence Information | Felony offence(s) you were convicted of | the felony offence or offences you were convicted of in this case, exactly as they read on the court record |
+| Section 4 — Offence Information | Date sentenced | the date you were sentenced in this case, from the court record |
+| Section 4 — Offence Information | Probation or parole supervision termination date | the date your probation or parole supervision in this case ended; the supervising department or the clerk of the convicting court holds it |
+| Section 5 — Eligibility | Explain why your records should be sealed if the district attorney does not consent | your own explanation of why the records should be sealed, in your words, if the district attorney does not consent. The platform does not write a sworn narrative for you |
+| Section 6 — Case Process | Appeal — the number the appellate court gave the appeal | the number the appellate court gave your appeal, if there was one; the appellate court clerk holds it |
+| Section 6 — Case Process | Appeal — what the appellate court decided | what the appellate court decided, if there was an appeal |
+| Section 6 — Case Process | Appeal — when the appellate court decided it | when the appellate court decided the appeal, if there was one |
+| Section 8 — Harm or Adverse Consequences | Explain how the harm to your privacy or the danger of unwarranted, adverse consequences outweighs the public interest in retaining the records | your own statement, for a conviction other than a petty offence or petty drug offence, of how the harm to your privacy or the danger of unwarranted, adverse consequences outweighs the public interest in retaining the records. The platform does not write a sworn narrative for you |
+| Section 3 — Records to be Sealed | Sheriff's Department — Mailing Address | the mailing address of the Sheriff's Department that holds records in this case |
 
 ## JDF-613 — Order Denying Request to Seal Conviction Records: the items you must supply
 
@@ -83,7 +83,8 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
-| A. Court | Court Mailing Address | the mailing address of the same courthouse, copied from the motion |
+| A. Court | Court Address | the mailing address of the same courthouse, copied from the motion |
+| B. Parties to the Case | Defendant — Full Name (caption) | your full name on the caption's Defendant line, by hand. On this form the caption line and section 2(a) Full Name are one field, so the platform cannot fill the caption without writing into the part the court completes; leave 2(a) for the court |
 
 ## JDF-205 — Motion to Waive Fees: the items you must supply
 
@@ -157,32 +158,33 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 
 | Form | Section | The choice | Why it is yours |
 | --- | --- | --- | --- |
-| JDF-612 | Section A — Court | District Court or County Court (selection) | which court the conviction is in is a fact about your case, and § 24-72-706 sealing is filed in both; the form asks you to say which |
-| JDF-612 | Section 6 — Records to be Sealed | District or County Court records to be sealed (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
-| JDF-612 | Section 6 — Records to be Sealed | Sheriff's Department holds records (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
-| JDF-612 | Section 6 — Records to be Sealed | Prosecuting Attorney holds records (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
-| JDF-612 | Section 6 — Records to be Sealed | Colorado Bureau of Investigation holds records (selection) | the form marks the Colorado Bureau of Investigation as required and prints its address for you; tick it |
-| JDF-612 | Section 6 — Records to be Sealed | A law enforcement agency holds records (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
-| JDF-612 | Section 6 — Records to be Sealed | A second law enforcement agency holds records (selection) | tick this if a second law enforcement agency holds records in this case |
-| JDF-612 | Section 6 — Records to be Sealed | Another agency holds records (selection) | tick this if some other agency holds records in this case |
-| JDF-612 | Section 6 — Records to be Sealed | A second other agency holds records (selection) | tick this if a second other agency holds records in this case |
-| JDF-612 | Section 7 — Offence Information | Convicted of a petty offence (selection) | tick the kind of offence you were convicted of in this case |
-| JDF-612 | Section 7 — Offence Information | Convicted of a misdemeanor (selection) | tick the kind of offence you were convicted of in this case |
-| JDF-612 | Section 7 — Offence Information | Convicted of a felony (selection) | tick the kind of offence you were convicted of in this case |
-| JDF-612 | Section 7 — Offence Information | Whether any of these drug offences were committed before 1 October 2013 (selection) | this is a sworn answer about when your own offences happened; the form's note says the court determines eligibility for drug offences committed before that date by the offence's classification at the time of sealing |
-| JDF-612 | Section 7 — Offence Information | Whether the charges involved psilocybin or psilocin and the underlying act is no longer unlawful (selection) | this is a sworn answer about what your own charges involved |
-| JDF-612 | Section 7 — Offence Information | Whether you were a victim of human trafficking and committed the offence as a result (selection) | this is a sworn answer about your own history, and no held record establishes it |
-| JDF-612 | Section 8 — Eligibility | Which branch of the sealing statute this motion is brought under (selection) | C.R.S. § 24-72-706 reaches both the offences it makes expressly eligible and the misdemeanor branch that turns on the prosecutor's position; which one reaches your conviction depends on its class and on this district attorney, and neither is settled by the route this packet was built for |
-| JDF-612 | Section 8 — Eligibility | Whether the district attorney consents, whether you are asking for a hearing on consent, or whether consent is refused (selection) | only you know what the district attorney has said, and the form asks you to state it |
-| JDF-612 | Section 9 — Other Proceedings | Whether the sealing of these records is the subject of any other pending proceeding (selection) | a sworn answer about proceedings you are party to; no held record establishes it |
-| JDF-612 | Section 9 — Other Proceedings | Whether this conviction was appealed (selection) | a sworn answer about your own case history; no held record establishes it |
-| JDF-612 | Section 9 — Other Proceedings | Which appellate court heard the appeal (selection) | you say which court heard your appeal; the form offers District Court, the Colorado Court of Appeals and the Colorado Supreme Court |
-| JDF-612 | Section 9 — Other Proceedings | Whether you have any pending criminal charges (selection) | a sworn answer about your own current charges; no held record establishes it |
-| JDF-612 | Section 10 — Restitution, Fines, Fees | Whether restitution, fines, fees, costs and surcharges ordered in this case have been paid (selection) | a sworn answer about what you have paid; the platform holds no ledger of your case obligations |
+| JDF-612 | Section A — Court | County Court or District Court (selection) | which court the conviction is in is a fact about your case, and § 24-72-706 sealing is filed in both; the form asks you to say which |
+| JDF-612 | Section 2 — My Information | Whether you need an interpreter (selection) | only you can say whether you need an interpreter at court; the platform does not ask, so neither box is ticked for you |
+| JDF-612 | Section 2 — My Information | Whether you want to attend court events in person or virtually (selection) | how you attend court events is your choice; the form says to switch it later with JDF 76, General Motion, filed at least 48 hours before an event |
+| JDF-612 | Section 3 — Records to be Sealed | A law enforcement agency holds records (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
+| JDF-612 | Section 3 — Records to be Sealed | A second law enforcement agency holds records (selection) | tick this if a second law enforcement agency holds records in this case |
+| JDF-612 | Section 3 — Records to be Sealed | Another agency holds records (selection) | tick this if some other agency holds records in this case |
+| JDF-612 | Section 3 — Records to be Sealed | A second other agency holds records (selection) | tick this if a second other agency holds records in this case |
+| JDF-612 | Section 4 — Offence Information | Convicted of a petty offence (selection) | tick the kind of offence you were convicted of in this case |
+| JDF-612 | Section 4 — Offence Information | Convicted of a misdemeanor (selection) | tick the kind of offence you were convicted of in this case |
+| JDF-612 | Section 4 — Offence Information | Convicted of a felony (selection) | tick the kind of offence you were convicted of in this case |
+| JDF-612 | Section 4 — Offence Information | Whether any of these drug offences were committed before 1 October 2013 (selection) | this is a sworn answer about when your own offences happened; the form's note says the court determines eligibility for drug offences committed before that date by the offence's classification at the time of sealing |
+| JDF-612 | Section 4 — Offence Information | Whether you were a victim of human trafficking and committed the offence as a result (selection) | this is a sworn answer about your own history, and no held record establishes it |
+| JDF-612 | Section 5 — Eligibility | Which branch of the sealing statute this motion is brought under (selection) | C.R.S. § 24-72-706 reaches both the offences it makes expressly eligible and the misdemeanor branch that turns on the prosecutor's position; which one reaches your conviction depends on its class and on this district attorney, and neither is settled by the route this packet was built for |
+| JDF-612 | Section 5 — Eligibility | Whether the district attorney consents, whether you are asking for a hearing on consent, or whether consent is refused (selection) | only you know what the district attorney has said, and the form asks you to state it |
+| JDF-612 | Section 6 — Case Process | Whether you believe the court should have automatically sealed this case under C.R.S. § 13-3-117 (selection) | a sworn answer about your own case; no held record establishes it |
+| JDF-612 | Section 6 — Case Process | Whether this conviction was appealed (selection) | a sworn answer about your own case history; no held record establishes it |
+| JDF-612 | Section 6 — Case Process | Which appellate court heard the appeal (selection) | you say which court heard your appeal; the form offers District Court, the Colorado Court of Appeals and the Colorado Supreme Court |
+| JDF-612 | Section 6 — Case Process | Whether you still owe restitution (selection) | a sworn answer about what you still owe; the platform holds no ledger of your case obligations |
+| JDF-612 | Section 7 — Criminal Record | Whether a verified copy of your criminal history record, dated within the last 20 days, is attached (selection) | you obtain and attach your own criminal history record; the form says that if it is not attached, a copy must be filed within ten days |
 | JDF-612 | Certificate of Service | Certificate of Service — how you sent it (selection) | you tick the method you actually used, at the time you serve the prosecuting attorney |
+| JDF-612 | Section 3 — Records to be Sealed | District or County Court records to be sealed (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
+| JDF-612 | Section 3 — Records to be Sealed | Prosecuting Attorney holds records (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
+| JDF-612 | Section 3 — Records to be Sealed | Sheriff's Department holds records (selection) | tick the courts and agencies that hold records in this case; you know which ones do |
+| JDF-612 | Section 3 — Records to be Sealed | Colorado Bureau of Investigation holds records (selection) | the form marks the Colorado Bureau of Investigation as required and prints its address for you; tick it |
 | JDF-613 | A. Court | District Court or County Court (selection) | tick the court type for the existing criminal case |
 | JDF-614 | A. Court | District Court or County Court (selection) | tick the court type for the existing criminal case |
-| JDF-615 | A. Court | District Court or County Court (selection) | the proposed order names the same court the motion is filed in; tick the one your case is in |
+| JDF-615 | A. Court | County Court or District Court (selection) | the proposed order names the same court the motion is filed in; choose the one your case is in |
 | JDF-205 | 4. Participant financial information | Do you need a language interpreter at Court proceedings? | this is an answer about the participant's own finances or household and must be selected by the participant |
 | JDF-205 | 4. Participant financial information | Do you receive on of the listed benefits below? | this is an answer about the participant's own finances or household and must be selected by the participant |
 | JDF-205 | 4. Participant financial information | What is your civil status? | this is an answer about the participant's own finances or household and must be selected by the participant |
@@ -212,6 +214,7 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 - **Every decision and signature field on JDF 613 and JDF 614.** The denial findings, hearing details, attendance direction, reasons, deadlines and judicial signatures all remain for the court.
 - **Every finding, fee amount, installment term and signature field on JDF 206.** The court decides the fee-waiver motion and completes its own order.
 - **Every numbered body on JDF 615.** JDF 611 directs the filer to complete only sections A–C; the court supplies the defendant-information repetitions, findings, record-recipient entries, other orders and signature.
+- **The Defendant line in the JDF 615 caption.** On this form it is the same field as section 2(a) Full Name, which the court completes, so filling one would fill both. Write your name on the caption line by hand.
 
 ## Where self-help ends
 
@@ -219,12 +222,12 @@ Stop before filing and take the packet to a Colorado lawyer if any of these gove
 
 - The district attorney objects.
 - The court sets a contested hearing.
-- Whether the offence is on the section 8 exclusion list is unclear.
+- Whether the offence is on the section 5 exclusion list is unclear.
 - Restitution or court debt is unpaid or disputed.
 - Immigration, licensing or firearm consequences are in play.
 
 ## What this packet is not
 
-This is a prepared set of official Colorado Judicial Department forms. It is not legal advice, it is not filed for you, and it does not decide whether your conviction is eligible to be sealed. JDF 612 sets out the eligibility conditions in its own words, including the offences section 8 lists as not eligible and the branch that depends on the district attorney's consent. Read them before you swear to them.
+This is a prepared set of official Colorado Judicial Department forms. It is not legal advice, it is not filed for you, and it does not decide whether your conviction is eligible to be sealed. JDF 612 sets out the eligibility conditions in its own words, including the offences section 5 lists as not eligible and the branch that depends on the district attorney's consent. Read them before you swear to them.
 
 _Colorado authority: C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612, JDF 613, JDF 614, JDF 615 and conditional fee-waiver forms JDF 205/JDF 206_

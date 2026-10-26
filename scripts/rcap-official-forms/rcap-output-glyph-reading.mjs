@@ -148,7 +148,13 @@ async function sourceWidgetRectangles(sourceBytes) {
   for (const field of doc.getForm().getFields()) {
     for (const widget of field.acroField.getWidgets()) {
       const rect = widget.getRectangle();
-      const parent = widget.dict.get(PDFName.of("P"));
+      /* /P is optional on a widget annotation (PDF 32000-1 12.5.2). The NY
+       * CPL 160.59 application omits it, which read every appearance as placed
+       * on no page and so outside every write box. Resolve through the page
+       * tree only when /P is absent; an explicit /P is still the answer. */
+      const widgetRef = doc.context.getObjectRef(widget.dict);
+      const parent = widget.dict.get(PDFName.of("P"))
+        ?? (widgetRef ? doc.findPageForAnnotationRef(widgetRef)?.ref : null);
       rectangles.push({
         field: field.getName(),
         page: parent ? pageOfRef.get(parent.tag) ?? null : null,
