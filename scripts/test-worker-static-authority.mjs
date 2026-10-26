@@ -1,12 +1,33 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 import {register} from 'node:module';
+import {createStaticWorkerAuthority,staticAuthorityHash} from './lib/worker-static-authority.mjs';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {evaluateStaticRenderAuthority,evaluateFulfillmentAuthority}=await import('../src/lib/rcap/fulfillment/grade-a-authority.ts');
 const {workerStaticPacketBinding}=await import('../src/lib/rcap/fulfillment/worker-static-authority.ts');
 const doc=JSON.parse(fs.readFileSync('data/rcap-grade-a/worker-static-authority.json'));
 const route='MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
 const entry=doc.entries.find(e=>e.record.routeId===route);assert(entry);
+// Refreshing the accepted packet proof must also refresh its packaged authority.
+const proofPath='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261013.json';
+const proofBytes=fs.readFileSync(proofPath),proof=JSON.parse(proofBytes);
+const proofHash=createHash('sha256').update(proofBytes).digest('hex');
+assert.equal(entry.record.evidenceBindings.exactPaidPacketProof.path,proofPath);
+assert.equal(entry.record.evidenceBindings.exactPaidPacketProof.sha256,proofHash,'packaged authority must bind the current accepted proof');
+assert.equal(entry.record.finalVerification.boundInputs.proofPath,proofPath);
+assert.equal(entry.record.finalVerification.boundInputs.proofSha256,proofHash);
+assert.equal(entry.record.finalVerification.verifiedAt,`base:${proof.sourceSha}`);
+assert.equal(entry.record.finalVerification.boundInputsSha256,staticAuthorityHash(entry.record.finalVerification.boundInputs));
+const proofSources=entry.record.officialSources.filter(s=>s.verificationRecord===proofPath);
+assert.equal(proofSources.length,1);
+assert.equal(proofSources[0].verifiedAt,`base:${proof.sourceSha}`);
+assert.equal(entry.observation.finalVerificationBoundInputsSha256,entry.record.finalVerification.boundInputsSha256);
+assert.equal(entry.sha256,staticAuthorityHash({record:entry.record,observation:entry.observation}));
+assert.deepEqual(doc,createStaticWorkerAuthority(
+ JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-authority-registry.json')),
+ JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-observation-snapshot.json'))
+),'packaged authority must match the controlling registry and observations');
 /*
  * Static render authority follows the owner approval, in both directions.
  *
