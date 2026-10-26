@@ -5,6 +5,8 @@ import {createHash,randomUUID} from 'node:crypto';
 import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const security=await import('../src/lib/partners/onboarding/real-launch-security.ts');
+const routeAuthority=await import('../src/lib/rcap/fulfillment/sponsored-channel-authority.ts');
+const grant=routeAuthority.sponsoredChannelDecisions.find(g=>g.decisionId==='MS-NONCONV-ORDINARY-INTERNAL-QA-20261024');
 const {isRcap2Enabled}=await import('../src/lib/partners/onboarding/feature.ts');
 const {Phase1OnboardingError}=await import('../src/lib/partners/onboarding/errors.ts');
 const read=p=>fs.readFileSync(p,'utf8');
@@ -17,7 +19,7 @@ const actualSource=[declarations(base+'program-operations-service.ts',['childReq
 const actual=ts.transpileModule(actualSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
 const binding={schema:'rcap-partner-acceptance-launch/v1',applicationSha:'a'.repeat(40),projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',supabaseProjectRef:'hyflxnlhpmiqxvvcoiia',partnerSlug:'legalease-ordinary-qa-20261024',adminAuthUserId:'11111111-1111-4111-8111-111111111111'};
 const context={role:'internal_admin',authUserId:binding.adminAuthUserId,partnerSlug:binding.partnerSlug};
-const environment={RCAP_PARTNER_ONBOARDING_ENABLED:'true',RCAP_2_0_ENABLED:'true',VERCEL:'1',VERCEL_ENV:'preview',VERCEL_PROJECT_ID:binding.projectId,VERCEL_DEPLOYMENT_ID:'dpl_SyntheticPreviewA',VERCEL_URL:'synthetic-start-preview.vercel.app',VERCEL_GIT_COMMIT_SHA:binding.applicationSha,NEXT_PUBLIC_RCAP_BUILD_SHA:binding.applicationSha,SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',NEXT_PUBLIC_SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',RCAP_PARTNER_LAUNCH_ENABLED:'true',RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:JSON.stringify(binding),RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:'',VERCEL_AUTOMATION_BYPASS_SECRET:'synthetic-existing-private-bypass',SUPABASE_SERVICE_ROLE_KEY:'synthetic-existing-service-key'};
+const environment={RCAP_SPONSORED_PREVIEW_CHANNEL:grant.channel,RCAP_CONSUMER_DELIVERY_ROUTE_STATE:grant.routeState,RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:grant.participantUserIds.join(','),RCAP_PARTNER_ONBOARDING_ENABLED:'true',RCAP_2_0_ENABLED:'true',VERCEL:'1',VERCEL_ENV:'preview',VERCEL_PROJECT_ID:binding.projectId,VERCEL_DEPLOYMENT_ID:'dpl_SyntheticPreviewA',VERCEL_URL:'synthetic-start-preview.vercel.app',VERCEL_GIT_COMMIT_SHA:binding.applicationSha,NEXT_PUBLIC_RCAP_BUILD_SHA:binding.applicationSha,SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',NEXT_PUBLIC_SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',RCAP_PARTNER_LAUNCH_ENABLED:'true',RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:JSON.stringify(binding),RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:'',VERCEL_AUTOMATION_BYPASS_SECRET:'synthetic-existing-private-bypass',SUPABASE_SERVICE_ROLE_KEY:'synthetic-existing-service-key'};
 const originalEnv=Object.fromEntries(Object.keys(environment).map(key=>[key,process.env[key]]));
 const checks=[];
 async function check(name,fn){Object.assign(process.env,environment);await fn();checks.push(name);console.log('PASS '+name);}
@@ -78,7 +80,7 @@ function fixture(options={}){
   const partner=options.wrongPage?'another-tenant':context.partnerSlug;
   return new Response(`<main data-rcap-partner="${partner}" data-rcap-asset="${assetId}" data-rcap-access="open" data-rcap-operation="${state.operation}" data-rcap-page-hash="${'2'.repeat(64)}">Synthetic Program Synthetic Headline Start screening <a href="/intake/${partner}">Intake</a></main>`);
  };
- const ports={...security,isRcap2Enabled,Phase1OnboardingError,createHash,randomUUID,AbortSignal,URL,Buffer,
+ const ports={...security,prepareOrdinarySponsoredRouteRegistration:routeAuthority.prepareOrdinarySponsoredRouteRegistration,isRcap2Enabled,Phase1OnboardingError,createHash,randomUUID,AbortSignal,URL,Buffer,
   getSupabaseAdminClient:()=>db,db:()=>db,programDecision:async()=>decision(),
   getProgramWorkspaceIdentity:async()=>({workspaceId:workspace.id,partnerSlug:context.partnerSlug,version:7,policyVersion:'rcap2.2'}),
   getProgramExperience:async()=>({data:source.data,reviewToken:'current-review-token',materials:versions.map((v,i)=>({type:types[i],id:v.currentVersion.id,hash:v.currentVersion.snapshotHash,version:1}))}),
@@ -90,6 +92,28 @@ function fixture(options={}){
  return {state,body,requestId,run:(patch={},actor=context,id=requestId)=>code.runProgramOperation(actor,{...body,...patch},id),resume:()=>code.executeRealLaunch(context,{requestId,snapshotHash:state.journal.find(row=>row.step==='publication_staged').snapshot_hash,confirmed:true}),assertImmutable:()=>assert.equal(JSON.stringify({activation,capacity}),immutable)};
 }
 try{
+ await check('normal prepared receipt contains only exact source-approved ordinary registration scope',async()=>{
+  const f=fixture();await f.run();const prepared=f.state.journal.find(row=>row.step==='prepared');
+  assert.deepEqual(prepared.evidence.ordinarySponsoredRoute,{
+   schema:'rcap-ordinary-sponsored-route-registration/v1',decisionId:grant.decisionId,
+   decisionSha256:createHash('sha256').update(JSON.stringify(grant)).digest('hex'),routeKey:grant.routeId,
+   packetSpecificationSha256:grant.packetSpecificationSha256,participantScopeSha256:grant.participantScopeSha256,partnerSlug:grant.partnerSlug
+  });
+  assert.equal(prepared.evidence.previewRelease.applicationSha,binding.applicationSha);
+  assert.equal(prepared.evidence.previewRelease.adminAuthUserId,context.authUserId);
+  console.log('ACTUAL_APP_SYNTHETIC_PORTS_PREPARED_RECEIPT '+JSON.stringify(prepared));
+ });
+ await check('registration preparation refuses wrong scope, source, partner or deployment without inventing participant context',async()=>{
+  const project='https://hyflxnlhpmiqxvvcoiia.supabase.co';
+  for(const patch of [{VERCEL_ENV:'production'},{SUPABASE_URL:'https://other.supabase.co'},{NEXT_PUBLIC_SUPABASE_URL:'https://other.supabase.co'},{RCAP_SPONSORED_PREVIEW_CHANNEL:'other'},{RCAP_CONSUMER_DELIVERY_ROUTE_STATE:'disabled'},{RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:''},{RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:grant.participantUserIds[0]+',other'}]) {
+   assert.equal(routeAuthority.prepareOrdinarySponsoredRouteRegistration(context.partnerSlug,['MS'],{...environment,...patch}),null);
+  }
+  assert.equal(routeAuthority.prepareOrdinarySponsoredRouteRegistration('another-program',['MS'],environment),null);
+  assert.equal(routeAuthority.prepareOrdinarySponsoredRouteRegistration(context.partnerSlug,['MS','GA'],environment),null);
+  assert.equal(routeAuthority.prepareOrdinarySponsoredRouteRegistration(context.partnerSlug,['GA'],environment),null);
+  process.env.RCAP_SPONSORED_PREVIEW_CHANNEL='wrong-channel';const f=fixture();await assert.rejects(f.run());
+  assert.equal(f.state.journal.length,0);assert.equal(f.state.rpc.some(call=>call.name==='rcap_service_stage_real_launch'),false);f.assertImmutable();
+ });
  await check('actual managed Start records current review, stages, verifies protected own-origin readbacks and completes once',async()=>{
   const f=fixture();await f.run().catch(error=>{throw new Error(f.state.journal.at(-1)?.evidence.message??error.message,{cause:error});});f.assertImmutable();assert.deepEqual(f.state.journal.map(r=>r.step),['prepared','publication_staged','public_verified','complete']);
   assert.equal(f.state.rpc.filter(r=>r.name==='rcap_service_stage_real_launch').length,1);

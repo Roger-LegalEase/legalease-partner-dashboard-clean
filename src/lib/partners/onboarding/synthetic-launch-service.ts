@@ -1,4 +1,5 @@
 import "server-only";
+import {prepareOrdinarySponsoredRouteRegistration} from "@/lib/rcap/fulfillment/sponsored-channel-authority";
 import {randomUUID,createHash} from "node:crypto";
 import {getSupabaseAdminClient} from "@/lib/supabase/server";
 import type {InternalOnboardingContext} from "./auth-context";
@@ -77,11 +78,13 @@ async function executeLaunch(context:InternalOnboardingContext,input:{requestId:
  const legacyOnboarding=real?await admin.from("partner_records").select("onboarding_status,onboarding_completed_at").eq("partner_slug",context.partnerSlug).single():{data:null,error:null};
  if(legacyOnboarding.error)throw new Phase1OnboardingError("persistence_failed","Legacy onboarding reconciliation source unavailable.");
  const operationId=randomUUID();const publicUrl=new URL(`/p/${context.partnerSlug}`,origin!).href;
+ const ordinarySponsoredRoute=previewRelease?prepareOrdinarySponsoredRouteRegistration(context.partnerSlug,preflight.intakeJurisdictions):null;
+ if(previewRelease&&!ordinarySponsoredRoute)throw new Phase1OnboardingError("invalid_transition","The exact ordinary sponsored route source and Preview scope are required before Start.");
  const base={workspace_id:preflight.workspaceId,partner_slug:context.partnerSlug,operation_id:operationId,request_id:input.requestId,actor_auth_user_id:context.authUserId,snapshot_hash:preflight.snapshotHash,authority_reference:target.data.authority_reference};
  async function receipt(step:string,evidence:Record<string,unknown>){const {error}=await admin.from("rcap_launch_operation_events").insert({...base,step,evidence:{...evidence,...(previewRelease?{previewRelease}:{}),...(real?{mode:"real",commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null}:{})}});if(error){diagnoseWorkspaceLoad("launch.receipt",`launch.receipt.${step}`,workspaceReadError(`launch.receipt.${step}`,error,"Publication receipt refused."));throw new Error(`Receipt ${step} failed.`);}}
  let failedStep="prepared",prepared=false;
  try{
-  await receipt("prepared",{previousPublication:previous.data,workspaceVersion:preflight.workspaceVersion,...(real?{mode:"real",snapshot:preflight.reviewedSnapshot,intakeJurisdiction:preflight.intakeJurisdiction,intakeJurisdictions:preflight.intakeJurisdictions,previousLegacyOnboarding:legacyOnboarding.data,commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null,releaseAuthorization:process.env.RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION,checks:preflight.readiness.checks.map(c=>({key:c.key,status:c.status,checkedAt:c.checkedAt}))}:{})});
+  await receipt("prepared",{...(ordinarySponsoredRoute?{ordinarySponsoredRoute}:{}),previousPublication:previous.data,workspaceVersion:preflight.workspaceVersion,...(real?{mode:"real",snapshot:preflight.reviewedSnapshot,intakeJurisdiction:preflight.intakeJurisdiction,intakeJurisdictions:preflight.intakeJurisdictions,previousLegacyOnboarding:legacyOnboarding.data,commercialAuthorityId:preflight.launchAuthority.operatingModel==="partner_managed"?preflight.launchAuthority.id:null,operatingDecisionId:preflight.launchAuthority.operatingModel==="legalease_managed"?preflight.launchAuthority.id:null,releaseAuthorization:process.env.RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION,checks:preflight.readiness.checks.map(c=>({key:c.key,status:c.status,checkedAt:c.checkedAt}))}:{})});
   prepared=true;
   failedStep="publication_staged";
   const staged=await admin.rpc(real?"rcap_service_stage_real_launch":"rcap_service_stage_synthetic_launch",{p_slug:context.partnerSlug,p_actor:context.authUserId,p_operation:operationId,p_version:preflight.workspaceVersion,p_hash:preflight.snapshotHash,p_versions:preflight.reviewedVersions.filter(v=>v.type!=="partner_launch_kit"),...(real?{p_authority:preflight.launchAuthority.id!}:{})});

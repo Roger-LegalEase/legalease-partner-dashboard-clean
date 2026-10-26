@@ -84,3 +84,37 @@ export function currentSponsoredChannelAllowed(
     } catch { return false; }
   });
 }
+
+/** Prepares an exact scope registration for normal Start; it grants no participant entitlement. */
+export function prepareOrdinarySponsoredRouteRegistration(
+  partnerSlug: string, jurisdictions: readonly string[],
+  env: Readonly<Record<string, string | undefined>> = process.env
+) {
+  if (env.VERCEL_ENV !== "preview" || jurisdictions.length !== 1) return null;
+  const grant = sponsoredChannelDecisions.find(candidate => "acquisitionMode" in candidate
+    && candidate.acquisitionMode === "partner" && candidate.partnerSlug === partnerSlug);
+  if (!grant || !decisionDigests.has(sha256(JSON.stringify(grant)))
+    || grant.approved !== true || grant.productionAuthorized !== false
+    || grant.publicLaunchAuthorized !== false || grant.liveConsumerPaymentAuthorized !== false
+    || grant.hostedFullAuthorized !== false || grant.eventId !== null || grant.eventName !== null
+    || jurisdictions[0] !== grant.routeId.split(":")[0]
+    || env.SUPABASE_URL !== `https://${grant.acceptanceProjectRef}.supabase.co`
+    || env.NEXT_PUBLIC_SUPABASE_URL !== env.SUPABASE_URL
+    || env.RCAP_SPONSORED_PREVIEW_CHANNEL !== grant.channel
+    || env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE !== "staging_scoped"
+    || grant.routeState !== "staging_scoped"
+    || env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE !== grant.participantUserIds.join(",")
+    || sha256(env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE) !== grant.participantScopeSha256) return null;
+  try {
+    if (!grant.artifacts.every(artifact => sha256(fs.readFileSync(artifact.path)) === artifact.sha256)) return null;
+  } catch { return null; }
+  return {
+    schema: "rcap-ordinary-sponsored-route-registration/v1",
+    decisionId: grant.decisionId,
+    decisionSha256: sha256(JSON.stringify(grant)),
+    routeKey: grant.routeId,
+    packetSpecificationSha256: grant.packetSpecificationSha256,
+    participantScopeSha256: grant.participantScopeSha256,
+    partnerSlug: grant.partnerSlug
+  };
+}
