@@ -1,33 +1,28 @@
 {
   "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-  "status": "FORWARD_BOUND_HOSTED_PENDING",
-  "applicationSha": "c72b0e4a5a7cce4f0b75cd224a78a5b25642f143",
-  "workerSourceSha": "c3fdaadd53c4f2636a1ba66877dd3d0921e5eadf",
-  "workerDigest": "sha256:81da44032e00150e9b105e48d07080d1fa1ccf9fed678155266a42c85e77eb96",
-  "workerInputFingerprint": "sha256:be60b2d04ef500c79969bc194065e7ed819b0de514e5b4dad59af8d671ae5b53",
-  "toolsSha": "c72b0e4a5a7cce4f0b75cd224a78a5b25642f143",
-  "publication": {
-    "runId": 39903882763,
-    "workflowSourceSha": "c3fdaadd53c4f2636a1ba66877dd3d0921e5eadf",
-    "artifactId": 12480210998,
-    "digest": "sha256:81da44032e00150e9b105e48d07080d1fa1ccf9fed678155266a42c85e77eb96"
-  },
-  "readOnlyImageAcceptance": {
-    "runId": 39951657812,
-    "jobId": 120407324467,
-    "workflowSourceSha": "2202ac0afb64410f0a7c8a2382191e105ca169d8",
-    "digest": "sha256:81da44032e00150e9b105e48d07080d1fa1ccf9fed678155266a42c85e77eb96"
-  },
+  "status": "SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING",
+  "applicationSha": "32499751569359315248c2048fa111064a47c67f",
+  "workerSourceSha": "32499751569359315248c2048fa111064a47c67f",
+  "workerDigest": "sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494",
+  "workerInputFingerprint": "sha256:6e3d8a6ed5390effb3945085ac6159016e806f19ada509ee36f6fc0c06efcea0",
+  "toolsSha": "e8037c8419cc93d9949a6302b7b842179d474f65",
   "runtimeAccepted": true,
-  "workerRebuildRequired": false,
   "previewExecution": "held",
   "resume": null,
   "productionAuthorized": false,
   "productionAuthorization": null,
   "deploymentAuthorized": false,
   "clinicDispatchReady": false,
-  "hostedAdmission": null,
-  "releaseBaseSha": "ee8f28e7a17aa3caff090bbe47ef48e0bb258ec0",
+  "successorTools": {
+    "schemaVersion": "rcap-successor-resume-tools/v1",
+    "baseSha": "ee8f28e7a17aa3caff090bbe47ef48e0bb258ec0",
+    "files": {
+      "scripts/grade-a-launch-control/pinned-successor-responsibilities.mjs": "c1dcdc54ce11d9edc79b88f79bc39ebeb9e85f65198e3d28b173215545e9fec5",
+      "scripts/grade-a-launch-control/preview-control-custody.test.mjs": "1cd85433318771192b95c84268daca3868fd82737a688344df2b5c7d577c6c19",
+      "scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs": "666756502776a36a78a5994729acc5a1a291f7c18b739e863ebfdbfa3ea7e3fd",
+      "scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs": "726a6a08efc29c98e5839388e673beaebcebe1a0ae14187c36e39e05a1a75f70"
+    }
+  },
   "supersededRecord": {
     "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
     "status": "SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING",
@@ -3626,32 +3621,88 @@
       }
     }
   },
-  "supersededRecordSha256": "ef78813a89aa2a7a6d1a44ff47fcb0ad018199ffa00dad287d80b041f3cb8944",
-  "successorTools": {
-    "schemaVersion": "rcap-successor-resume-tools/v1",
-    "baseSha": "ee8f28e7a17aa3caff090bbe47ef48e0bb258ec0",
-    "files": {
-      ".github/workflows/chatgpt-one-shot-dispatch-fl-bridge-tx-auto-20260911.yml": "bab4c739d2a0068ae9bb0170d00267c560a1660285fd92ee88547431cfa4f7af",
-      ".github/workflows/chatgpt-one-shot-dispatch-fl-early-fingerprint-20260911-2118.yml": "0bc30abe6bd5afdc3e9bbd42b7e28ec142a41ee2dd233e8a4a0e494a69a76220",
-      ".github/workflows/chatgpt-one-shot-dispatch-fl-early-raster-20260911.yml": "1797cf99c452bdbae45e966d02f0d4fe7935834ec4d2f66ec04fa1e7163869fc",
-      ".github/workflows/chatgpt-one-shot-dispatch-tx-eight-current-20260911.yml": "f2321450d8e8381b9313bb0cd15307060c64272fa42f5087f9a7e41e443b689d",
-      ".github/workflows/rcap-hosted-acceptance-staging.yml": "b9c780506e96d2d497a4b31b90a9ae77a6ef9c8179d0a93ef0ba3e2a79146a41",
-      "scripts/generate-rcap-grade-a-fulfillment-authority.mjs": "d03e41c5643988dbf800cc0c2f62737bcd3a7014af8cdd480364ef243d5943e0",
-      "scripts/grade-a-launch-control/pinned-successor-responsibilities.mjs": "260d3242ce55f3cb4cdf9bd6ece11c539d0a19fddcb601981bac8ff332f68ee1",
-      "scripts/grade-a-launch-control/verify-historical-release.test.mjs": "71dfa46c7741fca861ce6cbbe05b4f144b01e9d48b50088e90cb86da9be2881e",
-      "scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs": "ef8fee9e08eeada884fc06281af8cf5d9532f4a178b994d8611f6d4bb6588f13",
-      "scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs": "d91fdfe2263c2311df9dcd964fad1371eb338867c8b48d17ae4ba01161f23143",
-      "scripts/legal-aid/sponsor-cap-browser.test.mjs": "714d94f44960b5460e6a909552dcdf31ff13c8b4815420edd497fc7f8025b421",
-      "scripts/rcap-hosted-acceptance-deploy.mjs": "434960860b487fb50495c273d491c286b24014bd450fd4aa5f13009c0b74aff7",
-      "scripts/rcap-hosted-checkout-gate.mjs": "560feb0fadbc99506d9b444da800a56f87b07f430b78baac6eeb42a5c5bdaaa6",
-      "scripts/rcap-hosted-preserved-keys.test.mjs": "aed3178024952ab56b53b137148c0031d9984016b7d62fe7e45c608ad6efa6a6",
-      "scripts/rcap-hosted-resolve-preview.mjs": "1522409c0cd5dd3c0c47fbe14f98d3608cd154cc7e51a1ab4be26a728d7788a3",
-      "scripts/test-md-scope-restatement.mjs": "4be352e680b6a47d3daafb2dee812b1e922987dec408ab699e45745f61539486",
-      "scripts/test-rcap-clinic-browser-journeys.mjs": "d550c77f4c74514628e4a83773e4334c6cea8a050d3d8703f88a70f6a138b23f",
-      "scripts/test-rcap-operating-browser.mjs": "2668366fa8fc4d18066076bfee643b484b72ab153d120ad674fa6a2193d26649",
-      "scripts/test-rcap-preview-resolver-entry.mjs": "83797480ebad933d8b5b58df74c7edf025e91347dfb0dd622c6c9ed7afaad804",
-      "scripts/test-rcap-release-containment.mjs": "2cb89986e82ba19eef3de86697fb57b623336fa64cc51d4f31a1288b4b7ae42b",
-      "scripts/verify-rcap-commercial-browser.mjs": "f2d340889e6bafdb73ae5303228b64439cb3766af0b1a4c15c4e10183dbd2a79"
+  "successorInputs": {
+    "schemaVersion": "rcap-pinned-successor-responsibilities/v1",
+    "applicationSha": "11975010d38b8eb8a5051b73704cfcc216617d49",
+    "applicationFingerprint": "sha256:282efaa4bc08f9cd82c3ec99dac53805c9e706d360a7424d119d2d00d3850ad5",
+    "runtimeFiles": {
+      "data/rcap-render/worker-publication-evidence.json": "37d2b5d23930a3a35a7078d6dd6d807a72e42cd179fa27e0641e10c0835e09d1",
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/jobs.json": "6e68349ffe7727758f609c06665ff804dc9622c39b41f177cb8e7db4a074e8a5",
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/native.log": "abbdb2f8caa40434d3729ed48946116b9dacae75f469474ebdaeacd43b94809a",
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/run.json": "d96cf91cc99313ac8b9ab6afbc542b6fbb6cd0753790671b6beb00c4a10608d4",
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/verification-receipt.json": "0acdbf5d238658556dc962d3803bc7ad9c9555d715a46aa8ec128d932c6e71f5",
+      "hosted-acceptance-evidence/worker/publication-40370534116/jobs.json": "166be4062d8cef2ef441a84c19fed60bd4603990001fe88c0ca7d0300bee3dc3",
+      "hosted-acceptance-evidence/worker/publication-40370534116/native.log": "3a57e5c9a7ca7855a2feebc80d6f857d6bdc3b63e9ccb8b6a9420d146c8ae174",
+      "hosted-acceptance-evidence/worker/publication-40370534116/publication.zip": "1fd755cf30a9908e16eee8104cbb364b8f77c0ff35f757fd4ccb8a86926e5482",
+      "hosted-acceptance-evidence/worker/publication-40370534116/rcap-render-worker-publication.json": "02ec5079ed828cc3e254d9994936eca03e4f77fc7f211616fc55c21e73c60ea7",
+      "hosted-acceptance-evidence/worker/publication-40370534116/run.json": "fe671ee678715e2248453e2f2df96c0dfc1b2b9cd8fcbe5ae8acd5d9610ca538"
+    },
+    "nativeFiles": {
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/jobs.json": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-40371767975/jobs.json",
+        "bytes": 4321,
+        "sha256": "6e68349ffe7727758f609c06665ff804dc9622c39b41f177cb8e7db4a074e8a5"
+      },
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/native.log": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-40371767975/native.log",
+        "bytes": 296304,
+        "sha256": "abbdb2f8caa40434d3729ed48946116b9dacae75f469474ebdaeacd43b94809a"
+      },
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/run.json": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-40371767975/run.json",
+        "bytes": 15059,
+        "sha256": "d96cf91cc99313ac8b9ab6afbc542b6fbb6cd0753790671b6beb00c4a10608d4"
+      },
+      "hosted-acceptance-evidence/worker/image-acceptance-40371767975/verification-receipt.json": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-40371767975/verification-receipt.json",
+        "bytes": 312,
+        "sha256": "0acdbf5d238658556dc962d3803bc7ad9c9555d715a46aa8ec128d932c6e71f5"
+      },
+      "hosted-acceptance-evidence/worker/publication-40370534116/jobs.json": {
+        "path": "hosted-acceptance-evidence/worker/publication-40370534116/jobs.json",
+        "bytes": 4977,
+        "sha256": "166be4062d8cef2ef441a84c19fed60bd4603990001fe88c0ca7d0300bee3dc3"
+      },
+      "hosted-acceptance-evidence/worker/publication-40370534116/native.log": {
+        "path": "hosted-acceptance-evidence/worker/publication-40370534116/native.log",
+        "bytes": 609548,
+        "sha256": "3a57e5c9a7ca7855a2feebc80d6f857d6bdc3b63e9ccb8b6a9420d146c8ae174"
+      },
+      "hosted-acceptance-evidence/worker/publication-40370534116/publication.zip": {
+        "path": "hosted-acceptance-evidence/worker/publication-40370534116/publication.zip",
+        "bytes": 811,
+        "sha256": "1fd755cf30a9908e16eee8104cbb364b8f77c0ff35f757fd4ccb8a86926e5482"
+      },
+      "hosted-acceptance-evidence/worker/publication-40370534116/rcap-render-worker-publication.json": {
+        "path": "hosted-acceptance-evidence/worker/publication-40370534116/rcap-render-worker-publication.json",
+        "bytes": 1425,
+        "sha256": "02ec5079ed828cc3e254d9994936eca03e4f77fc7f211616fc55c21e73c60ea7"
+      },
+      "hosted-acceptance-evidence/worker/publication-40370534116/run.json": {
+        "path": "hosted-acceptance-evidence/worker/publication-40370534116/run.json",
+        "bytes": 15100,
+        "sha256": "fe671ee678715e2248453e2f2df96c0dfc1b2b9cd8fcbe5ae8acd5d9610ca538"
+      }
+    },
+    "executedControls": {
+      ".github/workflows/publish-rcap-render-worker.yml": {
+        "workflowSourceSha": "b3048f2af74a2ac3908ea124aea08837781d1e2a",
+        "files": {
+          ".github/workflows/publish-rcap-render-worker.yml": "bedba3e21fc093f302158e182ce63599e812df2c41a6b528a8e82d7c3b9ae544",
+          "scripts/verify-rcap-worker-tag-integrity.mjs": "38e5d3e813d1c707837335c7e51a8d61d9dd26d2b3df4e786a2dd478abd325af"
+        }
+      },
+      ".github/workflows/rcap-worker-image-acceptance.yml": {
+        "workflowSourceSha": "f7beae5daa530228024ffd2b231782b1c6ede66d",
+        "files": {
+          ".github/workflows/rcap-worker-image-acceptance.yml": "0037e74760e88507b47e0b6335155843fd8a42113805d35e755cbc7854cdaf1e",
+          "scripts/lib/rcap-render-worker-loop.mjs": "98681c2f3c73afd005a28c77272e63dca5e241fbb5436b8341ee84caefebbe69",
+          "scripts/rcap-render-worker.mjs": "0c6873a34521f08194bcb9d0d09c5f601c5439a41708c5b54679d2b604b94993",
+          "scripts/verify-rcap-worker-image-revision.mjs": "6cd8082a6f29f70088e0c02c16c14a1e4792d62288ab4c848ffa573c10fe5ff5",
+          "scripts/verify-rcap-worker-source-binding-exception.mjs": "3990b3e28fca365dd8765bdfeb2f0b34b8a9eb10e3284d7c5c856aca7113c9b3",
+          "scripts/verify-rcap-worker-tag-integrity.mjs": "38e5d3e813d1c707837335c7e51a8d61d9dd26d2b3df4e786a2dd478abd325af"
+        }
+      }
     }
   }
 }
