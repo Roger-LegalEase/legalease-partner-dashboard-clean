@@ -1,0 +1,247 @@
+{
+  "source_commit": "4feb8e94b3dee4085fe05ea75d78853fe21e5097",
+  "status": "FROZEN_SOURCE_EXPECTATIONS_NOT_LIVE_BASELINING",
+  "functions": [
+    {
+      "name": "consume_rcap_screening_session",
+      "signature": "consume_rcap_screening_session(uuid)",
+      "required": true,
+      "argument_names": [
+        "p_session_id",
+        "consumed",
+        "partner_slug",
+        "claimed_slot_state",
+        "status"
+      ],
+      "source_body_md5": "3ca9f41a0378cd18ac806446a092ed92",
+      "source_sha256": "5f7f44cc38ce57ca4588ed17318d9c60ff41c79be5983a4f2df16b0faf1de71e",
+      "unit_sha256": "c1eca3e45a66b1a8ccd98e2ed5cd3716780dbbbe2da54f54e9cd5041a869d651",
+      "source": "supabase/migrations/20260818202000_rcap_upgrade_02_functions.sql",
+      "body_byte_offset": 220923,
+      "body_byte_length": 675,
+      "security_definer": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "default_contract": "(p_session_id uuid)\n RETURNS TABLE(consumed boolean, partner_slug text, claimed_slot_state text, status text)\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO ''",
+      "execute": "service_role true; PUBLIC/anon/authenticated false per canonical source ACL; owner postgres from existing accepted inspector/source custody",
+      "arguments": "p_session_id uuid",
+      "result": "TABLE(consumed boolean, partner_slug text, claimed_slot_state text, status text)",
+      "input_argument_names": [
+        "p_session_id"
+      ],
+      "input_argument_count": 1,
+      "default_argument_count": 0,
+      "result_type_source": "TABLE(consumed boolean, partner_slug text, claimed_slot_state text, status text)"
+    },
+    {
+      "name": "claim_pending_screening_result",
+      "signature": "claim_pending_screening_result(text,uuid,jsonb,text)",
+      "required": true,
+      "argument_names": [
+        "p_claim_token",
+        "p_user_id",
+        "p_matter",
+        "p_request_id",
+        "matter_id",
+        "outcome"
+      ],
+      "source_body_md5": "889e41ebbca3a67798de2c28855c541f",
+      "source_sha256": "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c",
+      "unit_sha256": "2ff8384ab95cec83ad34510d23571c2dae12bca2a979111770e970c27fe0e359",
+      "source": "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
+      "body_byte_offset": 13196,
+      "body_byte_length": 7881,
+      "security_definer": true,
+      "config": [
+        "search_path=public, pg_temp"
+      ],
+      "default_contract": "(\n  p_claim_token text,\n  p_user_id uuid,\n  p_matter jsonb,\n  p_request_id text default null\n)\nreturns table (matter_id uuid, outcome text)\nlanguage plpgsql\nsecurity definer\nset search_path = public, pg_temp",
+      "execute": "service_role true; PUBLIC/anon/authenticated false per canonical source ACL; owner postgres from existing accepted inspector/source custody",
+      "arguments": "p_claim_token text, p_user_id uuid, p_matter jsonb, p_request_id text DEFAULT NULL::text",
+      "result": "TABLE(matter_id uuid, outcome text)",
+      "input_argument_names": [
+        "p_claim_token",
+        "p_user_id",
+        "p_matter",
+        "p_request_id"
+      ],
+      "input_argument_count": 4,
+      "default_argument_count": 1,
+      "result_type_source": "table (matter_id uuid, outcome text)"
+    },
+    {
+      "name": "record_rcap_screening_analytics_event",
+      "signature": "record_rcap_screening_analytics_event(uuid,text,text,boolean,timestamp with time zone)",
+      "required": false,
+      "argument_names": [
+        "p_session_id",
+        "p_event_type",
+        "p_outcome_category",
+        "p_packet_route_available",
+        "p_now"
+      ],
+      "source_body_md5": "c17be3d2a9d83052cf569dd56b513863",
+      "source_sha256": "21732fdb6aa59a7373e0d48f56aaaf4f1a4c449669d6e6936763e12bbaf769f6",
+      "unit_sha256": "103d8819d93c75e5163d9d025596bf20c2892a679ac056f2a71caddc91cb306d",
+      "source": "supabase/phase-41b-rcap-screening-analytics.sql",
+      "body_byte_offset": 5679,
+      "body_byte_length": 1051,
+      "security_definer": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "default_contract": "(\n  p_session_id uuid,\n  p_event_type text,\n  p_outcome_category text default null,\n  p_packet_route_available boolean default null,\n  p_now timestamptz default now()\n)\nreturns boolean\nlanguage plpgsql\nsecurity definer\nset search_path = ''",
+      "execute": "service_role true; PUBLIC/anon/authenticated false per canonical source ACL; owner postgres from existing accepted inspector/source custody",
+      "input_argument_names": [
+        "p_session_id",
+        "p_event_type",
+        "p_outcome_category",
+        "p_packet_route_available",
+        "p_now"
+      ],
+      "input_argument_count": 5,
+      "default_argument_count": 3,
+      "result_type_source": "boolean"
+    },
+    {
+      "name": "emit_rcap_screening_started_event",
+      "signature": "emit_rcap_screening_started_event()",
+      "required": true,
+      "input_argument_names": [],
+      "argument_names": null,
+      "input_argument_count": 0,
+      "default_argument_count": 0,
+      "result_type_source": "trigger",
+      "source_body_md5": "f348645b39c2f474c6b4cc645e488ace",
+      "source_sha256": "21732fdb6aa59a7373e0d48f56aaaf4f1a4c449669d6e6936763e12bbaf769f6",
+      "unit_sha256": "31322a4c9ec3b4169e98154c87e0b121d2663e101941146f703873132c1b17ac",
+      "source": "supabase/phase-41b-rcap-screening-analytics.sql",
+      "body_byte_offset": 4412,
+      "body_byte_length": 431,
+      "security_definer": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "execute": "Trigger invocation does not require service_role/client EXECUTE. Require accepted owner postgres, effective owner INSERT on analytics table, body/config and exact enabled AFTER INSERT trigger. Do not grant new privileges.",
+      "kind": "trigger",
+      "arguments": "",
+      "result": "trigger"
+    }
+  ],
+  "relations": [
+    {
+      "name": "public.consumer_pending_screening_results",
+      "required": true,
+      "columns": {
+        "pending_id": "uuid",
+        "claim_token_hash": "text",
+        "created_at": "timestamp with time zone",
+        "updated_at": "timestamp with time zone",
+        "expires_at": "timestamp with time zone",
+        "claimed_at": "timestamp with time zone",
+        "claimed_user_id": "uuid",
+        "claimed_matter_id": "uuid",
+        "status": "text",
+        "revoked_at": "timestamp with time zone",
+        "product": "text",
+        "jurisdiction": "text",
+        "result_code": "text",
+        "pathway_label": "text",
+        "packet_type": "text",
+        "payment_allowed": "boolean",
+        "summary": "text",
+        "next_steps": "jsonb",
+        "screening_answers": "jsonb",
+        "result_payload": "jsonb",
+        "candidate_route_context": "jsonb",
+        "profile_version": "text",
+        "screening_correlation_id": "text",
+        "packet_plan": "jsonb",
+        "anonymous_session_id": "uuid",
+        "locale": "text",
+        "partner_slug": "text",
+        "program_id": "text",
+        "event_id": "uuid",
+        "campaign_name": "text",
+        "access_code_id": "uuid",
+        "consent_grant_id": "uuid"
+      },
+      "rls": true,
+      "service_privileges": [
+        "SELECT",
+        "INSERT"
+      ],
+      "anon_authenticated_direct_access": false,
+      "invariants": [
+        "UNIQUE claim_token_hash",
+        "CLAIMED requires claimed_user_id/claimed_matter_id/claimed_at",
+        "claimed_matter_id FK consumer_briefcase_items.id",
+        "consumer_briefcase_items.source_pending_result_id UNIQUE (already inspected30relation; retain)"
+      ]
+    },
+    {
+      "name": "public.participant_claim_events",
+      "required": true,
+      "columns": {
+        "id": "uuid",
+        "occurred_at": "timestamp with time zone",
+        "event": "text",
+        "pending_result_id": "uuid",
+        "matter_id": "uuid",
+        "actor_user_id": "uuid",
+        "product": "text",
+        "jurisdiction": "text",
+        "partner_slug": "text",
+        "event_id": "uuid",
+        "request_id": "text",
+        "detail": "jsonb"
+      },
+      "rls": true,
+      "service_privileges": [
+        "SELECT",
+        "INSERT"
+      ],
+      "anon_authenticated_direct_access": false,
+      "invariants": [
+        "append-only BEFORE UPDATE OR DELETE trigger executes participant_claim_events_append_only()",
+        "pending_result_id+occurred_at and actor_user_id+occurred_at lookup indexes",
+        "claim_succeeded/idempotent_replay/denial categories; no raw answers/tokens in output"
+      ]
+    },
+    {
+      "name": "public.rcap_screening_analytics_events",
+      "required": true,
+      "columns": {
+        "id": "uuid",
+        "session_id": "uuid",
+        "partner_slug": "text",
+        "partner_access_code_id": "uuid",
+        "campaign_name": "text",
+        "event_type": "text",
+        "outcome_category": "text",
+        "packet_route_available": "boolean",
+        "occurred_at": "timestamp with time zone",
+        "metadata": "jsonb"
+      },
+      "rls": true,
+      "service_privileges": [
+        "SELECT"
+      ],
+      "required_writer": "Effective owner of SECURITY DEFINER emit_rcap_screening_started_event() must have INSERT. Inspect pg_proc.proowner/has_table_privilege(owner,table,INSERT); service_role INSERT is not a substitute.",
+      "invariants": [
+        "Existing screening_sessions trigger rcap_screening_started_event enabled O, AFTER INSERT FOR EACH ROW calls emit_rcap_screening_started_event(). Accepted screening_sessions schema custody already records trigger; no new trigger/schema requested.",
+        "Uncaught trigger INSERT means table/write prerequisites mandatory for partner-benefit admission; optional completion-analytics RPC remains nonblocking.",
+        "Existing analytics append-only UPDATE/DELETE triggers preserved; no mutating analytics probe."
+      ]
+    }
+  ],
+  "existing_evidence": "Verified supplied audit read_only_database_observations.json confirmed claim_pending_screening_result(text,uuid,jsonb,text) and expected claim table columns present; source/args mandatory, analytics best-effort only. No assertion current missing or changed DB objects.",
+  "source_table_definitions": [
+    "supabase/phase-38-expungement-pending-screening-results.sql",
+    "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql"
+  ],
+  "limits": "Source body fingerprint is canonical4feb definition. If already accepted later transformation applies, compare its exact accepted patch/pin; do not adopt the new live answer as expected or replay migrations. Metadata query reports actual default args/config/body/ACL for collector to compare. No new providers/tests/writes by B.",
+  "append_only_body_md5": "a58b7ec2a738193661f6372a6ef83983",
+  "analytics_append_only_body_md5": "33bd59139e1c70a08bdf51afc803c12c"
+}
