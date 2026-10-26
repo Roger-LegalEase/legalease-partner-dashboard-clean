@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
-const {realLaunchOrigin,realLaunchLeaseActive}=await import('../src/lib/partners/onboarding/real-launch-security.ts');
+const {realLaunchOrigin,realLaunchLeaseActive,acceptancePreviewLaunchBinding,realLaunchSourceBound,realVerificationToken,acceptsRealVerification}=await import('../src/lib/partners/onboarding/real-launch-security.ts');
 const {commercialAuthorityValid}=await import('../src/lib/partners/onboarding/commercial-authority.ts');
 const sha='a'.repeat(40),prod={VERCEL_ENV:'production',VERCEL_GIT_COMMIT_SHA:sha,RCAP_PARTNER_LAUNCH_ENABLED:'true',RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:`release:${sha}`,RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:'https://expungement.ai'};
 assert.equal(realLaunchOrigin({}),null);
@@ -35,3 +35,34 @@ assert.equal(partnerLaunchMaterialsApproved(materials.slice(1)),false);
 for(const patch of [{sourceFreshness:'stale'},{currentVersion:{approvalStatus:'approved',partnerReviewStatus:'awaiting_partner'}},{currentVersion:{approvalStatus:'pending_review',partnerReviewStatus:'approved'}}])assert.equal(partnerLaunchMaterialsApproved([materials[0],{...materials[1],...patch}]),false);
 assert.equal(requiresPartnerLaunchReview('staff_quick_start_guide'),false);
 console.log('Required partner material reviews match the real-launch SQL guard; reference materials add no approval ceremony.');
+
+// Synthetic identifiers exercise the release parser; they confer no real operator or program authority.
+const previewBinding={schema:'rcap-partner-acceptance-launch/v1',applicationSha:sha,projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',supabaseProjectRef:'hyflxnlhpmiqxvvcoiia',partnerSlug:'legalease-ordinary-qa-20261024',adminAuthUserId:'11111111-1111-4111-8111-111111111111'};
+const preview={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_AUTOMATION_BYPASS_SECRET:'synthetic-existing-bypass',VERCEL_PROJECT_ID:previewBinding.projectId,VERCEL_DEPLOYMENT_ID:'dpl_SyntheticPreviewA',VERCEL_URL:'synthetic-owned-preview.vercel.app',VERCEL_GIT_COMMIT_SHA:sha,NEXT_PUBLIC_RCAP_BUILD_SHA:sha,SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',NEXT_PUBLIC_SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',RCAP_PARTNER_LAUNCH_ENABLED:'true',RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:JSON.stringify(previewBinding)};
+const previewContext={partnerSlug:previewBinding.partnerSlug,authUserId:previewBinding.adminAuthUserId,role:'internal_admin'};
+assert.equal(realLaunchOrigin(preview,previewContext),'https://synthetic-owned-preview.vercel.app');
+assert.equal(realLaunchOrigin(preview),null,'Source identity alone cannot authorize a launch caller');
+assert.equal(realLaunchSourceBound(preview),true);
+for(const patch of [{role:'partner_admin'},{partnerSlug:'another-tenant'},{authUserId:'22222222-2222-4222-8222-222222222222'}])assert.equal(realLaunchOrigin(preview,{...previewContext,...patch}),null);
+for(const patch of [{VERCEL_AUTOMATION_BYPASS_SECRET:''},{VERCEL_AUTOMATION_BYPASS_SECRET:'invalid\r\nheader'},{VERCEL:'0'},{VERCEL_ENV:'production'},{VERCEL_PROJECT_ID:'prj_Other'},{VERCEL_DEPLOYMENT_ID:''},{VERCEL_DEPLOYMENT_ID:'not-a-deployment'},{VERCEL_URL:'expungement.ai'},{VERCEL_URL:'attacker.test'},{VERCEL_URL:'evil.vercel.app/path'},{VERCEL_URL:'user@owned.vercel.app'},{VERCEL_URL:'owned.vercel.app:443'},{VERCEL_GIT_COMMIT_SHA:'b'.repeat(40)},{NEXT_PUBLIC_RCAP_BUILD_SHA:'b'.repeat(40)},{SUPABASE_URL:'https://production.supabase.co'},{NEXT_PUBLIC_SUPABASE_URL:'https://production.supabase.co'},{RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:'https://expungement.ai'},{RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:'https://another-preview.vercel.app'},{RCAP_PARTNER_LAUNCH_ENABLED:'false'},{RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:''},{RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:'generic QA override'},{RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:'{}'}]){
+ assert.equal(realLaunchOrigin({...preview,...patch},previewContext),null);assert.equal(acceptancePreviewLaunchBinding({...preview,...patch}),null);
+}
+for(const key of Object.keys(previewBinding))assert.equal(acceptancePreviewLaunchBinding({...preview,RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:JSON.stringify({...previewBinding,[key]:'wrong'})}),null,key);
+assert.equal(acceptancePreviewLaunchBinding({...preview,RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:JSON.stringify({...previewBinding,extra:true})}),null);
+assert.equal(realLaunchOrigin({...preview,RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:'https://synthetic-owned-preview.vercel.app'},previewContext),'https://synthetic-owned-preview.vercel.app');
+const tokenEnv={...preview,SUPABASE_SERVICE_ROLE_KEY:'synthetic-service-only-key'},oldEnv=Object.fromEntries(Object.keys({...tokenEnv,...prod}).map(key=>[key,process.env[key]]));
+try{
+ Object.assign(process.env,tokenEnv);
+ const token=realVerificationToken(previewContext.partnerSlug,'operation-A');assert.match(token,/^[a-f0-9]{64}$/);
+ assert.equal(acceptsRealVerification(previewContext.partnerSlug,'operation-A',token),true);
+ assert.equal(acceptsRealVerification(previewContext.partnerSlug,'operation-B',token),false);
+ assert.equal(realVerificationToken('another-tenant','operation-A'),'');
+ process.env.VERCEL_DEPLOYMENT_ID='dpl_SyntheticPreviewB';assert.equal(acceptsRealVerification(previewContext.partnerSlug,'operation-A',token),false);
+ Object.assign(process.env,prod);
+ const {createHmac}=await import('node:crypto');
+ assert.equal(realVerificationToken('production-partner','operation-A'),createHmac('sha256',tokenEnv.SUPABASE_SERVICE_ROLE_KEY).update('rcap-real-staged:production-partner:operation-A').digest('hex'),'Production token bytes remain unchanged');
+}finally{for(const [key,value]of Object.entries(oldEnv))if(value===undefined)delete process.env[key];else process.env[key]=value;}
+console.log('Exact Acceptance Preview source/project/database/tenant/admin binding and deployment-scoped HMAC assertions PASS; Production and loopback controls retained.');
+
+const {execFileSync}=await import('node:child_process');
+execFileSync(process.execPath,['scripts/test-rcap-acceptance-preview-launch.mjs'],{stdio:'inherit'});
