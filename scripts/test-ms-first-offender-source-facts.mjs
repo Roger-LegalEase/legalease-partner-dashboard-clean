@@ -76,7 +76,15 @@ check('other route refuses context admission',()=>assert.equal(H.projectMsFirstO
 check('other jurisdiction refuses context',()=>assert.equal(H.projectMsFirstOffenderSourceFacts(getProfileByJurisdiction('TX'),route,raw),null));
 for(const value of [true,'yes',{value:'final_conviction_record_confirmed',unknown:true},{value:'final_conviction_record_confirmed',unknown:'false'}])check('no boolean/narrative/wrapper inference '+JSON.stringify(value),()=>assert.equal(H.msFirstOffenderSourceDecision(profile,route,answers,H.projectMsFirstOffenderSourceFacts(profile,route,{...raw,ms_misd1_conviction_finality:value})).status,'missing'));
 check('no old first-offender/category aliases',()=>assert.equal(H.msFirstOffenderSourceDecision(profile,route,answers,H.projectMsFirstOffenderSourceFacts(profile,route,{offense_category:'nontraffic',first_offender_status:'yes',nontraffic_classification:'yes',prior_relief:'No'})).status,'missing'));
-for(const record of [{...answers,case_outcome:old.case_outcome},{...answers,offense_level:'Traffic or driving matter'}])check('contradictory record is held',()=>{const result=evaluateMsFirstOffenderProtected({...request,answers:record},context);assert.equal(result.paymentAllowed,false);assert.ok(!['packet_ready','packet_ready_with_caution'].includes(result.resultCode));});
+check('dismissal keeps factual nonconviction route without borrowing first-offender context',()=>{
+ const dismissed={...request,answers:{...answers,case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted'}};
+ const source=H.msFirstOffenderSourceDecision(profile,route,dismissed.answers,context);
+ assert.equal(source.status,'review');assert.equal(source.code,'conviction_record_conflict');
+ const result=evaluateMsFirstOffenderProtected(dismissed,context);
+ assert.equal(result.pathwayId,'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal');
+ assert.deepEqual(result,evaluateScreening(dismissed));
+});
+for(const record of [{...answers,case_outcome:'Felony conviction'},{...answers,offense_level:'Traffic or driving matter'}])check('contradictory conviction record is held',()=>{assert.notDeepEqual(record,answers);const result=evaluateMsFirstOffenderProtected({...request,answers:record},context);assert.equal(result.paymentAllowed,false);assert.ok(!['packet_ready','packet_ready_with_caution'].includes(result.resultCode));});
 for(const field of ['financial_obligations','court_requirements_completed','sentence_completion_date','pending_cases','new_convictions_during_waiting_period']) {
  const value=field==='court_requirements_completed'?'no':field==='pending_cases'||field==='new_convictions_during_waiting_period'?'Yes':'No';
  check(`no borrowed felony timing gate ${field}`,()=>{const result=evaluateMsFirstOffenderProtected({...request,answers:{...answers,[field]:value}},context);assert.equal(result.resultCode,known.resultCode);assert.equal(result.paymentAllowed,known.paymentAllowed);assert.equal(result.pathwayId,known.pathwayId);assert.deepEqual(result.reasons,known.reasons);assert.deepEqual(result.missingQuestionIds,known.missingQuestionIds);assert.deepEqual(result.packetPlan,known.packetPlan);});
