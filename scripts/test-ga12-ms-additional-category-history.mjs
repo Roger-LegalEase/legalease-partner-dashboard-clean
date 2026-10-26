@@ -12,10 +12,12 @@ const { msAdditionalCategoryIsHistory: historyContext, resolvePacketCollection }
 
 // GA-12 / QD-bd6b15fff22cbe1501cb: distinct justice/municipal obligations.
 const cases = [
-  ['Q-02b21081ef9ffebfc474', 'additional-justice-court-misdemeanor-relief-9-11-15-3', 'Miss. Code Ann. § 9-11-15(3)'],
-  ['Q-59616e6bc8916f7a961f', 'additional-municipal-court-misdemeanor-relief-21-23-7-6', 'Miss. Code Ann. § 21-23-7(6)']
+  ['Q-02b21081ef9ffebfc474', 'additional-justice-court-misdemeanor-relief-9-11-15-3', 'Miss. Code Ann. § 9-11-15(3)', 'justice'],
+  ['Q-59616e6bc8916f7a961f', 'additional-municipal-court-misdemeanor-relief-21-23-7-6', 'Miss. Code Ann. § 21-23-7(6)', 'municipal']
 ];
 const witnesses = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses;
+const factualBase = JSON.parse(fs.readFileSync('scripts/fixtures/conviction-fallback-predecessors.json')).rows
+  .find(row => row.id === 'MS-other-adjudication/omitted').answers;
 const profile = getProfileByJurisdiction('MS');
 const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
 const category = 'offense_category';
@@ -31,10 +33,21 @@ const records = new Map();
 function check(name, fn) {
   try { fn(); checks++; } catch (error) { console.error(name); throw error; }
 }
-for (const [questionRecordId, route, statute] of cases) {
+for (const [questionRecordId, route, statute, court] of cases) {
   const witness = witnesses.find(w => w.pathwayKey === `MS:${route}`);
   assert(witness);
-  const answers = structuredClone(witness.finalAnswers);
+  check(`${route}: dismissed historical witness takes precedence over optional conviction hint`, () => {
+    const historical = structuredClone(witness.finalAnswers);
+    assert.equal(historical.case_outcome, 'Dismissed, no-billed, nolle prosequi, or not prosecuted');
+    assert.equal(evaluate({ jurisdiction: 'MS', profileVersion: profile.profileVersion,
+      matterId: `synthetic-historical-${questionRecordId}`, answers: historical }).evaluation.pathwayId,
+    'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal');
+    assert.deepEqual(historical, witness.finalAnswers);
+  });
+  // Existing factual conviction elections select the branch; the old dismissed witness remains historical.
+  const answers = { ...structuredClone(factualBase), case_outcome: 'Misdemeanor conviction',
+    ms_record_help: 'conviction_record', ms_conviction_traffic: 'nontraffic',
+    ms_other_convictions: 'yes', ms_prior_conviction_expungement: 'no', ms_conviction_court: court };
   const specification = packetSpecificationFor(`MS:${route}`);
   const authoritative = evaluate({ jurisdiction: 'MS', profileVersion: profile.profileVersion,
     matterId: `synthetic-${questionRecordId}`, answers });

@@ -14,13 +14,15 @@ register('data:text/javascript,'+encodeURIComponent('let d;export function initi
 const load=p=>import(pathToFileURL(root+'/'+p));const P=await load('src/lib/expungement-ai/packet-information.ts');const {getProfileByJurisdiction}=await load('src/lib/rcap-engine/profile-registry.ts');const{packetSpecificationFor}=await load('src/lib/rcap/grade-a/packet-specification.ts');const{resolvePacketCollection}=await load('src/lib/expungement-ai/packet-collection.ts');const{QuestionField}=await load('src/components/expungement-ai/screening/QuestionField.tsx');const{LocalizationContext}=await import(pathToFileURL(loc));const{t,resolveRuntimeText}=await load('src/lib/expungement-ai/localization.ts');
 // GA-16-M01508 / Q-1fd626b49f5c694da45b and M01510 / Q-8da4428f5701a867dcca: separate literal history from the branch-specific court and venue.
 const {evaluateAuthoritativeScreeningResult:evaluate}=await load('src/lib/expungement-ai/authoritative-screening-result.ts');
+const factualBase=JSON.parse(fs.readFileSync('scripts/fixtures/conviction-fallback-predecessors.json')).rows.find(row=>row.id==='MS-other-adjudication/omitted').answers;
 for(const [originalId,requestedRoute,citation,venue,helperEn,helperEs] of [
  ['Q-1fd626b49f5c694da45b','additional-justice-court-misdemeanor-relief-9-11-15-3','9-11-15(3)','Synthetic Conviction County','justice court of conviction and its county','tribunal de justicia'],
  ['Q-8da4428f5701a867dcca','additional-municipal-court-misdemeanor-relief-21-23-7-6','21-23-7(6)','Synthetic Conviction Municipality','municipal court of conviction and its municipality','tribunal municipal']
 ]) {
 const profile=getProfileByJurisdiction('MS'),key='MS:'+requestedRoute;
-const witness=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses.find(w=>w.pathwayKey===key);assert(witness);
-const answers=structuredClone(witness.finalAnswers);delete answers.residency_or_location;
+// Existing factual conviction elections select the branch without an optional route hint.
+const answers={...structuredClone(factualBase),case_outcome:'Misdemeanor conviction',ms_record_help:'conviction_record',ms_conviction_traffic:'nontraffic',ms_other_convictions:'yes',ms_prior_conviction_expungement:'no',ms_conviction_court:requestedRoute.includes('justice')?'justice':'municipal'};
+delete answers.residency_or_location;
 const authoritative=evaluate({jurisdiction:'MS',profileVersion:profile.profileVersion,matterId:'synthetic-ga16-ms-location',answers});
 assert.equal(authoritative.evaluation.pathwayId,requestedRoute);
 assert.equal(authoritative.evaluation.resultCode,'guidance_only');
