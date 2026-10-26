@@ -307,6 +307,8 @@ export type ProtectedPacketInformationModel = Pick<
   resultCode: ProtectedPacketDraftSnapshot["resultCode"];
   /** Owner correction surface only; never legal/packet/payment authority. */
   caProp64Clarification?: boolean;
+  /** Readable prior-source facts; never a packet or verification authority. */
+  msFactualHistoryHeld?: true;
   /** Original factual controls recovered from validated protected history only. */
   heldFactualCorrectionIds?: string[];
   gaPardonPreparationAvailable?: boolean;
@@ -671,6 +673,7 @@ export function packetInformationPatch(input: {
   if ([input.mdJuvenilePreparation, input.gaPardonPreparation, input.mtDeferredPreparation, input.caJuvenilePreparation].filter(Boolean).length > 1) return null;
   const current = input.mdJuvenilePreparation ? mdJuvenilePreparationModelFor(priorProtected) : input.caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(priorProtected) : input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(priorProtected) : input.gaPardonPreparation ? gaPardonPreparationModelFor(priorProtected) : protectedPacketInformationModelFor(priorProtected);
   if (!current) return null;
+  if (current.msFactualHistoryHeld && input.verify) return null;
   if ((input.mdJuvenilePreparation || input.gaPardonPreparation || input.mtDeferredPreparation || input.caJuvenilePreparation) && input.verify) return null;
   const allowedIds = editablePacketInputIds(current, true);
   const acceptedAnswers = Object.fromEntries(
@@ -721,7 +724,7 @@ export function packetInformationPatch(input: {
     && current.missingInputIds.includes(MS_MIP_BOTH_DATE_ID)
     && [priorSnapshot.screeningAnswers, priorSnapshot.prefilledAnswers, priorSnapshot.packetAnswers].some(map => Object.hasOwn(map, MS_MIP_LEGACY_DATE_ID))
     && ![priorSnapshot.screeningAnswers, priorSnapshot.prefilledAnswers, priorSnapshot.packetAnswers].some(map => Object.hasOwn(map, MS_MIP_BOTH_DATE_ID));
-  const derivedRepairRequired = !preserveMsMipLegacyNoop && !canonicalEqual(preserveProtectedLegacyShapes(freshContact.maps, legacy.inspection, new Set()), {
+  const derivedRepairRequired = !current.msFactualHistoryHeld && !preserveMsMipLegacyNoop && !canonicalEqual(preserveProtectedLegacyShapes(freshContact.maps, legacy.inspection, new Set()), {
     screeningAnswers: priorSnapshot.screeningAnswers, prefilledAnswers: priorSnapshot.prefilledAnswers, packetAnswers: priorSnapshot.packetAnswers
   });
   const currentVerification = packetVerificationStateForRecord(input.existingItem, priorProtected, true);
@@ -1426,6 +1429,46 @@ export function illinoisProstitutionHeldDraftSuccessor(snapshot: ProtectedPacket
     prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers),
     dependencies: snapshot.dependencies, capturedAt: (snapshot as ProtectedPacketDraftSnapshot).capturedAt });
   return seed ? preserveUnchangedProtectedFacts(seed.snapshot, snapshot, new Set()) : null;
+}
+
+/** Exact source-bound MS history view after factual disposition displaced an old hint.
+ * Its old plan describes saved questions only; no current eligibility is inferred. */
+function mississippiFactualHistoryHeldDraft(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
+  status: ProtectedPacketVerificationRecord["status"]) {
+  const profile = getProfileByJurisdiction("MS"), evaluation = authoritative.evaluation;
+  const route = snapshot.pathwayId, currentRoute = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+  if (!["unverified", "invalidated"].includes(status) || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "MS" || !profile || !route || route === currentRoute
+    || !profile.pathways.some(pathway => pathway.id === route)
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== "459d9c5d3774787130ceb3ab2a5b980f71fe18e6ee214a7066288dadd6ccd991"
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, route)
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("MS", route))
+    || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || typeof snapshot.paymentAllowed !== "boolean"
+    || !["packet_ready", "packet_ready_with_caution", "needs_review", "needs_more_info", "not_yet", "guidance_only", "not_covered_yet"].includes(snapshot.resultCode ?? "")
+    || snapshot.paymentAllowed && !["packet_ready", "packet_ready_with_caution"].includes(snapshot.resultCode ?? "")
+    || evaluation.jurisdiction !== "MS" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== currentRoute || !["packet_ready", "packet_ready_with_caution"].includes(evaluation.resultCode)
+    || !evaluation.paymentAllowed || authoritative.selectedTrackId !== "ms-nonconv"
+    || !canonicalEqual(evaluation.packetPlan, packetPlanForPathway(profile, currentRoute))
+    || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "ms_record_help"))) return null;
+  const prior = snapshot.packetPlan, plan = packetPlanForPathway(profile, route);
+  if (!prior || !plan || !canonicalEqual(snapshot.requiredInputIds, prior.requiredInputIds)
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: prior.mode, sourceFormIds: prior.sourceFormIds })) return null;
+  const expectedType = ["guidance_only", "not_covered_yet"].includes(snapshot.resultCode ?? "") || prior.mode === "automatic_relief_verification_and_guidance"
+    ? "guidance_packet" : prior.mode === "official_form_overlay_or_source_form_set" ? "official_pdf_overlay" : "custom_pleading";
+  if (snapshot.packetType !== expectedType) return null;
+  const reviewed = canonicalEqual(prior, plan) ? snapshot : reviewedPacketContractSuccessor(snapshot, plan);
+  if (!reviewed || !canonicalEqual(reviewed.packetPlan, plan)) return null;
+  const heldSnapshot = { ...reviewed, paymentAllowed: false };
+  return { snapshot: heldSnapshot, authoritative: { ...authoritative, packetType: snapshot.packetType ?? undefined,
+    selectedTrackId: snapshot.selectedTrackId,
+    evaluation: { ...evaluation, pathwayId: route, resultCode: snapshot.resultCode!, paymentAllowed: false,
+      packetPlan: plan, selectedTrackId: snapshot.selectedTrackId,
+      treatmentClassification: snapshot.treatmentClassification ?? undefined, deferralComponentIds: snapshot.deferralComponentIds } } };
 }
 
 /** Exact pre-correction contracts at bd4f9715b. This proves historical held
@@ -2848,8 +2891,10 @@ export function protectedPacketInformationModelFor(
     || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)) return null;
   const currentAuthoritative = evaluateProtectedPacketFacts(snapshot);
   if (!currentAuthoritative) return null;
+  const msFactualHistory = mississippiFactualHistoryHeldDraft(snapshot, currentAuthoritative, verification.status);
+  if (msFactualHistory) snapshot = msFactualHistory.snapshot;
   const vaHeldSuccessor = virginiaVictimHeldDraftSuccessor(snapshot, currentAuthoritative, verification.status);
-  const authoritative = vaHeldSuccessor ?? currentAuthoritative;
+  const authoritative = msFactualHistory?.authoritative ?? vaHeldSuccessor ?? currentAuthoritative;
   const evaluation = authoritative.evaluation;
   const gaCtSourceFactReview = georgiaSb288Context(profile, snapshot.pathwayId) || ctPetitionContext(profile, snapshot.pathwayId);
   // Tighten an unverified held draft only; its source, plan, route, raw maps and payment refusal must still match.
@@ -3255,7 +3300,7 @@ export function protectedPacketInformationModelFor(
     factKeys: verificationSummary.map((fact) => fact.key),
     systemContextKeys: verificationContext.map((entry) => entry.key)
   };
-  const reviewSafety = vaHeldSuccessor ? { safe: false, reason: "historical_context_draft_held" }
+  const reviewSafety = msFactualHistory ? { safe: false, reason: "historical_source_draft_held" } : vaHeldSuccessor ? { safe: false, reason: "historical_context_draft_held" }
     : contractSuccessor ? { safe: false, reason: "packet_contract_clarification_required" }
     : protectedPacketDraftReviewSafety(snapshot, "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
   const mnStage = mnStageContext?.candidate ?? null;
@@ -3266,7 +3311,8 @@ export function protectedPacketInformationModelFor(
     && canonicalEqual(snapshot.serverFacts, canonicalServerFacts("GA", GA_PARDON_ROUTE))
     ? georgiaPardonPreparationFactIds(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), today: new Date().toISOString().slice(0, 10) }) : null;
   return {
-    resultCode: snapshot.resultCode,
+    resultCode: msFactualHistory ? "needs_review" : snapshot.resultCode,
+    ...(msFactualHistory ? { msFactualHistoryHeld: true as const } : {}),
     ...(vaPardonChecklist ? { vaPardonTypeHeldContext: {
       status: "HELD_CONTEXT" as const,
       reportedState: vaPardonTypeReportedState(vaPardonQuestion, initialAnswers[VA_PARDON_TYPE_ID]),
@@ -3283,7 +3329,7 @@ export function protectedPacketInformationModelFor(
     stateCode: snapshot.jurisdiction,
     revision: verification.revision,
     pathwayId: snapshot.pathwayId,
-    packetPlan,
+    packetPlan: msFactualHistory ? null : packetPlan,
     questions: questionSurface.questions,
     builderQuestions: questionSurface.builderQuestions,
     builderSections: questionSurface.builderSections,
@@ -3302,7 +3348,7 @@ export function protectedPacketInformationModelFor(
       || vaPardonQuestion) ? { recordFactConfirmations: snapshot.dependencies.recordFactConfirmations } : {}),
     nyCaseIssues,
     courtRecordConflict: recordFactCourtConflict(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers),
-    stage: !packetPlan ? "in_progress" : currentlyVerified
+    stage: msFactualHistory || !packetPlan ? "in_progress" : currentlyVerified
       ? "ready_to_generate"
       : missingInputIds.length === 0 && !questionSurface.collection?.pendingDerivations.length ? "facts_complete" : "in_progress",
     reviewedAt: currentlyVerified && "verifiedAt" in snapshot ? snapshot.verifiedAt : null,
@@ -3311,7 +3357,7 @@ export function protectedPacketInformationModelFor(
     verificationContext,
     verificationManifest,
     reviewSafety,
-    expectedComponents: expectedPacketComponents(packetPlan)
+    expectedComponents: msFactualHistory ? [] : expectedPacketComponents(packetPlan)
   };
 }
 
@@ -4653,9 +4699,11 @@ function deriveProtectedPacketDraftSnapshot(
 ): ProtectedPacketDraftSnapshot | null {
   let base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
-  const currentAuthority = evaluateProtectedPacketFacts(base);
+  let currentAuthority = evaluateProtectedPacketFacts(base);
   if (!currentAuthority) return null;
   const originalBase = base;
+  const msFactualHistory = mississippiFactualHistoryHeldDraft(base, currentAuthority, verification.status);
+  if (msFactualHistory) { base = msFactualHistory.snapshot; currentAuthority = msFactualHistory.authoritative; }
   const mdJuvenileIds = mdJuvenilePreparation ? mdJuvenilePreparationModelFor(verification)?.mdJuvenilePreparationFactIds : undefined;
   if (mdJuvenilePreparation && !mdJuvenileIds) return null;
   const gaPreparationIds = gaPardonPreparation ? gaPardonPreparationModelFor(verification)?.gaPardonPreparationFactIds : undefined;
@@ -4671,6 +4719,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);
   if (caJuvenileIds) factualIds.push(...caJuvenileIds);
   if (mdJuvenileIds) factualIds.push(...mdJuvenileIds);
+  if (msFactualHistory) factualIds.push("case_outcome");
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
@@ -4791,8 +4840,11 @@ function deriveProtectedPacketDraftSnapshot(
   }
   const candidate: ProtectedPacketAuthoritySnapshot = { ...base,
     ...preserveProtectedLegacyShapes(refreshed.maps, legacy.inspection, replacedLegacyIds), dependencies: refreshed.dependencies };
-  const authoritative = evaluateProtectedPacketFacts(candidate);
-  if (!authoritative) return null;
+  const currentCandidate = evaluateProtectedPacketFacts(candidate);
+  if (!currentCandidate) return null;
+  const authoritative = !explicitChangedIds.has("case_outcome") && !confirmRecordFacts.includes("case_outcome")
+    ? mississippiFactualHistoryHeldDraft(candidate, currentCandidate, verification.status)?.authoritative ?? currentCandidate
+    : currentCandidate;
   const seeded = protectedPacketDraftSeedFromAuthoritative({
     authoritative,
     ...preserveProtectedLegacyShapes(refreshed.maps, legacy.inspection, replacedLegacyIds),
@@ -4852,7 +4904,7 @@ function deriveProtectedPacketDraftSnapshot(
     && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
     && !newJerseyMarijuanaStatusFinancialApplies(currentAuthority.profile, base.pathwayId,
       { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
-  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || preserveNewMexicoGuidanceFacts || preserveNewJerseyStatusFacts || preserveTexasClockFacts || preserveTexasGuidanceFacts || preserveWestVirginiaGuidanceFacts || preserveSouthDakotaGuidanceFacts || preserveSouthCarolinaGuidanceFacts || preserveNebraskaJuvenileRoutingFacts || factualIds.length > 0
+  const preserved = msFactualHistory || isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || preserveNewMexicoGuidanceFacts || preserveNewJerseyStatusFacts || preserveTexasClockFacts || preserveTexasGuidanceFacts || preserveWestVirginiaGuidanceFacts || preserveSouthDakotaGuidanceFacts || preserveSouthCarolinaGuidanceFacts || preserveNebraskaJuvenileRoutingFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
   // These exact source-bound successors remove inherited collection dependencies,
