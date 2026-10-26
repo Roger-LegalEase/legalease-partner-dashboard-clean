@@ -1,0 +1,530 @@
+{
+  "sourceSha": "78db0b37e7660e500c2112af3cc61a7e1bc218fe",
+  "sourcePath": "data/rcap-ledger/public-witness-fixtures.json",
+  "acceptedCorrectionSha": "786bd677e79ece6570a506a778f801f7d6518cca",
+  "rows": [
+    {
+      "routeKey": "MS:first-offense-dui-expungement",
+      "sourceWitness": {
+        "pathwayKey": "MS:first-offense-dui-expungement",
+        "jurisdiction": "MS",
+        "pathwayId": "first-offense-dui-expungement",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "publicRoute": "/expungement-ai/screening/mississippi",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "answers": {
+          "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "court_requirements_completed": "yes",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "ms_successful_sentence_completion_date": "2012-06-01",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pending_cases": "No",
+          "possible_pathway_context": "First-offense DUI expungement",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "pardon_status",
+              "record_documents",
+              "state_exclusion_categories",
+              "trafficking_status"
+            ]
+          },
+          {
+            "round": 1,
+            "requested": [
+              "resolved_timing_bucket"
+            ],
+            "supplied": {
+              "resolved_timing_bucket": "gt_10_years"
+            }
+          },
+          {
+            "round": 2,
+            "requested": [
+              "ms_successful_sentence_completion_date"
+            ],
+            "supplied": {
+              "ms_successful_sentence_completion_date": "2012-06-01"
+            }
+          }
+        ],
+        "expected": {
+          "pathwayId": "first-offense-dui-expungement",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true
+        }
+      },
+      "heldSeed": {
+        "snapshot": {
+          "capturedAt": "2026-10-18T00:00:00Z",
+          "deferralComponentIds": [],
+          "dependencies": {},
+          "jurisdiction": "MS",
+          "packetAnswers": {},
+          "packetFamilyIdentifiers": {
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "sourceFormIds": []
+          },
+          "packetPlan": {
+            "formMappingStatus": "custom_or_manual_mapping_required",
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "packetReadyWhen": [
+              "backend result is packet_ready or packet_ready_with_caution",
+              "every source-defined pathway fact is answered",
+              "all waiting and completion conditions are satisfied",
+              "no exclusion, ambiguity, or required-review flag remains",
+              "the selected form revision and filing location pass source-freshness checks"
+            ],
+            "pathwayId": "first-offense-dui-expungement",
+            "requiredInputIds": [
+              "age_at_offense",
+              "case_outcome",
+              "charge",
+              "contact_information",
+              "county",
+              "court",
+              "disposition_date",
+              "financial_obligations",
+              "jurisdiction",
+              "offense_category",
+              "offense_level",
+              "participant_full_legal_name",
+              "pathway_id",
+              "pending_cases",
+              "prior_relief",
+              "record_type",
+              "residency_or_location",
+              "sentence_completion_date",
+              "trafficking_status"
+            ],
+            "sourceFormIds": [],
+            "sourceRuleRefs": [
+              "pathways:15-155",
+              "section:15-155",
+              "corpus-unit:38"
+            ]
+          },
+          "packetType": "custom_pleading",
+          "pathwayId": "first-offense-dui-expungement",
+          "paymentAllowed": false,
+          "prefilledAnswers": {
+            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+            "financial_obligations": "Yes",
+            "offense_level": "Misdemeanor",
+            "pending_cases": "No",
+            "sentence_completion_date": "Yes"
+          },
+          "profileAuthorityFingerprint": "cbad8164da2cf9cf6baac8ad9e76f622f94709126998d399cb3e40047f45ce08",
+          "profileSourceFingerprint": "459d9c5d3774787130ceb3ab2a5b980f71fe18e6ee214a7066288dadd6ccd991",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "requiredInputIds": [
+            "age_at_offense",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "county",
+            "court",
+            "disposition_date",
+            "financial_obligations",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "participant_full_legal_name",
+            "pathway_id",
+            "pending_cases",
+            "prior_relief",
+            "record_type",
+            "residency_or_location",
+            "sentence_completion_date",
+            "trafficking_status"
+          ],
+          "resultCode": "packet_ready_with_caution",
+          "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+          "screeningAnswers": {
+            "court_requirements_completed": "yes",
+            "jurisdiction_scope": "State or local",
+            "ms_successful_sentence_completion_date": "2012-06-01",
+            "new_convictions_during_waiting_period": "No",
+            "ownership_scope": "Yes",
+            "possible_pathway_context": "First-offense DUI expungement",
+            "resolved_timing_bucket": "gt_10_years",
+            "special_preconditions_confirmed": "Yes"
+          },
+          "selectedTrackId": null,
+          "serverFacts": {
+            "jurisdiction": "MS",
+            "pathway_id": "first-offense-dui-expungement"
+          },
+          "treatmentClassification": null
+        },
+        "hash": "9e4ac8b6811fd6765fc54d2a26e49ae0ba8cec549f9c609dd8caf71f3d7ee321"
+      },
+      "predecessorHash": "b65c74df44a24bf6f7007258f57084a48263713194b69e0ba6253762a8a3181d",
+      "predecessorSnapshot": {
+        "capturedAt": "2026-10-18T00:00:00Z",
+        "deferralComponentIds": [],
+        "dependencies": {},
+        "jurisdiction": "MS",
+        "packetAnswers": {},
+        "packetFamilyIdentifiers": {
+          "mode": "state_specific_custom_packet_from_source_rules",
+          "sourceFormIds": []
+        },
+        "packetPlan": {
+          "formMappingStatus": "custom_or_manual_mapping_required",
+          "mode": "state_specific_custom_packet_from_source_rules",
+          "packetReadyWhen": [
+            "backend result is packet_ready or packet_ready_with_caution",
+            "every source-defined pathway fact is answered",
+            "all waiting and completion conditions are satisfied",
+            "no exclusion, ambiguity, or required-review flag remains",
+            "the selected form revision and filing location pass source-freshness checks"
+          ],
+          "pathwayId": "first-offense-dui-expungement",
+          "requiredInputIds": [
+            "age_at_offense",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "county",
+            "court",
+            "disposition_date",
+            "financial_obligations",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "participant_full_legal_name",
+            "pathway_id",
+            "pending_cases",
+            "prior_relief",
+            "record_type",
+            "residency_or_location",
+            "sentence_completion_date",
+            "trafficking_status"
+          ],
+          "sourceFormIds": [],
+          "sourceRuleRefs": [
+            "pathways:15-155",
+            "section:15-155",
+            "corpus-unit:38"
+          ]
+        },
+        "packetType": "custom_pleading",
+        "pathwayId": "first-offense-dui-expungement",
+        "paymentAllowed": true,
+        "prefilledAnswers": {
+          "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "financial_obligations": "Yes",
+          "offense_level": "Misdemeanor",
+          "pending_cases": "No",
+          "sentence_completion_date": "Yes"
+        },
+        "profileAuthorityFingerprint": "cbad8164da2cf9cf6baac8ad9e76f622f94709126998d399cb3e40047f45ce08",
+        "profileSourceFingerprint": "459d9c5d3774787130ceb3ab2a5b980f71fe18e6ee214a7066288dadd6ccd991",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "requiredInputIds": [
+          "age_at_offense",
+          "case_outcome",
+          "charge",
+          "contact_information",
+          "county",
+          "court",
+          "disposition_date",
+          "financial_obligations",
+          "jurisdiction",
+          "offense_category",
+          "offense_level",
+          "participant_full_legal_name",
+          "pathway_id",
+          "pending_cases",
+          "prior_relief",
+          "record_type",
+          "residency_or_location",
+          "sentence_completion_date",
+          "trafficking_status"
+        ],
+        "resultCode": "packet_ready_with_caution",
+        "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+        "screeningAnswers": {
+          "court_requirements_completed": "yes",
+          "jurisdiction_scope": "State or local",
+          "ms_successful_sentence_completion_date": "2012-06-01",
+          "new_convictions_during_waiting_period": "No",
+          "ownership_scope": "Yes",
+          "possible_pathway_context": "First-offense DUI expungement",
+          "resolved_timing_bucket": "gt_10_years",
+          "special_preconditions_confirmed": "Yes"
+        },
+        "selectedTrackId": null,
+        "serverFacts": {
+          "jurisdiction": "MS",
+          "pathway_id": "first-offense-dui-expungement"
+        },
+        "treatmentClassification": null
+      },
+      "originalId": "Q-266d588ee2741e693ed6"
+    },
+    {
+      "routeKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "sourceWitness": {
+        "pathwayKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "jurisdiction": "MS",
+        "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "publicRoute": "/expungement-ai/screening/mississippi",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "answers": {
+          "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "court_requirements_completed": "yes",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pending_cases": "No",
+          "possible_pathway_context": "Intervention-court completion \u2014 dismissal-only branch where a record remains",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes"
+        },
+        "rounds": [
+          {
+            "round": 0,
+            "droppedAsNotEvaluatorQuestions": [
+              "pardon_status",
+              "record_documents",
+              "state_exclusion_categories",
+              "trafficking_status"
+            ]
+          },
+          {
+            "round": 1,
+            "requested": [
+              "resolved_timing_bucket"
+            ],
+            "supplied": {
+              "resolved_timing_bucket": "gt_10_years"
+            }
+          }
+        ],
+        "expected": {
+          "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+          "resultCode": "guidance_only",
+          "paymentAllowed": false
+        }
+      },
+      "heldSeed": {
+        "snapshot": {
+          "capturedAt": "2026-10-18T00:00:00Z",
+          "deferralComponentIds": [],
+          "dependencies": {},
+          "jurisdiction": "MS",
+          "packetAnswers": {},
+          "packetFamilyIdentifiers": {
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "sourceFormIds": []
+          },
+          "packetPlan": {
+            "formMappingStatus": "custom_or_manual_mapping_required",
+            "mode": "state_specific_custom_packet_from_source_rules",
+            "packetReadyWhen": [
+              "backend result is packet_ready or packet_ready_with_caution",
+              "every source-defined pathway fact is answered",
+              "all waiting and completion conditions are satisfied",
+              "no exclusion, ambiguity, or required-review flag remains",
+              "the selected form revision and filing location pass source-freshness checks"
+            ],
+            "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+            "requiredInputIds": [
+              "age_at_offense",
+              "case_outcome",
+              "charge",
+              "contact_information",
+              "county",
+              "court",
+              "disposition_date",
+              "financial_obligations",
+              "jurisdiction",
+              "offense_category",
+              "offense_level",
+              "participant_full_legal_name",
+              "pathway_id",
+              "pending_cases",
+              "prior_relief",
+              "record_type",
+              "residency_or_location",
+              "sentence_completion_date",
+              "trafficking_status"
+            ],
+            "sourceFormIds": [],
+            "sourceRuleRefs": [
+              "legal-authority:LD-MS-01"
+            ]
+          },
+          "packetType": "guidance_packet",
+          "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+          "paymentAllowed": false,
+          "prefilledAnswers": {
+            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+            "financial_obligations": "Yes",
+            "offense_level": "Misdemeanor",
+            "pending_cases": "No",
+            "sentence_completion_date": "Yes"
+          },
+          "profileAuthorityFingerprint": "8ed0a9078d8ed1c7782ea5421b6225e0b44f027d42418a02424c4d9479d3186d",
+          "profileSourceFingerprint": "459d9c5d3774787130ceb3ab2a5b980f71fe18e6ee214a7066288dadd6ccd991",
+          "profileVersion": "2026-06-19-source-conversion-1",
+          "requiredInputIds": [
+            "age_at_offense",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "county",
+            "court",
+            "disposition_date",
+            "financial_obligations",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "participant_full_legal_name",
+            "pathway_id",
+            "pending_cases",
+            "prior_relief",
+            "record_type",
+            "residency_or_location",
+            "sentence_completion_date",
+            "trafficking_status"
+          ],
+          "resultCode": "guidance_only",
+          "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+          "screeningAnswers": {
+            "court_requirements_completed": "yes",
+            "jurisdiction_scope": "State or local",
+            "new_convictions_during_waiting_period": "No",
+            "ownership_scope": "Yes",
+            "possible_pathway_context": "Intervention-court completion \u2014 dismissal-only branch where a record remains",
+            "resolved_timing_bucket": "gt_10_years",
+            "special_preconditions_confirmed": "Yes"
+          },
+          "selectedTrackId": null,
+          "serverFacts": {
+            "jurisdiction": "MS",
+            "pathway_id": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+          },
+          "treatmentClassification": null
+        },
+        "hash": "05b6419c45dca1580ccef2c2dc90475b874aa069e123c10f7d4d7e4cae114fe9"
+      },
+      "predecessorHash": "05b6419c45dca1580ccef2c2dc90475b874aa069e123c10f7d4d7e4cae114fe9",
+      "predecessorSnapshot": {
+        "capturedAt": "2026-10-18T00:00:00Z",
+        "deferralComponentIds": [],
+        "dependencies": {},
+        "jurisdiction": "MS",
+        "packetAnswers": {},
+        "packetFamilyIdentifiers": {
+          "mode": "state_specific_custom_packet_from_source_rules",
+          "sourceFormIds": []
+        },
+        "packetPlan": {
+          "formMappingStatus": "custom_or_manual_mapping_required",
+          "mode": "state_specific_custom_packet_from_source_rules",
+          "packetReadyWhen": [
+            "backend result is packet_ready or packet_ready_with_caution",
+            "every source-defined pathway fact is answered",
+            "all waiting and completion conditions are satisfied",
+            "no exclusion, ambiguity, or required-review flag remains",
+            "the selected form revision and filing location pass source-freshness checks"
+          ],
+          "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+          "requiredInputIds": [
+            "age_at_offense",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "county",
+            "court",
+            "disposition_date",
+            "financial_obligations",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "participant_full_legal_name",
+            "pathway_id",
+            "pending_cases",
+            "prior_relief",
+            "record_type",
+            "residency_or_location",
+            "sentence_completion_date",
+            "trafficking_status"
+          ],
+          "sourceFormIds": [],
+          "sourceRuleRefs": [
+            "legal-authority:LD-MS-01"
+          ]
+        },
+        "packetType": "guidance_packet",
+        "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "paymentAllowed": false,
+        "prefilledAnswers": {
+          "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "financial_obligations": "Yes",
+          "offense_level": "Misdemeanor",
+          "pending_cases": "No",
+          "sentence_completion_date": "Yes"
+        },
+        "profileAuthorityFingerprint": "8ed0a9078d8ed1c7782ea5421b6225e0b44f027d42418a02424c4d9479d3186d",
+        "profileSourceFingerprint": "459d9c5d3774787130ceb3ab2a5b980f71fe18e6ee214a7066288dadd6ccd991",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "requiredInputIds": [
+          "age_at_offense",
+          "case_outcome",
+          "charge",
+          "contact_information",
+          "county",
+          "court",
+          "disposition_date",
+          "financial_obligations",
+          "jurisdiction",
+          "offense_category",
+          "offense_level",
+          "participant_full_legal_name",
+          "pathway_id",
+          "pending_cases",
+          "prior_relief",
+          "record_type",
+          "residency_or_location",
+          "sentence_completion_date",
+          "trafficking_status"
+        ],
+        "resultCode": "guidance_only",
+        "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+        "screeningAnswers": {
+          "court_requirements_completed": "yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "ownership_scope": "Yes",
+          "possible_pathway_context": "Intervention-court completion \u2014 dismissal-only branch where a record remains",
+          "resolved_timing_bucket": "gt_10_years",
+          "special_preconditions_confirmed": "Yes"
+        },
+        "selectedTrackId": null,
+        "serverFacts": {
+          "jurisdiction": "MS",
+          "pathway_id": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+        },
+        "treatmentClassification": null
+      },
+      "originalId": "Q-c2ea75ba90409cc97e66"
+    }
+  ],
+  "sourceSha256": "cac9a100f0a276f016a9b02fbd2a2a962f23abbc79f8a93f7b71b326df1e7555"
+}
