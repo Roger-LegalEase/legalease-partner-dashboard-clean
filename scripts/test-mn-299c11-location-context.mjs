@@ -1,3 +1,4 @@
+import {mnTwoCountyLegacyContextPredecessor} from './lib/mn-two-county-legacy-context.mjs';
 import assert from 'node:assert/strict';
 import {a9e4SiblingPredecessors,a9e4DiagnosticDriftRefusals} from './lib/a9e4-contact-diagnostic.mjs';
 import {mnR1HistorySiblingPredecessors,mnR1HistoryDriftRefusals} from './lib/mn-r1-history.mjs';
@@ -66,8 +67,9 @@ const assertMn2PredecessorHash=(collection,routeId)=>{
  for(const key of ['prepayQuestions','conditionalQuestions','filingReadinessItems','externalActorFields','unresolvedRequiredFacts','pendingDerivations','hardBlockers'])assert(!addedIds.some(id=>JSON.stringify(collection[key]).includes(id)),'No unapproved MN2 index change: '+key);
  const clone=structuredClone(collection);clone.facts.splice(-count,count);clone.renderQuestions.splice(-delta.activeIds.length,delta.activeIds.length);
  clone.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds.splice(-delta.activeIds.length,delta.activeIds.length);
- assert.equal(comparisonHash(clone),frozenBefore.siblings[routeId],'Every unrelated MN2 sibling byte must retain ORIGINAL full frozen hash');
- return clone;
+ const predecessor=mnTwoCountyLegacyContextPredecessor(clone,routeId);
+ assert.equal(comparisonHash(predecessor),frozenBefore.siblings[routeId],'Every unrelated MN2 sibling byte must retain ORIGINAL full frozen hash');
+ return predecessor;
 };
 // Accepted target-origin successor (623493132): the original no-charge
 // sibling inputs remain unchanged. Only the new explicit confirmation fact and
@@ -136,6 +138,22 @@ const mn2SiblingPredecessors=siblings=>{
    ['unresolved-origin-changed',c=>{c.unresolvedRequiredFacts.push('unrelated-extra');}]
   ];
   if(routeId.includes('prosecutor-agreed'))corruptions.push(['inactive-city-rendered',c=>{c.renderQuestions.push('mn_prosecuting_city');}]);
+  if(originPredecessor.facts[14]?.source==='mn_two_county_legacy_context')corruptions.push(
+   ['legacy-context-source',c=>{c.facts[14].source='forged';}],
+   ['legacy-context-group',c=>{c.facts[14].group='your_case';}],
+   ['legacy-context-phase',c=>{c.facts[14].phase='render';}],
+   ['legacy-context-active',c=>{c.facts[14].active=true;}],
+   ['legacy-context-value',c=>{c.facts[14].value='invented';}],
+   ['legacy-context-omitted',c=>{c.facts.splice(14,1);}],
+   ['legacy-context-duplicated',c=>{c.facts.splice(14,0,structuredClone(c.facts[14]));}],
+   ['legacy-context-reordered',c=>{[c.facts[13],c.facts[14]]=[c.facts[14],c.facts[13]];}],
+   ['legacy-context-unexpected-section',c=>{c.groupedParticipantSections[0].factIds.push('unexpected');}],
+   ['legacy-context-unresolved-index',c=>{c.unresolvedRequiredFacts.push('residency_or_location');}],
+   ['legacy-context-rendered',c=>{c.renderQuestions.push('residency_or_location');}],
+   ['legacy-context-known',c=>{c.knownFacts.residency_or_location='invented';}],
+   ['legacy-context-derived',c=>{c.derivedFacts.residency_or_location='invented';}]
+  );
+
   for(const[name,mutate]of corruptions){const changed=structuredClone(originPredecessor);mutate(changed);assert.notDeepEqual(changed,originPredecessor,name+' must actually mutate original vector');assert.throws(()=>assertMn2PredecessorHash(changed,routeId),undefined,name+' must refuse');check('MN2-successor-refuses-'+routeId+'-'+name,true,true);}
  }
  return compared;
