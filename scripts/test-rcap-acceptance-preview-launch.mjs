@@ -53,7 +53,7 @@ function fixture(options={}){
  const db={from:table=>new Query(table),rpc:async(name,args)=>{
   state.rpc.push({name,args:structuredClone(args)});assert.equal(args.p_slug,context.partnerSlug);assert.equal(args.p_actor,context.authUserId);
   if(name==='rcap_service_record_program_decision'){if(options.decisionRefused)return {error:{code:'PT409'}};assert.equal(args.p_type,'legalease_final_review');assert.equal(args.p_details.materials_hash,'materials-hash');state.review=true;return {data:'existing-managed-decision',error:null};}
-  if(name==='rcap_service_stage_real_launch'){assert.equal(args.p_authority,'existing-managed-decision');assert.equal(state.review,true);assert.equal(args.p_versions.length,2);if(options.stageRefused)return {error:{code:'PT409'}};state.operation=args.p_operation;workspace.status='live';workspace.landing_page_ready=true;return {data:true,error:null};}
+  if(name==='rcap_service_stage_real_launch'){assert.equal(args.p_authority,'existing-managed-decision');assert.equal(state.review,true);assert.equal(args.p_versions.length,2);if(options.stageRefused)return {error:{code:'PT409'}};state.operation=args.p_operation;workspace.status='live';workspace.landing_page_ready=true;const prepared=state.journal.find(row=>row.step==='prepared'&&row.operation_id===args.p_operation);assert.ok(prepared);state.journal.push({...structuredClone(prepared),step:'publication_staged',created_at:new Date().toISOString(),evidence:{mode:'real',operatingDecisionId:args.p_authority,commercialAuthorityId:null,workspaceVersion:args.p_version,policyVersion:'rcap2.2'}});return {data:true,error:null};}
   if(name==='rcap_service_compensate_real_launch'){workspace.status='ready';workspace.landing_page_ready=false;return {data:true,error:null};}
   throw Error('Unexpected mutation '+name);
  }};
@@ -87,13 +87,13 @@ function fixture(options={}){
   isDisposableLaunchEnvironment:()=>false,syntheticVerificationToken:()=>{throw Error('No synthetic launch fallback');},getLegacyLaunchPreflight:()=>{throw Error('No legacy branch in this managed fixture');}};
  const code=new Function(...Object.keys(ports),actual+'\nreturn {runProgramOperation,getLaunchPreflight,executeRealLaunch};')(...Object.values(ports));
  const requestId=randomUUID(),body={action:'start',confirmed:true,version:7,scopeHash:'scope-hash',reviewToken:'current-review-token'};
- return {state,body,requestId,run:(patch={},actor=context,id=requestId)=>code.runProgramOperation(actor,{...body,...patch},id),assertImmutable:()=>assert.equal(JSON.stringify({activation,capacity}),immutable)};
+ return {state,body,requestId,run:(patch={},actor=context,id=requestId)=>code.runProgramOperation(actor,{...body,...patch},id),resume:()=>code.executeRealLaunch(context,{requestId,snapshotHash:state.journal.find(row=>row.step==='publication_staged').snapshot_hash,confirmed:true}),assertImmutable:()=>assert.equal(JSON.stringify({activation,capacity}),immutable)};
 }
 try{
  await check('actual managed Start records current review, stages, verifies protected own-origin readbacks and completes once',async()=>{
-  const f=fixture();await f.run().catch(error=>{throw new Error(f.state.journal.at(-1)?.evidence.message??error.message,{cause:error});});f.assertImmutable();assert.deepEqual(f.state.journal.map(r=>r.step),['prepared','public_verified','complete']);
+  const f=fixture();await f.run().catch(error=>{throw new Error(f.state.journal.at(-1)?.evidence.message??error.message,{cause:error});});f.assertImmutable();assert.deepEqual(f.state.journal.map(r=>r.step),['prepared','publication_staged','public_verified','complete']);
   assert.equal(f.state.rpc.filter(r=>r.name==='rcap_service_stage_real_launch').length,1);
-  for(const receipt of f.state.journal){assert.equal(receipt.evidence.previewRelease.deploymentId,environment.VERCEL_DEPLOYMENT_ID);assert.equal(receipt.evidence.previewRelease.adminAuthUserId,context.authUserId);assert.equal(receipt.evidence.operatingDecisionId,'existing-managed-decision');assert.equal(JSON.stringify(receipt).includes(environment.VERCEL_AUTOMATION_BYPASS_SECRET),false);assert.equal(JSON.stringify(receipt).includes(environment.SUPABASE_SERVICE_ROLE_KEY),false);}
+  for(const receipt of f.state.journal){if(receipt.step==='publication_staged'){assert.equal(receipt.evidence.previewRelease,undefined,'Actual SQL stage receipt does not carry JS release metadata');continue;}assert.equal(receipt.evidence.previewRelease.deploymentId,environment.VERCEL_DEPLOYMENT_ID);assert.equal(receipt.evidence.previewRelease.adminAuthUserId,context.authUserId);assert.equal(receipt.evidence.operatingDecisionId,'existing-managed-decision');assert.equal(JSON.stringify(receipt).includes(environment.VERCEL_AUTOMATION_BYPASS_SECRET),false);assert.equal(JSON.stringify(receipt).includes(environment.SUPABASE_SERVICE_ROLE_KEY),false);}
   assert.ok(f.state.fetches.some(r=>r.headers['x-rcap-synthetic-verification']));assert.ok(f.state.fetches.some(r=>!r.headers['x-rcap-synthetic-verification']));assert.ok(f.state.fetches.some(r=>r.url.includes('/intake/')));assert.ok(f.state.fetches.some(r=>r.url.includes('/assets/')&&r.headers['x-rcap-synthetic-verification']));assert.ok(f.state.fetches.some(r=>r.url.includes('/assets/')&&!r.headers['x-rcap-synthetic-verification']));
   const mutations=f.state.rpc.length;await f.run();assert.equal(f.state.rpc.length,mutations,'Duplicate Start rechecks receipt/readbacks without staging or review writes');
  });
@@ -114,6 +114,28 @@ try{
   const f=fixture();await f.run();const before=JSON.stringify(f.state.journal),mutations=f.state.rpc.length,fetches=f.state.fetches.length;
   process.env.VERCEL_DEPLOYMENT_ID='dpl_SyntheticPreviewB';process.env.VERCEL_URL='different-owned-preview.vercel.app';
   await assert.rejects(f.run(),/different Preview release/);assert.equal(f.state.rpc.length,mutations);assert.equal(f.state.fetches.length,fetches);assert.equal(JSON.stringify(f.state.journal),before);f.assertImmutable();
+ });
+ await check('SQL-shaped interrupted stage keeps the normal fresh lease and expired compensation behavior',async()=>{
+  for(const expired of [false,true]){
+   const f=fixture();await f.run();f.state.journal=f.state.journal.filter(row=>['prepared','publication_staged'].includes(row.step));f.state.publicVerified=false;
+   for(const row of f.state.journal)row.created_at=new Date(Date.now()-(expired?16*60*1000:60*1000)).toISOString();
+   const mutations=f.state.rpc.length;
+   await assert.rejects(f.run(),error=>error.code===(expired?'invalid_transition':'request_in_progress'));
+   assert.equal(f.state.rpc.length,mutations+(expired?1:0));assert.equal(f.state.rpc.filter(row=>row.name==='rcap_service_stage_real_launch').length,1);
+   if(expired){assert.equal(f.state.rpc.at(-1).name,'rcap_service_compensate_real_launch');assert.equal(f.state.journal.at(-1).step,'failed');const count=f.state.rpc.length;await assert.rejects(f.run(),error=>error.code==='invalid_transition');assert.equal(f.state.rpc.length,count,'Failed operation is not compensated repeatedly');}
+   else assert.equal(f.state.journal.at(-1).step,'publication_staged');
+   f.assertImmutable();
+  }
+ });
+ await check('interrupted stage rejects cross-Preview replay and mismatched prepared operation, actor, request, workspace, tenant or snapshot',async()=>{
+  for(const field of ['operation_id','actor_auth_user_id','request_id','workspace_id','partner_slug','snapshot_hash','different_preview']){
+   Object.assign(process.env,environment);const f=fixture();await f.run();f.state.journal=f.state.journal.filter(row=>['prepared','publication_staged'].includes(row.step));
+   for(const row of f.state.journal)row.created_at=new Date(Date.now()-16*60*1000).toISOString();
+   if(field==='different_preview'){process.env.VERCEL_DEPLOYMENT_ID='dpl_SyntheticPreviewB';process.env.VERCEL_URL='different-owned-preview.vercel.app';}
+   else f.state.journal.find(row=>row.step==='prepared')[field]='mismatched';
+   const mutations=f.state.rpc.length,fetches=f.state.fetches.length;
+   await assert.rejects(f.resume(),/different Preview release/);assert.equal(f.state.rpc.length,mutations);assert.equal(f.state.fetches.length,fetches);f.assertImmutable();
+  }
  });
  await check('every mutation/preflight origin check supplies the authenticated context; release endpoint only reports source binding',async()=>{
   for(const file of [base+'launch-preflight.ts',base+'program-launch-preflight.ts',base+'synthetic-launch-service.ts','src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/launch/route.ts']){

@@ -43,8 +43,11 @@ async function executeLaunch(context:InternalOnboardingContext,input:{requestId:
  }
  const prior=await admin.from("rcap_launch_operation_events").select("*").eq("partner_slug",context.partnerSlug).eq("request_id",input.requestId).order("created_at",{ascending:false});
  if(prior.error)throw new Phase1OnboardingError("persistence_failed","Launch journal unavailable.");
- if(prior.data?.length){const last=prior.data[0];if(previewRelease&&(Object.keys(last.evidence?.previewRelease??{}).length!==Object.keys(previewRelease).length
- ||Object.entries(previewRelease).some(([key,value])=>last.evidence?.previewRelease?.[key]!==value)))throw new Phase1OnboardingError("invalid_transition","The prior launch belongs to a different Preview release.");if(last.snapshot_hash!==input.snapshotHash || last.actor_auth_user_id!==context.authUserId)throw new Phase1OnboardingError("duplicate_request","Request identity was used with different inputs.");if(last.step==="complete"){
+ if(prior.data?.length){const last=prior.data[0];const preparedReceipt=previewRelease?prior.data.find(receipt=>receipt.step==="prepared"
+ &&receipt.operation_id===last.operation_id&&receipt.request_id===last.request_id&&receipt.workspace_id===last.workspace_id
+ &&receipt.partner_slug===last.partner_slug&&receipt.actor_auth_user_id===last.actor_auth_user_id&&receipt.snapshot_hash===last.snapshot_hash):null;
+ if(previewRelease&&(Object.keys(preparedReceipt?.evidence?.previewRelease??{}).length!==Object.keys(previewRelease).length
+ ||Object.entries(previewRelease).some(([key,value])=>preparedReceipt?.evidence?.previewRelease?.[key]!==value)))throw new Phase1OnboardingError("invalid_transition","The prior launch belongs to a different Preview release.");if(last.snapshot_hash!==input.snapshotHash || last.actor_auth_user_id!==context.authUserId)throw new Phase1OnboardingError("duplicate_request","Request identity was used with different inputs.");if(last.step==="complete"){
  if(real){const url=new URL(`/p/${context.partnerSlug}`,origin!);const response=await fetchReadback(url);const html=await response.text();if(response.status!==200||!html.includes(`data-rcap-operation="${last.operation_id}"`))throw new Phase1OnboardingError("invalid_transition","The completion receipt exists, but current public verification is held.");
  const current=await getLaunchPreflight(context);
  if(!last.evidence.activationRecord||Object.entries(last.evidence.activationRecord).some(([key,value])=>(current.reviewedSnapshot.activationRecord as Record<string,unknown>|null)?.[key]!==value))throw new Phase1OnboardingError("invalid_transition","The completion receipt exists, but the authoritative partner record changed.");
