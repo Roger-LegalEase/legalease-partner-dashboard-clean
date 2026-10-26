@@ -28,6 +28,8 @@ for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historica
   fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
   const productPaths=['scripts/synthetic-range-a.mjs','src/lib/rcap/synthetic-range-b.ts','src/lib/rcap/synthetic-range-c.ts'];
   if(multi){
+   for(const rel of [PENDING,CANDIDATE,TOOLS])write(rel,{...read(rel),syntheticHistoricalAnnotation:'source custody, not current authority'});
+   git(['add','--',PENDING,CANDIDATE,TOOLS]);commit('synthetic source inherited binding metadata');
    for(const [i,rel]of productPaths.entries()){
     fs.writeFileSync(path.join(root,rel),`export const syntheticRange${i} = ${i};\n`);
     git(['add','--',rel]);commit(`synthetic reviewed product commit ${i}`);
@@ -63,6 +65,7 @@ for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historica
    assert.throws(()=>writePinnedRecords(root,bad),/bounded control paths/);
    git(['reset','--hard',toolsSha]); // Only this disposable synthetic repository.
   }
+  if(multi)for(const rel of [PENDING,CANDIDATE,TOOLS])assert(Object.hasOwn(initial[PENDING].files,rel),'inherited binding bytes remain in reviewed source custody');
   const pending=writePinnedRecords(root,initial);assert.equal(pending.status,'AWAITING_WORKER_PUBLICATION');assert.equal(pending.current,false);assert.equal(pending.workerDigest,null);
   assert.equal(verifyPinnedPublication(root).current,false,'predecessor is not new publication');
   assert.throws(()=>requireCurrentReleaseCandidate(root));
