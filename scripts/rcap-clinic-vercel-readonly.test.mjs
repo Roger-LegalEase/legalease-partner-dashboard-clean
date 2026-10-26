@@ -8,24 +8,24 @@ import {execFileSync,spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url),YAML=require('yaml'),ts=require('typescript');
-const H='9fe0ea17727339755c10e73c06adb34215ba2a0e',PARENT='1b36b87a468dc2df5a3f2d3559d9404b9df933e3';
+const H='1e5878528f0b7aea1ada192b01b514bd38b54192',PARENT='2b408f7a15230af1b91cdabd404232f82f87896f';
 const branch='codex/f-vercel-raw-readonly-20261026',mode='clinic_vercel_readonly';
 const source=(sha,file)=>execFileSync('git',['show',`${sha}:${file}`],{cwd:process.cwd(),encoding:'utf8'});
 const workflow=YAML.parse(fs.readFileSync(new URL('../.github/workflows/rcap-f1-ephemeral-staging.yml',import.meta.url),'utf8'));
-const job=workflow.jobs[mode],guard=job.steps.find(s=>s.name==='Require the exact read-only dispatch before credentials'),binding=job.steps.find(s=>s.name==='Require pinned actual CURRENT before credentials'),probe=job.steps.find(s=>s.env?.VERCEL_TOKEN);
+const job=workflow.jobs[mode],guard=job.steps.find(s=>s.name==='Require the exact read-only dispatch before credentials'),binding=job.steps.find(s=>s.name==='Require the already accepted immutable HELD record bytes before credentials'),probe=job.steps.find(s=>s.name==='Execute only the bounded raw Vercel GET predicates');
 const inline=step=>step.run.split("<<'JS'\n")[1].split('\nJS')[0];
-const tuple={mode,tools_sha:H,application_sha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'};
+const tuple={mode,tools_sha:H,application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'};
 const env={GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF_NAME:branch,GITHUB_RUN_ATTEMPT:'1',GITHUB_SHA:'a'.repeat(40),GITHUB_WORKFLOW_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123'};
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const stripped=s=>s.replace(/^import .*;\n/gm,'');
 const selected=(w,value)=>Object.entries(w.jobs).filter(([,j])=>!j.if||vm.runInNewContext(j.if,{inputs:{mode:value},startsWith:(v,p)=>v.startsWith(p)})).map(([name])=>name);
 
-test('only the new read-only mode is added; every existing mode/job/input and branch setting is preserved',()=>{
+test('only the existing read-only job changes; all other jobs, inputs and deployment settings are preserved',()=>{
  const before=YAML.parse(source(PARENT,'.github/workflows/rcap-f1-ephemeral-staging.yml')),after=structuredClone(workflow);
  assert.deepEqual(selected(workflow,mode),[mode]);
  for(const value of before.on.workflow_dispatch.inputs.mode.options)assert.deepEqual(selected(workflow,value),selected(before,value));
- delete after.jobs[mode];after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!==mode);assert.deepEqual(after,before);
- const old=JSON.parse(source(PARENT,'vercel.json')),now=JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));assert.equal(now.git.deploymentEnabled[branch],false);delete now.git.deploymentEnabled[branch];assert.deepEqual(now,old);
+ delete before.jobs[mode];delete after.jobs[mode];assert.deepEqual(after,before);
+ assert.equal(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8'),source(PARENT,'vercel.json'));
 });
 
 test('actual dispatch guard rejects wrong scope, other modes, repeated attempts and automatic deployment before private bindings',()=>{
@@ -41,13 +41,13 @@ test('actual dispatch guard rejects wrong scope, other modes, repeated attempts 
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
-test('inline binding assertions use a CURRENT return port and reject wrong head, role and native/correction provenance',()=>{
- const release=JSON.parse(source(H,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
- const run=(value,head=H)=>new Function('assert','execFileSync','requireCurrentReleaseCandidate','process',stripped(inline(binding)))(assert,()=>head,()=>value,{cwd:()=>'/synthetic'});
- assert.doesNotThrow(()=>run(release));assert.throws(()=>run(release,'b'.repeat(40)));assert.throws(()=>run(null));
- for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionAuthorized'])assert.throws(()=>run({...release,[key]:'wrong'}));
- for(const [section,key]of [['hostedAdmission','runId'],['hostedAdmission','workflowSourceSha'],['hostedAdmission','closureControlSha'],['verifierCorrection','sourceSha'],['verifierCorrection','predecessorSha']])assert.throws(()=>run({...release,[section]:{...release[section],[key]:'wrong'}}));
- assert.match(inline(binding),/import \{requireCurrentReleaseCandidate\} from '\.\/scripts\/grade-a-launch-control\/verify-release-candidate-binding\.mjs'/);
+test('binding checks immutable accepted HELD bytes without rerunning native/source/CURRENT checks',()=>{
+ const read=name=>Buffer.from(source(H,name));
+ const run=(readFileSync=read,head=H)=>new Function('fs','assert','createHash','execFileSync',stripped(inline(binding)))({readFileSync},assert,createHash,()=>head);
+ assert.doesNotThrow(()=>run());assert.throws(()=>run(read,'b'.repeat(40)));
+ for(const name of ['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'])assert.throws(()=>run(file=>file.includes(name)?Buffer.from('{}'):read(file)));
+ assert.doesNotMatch(inline(binding),/requireCurrentReleaseCandidate|requireManagedStartPreviewAdmission|verify-release|canonical-worker/);
+ assert.match(inline(binding),/FORWARD_BOUND_HOSTED_PENDING/);assert.match(inline(binding),/deploymentAuthorized:false/);
 });
 
 // Use the exact existing pure assertion declarations, without importing their CURRENT-bound module initializer.
@@ -56,16 +56,17 @@ const identityNames=['HOSTED_VERCEL_TEAM_SLUG','HOSTED_VERCEL_TEAM_ID','HOSTED_V
 const identity=new Function(declarations('scripts/rcap-hosted-acceptance-vercel-identity.mjs',identityNames)+'\nreturn {HOSTED_ORDINARY_PREVIEW,HOSTED_VERCEL_PROJECT_ID,expectedHostedReturnOrigin,hostedVercelScopedUrl,resolveHostedVercelIdentity};')();
 const release=JSON.parse(source(H,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
 const FROZEN_WORKER_METADATA={rcapWorkerSourceSha:release.workerSourceSha,rcapWorkerDigest:release.workerDigest,rcapWorkerInputFingerprint:release.workerInputFingerprint};
-const transport=new Function('HOSTED_ORDINARY_PREVIEW','HOSTED_VERCEL_PROJECT_ID','FROZEN_APPLICATION_SHA','FROZEN_WORKER_METADATA','ACCEPTANCE_PROJECT','expectedHostedReturnOrigin',declarations('scripts/rcap-hosted-vercel-rest-transport.mjs',['assertPreviewResponse','assertPreservedOrdinaryPreview'])+'\nreturn {assertPreviewResponse,assertPreservedOrdinaryPreview,FROZEN_WORKER_METADATA};')(identity.HOSTED_ORDINARY_PREVIEW,identity.HOSTED_VERCEL_PROJECT_ID,release.applicationSha,FROZEN_WORKER_METADATA,tuple.supabase_project_ref,identity.expectedHostedReturnOrigin);
-const ordinary={id:identity.HOSTED_ORDINARY_PREVIEW.id,url:identity.HOSTED_ORDINARY_PREVIEW.immutableHostname,target:null,projectId:identity.HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:release.applicationSha},readyState:'READY',meta:{...FROZEN_WORKER_METADATA,rcapApplicationSha:release.applicationSha,rcapAcceptanceProjectRef:tuple.supabase_project_ref,rcapReturnOrigin:identity.expectedHostedReturnOrigin(release.applicationSha),rcapClinicDemoMode:'none'}};
-const clinic={...ordinary,id:'dpl_SyntheticClinic',url:'synthetic-clinic.vercel.app',meta:{...ordinary.meta,rcapPreviewPurpose:'mississippi_clinic',rcapClinicDemoMode:'mississippi_preview',rcapRouteState:'staging_scoped',rcapStagingScopeSha256:createHash('sha256').update('e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539').digest('hex'),rcapReturnOrigin:identity.expectedHostedReturnOrigin(release.applicationSha,'mississippi_clinic'),rcapStripeConfigured:'false',rcapCatalogProduct:'inline'}};
+const grantText=source(H,'data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json'),grant=JSON.parse(grantText);
+const historical={rcapWorkerSourceSha:'615b4021f7fff4b41b774967a78f4b117cfce3e2',rcapWorkerDigest:'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',rcapWorkerInputFingerprint:'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3'};
+const ordinary={id:identity.HOSTED_ORDINARY_PREVIEW.id,url:identity.HOSTED_ORDINARY_PREVIEW.immutableHostname,target:null,projectId:identity.HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:identity.HOSTED_ORDINARY_PREVIEW.applicationSha},readyState:'READY',meta:{...historical,rcapApplicationSha:identity.HOSTED_ORDINARY_PREVIEW.applicationSha,rcapAcceptanceProjectRef:tuple.supabase_project_ref,rcapReturnOrigin:identity.expectedHostedReturnOrigin(identity.HOSTED_ORDINARY_PREVIEW.applicationSha),rcapClinicDemoMode:'none'}};
+const clinic={...ordinary,id:'dpl_SyntheticClinic',url:'synthetic-managed.vercel.app',gitSource:{sha:release.applicationSha},meta:{...FROZEN_WORKER_METADATA,rcapApplicationSha:release.applicationSha,rcapAcceptanceProjectRef:tuple.supabase_project_ref,rcapPreviewPurpose:'managed_start',rcapClinicDemoMode:'none',rcapRouteState:'staging_scoped',rcapStagingScopeSha256:createHash('sha256').update(grant.participantUserIds.join(',')).digest('hex'),rcapReturnOrigin:identity.expectedHostedReturnOrigin(release.applicationSha,'managed_start'),rcapStripeConfigured:'false',rcapCatalogProduct:'inline',rcapOrdinaryGrantSha256:createHash('sha256').update(grantText).digest('hex'),rcapSponsoredChannel:grant.channel}};
 async function execute(options={}){
  const calls=[],written={},logs=[],fakeProcess={env:{...env,VERCEL_TOKEN:options.noToken?'':'SYNTHETIC_PRIVATE_TOKEN_DO_NOT_EMIT'},exitCode:undefined};let pages=0;
  const fakeFetch=async(url,request)=>{
   calls.push({url,method:request.method,redirect:request.redirect});let status=200,body;
   const u=new URL(url);
-  if(u.pathname.startsWith('/v9/projects/'))body={id:identity.HOSTED_VERCEL_PROJECT_ID,name:'legalease-partner-dashboard-clean',accountId:options.wrongTeam?'team_wrong':'team_4qLmZK9WI6xIy5vjYC0IF3ae'};
-  else if(u.pathname==='/v13/deployments/'+new URL(identity.expectedHostedReturnOrigin(release.applicationSha,'mississippi_clinic')).host){status=options.aliasStatus??(options.alias?200:404);body=Object.hasOwn(options,'alias')?options.alias:{};}
+  if(u.pathname.startsWith('/v9/projects/'))body={id:identity.HOSTED_VERCEL_PROJECT_ID,name:'legalease-partner-dashboard-clean',accountId:options.wrongTeam?'team_wrong':'team_4qLmZK9WI6xIy5vjYC0IF3ae',autoExposeSystemEnvs:options.systemEnvs??true};
+  else if(u.pathname==='/v13/deployments/'+new URL(identity.expectedHostedReturnOrigin(release.applicationSha,'managed_start')).host){status=options.aliasStatus??(options.alias?200:404);body=Object.hasOwn(options,'alias')?options.alias:{};}
   else if(u.pathname.startsWith('/v13/'))body=structuredClone(u.pathname.endsWith('/dpl_SyntheticClinic')?clinic:ordinary);
   else if(u.pathname==='/v6/deployments'){
    pages++;
@@ -74,8 +75,8 @@ async function execute(options={}){
   if(options.response)({status,body}=options.response(u,{status,body,pages}));
   return {ok:status>=200&&status<300,status,text:async()=>typeof body==='string'?body:JSON.stringify(body)};
  };
- const body=stripped(inline(probe)).replaceAll('await import(','await importHelper(');
- await new AsyncFunction('fs','assert','createHash','fetch','process','importHelper','console',body)({mkdirSync(){},writeFileSync(file,text){written[file]=text;}},assert,createHash,fakeFetch,fakeProcess,async spec=>spec.includes('rest-transport')?transport:identity,{log:value=>logs.push(value)});
+ let body=stripped(inline(probe)).replaceAll('await import(','await importHelper(');if(options.injectSend)body=body.replace("stage='fixed_project_team_identity';",options.injectSend+";stage='fixed_project_team_identity';");
+ await new AsyncFunction('fs','assert','createHash','fetch','process','importHelper','console',body)({mkdirSync(){},readFileSync:file=>source(H,file),writeFileSync(file,text){written[file]=text;}},assert,createHash,fakeFetch,fakeProcess,async spec=>spec==='typescript'?{default:ts}:options.invalidMethod?{...identity,resolveHostedVercelIdentity:opts=>opts.fetchImpl('https://api.vercel.com/v9/projects/legalease-partner-dashboard-clean?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae',{method:'POST',redirect:'error'})}:identity,{log:value=>logs.push(value)});
  const text=written['hosted-acceptance-evidence/vercel-raw-readonly/result.json'];
  assert(text);assert(Buffer.byteLength(text)<=262144);assert(!text.includes('SYNTHETIC_PRIVATE_TOKEN_DO_NOT_EMIT'));assert(!text.includes('CURSOR_PRIVATE_CANARY_DO_NOT_EMIT'));assert(!logs.join('\n').includes('SYNTHETIC_PRIVATE_TOKEN_DO_NOT_EMIT'));
  for(const call of calls){const u=new URL(call.url);assert.equal(u.origin,'https://api.vercel.com');assert.equal(u.searchParams.get('teamId'),'team_4qLmZK9WI6xIy5vjYC0IF3ae');assert.equal(call.method,'GET');assert.equal(call.redirect,'error');}
@@ -83,7 +84,7 @@ async function execute(options={}){
 }
 
 test('actual raw body passes only full two-page/three-ordinary/absent-alias GET proof using existing assertions and saved credential',async()=>{
- const {result,calls,exit}=await execute();assert.equal(result.status,'PASS');assert.equal(result.passed,true);assert.equal(exit,undefined);assert.equal(result.ordinary.length,3);assert.equal(result.pages.length,2);assert.equal(result.paginationComplete,true);assert.equal(result.clinicAlias.state,'absent');assert.equal(calls.length,7);assert.equal(result.writes,0);
+ const {result,calls,exit}=await execute();assert.equal(result.status,'PASS');assert.equal(result.passed,true);assert.equal(exit,undefined);assert.equal(result.ordinary.length,3);assert.equal(result.pages.length,2);assert.equal(result.paginationComplete,true);assert.equal(result.managedAlias.state,'absent');assert.equal(calls.length,7);assert.equal(result.writes,0);
 });
 
 test('actual raw body refuses missing credential, wrong identity, HTTP403/201/204, incomplete/repeated/nonfinite pagination without leaking response values',async()=>{
@@ -102,15 +103,32 @@ test('actual raw body preserves metadata/non-READY/candidate/alias conflicts as 
   {alias:{projectId:'SYNTHETIC_PRIVATE_TOKEN_DO_NOT_EMIT',deploymentId:'SYNTHETIC_PRIVATE_TOKEN_DO_NOT_EMIT',protectionBypass:{SYNTHETIC_PRIVATE_TOKEN_DO_NOT_EMIT:{}}}},
   ...[null,false,0,''].map(alias=>({aliasStatus:200,alias}))
  ]){const {result,exit}=await execute(scenario);assert.equal(result.status,'HOLD');assert.equal(exit,1);assert.equal(result.writes,0);}
- const falsey=await execute({aliasStatus:200,alias:null});assert.equal(falsey.result.clinicAlias.state,'present');assert.equal(falsey.result.failure,'EXISTING_CLINIC_ALIAS_REQUIRES_RECONCILIATION');
+ const falsey=await execute({aliasStatus:200,alias:null});assert.equal(falsey.result.managedAlias.state,'present');assert.equal(falsey.result.failure,'EXISTING_MANAGED_ALIAS_REQUIRES_RECONCILIATION');
 });
 
-test('response/page bounds fail closed and workflow has one narrowly scoped secret, safe artifact and no mutating scripts',async()=>{
+test('response/page bounds fail closed and workflow has only the existing scoped credentials, safe artifact and no mutating scripts',async()=>{
  const huge=await execute({response:(u,x)=>u.pathname.startsWith('/v13/')?{status:200,body:'x'.repeat(2097153)}:x});assert.equal(huge.result.failure,'RESPONSE_SIZE_BOUND');
  const bound=await execute({pages:n=>({deployments:[],pagination:{next:n}})});assert.equal(bound.result.failure,'PAGE_BOUND');assert.equal(bound.result.pages.length,50);
- const privateSteps=job.steps.filter(s=>s.env&&Object.values(s.env).some(v=>String(v).includes('${{ secrets.')));assert.deepEqual(privateSteps,[probe]);assert.deepEqual(Object.keys(probe.env),['VERCEL_TOKEN']);assert(job.steps.indexOf(binding)<job.steps.indexOf(probe));
+ const privateSteps=job.steps.filter(s=>s.env&&Object.values(s.env).some(v=>String(v).includes('${{ secrets.')));const provider=job.steps.find(s=>s.name==='Prove credentials and Preview-only deployment boundary');assert.deepEqual(privateSteps,[provider,probe]);assert(job.steps.indexOf(binding)<job.steps.indexOf(provider));assert(job.steps.indexOf(provider)<job.steps.indexOf(probe));assert.deepEqual(Object.keys(probe.env),['VERCEL_TOKEN']);assert.equal(provider.run,'node scripts/rcap-hosted-acceptance-preflight.mjs');assert.equal(provider.env.PREFLIGHT_SCOPE,'full');assert.equal(provider.env.HOSTED_PREFLIGHT_SERVICE_ONLY,'false');assert.equal(provider.env.SUPABASE_ACCESS_TOKEN,'${{ secrets.SUPABASE_ACCESS_TOKEN }}');assert.equal(provider.env.VERCEL_TOKEN,'${{ secrets.VERCEL_TOKEN }}');assert(job.steps.indexOf(binding)<job.steps.indexOf(probe));
  assert.equal(job.steps[1]['working-directory'],'carrier');assert.equal(job.defaults.run['working-directory'],'admitted-controller');
  const checkout=job.steps.filter(s=>s.uses==='actions/checkout@v4');assert.equal(checkout[1].with.ref,H);assert.equal(checkout[1].with['fetch-depth'],0);for(const c of checkout)assert.equal(c.with['persist-credentials'],false);
- const upload=job.steps.at(-1);assert.equal(upload.if,'always()');assert.equal(upload.with.name,'rcap-vercel-raw-readonly-${{ github.run_id }}');assert.equal(upload.with.path,'admitted-controller/hosted-acceptance-evidence/vercel-raw-readonly/');assert.equal(upload.with['if-no-files-found'],'error');
+ const upload=job.steps.at(-1);assert.equal(upload.if,'always()');assert.equal(upload.with.name,'rcap-vercel-raw-readonly-${{ github.run_id }}');assert.equal(upload.with.path,'admitted-controller/hosted-acceptance-evidence/vercel-raw-readonly/result.json\nadmitted-controller/hosted-acceptance-evidence/preflight.json\n');assert.equal(upload.with['if-no-files-found'],'error');
  assert.doesNotMatch(job.steps.map(s=>s.run??'').join('\n'),/createRestPreview\(|rcap-hosted-acceptance-deploy\.mjs|--prod|flyctl|docker|auth-config|npm run build|migrate\.mjs|VERCEL_TOKEN.*console/);
+});
+
+
+test('fixed GET boundary rejects unexpected method, URL, parameters and system env suppression',async()=>{
+ for(const options of [{invalidMethod:true},{systemEnvs:false},...[
+ 'https://example.com/v6/deployments?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae',
+ 'https://api.vercel.com/v9/projects/wrong?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae',
+ 'https://api.vercel.com/v13/deployments/dpl_Unlisted?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae',
+ 'https://api.vercel.com/v6/deployments?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae&projectId=prj_cdgwGzFqIHgEUlzEburSLaZETdQV&limit=100&decrypt=true',
+ 'https://api.vercel.com/v6/deployments?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae&projectId=wrong&limit=100',
+ 'https://api.vercel.com/v6/deployments?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae&projectId=prj_cdgwGzFqIHgEUlzEburSLaZETdQV&limit=101',
+ 'https://api.vercel.com/v6/deployments?teamId=team_4qLmZK9WI6xIy5vjYC0IF3ae&projectId=prj_cdgwGzFqIHgEUlzEburSLaZETdQV&limit=100&until=bad'
+ ].map(url=>({injectSend:'await send('+JSON.stringify(url)+')'}))]){
+ const {result,exit}=await execute(options);assert.equal(result.status,'HOLD');assert.equal(exit,1);assert.equal(result.writes,0);
+ }
+ assert.doesNotMatch(inline(probe),/await import\('.*rest-transport/);
+ assert.match(inline(probe),/createHash\('sha256'\).update\(transportText\)/);
 });

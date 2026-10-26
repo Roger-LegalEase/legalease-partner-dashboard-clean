@@ -882,14 +882,14 @@ jobs:
           assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);
           assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
           assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
-          for(const [key,value]of Object.entries({mode:'clinic_vercel_readonly',tools_sha:'9fe0ea17727339755c10e73c06adb34215ba2a0e',application_sha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',worker_source_sha:'16908485a94f475448657cea90583a4d352da9a3',worker_digest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'}))assert.equal(input[key],value);
+          for(const [key,value]of Object.entries({mode:'clinic_vercel_readonly',tools_sha:'1e5878528f0b7aea1ada192b01b514bd38b54192',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'}))assert.equal(input[key],value);
           for(const key of ['clinic_attempt_id','preview_hostname','preview_deployment_id','preview_creation_run_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
           assert.equal(input.sponsor_items??'[]','[]');
           assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
           JS
       - uses: actions/checkout@v4
         with:
-          ref: 9fe0ea17727339755c10e73c06adb34215ba2a0e
+          ref: 1e5878528f0b7aea1ada192b01b514bd38b54192
           path: admitted-controller
           fetch-depth: 0
           persist-credentials: false
@@ -898,21 +898,30 @@ jobs:
           node-version: '22'
       - name: Install only the pinned controller locked dependencies
         run: npm ci
-      - name: Require pinned actual CURRENT before credentials
+      - name: Require the already accepted immutable HELD record bytes before credentials
         run: |
           node --input-type=module <<'JS'
+          import fs from 'node:fs';
           import assert from 'node:assert/strict';
+          import {createHash} from 'node:crypto';
           import {execFileSync} from 'node:child_process';
-          import {requireCurrentReleaseCandidate} from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
-          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'9fe0ea17727339755c10e73c06adb34215ba2a0e');
-          const release=requireCurrentReleaseCandidate(process.cwd());
-          for(const [key,value]of Object.entries({applicationSha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097',workerSourceSha:'16908485a94f475448657cea90583a4d352da9a3',workerDigest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',workerInputFingerprint:'sha256:832c4b2594da296f9337e0913fee75ba2548bdd09004338514ff9152aad0071e',productionAuthorized:false}))assert.equal(release[key],value);
-          assert.equal(release.verifierCorrection.predecessorSha,'ad9c26cc9a4b34a04abc3d204a2c687e375cce57');
-          assert.equal(release.verifierCorrection.sourceSha,'7b891cefedb4035643a427dff3c1ac4238c7d5f0');
-          assert.equal(release.hostedAdmission.runId,40236198602);
-          assert.equal(release.hostedAdmission.workflowSourceSha,'5304c8ff825b9d74996762494ca3ea03815ed3ad');
-          assert.equal(release.hostedAdmission.closureControlSha,'a2f1a221c9c17595c494ee7bae75857cd0480a7c');
+          // Accepted independent source-only scope receipt SHA256: 1118392329761a13a245c63ee14441debdff5b81e4c610af865e91da170603f8.
+          // Byte custody only: no CURRENT fabrication or repeated native/canonical/source checks.
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'1e5878528f0b7aea1ada192b01b514bd38b54192');
+          for(const [name,hash]of Object.entries({"PENDING_WORKER_SUCCESSOR":"5d7dd5da43ed35e9a23ec78e45cd0c5d3757515414beb55f77c4bfb32a63db17","RELEASE_CANDIDATE_BINDING":"4d2b52fc8266e72e1c26683aae6e60ba279ce7cafde4db79244a154e5e2443bb","HOSTED_TOOLS_BINDING":"eced4fb24457d0f666304a3eae3b765681f3705f1be6d6be317e10b599fcaff5"}))assert.equal(createHash('sha256').update(fs.readFileSync('data/rcap-grade-a/launch-control/'+name+'.json')).digest('hex'),hash);
+          const release=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+          for(const [key,value]of Object.entries({status:'FORWARD_BOUND_HOSTED_PENDING',applicationSha:'c0052e13d9801d24080275aab02c70c6ea213fa3',toolsSha:'c0052e13d9801d24080275aab02c70c6ea213fa3',workerSourceSha:'32499751569359315248c2048fa111064a47c67f',workerDigest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',workerInputFingerprint:'sha256:6e3d8a6ed5390effb3945085ac6159016e806f19ada509ee36f6fc0c06efcea0',runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:false,deploymentAuthorized:false,clinicDispatchReady:false,hostedAdmission:null}))assert.equal(release[key],value);
           JS
+      - name: Prove credentials and Preview-only deployment boundary
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          PREFLIGHT_SCOPE: full
+          HOSTED_PREFLIGHT_SERVICE_ONLY: 'false'
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+        run: node scripts/rcap-hosted-acceptance-preflight.mjs
       - name: Execute only the bounded raw Vercel GET predicates
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -921,35 +930,51 @@ jobs:
           import fs from 'node:fs';
           import assert from 'node:assert/strict';
           import {createHash} from 'node:crypto';
-          const result={schemaVersion:'rcap-vercel-raw-readonly/v1',capturedAt:new Date().toISOString(),status:'HOLD',readOnly:true,carrierSha:process.env.GITHUB_SHA,controllerSha:'9fe0ea17727339755c10e73c06adb34215ba2a0e',runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT,requests:[],ordinary:[],pages:[],candidates:[],writes:0,secretValuesIncluded:false};
+          const result={schemaVersion:'rcap-vercel-raw-readonly/v1',capturedAt:new Date().toISOString(),status:'HOLD',readOnly:true,carrierSha:process.env.GITHUB_SHA,controllerSha:'1e5878528f0b7aea1ada192b01b514bd38b54192',runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT,applicationSha:'c0052e13d9801d24080275aab02c70c6ea213fa3',releaseToolsSha:'c0052e13d9801d24080275aab02c70c6ea213fa3',acceptedWorker:{sourceSha:'32499751569359315248c2048fa111064a47c67f',digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',inputFingerprint:'sha256:6e3d8a6ed5390effb3945085ac6159016e806f19ada509ee36f6fc0c06efcea0'},requests:[],ordinary:[],pages:[],candidates:[],writes:0,secretValuesIncluded:false};
           let stage='pinned_assertion_imports',failure='READ_ONLY_GATE_REFUSED';
           try {
-           const {assertPreviewResponse,assertPreservedOrdinaryPreview,FROZEN_WORKER_METADATA}=await import('./scripts/rcap-hosted-vercel-rest-transport.mjs');
-           const {resolveHostedVercelIdentity,hostedVercelScopedUrl,HOSTED_ORDINARY_PREVIEW,expectedHostedReturnOrigin}=await import('./scripts/rcap-hosted-acceptance-vercel-identity.mjs');
+           const {resolveHostedVercelIdentity,hostedVercelScopedUrl,HOSTED_ORDINARY_PREVIEW,HOSTED_VERCEL_PROJECT_ID,expectedHostedReturnOrigin}=await import('./scripts/rcap-hosted-acceptance-vercel-identity.mjs');
+           const ts=(await import('typescript')).default;
+           const transportText=fs.readFileSync('scripts/rcap-hosted-vercel-rest-transport.mjs','utf8');
+           assert.equal(createHash('sha256').update(transportText).digest('hex'),'35a41290b7297f8b309b42f6ce74e28c5748a786d8e4291c7932dee4a569ef24');
+           const ast=ts.createSourceFile('transport.mjs',transportText,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
+           const hashes={"assertPreviewResponse":"a372661353bf76b26bb061104eef76ade2770f75d3f8aa65be7bd27fa0c82eb8","assertPreservedOrdinaryPreview":"ee42c5c0ef788666db6dca69b9ddb55a782448f798f825c51e006dd5859e104c"};
+           const declarations=Object.entries(hashes).map(([name,hash])=>{const node=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);assert(node);const body=node.getText(ast).replace(/^export /,'');assert.equal(createHash('sha256').update(body).digest('hex'),hash);return body;}).join('\n');
+           const FROZEN_WORKER_METADATA={rcapWorkerSourceSha:'32499751569359315248c2048fa111064a47c67f',rcapWorkerDigest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',rcapWorkerInputFingerprint:'sha256:6e3d8a6ed5390effb3945085ac6159016e806f19ada509ee36f6fc0c06efcea0'};
+           const {assertPreviewResponse,assertPreservedOrdinaryPreview}=new Function('HOSTED_ORDINARY_PREVIEW','HOSTED_VERCEL_PROJECT_ID','FROZEN_APPLICATION_SHA','FROZEN_WORKER_METADATA','ACCEPTANCE_PROJECT','expectedHostedReturnOrigin',declarations+'\nreturn {assertPreviewResponse,assertPreservedOrdinaryPreview};')(HOSTED_ORDINARY_PREVIEW,HOSTED_VERCEL_PROJECT_ID,'c0052e13d9801d24080275aab02c70c6ea213fa3',FROZEN_WORKER_METADATA,'hyflxnlhpmiqxvvcoiia',expectedHostedReturnOrigin);
            const token=process.env.VERCEL_TOKEN;
            if(!token){failure='MISSING_ACTIONS_VERCEL_CREDENTIAL';throw Error();}
            const team='team_4qLmZK9WI6xIy5vjYC0IF3ae',project='prj_cdgwGzFqIHgEUlzEburSLaZETdQV';
-           const app='4feb8e94b3dee4085fe05ea75d78853fe21e5097';
-           const scope='e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539';
-           const clinicOrigin=expectedHostedReturnOrigin(app,'mississippi_clinic'),clinicAlias=new URL(clinicOrigin).host;
-           const expected={...FROZEN_WORKER_METADATA,rcapPreviewPurpose:'mississippi_clinic',rcapApplicationSha:app,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapClinicDemoMode:'mississippi_preview',rcapRouteState:'staging_scoped',rcapStagingScopeSha256:createHash('sha256').update(scope).digest('hex'),rcapReturnOrigin:clinicOrigin,rcapStripeConfigured:'false',rcapCatalogProduct:'inline'};
+           const app='c0052e13d9801d24080275aab02c70c6ea213fa3';
+           const grantText=fs.readFileSync('data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json','utf8');
+           assert.equal(createHash('sha256').update(grantText).digest('hex'),'9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40');
+           const grant=JSON.parse(grantText),scope=grant.participantUserIds.join(',');
+           const managedOrigin=expectedHostedReturnOrigin(app,'managed_start'),managedAlias=new URL(managedOrigin).host;
+           const expected={...FROZEN_WORKER_METADATA,rcapPreviewPurpose:'managed_start',rcapApplicationSha:app,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapClinicDemoMode:'none',rcapRouteState:'staging_scoped',rcapStagingScopeSha256:createHash('sha256').update(scope).digest('hex'),rcapReturnOrigin:managedOrigin,rcapStripeConfigured:'false',rcapCatalogProduct:'inline',rcapOrdinaryGrantSha256:'9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40',rcapSponsoredChannel:grant.channel};
+           const candidateIds=new Set();
            const send=async(url,allow404=false)=>{
             const u=new URL(url);
             assert.equal(u.origin,'https://api.vercel.com');assert.equal(u.searchParams.get('teamId'),team);
             assert(!u.username&&!u.password&&!u.hash);
-            assert(u.pathname==='/v9/projects/legalease-partner-dashboard-clean'||u.pathname==='/v6/deployments'||u.pathname.startsWith('/v13/deployments/'));
+            const ordinaryNames=[HOSTED_ORDINARY_PREVIEW.id,HOSTED_ORDINARY_PREVIEW.immutableHostname,new URL(expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha)).host];
+            const detail=u.pathname.startsWith('/v13/deployments/')?decodeURIComponent(u.pathname.slice('/v13/deployments/'.length)):null;
+            assert(u.pathname==='/v9/projects/legalease-partner-dashboard-clean'||u.pathname==='/v6/deployments'||(detail&&(ordinaryNames.includes(detail)||detail===managedAlias||candidateIds.has(detail))));
+            const allowed=u.pathname==='/v6/deployments'?['teamId','projectId','limit','until']:['teamId'];
+            assert([...u.searchParams.keys()].every(k=>allowed.includes(k)));assert.equal([...u.searchParams.keys()].length,new Set(u.searchParams.keys()).size);
+            if(u.pathname==='/v6/deployments'){assert.equal(u.searchParams.get('projectId'),project);assert.equal(u.searchParams.get('limit'),'100');if(u.searchParams.has('until'))assert(Number.isFinite(Number(u.searchParams.get('until'))));}
             const record={path:u.pathname,query:Object.fromEntries(u.searchParams),status:null};result.requests.push(record);
             const response=await fetch(u.href,{method:'GET',redirect:'error',headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(30000)});
             record.status=response.status;
-            if(allow404)assert.equal(u.pathname,'/v13/deployments/'+clinicAlias);
+            if(allow404)assert.equal(u.pathname,'/v13/deployments/'+managedAlias);
             if(allow404&&response.status===404)return {ok:false,status:404,text:async()=>''};
             if(response.status!==200){failure='PROVIDER_HTTP_'+response.status;throw Error();}
             const text=await response.text();
             if(Buffer.byteLength(text)>2097152){failure='RESPONSE_SIZE_BOUND';throw Error();}
+            if(u.pathname==='/v9/projects/legalease-partner-dashboard-clean'){assert.equal(JSON.parse(text).autoExposeSystemEnvs,true);result.autoExposeSystemEnvs=true;}
             return {ok:true,status:response.status,text:async()=>text};
            };
            stage='fixed_project_team_identity';
-           const identity=await resolveHostedVercelIdentity({token,fetchImpl:async(url,options)=>{assert(!options.method||options.method==='GET');assert.equal(options.redirect,'error');return send(url);}});
+           const identity=await resolveHostedVercelIdentity({token,fetchImpl:async(url,options)=>{assert(!options.method||options.method==='GET');assert.equal(options.body,undefined);assert.equal(options.redirect,'error');return send(url);}});
            assert.equal(identity.projectId,project);assert.equal(identity.teamId,team);
            result.identity={projectId:identity.projectId,teamId:identity.teamId};
            const get=async(path,allow404=false)=>{const response=await send(hostedVercelScopedUrl(path,identity),allow404);return response.status===404?null:JSON.parse(await response.text());};
@@ -970,12 +995,12 @@ jobs:
             if(next!==null&&(!Number.isFinite(next)||cursors.has(next))){failure='RAW_PAGINATION_CURSOR_INVALID';throw Error();}
             result.pages.push({count:page.deployments.length,cursor:until,next});
             for(const summary of page.deployments){
-             if(summary.meta?.rcapApplicationSha!==app||summary.meta?.rcapClinicDemoMode!=='mississippi_preview')continue;
+             if(summary.meta?.rcapApplicationSha!==app&&summary.gitSource?.sha!==app)continue;
              if(result.candidates.length>=100){failure='DETAIL_BOUND';throw Error();}
-             const id=summary.uid??summary.id;assert.match(id,/^dpl_[A-Za-z0-9]+$/);
+             const id=summary.uid??summary.id;assert.match(id,/^dpl_[A-Za-z0-9]+$/);candidateIds.add(id);
              stage='matching_candidate_full_metadata';
              const d=assertPreviewResponse(await get('/v13/deployments/'+encodeURIComponent(id)),expected,id);
-             if(d.readyState!=='READY'){failure='PRIOR_CLINIC_ATTEMPT_NOT_READY';throw Error();}
+             if(d.readyState!=='READY'){failure='PRIOR_MANAGED_ATTEMPT_NOT_READY';throw Error();}
              result.candidates.push({id:d.id,url:d.url,readyState:d.readyState,metadataAssertionPassed:true});
              stage='all_raw_candidate_pages';
             }
@@ -983,11 +1008,11 @@ jobs:
             cursors.add(until);
            }while(until!==null);
            result.paginationComplete=true;
-           stage='deterministic_clinic_alias_conflict';
-           const alias=await send(hostedVercelScopedUrl('/v13/deployments/'+clinicAlias,identity),true);
-           result.clinicAlias={state:alias.status===404?'absent':'present'};
-           if(alias.status!==404){failure='EXISTING_CLINIC_ALIAS_REQUIRES_RECONCILIATION';throw Error();}
-           if(result.candidates.length){failure='EXISTING_CLINIC_ATTEMPT_REQUIRES_RECONCILIATION';throw Error();}
+           stage='deterministic_managed_alias_conflict';
+           const alias=await send(hostedVercelScopedUrl('/v13/deployments/'+managedAlias,identity),true);
+           result.managedAlias={state:alias.status===404?'absent':'present'};
+           if(alias.status!==404){failure='EXISTING_MANAGED_ALIAS_REQUIRES_RECONCILIATION';throw Error();}
+           if(result.candidates.length){failure='EXISTING_MANAGED_ATTEMPT_REQUIRES_RECONCILIATION';throw Error();}
            result.status='PASS';result.passed=true;result.stage='complete';
           }catch(error){
            const safeCodes=['PINNED_PROJECT_NAME_MISMATCH','PINNED_PROJECT_ID_MISMATCH','PINNED_PROJECT_TEAM_MISMATCH','DEPLOY_ORDINARY_PREVIEW_MISMATCH','REST_DEPLOYMENT_ID_MISMATCH','REST_NON_PREVIEW_REFUSED','REST_DEPLOYMENT_URL_INVALID','REST_DEPLOYMENT_SOURCE_MISMATCH','REST_ACCEPTED_WORKER_MISMATCH','REST_DEPLOYMENT_METADATA_MISMATCH'];
@@ -1007,7 +1032,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rcap-vercel-raw-readonly-${{ github.run_id }}
-          path: admitted-controller/hosted-acceptance-evidence/vercel-raw-readonly/
+          path: |
+            admitted-controller/hosted-acceptance-evidence/vercel-raw-readonly/result.json
+            admitted-controller/hosted-acceptance-evidence/preflight.json
           if-no-files-found: error
 
   hosted_clinic_deploy:
