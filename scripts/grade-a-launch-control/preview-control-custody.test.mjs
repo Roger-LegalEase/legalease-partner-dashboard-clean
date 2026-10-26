@@ -12,7 +12,7 @@ const control = 'scripts/rcap-hosted-acceptance-deploy.mjs';
 const publicationPath = 'data/rcap-render/worker-publication-evidence.json';
 
 test('only exact reviewed Preview and customer continuation files are classified as controls', () => {
-  for (const file of [control, 'scripts/rcap-configured-sandbox-preview-contract.mjs', 'scripts/rcap-managed-start-preview-phase.test.mjs', 'scripts/rcap-hosted-existing-dtc-continuation.mjs', 'scripts/verify-rcap-commercial-browser.mjs', 'scripts/lib/rcap-clinic-claim-prerequisite-contract.json', 'scripts/sql/rcap-clinic-claim-prerequisites.sql']) assert.equal(previewControl(file), true, file);
+  for (const file of [control, 'scripts/rcap-hosted-ordinary-admin.mjs', 'scripts/rcap-hosted-ordinary-participant.mjs', 'scripts/rcap-configured-sandbox-preview-contract.mjs', 'scripts/rcap-managed-start-preview-phase.test.mjs', 'scripts/rcap-hosted-existing-dtc-continuation.mjs', 'scripts/verify-rcap-commercial-browser.mjs', 'scripts/lib/rcap-clinic-claim-prerequisite-contract.json', 'scripts/sql/rcap-clinic-claim-prerequisites.sql']) assert.equal(previewControl(file), true, file);
   for (const file of ['scripts/unreviewed.mjs', control + '.bak', '../' + control, 'scripts/./rcap-hosted-acceptance-deploy.mjs', 'src/app/page.ts', publicationPath, 'supabase/migrations/unreviewed.sql', 'scripts/lib/unknown.json']) assert.equal(previewControl(file), false, file);
 });
 

@@ -47,6 +47,8 @@ const previewControls = new Set([
   "scripts/rcap-hosted-existing-dtc-adapter.test.mjs",
   "scripts/rcap-hosted-existing-dtc-binding.test.mjs",
   "scripts/rcap-hosted-existing-dtc-continuation.mjs",
+  "scripts/rcap-hosted-ordinary-admin.mjs",
+  "scripts/rcap-hosted-ordinary-participant.mjs",
   "scripts/rcap-hosted-preserved-keys.test.mjs",
   "scripts/rcap-hosted-vercel-rest-transport.mjs",
   "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
