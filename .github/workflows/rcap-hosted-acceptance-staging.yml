@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, legal_aid_migrate, clinic_deploy, clinic_preview, clinic_resume, legal_aid_browser, sponsor_cap, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
+        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, legal_aid_migrate, clinic_deploy, managed_start_preview, clinic_preview, clinic_resume, legal_aid_browser, sponsor_cap, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -221,7 +221,7 @@ jobs:
           printf '%s' "$WORKER_DIGEST_INPUT" | grep -Eq '^sha256:[0-9a-f]{64}$' || exit 1 # Typed identities cannot bypass the binding.
           [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
-          if [ "$PHASE_INPUT" != "replace_preview" ]; then
+          if [ "$PHASE_INPUT" != "replace_preview" ] && [ "$PHASE_INPUT" != "managed_start_preview" ]; then
             [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
           fi
           if [ "$PHASE_INPUT" = "checkout_gate" ]; then
@@ -267,6 +267,13 @@ jobs:
         run: npm ci
 
       - name: Verify ancestry and image-input equivalence of every pinned SHA
+        id: image_inputs
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$RELEASE_INTEGRATION_BRANCH"
@@ -280,6 +287,13 @@ jobs:
             PREVIEW_BASE="$(git rev-parse 'preview/merge^1')"
             [ "$(git merge-base "$PREVIEW_BASE" "origin/$RELEASE_INTEGRATION_BRANCH")" = "$PREVIEW_BASE" ] || { echo "::error::PR 268 does not merge into canonical integration history"; exit 1; }
             ADMISSION_REF="preview/head"
+          fi
+          if [ "$PHASE_INPUT" = "managed_start_preview" ]; then
+            node --input-type=module <<'JS'
+          import { requireManagedStartPreviewAdmission } from './scripts/grade-a-launch-control/require-preview-preparation.mjs';
+          requireManagedStartPreviewAdmission(process.cwd(), {phase:process.env.PHASE_INPUT, applicationSha:process.env.APPLICATION_SHA_INPUT, workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT, workerDigest:process.env.WORKER_DIGEST_INPUT, toolsSha:process.env.TOOLS_SHA_INPUT, workflowSourceSha:process.env.GITHUB_SHA});
+          JS
+            ADMISSION_REF="$GITHUB_SHA"
           fi
           for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
@@ -317,7 +331,7 @@ jobs:
           fi
           # HELD Preview creation reads the new evidence records from this
           # execution head. Its gate proves executable bytes equal tools_sha.
-          if [ "${{ inputs.phase }}" != "replace_preview" ]; then
+          if [ "${{ inputs.phase }}" != "replace_preview" ] && [ "${{ inputs.phase }}" != "managed_start_preview" ]; then
             git checkout --detach "${{ inputs.tools_sha }}"
           fi
 
@@ -331,9 +345,9 @@ jobs:
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
         run: |
           node --input-type=module <<'JS'
-          import { requirePreviewPreparation } from './scripts/grade-a-launch-control/require-preview-preparation.mjs';
+          import { requirePreviewPreparation, requireManagedStartPreviewAdmission } from './scripts/grade-a-launch-control/require-preview-preparation.mjs';
           import { requireCurrentReleaseCandidate } from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
-          const release = process.env.PHASE_INPUT === 'replace_preview' ? requirePreviewPreparation(process.cwd(), {phase:process.env.PHASE_INPUT, applicationSha:process.env.APPLICATION_SHA_INPUT, workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT, workerDigest:process.env.WORKER_DIGEST_INPUT, toolsSha:process.env.TOOLS_SHA_INPUT, workflowSourceSha:process.env.GITHUB_SHA}) : requireCurrentReleaseCandidate(process.cwd());
+          const release = process.env.PHASE_INPUT === 'managed_start_preview' ? requireManagedStartPreviewAdmission(process.cwd(), {phase:process.env.PHASE_INPUT, applicationSha:process.env.APPLICATION_SHA_INPUT, workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT, workerDigest:process.env.WORKER_DIGEST_INPUT, toolsSha:process.env.TOOLS_SHA_INPUT, workflowSourceSha:process.env.GITHUB_SHA}) : process.env.PHASE_INPUT === 'replace_preview' ? requirePreviewPreparation(process.cwd(), {phase:process.env.PHASE_INPUT, applicationSha:process.env.APPLICATION_SHA_INPUT, workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT, workerDigest:process.env.WORKER_DIGEST_INPUT, toolsSha:process.env.TOOLS_SHA_INPUT, workflowSourceSha:process.env.GITHUB_SHA}) : requireCurrentReleaseCandidate(process.cwd());
           for (const [key, env] of [['applicationSha','APPLICATION_SHA_INPUT'],['workerSourceSha','WORKER_SOURCE_SHA_INPUT'],['workerDigest','WORKER_DIGEST_INPUT']]) {
             if (release[key] !== process.env[env]) throw new Error('current_release_input_mismatch:' + key);
           }
@@ -355,6 +369,7 @@ jobs:
       # stripe_retarget -- is covered, and an unknown phase is already refused
       # by the contract normalizer below.
       - name: Require CURRENT authority except exact HELD acceptance Preview creation
+        id: authority_gate
         if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'legal_aid_migrate' && inputs.phase != 'preflight' && inputs.phase != 'vercel_identity' && inputs.phase != 'vercel_audit'
         env:
           PHASE_INPUT: ${{ inputs.phase }}
@@ -363,11 +378,33 @@ jobs:
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
           TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
         run: |
-          if [ "$PHASE_INPUT" = "replace_preview" ]; then
+          if [ "$PHASE_INPUT" = "replace_preview" ] || [ "$PHASE_INPUT" = "managed_start_preview" ]; then
             node scripts/grade-a-launch-control/require-preview-preparation.mjs
           else
             node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
           fi
+
+      - name: Bind only the admitted managed Preview configuration
+        id: managed_start_binding
+        if: inputs.phase == 'managed_start_preview'
+        env:
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { appendFileSync } from 'node:fs';
+          import { randomUUID } from 'node:crypto';
+          const applicationSha = process.env.APPLICATION_SHA_INPUT;
+          assert.match(applicationSha ?? '', /^[a-f0-9]{40}$/);
+          assert.equal(process.env.ACCEPTANCE_SUPABASE_PROJECT_REF, 'hyflxnlhpmiqxvvcoiia');
+          const value = JSON.stringify({schema:'rcap-partner-acceptance-launch/v1', applicationSha,
+            projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV', supabaseProjectRef:'hyflxnlhpmiqxvvcoiia',
+            partnerSlug:'legalease-ordinary-qa-20261024', adminAuthUserId:'6574d21e-5e0a-4567-b14e-01447c162f37'});
+          console.log('::add-mask::' + value.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A'));
+          const delimiter = 'MANAGED_' + randomUUID();
+          appendFileSync(process.env.GITHUB_ENV, 'HOSTED_PARTNER_LAUNCH_RELEASE_AUTHORIZATION<<' + delimiter + '\n' + value + '\n' + delimiter + '\n');
+          JS
 
       - name: Record worker rebuild requirement without accepting an image
         if: inputs.phase == 'preflight'
@@ -398,6 +435,7 @@ jobs:
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
       - name: Prove credentials and Preview-only deployment boundary
+        id: preview_boundary
         if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'vercel_audit' && inputs.phase != 'vercel_identity' && inputs.phase != 'legal_aid_migrate'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -517,6 +555,8 @@ jobs:
       #   anything else    FAIL CLOSED
       - name: Normalize the execution contract for this phase
         id: contract
+        env:
+          MANAGED_START_INPUTS_JSON: ${{ toJSON(inputs) }}
         run: |
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
@@ -526,6 +566,7 @@ jobs:
             full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             sponsor_cap)     DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false; SPONSOR_CAP=true ;;
             clinic_resume)   DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false; RESUME=true ;;
+            managed_start_preview) DEPLOY=true; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             clinic_deploy)   DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             clinic_preview)  DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=false ;;
             legal_aid_browser) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false;  LEGAL_AID=true  ;;
@@ -549,6 +590,18 @@ jobs:
             [ '${{ inputs.preview_hostname }}' = 'legalease-rcap-clinic-af638b61cc4b-roger947s-projects.vercel.app' ] || exit 1
             [ '${{ inputs.preview_deployment_id }}' = 'dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR' ] || exit 1
             DEPLOY=false
+          fi
+          if [ "$PHASE" = "managed_start_preview" ]; then
+            node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          const inputs = JSON.parse(process.env.MANAGED_START_INPUTS_JSON);
+          for (const name of ['preview_deployment_id','preview_hostname','promotion_code','journey_state','expected_total_cents',
+            'contradiction_job_id','sponsor_case','clinic_resume_authorization','clinic_session_closure_authorization']) {
+            assert.equal(inputs[name], '', 'Managed deployment refuses business or reuse input: ' + name);
+          }
+          assert.equal(inputs.sponsor_items, '[]');
+          assert.equal(inputs.sponsor_fulfillment, false);
+          JS
           fi
           if [ "$PHASE" = "clinic_deploy" ]; then
             test -z '${{ inputs.preview_deployment_id }}'
@@ -586,7 +639,7 @@ jobs:
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
             # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$LEGAL_AID" = "true" ] || [ "$SPONSOR_CAP" = "true" ] || [ "$PHASE" = "clinic_deploy" ] || [ "$RESUME" = "true" ]; then
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$LEGAL_AID" = "true" ] || [ "$SPONSOR_CAP" = "true" ] || [ "$PHASE" = "clinic_deploy" ] || [ "$PHASE" = "managed_start_preview" ] || [ "$RESUME" = "true" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
@@ -622,8 +675,13 @@ jobs:
       # parser, so frozen dependencies must exist before this verifier runs.
       - name: Verify frozen application dependencies for the Checkout gate
         id: gate_deps
-        if: inputs.phase == 'clinic_resume' || inputs.phase == 'clinic_deploy' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true'
+        if: inputs.phase == 'managed_start_preview' || inputs.phase == 'clinic_resume' || inputs.phase == 'clinic_deploy' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true'
         run: npm ls --depth=0
+
+      - name: Verify the managed Preview deploy-only phase contract
+        id: verify_managed_start
+        if: inputs.phase == 'managed_start_preview'
+        run: node --test scripts/rcap-managed-start-preview-phase.test.mjs
 
       - name: Verify the bounded MVL Clinic Preview orchestration contract
         id: verify_clinic_preview
@@ -711,7 +769,7 @@ jobs:
       - name: Resolve the Preview this run will use
         id: resolve_preview
         # The isolated deployer performs its own exhaustive search and before/after readback.
-        if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_deploy' && (steps.contract.outputs.resume == 'true' || steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true')
+        if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_deploy' && inputs.phase != 'managed_start_preview' && (steps.contract.outputs.resume == 'true' || steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true')
         env:
           PHASE_INPUT: ${{ inputs.phase }}
           APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
@@ -799,20 +857,21 @@ jobs:
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_ISOLATED_CLINIC_PREVIEW: ${{ (inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
-          HOSTED_STRIPE_TEST_SECRET: ${{ inputs.phase != 'replace_preview' && steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
-          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ inputs.phase != 'replace_preview' && steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ inputs.phase != 'replace_preview' && steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && inputs.phase != 'managed_start_preview' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ inputs.phase != 'replace_preview' && steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && inputs.phase != 'managed_start_preview' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
           # Baked into the deployment, so a Preview that sells the inline
           # fallback is a different deployment and is never reused for a run
           # that is proving the catalog path.
-          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && inputs.phase != 'managed_start_preview' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           # Every phase whose normalized contract transacts opens the route only
           # to the named synthetic identity the deploy resolves. Nontransacting
           # phases leave the control at its disabled default.
           HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped == 'true' && 'staging_scoped' || '' }}
+          HOSTED_STAGING_SCOPE: ${{ inputs.phase == 'managed_start_preview' && 'b6dc86a3-12bb-490d-b130-48d95d426a1e' || '' }}
           # The authorized replacement Preview reuses the existing #345 owner.
           # A missing identity is a refusal; this phase cannot create Auth users.
-          HOSTED_EXISTING_PARTICIPANT_ONLY: ${{ (inputs.phase == 'replace_preview' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
+          HOSTED_EXISTING_PARTICIPANT_ONLY: ${{ (inputs.phase == 'managed_start_preview' || inputs.phase == 'replace_preview' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
           HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
@@ -1305,6 +1364,12 @@ jobs:
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
           HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+          O_IMAGE_INPUTS: ${{ steps.image_inputs.outcome }}
+          O_AUTHORITY_GATE: ${{ steps.authority_gate.outcome }}
+          O_MANAGED_BINDING: ${{ steps.managed_start_binding.outcome }}
+          O_VERIFY_MANAGED: ${{ steps.verify_managed_start.outcome }}
+          O_PRESERVED_KEYS: ${{ steps.preserved_acceptance_keys.outcome }}
+          O_PREVIEW_BOUNDARY: ${{ steps.preview_boundary.outcome }}
           O_RELEASE_BINDING: ${{ steps.release_binding.outcome }}
           O_RESUME_INVENTORY: ${{ steps.resume_inventory.outcome }}
           O_RESUME_BROWSER: ${{ steps.checkout_browser.outcome }}
@@ -1525,6 +1590,21 @@ jobs:
             require "Colorado and Clinic browser matrix"  "$O_BROWSER"
           elif [ "$PHASE" = "stripe_retarget" ]; then
             require "exact sandbox webhook retarget and readback" "$O_STRIPE_RETARGET"
+          elif [ "$PHASE" = "managed_start_preview" ]; then
+            [ -z "$O_REUSED" ] || fail=1
+            [ "$RUNS_MATRIX/$RUNS_GATE/$RUNS_BROWSER/$RUNS_CLINIC/$RUNS_SPONSOR_CAP/$RUNS_LEGAL_AID/$RUNS_DIAGNOSE" = "false/false/false/false/false/false/false" ] || fail=1
+            for name in O_IMAGE_INPUTS O_RELEASE_BINDING O_AUTHORITY_GATE O_MANAGED_BINDING O_VERIFY_MANAGED O_PRESERVED_KEYS O_PREVIEW_BOUNDARY O_DEPS O_DEPLOY; do
+              require "managed deploy-only $name" "${!name}"
+            done
+            while IFS= read -r name; do
+              case "$name" in
+                O_CONTRACT|O_IMAGE_INPUTS|O_RELEASE_BINDING|O_AUTHORITY_GATE|O_MANAGED_BINDING|O_VERIFY_MANAGED|O_PRESERVED_KEYS|O_PREVIEW_BOUNDARY|O_DEPS|O_DEPLOY|O_REUSED) continue ;;
+              esac
+              if [ "${!name}" != "skipped" ]; then
+                echo "::error::managed deploy-only phase executed or omitted an unauthorized outcome: $name"
+                fail=1
+              fi
+            done < <(compgen -A variable O_)
           elif [ "$PHASE" = "clinic_deploy" ]; then
             require "frozen dependencies" "$O_DEPS"
             require "Clinic Preview orchestration contract" "$O_VERIFY_CLINIC_PREVIEW"

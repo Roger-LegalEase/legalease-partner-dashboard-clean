@@ -6,20 +6,22 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
+import {CONFIGURED_SANDBOX_PHASE,configuredSandboxOverrides} from './rcap-configured-sandbox-preview-contract.mjs';
 import {CANDIDATE_PATH, verifyReleaseCandidateBinding} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import {requireHeldPreviewAdmission} from './grade-a-launch-control/require-preview-preparation.mjs';
 import {assertPreviewResponse, assertPreservedOrdinaryPreview, createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
 import {hostedVercelScopedUrl, resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin, HOSTED_MS_CLINIC_PARTICIPANTS, HOSTED_ORDINARY_PREVIEW} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
-function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
+function fixture(route='',{catalog='prod_synthetic',email=null,phase='',program=source}={}) {
   // Evaluate the actual unchanged env construction, including every env/build-env
   // value. Every free name the block reads must be supplied here: when the
   // deployment env grew CATALOG_PRODUCT_ID, LEGAL_AID_EMAIL and
   // data-key inputs and this context did not, every test below stopped
   // running on `CATALOG_PRODUCT_ID is not defined` rather than on a contract.
-  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},CLINIC_DEMO_MODE:'',ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,PRESERVED_DATA_KEYS:{LEGAL_AID_RESTRICTED_FIELD_KEY:Buffer.alloc(32,7).toString("base64"),LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:"v1",PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:"synthetic-preserved-pseudonym-secret"},Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
-  const env=vm.runInNewContext(source.slice(source.indexOf('const runtimeEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
+  const context={MANAGED_START:null,ISOLATED_CLINIC_PREVIEW:false,configuredSandboxEnv:null,RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},CLINIC_DEMO_MODE:'',ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,PRESERVED_DATA_KEYS:{LEGAL_AID_RESTRICTED_FIELD_KEY:Buffer.alloc(32,7).toString("base64"),LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:"v1",PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:"synthetic-preserved-pseudonym-secret"},Buffer,process:{env:{PHASE_INPUT:phase,HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
+  const start=program.includes('const closedPreviewEnv =')?'const closedPreviewEnv =':'const runtimeEnv =';
+  const env=vm.runInNewContext(program.slice(program.indexOf(start),program.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
   return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{...FROZEN_WORKER_METADATA,rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
 }
 function response(o,changes={}) {return {id:'dpl_Synthetic123',url:'synthetic-preview.vercel.app',target:null,projectId:HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:FROZEN_APPLICATION_SHA},meta:o.meta,readyState:'READY',...changes};}
@@ -41,6 +43,17 @@ test('exact team/project/SHA and per-deployment runtime/build values; no product
     for(const key of ['target','customEnvironmentSlugOrId','withLatestCommit','projectSettings','deploymentId'])assert.equal(Object.hasOwn(b,key),false,key);
     assert.equal(m.calls[0].init.redirect,'error');
   }
+});
+test('actual closed-candidate env construction disables payment and outbound delivery and keeps build credentials blank',()=>{
+  const o=fixture('',{phase:'replace_preview'});
+  for(const env of [o.runtimeEnv,o.buildEnv]) {
+    assert.equal(env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE,'disabled');
+    assert.equal(env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE,'');
+    assert.equal(env.STRIPE_SECRET_KEY,'');assert.equal(env.STRIPE_WEBHOOK_SECRET,'');
+    assert.equal(env.ENABLE_PARTNER_EMAIL_DELIVERY,'false');assert.equal(env.RESEND_API_KEY,'');
+  }
+  assert.equal(o.runtimeEnv.SUPABASE_SERVICE_ROLE_KEY,'synthetic-service');
+  assert.equal(o.buildEnv.SUPABASE_SERVICE_ROLE_KEY,'');
 });
 test('wrong team, project, project name, SHA, acceptance project and live Stripe refuse before HTTP',async()=>{
   for(const patch of [{identity:{...identity,teamId:'team_wrong'}},{identity:{...identity,projectId:'prj_wrong'}},{identity:{...identity,projectName:'wrong'}},{applicationSha:'0'.repeat(40)},{meta:{...fixture().meta,rcapAcceptanceProjectRef:'wrong'}},{runtimeEnv:{...fixture().runtimeEnv,STRIPE_SECRET_KEY:'sk_live_never'}},{buildEnv:{...fixture().buildEnv,VERCEL_ENV:'production'}}]) {
@@ -93,7 +106,7 @@ async function frozenReleaseProblems(w){
   const e=w.evidence;
   const candidate=w.candidate;
   const currentness=verifyReleaseCandidateBinding(w.rootDir,candidate,candidate.participantReceiptPaths??[]);
-  if(candidate.status==='FORWARD_BOUND_HOSTED_PENDING'){
+  if(candidate.status==='FORWARD_BOUND_HOSTED_PENDING'&&!candidate.hostedAdmission){
     fail(currentness.bindingVerified===true&&currentness.current===false&&currentness.status==='FORWARD_BOUND_HOSTED_PENDING','exact HELD binding required');
     try{const preview=requireHeldPreviewAdmission(w.rootDir,{phase:'replace_preview',applicationSha:w.frozen,workerSourceSha:candidate.workerSourceSha,workerDigest:candidate.workerDigest,toolsSha:candidate.toolsSha,workflowSourceSha:w.head});fail(preview.previewOnly===true&&preview.current===false&&preview.productionAuthorized===false,'Preview-only identity required');}catch(error){fail(false,error.message);}
   }else fail(currentness.current===true && currentness.status==='CURRENT',`the release binding is not current: ${currentness.reasons.join('; ')}`);
@@ -170,6 +183,10 @@ test('the bound application reuses its independently accepted worker source and 
     ...(base.candidate.workerSourceSha!==base.frozen ? [['worker source substituted for application',w=>{ w.frozen=w.candidate.workerSourceSha; }]] : []),
     ...(base.head!==base.frozen ? [['tools head substituted for application',w=>{ w.frozen=w.head; }]] : []),
     ['forged application binding',w=>{ w.candidate.applicationSha='0'.repeat(40); }],
+    ...(base.candidate.hostedAdmission ? [
+      ['missing native hosted admission',w=>{ w.candidate.hostedAdmission=null; }],
+      ['changed native hosted admission',w=>{ w.candidate.hostedAdmission.runId=1; }]
+    ] : []),
     ['changed worker source binding',w=>{ w.candidate.workerSourceSha='0'.repeat(40); }],
     ['missing runtime acceptance',w=>{ w.evidence.runtimeAccepted=false; }],
     ['missing image acceptance',w=>{ w.evidence.imageAcceptance=null; }]
@@ -209,7 +226,7 @@ test('build polling is GET-only, exact ID-bound, and never creates twice',async(
   assert.equal(r.creationCalls,1);assert.deepEqual(calls.map(c=>c.init.method),['POST','GET']);assert.match(calls[1].url,/\/dpl_Synthetic123\?teamId=team_/);
   const m=mock(o,{changes:{readyState:'BUILDING'}});await assert.rejects(createRestPreview(o,{...m,maxPolls:0}),/REST_BUILD_TIMEOUT_NO_RETRY/);assert.equal(m.calls.length,1);
 });
-test('only reviewed DS-08 runtime inputs change; probes and alias identity guards survive',()=>{
+test('reviewed DS-08 and closed Preview inputs preserve ordinary values, probes and alias identity guards',()=>{
   // Compare unchanged deployment environment/probes with today's accepted
   // source. It already includes the sponsored Preview channel; the older
   // baseline predates that input. Successor orchestration changes are tested below.
@@ -220,12 +237,18 @@ test('only reviewed DS-08 runtime inputs change; probes and alias identity guard
   assert.equal([...originalBaseline.matchAll(retired)].length,1);
   const baseline=originalBaseline.replace(retired,'  // Server-only transport to this Acceptance deployment; never build inputs.\n  ...PRESERVED_DATA_KEYS,\n');
   const segment=(s,a,b)=>s.slice(s.indexOf(a),s.indexOf(b,s.indexOf(a)));
-  // Reuse and before/after snapshots now bind the accepted worker and require
-  // successful readback. Their new behavior is executed below; the unchanged
-  // application environment and remote probe bodies retain the historical check.
-  for(const [a,b] of [['const runtimeEnv =','const deploymentMeta ='],['// --- 4. Probe','// --- verdict']]) {
+  // The accepted closed/isolated/configured maps extend the historical env.
+  // Ordinary inputs still equal the DS-08-normalized original; every accepted
+  // map is checked against its accepted phase in the managed config test; legacy probes retain the independent baseline.
+  const reviewed=execFileSync('git',['show','ad9c26cc9a4b34a04abc3d204a2c687e375cce57:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
+  for(const [route,options] of [['',{}],['staging_scoped',{}],['',{catalog:''}],['staging_scoped',{email:{apiKey:'synthetic-resend',from:'synthetic@example.test'}}]]) {
+    const actual=fixture(route,options),historical=fixture(route,{...options,program:baseline});
+    assert.deepEqual(actual.runtimeEnv,historical.runtimeEnv);assert.deepEqual(actual.buildEnv,historical.buildEnv);
+  }
+  for(const [a,b,reference] of [['// --- 4. Probe','// --- verdict',baseline]]) {
     assert.notEqual(segment(source,a,b),'',a);
-    assert.equal(segment(source,a,b),segment(baseline,a,b));
+    const legacy=segment(source,a,b).replace('bypass && !MANAGED_START ?', 'bypass ?').replace('        ...(MANAGED_START ? { redirect: "manual" } : {}),\n', '');
+    assert.equal(legacy,segment(reference,a,b));
   }
   assert(source.indexOf('await resolveHostedVercelIdentity')<source.indexOf('await createRestPreview'));
   assert(source.indexOf('if (reusable)')<source.indexOf('await createRestPreview'));
@@ -278,7 +301,7 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
   const meta={...fixture('staging_scoped').meta,rcapCatalogProduct:'prod_synthetic',rcapStagingScopeSha256:crypto.createHash('sha256').update(owner).digest('hex')};
   if(clinic)Object.assign(meta,{rcapReturnOrigin:origin,rcapPreviewPurpose:'mississippi_clinic',rcapClinicDemoMode:'mississippi_preview',rcapStripeConfigured:'false',rcapCatalogProduct:'inline',rcapStagingScopeSha256:crypto.createHash('sha256').update(Object.values(HOSTED_MS_CLINIC_PARTICIPANTS).join(',')).digest('hex')});
   const ordinaryOrigin=expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha);
-  const ordinary={...response({meta:{...fixture().meta,rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,rcapWorkerSourceSha:"615b4021f7fff4b41b774967a78f4b117cfce3e2",rcapWorkerDigest:"sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",rcapWorkerInputFingerprint:"sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",rcapReturnOrigin:ordinaryOrigin}}),gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,alias:[new URL(ordinaryOrigin).host]};
+  const ordinary={...response({meta:{...fixture().meta,rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,rcapWorkerSourceSha:"16908485a94f475448657cea90583a4d352da9a3",rcapWorkerDigest:"sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af",rcapWorkerInputFingerprint:"sha256:832c4b2594da296f9337e0913fee75ba2548bdd09004338514ff9152aad0071e",rcapReturnOrigin:ordinaryOrigin}}),gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,alias:[new URL(ordinaryOrigin).host]};
   const remote=()=>({...response({meta}),...remotePatch});
   if(reused) deployment=remote();
   const fetchImpl=async(input,init={})=>{
@@ -332,7 +355,7 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
   if(name==='rcap-hosted-resolve-preview.mjs')env.HOSTED_PREVIEW_DEPLOYMENT_ID='dpl_Synthetic123';
   const program=fs.readFileSync(new URL(`./${name}`,import.meta.url),'utf8').replace(/^#![^\n]*\n/,'').replace(/^import[\s\S]*?;\n/gm,'').replaceAll('import.meta.url',JSON.stringify(new URL(`./${name}`,import.meta.url).href));
   let exitCode=0,error=null;
-  const context={crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,HOSTED_MS_CLINIC_PARTICIPANTS,HOSTED_ORDINARY_PREVIEW,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse, assertPreservedOrdinaryPreview,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
+  const context={CONFIGURED_SANDBOX_PHASE,configuredSandboxOverrides,crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,HOSTED_MS_CLINIC_PARTICIPANTS,HOSTED_ORDINARY_PREVIEW,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse, assertPreservedOrdinaryPreview,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
   try {await vm.runInNewContext(`(async()=>{${program}\n})()`,context);} catch(e){exitCode=e.exitCode??1;error=e.message;}
   return {exitCode,error,calls,writes,meta};
 }
@@ -446,22 +469,29 @@ test('legacy Legal Aid deployment retains its existing origin and provider envir
   assert.equal(Object.hasOwn(body.meta,'rcapPreviewPurpose'),false);
 });
 
-test('ordinary Preview preservation pins historical bytes independently of successor and rejects drift', () => {
+test('ordinary Preview preservation pins accepted bytes independently of successor and rejects drift', () => {
   const d = {id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,target:null,
     projectId:HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},readyState:'READY',meta:{
       rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,
-      rcapWorkerSourceSha:'615b4021f7fff4b41b774967a78f4b117cfce3e2',
-      rcapWorkerDigest:'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',
-      rcapWorkerInputFingerprint:'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3',
+      rcapWorkerSourceSha:'16908485a94f475448657cea90583a4d352da9a3',
+      rcapWorkerDigest:'sha256:4f8c71c3630e6c110427d111518be149f3c74d46c856633fc5536a8065bc17af',
+      rcapWorkerInputFingerprint:'sha256:832c4b2594da296f9337e0913fee75ba2548bdd09004338514ff9152aad0071e',
       rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapClinicDemoMode:'none',
       rcapReturnOrigin:expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha)}};
+  assert.deepEqual(HOSTED_ORDINARY_PREVIEW,{id:'dpl_Eg2n58h38JhnU9uuXQ7Nk46QXGuL',immutableHostname:'legalease-partner-dashboard-clean-8o6aerkxs-roger947s-projects.vercel.app',applicationSha:'4feb8e94b3dee4085fe05ea75d78853fe21e5097'});
+  assert.equal(d.meta.rcapReturnOrigin,'https://legalease-rcap-4feb8e94b3de-roger947s-projects.vercel.app');
   assert.equal(assertPreservedOrdinaryPreview(d),d);
-  for (const [key,value] of Object.entries({id:'dpl_Changed',url:'changed.vercel.app',target:'production',projectId:'prj_Changed',gitSource:{sha:FROZEN_APPLICATION_SHA},readyState:'ERROR'})) {
+  const historical={...d,id:'dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ',url:'legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app',gitSource:{sha:'a0d0b933f7241a209379775754540fc22775f174'},meta:{...d.meta,
+    rcapApplicationSha:'a0d0b933f7241a209379775754540fc22775f174',rcapWorkerSourceSha:'615b4021f7fff4b41b774967a78f4b117cfce3e2',
+    rcapWorkerDigest:'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',rcapWorkerInputFingerprint:'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3',
+    rcapReturnOrigin:expectedHostedReturnOrigin('a0d0b933f7241a209379775754540fc22775f174')}};
+  assert.throws(()=>assertPreservedOrdinaryPreview(historical),/ORDINARY_PREVIEW_MISMATCH/);
+  for (const [key,value] of Object.entries({id:'dpl_Changed',url:'changed.vercel.app',target:'production',projectId:'prj_Changed',gitSource:{sha:'f'.repeat(40)},readyState:'ERROR'})) {
     assert.throws(()=>assertPreservedOrdinaryPreview({...d,[key]:value}),/ORDINARY_PREVIEW_MISMATCH/);
   }
   for (const key of Object.keys(d.meta)) assert.throws(()=>assertPreservedOrdinaryPreview({...d,meta:{...d.meta,[key]:'changed'}}),/ORDINARY_PREVIEW_MISMATCH/);
   assert.throws(()=>assertPreservedOrdinaryPreview({...d,target:undefined}),/ORDINARY_PREVIEW_MISMATCH/);
-  assert.throws(()=>assertPreviewResponse(d,d.meta),/SOURCE_MISMATCH/);
+  assert.throws(()=>assertPreviewResponse({...d,gitSource:{sha:'f'.repeat(40)}},d.meta),/SOURCE_MISMATCH/);
 });
 
 

@@ -40,7 +40,7 @@ check('old derivation and fallback absent',()=>{assert.ok(!s.includes('acceptanc
 check('validation runs before first remote call',()=>assert.ok(s.indexOf('const PRESERVED_DATA_KEYS =')<s.indexOf('await resolveHostedVercelIdentity')));
 const runtime=s.slice(s.indexOf('const runtimeEnv = {')+'const runtimeEnv = '.length,s.indexOf('\nconst buildEnv =')).trim().replace(/;$/,'');
 check('actual runtime mapping is exact and build/metadata exclude keys',()=>{
- const got=vm.runInNewContext('('+runtime+')',{closedPreviewEnv:{},PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.invalid',SUPABASE_URL:'https://synthetic.invalid',keys:{anon:'synthetic',service:'synthetic'},process:{env:{}},CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null});
+ const got=vm.runInNewContext('('+runtime+')',{MANAGED_START:null,ISOLATED_CLINIC_PREVIEW:false,configuredSandboxEnv:null,closedPreviewEnv:{},PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.invalid',SUPABASE_URL:'https://synthetic.invalid',keys:{anon:'synthetic',service:'synthetic'},process:{env:{}},CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null});
  assert.ok(Object.keys(expected).every(k=>got[k]===expected[k]));
  const build=s.slice(s.indexOf('const buildEnv ='),s.indexOf('// A live Stripe key'));
  const meta=s.slice(s.indexOf('const deploymentMeta ='),s.indexOf('let deploymentUrl ='));
@@ -48,7 +48,7 @@ check('actual runtime mapping is exact and build/metadata exclude keys',()=>{
 });
 // Run the actual request mappings and reuse predicates with synthetic provider rows.
 const acceptanceUrl='https://hyflxnlhpmiqxvvcoiia.supabase.co';
-const configContext=phase=>{const context={PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.vercel.app',SUPABASE_URL:acceptanceUrl,
+const configContext=phase=>{const context={MANAGED_START:null,ISOLATED_CLINIC_PREVIEW:false,configuredSandboxEnv:null,PRESERVED_DATA_KEYS:expected,RETURN_ORIGIN:'https://synthetic.vercel.app',SUPABASE_URL:acceptanceUrl,
  keys:{anon:'synthetic-acceptance-anon',service:'synthetic-acceptance-service'},process:{env:{PHASE_INPUT:phase,
  HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}},
  CATALOG_PRODUCT_ID:'',ROUTE_STATE:'',CLINIC_DEMO_MODE:'',SCOPE_IDS:'',LEGAL_AID_EMAIL:null};
@@ -298,6 +298,7 @@ function isolationDeploymentMaps(phase='replace_preview') {
  const end=DEPLOY_SOURCE.indexOf('// A live Stripe key',start);
  assert(start>0&&end>start);
  return vm.runInNewContext(DEPLOY_SOURCE.slice(start,end)+'\n({runtimeEnv,buildEnv})',{
+  MANAGED_START:null,ISOLATED_CLINIC_PREVIEW:false,configuredSandboxEnv:null,
   process:{env:{PHASE_INPUT:phase,HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}},
   RETURN_ORIGIN:'https://synthetic-preview.invalid',SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',
   keys:{anon:'synthetic-anon',service:'synthetic-acceptance-service'},PRESERVED_DATA_KEYS:{},
