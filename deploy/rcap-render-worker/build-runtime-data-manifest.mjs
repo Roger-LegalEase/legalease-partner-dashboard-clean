@@ -29,6 +29,8 @@ const OUT = path.join(here, "runtime-data-manifest.json");
 
 /** Every entry carries why it is in the image and what reads it. */
 const ENTRIES = [
+  { path: "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf", kind: "file",
+    readBy: "src/lib/rcap/fulfillment/sponsored-channel-authority.ts (grant.artifacts)", why: "The ordinary internal QA decision hashes this approved Spanish artifact at runtime; every granted variant must be present." },
   {"path": "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json", "kind": "file", "readBy": "src/lib/expungement-ai/ca-prop64-juvenile-config.ts", "why": "Static JSON import: copied by the existing specification directory, but nested below its manifest enumeration."},
   // Static JSON imports on the current worker module graph.
   {"path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json", "kind": "file", "readBy": "src/lib/expungement-ai/ak-courtview-record-context.ts", "why": "Static JSON import: the worker module graph cannot load without these exact bytes."},
@@ -95,6 +97,8 @@ const ENTRIES = [
   {"path": "data/record-clearing/production-factory/packet-proofs/rcap-oh-guidance-implementation.json", "kind": "file", "readBy": "src/lib/expungement-ai/oh-trafficking-court-context.ts", "why": "Static JSON import: the worker module graph cannot load without these exact bytes."},
   { path: "data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json", kind: "file",
     readBy: "src/lib/rcap/fulfillment/sponsored-channel-authority.ts", why: "Current immutable sponsored Preview channel decision; absent or mismatched scope refuses." },
+  { path: "data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json", kind: "file",
+    readBy: "src/lib/rcap/fulfillment/sponsored-channel-authority.ts", why: "Static JSON import: the ordinary internal QA sponsored channel requires these exact decision bytes." },
   // The MS paid-consumer successor loader reads every one of these on each
   // call, at statically identifiable paths, and returns null if any is absent
   // or has moved. A missing file therefore does not crash the worker: it

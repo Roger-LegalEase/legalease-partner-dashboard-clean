@@ -40,6 +40,7 @@ COPY scripts/lib/ scripts/lib/
 COPY scripts/rcap-custom-pleading/court-facing-rows.mjs scripts/rcap-custom-pleading/
 COPY src/ src/
 COPY data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json data/record-clearing/legal-decisions/
+COPY data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json data/record-clearing/legal-decisions/
 
 # Static JSON imports reached from the worker must survive module loading.
 COPY data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/
@@ -170,6 +171,7 @@ COPY data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-e
      data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf \
      data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf \
      data/rcap-ledger/grade-a/artifacts/
+COPY data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/
 USER rcapworker
 # Liveness: the loop logs one JSON line per non-idle cycle; the healthcheck
 # asserts the process is alive and can reach its own module graph.

@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 205,
-  "totalBytes": 24197037,
+  "fileCount": 207,
+  "totalBytes": 24272980,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -954,6 +954,13 @@
       "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
     },
     {
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf",
+      "sha256": "f80520fbb425435b19b1e5d97d3214c56d2c469fcc7c660035258d0d57926fcd",
+      "bytes": 71729,
+      "readBy": "src/lib/rcap/fulfillment/sponsored-channel-authority.ts (grant.artifacts)",
+      "why": "The ordinary internal QA decision hashes this approved Spanish artifact at runtime; every granted variant must be present."
+    },
+    {
       "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
       "sha256": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe",
       "bytes": 20758,
@@ -1078,6 +1085,13 @@
       "bytes": 3825,
       "readBy": "src/lib/rcap/fulfillment/sponsored-channel-authority.ts",
       "why": "Current immutable sponsored Preview channel decision; absent or mismatched scope refuses."
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json",
+      "sha256": "9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40",
+      "bytes": 4214,
+      "readBy": "src/lib/rcap/fulfillment/sponsored-channel-authority.ts",
+      "why": "Static JSON import: the ordinary internal QA sponsored channel requires these exact decision bytes."
     },
     {
       "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
