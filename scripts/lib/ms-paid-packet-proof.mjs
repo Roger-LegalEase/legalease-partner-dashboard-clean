@@ -111,6 +111,8 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
+  "data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json",
+  "src/lib/expungement-ai/georgia-retroactive-history.ts",
   "src/lib/rcap-engine/illinois-plan-forms.ts",
   "src/lib/rcap-engine/illinois-program-facts.ts",
   "src/lib/rcap-engine/north-dakota-plan-forms.ts",
