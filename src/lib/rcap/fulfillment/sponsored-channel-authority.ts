@@ -15,7 +15,7 @@ export type SponsoredChannelContext = {
   | { acquisitionMode: "partner"; eventName: null; eventId: null }
 );
 export type SponsoredChannelDecision = typeof decision | (
-  Omit<typeof decision, "eventName" | "eventId"> & {
+  Omit<typeof decision, "eventName" | "eventId" | "eventIdentitySource"> & {
     acquisitionMode: "partner"; eventName: null; eventId: null;
   }
 );
