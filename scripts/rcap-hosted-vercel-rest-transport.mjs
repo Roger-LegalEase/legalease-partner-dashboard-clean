@@ -77,7 +77,7 @@ export async function createRestPreview(options, {fetchImpl=globalThis.fetch, sl
   const headers={Authorization:`Bearer ${options.token}`, 'Content-Type':'application/json'};
   // Exactly ONE creation call. Network ambiguity, 401/403, malformed replies,
   // timeouts and failed builds never cause a retry or another deployment.
-  const secrets=[options.token,...Object.entries({...options.runtimeEnv,...options.buildEnv}).filter(([key])=>/KEY|SECRET|PASSWORD|TOKEN/.test(key)).map(([,value])=>value)];
+  const secrets=[options.token,...[...Object.entries(options.runtimeEnv),...Object.entries(options.buildEnv)].filter(([key])=>/KEY|SECRET|PASSWORD|TOKEN|AUTHORIZATION/.test(key)).map(([,value])=>value)];
   let receipt={creationPostCount:1,creationCalls:1,creationHttpStatus:null,phase:'CREATE_ATTEMPTED',observedAt:new Date().toISOString()};
   const checkpoint=(d,extra={})=>{
     receipt={...receipt,...sanitizeVercelDiagnostic(d,secrets),...extra,observedAt:new Date().toISOString()};
