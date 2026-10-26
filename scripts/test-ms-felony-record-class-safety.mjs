@@ -40,10 +40,17 @@ assert.ok(baseline.packetPlan);
 let negativeCases = 0;
 for (const case_outcome of ['Dismissed, no-billed, nolle prosequi, or not prosecuted', 'Misdemeanor conviction']) {
   assert.ok(publicProfile.questions.find(q => q.id === 'case_outcome').options.includes(case_outcome));
-  // The original charge's severity cannot convert a dismissal or misdemeanor
-  // disposition into a felony conviction. All existing severity choices count.
+  // A dismissal retains its nonconviction family; a misdemeanor cannot become
+  // a felony conviction. All existing charge-severity choices count.
   for (const offense_level of publicProfile.questions.find(q => q.id === 'offense_level').options) {
     const result = evaluate({ ...screening, case_outcome, offense_level, possible_pathway_context: felonyLabel });
+    if (case_outcome === 'Dismissed, no-billed, nolle prosequi, or not prosecuted') {
+      assert.equal(result.pathwayId, route.pathwayId, 'Factual dismissal takes precedence over an optional felony hint.');
+      assert.deepEqual(result, evaluate({ ...screening, offense_level }), 'The hint cannot change the factual nonconviction result or its uncertainty gates.');
+      assert.ok(!result.reasons.some(r => r.code === conflictCode));
+      negativeCases++;
+      continue;
+    }
     assert.equal(result.pathwayId, felonyId);
     assert.equal(result.resultCode, 'needs_review');
     assert.equal(result.paymentAllowed, false);
@@ -95,4 +102,4 @@ for (const case_outcome of publicProfile.questions.find(q => q.id === 'case_outc
 }
 assert.deepEqual(evaluate(screening), baseline, 'rejected context cannot mutate the retained route or inputs');
 assert.deepEqual(screening, originalScreening, 'Contradictory and consistent examples preserve the original answers.');
-console.log(JSON.stringify({ status: 'PASS', negativeCases, otherOutcomeCases, retainedNonconvictionPreserved: true, scope: 'Exact MS final-felony prerequisite; two published contradictory outcomes and ambiguous classes held; retained nonconviction positive preserved. No commercial, protected or document-output acceptance claimed.' }));
+console.log(JSON.stringify({ status: 'PASS', negativeCases, otherOutcomeCases, retainedNonconvictionPreserved: true, scope: 'Exact MS final-felony prerequisite; dismissed hint invariance, misdemeanor conflicts and ambiguous classes held; retained nonconviction positive preserved. No commercial, protected or document-output acceptance claimed.' }));

@@ -63,6 +63,15 @@ function withoutQ3Ms(delta) {
   assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), Q3_MS_REPINS_SHA256, 'complete Q3 custody entries including reasons');
   return {...delta, supersededSha256: delta.supersededSha256.slice(0, -Q3_MS_REPINS.length)};
 }
+// GA21-MS: append-only technical custody for the accepted Mississippi-only selector change.
+const GA21_MS_REPIN = {"path":"src/lib/rcap-engine/evaluator.ts","sha256":"72659e5cdf35cfd19a3562ecf9e50c760cc8875708d0a21b7226081c763c61f9","repinnedTo":"0a2b23ed89b68a0fcd2602fdcf33c78b5e1cf8052e664ce30d7aa9ebb2036296","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"};
+const GA21_MS_REPIN_SHA256 = '3505f570b161492b16f127bf87f61a44fc4937a911c3087e9329cbc4f591b0f7';
+function withoutGa21Ms(delta) {
+  const tail = delta.supersededSha256.at(-1);
+  assert.deepEqual({path:tail.path,sha256:tail.sha256,repinnedTo:tail.repinnedTo,behaviouralProof:tail.behaviouralProof}, GA21_MS_REPIN, 'exact GA21 Mississippi-only custody hop');
+  assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), GA21_MS_REPIN_SHA256, 'complete GA21 custody entry including reason');
+  return {...delta, supersededSha256: delta.supersededSha256.slice(0, -1)};
+}
 const a17Appended = [];
 function withoutA17(delta) {
   const expected = A17_REPINS[delta.id];
@@ -74,7 +83,7 @@ function withoutA17(delta) {
   const {supersededSha256, ...rest} = delta;
   return supersededSha256.length > 1 ? {...rest, supersededSha256: supersededSha256.slice(0, -1)} : rest;
 }
-assert.deepEqual(withoutA17(withoutA27(withoutA35(withoutR24(withoutQ3Ms(history))))), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
+assert.deepEqual(withoutA17(withoutA27(withoutA35(withoutR24(withoutQ3Ms(withoutGa21Ms(history)))))), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
 assert.deepEqual(record.deltas.filter(d => d !== md).map(withoutA17), previous.deltas.filter(d => d.id !== md.id), 'other approvals unchanged');
 assert.equal(a17Appended.length, Object.keys(A17_REPINS).length, 'every reviewed A17 re-pin present');
 assert.equal(createHash('sha256').update(JSON.stringify(a17Appended)).digest('hex'), A17_REPINS_SHA256, 'exactly the reviewed A17 re-pins');
@@ -134,6 +143,7 @@ try {
     ['history hop removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path===EVALUATOR&&e.repinnedTo===scopeRestatement.bindings[EVALUATOR].priorSha256);
       assert.ok(i>=0,'the historical hop into the Item 11 binding');hops.splice(i,1)},/does not continue the historical chain/],
     ['proof weakened',()=>fs.appendFileSync(path.join(dir,scopeRestatement.proofPath),'\n// changed proof'),/proof bytes changed/],
+    ['GA21 custody hop removed',r=>r.deltas[0].supersededSha256.pop(),/approval does not cover these bytes/],
     ['current source drift',()=>fs.appendFileSync(path.join(dir,'src/lib/rcap-engine/evaluator.ts'),'\n// drift'),/approval does not cover these bytes/],
     // A17 post-binding re-pin: valid only as recorded, refused when removed, unreachable, bypassing or malformed.
     // With A27 appended after it, losing or redirecting the A17 hop leaves A27's starting hash unreachable.
@@ -148,7 +158,7 @@ try {
     ['A27 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===A27_REPIN.repinnedTo);assert.ok(i>=0,'the A27 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
     // With R24's evaluator hop appended after it, losing the A35 hop leaves R24's starting hash unreachable.
     ['A35 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===A35_REPIN.repinnedTo);assert.ok(i>=0,'the A35 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
-    ['Q3 evaluator custody omitted',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===Q3_MS_REPINS[0].repinnedTo);assert.ok(i>=0,'Q3 evaluator hop');hops.splice(i,1)},/approval does not cover these bytes/],
+    ['Q3 evaluator custody omitted',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===Q3_MS_REPINS[0].repinnedTo);assert.ok(i>=0,'Q3 evaluator hop');hops.splice(i,1)},/which the authorization chain never reaches/],
     ['Q3 projection custody omitted',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.repinnedTo===Q3_MS_REPINS[1].repinnedTo);assert.ok(i>=0,'Q3 projection hop');hops.splice(i,1)},/approval does not cover these bytes/],
     ['R24 evaluator.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/evaluator.ts"&&e.repinnedTo==="843500dbf6aa2077e579a350401d6e8be69a2f3c4ce42e162fe054ec39156a79");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/which the authorization chain never reaches/],
     ['R24 public-profile-projection.ts re-pin removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path==="src/lib/rcap-engine/public-profile-projection.ts"&&e.repinnedTo==="44f0d77fae02fa8707d7914b55017632ef5acbd9a35087991b62915975bd4ba6");assert.ok(i>=0,'the R24 hop');hops.splice(i,1)},/which the authorization chain never reaches/]
@@ -158,5 +168,5 @@ try {
     const changed=structuredClone(fixture);mutate(changed);save(changed);
     assert.throws(()=>loadApprovedParityDeltas({rootDir:dir}),marker,name);checks++;
   }
-  console.log(JSON.stringify({status:'PASS',checks,mutants:mutants.length,scope:'MD only; signed statement and all historical hops retained, with exactly two Q3 Mississippi-only technical shared-file custody continuations'}));
+  console.log(JSON.stringify({status:'PASS',checks,mutants:mutants.length,scope:'MD only; signed statement and all historical hops retained, with two retained Q3 custody hops and one appended GA21 Mississippi-only evaluator custody hop'}));
 } finally { fs.rmSync(dir,{recursive:true,force:true}); }
