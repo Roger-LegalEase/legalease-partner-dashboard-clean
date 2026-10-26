@@ -1,6 +1,7 @@
 import { GA_RETROACTIVE_HISTORY_IDS } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { mdJuvenileProtectedDocumentPreparation } from "@/lib/expungement-ai/md-juvenile-document-preparation";
 import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
+import { VA_PARDON_TYPE_ID } from "@/lib/expungement-ai/va-pardon-type-source";
 import { MT_DEFERRED_DOCUMENT_QUESTION_IDS } from "@/lib/expungement-ai/mt-deferred-document-questions";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 import { ny16059ProtectedDocumentPreparation } from "@/lib/expungement-ai/ny-16059-document-preparation";
@@ -343,6 +344,7 @@ async function readBody(request: Request): Promise<
     if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id)
       && !(mtPreparation && MT_DEFERRED_DOCUMENT_QUESTION_IDS.includes(id))
       && !ND_FIRST_OFFENSE_FACT_IDS.includes(id)
+      && id !== VA_PARDON_TYPE_ID
       && !(GA_RETROACTIVE_HISTORY_IDS as readonly string[]).includes(id))) return { ok: false };
     if (!Object.values(body.answers).every(validDraftValue)) return { ok: false };
     return {

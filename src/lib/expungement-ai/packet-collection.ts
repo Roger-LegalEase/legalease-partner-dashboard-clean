@@ -1,4 +1,5 @@
 import { registeredSpecificationRecordIsHistory } from "@/lib/expungement-ai/registered-specification-record-history";
+import { vaPardonTypeQuestion } from "@/lib/expungement-ai/va-pardon-type-source";
 import { vaPardonLocationApplies } from "@/lib/expungement-ai/va-pardon-location-context";
 import { wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
@@ -1849,6 +1850,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const iaCategoryHistory = iaCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
+  const vaPardonCategoryHistory = vaPardonTypeQuestion(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null, specification,
+    { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]) !== null;
   const vaPardonLocationContext = vaPardonLocationApplies(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null, specification,
     { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
@@ -2573,6 +2576,18 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
         source: "ga_sb288_location_history",
         reason: "Earlier generic location remains optional literal context. The existing case-jurisdiction gate and separate convicting-court, county, mailing and prosecutor-service facts retain their own meanings." });
+      continue;
+    }
+
+    // Q8718: the source-bound held pardon uses separate case and pardon facts.
+    if (factId === "offense_category" && vaPardonCategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "va_pardon_category_history",
+        reason: "Earlier category wording remains optional literal history. It supplies neither the covered charge nor the pardon document's meaning, and grants no court output or fulfillment authority." });
       continue;
     }
 
