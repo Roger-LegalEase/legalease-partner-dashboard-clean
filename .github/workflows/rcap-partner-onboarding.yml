@@ -80,6 +80,10 @@ jobs:
         if: matrix.group == 'e'
         run: git fetch --no-tags --depth=699 origin ee40c239aab28c9cc090531da7e04464b88b104f
 
+      - name: Fetch published held packet copy comparison predecessor (group a)
+        if: matrix.group == 'a'
+        run: git fetch --no-tags --depth=1 origin 9066e1fb938a43c89766e3bbd8f4b20fe60e7977
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:

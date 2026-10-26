@@ -1173,7 +1173,9 @@ check('accepted held packet copy retains historical output and requires both exa
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===HELD_PACKET_COPY_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/held packet copy source succession record bytes changed/);
  for(const row of [...c.transitions,...c.companionSourceTransitions]){
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===row.file?Buffer.from('drift'):readBytes(file)),/stale output input/);
-  assert.throws(()=>assertHeldPacketCopySourceSuccession(file=>file===row.file?execFileSync('git',['show',`fa7d83984^:${file}`]):readBytes(file)),/stale output input/);
+  const predecessor=execFileSync('git',['show',`9066e1fb938a43c89766e3bbd8f4b20fe60e7977:${row.file}`]);
+  assert.equal(sha(predecessor),row.beforeSha256,'exact published held-copy predecessor bytes');
+  assert.throws(()=>assertHeldPacketCopySourceSuccession(file=>file===row.file?predecessor:readBytes(file)),/stale output input/);
  }
 });
 console.log(`PASS: ${checks} complete output-continuity controls including accepted held packet copy.`);
