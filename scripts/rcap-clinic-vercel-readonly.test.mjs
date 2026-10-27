@@ -24,6 +24,7 @@ test('only the existing read-only job changes; all other jobs, inputs and deploy
  const before=YAML.parse(source(PARENT,'.github/workflows/rcap-f1-ephemeral-staging.yml')),after=structuredClone(workflow);
  assert.deepEqual(selected(workflow,mode),[mode]);
  for(const value of before.on.workflow_dispatch.inputs.mode.options)assert.deepEqual(selected(workflow,value),selected(before,value));
+ delete after.jobs.ordinary_admin_readonly;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_readonly');
  delete before.jobs[mode];delete after.jobs[mode];assert.deepEqual(after,before);
  assert.equal(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8'),source(PARENT,'vercel.json'));
 });
@@ -131,4 +132,41 @@ test('fixed GET boundary rejects unexpected method, URL, parameters and system e
  }
  assert.doesNotMatch(inline(probe),/await import\('.*rest-transport/);
  assert.match(inline(probe),/createHash\('sha256'\).update\(transportText\)/);
+});
+
+const adminMode='ordinary_admin_readonly',adminJob=workflow.jobs[adminMode],adminGuard=adminJob.steps.find(s=>s.name==='Require the exact current ordinary read-only dispatch before credentials');
+const adminTuple={mode:adminMode,application_sha:tuple.application_sha,tools_sha:tuple.application_sha,worker_source_sha:tuple.worker_source_sha,worker_digest:tuple.worker_digest,supabase_project_ref:tuple.supabase_project_ref,preview_hostname:'legalease-rcap-managed-c0052e13d980-roger947s-projects.vercel.app',preview_deployment_id:'dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF',preview_creation_run_id:'40424719189'};
+
+test('ordinary read continuation adds only its existing-carrier mode/job and leaves all previous jobs/input defaults unchanged',()=>{
+ const before=YAML.parse(source('5259a100e7c00cf91f8360f4d1fc4579d5dd196f','.github/workflows/rcap-f1-ephemeral-staging.yml')),after=structuredClone(workflow);
+ assert.deepEqual(selected(workflow,adminMode),[adminMode]);
+ for(const value of before.on.workflow_dispatch.inputs.mode.options)assert.deepEqual(selected(workflow,value),selected(before,value));
+ delete after.jobs[adminMode];after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!==adminMode);assert.deepEqual(after,before);
+});
+
+test('ordinary exact dispatch guard rejects tuple, ref, attempts, business inputs and helper byte drift before any credential',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'ordinary-admin-guard-'));
+ try{
+  fs.mkdirSync(path.join(root,'scripts'));fs.writeFileSync(path.join(root,'vercel.json'),JSON.stringify({git:{deploymentEnabled:{[branch]:false}}}));
+  for(const name of ['rcap-hosted-ordinary-admin-readonly.mjs','rcap-hosted-ordinary-admin-readonly-runner.mjs'])fs.copyFileSync(new URL(name,import.meta.url),path.join(root,'scripts',name));
+  const run=(patch={},extra={})=>spawnSync(process.execPath,['--input-type=module','-'],{cwd:root,input:inline(adminGuard),encoding:'utf8',env:{...env,GITHUB_REPOSITORY:'Roger-LegalEase/legalease-partner-dashboard-clean',DISPATCH_INPUTS:JSON.stringify({...adminTuple,...patch}),...extra}}).status;
+  assert.equal(run(),0);for(const key of Object.keys(adminTuple))assert.notEqual(run({[key]:'wrong'}),0);
+  for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.notEqual(run({[key]:'unexpected'}),0);
+  assert.notEqual(run({sponsor_items:'["unexpected"]'}),0);assert.notEqual(run({sponsor_fulfillment:true}),0);
+  for(const extra of [{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_EVENT_NAME:'push'},{GITHUB_REF_NAME:'captain-release'},{GITHUB_WORKFLOW_SHA:'b'.repeat(40)},{GITHUB_REPOSITORY:'another/repo'}])assert.notEqual(run({},extra),0);
+  fs.appendFileSync(path.join(root,'scripts/rcap-hosted-ordinary-admin-readonly.mjs'),'\n// drift');assert.notEqual(run(),0);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('ordinary customer read uses only existing Chrome/pinned dependencies, bypass-only app credential, exact native artifact and sanitized output',()=>{
+ const runs=adminJob.steps.map(s=>s.run??'').join('\n');
+ assert.doesNotMatch(runs,/playwright install|npm run build|docker|flyctl|requireCurrentReleaseCandidate|requireManagedStartPreviewAdmission|verify-rcap-application-candidate|SUPABASE_SERVICE_ROLE_KEY|INTERNAL_ADMIN_TOKEN/);
+ const secretSteps=adminJob.steps.filter(s=>s.env&&Object.values(s.env).some(v=>String(v).includes('${{ secrets.')));assert.equal(secretSteps.length,1);
+ assert.deepEqual(Object.keys(secretSteps[0].env).sort(),['ORDINARY_ADMIN_EVIDENCE_FILE','RCAP_ADMIN_NATIVE_DEPLOY_FILE','VERCEL_AUTOMATION_BYPASS_SECRET'].sort());assert.equal(secretSteps[0].env.VERCEL_AUTOMATION_BYPASS_SECRET,'${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}');
+ assert.equal(secretSteps[0].run,'node scripts/rcap-hosted-ordinary-admin-readonly-runner.mjs');assert.equal(secretSteps[0].env.ORDINARY_ADMIN_EVIDENCE_FILE,'ordinary-admin-readonly-evidence/result.json');
+ const installs=adminJob.steps.filter(s=>s.run?.startsWith('npm ci'));assert.equal(installs.length,1);assert.equal(installs[0]['working-directory'],'admitted-controller');assert.equal(installs[0].run,'npm ci --ignore-scripts --no-audit --no-fund');assert.match(runs,/test -x \/usr\/bin\/google-chrome/);
+ const checkouts=adminJob.steps.filter(s=>s.uses==='actions/checkout@v4');assert.equal(checkouts.length,2);assert.equal(checkouts[1].with.ref,H);for(const c of checkouts)assert.equal(c.with['persist-credentials'],false);
+ const credential=adminJob.steps.find(s=>s.name==='Require the exact original credential source object without executing it');assert(adminJob.steps.indexOf(credential)<adminJob.steps.indexOf(secretSteps[0]));assert.match(credential.run,/git cat-file -e 'd3d8ff707d4d21ab508405494e6ee27056582a1a\^\{commit\}'/);assert.match(credential.run,/git fetch --no-tags --no-write-fetch-head origin d3d8ff707d4d21ab508405494e6ee27056582a1a/);assert.match(credential.run,/cdf9d28192cc54de72e6c9ccef5f389c678b7472a60c6408ad54b0735e5d695c/);assert.doesNotMatch(credential.run,/console\.log|import\(.*auth-config|node scripts\/rcap-hosted-acceptance-auth-config/);
+ const native=adminJob.steps.find(s=>s.name==='Read only the original accepted native creation artifact');assert.deepEqual(native.env,{GH_TOKEN:'${{ github.token }}'});assert.match(native.run,/artifacts\/12699943085\/zip/);assert.match(native.run,/z.getinfo\('deploy.json'\)/);assert.doesNotMatch(native.run,/extractall|extract\(/);
+ const upload=adminJob.steps.at(-1);assert.equal(upload.if,'always()');assert.equal(upload.with.path,'carrier/ordinary-admin-readonly-evidence/result.json');assert.doesNotMatch(upload.with.path,/\*|screenshots|traces|session|native|deploy/);
 });
