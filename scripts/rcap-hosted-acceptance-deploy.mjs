@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {SOURCE_SUCCESSOR_PHASE,SOURCE_SUCCESSOR_PROTECTED,sourceSuccessorMetadata,assertProtectedSourceDeployment,assertSourceSuccessorAliasAbsent,refusePriorSourceSuccessorAttempt,restoreSourceSuccessorAlias} from './rcap-managed-start-source-successor-contract.mjs';
 // Hosted acceptance staging — the Vercel Preview deployment.
 //
 // Deploys the final application SHA to the EXISTING Vercel project's PREVIEW
@@ -52,6 +53,7 @@ const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
+const SOURCE_SUCCESSOR = process.env.PHASE_INPUT === SOURCE_SUCCESSOR_PHASE;
 const RUNTIME_REPAIR = process.env.PHASE_INPUT === MANAGED_RUNTIME_REPAIR_PHASE;
 const HELD_PURPOSE_PREVIEW = [CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE].includes(process.env.PHASE_INPUT);
 const configuredSandboxEnv = process.env.PHASE_INPUT === CONFIGURED_SANDBOX_PHASE ? configuredSandboxOverrides(process.env) : null;
@@ -102,7 +104,7 @@ function preservedDataKeys(env) {
 const PRESERVED_DATA_KEYS = preservedDataKeys(process.env);
 
 // GA-43/GA-52: this future controller supplies configuration, never platform identity.
-const MANAGED_START = ["managed_start_preview","managed_start_runtime_repair"].includes(process.env.PHASE_INPUT) ? (() => {
+const MANAGED_START = ["managed_start_preview","managed_start_runtime_repair","managed_start_source_successor"].includes(process.env.PHASE_INPUT) ? (() => {
   if (CLINIC_DEMO_MODE || ISOLATED_CLINIC_PREVIEW
     || process.env.HOSTED_STRIPE_TEST_SECRET || process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET
     || process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID || LEGAL_AID_EMAIL) {
@@ -171,6 +173,7 @@ const REQUIRED_CASES = [
 if (HELD_PURPOSE_PREVIEW) REQUIRED_CASES.push("purpose_runtime_source_identity", "current_ordinary_preview_unchanged", "purpose_siblings_unchanged");
 if (configuredSandboxEnv) REQUIRED_CASES.push("ordinary_preview_unchanged", "configured_sandbox_scope_and_purpose_exact");
 if (MANAGED_START) REQUIRED_CASES.push("managed_start_release_source_bound", "ordinary_preview_unchanged");
+if (SOURCE_SUCCESSOR) REQUIRED_CASES.push('source_successor_protected_targets_unchanged');
 if (RUNTIME_REPAIR) REQUIRED_CASES.push("repair_predecessor_immutable_unchanged", "purpose_siblings_unchanged");
 if (ISOLATED_CLINIC_PREVIEW) REQUIRED_CASES.push("ordinary_preview_unchanged", "clinic_scope_and_purpose_exact");
 
@@ -227,7 +230,7 @@ const evidence = {
   schemaVersion: "rcap-hosted-acceptance-deploy/v1",
   acceptanceProjectRef: PROJECT_REF,
   applicationSha: APPLICATION_SHA,
-  ...((HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR)?{purposeSource:{phase:process.env.PHASE_INPUT,carrierSha:process.env.GITHUB_SHA,carrierWorkflowSha:process.env.GITHUB_WORKFLOW_SHA,controllerSha:process.env.RCAP_ADMITTED_CONTROLLER_SHA,toolsSha:process.env.TOOLS_SHA_INPUT,runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT}}:{}),
+  ...((HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR||SOURCE_SUCCESSOR)?{purposeSource:{phase:process.env.PHASE_INPUT,carrierSha:process.env.GITHUB_SHA,carrierWorkflowSha:process.env.GITHUB_WORKFLOW_SHA,controllerSha:process.env.RCAP_ADMITTED_CONTROLLER_SHA,toolsSha:process.env.TOOLS_SHA_INPUT,runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT}}:{}),
   deliveryRouteState: ROUTE_STATE || "disabled (flag not set)",
   neverPassedProdFlag: true,
   neverWroteProjectLevelEnv: true,
@@ -261,6 +264,9 @@ async function currentOrdinaryPreviewSnapshot() {
   }
   return details;
 }
+async function sourceSuccessorProtectedSnapshot(){
+ const result=[];for(const known of SOURCE_SUCCESSOR_PROTECTED){for(const name of [known.id,known.hostname,...(known.alias?[known.alias]:[])]){const response=await vercelApi('/v13/deployments/'+encodeURIComponent(name));if(response.status!==200)throw Error('DEPLOY_SOURCE_SUCCESSOR_PROTECTED_READBACK_FAILED');result.push({name,...assertProtectedSourceDeployment(response.json,known,expectedHostedReturnOrigin)});}}return result;
+}
 async function repairPredecessorSnapshot(){
   const result=[];
   for(const name of [MANAGED_REPAIR_PREDECESSOR.id,MANAGED_REPAIR_PREDECESSOR.hostname]){
@@ -281,7 +287,7 @@ async function purposeSiblingSnapshot(before) {
 
 // --- 0. Before-picture of everything this run must not disturb ---------------
 const beforeProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
-const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env${(HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR)?"?decrypt=false":""}`);
+const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env${(HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR||SOURCE_SUCCESSOR)?"?decrypt=false":""}`);
 if (beforeProject.status !== 200 || !Array.isArray(beforeProject.json?.alias) || beforeEnv.status !== 200 || !Array.isArray(beforeEnv.json?.envs)) {
   throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
 }
@@ -296,6 +302,7 @@ const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.
 evidence.productionBefore = { aliases: aliasesBefore, environmentShape: envBefore };
 if (ISOLATED_CLINIC_PREVIEW || MANAGED_START || configuredSandboxEnv) evidence.ordinaryPreviewBefore = await ordinaryPreviewSnapshot();
 if (HELD_PURPOSE_PREVIEW) evidence.currentOrdinaryPreviewBefore = await currentOrdinaryPreviewSnapshot();
+if(SOURCE_SUCCESSOR){evidence.sourceSuccessorProtectedBefore=await sourceSuccessorProtectedSnapshot();const response=await vercelApi('/v13/deployments/'+encodeURIComponent(RETURN_ALIAS_HOST));assertSourceSuccessorAliasAbsent(response);evidence.sourceSuccessorAliasBefore={hostname:RETURN_ALIAS_HOST,state:'absent'};}
 if(RUNTIME_REPAIR){evidence.runtimeRepairPredecessorBefore=await repairPredecessorSnapshot();const a=await vercelApi("/v13/deployments/"+encodeURIComponent(RETURN_ALIAS_HOST));assertManagedRepairAliasPrestate(a,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);evidence.runtimeRepairAliasBefore={hostname:RETURN_ALIAS_HOST,deploymentId:MANAGED_REPAIR_PREDECESSOR.id};}
 if (aliasesBefore.includes(RETURN_ALIAS_HOST)) {
   console.error(`DEPLOY: deterministic acceptance alias ${RETURN_ALIAS_HOST} is attached to Production; refusing`);
@@ -338,7 +345,7 @@ if (ISOLATED_CLINIC_PREVIEW && (process.env.HOSTED_STRIPE_TEST_SECRET || process
 }
 
 async function findReusableDeployment() {
-  if (HELD_PURPOSE_PREVIEW || RUNTIME_REPAIR) {
+  if (HELD_PURPOSE_PREVIEW || RUNTIME_REPAIR || SOURCE_SUCCESSOR) {
     const matches=[],siblings=[],cursors=new Set(),seen=new Set();let until=null,pages=0,details=0,predecessors=0;
     do {
       if(++pages>50)throw new Error('DEPLOY_PURPOSE_SEARCH_PAGE_BOUND');
@@ -354,6 +361,7 @@ async function findReusableDeployment() {
         const d=detail.json;
         if(d?.gitSource?.sha!==APPLICATION_SHA&&d?.meta?.rcapApplicationSha!==APPLICATION_SHA&&d?.meta?.githubCommitSha!==APPLICATION_SHA)continue;
         if(seen.has(id))throw new Error('DEPLOY_PURPOSE_DUPLICATE_SEARCH_ID');seen.add(id);
+        if(SOURCE_SUCCESSOR){refusePriorSourceSuccessorAttempt(d);throw Error('DEPLOY_SOURCE_SUCCESSOR_UNKNOWN_ATTEMPT');}
         const known=RUNTIME_REPAIR?classifyManagedRepairSibling(d,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin):classifyCurrentPurposeDeployment(d,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);
         if(RUNTIME_REPAIR&&known.id===MANAGED_REPAIR_PREDECESSOR.id)predecessors++;
         if(!RUNTIME_REPAIR&&known.phase===process.env.PHASE_INPUT)matches.push({url:'https://'+known.url,id:known.id});else siblings.push(known);
@@ -595,7 +603,7 @@ const runtimeEnv = {
   ...(MANAGED_START ? {
     NEXT_PUBLIC_RCAP_BUILD_SHA: APPLICATION_SHA,
     RCAP_2_0_ENABLED: "true",
-    ...(process.env.PHASE_INPUT==="managed_start_runtime_repair"?{RCAP_ONBOARDING_LAUNCH_PREP_ENABLED:"true",RCAP_LAUNCH_STUDIO_ENABLED:"false"}:{}),
+    ...((RUNTIME_REPAIR||SOURCE_SUCCESSOR)?{RCAP_ONBOARDING_LAUNCH_PREP_ENABLED:"true",RCAP_LAUNCH_STUDIO_ENABLED:"false"}:{}),
     RCAP_CONSUMER_DELIVERY_ROUTE_STATE: MANAGED_START.grant.routeState,
     RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: MANAGED_START.grant.participantUserIds.join(","),
     RCAP_SPONSORED_PREVIEW_CHANNEL: MANAGED_START.grant.channel,
@@ -668,6 +676,7 @@ const buildEnv = {
 
 const deploymentMeta = {
   ...(RUNTIME_REPAIR?managedRepairMetadata(RETURN_ORIGIN):{}),
+  ...(SOURCE_SUCCESSOR?sourceSuccessorMetadata(RETURN_ORIGIN):{}),
   ...(configuredSandboxEnv?currentPurposeMetadata(CONFIGURED_SANDBOX_PHASE,RETURN_ORIGIN):{}),
   ...(process.env.PHASE_INPUT === "replace_preview" ? { rcapClosedPreview: "true", rcapPartnerOnboardingEnabled: "true" } : {}),
   ...FROZEN_WORKER_METADATA,
@@ -764,15 +773,18 @@ if (MANAGED_START || HELD_PURPOSE_PREVIEW) {
   if(MANAGED_START)evidence.managedStartRelease={...proof,sourceBound:release.sourceBound};else evidence.purposeRuntimeRelease=proof;
 }
 
+let sourceSuccessorAliasAttempted=false;
 let runtimeRepairAliasAttempted=false;
 try {
 if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed && verdicts.get("deployment_carries_the_final_application_sha")?.passed) {
   const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
   const currentId = current.json?.id ?? current.json?.uid ?? null;
-  if(RUNTIME_REPAIR)assertManagedRepairAliasPrestate(current,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);
+  if(SOURCE_SUCCESSOR)assertSourceSuccessorAliasAbsent(current);
+  else if(RUNTIME_REPAIR)assertManagedRepairAliasPrestate(current,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);
   else if ((ISOLATED_CLINIC_PREVIEW || MANAGED_START || HELD_PURPOSE_PREVIEW) && current.status !== 404 && (current.status !== 200 || currentId !== deploymentId)) throw new Error("DEPLOY_CLINIC_ALIAS_CONFLICT");
   if (current.status !== 200 || currentId !== deploymentId) {
     if (ISOLATED_CLINIC_PREVIEW || MANAGED_START || HELD_PURPOSE_PREVIEW) fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, status:"ALIAS_ASSIGNMENT_PENDING"}, null, 2)}\n`);
+    if(SOURCE_SUCCESSOR)sourceSuccessorAliasAttempted=true;
     if(RUNTIME_REPAIR)runtimeRepairAliasAttempted=true;
     const assigned = await vercelApi(`/v2/deployments/${encodeURIComponent(deploymentId)}/aliases`, {
       method: "POST",
@@ -798,6 +810,7 @@ if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed &
     `${RETURN_ALIAS_HOST} resolves to deployment ${boundId ?? "(none)"}; target=${JSON.stringify(boundTarget)}; exact SHA/return-origin metadata=${boundMeta.rcapApplicationSha === APPLICATION_SHA && boundMeta.rcapReturnOrigin === RETURN_ORIGIN}`
   );
   evidence.aliasAssignment = { hostname: RETURN_ALIAS_HOST, deploymentId: boundId, target: boundTarget, passed: aliasPassed };
+  if(SOURCE_SUCCESSOR){evidence.sourceSuccessorAliasInverse={hostname:RETURN_ALIAS_HOST,priorState:'absent',createdDeploymentId:deploymentId,currentBindingMustEqual:deploymentId,performed:false};if(!aliasPassed)throw Error('DEPLOY_SOURCE_SUCCESSOR_ALIAS_FAILED_NO_RETRY');}
   if(RUNTIME_REPAIR){
     evidence.runtimeRepairAliasInverse={hostname:RETURN_ALIAS_HOST,priorDeploymentId:MANAGED_REPAIR_PREDECESSOR.id,createdDeploymentId:deploymentId,currentBindingMustEqual:deploymentId,performed:false};
     if(!aliasPassed){fs.writeFileSync(path.join(EVIDENCE_DIR,"deploy.json"),`${JSON.stringify({...evidence,passed:false,status:"REPAIR_ALIAS_FAILED_NO_RETRY"},null,2)}\n`);throw Error("DEPLOY_REPAIR_ALIAS_FAILED_NO_RETRY");}
@@ -887,7 +900,7 @@ if (!ISOLATED_CLINIC_PREVIEW && !MANAGED_START) {
     `${aliasesBefore.length} production alias(es) before, ${aliasesAfter.length} after, identical sets`
   );
 
-  const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env${(HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR)?"?decrypt=false":""}`);
+  const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env${(HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR||SOURCE_SUCCESSOR)?"?decrypt=false":""}`);
   if (afterProject.status !== 200 || !Array.isArray(afterProject.json?.alias) || afterEnv.status !== 200 || !Array.isArray(afterEnv.json?.envs)) {
     throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
   }
@@ -904,6 +917,7 @@ if (ISOLATED_CLINIC_PREVIEW || MANAGED_START || configuredSandboxEnv) {
   evidence.ordinaryPreviewAfter = await ordinaryPreviewSnapshot();
   record("ordinary_preview_unchanged", JSON.stringify(evidence.ordinaryPreviewBefore) === JSON.stringify(evidence.ordinaryPreviewAfter), "ordinary deployment, immutable hostname and application-SHA alias compared before/after");
 }
+if(SOURCE_SUCCESSOR){evidence.sourceSuccessorProtectedAfter=await sourceSuccessorProtectedSnapshot();record('source_successor_protected_targets_unchanged',JSON.stringify(evidence.sourceSuccessorProtectedBefore)===JSON.stringify(evidence.sourceSuccessorProtectedAfter),'BaX current triplet, original managed immutable pair, DTC and Clinic triplets unchanged; Production independently preserved');}
 if(RUNTIME_REPAIR){
   evidence.runtimeRepairPredecessorAfter=await repairPredecessorSnapshot();record('repair_predecessor_immutable_unchanged',JSON.stringify(evidence.runtimeRepairPredecessorBefore)===JSON.stringify(evidence.runtimeRepairPredecessorAfter),'original managed immutable deployment stays unchanged; alias transition is separately guarded');
   evidence.purposeSiblingsAfter=await purposeSiblingSnapshot(evidence.purposeSiblingsBefore??[]);record('purpose_siblings_unchanged',JSON.stringify(evidence.purposeSiblingsBefore)===JSON.stringify(evidence.purposeSiblingsAfter),'known same-application sibling identities remain unchanged');
@@ -1009,11 +1023,16 @@ if (ISOLATED_CLINIC_PREVIEW) {
     ].join("\n") + "\n");
   }
   if (evidence.passed) console.log(`DEPLOY PASSED — ${previewUrl} on ${PROJECT_REF}, Preview only, production untouched.`);
+  if(SOURCE_SUCCESSOR&&!evidence.passed)throw Error("DEPLOY_SOURCE_SUCCESSOR_POSTCHECK_FAILED");
   if(RUNTIME_REPAIR&&!evidence.passed)throw Error("DEPLOY_REPAIR_POSTCHECK_FAILED");
   process.exit(evidence.passed ? 0 : 1);
 }
 
 } catch(error) {
+  if(SOURCE_SUCCESSOR){
+    if(sourceSuccessorAliasAttempted){try{evidence.sourceSuccessorAliasInverse=await restoreSourceSuccessorAlias({api:vercelApi,newDeploymentId:deploymentId});}catch{evidence.sourceSuccessorAliasInverse={performed:false,restored:false,blocked:true,currentBindingMustEqual:deploymentId};}}
+    fs.writeFileSync(path.join(EVIDENCE_DIR,'deploy.json'),`${JSON.stringify({...evidence,passed:false,status:'SOURCE_SUCCESSOR_STOP_NO_RETRY'},null,2)}\n`);throw Error('DEPLOY_SOURCE_SUCCESSOR_STOP_NO_RETRY');
+  }
   if(RUNTIME_REPAIR){
     if(runtimeRepairAliasAttempted){try{evidence.runtimeRepairAliasInverse=await restoreManagedRepairAlias({api:vercelApi,alias:RETURN_ALIAS_HOST,newDeploymentId:deploymentId,assertPredecessor:repairPredecessorSnapshot});}catch{evidence.runtimeRepairAliasInverse={performed:false,restored:false,blocked:true,priorDeploymentId:MANAGED_REPAIR_PREDECESSOR.id,currentBindingMustEqual:deploymentId};}}
     fs.writeFileSync(path.join(EVIDENCE_DIR,"deploy.json"),`${JSON.stringify({...evidence,passed:false,status:"REPAIR_STOP_NO_RETRY"},null,2)}\n`);
