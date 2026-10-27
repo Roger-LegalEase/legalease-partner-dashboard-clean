@@ -6,9 +6,10 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {admitQualifiedWorkerImage,QUALIFIED_WORKER_IMAGE} from '../worker-once-preparation/qualified-worker-image.mjs';
 import {applicationInputEquivalence,applicationInputManifest} from '../rcap-application-inputs.mjs';
-export const QUALIFIED_FORWARD_APP='68784f1d89c1f2120a7f4c385569f8918d1492d1';
+export const QUALIFIED_FORWARD_APP='4c189b682d0a9225a21b9fdf8a2ebc50500029d6';
+const PUBLIC_PAGE_APP='68784f1d89c1f2120a7f4c385569f8918d1492d1';
 const QUALIFIED_BASELINE_APP='ed8d0902a99c5326f75987a942eb507b6cfb16cf';
-const PRIOR_CONTROLLER='19404b5e7fcd044609edb700db01414bbd65d872';
+const PRIOR_CONTROLLER='165be1485de8002496b0b36e406ec3a31980f974';
 export const QUALIFIED_FORWARD_FINGERPRINT='sha256:6d082ab7f7f07745a0e69a886fb59e9d396e3aa29233422a072b16edbd794cc2';
 const DIR='data/rcap-grade-a/launch-control/',PLAN=DIR+'QUALIFIED_WORKER_SOURCE_EQUIVALENCE.json';
 const records=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'].map(n=>DIR+n+'.json');
@@ -28,14 +29,27 @@ export function verifyQualifiedWorkerForwardBinding(root,candidate){
   const compatibilityPath=DIR+'QUALIFIED_WORKER_APP_COMPATIBILITY.json',proofPath=DIR+'QUALIFIED_WORKER_IMPORT_CLOSURE.json';
   const compatibilityBytes=read(compatibilityPath),compatibility=JSON.parse(compatibilityBytes),proofBytes=read(proofPath),proof=JSON.parse(proofBytes);
   assert.equal(hash(proofBytes),'e8e8e2bad83c9b307e589f2f6b3944862345564fcfeef7ee0f41422eb7fa24d0');
-  assert.equal(compatibility.schemaVersion,'rcap-exact-public-page-worker-compatibility/v1');assert.equal(compatibility.applicationSha,QUALIFIED_FORWARD_APP);assert.equal(compatibility.baselineApplicationSha,QUALIFIED_BASELINE_APP);
+  assert.equal(compatibility.schemaVersion,'rcap-exact-publication-metadata-worker-compatibility/v1');assert.equal(compatibility.applicationSha,QUALIFIED_FORWARD_APP);assert.equal(compatibility.baselineApplicationSha,QUALIFIED_BASELINE_APP);
   assert.equal(compatibility.workerSourceSha,identity.source);assert.equal(compatibility.workerDigest,identity.digest);assert.equal(compatibility.workerSourceFingerprint,QUALIFIED_FORWARD_FINGERPRINT);
   assert.equal(compatibility.canonicalSourceEquivalent,false);assert.equal(compatibility.canonicalRebuildRequired,true);assert.equal(compatibility.candidateCanonicalFingerprint,null);assert.equal(compatibility.workerExecutableClosureChanged,false);assert.equal(compatibility.legalAndRenderDataChanged,false);
   assert.deepEqual(compatibility.futureCreator,{deploymentId:null,url:null,runId:null,nativeSha256:null});assert.equal(compatibility.customerRuntimeAccepted,false);assert.equal(compatibility.workerClaimAuthorized,false);
-  assert.deepEqual(compatibility.qualifiedImportProof,{path:proofPath,sha256:hash(proofBytes)});assert.deepEqual(proof.unresolved,[]);assert.equal(proof.source,identity.source);assert.equal(proof.app,QUALIFIED_FORWARD_APP);assert.equal(proof.baseline,QUALIFIED_BASELINE_APP);
-  const changed=['src/app/p/[partnerSlug]/page.tsx','src/lib/partners/onboarding/public-page-configuration.ts'];assert.deepEqual(git(['diff','--name-only',QUALIFIED_BASELINE_APP,QUALIFIED_FORWARD_APP]).split('\n').filter(Boolean).sort(),changed.slice().sort());
+  assert.deepEqual(compatibility.qualifiedImportProof,{path:proofPath,sha256:hash(proofBytes)});assert.deepEqual(proof.unresolved,[]);assert.equal(proof.source,identity.source);assert.equal(proof.app,PUBLIC_PAGE_APP);assert.equal(proof.baseline,QUALIFIED_BASELINE_APP);
+  const changed=['src/app/p/[partnerSlug]/page.tsx','src/lib/partners/onboarding/public-page-configuration.ts'];assert.deepEqual(git(['diff','--name-only',QUALIFIED_BASELINE_APP,PUBLIC_PAGE_APP]).split('\n').filter(Boolean).sort(),changed.slice().sort());
   assert.deepEqual(compatibility.changes,proof.scope);assert.equal(proof.scope.length,2);
-  for(const entry of proof.scope){assert(changed.includes(entry.path));assert.equal(entry.inQualifiedWorkerImportClosure,false);assert(!Object.hasOwn(proof.closure,entry.path));assert.equal(git(['rev-parse',identity.source+':'+entry.path]),entry.qualifiedBlob);assert.equal(git(['rev-parse',QUALIFIED_FORWARD_APP+':'+entry.path]),entry.appBlob);}
+  for(const entry of proof.scope){assert(changed.includes(entry.path));assert.equal(entry.inQualifiedWorkerImportClosure,false);assert(!Object.hasOwn(proof.closure,entry.path));assert.equal(git(['rev-parse',identity.source+':'+entry.path]),entry.qualifiedBlob);assert.equal(git(['rev-parse',PUBLIC_PAGE_APP+':'+entry.path]),entry.appBlob);}
+  assert.equal(compatibility.publicPageApplicationSha,PUBLIC_PAGE_APP);
+  const publicationPath=DIR+'QUALIFIED_WORKER_PUBLICATION_COMPATIBILITY.json',publicationBytes=read(publicationPath),publicationProof=JSON.parse(publicationBytes);
+  assert.equal(hash(publicationBytes),'a3ba0bd62554edfc72a4197b8fe28d84e58c08ade42444aabce47b40936bd2ea');assert.deepEqual(compatibility.publicationOnlyProof,{path:publicationPath,sha256:hash(publicationBytes)});
+  assert.equal(publicationProof.applicationSha,QUALIFIED_FORWARD_APP);assert.equal(publicationProof.baselineApplicationSha,PUBLIC_PAGE_APP);assert.equal(publicationProof.qualifiedWorkerSourceSha,identity.source);assert.equal(publicationProof.qualifiedWorkerDigest,identity.digest);
+  const publicationChanges=['data/rcap-grade-a/fulfillment-authority-projection.json','data/rcap-grade-a/fulfillment-authority-registry.json','data/rcap-grade-a/fulfillment-observation-snapshot.json','data/rcap-render/worker-publication-evidence.json','scripts/generate-rcap-grade-a-fulfillment-authority.mjs'];
+  assert.deepEqual(git(['diff','--name-only',PUBLIC_PAGE_APP,QUALIFIED_FORWARD_APP]).split('\n').filter(Boolean).sort(),publicationChanges.slice().sort());
+  assert.deepEqual(publicationProof.changes.map(e=>e.path).sort(),publicationChanges.slice().sort());
+  for(const entry of publicationProof.changes){assert.equal(entry.inQualifiedWorkerImportClosure,false);assert(!Object.hasOwn(proof.closure,entry.path));assert.equal(hash(at(PUBLIC_PAGE_APP,entry.path)),entry.baselineSha256);assert.equal(hash(at(QUALIFIED_FORWARD_APP,entry.path)),entry.applicationSha256);}
+  const staticPath='data/rcap-grade-a/worker-static-authority.json',staticSha='c69f70f7f13a55253c143aba86490922812c53510f8f7d50fb24fa0e91986a55';
+  for(const source of [identity.source,PUBLIC_PAGE_APP,QUALIFIED_FORWARD_APP])assert.equal(hash(at(source,staticPath)),staticSha);
+  for(const [name,pin]of Object.entries(publicationProof.nativeEvidence))assert.equal(hash(native(name)),pin);
+  const publicationEvidence=JSON.parse(at(QUALIFIED_FORWARD_APP,'data/rcap-render/worker-publication-evidence.json'));
+  assert.equal(publicationEvidence.sourceSha,identity.source);assert.equal(publicationEvidence.immutableRegistryDigest,identity.digest);assert.equal(publicationEvidence.workflowConclusion,'success');assert.equal(publicationEvidence.runtimeAccepted,true);assert.equal(publicationEvidence.imageAcceptance.sourceSha,identity.source);assert.equal(publicationEvidence.imageAcceptance.digest,identity.digest);assert.equal(publicationEvidence.imageAcceptance.runId,40505631029);
   const compatibilityBinding={path:compatibilityPath,sha256:hash(compatibilityBytes)};
   assert.match(candidate.toolsSha??'',/^[a-f0-9]{40}$/);
   const expected={applicationSha:QUALIFIED_FORWARD_APP,workerSourceSha:identity.source,workerDigest:identity.digest,workerInputFingerprint:QUALIFIED_FORWARD_FINGERPRINT,toolsSha:candidate.toolsSha};
@@ -55,9 +69,9 @@ export function verifyQualifiedWorkerForwardBinding(root,candidate){
   const tools=JSON.parse(read(records[2])),manifest=tools.successorTools;assert.equal(manifest.baseSha,QUALIFIED_FORWARD_APP);
   const delta=git(['diff','--name-only',QUALIFIED_FORWARD_APP,candidate.toolsSha]).split('\n').filter(p=>p.startsWith('scripts/')||p.startsWith('.github/')).sort();assert.deepEqual(Object.keys(manifest.files).sort(),delta);
   for(const[p,pin]of Object.entries(manifest.files)){assert.equal(hash(at(candidate.toolsSha,p)),pin);assert.equal(hash(read(p)),pin,'frozen controls '+p);}
-  for(const p of [PLAN,compatibilityPath,proofPath])assert.equal(hash(read(p)),hash(at(candidate.toolsSha,p)));
+  for(const p of [PLAN,compatibilityPath,proofPath,publicationPath])assert.equal(hash(read(p)),hash(at(candidate.toolsSha,p)));
   const allowed=new Set(records);assert(git(['diff','--name-only',candidate.toolsSha]).split('\n').filter(Boolean).every(p=>allowed.has(p)),'only three controller records after frozen tools');
   const untracked=git(['ls-files','--others','--exclude-standard','--','scripts','.github','src','data']).split('\n').filter(Boolean);assert(untracked.every(p=>allowed.has(p)),'no unbound source');
-  return {...expected,current:false,bindingVerified:true,status:'FORWARD_BOUND_HOSTED_PENDING',productionAuthorized:false,reasons:['Existing qualified worker retained by exact public-page compatibility proof; canonical source differs. Preview creation only, no customer runtime or worker claim acceptance.']};
+  return {...expected,current:false,bindingVerified:true,status:'FORWARD_BOUND_HOSTED_PENDING',productionAuthorized:false,reasons:['Existing qualified worker retained by preserved public-page and exact publication-only compatibility proofs; canonical source differs. Preview creation only, no customer runtime or worker claim acceptance.']};
  }catch(error){return {current:false,bindingVerified:false,status:'INVALID_QUALIFIED_WORKER_FORWARD_BINDING',reasons:[error.message]};}
 }

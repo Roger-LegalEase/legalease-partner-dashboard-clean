@@ -2088,6 +2088,31 @@ const changeDate = new Date().toISOString().slice(0, 10);
 function priorCurrentRecordFor(routeId) {
   return (committedRegistry.records ?? []).find((entry) => entry.routeId === routeId && (entry.supersededBy ?? null) === null) ?? null;
 }
+function bindExistingMsNativePublication(record) {
+  const next = structuredClone(record);
+  if (record.routeId !== MS_CLINIC_ROUTE || record.supersededBy) return next;
+  assert.equal(record.schemaVersion, GRADE_A_ADMISSION_SCHEMA_VERSION);
+  assert.equal(record.provider.providerId, provider.providerId);
+  assert.equal(record.provider.rendererKind, provider.rendererKind);
+  assert.equal(record.provider.rendererVersion, provider.rendererVersion);
+  next.provider.imageDigest = provider.imageDigest;
+  assert.equal(record.evidenceBindings.providerPublication.hostedAcceptance, "not_established_by_this_record");
+  next.evidenceBindings.providerPublication = {
+    ...record.evidenceBindings.providerPublication,
+    evidencePath: WORKER_EVIDENCE, publishedSourceSha: worker.sourceSha,
+    historicalImmutableRegistryDigest: worker.immutableRegistryDigest,
+    currentInputsEquivalent: !currentPublicationInputs.rebuildRequired, state: "published_input_equivalent"
+  };
+  if (fulfillmentRecordSha256(next) === fulfillmentRecordSha256(record)) return next;
+  next.version = record.version + 1;
+  next.history = [...record.history, {
+    version: next.version, changeKind: "proof_added", changedAt: changeDate, changedBy: GENERATOR_ID,
+    reason: "Bound the unchanged accepted MS record to independently accepted native publication; packet, legal, verification and static worker authority are unchanged.",
+    recordSha256: fulfillmentRecordSha256(next), supersedesRecordSha256: record.history.at(-1).recordSha256
+  }];
+  return next;
+}
+
 function exactProductizedRecordOrRevocation(definition) {
   const prior = priorCurrentRecordFor(definition.routeId);
   let record;
@@ -2136,6 +2161,7 @@ const records = (OR_RETIREMENT_ONLY
   ? committedRegistry.records.map(record => record.routeId === OR_RETIREMENT_ROUTE
     ? supersedeFromSpecification(record, packetSpecificationFor(record.routeId), fulfillmentRecordSha256, GENERATOR_ID, changeDate, RETIREMENT_DETERMINATION)
     : structuredClone(record))
+  : MS_NATIVE_PUBLICATION_ONLY ? committedRegistry.records.map(bindExistingMsNativePublication)
   : [
   ...(QUESTION_CONTRACT_ONLY ? committedRegistry.records.filter(record => !QUESTION_CONTRACT_ROUTES.has(record.routeId)).map(record => structuredClone(record)) : []),
   ...(QUESTION_CONTRACT_ONLY ? [] : rows).map(row => {
@@ -2364,6 +2390,13 @@ const observation = OR_RETIREMENT_ONLY ? {
   ...committedObservation,
   routes: Object.fromEntries(Object.entries(committedObservation.routes)
     .filter(([routeId]) => routeId !== OR_RETIREMENT_ROUTE))
+} : MS_NATIVE_PUBLICATION_ONLY ? {
+  ...committedObservation,
+  routes: { ...committedObservation.routes, [MS_CLINIC_ROUTE]: {
+    ...committedObservation.routes[MS_CLINIC_ROUTE],
+    provider: records.find(record => record.routeId === MS_CLINIC_ROUTE && !record.supersededBy).provider,
+    externalPublication: observationRoutes[MS_CLINIC_ROUTE].externalPublication
+  } }
 } : QUESTION_CONTRACT_ONLY ? {
   ...committedObservation,
   routes: { ...committedObservation.routes,
