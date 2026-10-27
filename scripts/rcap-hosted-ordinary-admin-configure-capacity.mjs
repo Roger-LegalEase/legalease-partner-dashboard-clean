@@ -47,10 +47,8 @@ export async function configureCapacity({context,admit,checkpoint,bypass,provisi
    active={plan,refused:false,gate:createStepRequestGate(plan,{checkpoint:async witness=>checkpoint(plan.stage+'-before.json',{stage:plan.stage+'_before_forward',...state(),request:witness,capacityProofKind:proof.kind,receiptRun:'40433891473',participantVerificationAllowed:false})})};
    let response;
    if(plan.stage==='configuration_save'){
-    await page.locator('#configure-program').waitFor();await page.locator('#program-field-service_mode select').selectOption('sponsored_packets');
-    await page.locator('#program-field-operator_authority_reference').evaluate(el=>{for(let p=el.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});
-    await page.locator('#program-field-operator_authority_reference textarea, #program-field-operator_authority_reference input').fill(AUTHORITY);
-    mark('configuration_save_submit');const reply=page.waitForResponse(r=>r.url()===ORIGIN+plan.endpoint&&r.request().method()==='POST',{timeout:90000});await page.getByRole('button',{name:'Save program',exact:true}).click();const r=await reply;let body=null;try{body=await r.json();}catch{}response={status:r.status(),body};
+    mark('configuration_request_id');const requestId=await page.evaluate(()=>crypto.randomUUID());
+    mark('configuration_save_submit');response=await page.evaluate(async input=>{const r=await fetch(input.path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(input.body),redirect:'manual'});let body=null;try{body=await r.json();}catch{}return{status:r.status,body};},{path:plan.endpoint,body:{...plan.body,requestId}});
    }else{
     assert.equal(plan.body.requestId,ALLOCATION_REQUEST);mark('allocation_submit');response=await page.evaluate(async input=>{const r=await fetch(input.path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(input.body),redirect:'manual'});let body=null;try{body=await r.json();}catch{}return{status:r.status,body};},{path:plan.endpoint,body:plan.body});
    }
