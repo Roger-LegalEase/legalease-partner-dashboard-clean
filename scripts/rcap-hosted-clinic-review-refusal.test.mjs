@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {CLINIC} from './rcap-hosted-existing-clinic-readonly.mjs';
+import {clinicReviewRequest,projectClinicRequestRefusal} from './rcap-hosted-clinic-review-queue.mjs';
+const config={origin:'https://legalease-rcap-clinic-c0052e13d980-roger947s-projects.vercel.app'},state={revision:0,verifyAttempts:0,generateAttempts:0,verified:false};
+const make=(url,method='GET',body)=>({url:()=>url,method:()=>method,postDataJSON:()=>body,resourceType:()=>method==='GET'?'script':'fetch'});
+const asset=make('https://vercel.live/_next-live/feedback/feedback.js?private_token=never-retain-this');
+const classified=projectClinicRequestRefusal(config,asset,state);
+assert.equal(classified.pathClass,'fixed_public_asset');assert.equal(classified.fixedPublicPath,'/_next-live/feedback/feedback.js');assert.equal(classified.originClass,'vercel_live');assert.equal(classified.method,'GET');assert.equal(classified.reason,'foreign_origin');assert.equal(clinicReviewRequest(config,asset.url(),'GET',undefined,state),null);assert(!JSON.stringify(classified).includes('never-retain-this'));
+const secret='private-fact-value-999-99-9999';const unknown=make(config.origin+'/private/'+secret+'?private_key='+secret,'POST',{answers:{private_fact:secret},verify:false,expectedRevision:0});
+unknown.headers=()=>({cookie:secret,'next-router-prefetch':'1',rsc:'1'});
+const redacted=projectClinicRequestRefusal(config,unknown,state);assert.equal(redacted.pathClass,'other');assert.equal(redacted.answerKeyCount,1);assert.equal(redacted.prefetchRequest,true);assert.equal(redacted.rscRequest,true);assert(!JSON.stringify(redacted).includes(secret));assert(!JSON.stringify(redacted).includes('private_key'));assert(!JSON.stringify(redacted).includes('private_fact'));
+const verify=make(config.origin+`/api/expungement-ai/briefcase/${CLINIC.item}/packet-information`,'POST',{answers:{},verify:true,expectedRevision:0});
+const poisoned=projectClinicRequestRefusal(config,verify,state,2);assert.equal(poisoned.reason,'prior_request_refusal');assert.equal(poisoned.wouldMatchOperation,'verify');assert.equal(poisoned.answerKeyCount,0);assert.equal(poisoned.verifyRequested,true);assert.equal(state.verifyAttempts,0);
+console.log('2 focused Clinic public-request classification and private-value refusal/poisoned-write diagnostics checks PASS; authorization unchanged, no live calls.');

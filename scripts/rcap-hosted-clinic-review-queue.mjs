@@ -31,6 +31,23 @@ export function clinicReviewRequest(config,url,method,body,state){
   &&Object.keys(body).join(',')==='briefcaseItemId'&&body.briefcaseItemId===CLINIC.item)return 'generate';
  return null;
 }
+export function projectClinicRequestRefusal(config,request,state,priorRefusalCount=0){
+ const method=request.method(),safeMethod=['GET','POST','HEAD','OPTIONS'].includes(method)?method:'other';
+ let u;try{u=new URL(request.url());}catch{return {method:safeMethod,reason:'invalid_url',priorRefusalCount};}
+ const fixedPublicPaths=new Set(['/_vercel/insights/script.js','/_vercel/speed-insights/script.js','/_vercel/toolbar/script.js','/_next-live/feedback/feedback.js','/_next/image','/favicon.ico','/expungement-ai/wilma-avatar.png']);
+ const originClass=u.origin===config.origin?'application':u.origin==='https://vercel.live'?'vercel_live':'other';
+ const pathClass=u.pathname===PACKET?'same_case_packet_api':u.pathname===GENERATE?'generation_api':u.pathname.startsWith('/_next/static/')?'next_static':fixedPublicPaths.has(u.pathname)?'fixed_public_asset':'other';
+ let body;try{body=request.postDataJSON();}catch{}
+ let wouldMatchOperation=null;try{wouldMatchOperation=clinicReviewRequest(config,u.href,method,body,state);}catch{}
+ const keys=[...u.searchParams.keys()],bodyObject=body&&typeof body==='object'&&!Array.isArray(body),headers=request.headers?.()??{};
+ const reason=wouldMatchOperation&&priorRefusalCount>0?'prior_request_refusal':wouldMatchOperation?'forward_guard_failed':originClass!=='application'?'foreign_origin':method==='GET'?'get_not_admitted':'request_shape_or_path_not_admitted';
+ return {method:safeMethod,originClass,pathClass,...(fixedPublicPaths.has(u.pathname)?{fixedPublicPath:u.pathname}:{}),pathSha256:hash(u.pathname),reason,wouldMatchOperation,priorRefusalCount,
+  resourceType:['document','stylesheet','image','media','font','script','xhr','fetch','other'].includes(request.resourceType?.())?request.resourceType():'other',
+  rscRequest:headers.rsc==='1',prefetchRequest:headers['next-router-prefetch']==='1'||headers.purpose==='prefetch'||String(headers['sec-purpose']??'').includes('prefetch'),
+  queryKeyClasses:keys.map(key=>['dpl','_rsc','edit','url','w','q'].includes(key)?key:'other'),duplicateQueryKeys:new Set(keys).size!==keys.length,
+  ...(u.pathname==='/_next/image'?{fixedAvatarRequested:u.searchParams.get('url')==='/expungement-ai/wilma-avatar.png',defaultQualityRequested:u.searchParams.get('q')==='75'}:{}),
+  verifyRequested:Boolean(bodyObject&&body.verify===true),expectedRevisionMatches:Boolean(bodyObject&&body.expectedRevision===state.revision),answerKeyCount:bodyObject&&body.answers&&typeof body.answers==='object'&&!Array.isArray(body.answers)?Object.keys(body.answers).length:null};
+}
 export function assertClinicReviewRecovery(r){
  assert.equal(r.schema,'existing-clinic-postsave-get-recovery/v1');assert.equal(r.packetInformationHttp,200);
  assert.equal(r.ownedReviewPathExact,true);assert.equal(r.revision,0);assert.equal(r.readyToGenerate,false);
@@ -56,7 +73,7 @@ export async function continueClinicReview({config,native,recovery,context,ports
  const guard=async route=>{
   const request=route.request();let body;try{body=request.postDataJSON();}catch{}
   const operation=clinicReviewRequest(config,request.url(),request.method(),body,state);
-  if(!operation){violations.push('request_refused');record({phase:'request_refused',verifyAttempts:state.verifyAttempts,generateAttempts:state.generateAttempts});return route.abort('blockedbyclient');}
+  if(!operation){const diagnostic=projectClinicRequestRefusal(config,request,state,violations.length);violations.push('request_refused');record({phase:'request_refused',...diagnostic,verifyAttempts:state.verifyAttempts,generateAttempts:state.generateAttempts});return route.abort('blockedbyclient');}
   if(operation!=='read'){
    assert.deepEqual(violations,[],'refused traffic requires reconciliation before a customer write');
    await ports.assertContinuousWindow({phase:'before_'+operation,item:CLINIC.item,owner:CLINIC.owner});
@@ -66,7 +83,7 @@ export async function continueClinicReview({config,native,recovery,context,ports
   }
   return route.fallback({headers:{...request.headers(),'x-vercel-protection-bypass':config.bypass}});
  };
- const tracked=route=>{const task=guard(route).catch(async()=>{violations.push('forward_guard_refused');await route.abort('blockedbyclient');});inflight.add(task);task.finally(()=>inflight.delete(task)).catch(()=>{});return task;};
+ const tracked=route=>{const task=guard(route).catch(async()=>{const diagnostic=projectClinicRequestRefusal(config,route.request(),state,violations.length);violations.push('forward_guard_refused');record({phase:'forward_guard_refused',...diagnostic,verifyAttempts:state.verifyAttempts,generateAttempts:state.generateAttempts});await route.abort('blockedbyclient');});inflight.add(task);task.finally(()=>inflight.delete(task)).catch(()=>{});return task;};
  try{
   await context.route('**/*',responseObserver);await context.route('**/*',tracked);
   page=await context.newPage();await ports.assertContinuousWindow({phase:'before_review',item:CLINIC.item,owner:CLINIC.owner});
