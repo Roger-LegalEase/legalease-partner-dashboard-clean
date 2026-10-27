@@ -1,3 +1,4 @@
+import{trialCheckoutSubmitActionability}from'./rcap-checkout-submit-actionability.mjs';
 import {safeCheckoutBrowserDiagnostic} from './rcap-checkout-browser-diagnostic.mjs';
 // Complete a Stripe Checkout Session the way a customer does: in a browser, on
 // Stripe's own hosted page.
@@ -371,8 +372,10 @@ export async function completeHostedCheckout({
   // capturing the post-payment screens. It observes; it must not act.
   onReturn = null,
   beforeFinalPay,
-  onSubmitCheckpoint = async () => {}
+  onSubmitCheckpoint = async () => {},
+  submitActionabilityOnly = false
 }) {
+  if(typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
     throw new Error('Exact HTTPS Checkout success URL is required before opening the provider page.');
   }
@@ -534,6 +537,10 @@ export async function completeHostedCheckout({
     failurePhase = 'before_final_pay';
     await beforeFinalPay(submitInspection);
     finalPayCheckPassed = true;
+    if(submitActionabilityOnly){
+      const actionabilityTrial=await trialCheckoutSubmitActionability({submit,checkpoint:onSubmitCheckpoint});
+      return{completed:false,humanInteractionRequired:false,failureReason:'diagnostic_stop_before_pay',submitAttempted:false,submitInspection,actionabilityTrial,notes,screenshots};
+    }
     failurePhase = 'before_submit_checkpoint';
     await checkpointSubmit("provider_checkout_submit_before_forward");
     submitAttempted = true;
