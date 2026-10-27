@@ -299,6 +299,44 @@ export async function bootstrapPreviewCheckoutReturn(context, expectedReturnUrl,
   }
 }
 
+/** Read only safe control metadata; unknown names and all values stay in the browser. */
+export async function readCheckoutSubmitState(page, submit) {
+  const controls = [];
+  let inspectionComplete = true;
+  const submitDisabled = submit ? await submit.isDisabled().catch(() => { inspectionComplete = false; return null; })
+    : (inspectionComplete = false, null);
+  for (const scope of frameScopes(page)) {
+    const fields = await scope.locator("input:not([type=hidden]), select").all()
+      .catch(() => { inspectionComplete = false; return []; });
+    for (const control of fields) {
+      if (controls.length >= 60) { inspectionComplete = false; break; }
+      const visible = await control.isVisible().catch(() => { inspectionComplete = false; return false; });
+      if (!visible) continue;
+      const state = await control.evaluate(el => {
+        const knownNames = ['email','cardNumber','cardExpiry','cardCvc','cardCountry','cardPostalCode',
+          'billingName','billingAddressLine1','billingAddressLine2','billingLocality','billingAdministrativeArea',
+          'billingPostalCode','billingCountry','phoneNumber','name','country','addressLine1','addressLine2',
+          'postalCode','city','state','termsOfServiceConsentCheckbox'];
+        const knownAutocomplete = ['email','cc-name','cc-number','cc-exp','cc-csc','country','country-name',
+          'street-address','address-line1','address-line2','address-level1','address-level2','postal-code','tel','name'];
+        const rawName = el.getAttribute('name') ?? '';
+        const autocomplete = el.getAttribute('autocomplete') ?? '';
+        const known = knownNames.includes(rawName);
+        const name = known ? rawName : knownAutocomplete.includes(autocomplete) ? autocomplete : 'unrecognized_control';
+        const type = el.tagName.toLowerCase() === 'select' ? 'select'
+          : ['checkbox','radio'].includes(el.type) ? el.type : 'input';
+        const required = el.hasAttribute('required') || el.getAttribute('aria-required') === 'true';
+        const checked = ['checkbox','radio'].includes(type) ? el.checked === true : null;
+        const missing = el.validity?.valueMissing === true || required && (checked === null ? !String(el.value ?? '').trim() : !checked);
+        return { name, type, required, missing, invalid: el.validity?.valid === false || el.getAttribute('aria-invalid') === 'true',
+          checked, unknownRequiredCheckbox: type === 'checkbox' && required && !known };
+      }).catch(() => { inspectionComplete = false; return null; });
+      if (state) controls.push(state);
+    }
+  }
+  return { submitDisabled, controls, inspectionComplete };
+}
+
 /**
  * Drives one Checkout Session to completion.
  *
@@ -342,6 +380,7 @@ export async function completeHostedCheckout({
   const postReturnCaptureFailures = [];
   let promotion = null;
   let submitAttempted = false;
+  let submitInspection = null;
   let finalPayCheckStarted = false;
   let finalPayCheckPassed = false;
   let exactReturnObserved = false;
@@ -393,7 +432,7 @@ export async function completeHostedCheckout({
     }
     try { await shoot('returned'); }
     catch { captureFailure('screenshot'); }
-    return { completed: true, humanInteractionRequired: false, failureReason: "completed", submitAttempted, returnUrl: sanitizedCheckoutDestination(expectedReturnUrl), promotion,
+    return { completed: true, humanInteractionRequired: false, failureReason: "completed", submitAttempted, submitInspection, returnUrl: sanitizedCheckoutDestination(expectedReturnUrl), promotion,
       postReturnCaptureFailures, notes, screenshots };
   };
 
@@ -460,7 +499,9 @@ export async function completeHostedCheckout({
     if (remaining.length) {
       notes.push(`required fields need operator review: ${remaining.join(", ")}`);
       await shoot("required-fields-unfilled");
-      return { completed: false, humanInteractionRequired: true, failureReason: "required_fields_missing", submitAttempted, promotion, notes, screenshots };
+      submitInspection = await readCheckoutSubmitState(page,
+        page.locator('button[data-testid="hosted-payment-submit-button"], button[type="submit"]').first());
+      return { completed: false, humanInteractionRequired: true, failureReason: "required_fields_missing", submitAttempted, submitInspection, promotion, notes, screenshots };
     }
     await requireNoProviderChallenge(page);
     await shoot("form-complete");
@@ -475,7 +516,8 @@ export async function completeHostedCheckout({
     if (!submit) {
       notes.push("no submit control found on the Checkout page");
       await shoot("no-submit");
-      return { completed: false, humanInteractionRequired: false, failureReason: "submit_control_missing", submitAttempted, promotion, notes, screenshots };
+      submitInspection = await readCheckoutSubmitState(page, null);
+      return { completed: false, humanInteractionRequired: false, failureReason: "submit_control_missing", submitAttempted, submitInspection, promotion, notes, screenshots };
     }
     const submitDisabled = await submit.isDisabled().catch(() => false);
     notes.push(`submit control ${submitDisabled ? "is disabled" : "is enabled"}`);
@@ -483,7 +525,8 @@ export async function completeHostedCheckout({
     page.on('framenavigated', observeReturn);
     if (typeof beforeFinalPay !== 'function') throw new Error('Actual final payment window check required.');
     finalPayCheckStarted = true;
-    await beforeFinalPay();
+    submitInspection = await readCheckoutSubmitState(page, submit);
+    await beforeFinalPay(submitInspection);
     finalPayCheckPassed = true;
     await checkpointSubmit("provider_checkout_submit_before_forward");
     submitAttempted = true;
@@ -537,7 +580,7 @@ export async function completeHostedCheckout({
     requireExpectedDestination();
     if (exactReturnObserved) return await finishObservedReturn();
 
-    return { completed: false, humanInteractionRequired: false, failureReason: "return_not_observed", submitAttempted, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
+    return { completed: false, humanInteractionRequired: false, failureReason: "return_not_observed", submitAttempted, submitInspection, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
   } catch (error) {
     // Re-read after an interrupted DOM operation. Only navigation-specific
     // errors may await a commit; an unrelated error before return still fails.
@@ -566,12 +609,13 @@ export async function completeHostedCheckout({
           : 'Checkout browser operation failed; review the existing Session before retrying.';
     notes.push(`browser error: ${message}`);
     if (error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' && !error?.sanitizedDestination) await shoot("error").catch(() => {});
-    const failureReason = error?.code === 'CHECKOUT_PREVIEW_BOOTSTRAP_FAILED' ? 'preview_bootstrap_failed'
+    const failureReason = error?.code === 'CHECKOUT_DIAGNOSTIC_STOP' ? 'diagnostic_stop_before_pay'
+      : error?.code === 'CHECKOUT_PREVIEW_BOOTSTRAP_FAILED' ? 'preview_bootstrap_failed'
       : error?.sanitizedDestination ? 'unexpected_destination'
         : error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' ? 'provider_challenge'
           : error?.code === 'CHECKOUT_SUBMISSION_CHECKPOINT_FAILED' ? 'submission_checkpoint_failed'
             : finalPayCheckStarted && !finalPayCheckPassed ? 'final_payment_window_check_failed' : 'browser_operation_failed';
-    return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', failureReason, submitAttempted, notes, screenshots };
+    return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', failureReason, submitAttempted, submitInspection, notes, screenshots };
   } finally {
     if (observingReturn) page.off('framenavigated', observeReturn);
     await context.close().catch(() => {});

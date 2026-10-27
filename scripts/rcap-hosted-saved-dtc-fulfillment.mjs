@@ -33,7 +33,7 @@ async function fulfillSavedDtc({stage,window},io){
   catch { browser={completed:false,failureReason:'browser_operation_failed'}; }
   const safeBrowser={completed:browser?.completed===true,
    humanInteractionRequired:typeof browser?.humanInteractionRequired==='boolean'?browser.humanInteractionRequired:null,
-   failureReason:['completed','promotion_rejected','card_not_supplied','required_fields_missing','submit_control_missing','return_not_observed','preview_bootstrap_failed','unexpected_destination','provider_challenge','final_payment_window_check_failed','submission_checkpoint_failed','browser_operation_failed'].includes(browser?.failureReason)?browser.failureReason:'unclassified_browser_result',
+   failureReason:['completed','diagnostic_stop_before_pay','promotion_rejected','card_not_supplied','required_fields_missing','submit_control_missing','return_not_observed','preview_bootstrap_failed','unexpected_destination','provider_challenge','final_payment_window_check_failed','submission_checkpoint_failed','browser_operation_failed'].includes(browser?.failureReason)?browser.failureReason:'unclassified_browser_result',
    submitAttempted:typeof browser?.submitAttempted==='boolean'?browser.submitAttempted:null};
   await io.checkpoint({phase:'provider_checkout_browser_returned',sessionSha256:hash(sessionId),...safeBrowser});
   if(!safeBrowser.completed||safeBrowser.humanInteractionRequired===true)return Object.freeze({phase:'HOLD_RECONCILE_NO_RETRY',errorClass:'CheckoutBrowserRefusal',browser:safeBrowser,rawPdfPersisted:false,newCase:false,newFacts:false,newVerification:false});

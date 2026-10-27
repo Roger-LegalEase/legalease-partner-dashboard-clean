@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import { chromium } from 'playwright';
-import { completeHostedCheckout as completeSavedHostedCheckout } from './rcap-saved-dtc-stripe-checkout-browser.mjs';
+import { completeHostedCheckout as completeSavedHostedCheckout, readCheckoutSubmitState } from './rcap-saved-dtc-stripe-checkout-browser.mjs';
 import { requireNoProviderChallenge, fillRemainingRequired, isExpectedCheckoutReturn,
   expectedCheckoutTotal, checkoutAmountMatches, completeHostedCheckout } from './rcap-stripe-checkout-browser.mjs';
 
@@ -101,7 +101,7 @@ test('only the same application, matter, success state and Session count as a re
 });
 
 for (const [browserName, checkout] of [['standard', completeHostedCheckout], ['savedDtc', completeSavedHostedCheckout]]) {
-for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only', ...(browserName==='savedDtc'?['window-fail','checkpoint-before-fail','checkpoint-after-fail']:[])]) {
+for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only', ...(browserName==='savedDtc'?['window-fail','checkpoint-before-fail','checkpoint-after-fail','diagnostic-stop','required-fields-stop']:[])]) {
   test(`Checkout orchestration ${browserName} ${scenario} with local browser double`, async t => {
     const expected = scenario === 'non-vercel-return' ? 'https://untrusted.example/briefcase/matter-a?checkout=success' : 'https://preview.vercel.app/briefcase/matter-a?checkout=success';
     const secret = 'SYNTHETIC-bypass-SECRET';
@@ -110,7 +110,7 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
     const requests = [];
     const submissionCheckpoints = [];
     const succeeds = ['success', 'bootstrap-redirect', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error'].includes(scenario);
-    const opensStripe = succeeds || ['challenge', 'wrong-return', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only','window-fail','checkpoint-before-fail','checkpoint-after-fail'].includes(scenario);
+    const opensStripe = succeeds || ['challenge', 'wrong-return', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only','window-fail','checkpoint-before-fail','checkpoint-after-fail','diagnostic-stop','required-fields-stop'].includes(scenario);
     let current = 'https://checkout.stripe.com/c/pay/cs_test_local';
     const mutations = [];
     let closed = 0;
@@ -141,7 +141,11 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
       }, url: () => current,
       mainFrame: () => page, frames: () => [page],
       locator: selector => ({
-        all: async () => [], innerText: async () => '$0.00',
+        all: async () => scenario==='required-fields-stop'&&selector.startsWith('input:not(')?[{
+          isVisible:async()=>true,isDisabled:async()=>false,inputValue:async()=>'',
+          evaluate:async fn=>fn({tagName:'INPUT',type:'text',value:'',validity:{valid:false,valueMissing:true},
+            getAttribute:key=>({name:'PRIVATE_REFERENCE',type:'text'}[key]??null),hasAttribute:key=>key==='required'})
+        }]:[], innerText: async () => '$0.00',
         allInnerTexts: async () => {
           if (scenario === 'deadline-return') { current = expected; listener?.(page); }
           return [];
@@ -203,7 +207,7 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
     };
     t.mock.method(chromium, 'launch', async () => ({ newContext: async options => { assert.equal(options?.extraHTTPHeaders, undefined); return context; }, close: async () => { closed++; } }));
     const outcome = await checkout({ checkoutUrl: current, expectedReturnUrl: expected,
-      beforeFinalPay: async () => { assert.equal(submitted,false); if(scenario==='window-fail')throw Error(sensitiveError); },
+      beforeFinalPay: async state => { assert.equal(submitted,false); if(scenario==='window-fail')throw Error(sensitiveError); if(scenario==='diagnostic-stop'){assert.equal(state.submitDisabled,false);assert.deepEqual(state.controls,[]);assert.equal(state.inspectionComplete,true);const stop=Error('PRIVATE_DIAGNOSTIC_MESSAGE');stop.code='CHECKOUT_DIAGNOSTIC_STOP';throw stop;} },
       onSubmitCheckpoint: async receipt => {
         assert.equal(receipt.submitAttempted,submitted);submissionCheckpoints.push(structuredClone(receipt));
         if(scenario==='checkpoint-before-fail'&&receipt.submitAttempted===false||scenario==='checkpoint-after-fail'&&receipt.submitAttempted===true)throw Error(sensitiveError);
@@ -225,6 +229,8 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
       if(succeeds)assert.equal(outcome.failureReason,'completed');
       if(scenario==='challenge')assert.equal(outcome.failureReason,'provider_challenge');
       if(scenario==='window-fail')assert.equal(outcome.failureReason,'final_payment_window_check_failed');
+      if(scenario==='diagnostic-stop'){assert.equal(outcome.failureReason,'diagnostic_stop_before_pay');assert.equal(submitted,false);assert.deepEqual(submissionCheckpoints,[]);assert(!JSON.stringify(outcome).includes('PRIVATE_DIAGNOSTIC_MESSAGE'));}
+      if(scenario==='required-fields-stop'){assert.equal(outcome.failureReason,'required_fields_missing');assert.equal(outcome.submitInspection.controls[0].name,'unrecognized_control');assert.equal(outcome.submitInspection.controls[0].missing,true);assert.equal(submitted,false);}
       if(scenario.startsWith('checkpoint-'))assert.equal(outcome.failureReason,'submission_checkpoint_failed');
     }
     assert.equal(captures, succeeds ? 1 : 0);
@@ -264,4 +270,24 @@ test('payment acceptance requires settlement AND a positively observed browser r
     assert.equal(accepts(settled, { completed }), settled && completed === true);
   }
   assert.match(harness, /if \(!settled \|\| outcome.completed !== true \|\| outcome.humanInteractionRequired\) finish\(\);/);
+});
+
+test('no-Pay inspection returns known control names and unknown-checkbox booleans without values or mutation',async()=>{
+ const input=(name,{type='text',value='',required=true,checked=false,invalid=true,autocomplete=''}={})=>({
+  isVisible:async()=>true,evaluate:async fn=>fn({tagName:'INPUT',type,value,checked,validity:{valid:!invalid,valueMissing:required&&(['checkbox','radio'].includes(type)?!checked:!value)},
+   getAttribute:key=>({name,autocomplete}[key]??null),hasAttribute:key=>key==='required'&&required}),
+  click:()=>{throw Error('inspection must never click');},fill:()=>{throw Error('inspection must never fill');}
+ });
+ const fields=[input('email',{value:'PRIVATE_EMAIL@example.invalid',invalid:false}),input('cardNumber'),
+  input('PRIVATE_UNKNOWN_PERSON',{type:'checkbox',checked:false}),input('termsOfServiceConsentCheckbox',{type:'checkbox',checked:true,invalid:false}),
+  input('PRIVATE_ACCOUNT_TOKEN',{value:'PRIVATE_VALUE',required:false,invalid:false})];
+ const page={mainFrame:()=>page,frames:()=>[page],locator:()=>({all:async()=>fields})};
+ const state=await readCheckoutSubmitState(page,{isDisabled:async()=>true});
+ assert.equal(state.submitDisabled,true);assert.equal(state.inspectionComplete,true);assert.equal(state.controls[0].name,'email');
+ assert.equal(state.controls[0].missing,false);assert.equal(state.controls[1].name,'cardNumber');assert.equal(state.controls[1].missing,true);
+ assert.equal(state.controls[2].name,'unrecognized_control');assert.equal(state.controls[2].unknownRequiredCheckbox,true);assert.equal(state.controls[2].checked,false);
+ assert.equal(state.controls[3].name,'termsOfServiceConsentCheckbox');assert.equal(state.controls[3].checked,true);assert.equal(state.controls[3].unknownRequiredCheckbox,false);
+ for(const secret of ['PRIVATE_EMAIL','PRIVATE_UNKNOWN_PERSON','PRIVATE_ACCOUNT_TOKEN','PRIVATE_VALUE'])assert(!JSON.stringify(state).includes(secret));
+ const incomplete=await readCheckoutSubmitState({...page,locator:()=>({all:async()=>{throw Error('PRIVATE_READ_FAILURE');}})},{isDisabled:async()=>{throw Error('PRIVATE_SUBMIT_FAILURE');}});
+ assert.equal(incomplete.submitDisabled,null);assert.equal(incomplete.inspectionComplete,false);assert.deepEqual(incomplete.controls,[]);
 });

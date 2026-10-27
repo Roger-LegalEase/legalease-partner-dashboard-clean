@@ -38,6 +38,7 @@ const {createSavedCheckoutBrowser}=await import('./rcap-hosted-saved-dtc-checkou
 console.log('PASS: normal existing owner/freshOwner/stranger Auth, anonymous cookie omission, app-only bypass and explicit browser email/session/no screenshot/no promotion/existingChrome. No live clients invoked.');
 
 for(const browser of [
+ {completed:false,humanInteractionRequired:false,failureReason:'diagnostic_stop_before_pay',submitAttempted:false},
  {completed:false,humanInteractionRequired:true,failureReason:'provider_challenge',submitAttempted:false},
  {completed:false,humanInteractionRequired:true,failureReason:'provider_challenge',submitAttempted:true},
  {completed:false,humanInteractionRequired:false,failureReason:'final_payment_window_check_failed',submitAttempted:false},
