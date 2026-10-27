@@ -23,6 +23,14 @@ function requirePreviewAdmission(root,inputs,phase){
 }
 export const requireHeldPreviewAdmission=(root,inputs)=>requirePreviewAdmission(root,inputs,'replace_preview');
 export const requireManagedStartPreviewAdmission=(root,inputs)=>requirePreviewAdmission(root,inputs,'managed_start_preview');
+export const requireConfiguredSandboxPreviewAdmission=(root,inputs)=>requirePreviewAdmission(root,inputs,'configured_sandbox_preview');
+export const requireClinicDeployPreviewAdmission=(root,inputs)=>requirePreviewAdmission(root,inputs,'clinic_deploy');
+function previewAdmissionForPhase(phase){
+ if(phase==='managed_start_preview')return requireManagedStartPreviewAdmission;
+ if(phase==='configured_sandbox_preview')return requireConfiguredSandboxPreviewAdmission;
+ if(phase==='clinic_deploy')return requireClinicDeployPreviewAdmission;
+ return requireHeldPreviewAdmission;
+}
 export const requirePreviewPreparation=requireHeldPreviewAdmission;
 // The transport serves existing CURRENT Preview operations as well. Only the
 // exact pending state may use the separate HELD gate; other states retain the
@@ -33,11 +41,15 @@ export function loadPreviewTransportIdentity(root){
  const env=process.env;
  const supplied=env.PHASE_INPUT!==undefined;
  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8'}).trim();
- const requirePreview=env.PHASE_INPUT==='managed_start_preview'?requireManagedStartPreviewAdmission:requireHeldPreviewAdmission;
- return requirePreview(root,{phase:supplied?env.PHASE_INPUT:'replace_preview',applicationSha:supplied?env.APPLICATION_SHA_INPUT:candidate.applicationSha,workerSourceSha:supplied?env.WORKER_SOURCE_SHA_INPUT:candidate.workerSourceSha,workerDigest:supplied?env.WORKER_DIGEST_INPUT:candidate.workerDigest,toolsSha:supplied?env.TOOLS_SHA_INPUT:candidate.toolsSha,workflowSourceSha:supplied?env.GITHUB_SHA:git(['rev-parse','HEAD'])});
+ const requirePreview=previewAdmissionForPhase(env.PHASE_INPUT);
+ // The separate carrier remains the real GitHub workflow. New purpose jobs
+ // separately freeze the actual admitted-controller checkout; never override GITHUB_SHA.
+ const separateController=['configured_sandbox_preview','clinic_deploy'].includes(env.PHASE_INPUT);
+ return requirePreview(root,{phase:supplied?env.PHASE_INPUT:'replace_preview',applicationSha:supplied?env.APPLICATION_SHA_INPUT:candidate.applicationSha,workerSourceSha:supplied?env.WORKER_SOURCE_SHA_INPUT:candidate.workerSourceSha,workerDigest:supplied?env.WORKER_DIGEST_INPUT:candidate.workerDigest,toolsSha:supplied?env.TOOLS_SHA_INPUT:candidate.toolsSha,workflowSourceSha:supplied?(separateController?env.RCAP_ADMITTED_CONTROLLER_SHA:env.GITHUB_SHA):git(['rev-parse','HEAD'])});
 }
 if(process.argv[1]?.endsWith('/require-preview-preparation.mjs')){
- const requirePreview=process.env.PHASE_INPUT==='managed_start_preview'?requireManagedStartPreviewAdmission:requirePreviewPreparation;
- const result=requirePreview(process.cwd(),{phase:process.env.PHASE_INPUT,applicationSha:process.env.APPLICATION_SHA_INPUT,workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT,workerDigest:process.env.WORKER_DIGEST_INPUT,toolsSha:process.env.TOOLS_SHA_INPUT,workflowSourceSha:process.env.GITHUB_SHA});
+ const requirePreview=previewAdmissionForPhase(process.env.PHASE_INPUT);
+ const separateController=['configured_sandbox_preview','clinic_deploy'].includes(process.env.PHASE_INPUT);
+ const result=requirePreview(process.cwd(),{phase:process.env.PHASE_INPUT,applicationSha:process.env.APPLICATION_SHA_INPUT,workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT,workerDigest:process.env.WORKER_DIGEST_INPUT,toolsSha:process.env.TOOLS_SHA_INPUT,workflowSourceSha:separateController?process.env.RCAP_ADMITTED_CONTROLLER_SHA:process.env.GITHUB_SHA});
  console.log(JSON.stringify({applicationSha:result.applicationSha,workerSourceSha:result.workerSourceSha,workerDigest:result.workerDigest,toolsSha:result.toolsSha,current:result.current,previewOnly:result.previewOnly,productionAuthorized:result.productionAuthorized}));
 }

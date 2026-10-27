@@ -12,7 +12,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
-import { FROZEN_APPLICATION_SHA } from "./rcap-hosted-vercel-rest-transport.mjs";
+import { CURRENT_PURPOSE_TUPLE,CONFIGURED_SANDBOX_PHASE,currentPurposeMetadata } from "./rcap-configured-sandbox-preview-contract.mjs";
 import {
   expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
@@ -28,13 +28,9 @@ export const EXPECTED_EVENTS = Object.freeze([
   "invoice.voided"
 ].sort());
 
-// The same application pin the Preview is created from, imported rather than
-// copied. Two independent copies of one identity drift, and this one did: it
-// still named 4e16d6d8e after the accepted worker moved past that commit, so
-// the retarget would have refused the very Preview the transport built even
-// once the transport pin was correct. One declaration cannot disagree with
-// itself.
-const EXPECTED_APPLICATION_SHA = FROZEN_APPLICATION_SHA;
+// The configured constructor and URL-only operation share one frozen subject.
+// This import is pure; retargeting cannot create a Preview or claim CURRENT.
+const EXPECTED_APPLICATION_SHA = CURRENT_PURPOSE_TUPLE.applicationSha;
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_ENDPOINT_ID = "we_1U4AKGRWROAHlAKyNFChAnWr";
 
@@ -77,6 +73,18 @@ export function assessWebhookEndpoint({ endpoint, endpointId, requiredUrl }) {
   };
 }
 
+export function webhookInverseShape(value,bypass){
+ const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password||url.hash||url.pathname!=='/api/stripe/webhook')throw Error('WEBHOOK_INVERSE_SHAPE_REFUSED');
+ const keys=[...url.searchParams.keys()];
+ if(keys.length>1||(keys.length===1&&(keys[0]!=='x-vercel-protection-bypass'||url.searchParams.get(keys[0])!==bypass)))throw Error('WEBHOOK_INVERSE_EXISTING_CUSTODY_REQUIRED');
+ return endpointShape(value);
+}
+export function buildWebhookInverseUrl(shape,bypass){
+ const url=new URL('https://'+shape.host+shape.pathname);
+ if(shape.queryParameterNames.length){if(JSON.stringify(shape.queryParameterNames)!==JSON.stringify(['x-vercel-protection-bypass'])||!bypass)throw Error('WEBHOOK_INVERSE_SHAPE_REFUSED');url.searchParams.set('x-vercel-protection-bypass',bypass);}
+ webhookInverseShape(url.href,bypass);return url.href;
+}
+
 function sanitizeFactory(secrets) {
   return (value) => {
     let text = String(value ?? "");
@@ -115,6 +123,7 @@ async function main() {
   };
   const writeEvidence = () => fs.writeFileSync(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
 
+  let rollback=null,writeAttempted=false;
   try {
     if (applicationSha !== EXPECTED_APPLICATION_SHA) throw new Error("application SHA is not the frozen replacement candidate");
     if (projectRef !== EXPECTED_PROJECT_REF) throw new Error("project ref is not the acceptance project");
@@ -136,7 +145,11 @@ async function main() {
     );
     const aliasDeployment = await aliasResponse.json().catch(() => null);
     const aliasDeploymentId = aliasDeployment?.id ?? aliasDeployment?.uid ?? null;
+    const expectedMeta=currentPurposeMetadata(CONFIGURED_SANDBOX_PHASE,expectedReturnOrigin);
     const deploymentReady = deploymentResponse.ok
+      && deployment?.projectId===vercelIdentity.projectId
+      && deployment?.gitSource?.sha===applicationSha
+      && Object.entries(expectedMeta).every(([key,value])=>deployment?.meta?.[key]===value)
       && deployment?.id === deploymentId
       && deployment?.readyState === "READY"
       && (deployment?.target === null || deployment?.target === "preview")
@@ -195,7 +208,23 @@ async function main() {
       enabledEvents: [...before.enabled_events].sort()
     };
 
+    const inverseShape=webhookInverseShape(before.url,bypass);
+    const inverseUrl=buildWebhookInverseUrl(inverseShape,bypass);
+    evidence.inverse={shape:inverseShape,storedValuesIncluded:false,availableFromExistingCustody:true,attempted:false};
+    rollback=async()=>{
+      evidence.inverse.attempted=true;
+      const current=await stripe(`/v1/webhook_endpoints/${EXPECTED_ENDPOINT_ID}`);
+      const identity=assessWebhookEndpoint({endpoint:current,endpointId:EXPECTED_ENDPOINT_ID,requiredUrl});
+      if(!identity.safe)throw Error('WEBHOOK_INVERSE_CURRENT_SHAPE_REFUSED');
+      if(current.url!==requiredUrl&&current.url!==inverseUrl)throw Error('WEBHOOK_INVERSE_UNEXPECTED_DESTINATION');
+      if(current.url!==inverseUrl)await stripe(`/v1/webhook_endpoints/${EXPECTED_ENDPOINT_ID}`,{method:'POST',body:new URLSearchParams({url:inverseUrl})});
+      const restored=await stripe(`/v1/webhook_endpoints/${EXPECTED_ENDPOINT_ID}`);
+      const assessment=assessWebhookEndpoint({endpoint:restored,endpointId:EXPECTED_ENDPOINT_ID,requiredUrl:inverseUrl});
+      if(!assessment.safe||assessment.needsUpdate)throw Error('WEBHOOK_INVERSE_READBACK_FAILED');
+      evidence.inverse.restored=true;
+    };
     if (beforeAssessment.needsUpdate) {
+      writeAttempted=true;
       const body = new URLSearchParams({ url: requiredUrl });
       await stripe(`/v1/webhook_endpoints/${encodeURIComponent(EXPECTED_ENDPOINT_ID)}`, {
         method: "POST",
@@ -232,6 +261,7 @@ async function main() {
     console.log(`  host: ${previewHostname}`);
     console.log("  signing secret untouched; six-event set preserved; Production untouched");
   } catch (error) {
+    if(writeAttempted&&rollback){try{await rollback();}catch{evidence.inverse={...evidence.inverse,restored:false,failure:"WEBHOOK_INVERSE_RECONCILIATION_REQUIRED"};}}
     evidence.error = sanitize(error instanceof Error ? error.message : error);
     writeEvidence();
     console.error(`STRIPE SANDBOX WEBHOOK RETARGET FAILED — ${evidence.error}`);

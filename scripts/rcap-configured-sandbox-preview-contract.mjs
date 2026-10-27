@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {createHmac} from 'node:crypto';
+import {createHmac,createHash} from 'node:crypto';
 
 export const CONFIGURED_SANDBOX_PHASE='configured_sandbox_preview';
 export const CONFIGURED_SANDBOX_TUPLE=Object.freeze({
@@ -66,4 +66,44 @@ export function preserveConfiguredSandboxKeys(env){
    [names[1]]:'v1',
    [names[2]]:createHmac('sha256',password).update('rcap-acceptance-server-secret:hyflxnlhpmiqxvvcoiia:participant-privacy-pseudonym-secret/v1').digest('base64url')
  };
+}
+
+// These purposes use the existing native HELD lane; they do not make the
+// candidate CURRENT or authorize payments, claims or production operations.
+export const CURRENT_PURPOSE_TUPLE=Object.freeze({applicationSha:'c0052e13d9801d24080275aab02c70c6ea213fa3',workerSourceSha:'32499751569359315248c2048fa111064a47c67f',workerDigest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',workerInputFingerprint:'sha256:6e3d8a6ed5390effb3945085ac6159016e806f19ada509ee36f6fc0c06efcea0'});
+export const CURRENT_ORDINARY_PREVIEW=Object.freeze({id:'dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF',hostname:'legalease-partner-dashboard-clean-6f0r4rwo0-roger947s-projects.vercel.app'});
+export const CLINIC_PURPOSE='clinic_deploy';
+export const CLINIC_SCOPE='e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539';
+export function assertPurposePreviewRelease(release,env,head,phase){
+ assert([CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE].includes(phase));
+ assert.equal(env.PHASE_INPUT,phase);assert.equal(env.GITHUB_ACTIONS,'true');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(env.GITHUB_RUN_ATTEMPT,'1');
+ assert.equal(env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.match(env.GITHUB_SHA??'',/^[a-f0-9]{40}$/);assert.equal(env.GITHUB_WORKFLOW_SHA,env.GITHUB_SHA);
+ assert.equal(env.RCAP_ADMITTED_CONTROLLER_SHA,head,'actual admitted-controller checkout must be pinned independently of the real carrier SHA');
+ for(const [key,value]of Object.entries(CURRENT_PURPOSE_TUPLE))assert.equal(release[key],value);
+ for(const [key,name]of Object.entries({applicationSha:'APPLICATION_SHA_INPUT',workerSourceSha:'WORKER_SOURCE_SHA_INPUT',workerDigest:'WORKER_DIGEST_INPUT',toolsSha:'TOOLS_SHA_INPUT'}))assert.equal(env[name],release[key]);
+ assert.equal(env.ACCEPTANCE_SUPABASE_PROJECT_REF,CONFIGURED_SANDBOX_PROJECT);assert.equal(release.current,false);assert.equal(release.previewOnly,true);assert.equal(release.productionAuthorized,false);assert.equal(release.deploymentAuthorized,false);
+}
+export function currentPurposeMetadata(phase,origin){
+ assert([CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE,'managed_start_preview'].includes(phase));
+ const configured=phase===CONFIGURED_SANDBOX_PHASE,clinic=phase===CLINIC_PURPOSE;
+ const scope=clinic?CLINIC_SCOPE:CONFIGURED_SANDBOX_OWNER;
+ return {rcapWorkerSourceSha:CURRENT_PURPOSE_TUPLE.workerSourceSha,rcapWorkerDigest:CURRENT_PURPOSE_TUPLE.workerDigest,rcapWorkerInputFingerprint:CURRENT_PURPOSE_TUPLE.workerInputFingerprint,
+  rcapApplicationSha:CURRENT_PURPOSE_TUPLE.applicationSha,rcapAcceptanceProjectRef:CONFIGURED_SANDBOX_PROJECT,rcapPreviewPurpose:clinic?'mississippi_clinic':configured?'none':'managed_start',
+  rcapClinicDemoMode:clinic?'mississippi_preview':'none',rcapRouteState:'staging_scoped',rcapStagingScopeSha256:createHash('sha256').update(scope).digest('hex'),rcapReturnOrigin:origin,
+  rcapStripeConfigured:configured?'true':'false',rcapCatalogProduct:configured?CONFIGURED_SANDBOX_PRODUCT:'inline',
+  ...(configured?{rcapConfiguredSandbox:'true'}:{}),...(!configured&&!clinic?{rcapOrdinaryGrantSha256:'9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40',rcapSponsoredChannel:'mississippi_preview'}:{})};
+}
+// Full readback only: these classifications cannot authorize a payment or
+// establish key continuity. Unknown/partial/same-source attempts hold creation.
+export function classifyCurrentPurposeDeployment(d,projectId,originFor){
+ assert.equal(d?.projectId,projectId,'PURPOSE_PROJECT_MISMATCH');assert.equal(d.gitSource?.sha,CURRENT_PURPOSE_TUPLE.applicationSha,'PURPOSE_SOURCE_MISMATCH');
+ assert(Object.hasOwn(d,'target')&&(d.target===null||d.target==='preview'),'PURPOSE_NOT_PREVIEW');assert.match(d.id??'',/^dpl_[A-Za-z0-9]+$/);assert.match(d.url??'',/^[a-z0-9-]+\.vercel\.app$/);
+ const purpose=d.meta?.rcapPreviewPurpose;
+ const phase=purpose==='managed_start'?'managed_start_preview':purpose==='mississippi_clinic'?CLINIC_PURPOSE:purpose==='none'&&d.meta?.rcapConfiguredSandbox==='true'?CONFIGURED_SANDBOX_PHASE:null;
+ assert(phase,'PURPOSE_UNKNOWN_CURRENT_APP_ATTEMPT');
+ if(phase==='managed_start_preview'){assert.equal(d.id,CURRENT_ORDINARY_PREVIEW.id,'PURPOSE_UNRECONCILED_MANAGED_SIBLING');assert.equal(d.url,CURRENT_ORDINARY_PREVIEW.hostname);}
+ const origin=originFor(CURRENT_PURPOSE_TUPLE.applicationSha,phase===CLINIC_PURPOSE?'mississippi_clinic':phase==='managed_start_preview'?'managed_start':'none');
+ const expected=currentPurposeMetadata(phase,origin);for(const [key,value]of Object.entries(expected))assert.equal(d.meta?.[key],value,'PURPOSE_METADATA_MISMATCH:'+key);
+ assert.equal(d.readyState,'READY','PURPOSE_PRIOR_ATTEMPT_NOT_READY');
+ return {phase,id:d.id,url:d.url,readyState:d.readyState,meta:expected};
 }
