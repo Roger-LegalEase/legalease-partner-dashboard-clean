@@ -1,3 +1,4 @@
+import {clinicClarificationResponse} from './rcap-hosted-clinic-clarification-response.mjs';
 import assert from 'node:assert/strict';
 import {isDeepStrictEqual} from 'node:util';
 import {CLINIC,admitClinic,hash} from './rcap-hosted-existing-clinic-readonly.mjs';
@@ -34,5 +35,5 @@ export function createClinicUnverifiedSaveRuntime(config,env,{fetcher=fetch,chec
  };
 }
 export async function saveExistingClinicDraft(config,native,io){
- admitClinic(config,native);assertConsumerPurposeRelease(await io.release(),'clinic_deploy');await io.login();const before=await io.read();const plan=planClinicUnverifiedSave(before);await io.save(plan.body);const after=await io.read({recovery:true});return {schema:'saved-clinic-unverified-draft-save/v1',status:'DRAFT_SAVED_OWNER_RECOVERED_STOP_BEFORE_VERIFICATION',applicationSha:CLINIC.app,workerDigest:CLINIC.digest,normalOwnerExact:true,...assertClinicUnverifiedReadback(before,plan,after),payloadSha256:plan.payloadSha256,questionIdsSha256:plan.questionIdsSha256,customerWriteAttempts:1,finalVerification:false,funding:false,enqueue:false,checkout:false};
+ admitClinic(config,native);assertConsumerPurposeRelease(await io.release(),'clinic_deploy');await io.login();const before=await io.read();const plan=planClinicUnverifiedSave(before);await io.save(plan.body);const after=await io.read({recovery:true});return {schema:'saved-clinic-unverified-draft-save/v1',status:'DRAFT_SAVED_OWNER_RECOVERED_STOP_BEFORE_VERIFICATION',applicationSha:CLINIC.app,workerDigest:CLINIC.digest,normalOwnerExact:true,...assertClinicUnverifiedReadback(before,plan,after),payloadSha256:plan.payloadSha256,questionIdsSha256:plan.questionIdsSha256,customerWriteAttempts:1,finalVerification:false,funding:false,enqueue:false,checkout:false,recordClarification:clinicClarificationResponse(after)};
 }
