@@ -305,7 +305,7 @@ jobs:
         node scripts/rcap-hosted-saved-dtc-entry.mjs
     - name: Conditionally restore only this operation introduced endpoint URL
       working-directory: carrier
-      if: always() && steps.window_guard.outcome == 'success' && (steps.retarget_prepare.outcome == 'success' || steps.retarget_prepare.outcome == 'failure')
+      if: always() && steps.window_guard.outcome == 'success' && (steps.retarget_prepare.outcome == 'success' || steps.retarget_prepare.outcome == 'failure' || steps.retarget_prepare.outcome == 'cancelled')
       env:
         HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
         VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
