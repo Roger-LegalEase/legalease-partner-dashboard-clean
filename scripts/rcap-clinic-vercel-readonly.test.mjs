@@ -170,3 +170,20 @@ test('ordinary customer read uses only existing Chrome/pinned dependencies, bypa
  const native=adminJob.steps.find(s=>s.name==='Read only the original accepted native creation artifact');assert.deepEqual(native.env,{GH_TOKEN:'${{ github.token }}'});assert.match(native.run,/artifacts\/12699943085\/zip/);assert.match(native.run,/z.getinfo\('deploy.json'\)/);assert.doesNotMatch(native.run,/extractall|extract\(/);
  const upload=adminJob.steps.at(-1);assert.equal(upload.if,'always()');assert.equal(upload.with.path,'carrier/ordinary-admin-readonly-evidence/result.json');assert.doesNotMatch(upload.with.path,/\*|screenshots|traces|session|native|deploy/);
 });
+
+
+// Actual15 script/style requests from protected current sign-in HTML in failed40430532114.
+test('ordinary sign-in hydration admits exactly current deployment static assets and preserves restrictive auth/business boundaries',async()=>{
+ const {requestAllowed,ORIGIN}=await import('./rcap-hosted-ordinary-admin-readonly.mjs');
+ const oldText=source('afda59d6f8eb0e3bfefd5edca9a12d12f64e8ff4','scripts/rcap-hosted-ordinary-admin-readonly.mjs').replace(/^import .*;\n/gm,'').replace(/^export /gm,'');
+ const before=vm.runInNewContext(oldText+'\n({requestAllowed});',{});
+ const paths=["/_next/static/chunks/0lgd-rsdcyvo..css","/_next/static/chunks/0-hrh_uw98wb_.js","/_next/static/chunks/11hoao1sm226v.js","/_next/static/chunks/0aqpm5mabssqz.js","/_next/static/chunks/0uqgm3y7qfyr6.js","/_next/static/chunks/128aahewwf1we.js","/_next/static/chunks/turbopack-0ofv4dff~juen.js","/_next/static/chunks/05efiop9yrqzr.js","/_next/static/chunks/0re8tk4-vssb-.js","/_next/static/chunks/0i.l9589uvx0j.js","/_next/static/chunks/04sj6i5ht5ob-.js","/_next/static/chunks/0rvnzn~axm.b-.js","/_next/static/chunks/0f.g0mlz752ge.js","/_next/static/chunks/03~yq9q893hmn.js","/_next/static/chunks/0-hrh_uw98wb_.js"];assert.equal(paths.length,15);
+ for(const file of paths){
+  const url=ORIGIN+file+'?dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF';
+  assert.equal(before.requestAllowed(url,'GET',0),false);assert.equal(requestAllowed(url,'GET',0),true);assert.equal(requestAllowed(url,'HEAD',0),true);
+  for(const bad of [url.replace('dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF','dpl_Wrong'),url+'&unexpected=1',url.replace(ORIGIN,'https://example.com'),url.replace('/_next/static/chunks/','/api/internal/'),url+'&dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF'])assert.equal(requestAllowed(bad,'GET',0),false);
+  assert.equal(requestAllowed(url,'POST',0),false);
+ }
+ assert.equal(requestAllowed('https://hyflxnlhpmiqxvvcoiia.supabase.co/auth/v1/token?grant_type=password','POST',0),true);assert.equal(requestAllowed('https://hyflxnlhpmiqxvvcoiia.supabase.co/auth/v1/token?grant_type=password','POST',1),false);
+ const helper=fs.readFileSync(new URL('./rcap-hosted-ordinary-admin-readonly.mjs',import.meta.url),'utf8');assert(helper.indexOf('form[data-handler-ready="true"]')<helper.indexOf('credentials=credentialReader()'));assert.match(helper,/blockedRequests\[category\]/);
+});

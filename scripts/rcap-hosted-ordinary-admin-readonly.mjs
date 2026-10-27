@@ -30,10 +30,19 @@ export function requestAllowed(url,method,authPosts){
   if(seen.has(key))return false;seen.add(key);
   if(key==='mode'){if(value!=='signin')return false;}
   else if(key==='next'){if(!['/briefcase',TARGET].includes(value))return false;}
+  else if(key==='dpl'){if(u.search!=='?dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF'||!/^\/_next\/static\/chunks\/[A-Za-z0-9_.~/-]+\.(?:js|css)$/.test(u.pathname))return false;}
   else if(key==='_rsc'||key==='v'){if(!/^[A-Za-z0-9_-]{1,128}$/.test(value))return false;}
   else return false;
  }
  return true;
+}
+export function blockedRequestClass(url,method){
+ let u;try{u=new URL(url);}catch{return 'unsafe_url';}
+ if(u.protocol!=='https:'||u.username||u.password||u.hash)return 'unsafe_url';
+ if(![ORIGIN,AUTH].includes(u.origin))return 'external_origin';
+ if(!['GET','HEAD','OPTIONS'].includes(method)&&!(u.origin===AUTH&&method==='POST'))return 'business_method';
+ if(u.origin===AUTH)return 'auth_shape';
+ return u.pathname.startsWith('/_next/static/')?'app_static_asset_shape':'app_query_shape';
 }
 export function summarizeReadback(kind,status,body){
  const c=body?.configuration,o=body?.operations;
@@ -47,8 +56,8 @@ export function summarizeReadback(kind,status,body){
 export async function observeOrdinaryAdmin({context,admit,checkpoint,bypass,credentialReader=readPinnedAdminCredentials}){
  assert.equal(typeof admit,'function');assert.equal(typeof checkpoint,'function');await admit({applicationSha:'c0052e13d9801d24080275aab02c70c6ea213fa3',origin:ORIGIN,operation:'normal-admin-readonly'});
  assert.ok(typeof bypass==='string'&&bypass.trim()&&!/[\r\n]/.test(bypass));
- let authPosts=0,blocked=0;
- const guard=async route=>{const r=route.request();if(!requestAllowed(r.url(),r.method(),authPosts)){blocked++;await route.abort();return;}if(r.method()==='POST')authPosts++;const headers={...r.headers()};delete headers['x-vercel-protection-bypass'];if(new URL(r.url()).origin===ORIGIN){headers['x-vercel-protection-bypass']=bypass;headers['x-vercel-skip-toolbar']='1';}await route.continue({headers});};
+ let authPosts=0,blocked=0;const blockedRequests={};
+ const guard=async route=>{const r=route.request();if(!requestAllowed(r.url(),r.method(),authPosts)){blocked++;const category=blockedRequestClass(r.url(),r.method());blockedRequests[category]=(blockedRequests[category]??0)+1;await route.abort();return;}if(r.method()==='POST')authPosts++;const headers={...r.headers()};delete headers['x-vercel-protection-bypass'];if(new URL(r.url()).origin===ORIGIN){headers['x-vercel-protection-bypass']=bypass;headers['x-vercel-skip-toolbar']='1';}await route.continue({headers});};
  await context.route('**/*',guard);
  // Preserve original accepted native-fallback protection: never serialize password into navigation.
  await context.addInitScript(()=>window.addEventListener('submit',event=>{const f=event.target;if(location.pathname==='/expungement-ai/sign-in'&&f instanceof HTMLFormElement&&f.querySelector('input[name="password"]')&&!event.defaultPrevented)event.preventDefault();}));
@@ -57,6 +66,7 @@ export async function observeOrdinaryAdmin({context,admit,checkpoint,bypass,cred
  try{
   const releaseResponse=await page.goto(ORIGIN+'/api/rcap/release',{waitUntil:'domcontentloaded'});mark('release_get',releaseResponse.status());assert.equal(releaseResponse.status(),200);mark('release_source_assertions',releaseResponse.status());const release=await releaseResponse.json();assert.equal(release.application,'RCAP 2.0');assert.equal(release.policyVersion,'rcap2.2');assert.equal(release.buildSha,'c0052e13d9801d24080275aab02c70c6ea213fa3');assert.equal(release.runtimeSha,'c0052e13d9801d24080275aab02c70c6ea213fa3');assert.equal(release.sourceBound,true);
   mark('sign_in_page');const signInPage=await page.goto(`${ORIGIN}/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase`,{waitUntil:'domcontentloaded'});mark('sign_in_page',signInPage?.status()??null);
+  mark('sign_in_handler_ready');await page.locator('form[data-handler-ready="true"]').waitFor({state:'attached'});
   mark('credential_input');
   credentials=credentialReader();await page.locator('input[name="email"]').fill(credentials.email);await page.locator('input[name="password"]').fill(credentials.password);credentials=null;
   mark('sign_in_submit');const token=page.waitForResponse(r=>r.url().startsWith(`${AUTH}/auth/v1/token?`)&&r.request().method()==='POST');
@@ -68,8 +78,8 @@ export async function observeOrdinaryAdmin({context,admit,checkpoint,bypass,cred
    mark(kind+'_get');const observed=await page.evaluate(async path=>{const r=await fetch(path,{cache:'no-store',redirect:'manual'});let body=null;try{body=await r.json();}catch{}return {status:r.status,body};},url);
    mark(kind+'_get',observed.status);typed.push(summarizeReadback(kind,observed.status,observed.body));
   }
-  await checkpoint({stage:'ordinary_admin_readonly',navigationStatus:nav?.status(),exactExistingAdmin:true,phase,observedHttpStatus,httpStatuses,ownHostReleaseSourceBound:true,observations:typed,blocked,authPosts,customerWrites:0});
-  return {observations:typed,blocked,authPosts};
- }catch(error){await checkpoint({stage:'ordinary_admin_readonly_failed',errorClass:error?.name??'Error',phase,observedHttpStatus,httpStatuses,exactExistingAdmin,authPosts,blocked,customerWrites:0});throw new Error('Ordinary admin read-only observation failed; reconcile private checkpoint before retry.');}
+  await checkpoint({stage:'ordinary_admin_readonly',navigationStatus:nav?.status(),exactExistingAdmin:true,phase,observedHttpStatus,httpStatuses,ownHostReleaseSourceBound:true,observations:typed,blocked,blockedRequests,authPosts,customerWrites:0});
+  return {observations:typed,blocked,blockedRequests,authPosts};
+ }catch(error){await checkpoint({stage:'ordinary_admin_readonly_failed',errorClass:error?.name??'Error',phase,observedHttpStatus,httpStatuses,exactExistingAdmin,authPosts,blocked,blockedRequests,customerWrites:0});throw new Error('Ordinary admin read-only observation failed; reconcile private checkpoint before retry.');}
  finally{credentials=null;await context.close();} // Guard remains installed until the authenticated context is closed.
 }

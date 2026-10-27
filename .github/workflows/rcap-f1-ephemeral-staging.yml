@@ -243,7 +243,7 @@ jobs:
           for(const [key,value]of Object.entries(expected))assert.equal(input[key],value);
           for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
           assert.equal(input.sponsor_items??'[]','[]');assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
-          for(const [file,hash]of Object.entries({'scripts/rcap-hosted-ordinary-admin-readonly.mjs':'53bf5f45b3ed4c566da5468932f550d30f8fe88aa2be84947792f57d27ff9d62','scripts/rcap-hosted-ordinary-admin-readonly-runner.mjs':'399ee73e8aea9bf1213a0fabe5965a61b7f0b446174b05de739f9a96c2211b8b'}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),hash);
+          for(const [file,hash]of Object.entries({'scripts/rcap-hosted-ordinary-admin-readonly.mjs':'728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7','scripts/rcap-hosted-ordinary-admin-readonly-runner.mjs':'399ee73e8aea9bf1213a0fabe5965a61b7f0b446174b05de739f9a96c2211b8b'}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),hash);
           JS
       - uses: actions/checkout@v4
         with:
