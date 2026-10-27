@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {NORMAL_RECOVERY as P,admitActualNormalRecovery,requireNormalRecoveryAdmission,ordinaryProfileApplication} from './ordinary-normal-recovery-profile.mjs';
+import {NORMAL_RECOVERY as P,NORMAL_RECOVERY_START as S,admitActualNormalRecovery,requireNormalRecoveryAdmission,ordinaryProfileApplication} from './ordinary-normal-recovery-profile.mjs';
 import {QUALIFIED_WORKER_IMAGE as Q} from './worker-once-preparation/qualified-worker-image.mjs';
 import {ORDINARY,requireOriginalStartSourceReady} from './rcap-hosted-ordinary-full-admission.mjs';
 import {assertOrdinaryAdmission} from './rcap-hosted-ordinary-participant.mjs';
@@ -18,12 +18,12 @@ test('closed normal recovery profile: synthetic outcome witnesses, historical fa
  const proofFile=name=>execFileSync('git',['show',`899724a07cd33566a1e0dc104a052a273eb68b04:data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/${name}`]);
  const files={baselinePoststate:proofFile('baseline-poststate.json'),baselineJournal:proofFile('baseline-journal.json'),previewC:proofFile('preview-c.json'),compatibilityC:proofFile('worker-compatibility-c.json')};
  const old=JSON.parse(files.baselinePoststate).poststate,now=structuredClone(old);Object.assign(now,{workspace:{...old.workspace,status:'live',launched:true},launchPreparedCount:2,launchReceiptCount:7,launchCompleteCount:1});
- const spent='d8a07a4e-3f5c-49fb-b8ad-5e2c892ce38c',snapshotHash='a'.repeat(64),common={applicationSha:P.app,requestId:P.requestId,participantVerificationAllowed:false};
+ const spent='d8a07a4e-3f5c-49fb-b8ad-5e2c892ce38c',snapshotHash='a'.repeat(64),common={applicationSha:S.app,requestId:P.requestId,participantVerificationAllowed:false};
  Object.assign(files,{
   before:bytes({...common,stage:'new_normal_launch_before_forward',spentOriginalRequestId:spent,snapshotHash,payloadHash:sha(bytes({requestId:P.requestId,snapshotHash,confirmed:true})),originalJournalSha256:sha(bytes(stable(JSON.parse(files.baselineJournal))))}),
   response:bytes({...common,stage:'new_normal_launch_response',httpStatus:200,success:true,complete:true,operationId:'11111111-1111-4111-8111-111111111111'}),
   poststate:bytes({...common,stage:'new_normal_launch_poststate',poststate:now,poststateReadSucceeded:true,originalJournalReadSucceeded:true,originalJournalUnchanged:true}),
-  result:bytes({...common,status:'normal_launch_recovery_complete_stop',spentOriginalRequestId:spent,deploymentId:P.deploymentId}),
+  result:bytes({...common,status:'normal_launch_recovery_complete_stop',spentOriginalRequestId:spent,deploymentId:S.deploymentId}),
   run:bytes({workflow_id:332448793,head_sha:'b'.repeat(40),head_branch:'codex/f-vercel-raw-readonly-20261026',event:'workflow_dispatch',run_attempt:1,status:'completed',conclusion:'success',repository:{full_name:'Roger-LegalEase/legalease-partner-dashboard-clean'},id:123}),
   outcomeC:bytes({mockOnly:true,actualRuntimeAuthority:false})
  });

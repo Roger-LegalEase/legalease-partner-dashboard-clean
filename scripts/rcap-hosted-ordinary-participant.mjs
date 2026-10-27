@@ -75,7 +75,7 @@ export function ordinaryRequestAllowed({url,method,body}, {origin,targetItemId,s
   return true;
 }
 
-import {NORMAL_RECOVERY,requireNormalRecoveryAdmission} from './ordinary-normal-recovery-profile.mjs';
+import {NORMAL_RECOVERY,requireNormalRecoveryAdmission,admitOrdinaryCustodyLineage} from './ordinary-normal-recovery-profile.mjs';
 export const ORDINARY_APPLICATION_SHA = '9aadacd0c5a7fac90a1662f1928b7b86f8685c7a';
 const matches = (r, path) => r.request().method() === 'POST' && new URL(r.url()).pathname === path;
 const authOrigin = 'https://hyflxnlhpmiqxvvcoiia.supabase.co';
@@ -123,12 +123,15 @@ export function assertEmptyOrdinarySessionResume(custody,row){
   const observed=Date.parse(row.observed_at);assert(Number.isFinite(observed)&&observed<=Date.now()&&Date.now()-observed<120000,'Fresh exact-session reconciliation required');
 }
 
-function assertCustody(record,binding) {
+function assertCustody(record,binding,profile) {
   assert.equal(record?.schema,'ordinary-participant-private-custody/v1');
-  for(const key of ['origin','applicationSha','deploymentId','sourceBindingSha256'])assert.equal(record[key],binding[key],'Custody belongs to a different admitted release');
+  const releaseLineage=profile===NORMAL_RECOVERY?admitOrdinaryCustodyLineage(record,binding):null;
+  const expected=releaseLineage&&record.applicationSha===releaseLineage.predecessor.applicationSha?releaseLineage.predecessor:binding;
+  for(const key of ['origin','applicationSha','deploymentId','sourceBindingSha256'])assert.equal(record[key],expected[key],'Custody belongs to a different admitted release');
   assert.equal(record.participantUserId,ORDINARY_PARTICIPANT);assert.equal(record.partnerSlug,ORDINARY_PARTNER);
   assert.equal(typeof record.stage,'string');assert.ok(Number.isInteger(record.generationRequests)&&record.generationRequests>=0&&record.generationRequests<=1);
   if(record.itemId!==null)assertNewOrdinaryMatter(record.itemId);if(record.sessionId!==null)assert.ok(uuid(record.sessionId));
+  return releaseLineage;
 }
 
 // The controller owns durable private custody, actual live admission and strict
@@ -139,14 +142,14 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
   assert.equal(new URL(origin).origin,origin);assert.equal(new URL(origin).protocol,'https:');assert.ok(email&&password);
   const phase=async name=>{if(onParticipantPhase)await onParticipantPhase(name);};
   await phase('participant_admission');const binding=await admit();assertOrdinaryAdmission(binding,origin,profile);
-  await phase('participant_custody');const previous=await loadCustody();if(previous)assertCustody(previous,binding);
+  await phase('participant_custody');const previous=await loadCustody();if(profile===NORMAL_RECOVERY)assert(previous,'Current Preview resumes the preserved owned case only');const releaseLineage=previous?assertCustody(previous,binding,profile):null;
   let sessionId=previous?.sessionId??null,targetItemId=previous?.itemId??null,intakeRequestId=previous?.intakeRequestId??null;
   let firstEnqueueCapableActionAt=previous?.firstEnqueueCapableActionAt??null,generationRequests=previous?.generationRequests??0;
   let reconciledPendingBoundary=previous?.reconciledPendingBoundary??null;
   if(previous&&!targetItemId)assert.ok(uuid(sessionId),'Uncertain intake requires native reconciliation; never start again');
   let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false,resumeEmptySession=false,deniedRequestCount=0,blockedPassiveScriptCount=0;
   const save=async(stage,details={})=>{
-    const record={schema:'ordinary-participant-private-custody/v1',origin,applicationSha:binding.applicationSha,deploymentId:binding.deploymentId,sourceBindingSha256:binding.sourceBindingSha256,participantUserId:ORDINARY_PARTICIPANT,partnerSlug:ORDINARY_PARTNER,sessionId,itemId:targetItemId,intakeRequestId,firstEnqueueCapableActionAt,generationRequests,...(reconciledPendingBoundary?{reconciledPendingBoundary}:{}),stage,...details};
+    const record={schema:'ordinary-participant-private-custody/v1',origin,applicationSha:binding.applicationSha,deploymentId:binding.deploymentId,sourceBindingSha256:binding.sourceBindingSha256,participantUserId:ORDINARY_PARTICIPANT,partnerSlug:ORDINARY_PARTNER,sessionId,itemId:targetItemId,intakeRequestId,firstEnqueueCapableActionAt,generationRequests,...(releaseLineage?{releaseLineage}:{}),...(reconciledPendingBoundary?{reconciledPendingBoundary}:{}),stage,...details};
     await checkpoint(record);assert.deepEqual(await loadCustody(),record,'Private checkpoint must be durable before forwarding');return record;
   };
   const config={origin,authOrigin};
@@ -259,7 +262,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
       if(pendingVerifyResume){assert.equal(generationRequests,0);assert.equal(existing.verification?.status,'unverified');assert.equal(existing.verification.verification_hash,null);assert.equal(existing.funding_count,0);assert.equal(existing.jobs.length,0);assert.ok(Number.isFinite(Date.parse(previous.firstEnqueueCapableActionAt)));}
       const ready=await readOwner();assert.equal(ready.status,200);assert.equal(ready.body.ok,true);
       const expectedRevision=previous.revision??existing.verification?.revision;
-      assert.ok(Number.isInteger(expectedRevision));assert.equal(ready.body.revision,expectedRevision);
+      assert.ok(Number.isInteger(expectedRevision));if(releaseLineage)assert.equal(expectedRevision,7);assert.equal(ready.body.revision,expectedRevision);
       assert.equal(ready.body.resumeSectionId,'review');assert.equal(ready.body.nextAction,'review_packet');assert.equal(ready.body.reviewPath,`/briefcase/${itemId}/review`);
       assert.deepEqual(ready.body.missingInputIds,[]);assert.deepEqual(ready.body.pendingDerivations,[]);assert.deepEqual(ready.body.recordClarificationIds,[]);
       assert.equal(ready.body.courtRecordConflict,false);assert.equal(ready.body.caProp64Clarification,false);assert.equal(ready.body.readyToGenerate,false);
