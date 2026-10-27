@@ -1,5 +1,5 @@
-import{trialCheckoutSubmitActionability,prepareGuardedCheckoutSubmit,checkoutSubmitSelectors}from'./rcap-checkout-submit-actionability.mjs';
-import {safeCheckoutBrowserDiagnostic} from './rcap-checkout-browser-diagnostic.mjs';
+import{trialCheckoutSubmitActionability,prepareGuardedCheckoutSubmit,checkoutSubmitSelectors,readCheckoutSubmitGeometry}from'./rcap-checkout-submit-actionability.mjs';
+import {safeCheckoutBrowserDiagnostic,checkoutNavigationClass} from './rcap-checkout-browser-diagnostic.mjs';
 // Complete a Stripe Checkout Session the way a customer does: in a browser, on
 // Stripe's own hosted page.
 //
@@ -386,6 +386,7 @@ export async function completeHostedCheckout({
   let promotion = null;
   let submitAttempted = false;
   let submitInspection = null;
+  let submitControl = null;
   let finalPayCheckStarted = false;
   let finalPayCheckPassed = false;
   let exactReturnObserved = false;
@@ -402,6 +403,11 @@ export async function completeHostedCheckout({
     const file = path.join(screenshotDir, `${label}-${name}.png`);
     await page.screenshot({ path: file, fullPage: true });
     screenshots.push(file);
+  };
+
+  const readDiagnostic = async errorClass => {
+    let navigation='unknown';try{navigation=checkoutNavigationClass(page.url(),isExpectedCheckoutReturn(page.url(),expectedReturnUrl));}catch{}
+    return safeCheckoutBrowserDiagnostic({phase:failurePhase,errorClass,buttonGeometry:await readCheckoutSubmitGeometry(submitControl),navigation});
   };
 
   const checkpointSubmit = async phase => {
@@ -428,7 +434,7 @@ export async function completeHostedCheckout({
     postReturnCaptureFailures.push(stage);
     notes.push(`post-return capture failed: ${stage}`);
   };
-  const finishObservedReturn = async () => {
+  const finishObservedReturn = async (diagnostic = null) => {
     notes.push(`returned to ${sanitizedCheckoutDestination(expectedReturnUrl)}`);
     try { await page.waitForLoadState('domcontentloaded', { timeout: FIELD_TIMEOUT }); }
     catch { captureFailure('dom_ready'); }
@@ -439,7 +445,7 @@ export async function completeHostedCheckout({
     try { await shoot('returned'); }
     catch { captureFailure('screenshot'); }
     return { completed: true, humanInteractionRequired: false, failureReason: "completed", submitAttempted, submitInspection, returnUrl: sanitizedCheckoutDestination(expectedReturnUrl), promotion,
-      postReturnCaptureFailures, notes, screenshots };
+      postReturnCaptureFailures, ...(diagnostic?{diagnostic}:{}), notes, screenshots };
   };
 
   try {
@@ -524,6 +530,7 @@ export async function completeHostedCheckout({
       submitInspection = await readCheckoutSubmitState(page, null, looksFree);
       return { completed: false, humanInteractionRequired: false, failureReason: "submit_control_missing", submitAttempted, submitInspection, promotion, notes, screenshots };
     }
+    submitControl = submit;
     const submitDisabled = await submit.isDisabled().catch(() => false);
     notes.push(`submit control ${submitDisabled ? "is disabled" : "is enabled"}`);
     observingReturn = true;
@@ -544,7 +551,7 @@ export async function completeHostedCheckout({
         authorize:authorizeFinalPay});
       if (preparation.status !== 'passed') return {completed:false,
         humanInteractionRequired:false,failureReason:'submit_actionability_failed',
-        submitAttempted:false,submitInspection,notes,screenshots};
+        submitAttempted:false,submitInspection,diagnostic:await readDiagnostic(preparation.trial?.diagnostic?.errorClass??'None'),notes,screenshots};
     } else {
       await authorizeFinalPay();
       if(submitActionabilityOnly){
@@ -583,43 +590,17 @@ export async function completeHostedCheckout({
       await requireNoProviderChallenge(page);
     }
     failurePhase = 'return_diagnostics';
-    {
-      // Say what the page is complaining about. "Still on Stripe's page" on its
-      // own sent this harness round another cycle guessing at the cause; the
-      // page states it — a required field, a declined card, an extra step.
-      const complaints = await page.locator(
-        '[role="alert"], .Error, [class*="error" i], [data-testid*="error" i], p:has-text("required")'
-      ).allInnerTexts().catch(() => []);
-      const visible = complaints.map((text) => text.trim()).filter(Boolean).slice(0, 6);
-      // "Required" three times says nothing about which fields. Name the empty
-      // ones so the next attempt is informed rather than another guess.
-      const stillEmpty = [];
-      for (const scope of frameScopes(page)) {
-        const controls = await scope.locator("input:not([type=hidden]):not([type=checkbox]):not([type=radio]), select").all().catch(() => []);
-        for (const control of controls) {
-          if (!(await control.isVisible().catch(() => false))) continue;
-          const value = await control.inputValue().catch(() => "x");
-          if (value && value.trim()) continue;
-          const label = await control.evaluate((el) =>
-            el.getAttribute("name") || el.getAttribute("autocomplete") || el.getAttribute("placeholder") || el.getAttribute("aria-label") || el.tagName.toLowerCase()
-          ).catch(() => "(unnamed)");
-          stillEmpty.push(label);
-        }
-      }
-      notes.push(
-        `still on Stripe's page after 90s; page says: ${visible.length ? visible.join(" | ") : "(no error text found)"}; `
-        + `still empty: ${stillEmpty.length ? stillEmpty.join(", ") : "(nothing)"}`
-      );
-    }
+    submitInspection = await readCheckoutSubmitState(page, submit, looksFree);
+    notes.push('Provider return not observed; reconcile the existing Session before any retry.');
     await shoot("stuck");
     // A commit can arrive while timeout diagnostics are being collected.
     observeReturn(page.mainFrame());
     requireExpectedDestination();
     if (exactReturnObserved) return await finishObservedReturn();
 
-    return { completed: false, humanInteractionRequired: false, failureReason: "return_not_observed", submitAttempted, submitInspection, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
+    return { completed: false, humanInteractionRequired: false, failureReason: "return_not_observed", diagnostic:await readDiagnostic('None'), submitAttempted, submitInspection, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
   } catch (error) {
-    const diagnostic = safeCheckoutBrowserDiagnostic({phase:failurePhase,errorClass:error?.name});
+    const diagnostic = await readDiagnostic(error?.name);
     // Re-read after an interrupted DOM operation. Only navigation-specific
     // errors may await a commit; an unrelated error before return still fails.
     if (observingReturn && error?.code !== 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' && error?.code !== 'CHECKOUT_SUBMISSION_CHECKPOINT_FAILED') {
@@ -632,7 +613,7 @@ export async function completeHostedCheckout({
       }
       if (exactReturnObserved && !unexpectedDestination) {
         captureFailure('interrupted_browser_operation');
-        return await finishObservedReturn();
+        return await finishObservedReturn(diagnostic);
       }
     }
     if (unexpectedDestination) {

@@ -1,4 +1,4 @@
-import assert from'node:assert/strict';import{safeCheckoutBrowserDiagnostic}from'./rcap-checkout-browser-diagnostic.mjs';
+import assert from'node:assert/strict';import{safeCheckoutBrowserDiagnostic,safeCheckoutButtonGeometry}from'./rcap-checkout-browser-diagnostic.mjs';
 const blockers=new Set(['submit_or_child','dialog','iframe','alert','other_element','outside_viewport','no_element','unavailable']);const tags=new Set(['button','input','iframe','dialog','div','span','other','none']);
 async function safeHitTarget(submit){let x;try{x=await submit.evaluate(el=>{const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;const top=document.elementFromPoint(x,y);const mine=top===el||el.contains(top);return{blockerClass:x<0||y<0||x>innerWidth||y>innerHeight?'outside_viewport':!top?'no_element':mine?'submit_or_child':top.closest('[role="dialog"]')?'dialog':top.tagName==='IFRAME'?'iframe':top.closest('[role="alert"]')?'alert':'other_element',tag:top?['BUTTON','INPUT','IFRAME','DIALOG','DIV','SPAN'].includes(top.tagName)?top.tagName.toLowerCase():'other':'none',connected:el.isConnected,disabled:typeof el.disabled==='boolean'?el.disabled:null};});}catch{x={};}return{blockerClass:blockers.has(x?.blockerClass)?x.blockerClass:'unavailable',tag:tags.has(x?.tag)?x.tag:'other',connected:typeof x?.connected==='boolean'?x.connected:null,disabled:typeof x?.disabled==='boolean'?x.disabled:null};}
 export function classifyTrialActionabilityFailure(error){
@@ -11,8 +11,8 @@ export const checkoutSubmitSelectors = Object.freeze([
  'button[data-testid="hosted-payment-submit-button"]', 'button:has-text("Pay")',
  'button:has-text("Complete order")', 'button:has-text("Place order")', 'button[type="submit"]'
 ]);
-async function submitGeometry(submit) {
- return submit.evaluate(el => {
+export async function readCheckoutSubmitGeometry(submit) {
+ try{return safeCheckoutButtonGeometry(await submit.evaluate(el => {
   const r=el.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
   const top=document.elementFromPoint(x,y);
   const n=v=>Number.isFinite(v)?Math.round(v):null;
@@ -21,12 +21,12 @@ async function submitGeometry(submit) {
    intersectsViewport:r.right>0&&r.bottom>0&&r.left<innerWidth&&r.top<innerHeight,
    centerHitRelation:top===el?'self':el.contains(top)?'child':top?'other':'none',
    nativeDisabled:el.disabled===true,ariaDisabled:el.getAttribute('aria-disabled')==='true'};
- });
+ }));}catch{return null;}
 }
 export async function prepareGuardedCheckoutSubmit({page,submit,selectedIndex,checkpoint,authorize}) {
  assert(Number.isInteger(selectedIndex)&&selectedIndex>=0&&selectedIndex<checkoutSubmitSelectors.length);
  const counts=await Promise.all(checkoutSubmitSelectors.map(selector=>page.locator(selector).count()));
- const before=await submitGeometry(submit);
+ const before=await readCheckoutSubmitGeometry(submit);
  await checkpoint({phase:'provider_checkout_submit_normal_preparation_before',selectedIndex,counts,geometry:before});
  if(counts[selectedIndex]!==1)return {status:'failed',reason:'ambiguous_submit'};
  // Filling does not blur billing inputs; finish that normal UI interaction before scrolling.
@@ -38,7 +38,7 @@ export async function prepareGuardedCheckoutSubmit({page,submit,selectedIndex,ch
   el.blur();return true;
  });
  await submit.scrollIntoViewIfNeeded({timeout:20000});
- const prepared=await submitGeometry(submit);
+ const prepared=await readCheckoutSubmitGeometry(submit);
  await checkpoint({phase:'provider_checkout_submit_normal_preparation_after',selectedIndex,counts,billingBlurred,geometry:prepared});
  const trial=await trialCheckoutSubmitActionability({submit,checkpoint});
  if(trial.status!=='passed'||trial.hitTargetAfter.blockerClass!=='submit_or_child')return {status:'failed',reason:'submit_actionability_failed',trial};
