@@ -25,6 +25,7 @@ export const RUNTIME_AUTHORITY_MODULES = Object.freeze([
   'src/lib/rcap/fulfillment/grade-a-registry.ts',
   'src/lib/rcap/fulfillment/consumer-specification-binding.ts',
   'src/lib/rcap/fulfillment/worker-static-authority.ts',
+  'src/lib/rcap/fulfillment/sponsored-channel-authority.ts',
 ]);
 
 /** Select behavioral probes only when the entry can reach their real module. */
