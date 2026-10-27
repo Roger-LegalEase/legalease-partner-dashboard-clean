@@ -2,7 +2,7 @@ import {getSupabaseAdminClient} from "@/lib/supabase/server";
 import {isDisposableLaunchEnvironment} from "@/lib/partners/onboarding/synthetic-launch-security";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
 import { getApprovedPublicPageConfiguration } from "@/lib/partners/onboarding/public-page-configuration";
-import { isRcapLaunchStudioEnabled } from "@/lib/partners/onboarding/feature";
+import { isRcap2Enabled, isRcapLaunchStudioEnabled } from "@/lib/partners/onboarding/feature";
 import { partnerIntake } from "@/lib/partners/routes";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -25,7 +25,7 @@ export default async function CoBrandedPartnerPage({
     notFound();
   }
 
-  if (isRcapLaunchStudioEnabled()) {
+  if (isRcap2Enabled() || isRcapLaunchStudioEnabled()) {
     const configuration = await getApprovedPublicPageConfiguration(partner.partnerSlug,(await headers()).get("x-rcap-synthetic-verification"));
     if (!configuration) {
       const admin=getSupabaseAdminClient();
