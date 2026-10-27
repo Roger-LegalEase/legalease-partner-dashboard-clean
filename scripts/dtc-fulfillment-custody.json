@@ -18,8 +18,8 @@
   "noInterveningPurchaseActor": false,
   "savedCaseProviderInventorySha256": "51beec4cbb7efa6c1a3de3c30a072a64e1ad932e62f949751ae0e198374bb832",
   "savedCaseBirthReceiptSha256": "868a2eed0e4ca8fd945bbc2ada7bb1464b66d7b09694e843bd178f71f2de173f",
-  "windowReceiptSha256": "e5f5c6d3e6bed599eae56ad83f21980d5972e2851b9972b78e2c43f8b2bd9023",
-  "reconciliationReceiptSha256": "4e40d0eff26e4a235a8f7201e184919b379bd117f55f63dc384010280e1fd32a",
+  "windowReceiptSha256": "51ff87acb06f5c2df29b682b08c6730c340f57db52cc7acda31cbd6686193256",
+  "reconciliationReceiptSha256": "989d9f3293a2e6272c809d2d3dc902cb7e7db7912c40444f41ea0d500e86756d",
   "limitations": [
     "Historical404486 and fixed birth/provider inventory cutoff preserved; historical404835 exact failed operation UNKNOWN despite submitAttempted checkpointTRUE.",
     "Latest405269 same887 read confirms open/unpaid/noPI/noevent/job0/rev8. No newCheckout; conservative historicalSubmitAttemptedNULL and noInterveningPurchaseActorFALSE preserved.",
@@ -30,5 +30,28 @@
   "noPayResultSha256": "7f86e1bca776f3cfef11792c8baa49dc0c744acad0761fc5cd15ab420583aac4",
   "noPayAcceptanceSha256": "b5d8b60d318ccc98b38a7a0d60fddcee9e9da9b08356232c09096773704839ab",
   "latestReadonlyRun": 40526975098,
-  "latestReadonlyCAcceptanceSha256": "a6530fb9810fcbe74591dc3ba4e3bf2020319c2adc821be8fa8f8e2d70f7ba46"
+  "latestReadonlyCAcceptanceSha256": "a6530fb9810fcbe74591dc3ba4e3bf2020319c2adc821be8fa8f8e2d70f7ba46",
+  "currentOwnReconciliation": {
+    "receipt": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/dtc-financial-current-carrier-20261027/POST-DAEMON-OWN-PROVIDER-ALLOWLISTED.PRIVATE.json",
+      "sha256": "989d9f3293a2e6272c809d2d3dc902cb7e7db7912c40444f41ea0d500e86756d"
+    },
+    "acceptance": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/C-FRESH-149-FINANCIAL-OWN887-FOUR-NATIVE-FIVE-CONTROL-WINDOW-QUALIFICATION-20261027T203649.json",
+      "sha256": "20297bc1aa2e0fdc49d3daa8ab27d32ec437190f5c2760eac8b7b038935061d9"
+    }
+  },
+  "observedNormalLinkClose": {
+    "runId": 40573780988,
+    "result": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/dtc-close-published-actual-execution-20261027/extracted/result.json",
+      "sha256": "7761261fce1d0d09ab7f5a88c8bfe74fb89b9c17f8f0d497d13b46d029a09fec"
+    },
+    "acceptance": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/C-ACTUAL-40573780988-ONE-NORMAL-CLOSE-DISMISSAL-MANUAL-CARD-AND-TRIAL-PASSED-ACCEPTANCE-NO-PAY.json",
+      "sha256": "320f79bbc7ec4692d665656e2181bd0378c1c8ab9e055ca858c56d0edf922815"
+    },
+    "decision": "unknown",
+    "realPayAttempted": false
+  }
 }
