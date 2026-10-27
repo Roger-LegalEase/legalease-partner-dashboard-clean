@@ -6,3 +6,43 @@ export function classifyTrialActionabilityFailure(error){
  const line=message.split('\n').find(x=>/intercepts pointer events/i.test(x))??'';const tag=/<(button|input|iframe|dialog|div|span)\b/i.exec(line)?.[1]?.toLowerCase()??'unknown';return{reason:pointer?'pointer_events_intercepted':outside?'outside_viewport':hidden?'not_visible':unstable?'not_stable':disabled?'not_enabled':detached?'detached':unique?'locator_not_unique':navigation?'navigation_wait':'unclassified',interceptorTag:tag,subtreeIntercepted:pointer&&/subtree intercepts pointer events/i.test(line),scrolledIntoView:/done scrolling/i.test(message),retryObserved:/retrying click action/i.test(message)};
 }
 export async function trialCheckoutSubmitActionability({submit,checkpoint}){assert.equal(typeof submit?.click,'function');assert.equal(typeof checkpoint,'function');const hitTargetBefore=await safeHitTarget(submit);await checkpoint({phase:'provider_checkout_submit_actionability_before_trial',trial:true,realSubmitAttempted:false});const started=Date.now();let status='passed',diagnostic=null,actionabilityFailure=null;try{await submit.click({trial:true,timeout:20000});}catch(error){status='failed';actionabilityFailure=classifyTrialActionabilityFailure(error);diagnostic=safeCheckoutBrowserDiagnostic({phase:'submit_click',errorClass:error?.name});}const hitTargetAfter=await safeHitTarget(submit);const result={trial:true,realSubmitAttempted:false,status,diagnostic,actionabilityFailure,hitTargetBefore,hitTargetAfter,elapsedMs:Date.now()-started};await checkpoint({phase:'provider_checkout_submit_actionability_after_trial',...result});return result;}
+
+export const checkoutSubmitSelectors = Object.freeze([
+ 'button[data-testid="hosted-payment-submit-button"]', 'button:has-text("Pay")',
+ 'button:has-text("Complete order")', 'button:has-text("Place order")', 'button[type="submit"]'
+]);
+async function submitGeometry(submit) {
+ return submit.evaluate(el => {
+  const r=el.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
+  const top=document.elementFromPoint(x,y);
+  const n=v=>Number.isFinite(v)?Math.round(v):null;
+  return {rect:{x:n(r.x),y:n(r.y),width:n(r.width),height:n(r.height)},
+   viewport:{width:n(innerWidth),height:n(innerHeight)},
+   intersectsViewport:r.right>0&&r.bottom>0&&r.left<innerWidth&&r.top<innerHeight,
+   centerHitRelation:top===el?'self':el.contains(top)?'child':top?'other':'none',
+   nativeDisabled:el.disabled===true,ariaDisabled:el.getAttribute('aria-disabled')==='true'};
+ });
+}
+export async function prepareGuardedCheckoutSubmit({page,submit,selectedIndex,checkpoint,authorize}) {
+ assert(Number.isInteger(selectedIndex)&&selectedIndex>=0&&selectedIndex<checkoutSubmitSelectors.length);
+ const counts=await Promise.all(checkoutSubmitSelectors.map(selector=>page.locator(selector).count()));
+ const before=await submitGeometry(submit);
+ await checkpoint({phase:'provider_checkout_submit_normal_preparation_before',selectedIndex,counts,geometry:before});
+ if(counts[selectedIndex]!==1)return {status:'failed',reason:'ambiguous_submit'};
+ // Filling does not blur billing inputs; finish that normal UI interaction before scrolling.
+ const billingBlurred=await page.evaluate(()=>{
+  const el=document.activeElement;
+  if(!(el instanceof HTMLInputElement)||!['text','tel'].includes(el.type))return false;
+  const billing=['billingName','billingPostalCode','billingAddressLine1','billingAddressLine2','billingLocality','billingAdministrativeArea'];
+  if(!billing.includes(el.name)&&!billing.includes(el.id))return false;
+  el.blur();return true;
+ });
+ await submit.scrollIntoViewIfNeeded({timeout:20000});
+ const prepared=await submitGeometry(submit);
+ await checkpoint({phase:'provider_checkout_submit_normal_preparation_after',selectedIndex,counts,billingBlurred,geometry:prepared});
+ const trial=await trialCheckoutSubmitActionability({submit,checkpoint});
+ if(trial.status!=='passed'||trial.hitTargetAfter.blockerClass!=='submit_or_child')return {status:'failed',reason:'submit_actionability_failed',trial};
+ if(await page.locator(checkoutSubmitSelectors[selectedIndex]).count()!==1)return {status:'failed',reason:'ambiguous_submit',trial};
+ await authorize();
+ return {status:'passed',trial};
+}

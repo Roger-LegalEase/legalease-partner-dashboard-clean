@@ -1,4 +1,4 @@
-import{trialCheckoutSubmitActionability}from'./rcap-checkout-submit-actionability.mjs';
+import{trialCheckoutSubmitActionability,prepareGuardedCheckoutSubmit,checkoutSubmitSelectors}from'./rcap-checkout-submit-actionability.mjs';
 import {safeCheckoutBrowserDiagnostic} from './rcap-checkout-browser-diagnostic.mjs';
 // Complete a Stripe Checkout Session the way a customer does: in a browser, on
 // Stripe's own hosted page.
@@ -55,12 +55,12 @@ export function checkoutAmountMatches(session, expectedTotalCents) {
     && session.currency === 'usd';
 }
 
-async function firstVisible(scope, selectors, timeout = FIELD_TIMEOUT) {
+async function firstVisible(scope, selectors, timeout = FIELD_TIMEOUT, onSelected = () => {}) {
   const deadline = Date.now() + timeout;
   while (Date.now() < deadline) {
     for (const selector of selectors) {
       const candidate = scope.locator(selector).first();
-      if (await candidate.isVisible().catch(() => false)) return candidate;
+      if (await candidate.isVisible().catch(() => false)) { onSelected(selectors.indexOf(selector)); return candidate; }
     }
     await scope.waitForTimeout?.(250).catch(() => {});
     await new Promise((resolve) => setTimeout(resolve, 250));
@@ -373,9 +373,10 @@ export async function completeHostedCheckout({
   onReturn = null,
   beforeFinalPay,
   onSubmitCheckpoint = async () => {},
-  submitActionabilityOnly = false
+  submitActionabilityOnly = false,
+  prepareSubmitActionability = false
 }) {
-  if(typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
+  if(typeof prepareSubmitActionability!=='boolean'||typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
     throw new Error('Exact HTTPS Checkout success URL is required before opening the provider page.');
   }
@@ -514,13 +515,9 @@ export async function completeHostedCheckout({
     await requireNoProviderChallenge(page);
     await shoot("form-complete");
 
-    const submit = await firstVisible(page, [
-      'button[data-testid="hosted-payment-submit-button"]',
-      'button:has-text("Pay")',
-      'button:has-text("Complete order")',
-      'button:has-text("Place order")',
-      'button[type="submit"]'
-    ], 15_000);
+    let selectedSubmitIndex = null;
+    const submit = await firstVisible(page, checkoutSubmitSelectors, 15_000,
+      index => { selectedSubmitIndex = index; });
     if (!submit) {
       notes.push("no submit control found on the Checkout page");
       await shoot("no-submit");
@@ -532,14 +529,28 @@ export async function completeHostedCheckout({
     observingReturn = true;
     page.on('framenavigated', observeReturn);
     if (typeof beforeFinalPay !== 'function') throw new Error('Actual final payment window check required.');
-    finalPayCheckStarted = true;
-    submitInspection = await readCheckoutSubmitState(page, submit, looksFree);
-    failurePhase = 'before_final_pay';
-    await beforeFinalPay(submitInspection);
-    finalPayCheckPassed = true;
-    if(submitActionabilityOnly){
-      const actionabilityTrial=await trialCheckoutSubmitActionability({submit,checkpoint:onSubmitCheckpoint});
-      return{completed:false,humanInteractionRequired:false,failureReason:'diagnostic_stop_before_pay',submitAttempted:false,submitInspection,actionabilityTrial,notes,screenshots};
+    const authorizeFinalPay = async () => {
+      await requireNoProviderChallenge(page);
+      finalPayCheckStarted = true;
+      submitInspection = await readCheckoutSubmitState(page, submit, looksFree);
+      failurePhase = 'before_final_pay';
+      await beforeFinalPay(submitInspection);
+      finalPayCheckPassed = true;
+    };
+    if (prepareSubmitActionability && !submitActionabilityOnly) {
+      failurePhase = 'submit_click';
+      const preparation = await prepareGuardedCheckoutSubmit({page, submit,
+        selectedIndex:selectedSubmitIndex, checkpoint:onSubmitCheckpoint,
+        authorize:authorizeFinalPay});
+      if (preparation.status !== 'passed') return {completed:false,
+        humanInteractionRequired:false,failureReason:'submit_actionability_failed',
+        submitAttempted:false,submitInspection,notes,screenshots};
+    } else {
+      await authorizeFinalPay();
+      if(submitActionabilityOnly){
+        const actionabilityTrial=await trialCheckoutSubmitActionability({submit,checkpoint:onSubmitCheckpoint});
+        return{completed:false,humanInteractionRequired:false,failureReason:'diagnostic_stop_before_pay',submitAttempted:false,submitInspection,actionabilityTrial,notes,screenshots};
+      }
     }
     failurePhase = 'before_submit_checkpoint';
     await checkpointSubmit("provider_checkout_submit_before_forward");
