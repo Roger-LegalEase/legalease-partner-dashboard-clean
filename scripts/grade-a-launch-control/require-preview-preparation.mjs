@@ -1,3 +1,4 @@
+import {QUALIFIED_FORWARD_APP} from './verify-qualified-worker-forward-binding.mjs';
 // A HELD tuple can create only its acceptance Preview. It is not CURRENT and
 // cannot authorize production, acceptance writes, payments, or worker claims.
 import assert from 'node:assert/strict';
@@ -8,11 +9,12 @@ import {CANDIDATE} from './verify-pinned-worker-successor.mjs';
 function requirePreviewAdmission(root,inputs,phase){
  const candidate=JSON.parse(fs.readFileSync(root+'/'+CANDIDATE));
  const fields=['schemaVersion','status','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha','publication','readOnlyImageAcceptance','runtimeAccepted','workerRebuildRequired','previewExecution','resume','productionAuthorized','productionAuthorization','deploymentAuthorized','clinicDispatchReady','hostedAdmission','releaseBaseSha','supersededRecord','supersededRecordSha256'];
+ if(candidate.applicationSha===QUALIFIED_FORWARD_APP)fields.push('workerCompatibility');
  assert.deepEqual(Object.keys(candidate).sort(),fields.sort(),'exact HELD Preview record; unknown permissions refused');
  assert.equal(candidate.status,'FORWARD_BOUND_HOSTED_PENDING','exact HELD Preview state');
  assert.equal(inputs.phase,phase,'HELD permission is Preview creation only');
  assert.equal(candidate.productionAuthorized,false);assert.equal(candidate.productionAuthorization,null);assert.equal(candidate.deploymentAuthorized,false);assert.equal(candidate.hostedAdmission,null);
- assert.equal(candidate.runtimeAccepted,true);assert.equal(candidate.workerRebuildRequired,false);
+ assert.equal(candidate.runtimeAccepted,true);assert.equal(candidate.workerRebuildRequired,candidate.applicationSha===QUALIFIED_FORWARD_APP,'canonical drift remains explicit for the exact compatible public-page successor');
  for(const key of ['applicationSha','workerSourceSha','workerDigest','toolsSha'])assert.equal(inputs[key],candidate[key],'exact Preview '+key);
  const result=verifyReleaseCandidateBinding(root,candidate);
  assert.equal(result.current,false);assert.equal(result.status,'FORWARD_BOUND_HOSTED_PENDING');assert.equal(result.bindingVerified,true,JSON.stringify(result));
