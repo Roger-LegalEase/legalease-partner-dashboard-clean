@@ -24,7 +24,7 @@ test('fixed Link identity differs from generic OTP/link text; controls and test 
   globalThis.getComputedStyle=()=>({display:'block',visibility:'visible',position:'fixed',pointerEvents:'auto',zIndex:'15'});globalThis.innerWidth=1280;globalThis.innerHeight=720;
   const result=await readCheckoutSubmitObstruction({evaluate:async(fn,arg)=>fn(arg)},null);
   assert.equal(result.status,'inspected');assert.equal(result.challengeClass,'one_time_code');assert.equal(result.semantics.identity,link?'link_dialog':'unknown_dialog');assert.equal(result.semantics.linkBranding,link);assert.equal(result.semantics.linkAccountDialog,link);
-  assert.equal(result.semantics.testModeCueVisible,true);assert.equal(result.semantics.testAuthCueVisible,true);assert.equal(interactions,0);
+  assert.equal(result.semantics.testModeCueVisible,false);assert.equal(result.semantics.testAuthCueVisible,false);assert.equal(interactions,0);
   assert.deepEqual(result.semantics.offeredControls,link?['pay_without_link','use_different_payment_method','close','verify','other']:['verify','close']);
   assert(!/PRIVATE|example|5551239876|913489|https?:|<|aria-label/i.test(JSON.stringify(result)));
   const hostile=safeCheckoutSubmitObstruction({status:'inspected',semantics:{...result.semantics,identity:'PRIVATE',offeredControls:['PRIVATE','verify','verify'],message:privateText,email:privateText,phone:privateText,code:'913489',html:'<PRIVATE>',ids:privateText,values:privateText,url:'https://private.invalid'}});

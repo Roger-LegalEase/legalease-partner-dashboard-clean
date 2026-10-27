@@ -38,7 +38,10 @@ function capture(submit){
  const dialogs=modals.filter(el=>el.tagName==='DIALOG'||['dialog','alertdialog'].includes(el.getAttribute('role')));
  const dialog=dialogs.find(el=>el.contains(active))??dialogs.find(el=>top&&el.contains(top))??dialogs[0]??null;
  const normalize=text=>String(text??'').slice(0,16000).replace(/\s+/g,' ').trim().toLowerCase();
- const dialogText=normalize(dialog?.innerText??dialog?.textContent),dialogLabel=normalize(dialog?.getAttribute('aria-label'));
+ const dialogLabel=normalize(dialog?.getAttribute('aria-label'));
+ const headingTexts=dialog?Array.from(dialog.querySelectorAll('h1,h2,h3,[role="heading"]')).filter(visible).slice(0,6).map(n=>n.innerText??n.textContent??''):[];
+ const labelText=dialog?(dialog.getAttribute('aria-labelledby')??'').split(/\s+/).filter(Boolean).slice(0,4).map(id=>dialog.ownerDocument.getElementById(id)?.textContent??'').join(' '):'';
+ const dialogText=normalize([dialogLabel,labelText,...headingTexts].join(' '));
  const brandNodes=dialog?Array.from(dialog.querySelectorAll('img,svg,[role="img"],h1,h2,h3,[role="heading"]')).filter(visible).slice(0,24):[];
  const linkBranding=brandNodes.some(el=>[el.getAttribute('aria-label'),el.getAttribute('alt'),el.tagName.toLowerCase()==='svg'?el.querySelector('title')?.textContent:null,/^h[123]$/i.test(el.tagName)||el.getAttribute('role')==='heading'?el.innerText??el.textContent:null].some(text=>/^(?:link|link by stripe|link logo|pay with link)$/.test(normalize(text))));
  const linkAccountDialog=Boolean(dialog)&&(/\b(?:log in to link|sign in to link|your link account|verify with link|link verification|link authentication)\b/.test(dialogText)||/^(?:link|link account|verify with link|log in to link|sign in to link|link verification|link authentication)$/.test(dialogLabel));
@@ -46,7 +49,7 @@ function capture(submit){
   const labels=[el.getAttribute('aria-label'),el.getAttribute('title'),el.innerText??el.textContent].map(normalize);
   const category=labels.some(x=>['pay without link','continue without link','checkout without link'].includes(x))?'pay_without_link':labels.some(x=>['use a different payment method','use another payment method','choose a different payment method'].includes(x))?'use_different_payment_method':labels.some(x=>['close','close dialog','close modal','dismiss'].includes(x))?'close':labels.some(x=>['verify','verify code','verify and continue'].includes(x))?'verify':labels.includes('continue')?'continue':'other';if(!offeredControls.includes(category))offeredControls.push(category);
  }
- const testModeCueVisible=String(document.body?.innerText??'').slice(0,16000).split(/\r?\n/).some(line=>/^(?:test mode|test environment|sandbox|sandbox mode)$/.test(normalize(line)));
+ const testModeCueVisible=Array.from(document.querySelectorAll('[role="status"],[role="note"],h1,h2,h3')).filter(visible).slice(0,24).some(n=>/^(?:test mode|test environment|sandbox|sandbox mode)$/.test(normalize(n.innerText??n.textContent)));
  const testAuthCueVisible=/\b(?:test mode|sandbox|when testing)\b/.test(dialogText)&&/\b(?:verification code|authentication code|test code|one-time code|any six-digit code|any 6-digit code)\b/.test(dialogText);
  const semantics={dialogPresent:Boolean(dialog),linkBranding,linkAccountDialog,offeredControls,testModeCueVisible,testAuthCueVisible};
  const present=selector=>Array.from(document.querySelectorAll(selector)).some(visible);

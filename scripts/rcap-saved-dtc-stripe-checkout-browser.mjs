@@ -1,3 +1,4 @@
+import {inspectOptionalCheckoutDialog} from './rcap-checkout-optional-dialog.mjs';
 import {readCheckoutSubmitObstruction} from './rcap-checkout-submit-obstruction.mjs';
 import{trialCheckoutSubmitActionability,prepareGuardedCheckoutSubmit,checkoutSubmitSelectors,readCheckoutSubmitGeometry,prepareCheckoutSubmitNormally}from'./rcap-checkout-submit-actionability.mjs';
 import {safeCheckoutBrowserDiagnostic,checkoutNavigationClass} from './rcap-checkout-browser-diagnostic.mjs';
@@ -171,6 +172,7 @@ export async function fillRemainingRequired(page, notes) {
     for (const control of controls) {
       if (!(await control.isVisible().catch(() => false))) continue;
       if (await control.isDisabled().catch(() => false)) continue;
+      if(await control.evaluate(el=>el.matches('input[autocomplete="one-time-code"],input[name="one-time-code"],input[id*="one-time-code" i]'))){const error=Error('Provider verification requires human interaction');error.code='CHECKOUT_HUMAN_INTERACTION_REQUIRED';throw error;}
       const current = await control.inputValue().catch(() => "x");
       if (current && current.trim()) continue;
 
@@ -330,7 +332,8 @@ export async function readCheckoutSubmitState(page, submit, pageTotalClassifiedF
           : ['checkbox','radio'].includes(el.type) ? el.type : 'input';
         const required = el.hasAttribute('required') || el.getAttribute('aria-required') === 'true';
         const checked = ['checkbox','radio'].includes(type) ? el.checked === true : null;
-        const missing = el.validity?.valueMissing === true || required && (checked === null ? !String(el.value ?? '').trim() : !checked);
+        const otp=el.matches('input[autocomplete="one-time-code"],input[name="one-time-code"],input[id*="one-time-code" i]');
+        const missing = otp?true:el.validity?.valueMissing === true || required && (checked === null ? !String(el.value ?? '').trim() : !checked);
         return { name, type, required, missing, invalid: el.validity?.valid === false || el.getAttribute('aria-invalid') === 'true',
           checked, unknownRequiredCheckbox: type === 'checkbox' && required && !known };
       }).catch(() => { inspectionComplete = false; return null; });
@@ -376,7 +379,9 @@ export async function completeHostedCheckout({
   onSubmitCheckpoint = async () => {},
   submitActionabilityOnly = false,
   prepareSubmitActionability = false,
-  submitObstructionOnly = false
+  submitObstructionOnly = false,
+  providerExpectedAmountCents = null,
+  beforeDialogInteraction = null
 }) {
   if(typeof submitObstructionOnly!=='boolean'||submitObstructionOnly&&submitActionabilityOnly||typeof prepareSubmitActionability!=='boolean'||typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
@@ -389,6 +394,8 @@ export async function completeHostedCheckout({
   let submitAttempted = false;
   let submitInspection = null;
   let submitControl = null;
+  let optionalDialog = null;
+  let optionalDialogInspected = false;
   let finalPayCheckStarted = false;
   let finalPayCheckPassed = false;
   let exactReturnObserved = false;
@@ -410,6 +417,23 @@ export async function completeHostedCheckout({
   const readDiagnostic = async errorClass => {
     let navigation='unknown';try{navigation=checkoutNavigationClass(page.url(),isExpectedCheckoutReturn(page.url(),expectedReturnUrl));}catch{}
     return safeCheckoutBrowserDiagnostic({phase:failurePhase,errorClass,buttonGeometry:await readCheckoutSubmitGeometry(submitControl),navigation});
+  };
+
+  const inspectDialogAndTrial = async submit => {
+    if(optionalDialogInspected)return {optionalDialog,actionabilityTrial:null};
+    optionalDialogInspected=true;
+    optionalDialog=await inspectOptionalCheckoutDialog({page,checkpoint:onSubmitCheckpoint,beforeInteraction:async()=>{if(typeof beforeDialogInteraction!=='function')throw Error('Fresh same-session state required');await beforeDialogInteraction();}});
+    if(!optionalDialog.dismissed||!optionalDialog.overlayGone)return {optionalDialog,actionabilityTrial:null};
+    submit=submit??await firstVisible(page,checkoutSubmitSelectors,4000);
+    if(!submit)return {optionalDialog,actionabilityTrial:null};
+    await prepareCheckoutSubmitNormally({page,submit});
+    const obstruction=await readCheckoutSubmitObstruction(page,submit);
+    if(obstruction.status!=='inspected'||Object.values(obstruction.signals).some(v=>v!==false)||!['self','child'].includes(obstruction.buttonGeometry?.centerHitRelation))return {optionalDialog:{...optionalDialog,overlayGone:false,status:'hold',humanRequirement:'Obstruction remains; no trial permitted.'},actionabilityTrial:null};
+    await requireNoProviderChallenge(page);
+    await beforeFinalPay(await readCheckoutSubmitState(page,submit,false));
+    await onSubmitCheckpoint({phase:'provider_checkout_optional_dialog_dismissed',diagnosticOnly:true,trial:false,realSubmitAttempted:false,optionalDialog});
+    const actionabilityTrial=await trialCheckoutSubmitActionability({submit,checkpoint:onSubmitCheckpoint});
+    return {optionalDialog,actionabilityTrial};
   };
 
   const checkpointSubmit = async phase => {
@@ -473,8 +497,9 @@ export async function completeHostedCheckout({
 
     // What Stripe is asking for now decides the rest. A zero total shows an
     // order-confirmation button and no card fields at all.
-    const amountText = await page.locator("body").innerText().catch(() => "");
-    const looksFree = /\$0\.00/.test(amountText);
+    if(submitObstructionOnly&&!Number.isSafeInteger(providerExpectedAmountCents))throw Error('Provider amount required for NoPay inspection');
+    const amountText = submitObstructionOnly?'':await page.locator("body").innerText().catch(() => "");
+    const looksFree = submitObstructionOnly?providerExpectedAmountCents===0:/\$0\.00/.test(amountText);
     notes.push(`page total reads as ${looksFree ? "zero, so Stripe is collecting no payment details" : "an amount due"}${promotionCode ? " after the promotion code was applied" : ""}`);
 
     // Stripe Checkout collects an email on most configurations and will not
@@ -547,7 +572,8 @@ export async function completeHostedCheckout({
       const {billingBlurred}=await prepareCheckoutSubmitNormally({page,submit});
       const after=await readCheckoutSubmitObstruction(page,submit);
       await onSubmitCheckpoint({phase:'provider_checkout_submit_obstruction_after_prepare',diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:after});
-      return{completed:false,humanInteractionRequired:['one_time_code','captcha_frame','challenge_frame'].includes(after.challengeClass),failureReason:'diagnostic_stop_before_pay',submitAttempted:false,submitInspection,submitObstruction:{before,after,billingBlurred},notes,screenshots};
+      const interaction=await inspectDialogAndTrial(submit);
+      return{completed:false,humanInteractionRequired:!(interaction.optionalDialog?.dismissed&&interaction.optionalDialog?.overlayGone),failureReason:'diagnostic_stop_before_pay',submitAttempted:false,submitInspection,submitObstruction:{before,after,billingBlurred},...interaction,notes,screenshots};
     }
     const authorizeFinalPay = async () => {
       await requireNoProviderChallenge(page);
@@ -616,7 +642,8 @@ export async function completeHostedCheckout({
     if(submitObstructionOnly&&error?.code==='CHECKOUT_HUMAN_INTERACTION_REQUIRED'&&!error?.sanitizedDestination){
       const after=await readCheckoutSubmitObstruction(page,submitControl);
       await onSubmitCheckpoint({phase:'provider_checkout_submit_obstruction_challenge',diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:after});
-      return{completed:false,humanInteractionRequired:true,failureReason:'provider_challenge',submitAttempted:false,submitInspection,submitObstruction:{before:null,after,billingBlurred:false},notes,screenshots};
+      const interaction=await inspectDialogAndTrial(submitControl);
+      return{completed:false,humanInteractionRequired:!(interaction.optionalDialog?.dismissed&&interaction.optionalDialog?.overlayGone),failureReason:interaction.actionabilityTrial?'diagnostic_stop_before_pay':'provider_challenge',submitAttempted:false,submitInspection,submitObstruction:{before:null,after,billingBlurred:false},...interaction,notes,screenshots};
     }
     const diagnostic = await readDiagnostic(error?.name);
     // Re-read after an interrupted DOM operation. Only navigation-specific
