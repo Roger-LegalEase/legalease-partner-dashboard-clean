@@ -3,7 +3,16 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {DTC,hash} from './rcap-hosted-saved-dtc-contracts.mjs';
 import {SESSION_SHA,classifyExistingSession} from './rcap-dtc-existing-session-readonly.mjs';
-import {safeSubmitInspection} from './rcap-dtc-existing-session-no-pay-inspection.mjs';
+// This guard runs before npm ci; keep the accepted projection free of browser imports.
+const SAFE_NAMES=new Set(['unrecognized_control','email','cardNumber','cardExpiry','cardCvc','cardCountry','cardPostalCode','billingName','billingAddressLine1','billingAddressLine2','billingLocality','billingAdministrativeArea','billingPostalCode','billingCountry','phoneNumber','name','country','addressLine1','addressLine2','postalCode','city','state','termsOfServiceConsentCheckbox','cc-name','cc-number','cc-exp','cc-csc','country-name','street-address','address-line1','address-line2','address-level1','address-level2','postal-code','tel']);
+function safeSubmitInspection(value){
+ if(value===null||value===undefined)return null;
+ assert(typeof value.inspectionComplete==='boolean');assert.equal(typeof value.pageTotalClassifiedFree,'boolean');assert(value.submitDisabled===null||typeof value.submitDisabled==='boolean');assert(Array.isArray(value.controls)&&value.controls.length<=60);
+ return {pageTotalClassifiedFree:value.pageTotalClassifiedFree,submitDisabled:value.submitDisabled,inspectionComplete:value.inspectionComplete,controls:value.controls.map(c=>{
+  assert(['input','select','checkbox','radio'].includes(c.type));for(const k of ['required','missing','invalid','unknownRequiredCheckbox'])assert.equal(typeof c[k],'boolean');assert(c.checked===null||typeof c.checked==='boolean');
+  return {name:SAFE_NAMES.has(c.name)?c.name:'unrecognized_control',type:c.type,required:c.required,missing:c.missing,invalid:c.invalid,checked:c.checked,unknownRequiredCheckbox:c.unknownRequiredCheckbox};
+ })};
+}
 export const EXISTING_MODE='dtc_saved_existing_fulfillment';
 export const NO_PAY_RESULT_SHA='7f86e1bca776f3cfef11792c8baa49dc0c744acad0761fc5cd15ab420583aac4';
 export const NO_PAY_ACCEPTANCE_SHA='b5d8b60d318ccc98b38a7a0d60fddcee9e9da9b08356232c09096773704839ab';
