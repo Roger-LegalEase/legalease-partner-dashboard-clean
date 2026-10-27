@@ -5,14 +5,14 @@ import vm from 'node:vm';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
-const original=execFileSync('git',['show','9fe0ea17727339755c10e73c06adb34215ba2a0e:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
+const original=execFileSync('git',['show','178a024a2c3dc3308f905de29530258f9cb73eb9:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
 const grantText=execFileSync('git',['show','f0ceb5b2:data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
 const grant=JSON.parse(grantText);
 const sha='828de28b383715d545d4eead791f9d80a237447b';
 const binding={schema:'rcap-partner-acceptance-launch/v1',applicationSha:sha,projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',supabaseProjectRef:'hyflxnlhpmiqxvvcoiia',partnerSlug:'legalease-ordinary-qa-20261024',adminAuthUserId:'6574d21e-5e0a-4567-b14e-01447c162f37'};
 function context(phase='managed_start_preview') {
  return {APPLICATION_SHA:sha,PROJECT_REF:binding.supabaseProjectRef,EXPECTED_PROJECT_REF:binding.supabaseProjectRef,
-  ROUTE_STATE:phase==='managed_start_preview'?'staging_scoped':'',SCOPE_IDS:phase==='managed_start_preview'?grant.participantUserIds.join(','):'',CLINIC_DEMO_MODE:'',ISOLATED_CLINIC_PREVIEW:false,LEGAL_AID_EMAIL:null,CATALOG_PRODUCT_ID:'',configuredSandboxEnv:null,
+  ROUTE_STATE:phase==='managed_start_preview'?'staging_scoped':'',SCOPE_IDS:phase==='managed_start_preview'?grant.participantUserIds.join(','):'',CLINIC_DEMO_MODE:'',ISOLATED_CLINIC_PREVIEW:false,LEGAL_AID_EMAIL:null,CATALOG_PRODUCT_ID:'',configuredSandboxEnv:null,HELD_PURPOSE_PREVIEW:false,
   RETURN_ORIGIN:'https://rcap-acceptance-synthetic.vercel.app',SUPABASE_URL:`https://${binding.supabaseProjectRef}.supabase.co`,
   keys:{anon:'synthetic-anon',service:'synthetic-service'},PRESERVED_DATA_KEYS:{LEGAL_AID_RESTRICTED_FIELD_KEY:'synthetic-data-key',LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:'v1',PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:'synthetic-pseudonym'},
   rootDir:'/synthetic-reviewed-checkout',sha256:value=>crypto.createHash('sha256').update(String(value)).digest('hex'),
@@ -79,17 +79,17 @@ test('all preexisting maps are exactly preserved, including Clinic and configure
 test('project exposure gate requires actual true and precedes deployment creation',()=>{
  const start=source.indexOf('// Existing project readback');
  const gate=source.slice(start,source.indexOf('const aliasesBefore =',start));assert(start>=0);
- for(const value of [undefined,false,'true'])assert.throws(()=>vm.runInNewContext(gate,{MANAGED_START:{},beforeProject:{json:{autoExposeSystemEnvs:value}}}),/DEPLOY_MANAGED_START_SYSTEM_ENV_EXPOSURE_UNPROVEN/);
- vm.runInNewContext(gate,{MANAGED_START:{},beforeProject:{json:{autoExposeSystemEnvs:true}}});
- vm.runInNewContext(gate,{MANAGED_START:null,beforeProject:{json:{}}});
+ for(const value of [undefined,false,'true'])assert.throws(()=>vm.runInNewContext(gate,{MANAGED_START:{},HELD_PURPOSE_PREVIEW:false,beforeProject:{json:{autoExposeSystemEnvs:value}}}),/DEPLOY_MANAGED_START_SYSTEM_ENV_EXPOSURE_UNPROVEN/);
+ vm.runInNewContext(gate,{MANAGED_START:{},HELD_PURPOSE_PREVIEW:false,beforeProject:{json:{autoExposeSystemEnvs:true}}});
+ vm.runInNewContext(gate,{MANAGED_START:null,HELD_PURPOSE_PREVIEW:false,beforeProject:{json:{}}});
  assert(start<source.indexOf('const created = await createRestPreview'));
 });
 test('existing exact-host release GET refuses redirects and mismatched platform/runtime source',async()=>{
- const start=source.indexOf('if (MANAGED_START) {\n  const response = await fetch');assert(start>=0);
- const code=source.slice(start,source.indexOf('if (deploymentId && verdicts.get',start));
+ const start=source.indexOf('if (MANAGED_START || HELD_PURPOSE_PREVIEW) {\n  const response = await fetch');assert(start>=0);
+ const code=source.slice(start,source.indexOf('let runtimeRepairAliasAttempted=',start));
  for(const patch of [null,{status:302},{buildSha:'0'.repeat(40)},{runtimeSha:null},{sourceBound:false},{policyVersion:'other'}]) {
   const calls=[],evidence={};const good={application:'RCAP 2.0',policyVersion:'rcap2.2',buildSha:sha,runtimeSha:sha,sourceBound:true};
-  const c={MANAGED_START:{bypass:'synthetic-private-bypass'},APPLICATION_SHA:sha,deploymentUrl:'https://exact-immutable.vercel.app',deploymentId:'dpl_Synthetic',evidence,AbortSignal,record:()=>{},fetch:async(url,init)=>{calls.push({url,init});return {status:patch?.status??200,json:async()=>({...good,...patch})};}};
+  const c={MANAGED_START:{bypass:'synthetic-private-bypass'},HELD_PURPOSE_PREVIEW:false,APPLICATION_SHA:sha,deploymentUrl:'https://exact-immutable.vercel.app',deploymentId:'dpl_Synthetic',evidence,AbortSignal,record:()=>{},fetch:async(url,init)=>{calls.push({url,init});return {status:patch?.status??200,json:async()=>({...good,...patch})};}};
   const promise=vm.runInNewContext(`(async()=>{${code}})()`,c);
   if(patch)await assert.rejects(promise,/DEPLOY_MANAGED_START_RELEASE_SOURCE_UNPROVEN/);else await promise;
   assert.equal(calls.length,1);assert.equal(calls[0].url,'https://exact-immutable.vercel.app/api/rcap/release');assert.equal(calls[0].init.redirect,'manual');
@@ -133,7 +133,7 @@ test('existing participant lookup is read-only and refuses absent, extra or wron
  const start=source.indexOf('if (MANAGED_START) {\n  const participantId');assert(start>=0);
  const code=source.slice(start,source.indexOf('const reusable =',start));
  for(const rows of [[{id:grant.participantUserIds[0]}],[],[{id:'other'}],[{id:grant.participantUserIds[0]},{id:'extra'}],null,'failed-http']) {
-  const calls=[],evidence={};const c={MANAGED_START:readBinding(source,context()),PROJECT_REF:binding.supabaseProjectRef,SUPABASE_ACCESS_TOKEN:'synthetic-access-token',evidence,
+  const calls=[],evidence={};const c={MANAGED_START:readBinding(source,context()),configuredSandboxEnv:null,PROJECT_REF:binding.supabaseProjectRef,SUPABASE_ACCESS_TOKEN:'synthetic-access-token',evidence,
    fetch:async(url,init)=>{calls.push({url,init});return {ok:rows!=='failed-http',json:async()=>rows};}};
   const operation=vm.runInNewContext(`(async()=>{${code}})()`,c);
   if(Array.isArray(rows)&&rows.length===1&&rows[0].id===grant.participantUserIds[0])await operation;else await assert.rejects(operation,/DEPLOY_MANAGED_START_EXISTING_PARTICIPANT_REQUIRED/);
