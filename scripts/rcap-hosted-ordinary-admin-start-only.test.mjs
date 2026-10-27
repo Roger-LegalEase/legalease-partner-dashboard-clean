@@ -1,0 +1,78 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {START_ONLY,admitStartOnlyTarget,qualifyRetainedStartProof,assertStartOnlyPrestate,createStartOnlyGate,runOrdinaryStartOnly,createStartOnlyBrowserIo} from './rcap-hosted-ordinary-admin-start-only.mjs';
+import {ROOT,SLUG,AUTHORITY} from './rcap-hosted-ordinary-admin-postprovision.mjs';
+const hash=b=>createHash('sha256').update(b).digest('hex');
+function retained(){
+ const materials=[{type:'co_branded_page_configuration',hash:'3d1250399ba18f80283255bb021cd650b8a126a12b980d85eb9fd18286633388',version:1,sourceVersion:5,approved:true,generated:true,notDrifted:true,notSuperseded:true,partnerApproved:false},{type:'implementation_brief',hash:'2ba6a142d46d43ba79ca3ad9623c031c99ca345aa8eabeabb88df371b62f9c47',version:1,sourceVersion:5,approved:true,generated:true,notDrifted:true,notSuperseded:true,partnerApproved:false}];
+ const review={sourceVersion:5,matchedMaterialCount:2,materialVersions:[1,1],materialHashes:materials.map(m=>m.hash),renderedTextHashes:['a'.repeat(64),'b'.repeat(64)]};
+ const p={readOnly:'on',observedAt:new Date().toISOString(),workspace:{status:'commercially_blocked',managed:true,version:5,launched:false,hasLaunchOperation:false},currentMaterials:materials,screeningCapacity:{used:0,allowed:1,remaining:1},packetCapTotal:1,packetReservedOrConsumed:0,exactMsJurisdiction:true,childReviewHasExpectedJurisdictions:true,sponsoredServiceMode:true,originalStartRequestSteps:[]};
+ for(const k of ['exactWorkspaceCount','originalOnePlusOneReceiptCount','childReviewRowCount','childReviewExactApprovedCount','allFinalReviewCount'])p[k]=1;
+ for(const k of ['childReviewArtifactReviews','childReviewExactMaterialCount','submittedTwoHashesCurrentCount','artifactVersionCount'])p[k]=2;
+ for(const k of ['launchReceiptCount','launchCompleteCount','launchPreparedCount','ordinaryRegistrationCount','ordinaryExactMsRegistrationCount','originalStartRequestJournalCount'])p[k]=0;
+ return{before:{stage:'start_before_forward',applicationSha:'c0052e13d9801d24080275aab02c70c6ea213fa3',deploymentId:'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt',exactExistingAdmin:true,request:{stage:'start',requestId:START_ONLY.requestId,payloadHash:START_ONLY.payloadHash,expectedVersion:5,review}},review:{stage:'actual_current_material_dom_review',review},poststate:[{ordinary_start_404538_poststate:p}]};
+}
+function gateFixture(checkpoint=async()=>{}){
+ const plan={kind:'operation',stage:'start',endpoint:ROOT+'/program',body:{action:'start',version:5,scopeHash:'a'.repeat(64),reviewToken:'PRIVATE_FIXTURE_TOKEN',confirmed:true,requestId:null}};
+ const request={url:START_ONLY.origin+plan.endpoint,method:'POST',originHeader:START_ONLY.origin,body:{...plan.body,requestId:START_ONLY.requestId}};
+ const pending={stage:'start',requestId:START_ONLY.requestId,payloadHash:hash(JSON.stringify(request.body))};
+ return{gate:createStartOnlyGate(plan,pending,checkpoint),plan,request,pending};
+}
+test('retained404538 semantic guards preserve v5, original d8 request, two materials and two reviews',()=>{
+ const p=retained();qualifyRetainedStartProof(p);
+ for(const mutate of [x=>x.before.request.requestId='00000000-0000-4000-8000-000000000001',x=>x.before.request.payloadHash='0'.repeat(64),x=>x.before.request.expectedVersion=6,x=>x.review.review.materialHashes[0]='0'.repeat(64),x=>x.poststate[0].ordinary_start_404538_poststate.childReviewArtifactReviews=3]){const x=structuredClone(p);mutate(x);assert.throws(()=>qualifyRetainedStartProof(x));}
+});
+test('fresh prestate refuses any earlier launch, usage, material drift or duplicate review',()=>{
+ const old=retained().poststate[0].ordinary_start_404538_poststate;
+ for(const mutate of [x=>x.workspace.version=6,x=>x.workspace.launched=true,x=>x.screeningCapacity.used=1,x=>x.packetReservedOrConsumed=1,x=>x.childReviewRowCount=2,x=>x.launchPreparedCount=1,x=>x.ordinaryRegistrationCount=1,x=>x.currentMaterials[0].hash='0'.repeat(64)]){const x=structuredClone(old);mutate(x);assert.throws(()=>assertStartOnlyPrestate(x,old));}
+});
+test('exact origin normalizes only after validation; gate binds request id/body hash before one forward',async()=>{
+ const calls=[];const f=gateFixture(async witness=>calls.push(witness));await f.gate(f.request);assert.equal(calls.length,1);assert.equal(calls[0].requestId,START_ONLY.requestId);assert.equal(calls[0].payloadHash,f.pending.payloadHash);assert.ok(!JSON.stringify(calls).includes('PRIVATE_FIXTURE_TOKEN'));await assert.rejects(()=>f.gate(f.request));
+ for(const mutate of [x=>x.url=x.url.replace('managed-9aadacd0c5a7','managed-c0052e13d980'),x=>x.originHeader='https://other.vercel.app',x=>x.method='GET',x=>x.body.action='prepare',x=>x.body.action='review',x=>x.body.version=6,x=>x.body.requestId='00000000-0000-4000-8000-000000000001']){const f=gateFixture();const r=structuredClone(f.request);mutate(r);await assert.rejects(()=>f.gate(r));}
+});
+test('a failed prewrite checkpoint prevents subsequent use of the same Start gate',async()=>{
+ const f=gateFixture(async()=>{throw Error('private evidence unavailable');});await assert.rejects(()=>f.gate(f.request));await assert.rejects(()=>f.gate(f.request));
+});
+function ioFixture(proof,{badTarget=false,stale=false,missingMaterials=false}={}){
+ const calls=[];const id='00000000-0000-4000-8000-000000000001';
+ const configuration={workspaceId:id,partnerSlug:SLUG,version:5,operatingModel:'legalease_managed',policyVersion:'rcap2.2',status:'commercially_blocked',data:{program_goals:{operating_model:'legalease_managed',service_mode:'sponsored_packets',participation_mode:'online',external_agreement_applicability:'not_applicable',operator_authority_reference:AUTHORITY},geography_audience_language_accessibility:{jurisdictions:['MS'],enable_spanish:false},access_sponsorship_capacity:{participant_access_model:'open'}}};
+ const operations={identity:{workspaceId:id,partnerSlug:SLUG,version:5,policyVersion:'rcap2.2'},view:{partnerSlug:SLUG,version:5,decision:{live:false,scopeHash:'a'.repeat(64)},commercial:{screenings:1,packets:1},materials:missingMaterials?[]:proof.poststate[0].ordinary_start_404538_poststate.currentMaterials.map((m,i)=>({...m,id:`00000000-0000-4000-8000-00000000000${i+2}`})),reviewToken:'PRIVATE_TOKEN',capabilities:{issue_sponsored_packet:false}},canStart:true,launchDecision:{sourceVersion:5}};
+ const io={admitSourceTarget:async expected=>{calls.push('admit');assert.equal(expected.applicationSha,START_ONLY.app);return{applicationSha:badTarget?'0'.repeat(40):START_ONLY.app,origin:START_ONLY.origin,deploymentId:'dpl_FutureExactNative',nativeCreatorVerified:true,sourceBound:true};},signInExistingAdminOnce:async()=>{calls.push('auth');return START_ONLY.admin;},readProtectedPoststate:async()=>{calls.push('protectedRead');const p=structuredClone(proof.poststate[0].ordinary_start_404538_poststate);if(stale)p.observedAt='2020-01-01T00:00:00Z';return p;},readCurrentProgram:async()=>{calls.push('programRead');return{configuration,operations};},readMaterialDom:async()=>{calls.push('DOM');throw Error('No actual DOM fixture or operation');},checkpoint:async()=>calls.push('checkpoint'),forwardNormalStart:async()=>{calls.push('forward');throw Error('No actual provider fixture');}};
+ return{io,calls};
+}
+test('wrong future native target stops before normal admin authentication',async()=>{
+ const proof=retained(),{io,calls}=ioFixture(proof,{badTarget:true});await assert.rejects(()=>runOrdinaryStartOnly({retained:proof},io));assert.deepEqual(calls,['admit']);
+});
+test('stale protected state stops before program review or Start',async()=>{
+ const proof=retained(),{io,calls}=ioFixture(proof,{stale:true});await assert.rejects(()=>runOrdinaryStartOnly({retained:proof},io));assert.deepEqual(calls,['admit','auth','protectedRead']);
+});
+test('missing materials refuse instead of delegating backward to prepare/review/configure',async()=>{
+ const proof=retained(),{io,calls}=ioFixture(proof,{missingMaterials:true});await assert.rejects(()=>runOrdinaryStartOnly({retained:proof},io));assert.deepEqual(calls,['admit','auth','protectedRead','programRead']);
+});
+test('normal browser guard refuses prepare/review/allocation and the old host; bypass stays off Supabase Auth',async()=>{
+ let guard;const context={route:async(_pattern,fn)=>{guard=fn;},addInitScript:async()=>{}};
+ await createStartOnlyBrowserIo({context,admitSourceTarget:async()=>{},readProtectedPoststate:async()=>{},checkpoint:async()=>{},bypass:'PRIVATE_EXISTING_BYPASS',credentialReader:()=>assert.fail('no credentials during guard construction')});
+ async function request(url,method='GET',body=null){let answer;await guard({request:()=>({url:()=>url,method:()=>method,headers:()=>({'x-vercel-protection-bypass':'INHERITED',origin:START_ONLY.origin}),postDataJSON:()=>body}),abort:async()=>{answer={blocked:true};},continue:async options=>{answer={blocked:false,...options};}});return answer;}
+ for(const action of ['prepare','review','start'])assert.equal((await request(START_ONLY.origin+ROOT+'/program','POST',{action})).blocked,true);
+ assert.equal((await request('https://legalease-rcap-managed-c0052e13d980-roger947s-projects.vercel.app/api/rcap/release')).blocked,true);
+ const release=await request(START_ONLY.origin+'/api/rcap/release');assert.equal(release.blocked,false);assert.equal(release.headers['x-vercel-protection-bypass'],'PRIVATE_EXISTING_BYPASS');
+ const auth='https://hyflxnlhpmiqxvvcoiia.supabase.co/auth/v1/token?grant_type=password';const a=await request(auth,'POST');assert.equal(a.blocked,false);assert.equal(a.headers['x-vercel-protection-bypass'],undefined);assert.equal((await request(auth,'POST')).blocked,true);
+});
+test('failed creator admission prevents even the runtime page and any credential read',async()=>{
+ let pages=0;const context={route:async()=>{},addInitScript:async()=>{},newPage:async()=>{pages++;assert.fail('no page before creator admission');}};
+ const io=await createStartOnlyBrowserIo({context,admitSourceTarget:async()=>({applicationSha:START_ONLY.app,origin:START_ONLY.origin,nativeCreatorVerified:false}),readProtectedPoststate:async()=>{},checkpoint:async()=>{},bypass:'PRIVATE_EXISTING_BYPASS',credentialReader:()=>assert.fail('no credentials before admission')});
+ await assert.rejects(()=>io.admitSourceTarget({}));assert.equal(pages,0);
+});
+function creatorFixture(){
+ const binding={runId:99999999999,carrierSha:'a'.repeat(40),deploymentId:'dpl_FutureNative'};
+ const creatorRun={id:binding.runId,workflow_id:332448793,head_sha:binding.carrierSha,head_branch:'codex/f-vercel-raw-readonly-20261026',run_attempt:1,event:'workflow_dispatch',status:'completed',conclusion:'success',repository:{full_name:'Roger-LegalEase/legalease-partner-dashboard-clean'}};
+ const metadata={rcapApplicationSha:START_ONLY.app,rcapWorkerSourceSha:'32499751569359315248c2048fa111064a47c67f',rcapWorkerDigest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapPreviewPurpose:'managed_start',rcapReturnOrigin:START_ONLY.origin,rcapManagedSourceSuccessor:'ordinary-prepare-command-trace-v1',rcapSourcePredecessor:'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt',rcapOnboardingLaunchPrepEnabled:'true',rcapLaunchStudioEnabled:'false'};
+ const native={passed:true,failedCases:[],neverPassedProdFlag:true,neverWroteProjectLevelEnv:true,applicationSha:START_ONLY.app,acceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',previewUrl:START_ONLY.origin,purposeSource:{phase:'managed_start_source_successor',carrierSha:binding.carrierSha,carrierWorkflowSha:binding.carrierSha,controllerSha:'3e755c9726184bba052bd985dcf2388b9cf8b79b',toolsSha:'c4a9eb13a51a1dba676c7716b5da022b98823418',runId:String(binding.runId),runAttempt:'1'},deployment:{id:binding.deploymentId,readyState:'READY',target:null,gitSourceSha:START_ONLY.app,projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',metadata},restCreation:{creationCalls:1,creationPostCount:1,id:binding.deploymentId,readyState:'READY'},aliasAssignment:{passed:true,deploymentId:binding.deploymentId,hostname:new URL(START_ONLY.origin).hostname,target:null},sourceSuccessorProtectedBefore:{old:'unchanged'},sourceSuccessorProtectedAfter:{old:'unchanged'},sourceSuccessorAliasInverse:{performed:false}};
+ return{binding,creatorRun,native};
+}
+test('actual creator admission schema binds native hash, carrier/controller/tools, new source and alias without old repair reuse',()=>{
+ const f=creatorFixture();const creatorBytes=JSON.stringify(f.native);f.binding.nativeSha256=hash(creatorBytes);assert.equal(admitStartOnlyTarget({...f,creatorBytes}).deploymentId,f.binding.deploymentId);
+ for(const mutate of [x=>x.native.passed=false,x=>x.native.purposeSource.phase='managed_start_runtime_repair',x=>x.native.deployment.gitSourceSha='0'.repeat(40),x=>x.native.sourceSuccessorProtectedAfter={old:'changed'},x=>x.creatorRun.conclusion='failure',x=>x.creatorRun.repository.full_name='wrong/repo']){const x=structuredClone(f);mutate(x);const b=JSON.stringify(x.native);x.binding.nativeSha256=hash(b);assert.throws(()=>admitStartOnlyTarget({...x,creatorBytes:b}));}
+ assert.throws(()=>admitStartOnlyTarget({...f,creatorBytes:creatorBytes+' '}));
+});
