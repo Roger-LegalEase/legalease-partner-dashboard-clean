@@ -131,7 +131,7 @@ async function main() {
     const expectedReturnOrigin = expectedHostedReturnOrigin(applicationSha);
     const expectedPreviewHostname = new URL(expectedReturnOrigin).host;
     if (previewHostname !== expectedPreviewHostname) throw new Error("hostname is not the deterministic SHA-scoped acceptance Preview");
-    if (!stripeKey || !vercelToken || !bypass) throw new Error("required nonproduction credentials are unavailable");
+    if (!/^sk_test_[^\s]+$/.test(stripeKey) || !vercelToken || !bypass) throw new Error("required nonproduction credentials are unavailable");
 
     const vercelIdentity = await resolveHostedVercelIdentity({ token: vercelToken });
     const deploymentResponse = await fetch(
@@ -210,6 +210,7 @@ async function main() {
 
     const inverseShape=webhookInverseShape(before.url,bypass);
     const inverseUrl=buildWebhookInverseUrl(inverseShape,bypass);
+    if(inverseUrl!==before.url)throw Error("WEBHOOK_INVERSE_EXACT_BYTES_REQUIRED");
     evidence.inverse={shape:inverseShape,storedValuesIncluded:false,availableFromExistingCustody:true,attempted:false};
     rollback=async()=>{
       evidence.inverse.attempted=true;

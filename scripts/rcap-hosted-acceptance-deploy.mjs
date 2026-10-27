@@ -224,6 +224,7 @@ const evidence = {
   schemaVersion: "rcap-hosted-acceptance-deploy/v1",
   acceptanceProjectRef: PROJECT_REF,
   applicationSha: APPLICATION_SHA,
+  ...(HELD_PURPOSE_PREVIEW?{purposeSource:{phase:process.env.PHASE_INPUT,carrierSha:process.env.GITHUB_SHA,carrierWorkflowSha:process.env.GITHUB_WORKFLOW_SHA,controllerSha:process.env.RCAP_ADMITTED_CONTROLLER_SHA,toolsSha:process.env.TOOLS_SHA_INPUT,runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT}}:{}),
   deliveryRouteState: ROUTE_STATE || "disabled (flag not set)",
   neverPassedProdFlag: true,
   neverWroteProjectLevelEnv: true,
@@ -504,8 +505,10 @@ if (ISOLATED_CLINIC_PREVIEW || configuredSandboxEnv) {
     if (current.status !== 200 || !reusable || current.json?.id !== reusable.id) throw new Error("DEPLOY_CLINIC_ALIAS_CONFLICT");
     assertPreviewResponse(current.json, { rcapReturnOrigin: RETURN_ORIGIN, rcapClinicDemoMode: CLINIC_DEMO_MODE }, reusable.id);
   }
-  evidence.clinicScope = { participants: HOSTED_MS_CLINIC_PARTICIPANTS, scope: SCOPE_IDS, sha256: sha256(SCOPE_IDS) };
-  fs.writeFileSync(path.join(EVIDENCE_DIR, "clinic-deploy-before.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+  if(HELD_PURPOSE_PREVIEW)evidence.purposeAliasBefore={hostname:RETURN_ALIAS_HOST,state:current.status===404?"absent":"existing",deploymentId:current.json?.id??null};
+  if(ISOLATED_CLINIC_PREVIEW)evidence.clinicScope = { participants: HOSTED_MS_CLINIC_PARTICIPANTS, scope: SCOPE_IDS, sha256: sha256(SCOPE_IDS) };
+  else evidence.configuredSandboxScope={participantCount:1,sha256:sha256(SCOPE_IDS)};
+  fs.writeFileSync(path.join(EVIDENCE_DIR, ISOLATED_CLINIC_PREVIEW?"clinic-deploy-before.json":"configured-sandbox-before.json"), `${JSON.stringify(evidence, null, 2)}\n`);
 }
 
 // --- 1. Deploy to Preview ----------------------------------------------------
@@ -775,6 +778,7 @@ if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed &
     `${RETURN_ALIAS_HOST} resolves to deployment ${boundId ?? "(none)"}; target=${JSON.stringify(boundTarget)}; exact SHA/return-origin metadata=${boundMeta.rcapApplicationSha === APPLICATION_SHA && boundMeta.rcapReturnOrigin === RETURN_ORIGIN}`
   );
   evidence.aliasAssignment = { hostname: RETURN_ALIAS_HOST, deploymentId: boundId, target: boundTarget, passed: aliasPassed };
+  if(HELD_PURPOSE_PREVIEW)evidence.purposeAliasInverse={hostname:RETURN_ALIAS_HOST,priorState:evidence.purposeAliasBefore?.state,createdDeploymentId:deploymentId,currentBindingMustEqual:deploymentId,permittedScope:"Only remove the new binding introduced by this operation if it still names this exact deployment; never alter pre-existing or Production aliases",performed:false};
 } else {
   record("deterministic_nonproduction_return_alias_bound", false, "Vercel returned no deployment id to bind");
 }
