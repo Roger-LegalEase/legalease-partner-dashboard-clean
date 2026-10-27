@@ -34,3 +34,7 @@ test('repair uses existing one-create transport, no projectenv mutation/phase ma
  assert.match(text,/if\(RUNTIME_REPAIR\)assertManagedRepairAliasPrestate\(current/);assert.match(text,/if\(RUNTIME_REPAIR\)runtimeRepairAliasAttempted=true;/);assert.match(text,/if\(RUNTIME_REPAIR&&!evidence.passed\)throw Error/);assert.match(text,/if\(runtimeRepairAliasAttempted\).*restoreManagedRepairAlias/s);
  const wrapper=fs.readFileSync('scripts/rcap-managed-start-runtime-repair.mjs','utf8');assert.doesNotMatch(wrapper,/GITHUB_SHA\s*=|PHASE_INPUT\s*=|--loop|auth-config|payment\.mjs|stripe.*retarget/);assert.match(wrapper,/requireManagedStartRuntimeRepairAdmission/);
 });
+
+test('repair recovers exact accepted DS08 custody through existing helper only before strict deployer, never during verify',()=>{
+ const wrapper=fs.readFileSync('scripts/rcap-managed-start-runtime-repair.mjs','utf8');assert.match(wrapper,/import \{preserveConfiguredSandboxKeys\} from '.\/rcap-configured-sandbox-preview-contract.mjs'/);const call=wrapper.indexOf('Object.assign(env,preserveConfiguredSandboxKeys(env));');assert(call>wrapper.indexOf("if(args[0]==='--verify')"));assert(call<wrapper.indexOf("await import('./rcap-hosted-acceptance-deploy.mjs')"));assert.doesNotMatch(wrapper,/createHmac|randomBytes|writeFileSync|GITHUB_ENV/);
+});
