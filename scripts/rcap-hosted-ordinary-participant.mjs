@@ -158,7 +158,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
       }
     }else{
       await phase('public_landing_navigation');const landing=await page.goto(`${origin}/p/${ORDINARY_PARTNER}`);assert.equal(landing.status(),200);
-      await phase('intake_get_navigation');await page.locator(`a[href="/intake/${ORDINARY_PARTNER}"]`).click();await page.waitForURL(u=>u.origin===origin&&u.pathname===`/intake/${ORDINARY_PARTNER}`);
+      await phase('intake_get_navigation');await page.locator(`a[href="/intake/${ORDINARY_PARTNER}"]`).first().click();await page.waitForURL(u=>u.origin===origin&&u.pathname===`/intake/${ORDINARY_PARTNER}`);
       await phase('intake_request_id_read');intakeRequestId=await page.locator('input[name="requestId"]').inputValue();assert.ok(uuid(intakeRequestId));
       await phase('before_durable_intake_checkpoint');
       await save('ordinary_before_intake_start');
