@@ -4,25 +4,24 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {CLINIC,hash,loadClinicNative,admitClinic} from './rcap-hosted-existing-clinic-readonly.mjs';
 import {createClinicGhaPorts} from './clinic-worker-once-preparation/clinic-gha-ports.mjs';
-import {RECOVERY_IMAGE,admitRecoveryPublication} from './clinic-worker-once-preparation/clinic-recovery-image.mjs';
+import {RECOVERY_IMAGE,admitQualifiedWorkerImage,requireQualifiedWorkerImage} from './clinic-worker-once-preparation/clinic-recovery-image.mjs';
 import {createClinicFailedJobRecoveryBinding,RECOVERY_JOB} from './clinic-worker-once-preparation/clinic-failed-job-recovery.mjs';
 import {createClinicPrivateDownloadPorts} from './rcap-hosted-clinic-private-delivery.mjs';
 const BINDING=new URL('./clinic-worker-once-preparation/clinic-recovery-native-binding.json',import.meta.url);
 export function admitClinicRecoveryDispatch(input){
- const b=JSON.parse(fs.readFileSync(BINDING));assert.equal(b.runtimeAccepted,false);assert.equal(b.qualificationAccepted,true,'HOLD: actual new image qualification not accepted');assert.match(b.qualificationSha256??'',/^[a-f0-9]{64}$/);
+ requireQualifiedWorkerImage();const b=JSON.parse(fs.readFileSync(BINDING));assert.equal(b.runtimeAccepted,false);assert.equal(b.qualificationAccepted,true,'HOLD: actual new image qualification not accepted');assert.match(b.qualificationSha256??'',/^[a-f0-9]{64}$/);
  for(const[k,v]of Object.entries({mode:'clinic_failed_job_recovery',journey_state:'existing_failed_job_once_private',application_sha:CLINIC.app,tools_sha:CLINIC.tools,worker_source_sha:RECOVERY_IMAGE.source,worker_digest:RECOVERY_IMAGE.digest,supabase_project_ref:CLINIC.project,resume_matter_id:CLINIC.item,contradiction_job_id:RECOVERY_JOB}))assert.equal(input[k],v);
  for(const k of ['clinic_attempt_id','sponsor_case','promotion_code','expected_total_cents','clinic_resume_authorization','clinic_session_closure_authorization'])assert(!input[k]);assert.equal(input.sponsor_items??'[]','[]');assert([undefined,false,'false'].includes(input.sponsor_fulfillment));assert.match(input.clinic_worker_control_binding_sha256??'',/^[a-f0-9]{64}$/);
  return b;
 }
-export function admitClinicFailedRecovery({input,publicationBytes,publicationRun,qualificationBytes,failedStateBytes}){
+export function admitClinicFailedRecovery({input,publicationBytes,publicationRun,qualificationBytes,qualificationAcceptanceBytes,failedStateBytes}){
  const b=admitClinicRecoveryDispatch(input);assert.equal(hash(qualificationBytes),b.qualificationSha256);
- const qualification=JSON.parse(qualificationBytes);assert.equal(qualification.image,RECOVERY_IMAGE.image);assert.equal(qualification.sourceSha,RECOVERY_IMAGE.source);for(const k of ['physicalPullVerified','ociSourceVerified','nonRoot','msClaimedRouteFactoryV2','runtimeClosureVerified','noCredentials','noNetwork','noQueueOperations'])assert.equal(qualification[k],true);
- assert.equal(hash(failedStateBytes),b.failedStateSha256);admitRecoveryPublication(publicationBytes,publicationRun);return b;
+ assert.equal(hash(qualificationAcceptanceBytes),b.qualificationAcceptanceSha256);assert.equal(hash(failedStateBytes),b.failedStateSha256);admitQualifiedWorkerImage({publicationBytes,publicationRun,qualificationBytes,qualificationAcceptanceBytes});return b;
 }
 function privateJson(file,value){const fd=fs.openSync(file,'wx',0o600);try{fs.writeFileSync(fd,JSON.stringify(value)+'\n');fs.fsyncSync(fd);}finally{fs.closeSync(fd);}}
 async function entry(){
  const input=JSON.parse(process.env.DISPATCH_INPUTS);
- admitClinicFailedRecovery({input,publicationBytes:fs.readFileSync(process.env.CLINIC_RECOVERY_PUBLICATION_FILE),publicationRun:JSON.parse(fs.readFileSync(process.env.CLINIC_RECOVERY_PUBLICATION_RUN_FILE)),qualificationBytes:fs.readFileSync(process.env.CLINIC_RECOVERY_IMAGE_QUALIFICATION_FILE),failedStateBytes:fs.readFileSync(process.env.CLINIC_RECOVERY_FAILED_STATE_FILE)});
+ admitClinicFailedRecovery({input,publicationBytes:fs.readFileSync(process.env.CLINIC_RECOVERY_PUBLICATION_FILE),publicationRun:JSON.parse(fs.readFileSync(process.env.CLINIC_RECOVERY_PUBLICATION_RUN_FILE)),qualificationBytes:fs.readFileSync(process.env.CLINIC_RECOVERY_IMAGE_QUALIFICATION_FILE),qualificationAcceptanceBytes:fs.readFileSync(new URL('./dtc-qualified-worker-qualification-acceptance.json',import.meta.url)),failedStateBytes:fs.readFileSync(process.env.CLINIC_RECOVERY_FAILED_STATE_FILE)});
  const binding=JSON.parse(fs.readFileSync('scripts/clinic-readonly-native-binding.json')),native=loadClinicNative(binding,fs.readFileSync(process.env.CLINIC_NATIVE_DEPLOY_FILE),JSON.parse(fs.readFileSync(process.env.CLINIC_NATIVE_RUN_FILE)));
  const config={origin:binding.origin,deploymentId:binding.deploymentId,toolsSha:CLINIC.tools,controllerSha:CLINIC.controller,savedCaseSha256:hash(CLINIC.item)};admitClinic(config,native);
  assert.equal(input.preview_deployment_id,binding.deploymentId);assert.equal(input.preview_hostname,new URL(binding.origin).hostname);assert.equal(input.preview_creation_run_id,String(binding.creationRun));

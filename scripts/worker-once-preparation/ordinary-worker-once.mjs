@@ -1,3 +1,4 @@
+import {QUALIFIED_WORKER_IMAGE,requireQualifiedWorkerImage} from './qualified-worker-image.mjs';
 const RECOVERY_JOB='7c753a4a-3d71-47c4-a6b9-8f87509544c2';
 import {RECOVERY_IMAGE} from '../clinic-worker-once-preparation/clinic-recovery-image.mjs';
 // Source preparation only: no CLI, default live ports, pull, login or workflow.
@@ -72,7 +73,7 @@ function parseCycleResult(stdout){
  return null;
 }
 export function dockerOnceInvocation(env,runId,identity){
- assert(identity===undefined||identity===RECOVERY_IMAGE);const image=identity?.image??IMAGE,digest=identity?.digest??DIGEST;
+ assert(identity===undefined||identity===RECOVERY_IMAGE||identity===QUALIFIED_WORKER_IMAGE);if(identity===QUALIFIED_WORKER_IMAGE)requireQualifiedWorkerImage(identity);const image=identity?.image??IMAGE,digest=identity?.digest??DIGEST;
  assert.match(runId??'',/^[1-9][0-9]*$/,'actual GHA run ID');
  assert.equal(env.NEXT_PUBLIC_SUPABASE_URL,DB);assert.equal(env.SUPABASE_URL,DB);
  assert.equal(env.ENABLE_SUPABASE_PARTNER_DATA,'true');assert.equal(env.RCAP_WORKER_CLAIM_SECONDS,'120');assert.equal(env.RCAP_WORKER_CONTAINER_DIGEST,digest);
