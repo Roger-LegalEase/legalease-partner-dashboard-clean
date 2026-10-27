@@ -3508,7 +3508,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Prepare only accepted immutable worker without starting a container
-        run: docker pull ghcr.io/roger-legalease/rcap-render-worker@sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494
+        run: |
+          image=$(node --input-type=module -e "import{ORDINARY}from'./scripts/rcap-hosted-ordinary-full-admission.mjs';console.log('ghcr.io/roger-legalease/rcap-render-worker@'+ORDINARY.digest)")
+          docker pull "$image"
       - name: Run one admitted ordinary UI claim Verify one worker and private delivery
         env:
           DISPATCH_INPUTS: ${{ toJSON(inputs) }}

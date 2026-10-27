@@ -1,6 +1,7 @@
 import {assertOrdinaryWorkerRuntimeContext} from './ordinary-worker-runtime-context.mjs';
 import {assertSponsoredWorkerRuntimeContext} from './sponsored-worker-runtime-context.mjs';
 import {QUALIFIED_WORKER_IMAGE,requireQualifiedWorkerImage} from './qualified-worker-image.mjs';
+import {ordinaryProfileApplication} from '../ordinary-normal-recovery-profile.mjs';
 const RECOVERY_JOB='7c753a4a-3d71-47c4-a6b9-8f87509544c2';
 import {RECOVERY_IMAGE} from '../clinic-worker-once-preparation/clinic-recovery-image.mjs';
 // Source preparation only: no CLI, default live ports, pull, login or workflow.
@@ -20,13 +21,13 @@ const templateHashes={
  'ACTUAL-ORDINARY-TARGET-PRECLAIM-JOIN.TEMPLATE.NOT-EXECUTED.sql':'7b282341840a72d321bf7781afa023a9b5916e4cdaf65d94c6eeaaaef3b2a7ed'
 };
 const targetFields=['jobId','packetId','itemId','ownerId','sessionId','personId','matterId','entitlementId'];
-export function validateTarget(t,identity){
+export function validateTarget(t,identity,profile){
  assert(identity===undefined||identity===QUALIFIED_WORKER_IMAGE);if(identity)requireQualifiedWorkerImage(identity);
  for(const k of targetFields)assert.match(t[k]??'',UUID,'actual ordinary target UUID');
  for(const k of ['verificationHash','inputHash','protectedReceiptSha256'])assert.match(t[k]??'',SHA,'protected actual target custody');
  assert.equal(t.packetNamespace,'expungement-ai-consumer');assert.equal(t.partnerSlug,'legalease-ordinary-qa-20261024');
  assert.equal(t.clinicEventId,null);assert.equal(t.acquisitionMode,'partner');
- assert.equal(t.applicationSha,identity?'ed8d0902a99c5326f75987a942eb507b6cfb16cf':'9aadacd0c5a7fac90a1662f1928b7b86f8685c7a');assert.equal(t.rendererKind,'packet_document_v1');
+ assert.equal(t.applicationSha,ordinaryProfileApplication(identity,profile));assert.equal(t.rendererKind,'packet_document_v1');
 }
 function validateWindow(w,now){
  assert.match(w.custodyReceiptSha256??'',SHA,'actual root/C continuous-window custody');
@@ -34,8 +35,8 @@ function validateWindow(w,now){
  assert(Number.isFinite(Date.parse(w.startedAt))&&Date.parse(w.startedAt)<=now);
  assert(Number.isFinite(Date.parse(w.endsAt))&&Date.parse(w.endsAt)>now+305000,'full five-minute once plus observation remains inside custody');
 }
-export function bindReadOnlyTemplates(target,window,identity){
- validateTarget(target,identity);assert(Number.isFinite(Date.parse(window.endsAt)));
+export function bindReadOnlyTemplates(target,window,identity,profile){
+ validateTarget(target,identity,profile);assert(Number.isFinite(Date.parse(window.endsAt)));
  const substitutions={WINDOW_END_UTC:new Date(window.endsAt).toISOString(),ACTUAL_JOB_UUID:target.jobId,ACTUAL_PACKET_UUID:target.packetId,ACTUAL_ITEM_UUID:target.itemId,ACTUAL_OWNER_UUID:target.ownerId,ACTUAL_SESSION_UUID:target.sessionId,ACTUAL_PERSON_UUID:target.personId,ACTUAL_MATTER_UUID:target.matterId,ACTUAL_ENTITLEMENT_UUID:target.entitlementId,ACTUAL_VERIFICATION_SHA256:target.verificationHash,ACTUAL_INPUT_SHA256:target.inputHash};
  return Object.fromEntries(Object.entries(templateHashes).map(([file,expected])=>{
   const bytes=fs.readFileSync(new URL(file,import.meta.url));assert.equal(hash(bytes),expected,'accepted I template byte identity');
@@ -96,7 +97,7 @@ export function dockerOnceInvocation(env,runId,identity,context){
 }
 // Caller supplies only actual root/C-admitted custody and accepted readonly/operator ports.
 // There is deliberately no synthetic admission, default live DB client, pull/login or standalone runner.
-export async function executeAdmittedOrdinaryOnce(input){const identity=input.identity;if(identity)assertOrdinaryWorkerRuntimeContext(input.context);return executeAdmittedWorkerOnce(input,{validateTarget:t=>validateTarget(t,identity),bindReadOnlyTemplates:(t,w)=>bindReadOnlyTemplates(t,w,identity),receiptSchema:'ordinary-worker-once-safe/v1',identity,context:identity?input.context:undefined});}
+export async function executeAdmittedOrdinaryOnce(input){const identity=input.identity;if(identity)assertOrdinaryWorkerRuntimeContext(input.context);return executeAdmittedWorkerOnce(input,{validateTarget:t=>validateTarget(t,identity,input.profile),bindReadOnlyTemplates:(t,w)=>bindReadOnlyTemplates(t,w,identity,input.profile),receiptSchema:'ordinary-worker-once-safe/v1',identity,context:identity?input.context:undefined});}
 export async function executeAdmittedWorkerOnce({target,window,env,runId,ports},{validateTarget,bindReadOnlyTemplates,receiptSchema,identity,context}){
  assert(identity===undefined||identity===QUALIFIED_WORKER_IMAGE);if(identity)requireQualifiedWorkerImage(identity);
  const source=identity?.source??SOURCE,imageReference=identity?.image??IMAGE,digest=identity?.digest??DIGEST;

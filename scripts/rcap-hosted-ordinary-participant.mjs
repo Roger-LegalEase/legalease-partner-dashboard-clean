@@ -70,13 +70,15 @@ export function ordinaryRequestAllowed({url,method,body}, {origin,targetItemId,g
   return true;
 }
 
+import {NORMAL_RECOVERY,requireNormalRecoveryAdmission} from './ordinary-normal-recovery-profile.mjs';
 export const ORDINARY_APPLICATION_SHA = '9aadacd0c5a7fac90a1662f1928b7b86f8685c7a';
 const matches = (r, path) => r.request().method() === 'POST' && new URL(r.url()).pathname === path;
 const authOrigin = 'https://hyflxnlhpmiqxvvcoiia.supabase.co';
 const itemFromPath = path => /^\/briefcase\/matters\/([0-9a-f-]{36})$/i.exec(path)?.[1];
-export function assertOrdinaryAdmission(binding,origin) {
+export function assertOrdinaryAdmission(binding,origin,profile) {
+  assert(profile===undefined||profile===NORMAL_RECOVERY);if(profile)requireNormalRecoveryAdmission(binding);
   assert.equal(binding?.actualStartSucceeded,true,'Actual current normal Start binding is required');
-  assert.equal(binding.applicationSha,ORDINARY_APPLICATION_SHA);assert.equal(binding.origin,origin);
+  assert.equal(binding.applicationSha,profile?.app??ORDINARY_APPLICATION_SHA);assert.equal(binding.origin,origin);
   assert.equal(binding.partnerSlug,ORDINARY_PARTNER);assert.equal(binding.participantUserId,ORDINARY_PARTICIPANT);
   assert.match(binding.deploymentId??'',/^dpl_[A-Za-z0-9]+$/);assert.ok(hash(binding.sourceBindingSha256));
 }
@@ -98,11 +100,11 @@ function assertCustody(record,binding) {
 
 // The controller owns durable private custody, actual live admission and strict
 // actor/origin policy. Imports do not create a case, claim, verify or run a worker.
-export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,origin,email,password,admit,assertExclusiveWindow,verifyPreparedImageBeforeVerify,readNative,checkpoint,loadCustody,authorizeRequest,bypass=''}) {
+export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,origin,email,password,admit,assertExclusiveWindow,verifyPreparedImageBeforeVerify,readNative,checkpoint,loadCustody,authorizeRequest,bypass='',profile}) {
   for(const fn of [admit,assertExclusiveWindow,verifyPreparedImageBeforeVerify,readNative,checkpoint,loadCustody,authorizeRequest])assert.equal(typeof fn,'function');
   assert.equal(typeof RegExp.escape,'function','Accepted screening driver requires a supported runtime before any intake action');
   assert.equal(new URL(origin).origin,origin);assert.equal(new URL(origin).protocol,'https:');assert.ok(email&&password);
-  const binding=await admit();assertOrdinaryAdmission(binding,origin);
+  const binding=await admit();assertOrdinaryAdmission(binding,origin,profile);
   const previous=await loadCustody();if(previous)assertCustody(previous,binding);
   let sessionId=previous?.sessionId??null,targetItemId=previous?.itemId??null,intakeRequestId=previous?.intakeRequestId??null;
   let firstEnqueueCapableActionAt=previous?.firstEnqueueCapableActionAt??null,generationRequests=previous?.generationRequests??0;
@@ -211,7 +213,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     assert.equal(generationCount,0);assert.equal(unexpectedRequest,false);
     await native(false);
     // Sponsored Verify auto-enqueues. Hold the entire producer/consumer window first.
-    const currentBinding=await admit();assertOrdinaryAdmission(currentBinding,origin);for(const key of ['applicationSha','origin','deploymentId','sourceBindingSha256'])assert.equal(currentBinding[key],binding[key],'Admission changed during the owned case');await assertExclusiveWindow();await verifyPreparedImageBeforeVerify();
+    const currentBinding=await admit();assertOrdinaryAdmission(currentBinding,origin,profile);for(const key of ['applicationSha','origin','deploymentId','sourceBindingSha256'])assert.equal(currentBinding[key],binding[key],'Admission changed during the owned case');await assertExclusiveWindow();await verifyPreparedImageBeforeVerify();
     firstEnqueueCapableActionAt=new Date().toISOString();await save('ordinary_verification_and_enqueue_pending');
     generationAllowed=true;
     const verification=page.waitForResponse(r=>matches(r,endpoint));
