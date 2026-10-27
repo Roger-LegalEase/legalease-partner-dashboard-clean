@@ -13,6 +13,29 @@ export const START_ONLY = Object.freeze({
   version:5
 });
 const sha=b=>createHash('sha256').update(b).digest('hex');
+// Literal code/message pairs come from the admitted 9aad API source, never participant text.
+const START_ERROR_CODES=new Set(['feature_disabled','unauthenticated','forbidden','workspace_not_found','commercially_blocked','invalid_input','revision_conflict','request_in_progress','duplicate_request','invalid_transition','required_asset_missing','persistence_failed','storage_failed','invalid_content_type','payload_too_large','invalid_json','invalid_origin','invalid_request_id']);
+const START_ERROR_REASONS=[
+  ['revision_conflict','The program changed. Reload before starting.','workspace_version_changed'],
+  ['revision_conflict','This program changed. Reload and review the current details.','program_scope_or_version_changed'],
+  ['revision_conflict','Preview the current materials before confirming Start Program.','material_review_token_changed'],
+  ['revision_conflict','This decision could not be recorded. Review the current program and its real authority.','decision_recording_refused'],
+  ['invalid_transition','This decision could not be recorded. Review the current program and its real authority.','decision_recording_refused'],
+  ['invalid_transition','This operation requires an explicit five-step policy upgrade.','policy_upgrade_required'],
+  ['invalid_transition','Current launch authority is unavailable.','launch_authority_unavailable'],
+  ['invalid_transition','The program cannot start yet.','launch_preflight_held'],
+  ['invalid_transition','The exact ordinary sponsored route source and Preview scope are required before Start.','ordinary_source_or_preview_scope_required'],
+  ['request_in_progress','Another launch owns this workspace or the preparation receipt was refused. Refresh the journal.','launch_preparation_or_concurrency_refused'],
+  ['request_in_progress','This launch is already running. Retry this request after it completes.','launch_in_progress'],
+  ['persistence_failed','The previous publication could not be checked.','prior_publication_read_failed'],
+  ['persistence_failed','Program setup could not be updated. Try again.','generic_persistence_failure']
+];
+export function projectStartOnlyResponse(response){
+  const body=response.body;
+  const errorCode=typeof body?.code==='string'&&START_ERROR_CODES.has(body.code)?body.code:null;
+  const reason=START_ERROR_REASONS.find(([code,literal])=>code===errorCode&&body?.error===literal);
+  return {stage:'start_only_response',httpStatus:response.status,operationsPresent:Boolean(body?.operations),reportedLive:body?.operations?.view?.decision?.live===true,errorCode,errorReason:reason?.[2]??(typeof body?.error==='string'?'unclassified':'not_reported'),errorReasonSha256:reason?sha(reason[1]):null,participantVerificationAllowed:false};
+}
 const MATERIALS=[
   ['co_branded_page_configuration','3d1250399ba18f80283255bb021cd650b8a126a12b980d85eb9fd18286633388'],
   ['implementation_brief','2ba6a142d46d43ba79ca3ad9623c031c99ca345aa8eabeabb88df371b62f9c47']
@@ -116,7 +139,7 @@ export async function runOrdinaryStartOnly({retained},io) {
   let response, after, uncertain=false;
   try {
     response=await io.forwardNormalStart(request);
-    await io.checkpoint('start-only-response.json',{stage:'start_only_response',httpStatus:response.status,operationsPresent:Boolean(response.body?.operations),reportedLive:response.body?.operations?.view?.decision?.live===true,participantVerificationAllowed:false});
+    await io.checkpoint('start-only-response.json',projectStartOnlyResponse(response));
   } catch {
     uncertain=true;
     await io.checkpoint('start-only-uncertain.json',{stage:'start_only_transport_or_receipt_uncertain',participantVerificationAllowed:false});

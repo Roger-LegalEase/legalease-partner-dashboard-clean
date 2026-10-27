@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {START_ONLY,admitStartOnlyTarget,qualifyRetainedStartProof,assertStartOnlyPrestate,createStartOnlyGate,runOrdinaryStartOnly,createStartOnlyBrowserIo} from './rcap-hosted-ordinary-admin-start-only.mjs';
+import {projectStartOnlyResponse,START_ONLY,admitStartOnlyTarget,qualifyRetainedStartProof,assertStartOnlyPrestate,createStartOnlyGate,runOrdinaryStartOnly,createStartOnlyBrowserIo} from './rcap-hosted-ordinary-admin-start-only.mjs';
 import {ROOT,SLUG,AUTHORITY} from './rcap-hosted-ordinary-admin-postprovision.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 function retained(){
@@ -83,4 +83,41 @@ test('static deployment query uses only the actual admitted new deployment, neve
  assert.equal(await allowed('/_next/static/chunks/app.js?dpl=dpl_NewAdmitted'),false);
  await io.admitSourceTarget({});assert.equal(await allowed('/_next/static/chunks/app.js?dpl=dpl_NewAdmitted'),true);
  for(const p of ['/_next/static/chunks/app.js?dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF','/_next/static/chunks/app.js?dpl=dpl_NewAdmitted&extra=1','/api/rcap/release?dpl=dpl_NewAdmitted'])assert.equal(await allowed(p),false);
+});
+
+// Only this finite response projection is new; old Start/gate/source fixtures are not rerun.
+test('Start response reads the actual API code/error envelope and classifies exact deployed source literals',async()=>{
+ const {execFileSync}=await import('node:child_process');
+ const paths=['program-operations-service.ts','program-experience-service.ts','synthetic-launch-service.ts','http.ts'];
+ const source=paths.map(p=>execFileSync('git',['show',START_ONLY.app+':src/lib/partners/onboarding/'+p],{encoding:'utf8'})).join('\n');
+ const cases=[
+  ['revision_conflict','The program changed. Reload before starting.','workspace_version_changed'],
+  ['revision_conflict','This program changed. Reload and review the current details.','program_scope_or_version_changed'],
+  ['revision_conflict','Preview the current materials before confirming Start Program.','material_review_token_changed'],
+  ['revision_conflict','This decision could not be recorded. Review the current program and its real authority.','decision_recording_refused'],
+  ['invalid_transition','This decision could not be recorded. Review the current program and its real authority.','decision_recording_refused'],
+  ['invalid_transition','This operation requires an explicit five-step policy upgrade.','policy_upgrade_required'],
+  ['invalid_transition','Current launch authority is unavailable.','launch_authority_unavailable'],
+  ['invalid_transition','The program cannot start yet.','launch_preflight_held'],
+  ['invalid_transition','The exact ordinary sponsored route source and Preview scope are required before Start.','ordinary_source_or_preview_scope_required'],
+  ['request_in_progress','Another launch owns this workspace or the preparation receipt was refused. Refresh the journal.','launch_preparation_or_concurrency_refused'],
+  ['request_in_progress','This launch is already running. Retry this request after it completes.','launch_in_progress'],
+  ['persistence_failed','The previous publication could not be checked.','prior_publication_read_failed'],
+  ['persistence_failed','Program setup could not be updated. Try again.','generic_persistence_failure']
+ ];
+ for(const [code,error,expected]of cases){assert(source.includes('"'+error+'"'),'Reason must be literal in the admitted application source');const p=projectStartOnlyResponse({status:code==='persistence_failed'?503:409,body:{success:false,code,error}});assert.equal(p.errorCode,code);assert.equal(p.errorReason,expected);assert.equal(p.errorReasonSha256,hash(error));assert.equal(p.operationsPresent,false);assert.equal(p.reportedLive,false);assert.equal(p.participantVerificationAllowed,false);assert(!JSON.stringify(p).includes(error));}
+});
+test('Start response uses only source-declared error codes and never exports unknown code/message/details',async()=>{
+ const {execFileSync}=await import('node:child_process');
+ const source=['errors.ts','request-security.ts'].map(p=>execFileSync('git',['show',START_ONLY.app+':src/lib/partners/onboarding/'+p],{encoding:'utf8'})).join('\n');
+ for(const code of ['feature_disabled','unauthenticated','forbidden','workspace_not_found','commercially_blocked','invalid_input','revision_conflict','request_in_progress','duplicate_request','invalid_transition','required_asset_missing','persistence_failed','storage_failed','invalid_content_type','payload_too_large','invalid_json','invalid_origin','invalid_request_id']){assert(source.includes('"'+code+'"'));const p=projectStartOnlyResponse({status:409,body:{success:false,code,error:'PRIVATE_TOKEN https://private.invalid?token=PRIVATE_SECRET',details:{answers:['PRIVATE_FACT']}}});assert.equal(p.errorCode,code);assert.equal(p.errorReason,'unclassified');assert.equal(p.errorReasonSha256,null);assert(!JSON.stringify(p).includes('PRIVATE_'));assert(!JSON.stringify(p).includes('private.invalid'));}
+ const p=projectStartOnlyResponse({status:409,body:{success:false,code:'PRIVATE_CODE',error:'The program changed. Reload before starting.'}});assert.equal(p.errorCode,null);assert.equal(p.errorReason,'unclassified');assert.equal(p.errorReasonSha256,null);assert(!JSON.stringify(p).includes('PRIVATE_CODE'));
+});
+test('Start response does not infer a known reason from wrong codes, substrings or retained status-only409',()=>{
+ for(const body of [null,{},[],{code:null,error:null},{code:{secret:'PRIVATE'},error:42}]){const p=projectStartOnlyResponse({status:409,body});assert.equal(p.errorReason,'not_reported');assert.equal(p.errorReasonSha256,null);assert.equal(p.reportedLive,false);}
+ for(const body of [{code:'invalid_transition',error:'The program changed. Reload before starting.'},{code:'revision_conflict',error:'The program changed. Reload before starting. PRIVATE_FACT'},{code:'revision_conflict',error:' The program changed. Reload before starting.'}]){const p=projectStartOnlyResponse({status:409,body});assert.equal(p.errorReason,'unclassified');assert.equal(p.errorReasonSha256,null);assert(!JSON.stringify(p).includes('PRIVATE_FACT'));}
+ const retained=projectStartOnlyResponse({status:409});assert.equal(retained.errorCode,null);assert.equal(retained.errorReason,'not_reported');assert.equal(retained.errorReasonSha256,null);
+});
+test('Start response preserves success flags while omitting operations, review tokens and raw facts',()=>{
+ const p=projectStartOnlyResponse({status:200,body:{operations:{view:{decision:{live:true},reviewToken:'PRIVATE_REVIEW_TOKEN',data:{facts:'PRIVATE_FACT'}}},token:'PRIVATE_TOKEN'}});assert.equal(p.operationsPresent,true);assert.equal(p.reportedLive,true);assert.equal(p.httpStatus,200);assert.equal(p.errorCode,null);assert.equal(p.errorReason,'not_reported');assert.equal(p.participantVerificationAllowed,false);assert(!JSON.stringify(p).includes('PRIVATE_'));assert.deepEqual(Object.keys(p).sort(),['stage','httpStatus','operationsPresent','reportedLive','errorCode','errorReason','errorReasonSha256','participantVerificationAllowed'].sort());
 });
