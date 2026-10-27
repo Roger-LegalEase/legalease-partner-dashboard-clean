@@ -49,6 +49,8 @@ const previewControls = new Set([
   "scripts/rcap-managed-start-runtime-repair.mjs",
   "scripts/rcap-managed-start-runtime-repair-contract.mjs",
   "scripts/rcap-managed-start-runtime-repair.test.mjs",
+  "scripts/rcap-configured-sandbox-recover.mjs",
+  "scripts/rcap-purpose-runtime-recovery.test.mjs",
   "scripts/rcap-managed-start-preview-phase.test.mjs",
   "scripts/rcap-hosted-acceptance-deploy.mjs",
   "scripts/rcap-hosted-acceptance-preflight.test.mjs",

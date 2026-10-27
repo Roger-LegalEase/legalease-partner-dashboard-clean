@@ -25,7 +25,7 @@
 // echoed or written to the evidence bundle.
 
 import {MANAGED_RUNTIME_REPAIR_PHASE,MANAGED_REPAIR_PREDECESSOR,managedRepairMetadata,classifyManagedRepairSibling,assertManagedRepairAliasPrestate,restoreManagedRepairAlias} from './rcap-managed-start-runtime-repair-contract.mjs';
-import {CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE,CURRENT_PURPOSE_TUPLE,CURRENT_ORDINARY_PREVIEW,CONFIGURED_SANDBOX_OWNER,currentPurposeMetadata,classifyCurrentPurposeDeployment,configuredSandboxOverrides} from './rcap-configured-sandbox-preview-contract.mjs';
+import {assertPurposeRuntimeIdentity,CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE,CURRENT_PURPOSE_TUPLE,CURRENT_ORDINARY_PREVIEW,CONFIGURED_SANDBOX_OWNER,currentPurposeMetadata,classifyCurrentPurposeDeployment,configuredSandboxOverrides} from './rcap-configured-sandbox-preview-contract.mjs';
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -168,7 +168,7 @@ const REQUIRED_CASES = [
   "deployed_application_health_is_200",
   "delivery_route_refuses_on_the_deployed_instance"
 ];
-if (HELD_PURPOSE_PREVIEW) REQUIRED_CASES.push("purpose_release_source_bound", "current_ordinary_preview_unchanged", "purpose_siblings_unchanged");
+if (HELD_PURPOSE_PREVIEW) REQUIRED_CASES.push("purpose_runtime_source_identity", "current_ordinary_preview_unchanged", "purpose_siblings_unchanged");
 if (configuredSandboxEnv) REQUIRED_CASES.push("ordinary_preview_unchanged", "configured_sandbox_scope_and_purpose_exact");
 if (MANAGED_START) REQUIRED_CASES.push("managed_start_release_source_bound", "ordinary_preview_unchanged");
 if (RUNTIME_REPAIR) REQUIRED_CASES.push("repair_predecessor_immutable_unchanged", "purpose_siblings_unchanged");
@@ -755,14 +755,13 @@ if (MANAGED_START || HELD_PURPOSE_PREVIEW) {
     headers: { "x-vercel-protection-bypass": MANAGED_START?MANAGED_START.bypass:process.env.VERCEL_AUTOMATION_BYPASS_SECRET, "x-vercel-skip-toolbar": "1" }
   });
   const release = await response.json().catch(() => null);
-  const sourceBound = response.status === 200 && release?.application === "RCAP 2.0"
-    && release.policyVersion === "rcap2.2" && release.buildSha === APPLICATION_SHA
-    && release.runtimeSha === APPLICATION_SHA && release.sourceBound === true;
-  record(MANAGED_START?"managed_start_release_source_bound":"purpose_release_source_bound", sourceBound,
-    `immutable release GET=${response.status}; exact build/runtime source and platform binding=${sourceBound}`);
-  evidence.managedStartRelease = { status: response.status, sourceBound,
-    applicationSha: APPLICATION_SHA, deploymentId };
-  if (!sourceBound) throw new Error("DEPLOY_MANAGED_START_RELEASE_SOURCE_UNPROVEN");
+  let identity;
+  try{identity=assertPurposeRuntimeIdentity({status:response.status,body:release,applicationSha:APPLICATION_SHA,adminLaunch:Boolean(MANAGED_START)});}
+  catch{throw new Error(MANAGED_START?"DEPLOY_MANAGED_START_RELEASE_SOURCE_UNPROVEN":"DEPLOY_PURPOSE_RUNTIME_SOURCE_IDENTITY_UNPROVEN");}
+  record(MANAGED_START?"managed_start_release_source_bound":"purpose_runtime_source_identity", identity.runtimeSourceIdentityVerified,
+    `immutable release GET=${response.status}; exact build/runtime source=${identity.runtimeSourceIdentityVerified}; ordinary admin launch sourceBound=${identity.adminLaunchSourceBound}`);
+  const proof={status:response.status,...identity,applicationSha:APPLICATION_SHA,deploymentId};
+  if(MANAGED_START)evidence.managedStartRelease={...proof,sourceBound:release.sourceBound};else evidence.purposeRuntimeRelease=proof;
 }
 
 let runtimeRepairAliasAttempted=false;

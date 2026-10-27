@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {assertPurposeRuntimeIdentity} from './rcap-configured-sandbox-preview-contract.mjs';
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
 const original=execFileSync('git',['show','178a024a2c3dc3308f905de29530258f9cb73eb9:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
 const grantText=execFileSync('git',['show','f0ceb5b2:data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json'],{encoding:'utf8',cwd:new URL('..',import.meta.url)});
@@ -89,7 +90,7 @@ test('existing exact-host release GET refuses redirects and mismatched platform/
  const code=source.slice(start,source.indexOf('let runtimeRepairAliasAttempted=',start));
  for(const patch of [null,{status:302},{buildSha:'0'.repeat(40)},{runtimeSha:null},{sourceBound:false},{policyVersion:'other'}]) {
   const calls=[],evidence={};const good={application:'RCAP 2.0',policyVersion:'rcap2.2',buildSha:sha,runtimeSha:sha,sourceBound:true};
-  const c={MANAGED_START:{bypass:'synthetic-private-bypass'},HELD_PURPOSE_PREVIEW:false,APPLICATION_SHA:sha,deploymentUrl:'https://exact-immutable.vercel.app',deploymentId:'dpl_Synthetic',evidence,AbortSignal,record:()=>{},fetch:async(url,init)=>{calls.push({url,init});return {status:patch?.status??200,json:async()=>({...good,...patch})};}};
+  const c={assertPurposeRuntimeIdentity,MANAGED_START:{bypass:'synthetic-private-bypass'},HELD_PURPOSE_PREVIEW:false,APPLICATION_SHA:sha,deploymentUrl:'https://exact-immutable.vercel.app',deploymentId:'dpl_Synthetic',evidence,AbortSignal,record:()=>{},fetch:async(url,init)=>{calls.push({url,init});return {status:patch?.status??200,json:async()=>({...good,...patch})};}};
   const promise=vm.runInNewContext(`(async()=>{${code}})()`,c);
   if(patch)await assert.rejects(promise,/DEPLOY_MANAGED_START_RELEASE_SOURCE_UNPROVEN/);else await promise;
   assert.equal(calls.length,1);assert.equal(calls[0].url,'https://exact-immutable.vercel.app/api/rcap/release');assert.equal(calls[0].init.redirect,'manual');

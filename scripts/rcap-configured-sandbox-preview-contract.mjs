@@ -75,7 +75,7 @@ export const CURRENT_ORDINARY_PREVIEW=Object.freeze({id:'dpl_7dmD2g1xZccLiTbkJL9
 export const CLINIC_PURPOSE='clinic_deploy';
 export const CLINIC_SCOPE='e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539';
 export function assertPurposePreviewRelease(release,env,head,phase){
- assert([CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE].includes(phase));
+ assert([CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE,'configured_sandbox_preview_recover'].includes(phase));
  assert.equal(env.PHASE_INPUT,phase);assert.equal(env.GITHUB_ACTIONS,'true');assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(env.GITHUB_RUN_ATTEMPT,'1');
  assert.equal(env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.match(env.GITHUB_SHA??'',/^[a-f0-9]{40}$/);assert.equal(env.GITHUB_WORKFLOW_SHA,env.GITHUB_SHA);
  assert.equal(env.RCAP_ADMITTED_CONTROLLER_SHA,head,'actual admitted-controller checkout must be pinned independently of the real carrier SHA');
@@ -106,4 +106,11 @@ export function classifyCurrentPurposeDeployment(d,projectId,originFor){
  const expected=currentPurposeMetadata(phase,origin);for(const [key,value]of Object.entries(expected))assert.equal(d.meta?.[key],value,'PURPOSE_METADATA_MISMATCH:'+key);
  assert.equal(d.readyState,'READY','PURPOSE_PRIOR_ATTEMPT_NOT_READY');
  return {phase,id:d.id,url:d.url,readyState:d.readyState,meta:expected};
+}
+
+// This endpoint's sourceBound flag is ordinary-admin launch authority, not consumer source identity.
+export function assertPurposeRuntimeIdentity({status,body,applicationSha,adminLaunch}){
+ assert.equal(typeof adminLaunch,'boolean');assert(body&&typeof body==='object'&&!Array.isArray(body));assert.equal(body.application,'RCAP 2.0');assert.equal(body.policyVersion,'rcap2.2');assert.equal(body.buildSha,applicationSha);assert.equal(body.runtimeSha,applicationSha);
+ assert.equal(status,adminLaunch?200:503);assert.equal(body.sourceBound,adminLaunch);
+ return {runtimeSourceIdentityVerified:true,adminLaunchSourceBound:body.sourceBound};
 }
