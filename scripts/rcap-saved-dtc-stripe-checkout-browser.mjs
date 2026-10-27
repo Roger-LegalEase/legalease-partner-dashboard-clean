@@ -381,8 +381,10 @@ export async function completeHostedCheckout({
   prepareSubmitActionability = false,
   submitObstructionOnly = false,
   providerExpectedAmountCents = null,
-  beforeDialogInteraction = null
+  beforeDialogInteraction = null,
+  allowKnownLinkCloseExperiment = false
 }) {
+  if(typeof allowKnownLinkCloseExperiment!=='boolean'||allowKnownLinkCloseExperiment&&!submitObstructionOnly)throw Error('Link Close experiment is NoPay only.');
   if(typeof submitObstructionOnly!=='boolean'||submitObstructionOnly&&submitActionabilityOnly||typeof prepareSubmitActionability!=='boolean'||typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
     throw new Error('Exact HTTPS Checkout success URL is required before opening the provider page.');
@@ -422,9 +424,14 @@ export async function completeHostedCheckout({
   const inspectDialogAndTrial = async submit => {
     if(optionalDialogInspected)return {optionalDialog,actionabilityTrial:null};
     optionalDialogInspected=true;
-    optionalDialog=await inspectOptionalCheckoutDialog({page,checkpoint:onSubmitCheckpoint,beforeInteraction:async()=>{if(typeof beforeDialogInteraction!=='function')throw Error('Fresh same-session state required');await beforeDialogInteraction();}});
+    optionalDialog=await inspectOptionalCheckoutDialog({page,allowKnownLinkCloseExperiment,checkpoint:onSubmitCheckpoint,beforeInteraction:async()=>{if(typeof beforeDialogInteraction!=='function')throw Error('Fresh same-session state required');await beforeDialogInteraction();}});
     if(!optionalDialog.dismissed||!optionalDialog.overlayGone)return {optionalDialog,actionabilityTrial:null};
-    submit=submit??await firstVisible(page,checkoutSubmitSelectors,4000);
+    if(optionalDialog.actionBasis==='known_link_close_experiment'){
+      let cardVisible=false;for(const scope of frameScopes(page))for(const selector of ['input[name="cardNumber"]','input[autocomplete="cc-number"]'])if(await scope.locator(selector).isVisible())cardVisible=true;
+      optionalDialog.cardFormVisible=cardVisible;
+      if(!cardVisible)return {optionalDialog:{...optionalDialog,status:'hold',humanRequirement:'Manual card form not visible after Close; no trial.'},actionabilityTrial:null};
+    }
+    submit=null;for(const selector of checkoutSubmitSelectors){const candidate=page.locator(selector);const count=await candidate.count();if(count>1)return {optionalDialog:{...optionalDialog,status:'hold',humanRequirement:'Ambiguous Pay control; no trial.'},actionabilityTrial:null};if(count===1&&await candidate.isVisible()){submit=candidate;break;}}
     if(!submit)return {optionalDialog,actionabilityTrial:null};
     await prepareCheckoutSubmitNormally({page,submit});
     const obstruction=await readCheckoutSubmitObstruction(page,submit);
