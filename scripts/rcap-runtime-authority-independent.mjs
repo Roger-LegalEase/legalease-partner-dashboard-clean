@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 const require = createRequire(import.meta.url);
 const swc = require('next/dist/build/swc');
 const acorn = require('next/dist/compiled/acorn');
-const targets = ['paid-consumer-successor','grade-a-registry','grade-a-admission','consumer-specification-binding','worker-static-authority'].map(n => `src/lib/rcap/fulfillment/${n}.ts`).concat(['src/lib/rcap/documents/factory-v2-registry.ts','src/lib/expungement-ai/packet-fulfillment-authority.ts']);
+const targets = ['paid-consumer-successor','grade-a-registry','grade-a-admission','consumer-specification-binding','worker-static-authority','sponsored-channel-authority'].map(n => `src/lib/rcap/fulfillment/${n}.ts`).concat(['src/lib/rcap/documents/factory-v2-registry.ts','src/lib/expungement-ai/packet-fulfillment-authority.ts']);
 const extensions = ['.ts','.tsx','.js','.jsx','.mjs','.cjs','.mts','.cts','.json'];
 function walk(dir) {return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);}
 export async function independentConsumers(rootDir) {

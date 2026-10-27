@@ -206,3 +206,24 @@ test('installed Next/picomatch rejects left prefixes as well as all right suffix
     assert.equal(tracingKeyMatches(key,normalized),true);
   }
 });
+
+
+test('ordinary sponsored Start readers are traced for both program APIs without widening entry coverage', () => {
+  const reader = 'src/lib/rcap/fulfillment/sponsored-channel-authority.ts';
+  assert.ok(RUNTIME_AUTHORITY_MODULES.includes(reader));
+  const { entries } = discoverRuntimeAuthorityConsumers();
+  const includes = createRuntimeAuthorityTracingIncludes();
+  for (const route of [
+    '/api/internal/partners/onboarding/phase1/[partnerSlug]/program',
+    '/api/partners/onboarding/program',
+  ]) {
+    const entry = entries.find(candidate => candidate.route === route);
+    assert.ok(entry, route);
+    assert.ok(entry.authorityPaths.some(candidate => candidate.authority === reader), route);
+    assert.ok(includes[entry.tracingKey].includes('data/rcap-ledger/grade-a/artifacts/**'), route);
+  }
+  for (const entry of entries) {
+    assert.equal(Object.keys(includes).some(key => tracingKeyMatches(key, entry.appPath)),
+      entry.authorityPaths.length > 0, entry.route);
+  }
+});
