@@ -441,6 +441,16 @@ export async function completeHostedCheckout({
     return true;
   };
 
+
+  const admitObservedCardAtBoundary = async (submit,phase) => {
+    await onSubmitCheckpoint({phase,diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:await readCheckoutSubmitObstruction(page,submit)});
+    const closed=await continueAfterObservedLinkClose();
+    if(closed)await prepareCheckoutSubmitNormally({page,submit});
+    const current=await readCheckoutSubmitObstruction(page,submit);
+    if(current.status!=='inspected'||Object.values(current.signals).some(v=>v!==false)||!['self','child'].includes(current.buttonGeometry?.centerHitRelation)||!await manualCardVisible())throw Error('Card continuation remains obstructed.');
+    return closed===true;
+  };
+
   const inspectDialogAndTrial = async submit => {
     if(optionalDialogInspected)return {optionalDialog,actionabilityTrial:null};
     optionalDialogInspected=true;
@@ -607,11 +617,7 @@ export async function completeHostedCheckout({
     const authorizeFinalPay = async () => {
       failurePhase = 'before_final_pay';
       if(continueObservedLinkCard){
-        await onSubmitCheckpoint({phase:'provider_checkout_final_guard_obstruction',diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:await readCheckoutSubmitObstruction(page,submit)});
-        if(await continueAfterObservedLinkClose()){
-          await prepareCheckoutSubmitNormally({page,submit});
-          const current=await readCheckoutSubmitObstruction(page,submit);
-          if(current.status!=='inspected'||Object.values(current.signals).some(v=>v!==false)||!['self','child'].includes(current.buttonGeometry?.centerHitRelation)||!await manualCardVisible())throw Error('Card continuation obstructed after late Close.');
+        if(await admitObservedCardAtBoundary(submit,'provider_checkout_final_guard_obstruction')){
           const retrial=await trialCheckoutSubmitActionability({submit,checkpoint:onSubmitCheckpoint});
           if(retrial.status!=='passed'||retrial.hitTargetAfter.blockerClass!=='submit_or_child')throw Error('Card continuation trial failed after late Close.');
         }
@@ -626,12 +632,19 @@ export async function completeHostedCheckout({
     };
     if (prepareSubmitActionability && !submitActionabilityOnly) {
       failurePhase = 'submit_click';
-      const preparation = await prepareGuardedCheckoutSubmit({page, submit,
+      let preparation = await prepareGuardedCheckoutSubmit({page, submit,
         selectedIndex:selectedSubmitIndex, checkpoint:async value=>{
-          if(continueObservedLinkCard&&value.phase==='provider_checkout_submit_actionability_before_trial'){const current=await readCheckoutSubmitObstruction(page,submit);if(current.status!=='inspected'||Object.values(current.signals).some(v=>v!==false)||!['self','child'].includes(current.buttonGeometry?.centerHitRelation)||!await manualCardVisible())throw Error('Card continuation obstructed before trial.');}
+          if(continueObservedLinkCard&&value.phase==='provider_checkout_submit_actionability_before_trial')await admitObservedCardAtBoundary(submit,'provider_checkout_pretrial_guard_obstruction');
           await onSubmitCheckpoint(value);
         },
         authorize:authorizeFinalPay});
+      if(continueObservedLinkCard&&preparation.status!=='passed'&&preparation.trial?.actionabilityFailure?.reason==='pointer_events_intercepted'){
+        if(await admitObservedCardAtBoundary(submit,'provider_checkout_failed_trial_guard_obstruction')){
+          const retrial=await trialCheckoutSubmitActionability({submit,checkpoint:onSubmitCheckpoint});
+          preparation={status:retrial.status==='passed'&&retrial.hitTargetAfter.blockerClass==='submit_or_child'?'passed':'failed',trial:retrial};
+          if(preparation.status==='passed')await authorizeFinalPay();
+        }
+      }
       if (preparation.status !== 'passed') return {completed:false,
         humanInteractionRequired:false,failureReason:'submit_actionability_failed',
         submitAttempted:false,submitInspection,diagnostic:await readDiagnostic(preparation.trial?.diagnostic?.errorClass??'None'),notes,screenshots};
