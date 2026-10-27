@@ -11,7 +11,7 @@ const RECORDS=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TO
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024}).trim();
 const blob=(root,sha,p)=>execFileSync('git',['show',sha+':'+p],{cwd:root,maxBuffer:64*1024*1024});
-const PROJECT='wwtwtsmywnckfkdaqqeg';
+const PROJECT='wwtwtsmywnckfkdaqqeg',QUALIFIED_RELEASE_BASE='0cd12827498a582b8558c312d8d5eae7076e7c3a';
 export const QUALIFIED_PREFLIGHT_STATUS='QUALIFIED_HOSTED_ACCEPTED_PREFLIGHT_ONLY';
 export const QUALIFIED_PREFLIGHT_EVIDENCE={
  authority:{path:EVIDENCE+'OWNER-EXECUTION-ORDER39318.json',sha256:'cc11ef00c38aa787847d06aeb20a0323e526afc5cbd9f2c9aef6903deba04e2e'},
@@ -35,6 +35,7 @@ export function readQualifiedPreflightEvidence(root){
 }
 function qualifiedRecordFields(root,{toolsSha,releaseBaseSha}){
  for(const sha of [toolsSha,releaseBaseSha])assert.match(sha??'',/^[a-f0-9]{40}$/);
+ assert.equal(releaseBaseSha,QUALIFIED_RELEASE_BASE,'Exact retained accepted predecessor');git(root,['merge-base','--is-ancestor',releaseBaseSha,toolsSha]);
  const {identity}=assertQualifiedWorkerCompatibility(root),evidence=readQualifiedPreflightEvidence(root);
  for(const [key,value] of Object.entries({workerSourceSha:identity.source,workerDigest:identity.digest}))assert.equal(evidence.journeys[key],value);
  assert.equal(evidence.preview.application,QUALIFIED_FORWARD_APP);
