@@ -11,7 +11,8 @@ export function clinicReviewRequest(config,url,method,body,state){
  const u=new URL(url);if(u.origin!==config.origin||u.username||u.password||u.hash)return null;
  if(method==='GET'){
   if(u.pathname.startsWith('/_next/static/'))return !u.search||([...u.searchParams.keys()].length===1&&u.searchParams.has('dpl'))?'read':null;
-  if(u.pathname==='/_next/image')return [...u.searchParams.keys()].sort().join(',')==='q,url,w'
+  if(u.pathname==='/_next/image')return (['q,url,w','dpl,q,url,w'].includes([...u.searchParams.keys()].sort().join(','))
+   &&(!u.searchParams.has('dpl')||u.searchParams.get('dpl')===config.deploymentId))
    &&u.searchParams.get('url')==='/expungement-ai/wilma-avatar.png'&&u.searchParams.get('q')==='75'
    &&['16','32','48','64','96','128','256','384','640','750','828','1080','1200','1920','2048','3840'].includes(u.searchParams.get('w'))?'read':null;
   if(u.pathname===`/briefcase/${CLINIC.item}/packet-information`){
@@ -30,6 +31,11 @@ export function clinicReviewRequest(config,url,method,body,state){
  if(u.pathname===GENERATE&&state.verifyAttempts===1&&state.verified===true&&state.generateAttempts===0
   &&Object.keys(body).join(',')==='briefcaseItemId'&&body.briefcaseItemId===CLINIC.item)return 'generate';
  return null;
+}
+export function optionalClinicPreviewFeedback(request){
+ const u=new URL(request.url());return request.method()==='GET'&&request.resourceType()==='script'
+  &&u.origin==='https://vercel.live'&&u.pathname==='/_next-live/feedback/feedback.js'
+  &&!u.search&&!u.hash&&!u.username&&!u.password;
 }
 export function projectClinicRequestRefusal(config,request,state,priorRefusalCount=0){
  const method=request.method(),safeMethod=['GET','POST','HEAD','OPTIONS'].includes(method)?method:'other';
@@ -72,6 +78,7 @@ export async function continueClinicReview({config,native,recovery,context,ports
  }});
  const guard=async route=>{
   const request=route.request();let body;try{body=request.postDataJSON();}catch{}
+  if(optionalClinicPreviewFeedback(request)){record({phase:'optional_preview_feedback_blocked',...projectClinicRequestRefusal(config,request,state,violations.length),verifyAttempts:state.verifyAttempts,generateAttempts:state.generateAttempts});return route.abort('blockedbyclient');}
   const operation=clinicReviewRequest(config,request.url(),request.method(),body,state);
   if(!operation){const diagnostic=projectClinicRequestRefusal(config,request,state,violations.length);violations.push('request_refused');record({phase:'request_refused',...diagnostic,verifyAttempts:state.verifyAttempts,generateAttempts:state.generateAttempts});return route.abort('blockedbyclient');}
   if(operation!=='read'){
