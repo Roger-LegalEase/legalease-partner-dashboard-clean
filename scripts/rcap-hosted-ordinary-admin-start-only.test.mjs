@@ -76,3 +76,11 @@ test('actual creator admission schema binds native hash, carrier/controller/tool
  for(const mutate of [x=>x.native.passed=false,x=>x.native.purposeSource.phase='managed_start_runtime_repair',x=>x.native.deployment.gitSourceSha='0'.repeat(40),x=>x.native.sourceSuccessorProtectedAfter={old:'changed'},x=>x.creatorRun.conclusion='failure',x=>x.creatorRun.repository.full_name='wrong/repo']){const x=structuredClone(f);mutate(x);const b=JSON.stringify(x.native);x.binding.nativeSha256=hash(b);assert.throws(()=>admitStartOnlyTarget({...x,creatorBytes:b}));}
  assert.throws(()=>admitStartOnlyTarget({...f,creatorBytes:creatorBytes+' '}));
 });
+test('static deployment query uses only the actual admitted new deployment, never the historical dpl pin',async()=>{
+ let guard;const context={route:async(_p,fn)=>{guard=fn;},addInitScript:async()=>{},newPage:async()=>({goto:async()=>({status:()=>200,json:async()=>({application:'RCAP 2.0',policyVersion:'rcap2.2',buildSha:START_ONLY.app,runtimeSha:START_ONLY.app,sourceBound:true})})})};
+ const io=await createStartOnlyBrowserIo({context,admitSourceTarget:async()=>({applicationSha:START_ONLY.app,origin:START_ONLY.origin,nativeCreatorVerified:true,deploymentId:'dpl_NewAdmitted'}),readProtectedPoststate:async()=>{},checkpoint:async()=>{},bypass:'PRIVATE_BYPASS',credentialReader:()=>assert.fail('no auth')});
+ async function allowed(path){let ok;await guard({request:()=>({url:()=>START_ONLY.origin+path,method:()=>'GET',headers:()=>({})}),abort:async()=>{ok=false;},continue:async()=>{ok=true;}});return ok;}
+ assert.equal(await allowed('/_next/static/chunks/app.js?dpl=dpl_NewAdmitted'),false);
+ await io.admitSourceTarget({});assert.equal(await allowed('/_next/static/chunks/app.js?dpl=dpl_NewAdmitted'),true);
+ for(const p of ['/_next/static/chunks/app.js?dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF','/_next/static/chunks/app.js?dpl=dpl_NewAdmitted&extra=1','/api/rcap/release?dpl=dpl_NewAdmitted'])assert.equal(await allowed(p),false);
+});
