@@ -1,4 +1,5 @@
-import{trialCheckoutSubmitActionability,prepareGuardedCheckoutSubmit,checkoutSubmitSelectors,readCheckoutSubmitGeometry}from'./rcap-checkout-submit-actionability.mjs';
+import {readCheckoutSubmitObstruction} from './rcap-checkout-submit-obstruction.mjs';
+import{trialCheckoutSubmitActionability,prepareGuardedCheckoutSubmit,checkoutSubmitSelectors,readCheckoutSubmitGeometry,prepareCheckoutSubmitNormally}from'./rcap-checkout-submit-actionability.mjs';
 import {safeCheckoutBrowserDiagnostic,checkoutNavigationClass} from './rcap-checkout-browser-diagnostic.mjs';
 // Complete a Stripe Checkout Session the way a customer does: in a browser, on
 // Stripe's own hosted page.
@@ -374,9 +375,10 @@ export async function completeHostedCheckout({
   beforeFinalPay,
   onSubmitCheckpoint = async () => {},
   submitActionabilityOnly = false,
-  prepareSubmitActionability = false
+  prepareSubmitActionability = false,
+  submitObstructionOnly = false
 }) {
-  if(typeof prepareSubmitActionability!=='boolean'||typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
+  if(typeof submitObstructionOnly!=='boolean'||submitObstructionOnly&&submitActionabilityOnly||typeof prepareSubmitActionability!=='boolean'||typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
     throw new Error('Exact HTTPS Checkout success URL is required before opening the provider page.');
   }
@@ -536,6 +538,17 @@ export async function completeHostedCheckout({
     observingReturn = true;
     page.on('framenavigated', observeReturn);
     if (typeof beforeFinalPay !== 'function') throw new Error('Actual final payment window check required.');
+    if(submitObstructionOnly){
+      failurePhase='submit_obstruction_inspection';
+      submitInspection=await readCheckoutSubmitState(page,submit,looksFree);
+      await beforeFinalPay(submitInspection);
+      const before=await readCheckoutSubmitObstruction(page,submit);
+      await onSubmitCheckpoint({phase:'provider_checkout_submit_obstruction_before_prepare',diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:before});
+      const {billingBlurred}=await prepareCheckoutSubmitNormally({page,submit});
+      const after=await readCheckoutSubmitObstruction(page,submit);
+      await onSubmitCheckpoint({phase:'provider_checkout_submit_obstruction_after_prepare',diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:after});
+      return{completed:false,humanInteractionRequired:['one_time_code','captcha_frame','challenge_frame'].includes(after.challengeClass),failureReason:'diagnostic_stop_before_pay',submitAttempted:false,submitInspection,submitObstruction:{before,after,billingBlurred},notes,screenshots};
+    }
     const authorizeFinalPay = async () => {
       await requireNoProviderChallenge(page);
       finalPayCheckStarted = true;
@@ -600,6 +613,11 @@ export async function completeHostedCheckout({
 
     return { completed: false, humanInteractionRequired: false, failureReason: "return_not_observed", diagnostic:await readDiagnostic('None'), submitAttempted, submitInspection, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
   } catch (error) {
+    if(submitObstructionOnly&&error?.code==='CHECKOUT_HUMAN_INTERACTION_REQUIRED'&&!error?.sanitizedDestination){
+      const after=await readCheckoutSubmitObstruction(page,submitControl);
+      await onSubmitCheckpoint({phase:'provider_checkout_submit_obstruction_challenge',diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:after});
+      return{completed:false,humanInteractionRequired:true,failureReason:'provider_challenge',submitAttempted:false,submitInspection,submitObstruction:{before:null,after,billingBlurred:false},notes,screenshots};
+    }
     const diagnostic = await readDiagnostic(error?.name);
     // Re-read after an interrupted DOM operation. Only navigation-specific
     // errors may await a commit; an unrelated error before return still fails.

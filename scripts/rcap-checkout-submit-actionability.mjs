@@ -29,6 +29,17 @@ export async function prepareGuardedCheckoutSubmit({page,submit,selectedIndex,ch
  const before=await readCheckoutSubmitGeometry(submit);
  await checkpoint({phase:'provider_checkout_submit_normal_preparation_before',selectedIndex,counts,geometry:before});
  if(counts[selectedIndex]!==1)return {status:'failed',reason:'ambiguous_submit'};
+ const {billingBlurred}=await prepareCheckoutSubmitNormally({page,submit});
+ const prepared=await readCheckoutSubmitGeometry(submit);
+ await checkpoint({phase:'provider_checkout_submit_normal_preparation_after',selectedIndex,counts,billingBlurred,geometry:prepared});
+ const trial=await trialCheckoutSubmitActionability({submit,checkpoint});
+ if(trial.status!=='passed'||trial.hitTargetAfter.blockerClass!=='submit_or_child')return {status:'failed',reason:'submit_actionability_failed',trial};
+ if(await page.locator(checkoutSubmitSelectors[selectedIndex]).count()!==1)return {status:'failed',reason:'ambiguous_submit',trial};
+ await authorize();
+ return {status:'passed',trial};
+}
+
+export async function prepareCheckoutSubmitNormally({page,submit}){
  // Filling does not blur billing inputs; finish that normal UI interaction before scrolling.
  const billingBlurred=await page.evaluate(()=>{
   const el=document.activeElement;
@@ -38,11 +49,5 @@ export async function prepareGuardedCheckoutSubmit({page,submit,selectedIndex,ch
   el.blur();return true;
  });
  await submit.scrollIntoViewIfNeeded({timeout:20000});
- const prepared=await readCheckoutSubmitGeometry(submit);
- await checkpoint({phase:'provider_checkout_submit_normal_preparation_after',selectedIndex,counts,billingBlurred,geometry:prepared});
- const trial=await trialCheckoutSubmitActionability({submit,checkpoint});
- if(trial.status!=='passed'||trial.hitTargetAfter.blockerClass!=='submit_or_child')return {status:'failed',reason:'submit_actionability_failed',trial};
- if(await page.locator(checkoutSubmitSelectors[selectedIndex]).count()!==1)return {status:'failed',reason:'ambiguous_submit',trial};
- await authorize();
- return {status:'passed',trial};
+ return{billingBlurred};
 }
