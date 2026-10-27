@@ -7,7 +7,7 @@ import {createRequire} from 'node:module';
 import {readPinnedAdminCredentials,requestAllowed,ORIGIN as AUTH_READER_ORIGIN} from './rcap-hosted-ordinary-admin-readonly.mjs';
 import {assertStartOnlyPrestate,qualifyRetainedStartProof} from './rcap-hosted-ordinary-admin-start-only.mjs';
 import {protectedStartOnlyReader,privateStartOnlyCheckpoint,POSTSTATE_SQL_SHA256} from './rcap-hosted-ordinary-admin-start-only-entry.mjs';
-export const GUARD_TARGET=Object.freeze({app:'b8b980c5b95b3342420b63c60ba3f36d3f7bf85f',origin:'https://legalease-rcap-managed-b8b980c5b95b-roger947s-projects.vercel.app',admin:'6574d21e-5e0a-4567-b14e-01447c162f37',partner:'legalease-ordinary-qa-20261024'});
+export const GUARD_TARGET=Object.freeze({app:'ed8d0902a99c5326f75987a942eb507b6cfb16cf',origin:'https://legalease-rcap-managed-ed8d0902a99c-roger947s-projects.vercel.app',admin:'6574d21e-5e0a-4567-b14e-01447c162f37',partner:'legalease-ordinary-qa-20261024'});
 const ROOT='/api/internal/partners/onboarding/phase1/'+GUARD_TARGET.partner;
 export const GUARD_PATH=ROOT+'/program?ordinaryGuardDiagnostic=1';
 const AUTH='https://hyflxnlhpmiqxvvcoiia.supabase.co';
@@ -27,7 +27,7 @@ export function projectOrdinaryGuard(body){
 export function requireGuardDispatch(env){
  for(const[k,v]of Object.entries({GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'Roger-LegalEase/legalease-partner-dashboard-clean',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_RUN_ATTEMPT:'1',GITHUB_REF_NAME:'codex/f-vercel-raw-readonly-20261026'}))assert.equal(env[k],v);
  assert.match(env.GITHUB_SHA??'',/^[a-f0-9]{40}$/);assert.equal(env.GITHUB_WORKFLOW_SHA,env.GITHUB_SHA);
- const input=JSON.parse(env.DISPATCH_INPUTS);const expected={mode:'ordinary_admin_launch_preflight_readonly',application_sha:GUARD_TARGET.app,worker_source_sha:'HELD',worker_digest:'HELD',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'};
+ const input=JSON.parse(env.DISPATCH_INPUTS);const expected={mode:'ordinary_admin_launch_preflight_readonly',application_sha:GUARD_TARGET.app,worker_source_sha:'84a75b6e65dc69e6c371afac44f1284e0debf722',worker_digest:'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'};
  for(const[k,v]of Object.entries(expected))assert.equal(input[k],v);assert.match(input.tools_sha??'',/^[a-f0-9]{40}$/);
  for(const[k,v]of Object.entries(input))if(!Object.hasOwn(expected,k)&&k!=='tools_sha')assert.ok(v===''||v===false||v==='false'||v==='[]','Unexpected dispatch input');
  return input;
@@ -40,10 +40,10 @@ export function admitOrdinaryGuardTarget({binding,creatorBytes,creatorRunBytes,c
  const n=JSON.parse(creatorBytes),run=JSON.parse(creatorRunBytes);
  for(const[k,v]of Object.entries({id:binding.runId,workflow_id:332448793,head_sha:binding.carrierSha,head_branch:'codex/f-vercel-raw-readonly-20261026',run_attempt:1,event:'workflow_dispatch',status:'completed',conclusion:'success'}))assert.equal(run[k],v);
  assert.equal(run.repository?.full_name,'Roger-LegalEase/legalease-partner-dashboard-clean');assert.equal(n.passed,true);assert.deepEqual(n.failedCases,[]);assert.equal(n.neverPassedProdFlag,true);assert.equal(n.neverWroteProjectLevelEnv,true);assert.equal(n.applicationSha,GUARD_TARGET.app);assert.equal(n.acceptanceProjectRef,'hyflxnlhpmiqxvvcoiia');assert.equal(n.previewUrl,GUARD_TARGET.origin);
- for(const[k,v]of Object.entries({phase:'managed_start_source_successor',carrierSha:binding.carrierSha,carrierWorkflowSha:binding.carrierSha,controllerSha:'6b0ba981ea4f4bbd3061553c0062d324dcf8c741',toolsSha:'298780eb0db01c3292d53267233489244561a213',runId:String(binding.runId),runAttempt:'1'}))assert.equal(n.purposeSource?.[k],v);
+ for(const[k,v]of Object.entries({phase:'managed_start_source_successor',carrierSha:binding.carrierSha,carrierWorkflowSha:binding.carrierSha,controllerSha:'19404b5e7fcd044609edb700db01414bbd65d872',toolsSha:'a213d7aa125dbbedf788142c45142e942ca434cb',runId:String(binding.runId),runAttempt:'1'}))assert.equal(n.purposeSource?.[k],v);
  const d=n.deployment;assert.equal(d?.id,binding.deploymentId);assert.equal(d.readyState,'READY');assert.equal(d.target,null);assert.equal(d.gitSourceSha,GUARD_TARGET.app);assert.equal(d.projectId,'prj_cdgwGzFqIHgEUlzEburSLaZETdQV');
- for(const[k,v]of Object.entries({rcapApplicationSha:GUARD_TARGET.app,rcapWorkerState:'HELD',rcapWorkerCompatibility:'UNQUALIFIED',rcapReturnOrigin:GUARD_TARGET.origin,rcapPreviewPurpose:'managed_start'}))assert.equal(d.metadata?.[k],v);
- for(const k of ['rcapWorkerSourceSha','rcapWorkerDigest','rcapWorkerInputFingerprint'])assert.ok(!Object.hasOwn(d.metadata,k));
+ for(const[k,v]of Object.entries({rcapApplicationSha:GUARD_TARGET.app,rcapWorkerSourceSha:'84a75b6e65dc69e6c371afac44f1284e0debf722',rcapWorkerDigest:'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1',rcapWorkerInputFingerprint:'sha256:6d082ab7f7f07745a0e69a886fb59e9d396e3aa29233422a072b16edbd794cc2',rcapManagedSourceSuccessor:'ordinary-program-native-trace-v2',rcapSourcePredecessor:'dpl_DVC1stkcRAySuJ33KxnfqEcKPR1D',rcapReturnOrigin:GUARD_TARGET.origin,rcapPreviewPurpose:'managed_start'}))assert.equal(d.metadata?.[k],v);
+ for(const k of ['rcapWorkerState','rcapWorkerCompatibility'])assert.ok(!Object.hasOwn(d.metadata,k));
  assert.equal(n.restCreation.creationCalls,1);assert.equal(n.restCreation.creationPostCount,1);assert.equal(n.restCreation.id,d.id);assert.equal(n.restCreation.readyState,'READY');assert.equal(n.aliasAssignment.passed,true);assert.equal(n.aliasAssignment.deploymentId,d.id);assert.equal(n.aliasAssignment.hostname,new URL(GUARD_TARGET.origin).hostname);assert.equal(n.aliasAssignment.target,null);assert.ok(n.sourceSuccessorProtectedBefore);assert.deepEqual(n.sourceSuccessorProtectedAfter,n.sourceSuccessorProtectedBefore);assert.equal(n.sourceSuccessorAliasInverse?.performed,false);assert.notEqual(n.sourceSuccessorAliasInverse?.blocked,true);
  return{applicationSha:GUARD_TARGET.app,origin:GUARD_TARGET.origin,deploymentId:d.id,nativeCreatorVerified:true};
 }
