@@ -2,13 +2,13 @@ import base64, hashlib, io, json, os, pathlib, re, zipfile
 
 NAMES = {'captainLeaseAndOperationLog', 'activeQueuedReleaseOperations', 'knownQaProducerContexts', 'knownAcceptanceConsumers', 'globalAllKindPreRetargetSnapshot'}
 
-def stage(archive_b64, expected_hash, workspace, execution_sha):
+def stage(archive_b64, expected_hash, workspace, execution_sha, recovery=False):
     assert re.fullmatch(r'[a-f0-9]{64}', expected_hash)
     assert re.fullmatch(r'[a-f0-9]{40}', execution_sha)
     raw = base64.b64decode(archive_b64, validate=True)
     assert 0 < len(raw) <= 8 * 1024 * 1024
     with zipfile.ZipFile(io.BytesIO(raw)) as z:
-        assert len(z.infolist()) == 7 and len(set(z.namelist())) == 7
+        assert len(z.infolist()) == (9 if recovery else 7) and len(set(z.namelist())) == (9 if recovery else 7)
         assert all(re.fullmatch(r'[A-Za-z0-9_-]+\.json', name) for name in z.namelist())
         assert all(0 < entry.file_size <= 2 * 1024 * 1024 for entry in z.infolist())
         files = {name: z.read(name) for name in z.namelist()}
@@ -17,7 +17,17 @@ def stage(archive_b64, expected_hash, workspace, execution_sha):
     assert binding['schemaVersion'] == 'existing-clinic-worker-control-binding/v1'
     assert binding['executionToolsSha'] == execution_sha
     assert set(binding['nativeControlFiles']) == NAMES
-    assert set(files) == {'binding.json', binding['windowFile'], *binding['nativeControlFiles'].values()}
+    extras = set()
+    if recovery:
+        admitted = json.loads(pathlib.Path(__file__).with_name('clinic-recovery-native-binding.json').read_text())
+        assert admitted['qualificationAccepted'] is True and admitted['runtimeAccepted'] is False
+        expected = {'image-qualification.json': admitted['qualificationSha256'], 'failed-state.json': admitted['failedStateSha256']}
+        assert binding['recoveryNativeFiles'] == expected
+        for name, pin in expected.items():
+            assert re.fullmatch(r'[a-f0-9]{64}', pin)
+            assert hashlib.sha256(files[name]).hexdigest() == pin
+        extras = set(expected)
+    assert set(files) == {'binding.json', binding['windowFile'], *binding['nativeControlFiles'].values(), *extras}
     assert hashlib.sha256(files[binding['windowFile']]).hexdigest() == binding['windowSha256']
     window = json.loads(files[binding['windowFile']])
     for key, name in binding['nativeControlFiles'].items():
@@ -36,7 +46,7 @@ def stage(archive_b64, expected_hash, workspace, execution_sha):
 if __name__ == '__main__':
     try:
         assert os.environ['GITHUB_ACTIONS'] == 'true'
-        stage(os.environ['CLINIC_WORKER_CONTROL_ARCHIVE_B64'], os.environ['CLINIC_WORKER_CONTROL_BINDING_SHA256'], os.environ['GITHUB_WORKSPACE'], os.environ['GITHUB_SHA'])
+        stage(os.environ['CLINIC_WORKER_CONTROL_ARCHIVE_B64'], os.environ['CLINIC_WORKER_CONTROL_BINDING_SHA256'], os.environ['GITHUB_WORKSPACE'], os.environ['GITHUB_SHA'], recovery=os.environ.get('CLINIC_RECOVERY_MODE') == 'true')
         print('Exact Clinic control binding and five native controls staged privately.')
     except Exception:
         raise SystemExit('Clinic control staging held; no credential or customer operation performed.')
