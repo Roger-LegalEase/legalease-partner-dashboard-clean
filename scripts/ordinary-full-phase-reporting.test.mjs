@@ -1,0 +1,13 @@
+import test from'node:test';import assert from'node:assert/strict';
+import{runOrdinaryParticipant}from'./rcap-hosted-ordinary-participant.mjs';
+import{sanitizedConstructionFailure}from'./ordinary-construction-diagnostic.mjs';
+test('regular owner UI failure retains exact pre-checkpoint phase and safe UI facts; optional reporting preserves the same driver actions (mock ports)',async()=>{
+ const origin='https://legalease-rcap-managed-9aadacd0c5a7-roger947s-projects.vercel.app',phases=[],ui=[],calls=[];let checkpoints=0;
+ const failure=Object.assign(new Error('PRIVATE_SECRET'),{code:'PRIVATE_SECRET'});failure.stack='PRIVATE_SECRET\n at /repo/scripts/rcap-hosted-ordinary-participant.mjs:147:4';
+ const page={on(){},once(){},off(){},route:async()=>{calls.push('route');},goto:async()=>{calls.push('goto');},evaluate:async()=>({formHandlerReady:false,signInButtonEnabled:true}),locator:selector=>({fill:async()=>{calls.push(selector.includes('email')?'fill_email':'fill_password');}}),getByRole:()=>({click:async()=>{calls.push('click');throw failure;}})};
+ const base={page,anonymousPage:{},strangerPage:{},origin,email:'synthetic@rcap-acceptance.test',password:'synthetic-not-a-real-credential',admit:async()=>({actualStartSucceeded:true,applicationSha:'9aadacd0c5a7fac90a1662f1928b7b86f8685c7a',origin,partnerSlug:'legalease-ordinary-qa-20261024',participantUserId:'b6dc86a3-12bb-490d-b130-48d95d426a1e',deploymentId:'dpl_DVC1stkcRAySuJ33KxnfqEcKPR1D',sourceBindingSha256:'a'.repeat(64)}),assertExclusiveWindow:async()=>{},verifyPreparedImageBeforeVerify:async()=>{throw Error('NO_WORKER');},readNative:async()=>{throw Error('NO_READ_NEEDED');},checkpoint:async()=>{checkpoints++;},loadCustody:async()=>null,authorizeRequest:async()=>true};
+ await assert.rejects(runOrdinaryParticipant({...base,onParticipantPhase:async p=>phases.push(p),onParticipantObservation:v=>ui.push(v)}),e=>e===failure);
+ assert.deepEqual(phases,['participant_admission','participant_custody','participant_routes','owner_signin_observer','owner_signin_navigation','owner_signin_fill_email','owner_signin_fill_password','owner_signin_click']);assert.deepEqual(ui,[{formHandlerReady:false,signInButtonEnabled:true}]);assert.equal(checkpoints,0);
+ const safe=sanitizedConstructionFailure(failure,phases.at(-1));assert.equal(safe.errorClass,'Error');assert.equal(safe.errorCode,null);assert.equal(safe.sourcePath,'scripts/rcap-hosted-ordinary-participant.mjs');assert.equal(JSON.stringify(safe).includes('PRIVATE_SECRET'),false);
+ const observedActions=[...calls];calls.length=0;await assert.rejects(runOrdinaryParticipant(base),e=>e===failure);assert.deepEqual(calls,observedActions);assert.equal(checkpoints,0);
+});
