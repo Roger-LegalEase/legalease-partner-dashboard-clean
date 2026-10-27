@@ -246,23 +246,36 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
       const review=page.getByRole('button',{name:'Review packet facts',exact:true});
       const continueButton=await review.isVisible() ? review : page.getByRole('button',{name:'Save and continue',exact:true});
       await save('ordinary_packet_save_pending',{saveIndex:saves});
-      let request,saved,saveRequestObserved=false;
+      let request,saved;
+      const observed={buttonVisible:null,buttonEnabled:null,clickStarted:false,clickReturned:false,saveRequestObserved:false,responseObserved:false,responseStatus:null,responseWaitMatched:false,requestFailure:null};
+      const exactSaveRequest=r=>{try{const u=new URL(r.url());return r.method()==='POST'&&u.origin===origin&&u.pathname===endpoint&&!u.search&&!u.hash&&!u.username&&!u.password;}catch{return false;}};
+      const onSaveRequest=r=>{if(exactSaveRequest(r))observed.saveRequestObserved=true;};
+      const onSaveResponse=r=>{if(exactSaveRequest(r.request())){observed.responseObserved=true;const status=r.status();observed.responseStatus=Number.isInteger(status)&&status>=100&&status<=599?status:null;}};
+      const onSaveFailed=r=>{if(exactSaveRequest(r)){observed.saveRequestObserved=true;observed.requestFailure=r.failure()?.errorText==='net::ERR_ABORTED'?'netERR_ABORTED':'transport_other';}};
+      page.on('request',onSaveRequest);page.on('response',onSaveResponse);page.on('requestfailed',onSaveFailed);
       try {
+        observed.buttonVisible=await continueButton.isVisible();observed.buttonEnabled=await continueButton.isEnabled();
         [request,saved]=await Promise.all([
-          page.waitForRequest(r=>r.method()==='POST' && new URL(r.url()).pathname===endpoint).then(r=>{saveRequestObserved=true;return r;}),
-          page.waitForResponse(r=>matches(r,endpoint)),
-          continueButton.click()
+          page.waitForRequest(r=>r.method()==='POST' && new URL(r.url()).pathname===endpoint),
+          page.waitForResponse(r=>matches(r,endpoint)).then(r=>{observed.responseWaitMatched=true;return r;}),
+          (async()=>{observed.clickStarted=true;await continueButton.click();observed.clickReturned=true;})()
         ]);
-      } catch(error) {
+      } finally {
+        page.off('request',onSaveRequest);page.off('response',onSaveResponse);page.off('requestfailed',onSaveFailed);
         const validation=await page.locator("[data-packet-information-builder='active']").evaluate((node,knownIds)=>{
-          const invalid=[...node.querySelectorAll('[aria-invalid="true"]')].filter(element=>{
-            const box=element.getBoundingClientRect();return box.width>0&&box.height>0;
-          });
-          const ids=invalid.map(element=>element.closest('[data-packet-question]')?.getAttribute('data-packet-question'));
-          return {visibleInvalidControlCount:invalid.length,invalidQuestionIds:[...new Set(ids.filter(id=>knownIds.includes(id)))]};
+          const visible=element=>{const box=element.getBoundingClientRect();return box.width>0&&box.height>0;};
+          const invalid=[...node.querySelectorAll('[aria-invalid="true"]')].filter(visible);
+          const invalidIds=invalid.map(element=>element.closest('[data-packet-question]')?.getAttribute('data-packet-question'));
+          const errors=[...node.querySelectorAll('[role="alert"][id^="q-"][id$="-error"]')].filter(visible);
+          const requiredCopy=['Please answer this question. You can choose an unsure option when available.','Responda esta pregunta. Si no sabe la respuesta, puede elegir la opción que lo indica cuando esté disponible.'];
+          const reviewCopy=['Review this answer.','Revise esta respuesta.'];
+          const validationCodes=errors.map(element=>({questionId:element.id.slice(2,-6),code:requiredCopy.includes(element.textContent?.trim())?'required_answer':reviewCopy.includes(element.textContent?.trim())?'review_answer':'unrecognized_validation'})).filter(value=>knownIds.includes(value.questionId));
+          const knownQuestionIds=[...node.querySelectorAll('[data-packet-question]')].filter(visible).map(element=>element.getAttribute('data-packet-question')).filter(id=>knownIds.includes(id));
+          const requiredValidationQuestionIds=[...new Set(validationCodes.filter(value=>value.code==='required_answer').map(value=>value.questionId))];
+          return {visibleKnownQuestionIds:[...new Set(knownQuestionIds)],visibleInvalidControlCount:invalid.length,invalidQuestionIds:[...new Set(invalidIds.filter(id=>knownIds.includes(id)))],visibleValidationErrorCount:errors.length,requiredValidationQuestionIds,visibleRequiredValidationCount:requiredValidationQuestionIds.length,validationCodes};
         },Object.keys(MS_NONCONVICTION_PACKET_ANSWERS)).catch(()=>null);
-        await checkpoint({schemaVersion:'ordinary-packet-save-failure/v1',saveIndex:saves,saveRequestObserved,validationObservationAvailable:validation!==null,...validation});
-        throw error;
+        const classification=observed.responseObserved?(observed.responseWaitMatched?'response_matched':'response_unmatched'):observed.requestFailure?'post_failed':!observed.saveRequestObserved?(validation&&(validation.visibleInvalidControlCount>0||validation.visibleValidationErrorCount>0)?'client_validation':'button_no_post'):null;
+        await checkpoint({schemaVersion:'ordinary-packet-save-observation/v1',saveIndex:saves,...observed,classification,validationObservationAvailable:validation!==null,...validation});
       }
       const submitted=request.postDataJSON();
       assert.ok(Number.isInteger(submitted.expectedRevision));assert.ok(!submitted.verify);
