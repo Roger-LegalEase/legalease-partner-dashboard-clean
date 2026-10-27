@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {CLINIC,admitClinic,hash} from './rcap-hosted-existing-clinic-readonly.mjs';
+import {assertConsumerPurposeRelease} from './rcap-hosted-consumer-purpose-release.mjs';
+const count=value=>{assert(Array.isArray(value));return value.length;};
+export function projectClinicPacketInformation(response){
+ assert.equal(response.status,200);const body=response.json;assert(body&&typeof body==='object'&&!Array.isArray(body));assert.equal(body.ok,true);assert(Number.isSafeInteger(body.revision)&&body.revision>=0);assert(body.answers&&typeof body.answers==='object'&&!Array.isArray(body.answers));assert.equal(body.reviewPath,`/briefcase/${CLINIC.item}/review`);assert.equal(typeof body.readyToGenerate,'boolean');assert(['open_matter','continue_packet','review_packet'].includes(body.nextAction));assert(body.resumeSectionId===null||typeof body.resumeSectionId==='string');assert(typeof body.reviewReason==='string'||body.reviewReason===null);
+ return {packetInformationHttp:200,ownedReviewPathExact:true,revision:body.revision,answerKeyCount:Object.keys(body.answers).length,questionCount:count(body.questions),reviewQuestionCount:count(body.reviewQuestions),sectionCount:count(body.sections),missingInputCount:count(body.missingInputIds),pendingDerivationCount:count(body.pendingDerivations),recordClarificationCount:count(body.recordClarificationIds),courtRecordConflict:body.courtRecordConflict===true,resumeSectionPresent:typeof body.resumeSectionId==='string'&&body.resumeSectionId.length>0,readyToGenerate:body.readyToGenerate,nextAction:body.nextAction,reviewReasonSha256:body.reviewReason===null?null:hash(body.reviewReason),fundingAuthorityObserved:false,routeAuthorityObserved:false};
+}
+export async function reconcileClinicPacketInformation(config,native,io){
+ admitClinic(config,native);const release=await io.get('/api/rcap/release');assertConsumerPurposeRelease(release,'clinic_deploy');await io.login();const packet=await io.get(`/api/expungement-ai/briefcase/${CLINIC.item}/packet-information`);
+ return {schema:'saved-clinic-packet-information-readonly/v1',phase:'owned_packet_information_read_stop',applicationSha:CLINIC.app,workerDigest:CLINIC.digest,normalOwnerExact:true,...projectClinicPacketInformation(packet),customerWrites:0,newConsent:false,sessionRenewal:false,participantVerificationAllowed:false,checkoutAllowed:false,workerAllowed:false};
+}
