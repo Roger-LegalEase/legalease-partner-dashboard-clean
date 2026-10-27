@@ -13,7 +13,7 @@ assert(process.env.DTC_EXISTING_SESSION_STATE_FILE,'private existing-session fix
 const originalState=JSON.parse(fs.readFileSync(process.env.DTC_EXISTING_SESSION_STATE_FILE,'utf8'))[0];
 const blob=execFileSync('git',['show',CREDENTIAL_SOURCE.commit+':'+CREDENTIAL_SOURCE.path],{cwd:new URL('..',import.meta.url),stdio:['ignore','pipe','ignore']});
 const credentialsFor=readSavedDtcCredentials(blob),owner=await credentialsFor('owner');
-const inspection={submitDisabled:true,inspectionComplete:true,controls:[{name:'cardNumber',type:'input',required:true,missing:true,invalid:true,checked:null,unknownRequiredCheckbox:false,value:'PRIVATE_CARD_VALUE'},{name:'PRIVATE_FIELD_NAME',type:'checkbox',required:true,missing:true,invalid:true,checked:false,unknownRequiredCheckbox:true}]};
+const inspection={pageTotalClassifiedFree:true,submitDisabled:true,inspectionComplete:true,controls:[{name:'cardNumber',type:'input',required:true,missing:true,invalid:true,checked:null,unknownRequiredCheckbox:false,value:'PRIVATE_CARD_VALUE'},{name:'PRIVATE_FIELD_NAME',type:'checkbox',required:true,missing:true,invalid:true,checked:false,unknownRequiredCheckbox:true}]};
 function fixture(scenario='diagnostic'){
  const input={mode:'dtc_existing_session_no_pay_inspection',resume_matter_id:DTC.item,application_sha:DTC.app,tools_sha:DTC.tools,worker_source_sha:DTC.worker,worker_digest:DTC.digest,supabase_project_ref:DTC.project};
  const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'Roger-LegalEase/legalease-partner-dashboard-clean',GITHUB_REF_NAME:'codex/f-vercel-raw-readonly-20261026',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_RUN_ATTEMPT:'1',GITHUB_SHA:'a'.repeat(40),GITHUB_WORKFLOW_SHA:'a'.repeat(40),DISPATCH_INPUTS:JSON.stringify(input),SUPABASE_ACCESS_TOKEN:'PRIVATE_MANAGEMENT',GITHUB_TOKEN:'PRIVATE_GITHUB',STRIPE_SECRET_KEY:'sk_test_PRIVATE',VERCEL_AUTOMATION_BYPASS_SECRET:'PRIVATE_BYPASS'};
@@ -54,7 +54,7 @@ function assertSafe(f,result){
 }
 function stateSecret(){return originalState.verification_hash;}
 test('correct persisted session, actual source/hash, normal owner, safe callback then typed stop with no Pay',async()=>{
- const f=fixture();const result=await f.run();assert.equal(result.status,'EXISTING_SESSION_INSPECTED_NO_PAY');assert.equal(result.submitAttempted,false);assert.equal(result.beforePayObserved,true);assert.equal(result.inspection.submitDisabled,true);assert.equal(result.inspection.controls[1].name,'unrecognized_control');assert.equal(result.failureReason,'diagnostic_stop_before_pay');assert.equal(f.counts.auth,1);assert.equal(f.counts.browser,1);assert.equal(f.calls.length,6);assertSafe(f,result);
+ const f=fixture();const result=await f.run();assert.equal(result.status,'EXISTING_SESSION_INSPECTED_NO_PAY');assert.equal(result.submitAttempted,false);assert.equal(result.beforePayObserved,true);assert.equal(result.inspection.submitDisabled,true);assert.equal(result.inspection.pageTotalClassifiedFree,true);assert.equal(result.providerExpectedAmountCents,5000);assert.equal(result.inspection.controls[1].name,'unrecognized_control');assert.equal(result.failureReason,'diagnostic_stop_before_pay');assert.equal(f.counts.auth,1);assert.equal(f.counts.browser,1);assert.equal(f.calls.length,6);assertSafe(f,result);
 });
 for(const scenario of ['early-required','challenge'])test('existing browser refusal '+scenario+' stops once without requiring Pay callback',async()=>{const f=fixture(scenario),result=await f.run();assert.equal(result.status,'EXISTING_SESSION_INSPECTED_NO_PAY');assert.equal(result.beforePayObserved,false);assert.equal(result.submitAttempted,false);assertSafe(f,result);});
 for(const scenario of ['job-present','paid-database','wrong-session','intent-present','expired-session','wrong-release','wrong-credential-hash','wrong-auth-owner','key-timeout','http-checkpoint-failure','checkpoint-failure','unexpected-submit','dishonest-completion','browser-throws'])test('bounded refusal '+scenario+' has no customer forwarding/retry',async()=>{
@@ -66,4 +66,17 @@ test('CLI admission refusal writes exclusive mode600 result without network',asy
  const previousCwd=process.cwd(),previousFetch=globalThis.fetch,previousExit=process.exitCode,tmp=fs.mkdtempSync(path.join(os.tmpdir(),'dtc-no-pay-absence-'));let calls=0;
  try{process.chdir(tmp);fs.writeFileSync('vercel.json',JSON.stringify({git:{deploymentEnabled:{'codex/f-vercel-raw-readonly-20261026':false}}}));globalThis.fetch=async()=>{calls++;throw Error('No network');};const f=fixture();f.env.DISPATCH_INPUTS=JSON.stringify({...f.input,mode:'wrong'});const result=await main(f.env);assert.equal(result.status,'HOLD_NO_FORWARD');assert.equal(calls,0);const file='dtc-existing-session-no-pay-inspection-evidence/result.json';assert.equal(fs.statSync(file).mode&0o777,0o600);assert.equal(fs.statSync(path.dirname(file)).mode&0o777,0o700);}
  finally{process.chdir(previousCwd);globalThis.fetch=previousFetch;process.exitCode=previousExit;fs.rmSync(tmp,{recursive:true});}
+});
+
+test('actual helper preserves free-classification boolean without changing payment behavior',async()=>{
+ const {readCheckoutSubmitState}=await import('./rcap-saved-dtc-stripe-checkout-browser.mjs');
+ const page={mainFrame:()=>page,frames:()=>[page],locator:()=>({all:async()=>[]})};
+ for(const classifiedFree of [true,false]){
+  const state=await readCheckoutSubmitState(page,{isDisabled:async()=>true},classifiedFree);
+  assert.equal(state.pageTotalClassifiedFree,classifiedFree);assert.equal(safeSubmitInspection(state).pageTotalClassifiedFree,classifiedFree);
+ }
+ const source=fs.readFileSync(new URL('./rcap-saved-dtc-stripe-checkout-browser.mjs',import.meta.url),'utf8');
+ assert.equal((source.match(/submitInspection = await readCheckoutSubmitState\(page,/g)||[]).length,3);
+ assert.match(source,/first\(\), looksFree\)/);assert.match(source,/readCheckoutSubmitState\(page, null, looksFree\)/);assert.match(source,/readCheckoutSubmitState\(page, submit, looksFree\)/);
+ assert.match(source,/const looksFree = \/\\\$0\\\.00\/\.test\(amountText\)/);
 });

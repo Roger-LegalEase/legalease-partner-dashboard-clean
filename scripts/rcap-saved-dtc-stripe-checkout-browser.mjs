@@ -300,7 +300,7 @@ export async function bootstrapPreviewCheckoutReturn(context, expectedReturnUrl,
 }
 
 /** Read only safe control metadata; unknown names and all values stay in the browser. */
-export async function readCheckoutSubmitState(page, submit) {
+export async function readCheckoutSubmitState(page, submit, pageTotalClassifiedFree) {
   const controls = [];
   let inspectionComplete = true;
   const submitDisabled = submit ? await submit.isDisabled().catch(() => { inspectionComplete = false; return null; })
@@ -334,7 +334,7 @@ export async function readCheckoutSubmitState(page, submit) {
       if (state) controls.push(state);
     }
   }
-  return { submitDisabled, controls, inspectionComplete };
+  return { submitDisabled, controls, inspectionComplete, pageTotalClassifiedFree: typeof pageTotalClassifiedFree === "boolean" ? pageTotalClassifiedFree : null };
 }
 
 /**
@@ -500,7 +500,7 @@ export async function completeHostedCheckout({
       notes.push(`required fields need operator review: ${remaining.join(", ")}`);
       await shoot("required-fields-unfilled");
       submitInspection = await readCheckoutSubmitState(page,
-        page.locator('button[data-testid="hosted-payment-submit-button"], button[type="submit"]').first());
+        page.locator('button[data-testid="hosted-payment-submit-button"], button[type="submit"]').first(), looksFree);
       return { completed: false, humanInteractionRequired: true, failureReason: "required_fields_missing", submitAttempted, submitInspection, promotion, notes, screenshots };
     }
     await requireNoProviderChallenge(page);
@@ -516,7 +516,7 @@ export async function completeHostedCheckout({
     if (!submit) {
       notes.push("no submit control found on the Checkout page");
       await shoot("no-submit");
-      submitInspection = await readCheckoutSubmitState(page, null);
+      submitInspection = await readCheckoutSubmitState(page, null, looksFree);
       return { completed: false, humanInteractionRequired: false, failureReason: "submit_control_missing", submitAttempted, submitInspection, promotion, notes, screenshots };
     }
     const submitDisabled = await submit.isDisabled().catch(() => false);
@@ -525,7 +525,7 @@ export async function completeHostedCheckout({
     page.on('framenavigated', observeReturn);
     if (typeof beforeFinalPay !== 'function') throw new Error('Actual final payment window check required.');
     finalPayCheckStarted = true;
-    submitInspection = await readCheckoutSubmitState(page, submit);
+    submitInspection = await readCheckoutSubmitState(page, submit, looksFree);
     await beforeFinalPay(submitInspection);
     finalPayCheckPassed = true;
     await checkpointSubmit("provider_checkout_submit_before_forward");

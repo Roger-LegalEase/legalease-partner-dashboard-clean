@@ -14,8 +14,8 @@ const SAFE_NAMES=new Set(['unrecognized_control','email','cardNumber','cardExpir
 const REASONS=new Set(['diagnostic_stop_before_pay','required_fields_missing','submit_control_missing','card_not_supplied','provider_challenge','preview_bootstrap_failed','unexpected_destination','browser_operation_failed']);
 export function safeSubmitInspection(value){
  if(value===null||value===undefined)return null;
- assert(typeof value.inspectionComplete==='boolean');assert(value.submitDisabled===null||typeof value.submitDisabled==='boolean');assert(Array.isArray(value.controls)&&value.controls.length<=60);
- return {submitDisabled:value.submitDisabled,inspectionComplete:value.inspectionComplete,controls:value.controls.map(c=>{
+ assert(typeof value.inspectionComplete==='boolean');assert.equal(typeof value.pageTotalClassifiedFree,'boolean');assert(value.submitDisabled===null||typeof value.submitDisabled==='boolean');assert(Array.isArray(value.controls)&&value.controls.length<=60);
+ return {pageTotalClassifiedFree:value.pageTotalClassifiedFree,submitDisabled:value.submitDisabled,inspectionComplete:value.inspectionComplete,controls:value.controls.map(c=>{
   assert(['input','select','checkbox','radio'].includes(c.type));for(const k of ['required','missing','invalid','unknownRequiredCheckbox'])assert.equal(typeof c[k],'boolean');assert(c.checked===null||typeof c.checked==='boolean');
   return {name:SAFE_NAMES.has(c.name)?c.name:'unrecognized_control',type:c.type,required:c.required,missing:c.missing,invalid:c.invalid,checked:c.checked,unknownRequiredCheckbox:c.unknownRequiredCheckbox};
  })};
@@ -49,14 +49,14 @@ export async function inspectExistingDtcSession({env,fetcher,browser,checkpoint}
   phase='normal_owner_login';const actors=createNormalSavedActorPorts({fetcher:request,anonKey:anon[0].api_key,bypass:env.VERCEL_AUTOMATION_BYPASS_SECRET,credentialsFor,boundJobId:()=>null});await actors.verifyNormalOwner();const sessionCookies=await actors.ownerSessionCookies();
   phase='same_session_browser_inspection';await checkpoint({phase,sessionSha256:SESSION_SHA,submitAttempted:null,payAllowed:false});
   const result=await browser({checkoutUrl:session.url,expectedReturnUrl:session.success_url.replace('{CHECKOUT_SESSION_ID}',session.id),previewProtectionBypassSecret:env.VERCEL_AUTOMATION_BYPASS_SECRET,email:owner.email,sessionCookies,promotionCode:null,screenshotDir:null,onReturn:null,executablePath:'/usr/bin/google-chrome',
-   beforeFinalPay:async value=>{beforePayObserved=true;inspection=safeSubmitInspection(value);assert(inspection);submitAttempted=false;await checkpoint({phase:'before_final_pay_inspection',inspection,submitAttempted:false,payAllowed:false});stopCheckpointPersisted=true;const stop=new Error('Existing-session inspection stops before Pay.');stop.code='CHECKOUT_DIAGNOSTIC_STOP';throw stop;},
+   beforeFinalPay:async value=>{beforePayObserved=true;inspection=safeSubmitInspection(value);assert(inspection);submitAttempted=false;await checkpoint({phase:'before_final_pay_inspection',inspection,providerExpectedAmountCents:session.amount_total,submitAttempted:false,payAllowed:false});stopCheckpointPersisted=true;const stop=new Error('Existing-session inspection stops before Pay.');stop.code='CHECKOUT_DIAGNOSTIC_STOP';throw stop;},
    onSubmitCheckpoint:async value=>{unexpectedSubmitCheckpoint=true;submitAttempted=typeof value?.submitAttempted==='boolean'?value.submitAttempted:null;await checkpoint({phase:'unexpected_submit_checkpoint_refused',submitAttempted,payAllowed:false});throw new Error('Submission is not permitted by this inspection.');}
   });
   submitAttempted=typeof result?.submitAttempted==='boolean'?result.submitAttempted:null;
   assert.equal(unexpectedSubmitCheckpoint,false);assert.equal(result?.completed,false);assert.equal(submitAttempted,false);assert(REASONS.has(result.failureReason));
   if(beforePayObserved){assert(stopCheckpointPersisted);assert.equal(result.failureReason,'diagnostic_stop_before_pay');}else assert.notEqual(result.failureReason,'diagnostic_stop_before_pay');
   inspection=inspection??safeSubmitInspection(result.submitInspection);
-  return {schemaVersion:'exact-existing-dtc-no-pay-inspection/v1',status:'EXISTING_SESSION_INSPECTED_NO_PAY',...flags,providerSessionStatus:'open',providerPaymentStatus:'unpaid',paymentIntentPresent:false,jobCount:0,completed:false,humanInteractionRequired:typeof result.humanInteractionRequired==='boolean'?result.humanInteractionRequired:null,failureReason:result.failureReason,submitAttempted,beforePayObserved,inspection,observations};
+  return {schemaVersion:'exact-existing-dtc-no-pay-inspection/v1',status:'EXISTING_SESSION_INSPECTED_NO_PAY',...flags,providerExpectedAmountCents:session.amount_total,providerSessionStatus:'open',providerPaymentStatus:'unpaid',paymentIntentPresent:false,jobCount:0,completed:false,humanInteractionRequired:typeof result.humanInteractionRequired==='boolean'?result.humanInteractionRequired:null,failureReason:result.failureReason,submitAttempted,beforePayObserved,inspection,observations};
  }catch(error){return {schemaVersion:'exact-existing-dtc-no-pay-inspection/v1',status:'HOLD_NO_FORWARD',...flags,phase,errorClass:error?.name==='AssertionError'?'AssertionError':'Error',submitAttempted,beforePayObserved,unexpectedSubmitCheckpoint,inspection,observations};}
 }
 export async function main(env=process.env){
