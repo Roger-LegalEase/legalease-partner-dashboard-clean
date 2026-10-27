@@ -132,7 +132,8 @@ function sourcePlan(root,p){
  const controls=tools.successorInputs?tools.successorTools.files:{};
  for(const [rel,digest]of Object.entries(controls))assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'frozen successor control: '+rel);
  if(Object.hasOwn(p,'sourceRangeBaseSha')&&reviewed.length){
-  const frozen=reviewed.filter(rel=>!Object.hasOwn(runtime,rel)&&!Object.hasOwn(controls,rel));
+  // These three records validate their current tuple and complete predecessor separately.
+  const frozen=reviewed.filter(rel=>![PENDING,CANDIDATE,TOOLS].includes(rel)&&!Object.hasOwn(runtime,rel)&&!Object.hasOwn(controls,rel));
   if(frozen.length)assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...frozen]),'','reviewed source-range files cannot change after source approval');
  }
  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'HEAD','--',...plan.canonicalInputs]),'','control history cannot change worker inputs');
