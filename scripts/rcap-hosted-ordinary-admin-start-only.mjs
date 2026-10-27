@@ -12,6 +12,8 @@ export const START_ONLY = Object.freeze({
   payloadHash:'617fafd186895af99d5ceb7c5a63cd6483762ac97ca286059189e30aff6ae167',
   version:5
 });
+export const FINAL_START_ONLY=Object.freeze({...START_ONLY,app:'ed8d0902a99c5326f75987a942eb507b6cfb16cf',origin:'https://legalease-rcap-managed-ed8d0902a99c-roger947s-projects.vercel.app'});
+export function startOnlyProfile(app){assert([START_ONLY.app,FINAL_START_ONLY.app].includes(app),'Unknown Start application');return app===FINAL_START_ONLY.app?FINAL_START_ONLY:START_ONLY;}
 const sha=b=>createHash('sha256').update(b).digest('hex');
 // Literal code/message pairs come from the admitted 9aad API source, never participant text.
 const START_ERROR_CODES=new Set(['feature_disabled','unauthenticated','forbidden','workspace_not_found','commercially_blocked','invalid_input','revision_conflict','request_in_progress','duplicate_request','invalid_transition','required_asset_missing','persistence_failed','storage_failed','invalid_content_type','payload_too_large','invalid_json','invalid_origin','invalid_request_id']);
@@ -41,21 +43,24 @@ const MATERIALS=[
   ['implementation_brief','2ba6a142d46d43ba79ca3ad9623c031c99ca345aa8eabeabb88df371b62f9c47']
 ];
 
-export function admitStartOnlyTarget({creatorBytes,creatorRun,binding}) {
+export function admitStartOnlyTarget({creatorBytes,creatorRun,binding,creatorRunBytes,cAcceptanceBytes},profile=START_ONLY) {
+  assert(profile===START_ONLY||profile===FINAL_START_ONLY);const final=profile===FINAL_START_ONLY;
+  if(final){assert.equal(binding.nativeSha256,'61a8e2fa4bc6c9153553d6c30dcb18ab52ca5c4a150ba101729c8c9c8ca60c41');assert.equal(binding.deploymentId,'dpl_5F4mUgNDVuuooxcMou46C6SJPipX');assert.equal(sha(creatorRunBytes),'ca8997214cc6029d377fcad5b02731eefd58fc1e8eaa844d4bde8e02e98be9b2');assert.equal(sha(cAcceptanceBytes),'dc8847105382e6b388d0497899b58895aa5ad1fd51dcb1cd9e1c9f8ed2653570');}
   assert.match(binding.nativeSha256??'',/^[a-f0-9]{64}$/);assert.equal(sha(creatorBytes),binding.nativeSha256);
   assert.match(binding.carrierSha??'',/^[a-f0-9]{40}$/);assert.ok(Number.isSafeInteger(binding.runId)&&binding.runId>0);
   const n=JSON.parse(creatorBytes);
   for(const[k,v]of Object.entries({id:binding.runId,workflow_id:332448793,head_sha:binding.carrierSha,head_branch:'codex/f-vercel-raw-readonly-20261026',run_attempt:1,event:'workflow_dispatch',status:'completed',conclusion:'success'}))assert.equal(creatorRun[k],v);
   assert.equal(creatorRun.repository?.full_name,'Roger-LegalEase/legalease-partner-dashboard-clean');
   assert.equal(n.passed,true);assert.deepEqual(n.failedCases,[]);assert.equal(n.neverPassedProdFlag,true);assert.equal(n.neverWroteProjectLevelEnv,true);
-  assert.equal(n.applicationSha,START_ONLY.app);assert.equal(n.acceptanceProjectRef,'hyflxnlhpmiqxvvcoiia');assert.equal(n.previewUrl,START_ONLY.origin);
-  for(const[k,v]of Object.entries({phase:'managed_start_source_successor',carrierSha:binding.carrierSha,carrierWorkflowSha:binding.carrierSha,controllerSha:'3e755c9726184bba052bd985dcf2388b9cf8b79b',toolsSha:'c4a9eb13a51a1dba676c7716b5da022b98823418',runId:String(binding.runId),runAttempt:'1'}))assert.equal(n.purposeSource?.[k],v);
-  const d=n.deployment;assert.match(d?.id??'',/^dpl_[A-Za-z0-9]+$/);assert.equal(d.id,binding.deploymentId);assert.notEqual(d.id,'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt');assert.equal(d.readyState,'READY');assert.equal(d.target,null);assert.equal(d.gitSourceSha,START_ONLY.app);assert.equal(d.projectId,'prj_cdgwGzFqIHgEUlzEburSLaZETdQV');
-  for(const[k,v]of Object.entries({rcapApplicationSha:START_ONLY.app,rcapWorkerSourceSha:'32499751569359315248c2048fa111064a47c67f',rcapWorkerDigest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapPreviewPurpose:'managed_start',rcapReturnOrigin:START_ONLY.origin,rcapManagedSourceSuccessor:'ordinary-prepare-command-trace-v1',rcapSourcePredecessor:'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt',rcapOnboardingLaunchPrepEnabled:'true',rcapLaunchStudioEnabled:'false'}))assert.equal(d.metadata?.[k],v);
+  assert.equal(n.applicationSha,profile.app);assert.equal(n.acceptanceProjectRef,'hyflxnlhpmiqxvvcoiia');assert.equal(n.previewUrl,profile.origin);
+  for(const[k,v]of Object.entries({phase:'managed_start_source_successor',carrierSha:binding.carrierSha,carrierWorkflowSha:binding.carrierSha,controllerSha:final?'19404b5e7fcd044609edb700db01414bbd65d872':'3e755c9726184bba052bd985dcf2388b9cf8b79b',toolsSha:final?'a213d7aa125dbbedf788142c45142e942ca434cb':'c4a9eb13a51a1dba676c7716b5da022b98823418',runId:String(binding.runId),runAttempt:'1'}))assert.equal(n.purposeSource?.[k],v);
+  const d=n.deployment;assert.match(d?.id??'',/^dpl_[A-Za-z0-9]+$/);assert.equal(d.id,binding.deploymentId);assert.notEqual(d.id,'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt');assert.equal(d.readyState,'READY');assert.equal(d.target,null);assert.equal(d.gitSourceSha,profile.app);assert.equal(d.projectId,'prj_cdgwGzFqIHgEUlzEburSLaZETdQV');
+  for(const[k,v]of Object.entries({rcapApplicationSha:profile.app,rcapWorkerSourceSha:final?'84a75b6e65dc69e6c371afac44f1284e0debf722':'32499751569359315248c2048fa111064a47c67f',rcapWorkerDigest:final?'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1':'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapPreviewPurpose:'managed_start',rcapReturnOrigin:profile.origin,rcapManagedSourceSuccessor:final?'ordinary-program-native-trace-v2':'ordinary-prepare-command-trace-v1',rcapSourcePredecessor:final?'dpl_DVC1stkcRAySuJ33KxnfqEcKPR1D':'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt',rcapOnboardingLaunchPrepEnabled:'true',rcapLaunchStudioEnabled:'false'}))assert.equal(d.metadata?.[k],v);
+  if(final)assert.equal(d.metadata.rcapWorkerInputFingerprint,'sha256:6d082ab7f7f07745a0e69a886fb59e9d396e3aa29233422a072b16edbd794cc2');
   assert.equal(n.restCreation.creationCalls,1);assert.equal(n.restCreation.creationPostCount,1);assert.equal(n.restCreation.id,d.id);assert.equal(n.restCreation.readyState,'READY');
-  assert.equal(n.aliasAssignment.passed,true);assert.equal(n.aliasAssignment.deploymentId,d.id);assert.equal(n.aliasAssignment.hostname,new URL(START_ONLY.origin).hostname);assert.equal(n.aliasAssignment.target,null);
+  assert.equal(n.aliasAssignment.passed,true);assert.equal(n.aliasAssignment.deploymentId,d.id);assert.equal(n.aliasAssignment.hostname,new URL(profile.origin).hostname);assert.equal(n.aliasAssignment.target,null);
   assert.deepEqual(n.sourceSuccessorProtectedAfter,n.sourceSuccessorProtectedBefore);assert.ok(n.sourceSuccessorProtectedBefore);assert.equal(n.sourceSuccessorAliasInverse?.performed,false);assert.notEqual(n.sourceSuccessorAliasInverse?.blocked,true);
-  return{applicationSha:START_ONLY.app,origin:START_ONLY.origin,deploymentId:d.id,nativeCreatorVerified:true};
+  return{applicationSha:profile.app,origin:profile.origin,deploymentId:d.id,nativeCreatorVerified:true};
 }
 
 export function qualifyRetainedStartProof({before,review,poststate}) {
@@ -96,14 +101,15 @@ export function assertStartOnlyPrestate(current, retained) {
   for(const[type,hash]of MATERIALS){const m=current.currentMaterials.find(m=>m.type===type);assert.ok(m);assert.equal(m.hash,hash);assert.equal(m.version,1);assert.equal(m.sourceVersion,5);for(const k of ['approved','generated','notDrifted','notSuperseded'])assert.equal(m[k],true);}
 }
 
-export function createStartOnlyGate(plan, pending, checkpoint) {
+export function createStartOnlyGate(plan, pending, checkpoint,profile=START_ONLY) {
+  assert(profile===START_ONLY||profile===FINAL_START_ONLY);
   assert.equal(plan.kind,'operation'); assert.equal(plan.stage,'start');
   assert.equal(plan.endpoint,ROOT+'/program'); assert.equal(plan.body.action,'start');
   let used=false;
   return async request=>{
     assert.equal(used,false,'One Start forward only');
-    assert.equal(request.url,START_ONLY.origin+plan.endpoint);
-    assert.equal(request.originHeader,START_ONLY.origin);
+    assert.equal(request.url,profile.origin+plan.endpoint);
+    assert.equal(request.originHeader,profile.origin);
     // Normalize only this verified origin for the unchanged historical pure validator.
     const witness=assertPlannedRequest(plan,{...request,url:OLD_ORIGIN+plan.endpoint,originHeader:OLD_ORIGIN},pending);
     used=true; await checkpoint(witness); return witness;
@@ -112,11 +118,12 @@ export function createStartOnlyGate(plan, pending, checkpoint) {
 
 /** io uses the existing normal admin browser/API and protected read-only ports.
  * Admission must validate the new actual creator native before credentials are read. */
-export async function runOrdinaryStartOnly({retained},io) {
+export async function runOrdinaryStartOnly({retained,profile=START_ONLY},io) {
+  assert(profile===START_ONLY||profile===FINAL_START_ONLY);
   const old=qualifyRetainedStartProof(retained);
   for(const k of ['admitSourceTarget','signInExistingAdminOnce','readProtectedPoststate','readCurrentProgram','readMaterialDom','checkpoint','forwardNormalStart'])assert.equal(typeof io[k],'function',k);
-  const target=await io.admitSourceTarget({applicationSha:START_ONLY.app,origin:START_ONLY.origin,phase:'managed_start_source_successor'});
-  assert.equal(target.applicationSha,START_ONLY.app);assert.equal(target.origin,START_ONLY.origin);
+  const target=await io.admitSourceTarget({applicationSha:profile.app,origin:profile.origin,phase:'managed_start_source_successor'});
+  assert.equal(target.applicationSha,profile.app);assert.equal(target.origin,profile.origin);
   assert.match(target.deploymentId??'',/^dpl_[A-Za-z0-9]+$/);assert.notEqual(target.deploymentId,retained.before.deploymentId);
   assert.equal(target.nativeCreatorVerified,true);assert.equal(target.sourceBound,true);
   assert.equal(await io.signInExistingAdminOnce(),START_ONLY.admin);
@@ -132,9 +139,9 @@ export async function runOrdinaryStartOnly({retained},io) {
   const review=await io.readMaterialDom(pending.materials);
   const plan=nextMaterialsStartStep(input,review);assert.equal(plan.stage,'start');
   assert.deepEqual(plan.reviewSummary,retained.review.review,'Current material DOM must match both retained reviewed documents');
-  const request={url:START_ONLY.origin+plan.endpoint,method:'POST',originHeader:START_ONLY.origin,body:{...plan.body,requestId:START_ONLY.requestId}};
+  const request={url:profile.origin+plan.endpoint,method:'POST',originHeader:profile.origin,body:{...plan.body,requestId:START_ONLY.requestId}};
   assert.equal(sha(JSON.stringify(request.body)),START_ONLY.payloadHash,'Original Start payload changed; reconcile without forwarding');
-  const gate=createStartOnlyGate(plan,retained.before.request,witness=>io.checkpoint('start-only-before.json',{stage:'start_only_before_forward',target,request:witness,participantVerificationAllowed:false}));
+  const gate=createStartOnlyGate(plan,retained.before.request,witness=>io.checkpoint('start-only-before.json',{stage:'start_only_before_forward',target,request:witness,participantVerificationAllowed:false}),profile);
   await gate(request);
   let response, after, uncertain=false;
   try {
@@ -155,11 +162,12 @@ export async function runOrdinaryStartOnly({retained},io) {
   assert.deepEqual(after.screeningCapacity,old.screeningCapacity);
   assert.equal(after.launchPreparedCount,1);assert.equal(after.launchCompleteCount,1);
   assert.equal(after.ordinaryRegistrationCount,1);assert.equal(after.ordinaryExactMsRegistrationCount,1);
-  return {status:'normal_start_observed_stop',requestId:START_ONLY.requestId,applicationSha:START_ONLY.app,deploymentId:target.deploymentId,prepareForwards:0,startForwards:1,participantVerificationAllowed:false};
+  return {status:'normal_start_observed_stop',requestId:START_ONLY.requestId,applicationSha:profile.app,deploymentId:target.deploymentId,prepareForwards:0,startForwards:1,participantVerificationAllowed:false};
 }
 
 /** Existing runner supplies and closes its browser context; no browser install or alternate login. */
-export async function createStartOnlyBrowserIo({context,admitSourceTarget,readProtectedPoststate,checkpoint,bypass,credentialReader=readPinnedAdminCredentials}) {
+export async function createStartOnlyBrowserIo({context,admitSourceTarget,readProtectedPoststate,checkpoint,bypass,credentialReader=readPinnedAdminCredentials,profile=START_ONLY}) {
+  assert(profile===START_ONLY||profile===FINAL_START_ONLY);
   for(const f of [admitSourceTarget,readProtectedPoststate,checkpoint,credentialReader])assert.equal(typeof f,'function');
   assert.ok(typeof bypass==='string'&&bypass.trim()&&!/[\r\n]/.test(bypass));
   const authOrigin='https://hyflxnlhpmiqxvvcoiia.supabase.co';
@@ -167,22 +175,22 @@ export async function createStartOnlyBrowserIo({context,admitSourceTarget,readPr
   await context.route('**/*',async route=>{
     const r=route.request(),u=new URL(r.url());
     if(u.origin===OLD_ORIGIN)return route.abort('blockedbyclient');
-    let normalized=u.origin===START_ONLY.origin?OLD_ORIGIN+u.pathname+u.search:r.url();
-    if(u.origin===START_ONLY.origin&&u.searchParams.has('dpl')){
+    let normalized=u.origin===profile.origin?OLD_ORIGIN+u.pathname+u.search:r.url();
+    if(u.origin===profile.origin&&u.searchParams.has('dpl')){
       if(!admittedDeploymentId||u.search!=='?dpl='+admittedDeploymentId||!/^\/_next\/static\/chunks\/[A-Za-z0-9_.~/-]+\.(?:js|css)$/.test(u.pathname))return route.abort('blockedbyclient');
       normalized=OLD_ORIGIN+u.pathname+'?dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF';
     }
     let allowed=requestAllowed(normalized,r.method(),authPosts);
-    if(r.method()==='POST'&&u.origin===START_ONLY.origin){
+    if(r.method()==='POST'&&u.origin===profile.origin){
       allowed=false;
-      if(authorized&&startPosts===0&&r.url()===authorized.url&&r.headers().origin===START_ONLY.origin){
+      if(authorized&&startPosts===0&&r.url()===authorized.url&&r.headers().origin===profile.origin){
         try{assert.deepEqual(r.postDataJSON(),authorized.body);startPosts++;authorized=null;allowed=true;}catch{}
       }
     }
     if(!allowed)return route.abort('blockedbyclient');
     if(r.method()==='POST'&&u.origin===authOrigin)authPosts++;
     const headers={...r.headers()};delete headers['x-vercel-protection-bypass'];
-    if(u.origin===START_ONLY.origin){headers['x-vercel-protection-bypass']=bypass;headers['x-vercel-skip-toolbar']='1';}
+    if(u.origin===profile.origin){headers['x-vercel-protection-bypass']=bypass;headers['x-vercel-skip-toolbar']='1';}
     return route.continue({headers});
   });
   await context.addInitScript(()=>window.addEventListener('submit',event=>{const f=event.target;if(location.pathname==='/expungement-ai/sign-in'&&f instanceof HTMLFormElement&&f.querySelector('input[name="password"]')&&!event.defaultPrevented)event.preventDefault();}));
@@ -190,23 +198,23 @@ export async function createStartOnlyBrowserIo({context,admitSourceTarget,readPr
     admitSourceTarget:async expected=>{
       const native=await admitSourceTarget(expected);
       // The runtime read supplements the creator native; it never replaces that admission.
-      assert.equal(native.applicationSha,START_ONLY.app);assert.equal(native.origin,START_ONLY.origin);assert.equal(native.nativeCreatorVerified,true);
+      assert.equal(native.applicationSha,profile.app);assert.equal(native.origin,profile.origin);assert.equal(native.nativeCreatorVerified,true);
       assert.match(native.deploymentId??'',/^dpl_[A-Za-z0-9]+$/);admittedDeploymentId=native.deploymentId;
       page=await context.newPage();
-      const r=await page.goto(START_ONLY.origin+'/api/rcap/release',{waitUntil:'domcontentloaded'});
+      const r=await page.goto(profile.origin+'/api/rcap/release',{waitUntil:'domcontentloaded'});
       assert.equal(r.status(),200);const body=await r.json();
-      assert.equal(body.application,'RCAP 2.0');assert.equal(body.policyVersion,'rcap2.2');assert.equal(body.buildSha,START_ONLY.app);assert.equal(body.runtimeSha,START_ONLY.app);assert.equal(body.sourceBound,true);
+      assert.equal(body.application,'RCAP 2.0');assert.equal(body.policyVersion,'rcap2.2');assert.equal(body.buildSha,profile.app);assert.equal(body.runtimeSha,profile.app);assert.equal(body.sourceBound,true);
       return{...native,sourceBound:true};
     },
     signInExistingAdminOnce:async()=>{
       assert.ok(page);assert.equal(authPosts,0);
-      await page.goto(START_ONLY.origin+'/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase',{waitUntil:'domcontentloaded'});
+      await page.goto(profile.origin+'/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase',{waitUntil:'domcontentloaded'});
       await page.locator('form[data-handler-ready="true"]').waitFor({state:'attached'});
       let credentials=credentialReader();await page.locator('input[name="email"]').fill(credentials.email);await page.locator('input[name="password"]').fill(credentials.password);credentials=null;
       const token=page.waitForResponse(r=>r.url().startsWith(authOrigin+'/auth/v1/token?')&&r.request().method()==='POST');
       await page.getByRole('button',{name:'Sign in',exact:true}).click();const response=await token;assert.equal(response.status(),200);
       const session=await response.json();assert.equal(session.user?.id,START_ONLY.admin);assert.equal(authPosts,1);
-      await page.waitForURL(u=>u.origin===START_ONLY.origin&&u.pathname==='/briefcase');return session.user.id;
+      await page.waitForURL(u=>u.origin===profile.origin&&u.pathname==='/briefcase');return session.user.id;
     },
     readProtectedPoststate,
     readCurrentProgram:async()=>{
@@ -217,13 +225,13 @@ export async function createStartOnlyBrowserIo({context,admitSourceTarget,readPr
       snapshot={configuration:rows.configuration.configuration,operations:rows.program.operations};return snapshot;
     },
     readMaterialDom:async materials=>{
-      const r=await page.goto(START_ONLY.origin+'/internal/partners/onboarding/'+SLUG,{waitUntil:'domcontentloaded'});assert.equal(r.status(),200);
+      const r=await page.goto(profile.origin+'/internal/partners/onboarding/'+SLUG,{waitUntil:'domcontentloaded'});assert.equal(r.status(),200);
       const rows=[];for(const m of materials){const node=page.locator(`[data-material-id="${m.id}"]`);await node.waitFor({state:'visible'});const text=(await node.innerText()).trim();rows.push({id:await node.getAttribute('data-material-id'),attributeVersion:Number(await node.getAttribute('data-material-version')),attributeHash:await node.getAttribute('data-material-hash'),visible:await node.isVisible(),textLength:text.length,textSha256:sha(text)});}
       return{actualContentRead:true,sourceVersion:snapshot.operations.view.version,scopeHash:snapshot.operations.view.decision.scopeHash,reviewToken:snapshot.operations.view.reviewToken,rows};
     },
     checkpoint,
     forwardNormalStart:async request=>{
-      assert.equal(startPosts,0);assert.equal(authorized,null);assert.equal(request.url,START_ONLY.origin+ROOT+'/program');assert.equal(request.method,'POST');assert.equal(request.body.action,'start');
+      assert.equal(startPosts,0);assert.equal(authorized,null);assert.equal(request.url,profile.origin+ROOT+'/program');assert.equal(request.method,'POST');assert.equal(request.body.action,'start');
       authorized=request;
       const response=await page.evaluate(async input=>{const r=await fetch(input.path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(input.body),redirect:'manual'});let body=null;try{body=await r.json();}catch{}return{status:r.status,body};},{path:ROOT+'/program',body:request.body});
       assert.equal(startPosts,1);return response;
