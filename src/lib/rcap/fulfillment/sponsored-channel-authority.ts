@@ -85,29 +85,72 @@ export function currentSponsoredChannelAllowed(
   });
 }
 
+// Temporary diagnostic source: remove before final worker-compatible application.
+const ordinaryDiagnosticKeys = ["preview_env", "single_jurisdiction", "grant_found", "grant_digest", "approved", "production_closed", "public_closed", "payment_closed", "hosted_full_closed", "event_id_null", "event_name_null", "jurisdiction_matches", "project_url", "public_url_matches", "channel", "runtime_route_state", "grant_route_state", "scope_exact", "scope_digest"] as const;
+type OrdinaryDiagnosticKey = typeof ordinaryDiagnosticKeys[number];
+type OrdinaryDiagnostic = {
+  predicates: Record<OrdinaryDiagnosticKey, boolean | null>;
+  artifacts: { readable: boolean | null; hashMatches: boolean | null; filesystemCode: string | null }[];
+};
+export function diagnoseOrdinarySponsoredRouteRegistration(partnerSlug: string, jurisdictions: readonly string[]) {
+  const observation: OrdinaryDiagnostic = {
+    predicates: Object.fromEntries(ordinaryDiagnosticKeys.map(key => [key, null])) as OrdinaryDiagnostic["predicates"],
+    artifacts: Array.from({length: 3}, () => ({readable: null, hashMatches: null, filesystemCode: null}))
+  };
+  const registration = prepareOrdinarySponsoredRouteRegistration(partnerSlug, jurisdictions, process.env, observation);
+  return { schema: "ordinary-sponsored-guard-diagnostic/v1", passed: registration !== null, ...observation };
+}
+
 /** Prepares an exact scope registration for normal Start; it grants no participant entitlement. */
 export function prepareOrdinarySponsoredRouteRegistration(
   partnerSlug: string, jurisdictions: readonly string[],
-  env: Readonly<Record<string, string | undefined>> = process.env
+  env: Readonly<Record<string, string | undefined>> = process.env,
+  observation?: OrdinaryDiagnostic
 ) {
-  if (env.VERCEL_ENV !== "preview" || jurisdictions.length !== 1) return null;
+  const check = (key: OrdinaryDiagnosticKey, passing: boolean) => {
+    if (observation) observation.predicates[key] = passing;
+    return passing;
+  };
+  if (!check("preview_env", env.VERCEL_ENV === "preview") || !check("single_jurisdiction", jurisdictions.length === 1)) return null;
   const grant = sponsoredChannelDecisions.find(candidate => "acquisitionMode" in candidate
     && candidate.acquisitionMode === "partner" && candidate.partnerSlug === partnerSlug);
-  if (!grant || !decisionDigests.has(sha256(JSON.stringify(grant)))
-    || grant.approved !== true || grant.productionAuthorized !== false
-    || grant.publicLaunchAuthorized !== false || grant.liveConsumerPaymentAuthorized !== false
-    || grant.hostedFullAuthorized !== false || grant.eventId !== null || grant.eventName !== null
-    || jurisdictions[0] !== grant.routeId.split(":")[0]
-    || env.SUPABASE_URL !== `https://${grant.acceptanceProjectRef}.supabase.co`
-    || env.NEXT_PUBLIC_SUPABASE_URL !== env.SUPABASE_URL
-    || env.RCAP_SPONSORED_PREVIEW_CHANNEL !== grant.channel
-    || env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE !== "staging_scoped"
-    || grant.routeState !== "staging_scoped"
-    || env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE !== grant.participantUserIds.join(",")
-    || sha256(env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE) !== grant.participantScopeSha256) return null;
+  if (!check("grant_found", Boolean(grant)) || !grant) return null;
+  if (!check("grant_digest", decisionDigests.has(sha256(JSON.stringify(grant))))
+    || !check("approved", grant.approved === true)
+    || !check("production_closed", grant.productionAuthorized === false)
+    || !check("public_closed", grant.publicLaunchAuthorized === false)
+    || !check("payment_closed", grant.liveConsumerPaymentAuthorized === false)
+    || !check("hosted_full_closed", grant.hostedFullAuthorized === false)
+    || !check("event_id_null", grant.eventId === null)
+    || !check("event_name_null", grant.eventName === null)
+    || !check("jurisdiction_matches", jurisdictions[0] === grant.routeId.split(":")[0])
+    || !check("project_url", env.SUPABASE_URL === `https://${grant.acceptanceProjectRef}.supabase.co`)
+    || !check("public_url_matches", env.NEXT_PUBLIC_SUPABASE_URL === env.SUPABASE_URL)
+    || !check("channel", env.RCAP_SPONSORED_PREVIEW_CHANNEL === grant.channel)
+    || !check("runtime_route_state", env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE === "staging_scoped")
+    || !check("grant_route_state", grant.routeState === "staging_scoped")
+    || !check("scope_exact", env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE === grant.participantUserIds.join(","))
+    || !check("scope_digest", sha256(env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE!) === grant.participantScopeSha256)) return null;
+  let artifactIndex = 0;
   try {
-    if (!grant.artifacts.every(artifact => sha256(fs.readFileSync(artifact.path)) === artifact.sha256)) return null;
-  } catch { return null; }
+    if (!grant.artifacts.every((artifact, index) => {
+      artifactIndex = index;
+      const bytes = fs.readFileSync(artifact.path);
+      const matches = sha256(bytes) === artifact.sha256;
+      if (observation?.artifacts[index]) {
+        observation.artifacts[index].readable = true;
+        observation.artifacts[index].hashMatches = matches;
+      }
+      return matches;
+    })) return null;
+  } catch (error) {
+    if (observation?.artifacts[artifactIndex]) {
+      observation.artifacts[artifactIndex].readable = false;
+      const code = (error as NodeJS.ErrnoException | null)?.code;
+      observation.artifacts[artifactIndex].filesystemCode = ["ENOENT", "EACCES", "EPERM", "EISDIR", "ENOTDIR", "EIO"].includes(code ?? "") ? code! : "OTHER";
+    }
+    return null;
+  }
   return {
     schema: "rcap-ordinary-sponsored-route-registration/v1",
     decisionId: grant.decisionId,
