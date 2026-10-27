@@ -180,6 +180,12 @@ jobs:
           JS
       - name: Reuse existing locked browser dependencies without builds or browser installation
         run: npm ci --ignore-scripts
+      - name: Authenticate existing read-only registry custody
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
       - name: Prepare only the accepted immutable worker image without starting a container
         run: docker pull ghcr.io/roger-legalease/rcap-render-worker@sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494
       - name: Read only the accepted native Clinic target and successful run metadata
