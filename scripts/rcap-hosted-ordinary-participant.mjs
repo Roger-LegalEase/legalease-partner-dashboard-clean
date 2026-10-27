@@ -63,8 +63,12 @@ export function assertOrdinarySavedState(row, itemId, sessionId, enqueued = fals
   assert.equal(j.attempt_count, 0); assert.equal(j.output_storage_path, null); assert.equal(j.output_sha256, null);
 }
 
-export function ordinaryRequestAllowed({url,method,body}, {origin,targetItemId,generationAllowed,generationCount}) {
+export function ordinaryRequestAllowed({url,method,body}, {origin,targetItemId,sessionId,generationAllowed,generationCount}) {
   const u=new URL(url);
+  if(method==='PUT')return u.origin===origin&&!u.username&&!u.password&&!u.hash&&!u.search&&u.pathname==='/api/expungement-ai/screening/progress'
+    &&uuid(sessionId)&&body?.sessionId===sessionId&&Object.keys(body).sort().join(',')==='answers,currentQuestionId,profileVersion,sessionId,version'
+    &&body.answers!==null&&typeof body.answers==='object'&&!Array.isArray(body.answers)&&typeof body.currentQuestionId==='string'&&body.currentQuestionId.length>0
+    &&typeof body.profileVersion==='string'&&body.profileVersion.length>0&&hash(body.version);
   if (/(^|\.)stripe\.com$/i.test(u.hostname) || /\/(checkout|stripe)(\/|$)/i.test(u.pathname) || /\/api\/rcap\/packets\/[^/]+\/download$/.test(u.pathname) || /^\/api\/expungement-ai\/packet\/(download(?:-link)?|render)(?:\/|$)/.test(u.pathname)) return false;
   if (method==='POST' && u.pathname==='/api/expungement-ai/packet/generate') return u.origin===origin && generationAllowed===true && generationCount===1 && uuid(targetItemId) && body?.briefcaseItemId===targetItemId && Object.keys(body).length===1;
   return true;
@@ -90,6 +94,34 @@ SELECT current_database() AS database_name,current_user AS database_user,current
  FROM public.consumer_pending_screening_results p JOIN public.consumer_briefcase_items i ON i.id=p.claimed_matter_id AND i.source_pending_result_id=p.pending_id
  WHERE p.anonymous_session_id='${sessionId}' AND p.status='CLAIMED' AND p.claimed_user_id=i.user_id) AS matches; COMMIT;`;
 }
+
+// Resume only the accepted empty session checkpoint; never reserve another slot.
+const EMPTY_SESSION_ID='951130b5-c793-48b1-ab4c-a1e6404d42e3';
+const EMPTY_SESSION_REQUEST_ID='1f45c858-8d6b-459d-a761-40a4fc4019da';
+export function ordinaryEmptySessionReconciliationSql(sessionId){
+  assert.equal(sessionId,EMPTY_SESSION_ID,'Only the actual preserved empty screening may resume');
+  return `BEGIN READ ONLY; SET LOCAL statement_timeout='15s'; SELECT current_database() AS database_name,current_user AS database_user,now() AS observed_at,current_setting('transaction_read_only') AS read_only,
+    s.session_id,s.created_at,s.updated_at,s.jurisdiction,s.partner_slug,s.flow_mode,s.status,s.claimed_slot_state,s.partner_benefit_active,s.current_question_id,s.furthest_stage,s.last_drop_question,
+    (SELECT count(*) FROM jsonb_object_keys(coalesce(s.answers,'{}'::jsonb))) AS answer_count,
+    (SELECT coalesce(jsonb_agg(k ORDER BY k),'[]'::jsonb) FROM jsonb_object_keys(coalesce(s.answers,'{}'::jsonb)) k) AS answer_ids,
+    encode(extensions.digest(convert_to(coalesce(s.answers,'{}'::jsonb)::text,'utf8'),'sha256'),'hex') AS answers_sha256,
+    s.resume_email IS NOT NULL AS has_resume_email,s.resume_token_hash IS NOT NULL AS has_resume_token,s.entry_request_hash IS NOT NULL AS has_entry_request_hash,s.entry_request_fingerprint IS NOT NULL AS has_entry_fingerprint,
+    (SELECT count(*) FROM public.consumer_pending_screening_results p WHERE p.anonymous_session_id::text=s.session_id::text) AS pending_count,
+    (SELECT count(*) FROM public.consumer_briefcase_items i WHERE i.source_session_id::text=s.session_id::text) AS claimed_item_count,
+    (SELECT count(*) FROM public.packet_render_jobs j WHERE j.sponsored_session_id::text=s.session_id::text) AS job_count,
+    (SELECT count(*) FROM public.clinic_assisted_sessions c WHERE c.screening_session_id::text=s.session_id::text) AS clinic_association_count
+    FROM public.screening_sessions s WHERE s.session_id='${sessionId}'; COMMIT;`;
+}
+export function assertEmptyOrdinarySessionResume(custody,row){
+  assert.equal(custody.stage,'ordinary_session_started');assert.equal(custody.sessionId,EMPTY_SESSION_ID);assert.equal(custody.intakeRequestId,EMPTY_SESSION_REQUEST_ID);
+  assert.equal(custody.sourceBindingSha256,'f89b4595532bcefd72fe06b67505370858d9e96e73c11f9b677cfd48b3076d34');assert.equal(custody.itemId,null);assert.equal(custody.firstEnqueueCapableActionAt,null);assert.equal(custody.generationRequests,0);
+  for(const[k,v]of Object.entries({read_only:'on',database_name:'postgres',database_user:'postgres',session_id:EMPTY_SESSION_ID,jurisdiction:'MS',partner_slug:ORDINARY_PARTNER,flow_mode:'rcap',status:'in_progress',claimed_slot_state:'claimed',partner_benefit_active:true,current_question_id:null,furthest_stage:null,last_drop_question:null,has_resume_email:false,has_resume_token:false,has_entry_request_hash:true,has_entry_fingerprint:true}))assert.equal(row[k],v,k);
+  for(const k of ['answer_count','pending_count','claimed_item_count','job_count','clinic_association_count'])assert.equal(row[k],0,k);
+  assert.deepEqual(row.answer_ids,[]);assert.equal(row.answers_sha256,'44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a');
+  const created=Date.parse(row.created_at);assert(Number.isFinite(created));assert.equal(Date.parse(row.updated_at),created);
+  const observed=Date.parse(row.observed_at);assert(Number.isFinite(observed)&&observed<=Date.now()&&Date.now()-observed<120000,'Fresh exact-session reconciliation required');
+}
+
 function assertCustody(record,binding) {
   assert.equal(record?.schema,'ordinary-participant-private-custody/v1');
   for(const key of ['origin','applicationSha','deploymentId','sourceBindingSha256'])assert.equal(record[key],binding[key],'Custody belongs to a different admitted release');
@@ -110,7 +142,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
   let sessionId=previous?.sessionId??null,targetItemId=previous?.itemId??null,intakeRequestId=previous?.intakeRequestId??null;
   let firstEnqueueCapableActionAt=previous?.firstEnqueueCapableActionAt??null,generationRequests=previous?.generationRequests??0;
   if(previous&&!targetItemId)assert.ok(uuid(sessionId),'Uncertain intake requires native reconciliation; never start again');
-  let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false;
+  let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false,resumeEmptySession=false;
   const save=async(stage,details={})=>{
     const record={schema:'ordinary-participant-private-custody/v1',origin,applicationSha:binding.applicationSha,deploymentId:binding.deploymentId,sourceBindingSha256:binding.sourceBindingSha256,participantUserId:ORDINARY_PARTICIPANT,partnerSlug:ORDINARY_PARTNER,sessionId,itemId:targetItemId,intakeRequestId,firstEnqueueCapableActionAt,generationRequests,stage,...details};
     await checkpoint(record);assert.deepEqual(await loadCustody(),record,'Private checkpoint must be durable before forwarding');return record;
@@ -122,12 +154,12 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     const generate=method==='POST'&&u.pathname==='/api/expungement-ai/packet/generate';
     if(generate){generationCount++;generationRequests++;}
     let body=null;try{body=request.postDataJSON();}catch{}
-    if(!ordinaryRequestAllowed({url:request.url(),method,body},{origin,targetItemId,generationAllowed,generationCount:generationRequests})||await authorizeRequest(request,{origin,participantUserId:ORDINARY_PARTICIPANT,targetItemId,sessionId})!==true){unexpectedRequest=true;await route.abort();return;}
+    if(!ordinaryRequestAllowed({url:request.url(),method,body},{origin,targetItemId,sessionId,generationAllowed,generationCount:generationRequests})||await authorizeRequest(request,{origin,participantUserId:ORDINARY_PARTICIPANT,targetItemId,sessionId})!==true){unexpectedRequest=true;await route.abort();return;}
     if(method==='POST'&&u.origin===origin&&u.pathname==='/api/expungement-ai/screening/pending'){
-      pendingCount++;if(previous||pendingCount!==1||body?.anonymousSessionId!==sessionId){unexpectedRequest=true;await route.abort();return;}
+      pendingCount++;if((previous&&!resumeEmptySession)||pendingCount!==1||body?.anonymousSessionId!==sessionId){unexpectedRequest=true;await route.abort();return;}
     }
     if(method==='POST'&&u.origin===origin&&u.pathname==='/api/expungement-ai/screening/pending/claim'){
-      claimCount++;if(previous||claimCount!==1){unexpectedRequest=true;await route.abort();return;}
+      claimCount++;if((previous&&!resumeEmptySession)||claimCount!==1){unexpectedRequest=true;await route.abort();return;}
     }
     if(generate)await save('ordinary_generate_before_forward');
     if(!originalResponseOperation(request,config))return route.fallback();
@@ -152,21 +184,36 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
       if(!targetItemId){
         assert.ok(uuid(sessionId),'Uncertain intake requires native reconciliation; never start again');
         const reconciled=await readNative(ordinaryClaimReconciliationSql(sessionId));
-        assert.equal(reconciled.transaction_read_only,'on');assert.equal(reconciled.database_name,'postgres');assert.equal(reconciled.database_user,'postgres');assert.equal(reconciled.matches?.length,1,'Uncertain or unclaimed result must not repeat screening or claim');
+        assert.equal(reconciled.transaction_read_only,'on');assert.equal(reconciled.database_name,'postgres');assert.equal(reconciled.database_user,'postgres');assert.ok(Array.isArray(reconciled.matches));
+        if(reconciled.matches.length===0&&previous.stage==='ordinary_session_started'){
+          const native=await readNative(ordinaryEmptySessionReconciliationSql(sessionId));assertEmptyOrdinarySessionResume(previous,native);resumeEmptySession=true;
+        }else{
+        assert.equal(reconciled.matches.length,1,'Uncertain result must not repeat screening or claim');
         const matched=reconciled.matches[0];assert.equal(matched.sessionId,sessionId);assert.equal(matched.owner,ORDINARY_PARTICIPANT);assert.equal(matched.partnerSlug,ORDINARY_PARTNER);assert.equal(matched.product,'rcap_partner');assert.equal(matched.eventId,null);assert.equal(matched.status,'CLAIMED');assertNewOrdinaryMatter(matched.itemId);targetItemId=matched.itemId;
         await save('ordinary_claim_reconciled_same_owned_case');
+        }
       }
-    }else{
+    }
+    if(!previous||resumeEmptySession){
+      let captured;
+      if(resumeEmptySession){
+        captured=await openScreeningWithProfile(page,config,async()=>{
+          const response=await page.goto(`${origin}/expungement-ai/screening/ms?session=${sessionId}`);assert.equal(response.status(),200);
+          await page.waitForURL(u=>u.origin===origin&&u.pathname==='/expungement-ai/screening/ms'&&u.searchParams.getAll('session').length===1&&u.searchParams.get('session')===sessionId);
+          await save('ordinary_empty_session_resumed');
+        });
+      }else{
       await phase('public_landing_navigation');const landing=await page.goto(`${origin}/p/${ORDINARY_PARTNER}`);assert.equal(landing.status(),200);
       await phase('intake_get_navigation');await page.locator(`a[href="/intake/${ORDINARY_PARTNER}"]`).first().click();await page.waitForURL(u=>u.origin===origin&&u.pathname===`/intake/${ORDINARY_PARTNER}`);
       await phase('intake_request_id_read');intakeRequestId=await page.locator('input[name="requestId"]').inputValue();assert.ok(uuid(intakeRequestId));
       await phase('before_durable_intake_checkpoint');
       await save('ordinary_before_intake_start');
-      const captured=await openScreeningWithProfile(page,config,async()=>{
+      captured=await openScreeningWithProfile(page,config,async()=>{
         await page.getByRole('button',{name:'Start free screening',exact:true}).click();
         await page.waitForURL(u=>u.origin===origin&&u.pathname==='/expungement-ai/screening/ms');
         const url=new URL(page.url());assert.equal(url.searchParams.getAll('session').length,1);sessionId=url.searchParams.get('session');assert.ok(uuid(sessionId));await save('ordinary_session_started');
       });
+      }
       try{const screening=await runScreeningFromOriginalProfile(page,captured);await save('ordinary_screening_completed',{answeredQuestionIds:screening.answeredQuestionIds,omittedQuestionIds:screening.omittedQuestionIds});}finally{captured.dispose();}
       await page.locator('[data-partner-context="saved"]').waitFor();await save('ordinary_before_pending_and_claim');
       const {claimed}=await saveScreeningAndClaim(page,config);assertNewOrdinaryMatter(claimed.matterId);assert.equal(claimed.redirectTo,`/briefcase/matters/${claimed.matterId}`);
