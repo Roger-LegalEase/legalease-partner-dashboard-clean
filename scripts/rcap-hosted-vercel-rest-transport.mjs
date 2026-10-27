@@ -1,7 +1,7 @@
 import {fileURLToPath} from 'node:url';
 import {loadPreviewTransportIdentity} from './grade-a-launch-control/require-preview-preparation.mjs';
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
-import {HOSTED_ORDINARY_PREVIEW, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
+import {HOSTED_ORDINARY_PREVIEW, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-managed-preview-vercel-identity.mjs';
 
 // Preview source is the validated release candidate's application, independent
 // of its reusable worker source and later tools commit. Read the canonical

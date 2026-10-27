@@ -41,7 +41,7 @@ import {
   HOSTED_ORDINARY_PREVIEW,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
-} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+} from "./rcap-managed-preview-vercel-identity.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });

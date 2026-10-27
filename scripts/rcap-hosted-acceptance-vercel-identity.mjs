@@ -22,8 +22,8 @@ export function expectedHostedReturnOrigin(applicationSha, previewPurpose = "") 
   // A SHA-scoped Preview alias is known before `next build`, so Checkout
   // return URLs can be baked into one exact deployment without naming
   // Production or a mutable shared alias.
-  if (!["", "none", "mississippi_clinic", "managed_start"].includes(previewPurpose)) throw new Error("unsupported hosted return-origin purpose");
-  const purpose = previewPurpose === "mississippi_clinic" ? "clinic-" : previewPurpose === "managed_start" ? "managed-" : "";
+  if (!["", "none", "mississippi_clinic"].includes(previewPurpose)) throw new Error("unsupported hosted return-origin purpose");
+  const purpose = previewPurpose === "mississippi_clinic" ? "clinic-" : "";
   return `https://legalease-rcap-${purpose}${applicationSha.slice(0, 12)}-${HOSTED_VERCEL_TEAM_SLUG}.vercel.app`;
 }
 
