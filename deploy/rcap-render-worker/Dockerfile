@@ -172,6 +172,19 @@ COPY data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-e
      data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf \
      data/rcap-ledger/grade-a/artifacts/
 COPY data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/
+# Exact MS successor evidence read by the current personalized route resolver.
+COPY data/record-clearing/legal-decisions/2026-10-19-ms-nonconv-paid-consumer-successor-v4.json data/record-clearing/legal-decisions/
+COPY data/rcap-grade-a/participant-data-rights/question-contract-predecessors/MS-nonconviction-expungement-99-19-71-4.c63e420.json data/rcap-grade-a/participant-data-rights/question-contract-predecessors/
+COPY data/rcap-ledger/grade-a/ms-nonconviction-successor-review-2026-10-20.evidence.json data/rcap-ledger/grade-a/
+COPY data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_MS_NONCONVICTION_2026-10-20.json data/rcap-grade-a/legal-decisions/
+COPY data/rcap-grade-a/participant-data-rights/question-contract-source-successor-20261011.json data/rcap-grade-a/participant-data-rights/
+COPY data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261011.json data/rcap-grade-a/participant-data-rights/
+COPY data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json data/rcap-grade-a/legal-decisions/
+COPY data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json data/rcap-grade-a/legal-decisions/
+COPY data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json data/rcap-grade-a/legal-decisions/
+COPY data/rcap-grade-a/legal-decisions/SPECIFICATION_DERIVATION_RECONCILIATION_2026-09-20.json data/rcap-grade-a/legal-decisions/
+COPY data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json data/rcap-grade-a/participant-data-rights/
+COPY data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json data/rcap-grade-a/participant-data-rights/
 USER rcapworker
 # Liveness: the loop logs one JSON line per non-idle cycle; the healthcheck
 # asserts the process is alive and can reach its own module graph.

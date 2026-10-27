@@ -87,6 +87,13 @@ console.log(`authority gate: ${registry.entries.length} records, ${allowed} allo
 }
 
 if (stage !== "authority") {
+// Exercise the exact resolver used after a personalized worker claim.
+const { resolveClaimedPacketRenderRoute } = await import(path.join(ROOT, "src/lib/rcap/documents/packet-route-resolver.ts"));
+const msClaimedRoute = resolveClaimedPacketRenderRoute({
+  state: "MS", pathway: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal", trackId: "ms-nonconv"
+});
+if (msClaimedRoute.routeKind !== "factory_v2") fail(`MS claimed personalized route refused: ${msClaimedRoute.routeKind}`);
+
 // 4. The specification binding really opened the packaged directory.
 const specDir = path.join(ROOT, "data/record-clearing/packet-specifications");
 const specCount = fs.readdirSync(specDir).filter((f) => f.endsWith(".json")).length;

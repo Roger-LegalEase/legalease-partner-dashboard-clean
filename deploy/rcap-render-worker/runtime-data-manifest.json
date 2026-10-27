@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 207,
-  "totalBytes": 24272980,
+  "fileCount": 219,
+  "totalBytes": 24652495,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -842,16 +842,16 @@
       "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
     },
     {
-      "path": "data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json",
-      "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
-      "bytes": 156071,
+      "path": "data/rcap-all50/terminalization-treatments/sc.json",
+      "sha256": "f77ec8696f1ed8022bc32bb54d52b9c5d3e68b9b3c8b12648ca1f8f868a61942",
+      "bytes": 76872,
       "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
       "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
     },
     {
-      "path": "data/rcap-all50/terminalization-treatments/sc.json",
-      "sha256": "f77ec8696f1ed8022bc32bb54d52b9c5d3e68b9b3c8b12648ca1f8f868a61942",
-      "bytes": 76872,
+      "path": "data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json",
+      "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+      "bytes": 156071,
       "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
       "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
     },
@@ -912,6 +912,20 @@
       "why": "Read only when the delivery route state is live. Absent, deploymentConfigIncomplete() fails closed and every live route stops resolving."
     },
     {
+      "path": "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json",
+      "sha256": "5166d9159e7d4ff111c36a264b224d7760e47356ee119cdefa6ac3abe44c82ee",
+      "bytes": 61960,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json",
+      "sha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29",
+      "bytes": 25207,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
       "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
       "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
       "bytes": 22372,
@@ -926,11 +940,67 @@
       "why": "Static JSON import: the worker module graph cannot load without these exact bytes."
     },
     {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+      "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+      "bytes": 19740,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_MS_NONCONVICTION_2026-10-20.json",
+      "sha256": "a36699d585649a2204f21bf02537b13144606c35c5bbf571b8ab0036db49f50b",
+      "bytes": 4694,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/SPECIFICATION_DERIVATION_RECONCILIATION_2026-09-20.json",
+      "sha256": "189a7e9616d8114b540ffcede6372c1794583c67e2136dcfba418b5722ab0043",
+      "bytes": 16075,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
       "path": "data/rcap-grade-a/maintenance/route-holds.json",
       "sha256": "54d7cdd734e207399e1f65977bfca6b6df7bea33c99e236a4f4264c6eb1a0d41",
       "bytes": 9791,
       "readBy": "src/lib/rcap/documents/packet-route-resolver.ts (ROUTE_HOLDS_PATH)",
       "why": "Route-scoped maintenance holds. Absent = no holds, which would silently un-hold a held route."
+    },
+    {
+      "path": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json",
+      "sha256": "1a3454cb515003281c33f196b16c788fd3b9c5e18692829169794a5b686f183c",
+      "bytes": 14971,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
+      "path": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "sha256": "fb27167b98f3d024b76daa4a9fea88a776177a26c949bb6728c3efc2667adef9",
+      "bytes": 26122,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
+      "path": "data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261011.json",
+      "sha256": "e82717006904f0c0539b323104930048b5ea7e7df19846a22c493858a85207d0",
+      "bytes": 105989,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
+      "path": "data/rcap-grade-a/participant-data-rights/question-contract-predecessors/MS-nonconviction-expungement-99-19-71-4.c63e420.json",
+      "sha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
+      "bytes": 64769,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
+    },
+    {
+      "path": "data/rcap-grade-a/participant-data-rights/question-contract-source-successor-20261011.json",
+      "sha256": "507dc8d70767149628150262b6757205e28a38dca0e2d2bafc23799b168222ac",
+      "bytes": 18981,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
     },
     {
       "path": "data/rcap-grade-a/worker-static-authority.json",
@@ -994,6 +1064,13 @@
       "bytes": 4752,
       "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
       "why": "Preserved historical raster review; absent or changed evidence refuses the successor."
+    },
+    {
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review-2026-10-20.evidence.json",
+      "sha256": "4fca7180e91b28508a2bbf0d9a89b23cafcc67cbd387fa9d7217c36961c21f60",
+      "bytes": 10799,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
     },
     {
       "path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
@@ -1077,7 +1154,14 @@
       "sha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563",
       "bytes": 11322,
       "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
-      "why": "The controlling owner-paid successor decision. It names the bytes the shared §7 Fees & costs correction moved, and supersedes the v2 record for current commercial output."
+      "why": "The controlling owner-paid successor decision. It names the bytes the shared \u00a77 Fees & costs correction moved, and supersedes the v2 record for current commercial output."
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-10-19-ms-nonconv-paid-consumer-successor-v4.json",
+      "sha256": "f0a6172f40d82047259e59bbb46632f9e204f3c51081dda1cb81db0fb91177e1",
+      "bytes": 10208,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)",
+      "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."
     },
     {
       "path": "data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json",
@@ -1241,13 +1325,6 @@
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
     {
-      "path": "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json",
-      "sha256": "984ea6eb6bda4a8a06a92d5c5c0204d56b039739b6915f0c0949d8c52454750b",
-      "bytes": 51791,
-      "readBy": "src/lib/expungement-ai/ca-prop64-juvenile-config.ts",
-      "why": "Static JSON import: copied by the existing specification directory, but nested below its manifest enumeration."
-    },
-    {
       "path": "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
       "sha256": "4e372f73d690328b495951de3fddd9758975b87de4e27ae14ef3c19ee1600868",
       "bytes": 90472,
@@ -1358,6 +1435,13 @@
       "bytes": 53185,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json",
+      "sha256": "984ea6eb6bda4a8a06a92d5c5c0204d56b039739b6915f0c0949d8c52454750b",
+      "bytes": 51791,
+      "readBy": "src/lib/expungement-ai/ca-prop64-juvenile-config.ts",
+      "why": "Static JSON import: copied by the existing specification directory, but nested below its manifest enumeration."
     },
     {
       "path": "data/record-clearing/production-factory/packet-proofs/rcap-ak-guidance-implementation.json",
