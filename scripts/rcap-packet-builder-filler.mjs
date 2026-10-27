@@ -205,7 +205,20 @@ export async function answerBuilderStep(page, options = {}) {
     for (const control of node.querySelectorAll("input, select, textarea")) {
       if (!usable(control)) continue;
       if (control.type === "hidden") continue;
-      const raw = control.getAttribute("name") ?? control.getAttribute("id") ?? "";
+      // This exact control navigates sections; it does not collect a participant fact.
+      if (control.tagName === "SELECT" && control.id === "packet-section-select" && control.parentElement?.tagName === "NAV"
+        && ["Packet sections", "Secciones del paquete"].includes(control.parentElement.getAttribute("aria-label"))) continue;
+      let raw = control.getAttribute("name") ?? control.getAttribute("id") ?? "";
+      if (!raw.startsWith("q-")) {
+        const group = control.closest('[role="group"][aria-labelledby]');
+        const prompt = group?.getAttribute("aria-labelledby") ?? "";
+        const parts = group ? [...group.querySelectorAll("input, select, textarea")] : [];
+        if (/^q-.+-prompt$/.test(prompt) && parts.length === 3
+          && parts[0].tagName === "SELECT" && parts[0].id === prompt.replace(/-prompt$/, "")
+          && parts[1].tagName === "SELECT" && parts[2].tagName === "INPUT"
+          && parts[2].type === "text" && parts[2].getAttribute("inputmode") === "numeric"
+          && parts[2].getAttribute("maxlength") === "4") raw = parts[0].id;
+      }
       if (!raw.startsWith("q-")) {
         unaccounted.push(control.getAttribute("id") || control.getAttribute("name") || `<${control.tagName.toLowerCase()}>`);
         continue;
@@ -284,6 +297,28 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
     if (!(await builder.locator(`input[type='checkbox']${named}:visible:checked`).count())) {
       refuse("multi-select", `options ${JSON.stringify(values)}`);
     }
+    return;
+  }
+
+  const calendar = builder.locator(`[role='group'][aria-labelledby='q-${questionId}-prompt']`);
+  if (await calendar.count() === 1 && await calendar.locator(`select[id='q-${questionId}']`).count() === 1) {
+    const parts = calendar.locator("select, input, textarea");
+    const shape = await parts.evaluateAll(nodes => nodes.length === 3
+      && nodes[0].tagName === "SELECT" && nodes[1].tagName === "SELECT"
+      && nodes[2].tagName === "INPUT" && nodes[2].type === "text"
+      && nodes[2].getAttribute("inputmode") === "numeric" && nodes[2].getAttribute("maxlength") === "4");
+    if (!shape) refuse("date", "unrecognised calendar parts");
+    const date = packetFieldValue(questionId, prompt, routeKey);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) refuse("date", "canonical ISO date unavailable");
+    const [year, month, day] = date.split("-");
+    const current = await parts.evaluateAll(nodes => nodes.map(node => node.value));
+    if (current.every(Boolean)) return;
+    if (current.some((value, index) => value && value !== [month, day, year][index])) refuse("date", "saved partial date differs from canonical fact");
+    await parts.nth(0).selectOption(month);
+    await parts.nth(1).selectOption(day);
+    await parts.nth(2).fill(year);
+    const saved = await parts.evaluateAll(nodes => nodes.map(node => node.value));
+    if (saved.join("-") !== [month, day, year].join("-")) refuse("date", "canonical date did not stick");
     return;
   }
 

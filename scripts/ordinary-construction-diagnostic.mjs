@@ -20,7 +20,7 @@ export function sanitizedConstructionFailure(error,phase){
  assert(CONSTRUCTION_PHASES.includes(phase)||PARTICIPANT_PHASES.includes(phase)||phase==='construction_not_started');
  const errorClass=['AssertionError','TimeoutError','TypeError','ReferenceError','SyntaxError','Error'].includes(error?.name)?error.name:'Error';
  const code=['ERR_MODULE_NOT_FOUND','MODULE_NOT_FOUND','ENOENT','EACCES','ETIMEDOUT','ECONNRESET','ECONNREFUSED','ERR_ASSERTION'].includes(error?.code)?error.code:null;
- const source=String(error?.stack??'').match(/scripts\/(rcap-hosted-ordinary-full-runtime|ordinary-full-window|rcap-hosted-saved-dtc-credentials|ordinary-construction-diagnostic|rcap-hosted-ordinary-participant|rcap-clinic-screening-profile|rcap-ms-screening-browser)\.mjs:(\d+):(\d+)/);
+ const source=String(error?.stack??'').match(/scripts\/(rcap-hosted-ordinary-full-runtime|ordinary-full-window|rcap-hosted-saved-dtc-credentials|ordinary-construction-diagnostic|rcap-hosted-ordinary-participant|rcap-clinic-screening-profile|rcap-ms-screening-browser|rcap-packet-builder-filler)\.mjs:(\d+):(\d+)/);
  return{constructionPhase:phase,errorClass,errorCode:code,sourcePath:source?'scripts/'+source[1]+'.mjs':null,sourceLine:source?Number(source[2]):null};
 }
 export async function diagnoseOrdinaryConstruction({env,qualification,checkpoint,loadCustody,createRuntime=createOrdinaryFullRuntime}){
