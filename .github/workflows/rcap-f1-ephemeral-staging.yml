@@ -155,6 +155,13 @@ jobs:
           ref: ${{ github.sha }}
           path: carrier
           persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/rcap-f1-ephemeral-staging.yml
+            /scripts/rcap-dtc-existing-session-readonly.mjs
+            /scripts/rcap-hosted-saved-dtc-contracts.mjs
+            /scripts/rcap-hosted-existing-dtc-continuation.mjs
+            /scripts/rcap-hosted-response-contract.mjs
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
