@@ -45,6 +45,7 @@ const previewControls = new Set([
   "scripts/rcap-clinic-deploy-preview.mjs",
   "scripts/rcap-purpose-preview-admission.test.mjs",
   "scripts/rcap-purpose-preview-targets.test.mjs",
+  "scripts/rcap-hosted-stripe-webhook-retarget.mjs",
   "scripts/rcap-managed-start-preview-phase.test.mjs",
   "scripts/rcap-hosted-acceptance-deploy.mjs",
   "scripts/rcap-hosted-acceptance-preflight.test.mjs",
