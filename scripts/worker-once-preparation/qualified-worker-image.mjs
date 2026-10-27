@@ -6,7 +6,7 @@ export const QUALIFIED_WORKER_IMAGE = Object.freeze({
 });
 export const QUALIFIED_WORKER_EVIDENCE = Object.freeze({
  publicationReceiptSha256:'fe6100d154eb9aa7a17b8899f6395e9466e2a3b4192e23e905fc293a59763e85', publicationRunId:'40504068956', publicationWorkflowSourceSha:'84a75b6e65dc69e6c371afac44f1284e0debf722',
- qualificationReceiptSha256:null, qualificationRunId:null, qualificationAcceptanceSha256:null
+ qualificationReceiptSha256:'91995107caac569ae661d956da61701b242ce46fc24ed25260a42aa1bd0d923d', qualificationRunId:'40505631029', qualificationAcceptanceSha256:'4fcd976eae6e488aa0b4b9b4c510f3f94651ebf9aba8ffaa19eb67edd61e33e1'
 });
 export function requireQualifiedWorkerImage(identity=QUALIFIED_WORKER_IMAGE) {
  assert.equal(identity,QUALIFIED_WORKER_IMAGE,'Only the source-reviewed technical image identity is accepted');
