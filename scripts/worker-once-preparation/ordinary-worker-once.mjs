@@ -1,3 +1,6 @@
+import {QUALIFIED_WORKER_IMAGE,requireQualifiedWorkerImage} from './qualified-worker-image.mjs';
+const RECOVERY_JOB='7c753a4a-3d71-47c4-a6b9-8f87509544c2';
+import {RECOVERY_IMAGE} from '../clinic-worker-once-preparation/clinic-recovery-image.mjs';
 // Source preparation only: no CLI, default live ports, pull, login or workflow.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -36,13 +39,14 @@ export function bindReadOnlyTemplates(target,window){
   const sql=bytes.toString().replace(/__([A-Z0-9_]+)__/g,(_,k)=>{assert(Object.hasOwn(substitutions,k));return substitutions[k];});assert(!sql.includes('__'));return[file,sql];
  }));
 }
-function assertSnapshot(s,target,eligible){
+function assertSnapshot(s,target,eligible,recoveryIdentity){
+ assert(recoveryIdentity===undefined||recoveryIdentity===RECOVERY_IMAGE);const retry=!!recoveryIdentity;if(retry){assert.equal(target.jobId,RECOVERY_JOB);assert.equal(eligible,0);const j=s.claimState.get(RECOVERY_JOB);assert.equal(j?.status,'failed');assert.equal(j.attempt_count,1);assert.equal(j.max_attempts,5);assert.equal(j.error_code,'render_failed');assert.equal(j.failure_disposition,'retryable');assert(Number.isFinite(Date.parse(j.next_attempt_at))&&Date.parse(j.next_attempt_at)<=Date.now());}
  assert.equal(s.projectRef,'hyflxnlhpmiqxvvcoiia');assert.equal(s.serviceRoleTargetIdentityVerified,true);
  assert.equal(s.targetReceiptSha256,target.protectedReceiptSha256);assert.equal(s.readOnly,true);
  assert.equal(s.bucket.privateExactlyOnce,true);
  assert.equal(s.currentQueueRpcBodies.length,3);assert.equal(new Set(s.currentQueueRpcBodies.map(r=>r.name)).size,3);
  assert.deepEqual(Object.fromEntries(s.currentQueueRpcBodies.map(r=>[r.name,r.prosrcSha256])),RPC);
- for(const k of ['queuedAtAttemptLimitAnyRenderer','expiredClaimsAnyRenderer','failedRetryableAnyRenderer','canonicalRetryDueNoLiveSiblingAnyRenderer','historicalHousekeepingScopeAnyRenderer','liveClaimsAnyRenderer','activeWithoutLeaseAnyRenderer'])assert.equal(s.aggregate[k],0,'all-kind housekeeping/live work must be absent');
+ for(const k of ['queuedAtAttemptLimitAnyRenderer','expiredClaimsAnyRenderer','failedRetryableAnyRenderer','canonicalRetryDueNoLiveSiblingAnyRenderer','historicalHousekeepingScopeAnyRenderer','liveClaimsAnyRenderer','activeWithoutLeaseAnyRenderer'])assert.equal(s.aggregate[k],retry&&['failedRetryableAnyRenderer','canonicalRetryDueNoLiveSiblingAnyRenderer','historicalHousekeepingScopeAnyRenderer'].includes(k)?1:0,'all-kind housekeeping/live work must match the exact admitted target');
  assert.equal(s.aggregate.eligibleAnyRenderer,eligible);assert.equal(s.aggregate.eligibleAcceptedWorkerRenderer,eligible);
  assert.equal(s.completeness.readOnly,'on');assert.equal(s.completeness.validWindow,true);
  for(const k of ['unknownOrNullStatus','mutableMalformedAttemptBounds','queuedFiniteFutureInsideWindow','queuedNegativeInfinity','activeMissingOrNonfiniteLease','activeMalformedClaimIdentity','nonterminalUnknownRenderer'])assert.equal(s.completeness[k],0,'global completeness refuses unknown or later eligible work');
@@ -68,10 +72,11 @@ function parseCycleResult(stdout){
  for(let i=lines.length-1;i>=0;i--)if(lines[i].startsWith('{'))try{const p=JSON.parse(lines[i]);if(p&&typeof p.outcome==='string')return p;}catch{}
  return null;
 }
-export function dockerOnceInvocation(env,runId){
+export function dockerOnceInvocation(env,runId,identity){
+ assert(identity===undefined||identity===RECOVERY_IMAGE||identity===QUALIFIED_WORKER_IMAGE);if(identity===QUALIFIED_WORKER_IMAGE)requireQualifiedWorkerImage(identity);const image=identity?.image??IMAGE,digest=identity?.digest??DIGEST;
  assert.match(runId??'',/^[1-9][0-9]*$/,'actual GHA run ID');
  assert.equal(env.NEXT_PUBLIC_SUPABASE_URL,DB);assert.equal(env.SUPABASE_URL,DB);
- assert.equal(env.ENABLE_SUPABASE_PARTNER_DATA,'true');assert.equal(env.RCAP_WORKER_CLAIM_SECONDS,'120');assert.equal(env.RCAP_WORKER_CONTAINER_DIGEST,DIGEST);
+ assert.equal(env.ENABLE_SUPABASE_PARTNER_DATA,'true');assert.equal(env.RCAP_WORKER_CLAIM_SECONDS,'120');assert.equal(env.RCAP_WORKER_CONTAINER_DIGEST,digest);
  const jwt=env.SUPABASE_SERVICE_ROLE_KEY?.split('.');assert.equal(jwt?.length,3);
  const claims=JSON.parse(Buffer.from(jwt[1],'base64url'));assert.equal(claims.ref,'hyflxnlhpmiqxvvcoiia');assert.equal(claims.role,'service_role');
  assert(Number.isFinite(claims.exp)&&claims.exp*1000>Date.now()+305000,'existing service credential valid through cycle');
@@ -79,7 +84,7 @@ export function dockerOnceInvocation(env,runId){
  // Accepted324 personalized render reads protected verification JSON via service-role;
  // no DS08 decrypt/pseudonym or Clinic delivery-context environment is consumed.
  const childEnv=Object.fromEntries(names.map(k=>[k,env[k]]));
- const args=['run','--rm','--pull=never','--name',`rcap-ordinary-once-${runId}`,...names.flatMap(k=>['-e',k]),IMAGE,'node','scripts/rcap-render-worker.mjs','--once'];
+ const args=['run','--rm','--pull=never','--name',`rcap-ordinary-once-${runId}`,...names.flatMap(k=>['-e',k]),image,'node','scripts/rcap-render-worker.mjs','--once'];
  return {command:'docker',args,options:{env:childEnv,encoding:'utf8',timeout:300000,maxBuffer:32*1024*1024}};
 }
 // Caller supplies only actual root/C-admitted custody and accepted readonly/operator ports.
