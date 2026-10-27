@@ -10,7 +10,7 @@ const names={PENDING_WORKER_SUCCESSOR:'rcap-pending-worker-successor/v1',HOSTED_
 const fields=['schemaVersion','status','applicationSha','toolsSha','workerSourceSha','workerDigest','workerInputFingerprint','publication','readOnlyImageAcceptance','runtimeAccepted','workerRebuildRequired','previewExecution','resume','productionAuthorized','productionAuthorization','deploymentAuthorized','clinicDispatchReady','hostedAdmission','releaseBaseSha','supersededRecord','supersededRecordSha256'];
 export function requireOrdinaryDiagnosticPreview(root,inputs){
  assert.equal(inputs.phase,'managed_start_source_successor');assert.equal(inputs.applicationSha,DIAGNOSTIC_APP);
- assert.equal(inputs.workerSourceSha,'');assert.equal(inputs.workerDigest,'');assert.match(inputs.toolsSha??'',/^[a-f0-9]{40}$/);
+ assert.equal(inputs.workerSourceSha,'HELD');assert.equal(inputs.workerDigest,'HELD');assert.match(inputs.toolsSha??'',/^[a-f0-9]{40}$/);
  let candidate;
  for(const[name,schema]of Object.entries(names)){
   const record=JSON.parse(fs.readFileSync(root+'/data/rcap-grade-a/launch-control/'+name+'.json'));
