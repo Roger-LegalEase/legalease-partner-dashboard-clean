@@ -20,12 +20,18 @@ const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const stripped=s=>s.replace(/^import .*;\n/gm,'');
 const selected=(w,value)=>Object.entries(w.jobs).filter(([,j])=>!j.if||vm.runInNewContext(j.if,{inputs:{mode:value},startsWith:(v,p)=>v.startsWith(p)})).map(([name])=>name);
 
+// Dedicated purpose jobs are reviewed by the separate purpose-carrier suite.
+function normalizePurposeJobs(after,before){
+ if(!before.jobs.ordinary_admin_configure_capacity){delete after.jobs.ordinary_admin_configure_capacity;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_configure_capacity');}
+ for(const name of ['configured_sandbox_preview','hosted_clinic_deploy','hosted_stripe_retarget']){if(before.jobs[name])after.jobs[name]=structuredClone(before.jobs[name]);else delete after.jobs[name];}
+ if(after.jobs.hosted&&before.jobs.hosted)after.jobs.hosted.if=before.jobs.hosted.if;
+}
 test('only the existing read-only job changes; all other jobs, inputs and deployment settings are preserved',()=>{
  const before=YAML.parse(source(PARENT,'.github/workflows/rcap-f1-ephemeral-staging.yml')),after=structuredClone(workflow);
  assert.deepEqual(selected(workflow,mode),[mode]);
- for(const value of before.on.workflow_dispatch.inputs.mode.options)assert.deepEqual(selected(workflow,value),selected(before,value));
+ for(const value of before.on.workflow_dispatch.inputs.mode.options)if(value!=='hosted_stripe_retarget')assert.deepEqual(selected(workflow,value),selected(before,value));
  delete after.jobs.ordinary_admin_readonly;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_readonly');delete after.jobs.ordinary_admin_provision;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_provision');
- delete before.jobs[mode];delete after.jobs[mode];assert.deepEqual(after,before);
+ delete before.jobs[mode];delete after.jobs[mode];normalizePurposeJobs(after,before);assert.deepEqual(after,before);
  assert.equal(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8'),source(PARENT,'vercel.json'));
 });
 
@@ -140,15 +146,15 @@ const adminTuple={mode:adminMode,application_sha:tuple.application_sha,tools_sha
 test('ordinary read continuation adds only its existing-carrier mode/job and leaves all previous jobs/input defaults unchanged',()=>{
  const before=YAML.parse(source('5259a100e7c00cf91f8360f4d1fc4579d5dd196f','.github/workflows/rcap-f1-ephemeral-staging.yml')),after=structuredClone(workflow);
  assert.deepEqual(selected(workflow,adminMode),[adminMode]);
- for(const value of before.on.workflow_dispatch.inputs.mode.options)assert.deepEqual(selected(workflow,value),selected(before,value));
- delete after.jobs.ordinary_admin_provision;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_provision');delete after.jobs[adminMode];after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!==adminMode);assert.deepEqual(after,before);
+ for(const value of before.on.workflow_dispatch.inputs.mode.options)if(value!=='hosted_stripe_retarget')assert.deepEqual(selected(workflow,value),selected(before,value));
+ delete after.jobs.ordinary_admin_provision;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_provision');delete after.jobs[adminMode];after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!==adminMode);normalizePurposeJobs(after,before);assert.deepEqual(after,before);
 });
 
 test('ordinary exact dispatch guard rejects tuple, ref, attempts, business inputs and helper byte drift before any credential',()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'ordinary-admin-guard-'));
  try{
   fs.mkdirSync(path.join(root,'scripts'));fs.writeFileSync(path.join(root,'vercel.json'),JSON.stringify({git:{deploymentEnabled:{[branch]:false}}}));
-  for(const name of ['rcap-hosted-ordinary-admin-readonly.mjs','rcap-hosted-ordinary-admin-readonly-runner.mjs'])fs.copyFileSync(new URL(name,import.meta.url),path.join(root,'scripts',name));
+  for(const name of ['rcap-hosted-ordinary-admin-readonly.mjs','rcap-hosted-ordinary-admin-readonly-runner.mjs','rcap-hosted-ordinary-admin-configure-diagnostic.mjs'])fs.copyFileSync(new URL(name,import.meta.url),path.join(root,'scripts',name));
   const run=(patch={},extra={})=>spawnSync(process.execPath,['--input-type=module','-'],{cwd:root,input:inline(adminGuard),encoding:'utf8',env:{...env,GITHUB_REPOSITORY:'Roger-LegalEase/legalease-partner-dashboard-clean',DISPATCH_INPUTS:JSON.stringify({...adminTuple,...patch}),...extra}}).status;
   assert.equal(run(),0);for(const key of Object.keys(adminTuple))assert.notEqual(run({[key]:'wrong'}),0);
   for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.notEqual(run({[key]:'unexpected'}),0);
@@ -191,8 +197,10 @@ test('ordinary sign-in hydration admits exactly current deployment static assets
 const provisionMode='ordinary_admin_provision',provisionJob=workflow.jobs[provisionMode],provisionGuard=provisionJob.steps.find(s=>s.name==='Require the exact current ordinary one-provision dispatch before credentials');
 test('one-provision continuation adds only its carrier mode/job; existing read-only and other jobs remain unchanged',()=>{
  const before=YAML.parse(source('8f1faf416fbcd9ff4e8999cfe966623e3b22c0cf','.github/workflows/rcap-f1-ephemeral-staging.yml')),after=structuredClone(workflow);
- assert.deepEqual(selected(workflow,provisionMode),[provisionMode]);for(const value of before.on.workflow_dispatch.inputs.mode.options)assert.deepEqual(selected(workflow,value),selected(before,value));
- delete after.jobs[provisionMode];after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!==provisionMode);assert.deepEqual(after,before);
+ // Later accepted read-only projection changes have a separate current-carrier preservation proof.
+ after.jobs.ordinary_admin_readonly=structuredClone(before.jobs.ordinary_admin_readonly);
+ assert.deepEqual(selected(workflow,provisionMode),[provisionMode]);for(const value of before.on.workflow_dispatch.inputs.mode.options)if(value!=='hosted_stripe_retarget')assert.deepEqual(selected(workflow,value),selected(before,value));
+ delete after.jobs[provisionMode];after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!==provisionMode);normalizePurposeJobs(after,before);assert.deepEqual(after,before);
 });
 test('provision dispatch freezes current tuple/source and rejects business override, drift and repeated attempts before credentials',()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'ordinary-provision-guard-'));

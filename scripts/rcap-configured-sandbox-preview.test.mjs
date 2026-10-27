@@ -43,5 +43,5 @@ test('dedicated workflow job cannot schedule payment, worker, fixtures, migratio
  assert.match(job,/VERCEL_AUTOMATION_BYPASS_SECRET: \$\{\{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET \}\}/);
  assert.match(job,/ref: \$\{\{ github.sha \}\}/);assert.match(job,/persist-credentials: false/);
  assert.match(job,/productId = 'prod_VHEHkvH7dSvGv7'/);assert.match(job,/method: 'GET'/);assert.match(job,/unit_amount, 5000/);
- assert.match(job,/path: hosted-acceptance-evidence\/deploy.json/);
+ assert.match(job,/path: admitted-controller\/hosted-acceptance-evidence\/deploy.json/);
 });
