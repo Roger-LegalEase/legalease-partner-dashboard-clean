@@ -27,8 +27,13 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [clinic_saved_full_journey, dtc_saved_existing_fulfillment, ordinary_admin_launch_preflight_readonly, dtc_existing_session_no_pay_inspection, clinic_saved_recovery, ordinary_admin_start_only, dtc_existing_session_readonly, clinic_unverified_draft_save, dtc_saved_fulfillment, dtc_stripe_pending_readonly, dtc_stripe_ingress_readonly, clinic_saved_readonly, dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [ordinary_full_journey, clinic_saved_full_journey, dtc_saved_existing_fulfillment, ordinary_admin_launch_preflight_readonly, dtc_existing_session_no_pay_inspection, clinic_saved_recovery, ordinary_admin_start_only, dtc_existing_session_readonly, clinic_unverified_draft_save, dtc_saved_fulfillment, dtc_stripe_pending_readonly, dtc_stripe_ingress_readonly, clinic_saved_readonly, dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
+      ordinary_full_control_binding_sha256:
+        description: "Exact actual ordinary Start and fresh controls binding; NULL remains held"
+        required: false
+        type: string
+        default: ""
       clinic_worker_control_binding_sha256:
         description: "Exact captain-frozen actual Clinic worker-control binding SHA256 (Clinic full journey only)"
         required: false
@@ -3333,3 +3338,67 @@ jobs:
     permissions:
       contents: read
       actions: read
+
+  ordinary_full_journey:
+    name: Complete only a Start-admitted ordinary sponsored journey
+    if: inputs.mode == 'ordinary_full_journey'
+    permissions:
+      contents: read
+      actions: read
+      packages: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: carrier
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require genuine successful original Start before any credential or participant operation
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from'node:fs';import assert from'node:assert/strict';import{requireOrdinaryFullDispatch,requireOriginalStartSourceReady}from'./scripts/rcap-hosted-ordinary-full-admission.mjs';
+          for(const[file,pin]of Object.entries(JSON.parse(fs.readFileSync('scripts/ordinary-full-journey-source-pins.json')).files)){assert.equal((await import('node:crypto')).createHash('sha256').update(fs.readFileSync(file)).digest('hex'),pin);}requireOrdinaryFullDispatch(process.env);requireOriginalStartSourceReady();assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          JS
+      - name: Stage only actual successful Start and fresh ordinary control metadata privately
+        env:
+          ORDINARY_FULL_INPUT_ARCHIVE_B64: ${{ secrets.ORDINARY_FULL_INPUT_ARCHIVE_B64 }}
+          ORDINARY_FULL_CONTROL_BINDING_SHA256: ${{ inputs.ordinary_full_control_binding_sha256 }}
+        run: python3 scripts/stage-ordinary-full-input.py
+      - name: Qualify the exact original Start native files before dependency or registry preparation
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: node scripts/rcap-hosted-ordinary-full-journey-entry.mjs --verify
+      - name: Reuse locked existing browser dependencies without application build
+        run: npm ci --ignore-scripts
+      - name: Authenticate existing read-only registry custody
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Prepare only accepted immutable worker without starting a container
+        run: docker pull ghcr.io/roger-legalease/rcap-render-worker@sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494
+      - name: Run one admitted ordinary UI claim Verify one worker and private delivery
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+          GITHUB_TOKEN: ${{ github.token }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-hosted-ordinary-full-journey-entry.mjs
+      - name: Preserve private ordinary custody and typed evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ordinary-full-journey-${{ github.run_id }}
+          path: carrier/ordinary-full-journey-evidence/*.json
+          if-no-files-found: warn
