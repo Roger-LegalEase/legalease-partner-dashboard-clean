@@ -37,7 +37,7 @@ export async function executeClinicFailedJobRecovery({target,window,env,runId,po
   const cycle=parseCycleResult(run.stdout);checkpoint({phase:'worker_once_return',attempted:true,exitCode:Number.isInteger(run.status)?run.status:null,signal:['SIGTERM','SIGKILL'].includes(run.signal)?run.signal:run.signal?'other':null,processError:!!run.error,outcome:['idle','failed','finalized'].includes(cycle?.outcome)?cycle.outcome:'unknown',reportedJobMatchesTarget:cycle?.jobId===RECOVERY_JOB,errorCode:cycle?.errorCode==='render_failed'?'render_failed':cycle?.errorCode?'other':null,disposition:['retryable','terminal','not_found'].includes(cycle?.disposition)?cycle.disposition:null,stdoutSha256:hash(String(run.stdout??'')),stderrSha256:hash(String(run.stderr??''))});
   stage='poststate';const after=await ports.readSnapshot({stage,target,window,sql});await ports.assertContinuousWindow({stage,target,window});assert(Date.now()<Date.parse(window.endsAt));
   assert.equal(housekeeping?assertSnapshot(after,target,0,RECOVERY_IMAGE,'backoff_attempt2'):assertSnapshot(after,target,0),baseline);assert.equal(after.claimState.size,29);assert.deepEqual(rowsThatChanged(before.claimState,after.claimState),[RECOVERY_JOB]);
-  const old=before.claimState.get(RECOVERY_JOB),now=after.claimState.get(RECOVERY_JOB);assert.equal(now.attempt_count,housekeeping?2:3);assert.notEqual(now.fencingTokenSha256,old.fencingTokenSha256);
+  const old=before.claimState.get(RECOVERY_JOB),now=after.claimState.get(RECOVERY_JOB);assert.equal(now.attempt_count,housekeeping?2:3);if(housekeeping)assert.notEqual(now.fencingTokenSha256,old.fencingTokenSha256);else{assert.equal(now.fencingTokenSha256,hash(''));assert.equal(now.claim_expires_at,null);assert.notEqual(now.claimed_at,old.claimed_at);}
   assert.equal(run.status,0);assert.equal(run.signal??null,null);assert.equal(run.error??null,null);
   if(housekeeping){assert.equal(cycle?.outcome,'idle');assert.equal(now.fencingTokenSha256,hash(''));assert.equal(now.claim_expires_at,null);assert.equal(after.unrelatedHistoryUnchanged,true);assert.equal(after.surpriseIngressCount,0);result.phase='EXPIRED_ATTEMPT2_RELEASED_BACKOFF_STOP';result.attemptCount=2;result.nextAttemptAt=now.next_attempt_at;checkpoint(result);return result;}
   assert.equal(cycle?.outcome,'finalized');assert.equal(cycle.jobId,RECOVERY_JOB);
@@ -72,3 +72,5 @@ export function createClinicFailedJobRecoveryBinding({env,runId,assertContinuous
   getRecoveryTarget(){assert(completed&&target);return target;}
  };
 }
+
+export const CLINIC_RECOVERY_FIXED_TARGET=FIXED;
