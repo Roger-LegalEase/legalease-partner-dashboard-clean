@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [clinic_saved_readonly, dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       clinic_attempt_id:
         description: "Owner-authorized Clinic attempt identity; required for clinic_setup_only, never reused"
@@ -204,6 +204,73 @@ jobs:
         with:
           name: clinic-setup-only-${{ github.run_id }}
           path: clinic-setup-only-evidence/
+          if-no-files-found: warn
+
+
+  clinic_saved_readonly:
+    name: Reconcile only the existing Clinic owner case without business writes
+    if: inputs.mode == 'clinic_saved_readonly'
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: carrier
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Require exact existing Clinic source and dispatch before remote reads or credentials
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+          const hash=b=>createHash('sha256').update(b).digest('hex'),binding=JSON.parse(fs.readFileSync('scripts/clinic-readonly-native-binding.json')),input=JSON.parse(process.env.DISPATCH_INPUTS);
+          assert.equal(process.env.GITHUB_REPOSITORY,'Roger-LegalEase/legalease-partner-dashboard-clean');assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          for(const[k,v]of Object.entries({mode:'clinic_saved_readonly',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',tools_sha:'987d0c9df170641a9abe40f0d5ec450e740abaa1',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia',preview_hostname:new URL(binding.origin).hostname,preview_deployment_id:binding.deploymentId,preview_creation_run_id:String(binding.creationRun)}))assert.equal(input[k],v);
+          const {CLINIC}=await import('./scripts/rcap-hosted-existing-clinic-readonly.mjs');assert.equal(hash(input.resume_matter_id??''),hash(CLINIC.item));for(const k of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[k]);assert.equal(input.sponsor_items??'[]','[]');assert([undefined,false,'false'].includes(input.sponsor_fulfillment));
+          for(const[file,digest]of Object.entries({"scripts/rcap-hosted-existing-clinic-readonly-entry.mjs":"8c1ff991437765e8599f2be3266df8362dbaeac8f598a283f2fd8e61b2181d6b","scripts/clinic-readonly-native-binding.json":"99b9ffd757a8b6b62826336d86f3f2f7e923af288a9626dc8cfb2ba75a405b4a","scripts/rcap-hosted-existing-clinic-readonly.mjs":"b82f03ace84e2edfac08213e4b8ecb412f9ccc3f002f02e316f1a1206733dc8b","scripts/rcap-hosted-existing-clinic-readonly.actual.test.mjs":"9e8b5d0b590df0981deb9e8466d305fd596ba4e66bfd1a5c45afd08f308652f6","scripts/rcap-hosted-consumer-purpose-release.mjs":"80caaa03662874ffdc43174578fe20ae28f14c0ab82686ba169cc3e96b402d99","scripts/rcap-hosted-existing-clinic-readonly.test.mjs":"f5927e4c669e7c88466c3745558d7399e5f08808c5ea1629314eb2584be2c95f","scripts/sql/rcap-clinic-owned-matter-readonly.sql":"7ff5a92fdbb4fef78370d728f3620781e0319c0a3ef76003d1ce5ddc67811b3c"}))assert.equal(hash(fs.readFileSync(file)),digest);
+          JS
+      - name: Read only the accepted native Clinic target and successful run metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';const hash=b=>createHash('sha256').update(b).digest('hex'),b=JSON.parse(fs.readFileSync('scripts/clinic-readonly-native-binding.json'));
+          const bytes=execFileSync('gh',['api','--method','GET',`repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/${b.artifactId}/zip`],{maxBuffer:16777216,stdio:['ignore','pipe','ignore']});assert.equal(bytes.length,b.zipBytes);assert.equal(hash(bytes),b.zipSha256);fs.writeFileSync(process.env.RUNNER_TEMP+'/clinic-native.zip',bytes,{flag:'wx',mode:0o600});
+          const run=execFileSync('gh',['api','--method','GET',`repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/${b.creationRun}`],{maxBuffer:1048576,stdio:['ignore','pipe','ignore']});assert.equal(hash(JSON.stringify(JSON.parse(run))),b.runSha256);fs.writeFileSync(process.env.RUNNER_TEMP+'/clinic-native-run.json',run,{flag:'wx',mode:0o600});
+          JS
+          python3 - <<'PYCODE'
+          import os,pathlib,json,zipfile,hashlib
+          b=json.loads(pathlib.Path('scripts/clinic-readonly-native-binding.json').read_text());root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          with zipfile.ZipFile(root/'clinic-native.zip') as z:
+              entry=z.getinfo('deploy.json');assert 0<entry.file_size<=2097152;raw=z.read(entry)
+          assert hashlib.sha256(raw).hexdigest()==b['nativeSha256'];p=root/'clinic-native-deploy.json';p.write_bytes(raw);p.chmod(0o600)
+          PYCODE
+      - name: Read existing Clinic case through one normal owner login and one exact read-only query
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          CLINIC_NATIVE_DEPLOY_FILE: ${{ runner.temp }}/clinic-native-deploy.json
+          CLINIC_NATIVE_RUN_FILE: ${{ runner.temp }}/clinic-native-run.json
+        run: node scripts/rcap-hosted-existing-clinic-readonly-entry.mjs
+      - name: Preserve only the sanitized typed Clinic read-only state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clinic-saved-readonly-${{ github.run_id }}
+          path: carrier/clinic-saved-readonly-evidence/result.json
           if-no-files-found: warn
 
   dtc_saved_readonly:
