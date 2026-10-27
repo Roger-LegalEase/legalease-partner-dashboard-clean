@@ -3166,7 +3166,7 @@ jobs:
           supabase stop --no-backup || true
 
   hosted_managed_start_preview:
-    name: Create only the exact ordinary9aad source successor Preview
+    name: Create only the exact Ordinary APP-only guard diagnostic Preview
     if: inputs.mode == 'hosted_managed_start_preview'
     runs-on: ubuntu-latest
     timeout-minutes: 120
@@ -3179,7 +3179,7 @@ jobs:
       WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
       TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
       ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-      RCAP_ADMITTED_CONTROLLER_SHA: 3e755c9726184bba052bd985dcf2388b9cf8b79b
+      RCAP_ADMITTED_CONTROLLER_SHA: 6b0ba981ea4f4bbd3061553c0062d324dcf8c741
     steps:
       - uses: actions/checkout@v4
         with:
@@ -3201,7 +3201,7 @@ jobs:
           assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
           assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
           const input=JSON.parse(process.env.DISPATCH_INPUTS);
-          const expected={"mode":"hosted_managed_start_preview","application_sha":"9aadacd0c5a7fac90a1662f1928b7b86f8685c7a","tools_sha":"c4a9eb13a51a1dba676c7716b5da022b98823418","worker_source_sha":"32499751569359315248c2048fa111064a47c67f","worker_digest":"sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494","supabase_project_ref":"hyflxnlhpmiqxvvcoiia"};
+          const expected={"mode":"hosted_managed_start_preview","application_sha":"b8b980c5b95b3342420b63c60ba3f36d3f7bf85f","tools_sha":"298780eb0db01c3292d53267233489244561a213","worker_source_sha":"HELD","worker_digest":"HELD","supabase_project_ref":"hyflxnlhpmiqxvvcoiia"};
           for(const [key,value]of Object.entries(expected))assert.equal(input[key],value);
           for(const key of ['preview_hostname','preview_deployment_id','preview_creation_run_id'])assert.ok(!input[key]);
           for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
@@ -3209,7 +3209,7 @@ jobs:
           JS
       - uses: actions/checkout@v4
         with:
-          ref: 3e755c9726184bba052bd985dcf2388b9cf8b79b
+          ref: 6b0ba981ea4f4bbd3061553c0062d324dcf8c741
           path: admitted-controller
           fetch-depth: 0
           persist-credentials: false
@@ -3217,8 +3217,8 @@ jobs:
         run: |
           node --input-type=module <<'JS'
           import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
-          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'3e755c9726184bba052bd985dcf2388b9cf8b79b');assert.equal(process.env.RCAP_ADMITTED_CONTROLLER_SHA,'3e755c9726184bba052bd985dcf2388b9cf8b79b');
-          for(const [name,hash]of Object.entries({"PENDING_WORKER_SUCCESSOR":"ba63846ad6a736b72d0e1d1efffdf9e73e0fd8f218544d76d6af973603837ffc","RELEASE_CANDIDATE_BINDING":"205c3f68c0be4116a7e5396cc99d546599bfba8a83bb205d24dd40babe47ca3a","HOSTED_TOOLS_BINDING":"6c028eb59ee64f0d262cd43e70c153f2bb5cd773cf85b4ad97cdaf3c2b85ea45"}))assert.equal(createHash('sha256').update(fs.readFileSync('data/rcap-grade-a/launch-control/'+name+'.json')).digest('hex'),hash);
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'6b0ba981ea4f4bbd3061553c0062d324dcf8c741');assert.equal(process.env.RCAP_ADMITTED_CONTROLLER_SHA,'6b0ba981ea4f4bbd3061553c0062d324dcf8c741');
+          for(const [name,hash]of Object.entries({"PENDING_WORKER_SUCCESSOR":"8cb0899b949f72c5667e691716323e93e677f92bc2c907b104b0526464811a6e","RELEASE_CANDIDATE_BINDING":"d931a01c6d0c06da4abf818d1b9bda75dd168de1dbeb536520c3ad57a57719ac","HOSTED_TOOLS_BINDING":"ebbf0711f0462cf6e12580e189b7a37f188796a82082ad8a7c3a98eed7c0c7c4"}))assert.equal(createHash('sha256').update(fs.readFileSync('data/rcap-grade-a/launch-control/'+name+'.json')).digest('hex'),hash);
           JS
       - name: Install only the admitted controller locked dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
