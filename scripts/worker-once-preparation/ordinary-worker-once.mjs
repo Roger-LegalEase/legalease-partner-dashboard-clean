@@ -15,12 +15,12 @@ const templateHashes={
  'ACTUAL-ORDINARY-TARGET-PRECLAIM-JOIN.TEMPLATE.NOT-EXECUTED.sql':'7b282341840a72d321bf7781afa023a9b5916e4cdaf65d94c6eeaaaef3b2a7ed'
 };
 const targetFields=['jobId','packetId','itemId','ownerId','sessionId','personId','matterId','entitlementId'];
-function validateTarget(t){
+export function validateTarget(t){
  for(const k of targetFields)assert.match(t[k]??'',UUID,'actual ordinary target UUID');
  for(const k of ['verificationHash','inputHash','protectedReceiptSha256'])assert.match(t[k]??'',SHA,'protected actual target custody');
  assert.equal(t.packetNamespace,'expungement-ai-consumer');assert.equal(t.partnerSlug,'legalease-ordinary-qa-20261024');
  assert.equal(t.clinicEventId,null);assert.equal(t.acquisitionMode,'partner');
- assert.equal(t.applicationSha,'c0052e13d9801d24080275aab02c70c6ea213fa3');assert.equal(t.rendererKind,'packet_document_v1');
+ assert.equal(t.applicationSha,'9aadacd0c5a7fac90a1662f1928b7b86f8685c7a');assert.equal(t.rendererKind,'packet_document_v1');
 }
 function validateWindow(w,now){
  assert.match(w.custodyReceiptSha256??'',SHA,'actual root/C continuous-window custody');
@@ -84,12 +84,13 @@ export function dockerOnceInvocation(env,runId){
 }
 // Caller supplies only actual root/C-admitted custody and accepted readonly/operator ports.
 // There is deliberately no synthetic admission, default live DB client, pull/login or standalone runner.
-export async function executeAdmittedOrdinaryOnce({target,window,env,runId,ports}){
+export async function executeAdmittedOrdinaryOnce(input){return executeAdmittedWorkerOnce(input,{validateTarget,bindReadOnlyTemplates,receiptSchema:'ordinary-worker-once-safe/v1'});}
+export async function executeAdmittedWorkerOnce({target,window,env,runId,ports},{validateTarget,bindReadOnlyTemplates,receiptSchema}){
  validateTarget(target);validateWindow(window,Date.now());
  assert(Number.isFinite(Date.parse(target.firstEnqueueCapableActionAt))&&Date.parse(window.startedAt)<=Date.parse(target.firstEnqueueCapableActionAt)&&Date.parse(target.firstEnqueueCapableActionAt)<=Date.now(),'custody began before the actual first enqueue-capable action');
  for(const k of ['assertContinuousWindow','readSnapshot','verifyPreparedImage','invokeOnce'])assert.equal(typeof ports[k],'function');
  let attempted=false,stage='prestate';
- const receipt={schemaVersion:'ordinary-worker-once-safe/v1',status:'HOLD',workerSourceSha:SOURCE,image:IMAGE,targetReceiptSha256:target.protectedReceiptSha256,targetJobSha256:hash(target.jobId),windowReceiptSha256:window.custodyReceiptSha256,attempted:false,ownerPrivateRetrievalProven:false};
+ const receipt={schemaVersion:receiptSchema,status:'HOLD',workerSourceSha:SOURCE,image:IMAGE,targetReceiptSha256:target.protectedReceiptSha256,targetJobSha256:hash(target.jobId),windowReceiptSha256:window.custodyReceiptSha256,attempted:false,ownerPrivateRetrievalProven:false};
  try{
   await ports.assertContinuousWindow({stage,target,window});
   const image=await ports.verifyPreparedImage();assert.equal(image.digest,DIGEST);assert.equal(image.sourceSha,SOURCE);assert.equal(image.nonRoot,true);assert.equal(image.ephemeralGithubExecutor,true);
