@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {ORIGIN,requestAllowed as originalRequestAllowed} from './rcap-hosted-ordinary-admin-readonly.mjs';
+const hash=b=>createHash('sha256').update(b).digest('hex');
+export const REPAIR=Object.freeze({app:'c0052e13d9801d24080275aab02c70c6ea213fa3',controller:'27eda6f6470c4f5fd37a441cbdba853ef73e74d1',tools:'52404e944c35c884c52ce9b85323d880c13be9cc',worker:'32499751569359315248c2048fa111064a47c67f',digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',db:'hyflxnlhpmiqxvvcoiia',predecessor:'dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF',creatorNativeSha256:'76e5b1baaf13de456482194956deedaff8f6468abef6ff0a90fe615a4c451711',poststateReturnSha256:'fcad1dc9a5b6538bce54230ecd0835d2a192f692ab449e31a361b45efb3184c2'});
+export function admitOrdinaryRepair({binding,creatorBytes,repairBytes,repairRun}){
+ assert(Number.isSafeInteger(binding.repairRun)&&binding.repairRun>0);assert.match(binding.repairCarrier??'',/^[a-f0-9]{40}$/);assert.match(binding.repairNativeSha256??'',/^[a-f0-9]{64}$/);assert.match(binding.repairRunSha256??'',/^[a-f0-9]{64}$/);
+ assert.equal(hash(creatorBytes),REPAIR.creatorNativeSha256);assert.equal(hash(repairBytes),binding.repairNativeSha256);assert.equal(hash(JSON.stringify(repairRun)),binding.repairRunSha256);
+ const old=JSON.parse(creatorBytes),n=JSON.parse(repairBytes);assert.equal(old.passed,true);assert.equal(old.deployment.id,REPAIR.predecessor);assert.equal(n.passed,true);assert.deepEqual(n.failedCases,[]);assert.equal(n.neverPassedProdFlag,true);assert.equal(n.neverWroteProjectLevelEnv,true);assert.equal(n.applicationSha,REPAIR.app);assert.equal(n.acceptanceProjectRef,REPAIR.db);assert.equal(n.previewUrl,ORIGIN);
+ for(const[k,v]of Object.entries({id:binding.repairRun,workflow_id:332448793,head_sha:binding.repairCarrier,head_branch:'codex/f-vercel-raw-readonly-20261026',run_attempt:1,status:'completed',conclusion:'success',event:'workflow_dispatch'}))assert.equal(repairRun[k],v);
+ for(const[k,v]of Object.entries({phase:'managed_start_runtime_repair',carrierSha:binding.repairCarrier,carrierWorkflowSha:binding.repairCarrier,controllerSha:REPAIR.controller,toolsSha:REPAIR.tools,runId:String(binding.repairRun),runAttempt:'1'}))assert.equal(n.purposeSource[k],v);
+ const d=n.deployment;assert.equal(d.id,binding.deploymentId);assert.match(d.id,/^dpl_[A-Za-z0-9]+$/);assert.notEqual(d.id,REPAIR.predecessor);assert.equal(d.readyState,'READY');assert.equal(d.target,null);assert.equal(d.gitSourceSha,REPAIR.app);assert.equal(d.projectId,'prj_cdgwGzFqIHgEUlzEburSLaZETdQV');assert.equal(n.restCreation.creationCalls,1);assert.equal(n.restCreation.creationPostCount,1);assert.equal(n.restCreation.id,d.id);assert.equal(n.restCreation.readyState,'READY');
+ const meta={rcapApplicationSha:REPAIR.app,rcapWorkerSourceSha:REPAIR.worker,rcapWorkerDigest:REPAIR.digest,rcapAcceptanceProjectRef:REPAIR.db,rcapPreviewPurpose:'managed_start',rcapReturnOrigin:ORIGIN,rcapRouteState:'staging_scoped',rcapStagingScopeSha256:hash('b6dc86a3-12bb-490d-b130-48d95d426a1e'),rcapClinicDemoMode:'none',rcapStripeConfigured:'false',rcapCatalogProduct:'inline',rcapManagedRuntimeRepair:'ordinary-launch-prep-v1',rcapRepairPredecessor:REPAIR.predecessor,rcapOnboardingLaunchPrepEnabled:'true',rcapLaunchStudioEnabled:'false'};for(const[k,v]of Object.entries(meta))assert.equal(d.metadata[k],v);
+ assert.equal(n.aliasAssignment.passed,true);assert.equal(n.aliasAssignment.deploymentId,d.id);assert.equal(n.aliasAssignment.hostname,new URL(ORIGIN).hostname);assert.equal(n.aliasAssignment.target,null);
+ assert.deepEqual(n.runtimeRepairAliasBefore,{hostname:new URL(ORIGIN).hostname,deploymentId:REPAIR.predecessor});assert.equal(n.runtimeRepairAliasInverse?.performed,false);assert(!n.runtimeRepairAliasInverse?.blocked);assert.equal(n.runtimeRepairAliasInverse.priorDeploymentId,REPAIR.predecessor);assert.equal(n.runtimeRepairAliasInverse.createdDeploymentId,d.id);
+ assert.deepEqual(n.productionAfter,n.productionBefore);assert.deepEqual(n.ordinaryPreviewAfter,n.ordinaryPreviewBefore);assert.deepEqual(n.runtimeRepairPredecessorAfter,n.runtimeRepairPredecessorBefore);assert.deepEqual(n.purposeSiblingsAfter,n.purposeSiblingsBefore);
+ assert.equal(n.managedStartRelease.status,200);assert.equal(n.managedStartRelease.sourceBound,true);assert.equal(n.managedStartRelease.applicationSha,REPAIR.app);assert.equal(n.managedStartRelease.deploymentId,d.id);
+ return Object.freeze({deploymentId:d.id,repairNativeSha256:binding.repairNativeSha256,sourceVerified:true});
+}
+export function createRepairBoundRequestAllowed(target){
+ assert.equal(target.sourceVerified,true);assert.match(target.deploymentId,/^dpl_[A-Za-z0-9]+$/);assert.notEqual(target.deploymentId,REPAIR.predecessor);assert.match(target.repairNativeSha256,/^[a-f0-9]{64}$/);
+ return (url,method,authPosts)=>{let u;try{u=new URL(url);}catch{return false;}if(u.protocol!=='https:'||u.username||u.password||u.hash)return false;if(u.searchParams.has('dpl')){
+  if(u.origin!==ORIGIN||!['GET','HEAD'].includes(method)||u.searchParams.getAll('dpl').length!==1||u.search!=='?dpl='+target.deploymentId)return false;
+  // Predicate-only substitution retains every accepted728 asset shape check; the actual URL is never rewritten.
+  const predicateURL=new URL(u);predicateURL.search='?dpl='+REPAIR.predecessor;return originalRequestAllowed(predicateURL.href,method,authPosts);
+ }return originalRequestAllowed(url,method,authPosts);};
+}
+export function qualifyPost404404(summary,failed){
+ const {before,response,result}=failed;assert.equal(before.stage,'materials_prepare_before_forward');assert.equal(before.request.stage,'materials_prepare');assert.equal(before.request.expectedVersion,5);assert.equal(response.observedHttpStatus,404);assert.equal(response.code,'feature_disabled');assert.equal(result.forwards.materials_prepare,1);assert(!result.forwards.start);assert.equal(result.participantVerificationAllowed,false);
+ assert.equal(summary.poststateReturnSha256,REPAIR.poststateReturnSha256);assert.equal(summary.sourceVersion,5);assert.equal(summary.originalAllocationRun,40438747490);assert.equal(summary.failedPrepareRun,40440481202);assert.equal(summary.prepareHttp,404);assert.equal(summary.prepareCode,'feature_disabled');assert.equal(summary.noStart,true);
+ assert.equal(summary.screeningsRemaining,1);assert.equal(summary.packetCapTotal,1);assert.equal(summary.packetReservedOrConsumed,0);assert.equal(summary.artifactStubCount,6);assert.equal(summary.artifactVersionCount,0);assert.equal(summary.launchReceiptCount,0);assert.equal(summary.generatedCurrentPointerCount,0);
+ return summary.sourceVersion;
+}

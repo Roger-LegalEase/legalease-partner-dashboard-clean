@@ -751,6 +751,9 @@ jobs:
   ordinary_admin_materials_start:
     name: Prepare current QA materials and Start only after actual review
     if: inputs.mode == 'ordinary_admin_materials_start'
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
@@ -781,11 +784,11 @@ jobs:
           assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
           assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
           const input=JSON.parse(process.env.DISPATCH_INPUTS);
-          const expected={mode:'ordinary_admin_materials_start',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',tools_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia',preview_hostname:'legalease-rcap-managed-c0052e13d980-roger947s-projects.vercel.app',preview_deployment_id:'dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF',preview_creation_run_id:'40424719189'};
+          const expected={mode:'ordinary_admin_materials_start',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',tools_sha:'52404e944c35c884c52ce9b85323d880c13be9cc',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia',preview_hostname:'legalease-rcap-managed-c0052e13d980-roger947s-projects.vercel.app',preview_deployment_id:'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt',preview_creation_run_id:'40450762952'};
           for(const [key,value]of Object.entries(expected))assert.equal(input[key],value);
           for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
           assert.equal(input.sponsor_items??'[]','[]');assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
-          for(const [file,hash]of Object.entries({"scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba","scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-admin-materials-start-caller.mjs":"8206c138681bd315a6800e734ea726f0c369d6496326c25432c41a67b8ac4b7c","scripts/rcap-hosted-ordinary-admin-materials-start-runner.mjs":"9cc27b64ea6397d441e74e9079377bfe3cbe0d9b790eda064f373d0cd93de9d9"}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),hash);
+          for(const [file,hash]of Object.entries({"scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","scripts/rcap-hosted-ordinary-repair-admission.mjs":"cc35b4bb4de02d19e60e57080fd27df848abb267aed3da272a0920be42c644aa","scripts/ordinary-post404404-summary.json":"51b19cec79d827d5afac0c08c1859153007de42581c0a42afa1fdf6e3c8fa502","scripts/rcap-hosted-ordinary-admin-materials-start-caller.mjs":"8206c138681bd315a6800e734ea726f0c369d6496326c25432c41a67b8ac4b7c","scripts/ordinary-repair-native-binding.json":"098e8d849207efd3c8d7feb6efa64378a4dcc15b0b2b26098af04f01c59c40d3","scripts/rcap-hosted-ordinary-admin-materials-start-runner.mjs":"9cc27b64ea6397d441e74e9079377bfe3cbe0d9b790eda064f373d0cd93de9d9","scripts/rcap-hosted-ordinary-admin-materials-start-repaired-runner.mjs":"7934d3e75a633ab3c63dc348341f7fc1f9a4dc52681f80e203396c8e4ed0bef6","scripts/rcap-hosted-ordinary-admin-materials-start-repaired-caller.mjs":"20c76afe8570d4e3121fc82ff385557c565beef07ab184f1a984888e1f65f264","scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-repair-admission.actual.test.mjs":"660aa3e6a787e78b39294eb3f231517331ef736c74cb3a4cd86fa0223080f378","scripts/rcap-hosted-ordinary-repair-admission.test.mjs":"346f57bdc09d34ff671c44151730f2e045ebcbe4e33ed1c4c5236fa8cd266733","scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba"}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),hash);
           JS
       - uses: actions/checkout@v4
         with:
@@ -793,7 +796,7 @@ jobs:
           path: admitted-controller
           fetch-depth: 0
           persist-credentials: false
-      - name: Bind the already accepted immutable controller record bytes
+      - name: Bind the accepted locked runner-dependency snapshot without changing target identity
         working-directory: admitted-controller
         run: |
           node --input-type=module <<'JS'
@@ -818,41 +821,37 @@ jobs:
           const bytes=execFileSync('git',['show','d3d8ff707d4d21ab508405494e6ee27056582a1a:scripts/rcap-hosted-acceptance-auth-config.mjs'],{stdio:['ignore','pipe','ignore']});
           assert.equal(createHash('sha256').update(bytes).digest('hex'),'cdf9d28192cc54de72e6c9ccef5f389c678b7472a60c6408ad54b0735e5d695c');
           JS
-      - name: Read only the original accepted native creation artifact
+      - name: Read only accepted original/repair natives and exact retained operation receipts
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api --method GET repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/12699943085/zip > "$RUNNER_TEMP/ordinary-admin-native.zip"
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';const hash=b=>createHash('sha256').update(b).digest('hex'),write=(p,b)=>{const fd=fs.openSync(p,'wx',0o600);try{fs.fchmodSync(fd,0o600);fs.writeFileSync(fd,b);}finally{fs.closeSync(fd);}};
+          const descriptors=[{"id":12699943085,"zip":"ordinary-original","bytes":10460999,"sha":"1d667454449b63925213f640d8bce706b041d8190398aa6fd73336e1b0d3ef84","files":{"deploy.json":"76e5b1baaf13de456482194956deedaff8f6468abef6ff0a90fe615a4c451711"}},{"id":12710479264,"zip":"ordinary-repair","bytes":5981,"sha":"0a6aed2ebf50d8309d67dfb365e8146fdf1e6b2b9146886eaa4095f57580d086","files":{"deploy.json":"c23e926487ca4bc04db2ce3f55707abccc851d16785c4b14f2ec4f879ecc7999"}},{"id":12705506477,"zip":"ordinary-configure","bytes":6804,"sha":"e1629724df4391849edc8d7be860ecd655fce5c1b42ae5d04e9097678e1a81e3","files":{"result.json":"fe9007b61fd08de6c96b3473964d918a47acfd23e3895557af5804829cc775d6","allocation-before.json":"adcdb5aa0869f136082fc52c6cee27f7598d12783e933e21c5d84c28ff10493a","allocation-response.json":"c25261920aec7b648a2716a23548fa964feb7e46c690a9f50a3eaaae9fa9cecd","allocation-state.json":"f367a781043e31568168d0d4c869cfb28329dfd9f52ee5ddea258dcafb790b90"}},{"id":12706053745,"zip":"ordinary-failed-prepare","bytes":3407,"sha":"c69c70bb504b43e4a9973fd080eeed02ae8f29f152e462dc902d7ca08c8441b0","files":{"materials_prepare-before.json":"f3225d20d40138f22c325d8431e3fc4a84f80865dab215d0c8c4ac4b74fd02c6","materials_prepare-response.json":"03752cab7f3a35a0639a8054d243a1c2f975c6b1b08c737cfa2a890292ace1fa","result.json":"a8377f7b1e6b301ee3afd9de6fe81017d760a0db4561b440d355b4d195cbb38e"}}];
+          for(const d of descriptors){const bytes=execFileSync('gh',['api','--method','GET',`repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/${d.id}/zip`],{maxBuffer:16777216,stdio:['ignore','pipe','ignore']});assert.equal(bytes.length,d.bytes);assert.equal(hash(bytes),d.sha);write(process.env.RUNNER_TEMP+'/'+d.zip+'.zip',bytes);}
+          const binding=JSON.parse(fs.readFileSync('scripts/ordinary-repair-native-binding.json')),bytes=execFileSync('gh',['api','--method','GET','repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/40450762952'],{maxBuffer:1048576,stdio:['ignore','pipe','ignore']});assert.equal(hash(JSON.stringify(JSON.parse(bytes))),binding.repairRunSha256);write(process.env.RUNNER_TEMP+'/ordinary-repair-run.json',bytes);
+          JS
           python3 - <<'PY'
           import os,pathlib,hashlib,zipfile
-          root=pathlib.Path(os.environ['RUNNER_TEMP']);archive=root/'ordinary-admin-native.zip';raw=archive.read_bytes()
-          assert len(raw)==10460999
-          assert hashlib.sha256(raw).hexdigest()=='1d667454449b63925213f640d8bce706b041d8190398aa6fd73336e1b0d3ef84'
-          with zipfile.ZipFile(archive) as z:
-              entry=z.getinfo('deploy.json');assert 0<entry.file_size<=2097152;data=z.read(entry)
-          assert hashlib.sha256(data).hexdigest()=='76e5b1baaf13de456482194956deedaff8f6468abef6ff0a90fe615a4c451711'
-          output=root/'ordinary-admin-native';output.mkdir(mode=0o700);(output/'deploy.json').write_bytes(data);os.chmod(output/'deploy.json',0o600)
-          PY
-          gh api --method GET repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/12705506477/zip > "$RUNNER_TEMP/ordinary-configure-native.zip"
-          python3 - <<'PY'
-          import os,pathlib,hashlib,zipfile
-          root=pathlib.Path(os.environ['RUNNER_TEMP']);raw=(root/'ordinary-configure-native.zip').read_bytes()
-          assert len(raw)==6804
-          assert hashlib.sha256(raw).hexdigest()=='e1629724df4391849edc8d7be860ecd655fce5c1b42ae5d04e9097678e1a81e3'
-          pins={'result.json':'fe9007b61fd08de6c96b3473964d918a47acfd23e3895557af5804829cc775d6','allocation-before.json':'adcdb5aa0869f136082fc52c6cee27f7598d12783e933e21c5d84c28ff10493a','allocation-response.json':'c25261920aec7b648a2716a23548fa964feb7e46c690a9f50a3eaaae9fa9cecd','allocation-state.json':'f367a781043e31568168d0d4c869cfb28329dfd9f52ee5ddea258dcafb790b90'}
-          output=root/'ordinary-configure-native';output.mkdir(mode=0o700)
-          with zipfile.ZipFile(root/'ordinary-configure-native.zip') as z:
-              for name,expected in pins.items():
-                  entry=z.getinfo(name);assert 0<entry.file_size<=65536;data=z.read(entry);assert hashlib.sha256(data).hexdigest()==expected
-                  (output/name).write_bytes(data);os.chmod(output/name,0o600)
+          descriptors=[{'id': 12699943085, 'zip': 'ordinary-original', 'bytes': 10460999, 'sha': '1d667454449b63925213f640d8bce706b041d8190398aa6fd73336e1b0d3ef84', 'files': {'deploy.json': '76e5b1baaf13de456482194956deedaff8f6468abef6ff0a90fe615a4c451711'}}, {'id': 12710479264, 'zip': 'ordinary-repair', 'bytes': 5981, 'sha': '0a6aed2ebf50d8309d67dfb365e8146fdf1e6b2b9146886eaa4095f57580d086', 'files': {'deploy.json': 'c23e926487ca4bc04db2ce3f55707abccc851d16785c4b14f2ec4f879ecc7999'}}, {'id': 12705506477, 'zip': 'ordinary-configure', 'bytes': 6804, 'sha': 'e1629724df4391849edc8d7be860ecd655fce5c1b42ae5d04e9097678e1a81e3', 'files': {'result.json': 'fe9007b61fd08de6c96b3473964d918a47acfd23e3895557af5804829cc775d6', 'allocation-before.json': 'adcdb5aa0869f136082fc52c6cee27f7598d12783e933e21c5d84c28ff10493a', 'allocation-response.json': 'c25261920aec7b648a2716a23548fa964feb7e46c690a9f50a3eaaae9fa9cecd', 'allocation-state.json': 'f367a781043e31568168d0d4c869cfb28329dfd9f52ee5ddea258dcafb790b90'}}, {'id': 12706053745, 'zip': 'ordinary-failed-prepare', 'bytes': 3407, 'sha': 'c69c70bb504b43e4a9973fd080eeed02ae8f29f152e462dc902d7ca08c8441b0', 'files': {'materials_prepare-before.json': 'f3225d20d40138f22c325d8431e3fc4a84f80865dab215d0c8c4ac4b74fd02c6', 'materials_prepare-response.json': '03752cab7f3a35a0639a8054d243a1c2f975c6b1b08c737cfa2a890292ace1fa', 'result.json': 'a8377f7b1e6b301ee3afd9de6fe81017d760a0db4561b440d355b4d195cbb38e'}}]
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          for d in descriptors:
+              output=root/d['zip'];output.mkdir(mode=0o700)
+              with zipfile.ZipFile(root/(d['zip']+'.zip')) as z:
+                  for name,expected in d['files'].items():
+                      entry=z.getinfo(name);assert 0<entry.file_size<=2097152;data=z.read(entry);assert hashlib.sha256(data).hexdigest()==expected
+                      with (output/name).open('xb') as f:os.fchmod(f.fileno(),0o600);f.write(data)
           PY
       - name: Prepare current materials and conditionally Start only after actual DOM review
         env:
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-          RCAP_ADMIN_NATIVE_DEPLOY_FILE: ${{ runner.temp }}/ordinary-admin-native/deploy.json
-          RCAP_ADMIN_CONFIGURE_RECEIPT_DIR: ${{ runner.temp }}/ordinary-configure-native
+          RCAP_ADMIN_ORIGINAL_NATIVE_FILE: ${{ runner.temp }}/ordinary-original/deploy.json
+          RCAP_ADMIN_REPAIR_NATIVE_FILE: ${{ runner.temp }}/ordinary-repair/deploy.json
+          RCAP_ADMIN_REPAIR_RUN_FILE: ${{ runner.temp }}/ordinary-repair-run.json
+          RCAP_ADMIN_CONFIGURE_RECEIPT_DIR: ${{ runner.temp }}/ordinary-configure
+          RCAP_ADMIN_FAILED_PREPARE_RECEIPT_DIR: ${{ runner.temp }}/ordinary-failed-prepare
           ORDINARY_ADMIN_EVIDENCE_FILE: ordinary-admin-materials-start-evidence/result.json
-        run: node scripts/rcap-hosted-ordinary-admin-materials-start-runner.mjs
+        run: node scripts/rcap-hosted-ordinary-admin-materials-start-repaired-runner.mjs
       - name: Preserve only exact typed program operation and material review checkpoints
         if: always()
         uses: actions/upload-artifact@v4
