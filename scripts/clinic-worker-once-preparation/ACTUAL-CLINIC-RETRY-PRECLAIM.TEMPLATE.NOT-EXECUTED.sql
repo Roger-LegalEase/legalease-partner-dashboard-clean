@@ -11,10 +11,10 @@ WITH expected AS (
  'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal'::text route_key
 ), eligible AS (
  SELECT id,renderer_kind,row_number() OVER(ORDER BY created_at,id) rank_all_kinds
- FROM public.packet_render_jobs WHERE status='failed' AND failure_disposition='retryable' AND attempt_count=1 AND max_attempts=5 AND next_attempt_at IS NOT NULL AND isfinite(next_attempt_at) AND next_attempt_at<=now() AND NOT EXISTS (SELECT 1 FROM public.packet_render_jobs live WHERE live.packet_id=packet_render_jobs.packet_id AND live.input_hash=packet_render_jobs.input_hash AND live.status<>'failed')
+ FROM public.packet_render_jobs WHERE status='failed' AND failure_disposition='retryable' AND attempt_count=2 AND max_attempts=5 AND next_attempt_at IS NOT NULL AND isfinite(next_attempt_at) AND next_attempt_at<=now() AND NOT EXISTS (SELECT 1 FROM public.packet_render_jobs live WHERE live.packet_id=packet_render_jobs.packet_id AND live.input_hash=packet_render_jobs.input_hash AND live.status<>'failed')
 ), accepted_eligible AS (
  SELECT id,row_number() OVER(ORDER BY created_at,id) rank_accepted_renderer
- FROM public.packet_render_jobs WHERE status='failed' AND failure_disposition='retryable' AND attempt_count=1 AND max_attempts=5 AND next_attempt_at IS NOT NULL AND isfinite(next_attempt_at) AND next_attempt_at<=now() AND NOT EXISTS (SELECT 1 FROM public.packet_render_jobs live WHERE live.packet_id=packet_render_jobs.packet_id AND live.input_hash=packet_render_jobs.input_hash AND live.status<>'failed') AND renderer_kind='packet_document_v1'
+ FROM public.packet_render_jobs WHERE status='failed' AND failure_disposition='retryable' AND attempt_count=2 AND max_attempts=5 AND next_attempt_at IS NOT NULL AND isfinite(next_attempt_at) AND next_attempt_at<=now() AND NOT EXISTS (SELECT 1 FROM public.packet_render_jobs live WHERE live.packet_id=packet_render_jobs.packet_id AND live.input_hash=packet_render_jobs.input_hash AND live.status<>'failed') AND renderer_kind='packet_document_v1'
 ), exact_join AS (
  SELECT j.id FROM expected e
  JOIN public.packet_render_jobs j ON j.id=e.job_id AND j.packet_id=e.packet_id AND j.input_hash=e.input_hash
