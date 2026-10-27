@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       clinic_attempt_id:
         description: "Owner-authorized Clinic attempt identity; required for clinic_setup_only, never reused"
@@ -204,6 +204,83 @@ jobs:
         with:
           name: clinic-setup-only-${{ github.run_id }}
           path: clinic-setup-only-evidence/
+          if-no-files-found: warn
+
+  dtc_saved_readonly:
+    name: Reconcile only the original saved DTC case without business writes
+    if: inputs.mode == 'dtc_saved_readonly'
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: carrier
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Require exact saved-case source and dispatch before remote reads or credentials
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+          const sha=b=>createHash('sha256').update(b).digest('hex');
+          assert.equal(process.env.GITHUB_REPOSITORY,'Roger-LegalEase/legalease-partner-dashboard-clean');assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
+          assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          const input=JSON.parse(process.env.DISPATCH_INPUTS),binding=JSON.parse(fs.readFileSync('scripts/dtc-readonly-native-binding.json'));
+          assert(Number.isSafeInteger(binding.recoveryArtifactId)&&binding.recoveryArtifactId>0,'actual accepted native pins unresolved');
+          for(const [key,value]of Object.entries({mode:'dtc_saved_readonly',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',tools_sha:'987d0c9df170641a9abe40f0d5ec450e740abaa1',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia',preview_hostname:new URL(binding.origin).hostname,preview_deployment_id:binding.deploymentId,preview_creation_run_id:'40441747499'}))assert.equal(input[key],value);
+          assert.equal(sha(input.resume_matter_id??''),JSON.parse(fs.readFileSync('scripts/dtc-local-prior-receipt-inventory.json')).savedCaseSha256);
+          for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);assert.equal(input.sponsor_items??'[]','[]');assert([undefined,false,'false'].includes(input.sponsor_fulfillment));
+          for(const [file,hash]of Object.entries({"scripts/rcap-hosted-existing-dtc-readonly-entry.mjs":"1b3c38c5aa7e36edaa8e1cfbff94ce46ac16f52957a69e8a2bbcec7f13f8eb31","scripts/rcap-hosted-configured-recovery-admission.test.mjs":"fa3645b7f6cd3c35c9d3c40fa159e273817a5f1a0d0c495a5501cd3b1d407084","scripts/rcap-hosted-response-contract.mjs":"dd8c1eca0741df9ff8eb3013f99522ca38be6c55b6c650ecab4266623d433b44","scripts/dtc-local-prior-receipt-inventory.json":"d0fa409a91290bad431ddc8810ed18c11ae1dd3d3517ebbcb30dad05cee8a94e","scripts/rcap-hosted-configured-recovery-admission.actual.test.mjs":"19b9f19cf537319294a8540afc8c5d89a50775bbad30b38ea59566e7d35c1ef4","scripts/rcap-hosted-consumer-purpose-release.mjs":"80caaa03662874ffdc43174578fe20ae28f14c0ab82686ba169cc3e96b402d99","scripts/rcap-hosted-configured-recovery-admission.mjs":"219bba287b324c65f124fe4c0d59b4b5fc125aef699ee41cefcea035a43c7e2b","scripts/dtc-readonly-native-binding.json":"bcd7621fc416adf59e6fbcaac39259815c95d491e6f9287743a8edef8517e6e4","scripts/rcap-hosted-existing-dtc-readonly-runner.mjs":"9203333edc36fdf28162e5f58cf2203460ff509d1df600758a940bdb51b6466e","scripts/rcap-hosted-existing-dtc-readonly-runner.test.mjs":"d0473275cf0be7790291ca64283c8784171b0f28ae536155ca7d4ff5a4115902","scripts/rcap-hosted-existing-dtc-continuation.mjs":"90d895dd9a0bb57dcc3ef5391d4dab08b6b125a06b864f7ff15ef759e6c9ddb6"}))assert.equal(sha(fs.readFileSync(file)),hash);
+          JS
+      - name: Require immutable historical account source without executing its harness
+        run: |
+          if ! git cat-file -e '4feb8e94b3dee4085fe05ea75d78853fe21e5097^{commit}' 2>/dev/null; then
+            git fetch --no-tags --no-write-fetch-head origin 4feb8e94b3dee4085fe05ea75d78853fe21e5097
+          fi
+      - name: Read only failed creator and accepted successful completion chain
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
+          const hash=b=>createHash('sha256').update(b).digest('hex'),b=JSON.parse(fs.readFileSync('scripts/dtc-readonly-native-binding.json'));
+          for(const kind of ['creator','recovery']){const id=b[kind+'ArtifactId'];assert(Number.isSafeInteger(id)&&id>0);const bytes=execFileSync('gh',['api','--method','GET',`repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/${id}/zip`],{maxBuffer:16777216,stdio:['ignore','pipe','ignore']});assert.equal(bytes.length,b[kind+'ZipBytes']);assert.equal(hash(bytes),b[kind+'ZipSha256']);fs.writeFileSync(process.env.RUNNER_TEMP+'/dtc-'+kind+'.zip',bytes,{flag:'wx',mode:0o600});const runBytes=execFileSync('gh',['api','--method','GET',`repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/${b[kind==='creator'?'creationRun':'recoveryRun']}`],{maxBuffer:1048576,stdio:['ignore','pipe','ignore']});assert.equal(hash(JSON.stringify(JSON.parse(runBytes))),b[kind+'RunSha256']);fs.writeFileSync(process.env.RUNNER_TEMP+'/dtc-'+kind+'-run.json',runBytes,{flag:'wx',mode:0o600});}
+          JS
+          python3 - <<'PYCODE'
+          import os,pathlib,json,zipfile,hashlib
+          b=json.loads(pathlib.Path('scripts/dtc-readonly-native-binding.json').read_text());root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          for kind,name,pin in [('creator','deploy.json','creatorNativeSha256'),('recovery','configured-recovery.json','recoverySha256')]:
+              with zipfile.ZipFile(root/('dtc-'+kind+'.zip')) as z:
+                  entry=z.getinfo(name);assert 0<entry.file_size<=2097152;raw=z.read(entry)
+              assert hashlib.sha256(raw).hexdigest()==b[pin];p=root/('dtc-'+kind+'.json');p.write_bytes(raw);p.chmod(0o600)
+          PYCODE
+      - name: Reconcile original saved DTC case through normal owner Auth and fixed read-only query
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          DTC_CREATOR_NATIVE_FILE: ${{ runner.temp }}/dtc-creator.json
+          DTC_CREATOR_RUN_FILE: ${{ runner.temp }}/dtc-creator-run.json
+          DTC_RECOVERY_FILE: ${{ runner.temp }}/dtc-recovery.json
+          DTC_RECOVERY_RUN_FILE: ${{ runner.temp }}/dtc-recovery-run.json
+        run: node scripts/rcap-hosted-existing-dtc-readonly-entry.mjs
+      - name: Preserve only the sanitized typed reconciliation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dtc-saved-readonly-${{ github.run_id }}
+          path: carrier/dtc-saved-readonly-evidence/result.json
           if-no-files-found: warn
 
   ordinary_admin_readonly:

@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {RECOVERY,admitDtcRecoveryChain} from './rcap-hosted-configured-recovery-admission.mjs';
+const hash=x=>createHash('sha256').update(x).digest('hex');
+assert(process.env.DTC_FAILED_CREATOR_NATIVE_FILE,'external private original native only, never public fixture');
+const creatorBytes=fs.readFileSync(process.env.DTC_FAILED_CREATOR_NATIVE_FILE),creator=JSON.parse(creatorBytes);assert.equal(creator.passed,false);
+const run=(id,head,conclusion)=>({id,workflow_id:332448793,head_sha:head,head_branch:'codex/f-vercel-raw-readonly-20261026',run_attempt:1,status:'completed',conclusion,event:'workflow_dispatch'});
+const creatorRun=run(RECOVERY.creatorRun,RECOVERY.creatorCarrier,'failure'),recoveryRun=run(RECOVERY.recoveryRun,RECOVERY.carrier,'success');
+const runtimeIdentity={application:'RCAP 2.0',policyVersion:'rcap2.2',buildSha:RECOVERY.app,runtimeSha:RECOVERY.app,sourceBound:false};
+const runtime={status:503,runtimeSourceIdentityVerified:true,adminLaunchSourceBound:false,runtimeIdentity,runtimeIdentitySha256:hash(JSON.stringify(runtimeIdentity))};
+const freshBefore={productionAliases:creator.productionBefore.aliases,productionEnvironmentShape:creator.productionBefore.environmentShape,historical:creator.ordinaryPreviewBefore.details,current:creator.currentOrdinaryPreviewBefore};
+// Synthetic completion structure exercises source validation; never actual recovery credit.
+const receipt={schemaVersion:'rcap-configured-preview-recovery/v1',passed:true,status:'EXISTING_READY_TARGET_ALIAS_COMPLETED',creatorRunId:RECOVERY.creatorRun,creatorConclusion:'failure',nativeCreatorSha256:RECOVERY.creatorSha256,applicationSha:RECOVERY.app,workerSourceSha:RECOVERY.worker,workerDigest:RECOVERY.digest,acceptanceProjectRef:RECOVERY.db,deploymentId:RECOVERY.target,immutableHostname:RECOVERY.hostname,returnAlias:RECOVERY.alias,creationCalls:0,builds:0,envWrites:0,customerOperations:0,aliasIntroduced:true,immutableHealth:200,aliasHealth:200,immutableRuntime:runtime,aliasRuntime:structuredClone(runtime),originalBefore:{production:creator.productionBefore,historicalOrdinary:creator.ordinaryPreviewBefore,currentOrdinary:creator.currentOrdinaryPreviewBefore,siblings:creator.purposeSiblingsBefore},freshBefore,freshAfter:structuredClone(freshBefore),inventoryBefore:{complete:true,pages:1,siblings:[]},inventoryAfter:{complete:true,pages:1,siblings:[]},recoverySource:{phase:'configured_sandbox_preview_recover',carrierSha:RECOVERY.carrier,carrierWorkflowSha:RECOVERY.carrier,controllerSha:RECOVERY.controller,toolsSha:RECOVERY.tools,runId:String(RECOVERY.recoveryRun),runAttempt:'1'}};
+const argsFor=(r=receipt,rr=recoveryRun)=>{const recoveryBytes=Buffer.from(JSON.stringify(r));return{binding:{creationRun:RECOVERY.creatorRun,recoveryRun:RECOVERY.recoveryRun,recoverySha256:hash(recoveryBytes),recoveryRunSha256:hash(JSON.stringify(rr)),creatorRunSha256:hash(JSON.stringify(creatorRun)),origin:'https://'+RECOVERY.alias,deploymentId:RECOVERY.target},creatorBytes,creatorRun,recoveryBytes,recoveryRun:rr};};
+const view=admitDtcRecoveryChain(argsFor());assert.equal(view.creatorFailed,true);assert.equal(view.recoveryPassed,true);assert.equal(JSON.parse(creatorBytes).passed,false);assert(!Object.hasOwn(view,'passed'));
+for(const change of [r=>r.passed=false,r=>r.creationCalls=1,r=>r.builds=1,r=>r.envWrites=1,r=>r.customerOperations=1,r=>r.creatorConclusion='success',r=>r.aliasIntroduced=false,r=>r.deploymentId='dpl_other',r=>r.aliasRuntime.runtimeIdentity.sourceBound=true,r=>r.recoverySource.toolsSha=RECOVERY.creatorTools,r=>r.freshAfter.productionAliases=['changed'],r=>r.inventoryAfter.siblings=[{}]]){const r=structuredClone(receipt);change(r);assert.throws(()=>admitDtcRecoveryChain(argsFor(r)));}
+assert.throws(()=>admitDtcRecoveryChain(argsFor(receipt,{...recoveryRun,conclusion:'failure'})));
+const a=argsFor();a.binding.recoverySha256=null;assert.throws(()=>admitDtcRecoveryChain(a));
+const b=argsFor();b.creatorBytes=Buffer.from(JSON.stringify({...creator,passed:true}));assert.throws(()=>admitDtcRecoveryChain(b));
+console.log('PASS: real failed creator retained + synthetic recovery structure only; successfulrun/source/identity/preservation/zerooperations/hashchain/refusal; no actual recovery credit or network.');
