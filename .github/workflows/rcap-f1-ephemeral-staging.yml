@@ -615,7 +615,7 @@ jobs:
           if-no-files-found: warn
 
   ordinary_admin_start_only:
-    name: Continue the original ordinary Start once without repeating prepared materials
+    name: Recover held Ordinary publication through one separately admitted normal launch
     if: inputs.mode == 'ordinary_admin_start_only'
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -626,19 +626,10 @@ jobs:
         working-directory: admitted-tools
     env:
       DISPATCH_INPUTS: ${{ toJSON(inputs) }}
-      RCAP_START_BINDING_FILE: ${{ github.workspace }}/start-only-input/binding.json
-      RCAP_START_BINDING_SHA256: 4c22caba565b1a2bcb3fb78255510b3ad81cd5a804e74bae48c6dc0d6ffcfd0f
-      RCAP_START_CREATOR_FILE: ${{ github.workspace }}/start-only-input/creator.json
-      RCAP_START_CREATOR_RUN_FILE: ${{ github.workspace }}/start-only-input/creator-run.json
-      RCAP_START_CREATOR_C_ACCEPTANCE_FILE: ${{ github.workspace }}/start-only-input/c-acceptance.json
-      RCAP_START_GUARD_FILE: ${{ github.workspace }}/start-only-input/guard.json
-      RCAP_START_GUARD_RUN_FILE: ${{ github.workspace }}/start-only-input/guard-run.json
-      RCAP_START_GUARD_C_ACCEPTANCE_FILE: ${{ github.workspace }}/start-only-input/guard-c-acceptance.json
-      RCAP_START_RETAINED_BEFORE_FILE: ${{ github.workspace }}/start-only-input/start-before.json
-      RCAP_START_RETAINED_REVIEW_FILE: ${{ github.workspace }}/start-only-input/material-review.json
-      RCAP_START_RETAINED_POSTSTATE_FILE: ${{ github.workspace }}/start-only-input/poststate.json
-      RCAP_START_POSTSTATE_SQL_FILE: ${{ github.workspace }}/start-only-input/poststate.sql
-      RCAP_START_EVIDENCE_DIR: ${{ github.workspace }}/ordinary-start-only-evidence
+      RCAP_LAUNCH_RECOVERY_BINDING_FILE: ${{ github.workspace }}/launch-recovery-input/binding.json
+      RCAP_LAUNCH_RECOVERY_BINDING_SHA256: e2ef7271ae2ae4a14e3efcdf47564814ec36b5e8b92d434122659e3119497110
+      RCAP_START_POSTSTATE_SQL_FILE: ${{ github.workspace }}/launch-recovery-input/poststate.sql
+      RCAP_START_EVIDENCE_DIR: ${{ github.workspace }}/ordinary-launch-recovery-evidence
     steps:
       - uses: actions/checkout@v4
         with:
@@ -648,45 +639,50 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /vercel.json
-            /data/rcap-grade-a/launch-control/ordinary-start-only-retained/
-            /data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/
-            /data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/
+            /data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/
+            /data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.sql
       - uses: actions/checkout@v4
         with:
-          ref: 6988fe373aa9698953d71b610d4341d9b42f257d
+          ref: 5e2467de309188eaf370561b7adfc32613621a05
           path: admitted-tools
           fetch-depth: 0
+          filter: blob:none
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Bind exact immutable Start tools and C-qualified metadata before credentials
+      - name: Bind one exact recovery source and actual evidence before credentials; NULL means hold
         run: |
           node --input-type=module <<'JS'
-          import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'6988fe373aa9698953d71b610d4341d9b42f257d');assert.equal(JSON.parse(fs.readFileSync('../carrier/vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);for(const[file,pin]of Object.entries({"scripts/rcap-hosted-ordinary-admin-start-only-entry.mjs":"783cc09a43c389a6fc79789668bf0746a05252e7563ea6a1543d0b09198909b6","scripts/rcap-hosted-ordinary-admin-start-only.mjs":"bb5d5fca876a429b8327c0c26cc1bd8071ceb68e31b7f849b7bdb98467e3346d","scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba","scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","package.json":"73ab9869dfb6b045d0a549943024a1b32c04b238bceb658b0d450d330fa7cc20","package-lock.json":"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.sql":"940f73ee4d2782381a0ea378f1735e5afb77409c222994783dadb2974f3e9469","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/material-review.json":"a1ea765968b128fc7ab35dfcc91cf14d3ec7fae8addd57e1472a182131f14900","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/start-before.json":"1bfc58296afe4af56f3b48caddf28b70f4fcbf08cefa2243efffb382094eddd6","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.json":"f064919f47268121cc394b75c362f804f1b4a51c6127360bae7c62db00d66a09","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/creator.json":"61a8e2fa4bc6c9153553d6c30dcb18ab52ca5c4a150ba101729c8c9c8ca60c41","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/creator-run.json":"ca8997214cc6029d377fcad5b02731eefd58fc1e8eaa844d4bde8e02e98be9b2","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/c-acceptance.json":"dc8847105382e6b388d0497899b58895aa5ad1fd51dcb1cd9e1c9f8ed2653570","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/binding.json":"4c22caba565b1a2bcb3fb78255510b3ad81cd5a804e74bae48c6dc0d6ffcfd0f","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/guard.json":"40ad5517ec9eea82c4904bf53e9b08652400e701ba8c3dcf517ff0bc35e5cddf","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/guard-run.json":"96a5bcd8f2675b3b9d3adfd8850567ddd9059f924b3cb8c2b75bc2bd94e934db","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/guard-c-acceptance.json":"af57412439948f689d378f96eaab21eca4864a47d2d6bb8ca9b25460cc44bab4"}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),pin);
-          const root=process.env.GITHUB_WORKSPACE+'/start-only-input';assert(!fs.existsSync(root));fs.mkdirSync(root,{mode:0o700});fs.chmodSync(root,0o700);for(const file of Object.keys({"scripts/rcap-hosted-ordinary-admin-start-only-entry.mjs":"783cc09a43c389a6fc79789668bf0746a05252e7563ea6a1543d0b09198909b6","scripts/rcap-hosted-ordinary-admin-start-only.mjs":"bb5d5fca876a429b8327c0c26cc1bd8071ceb68e31b7f849b7bdb98467e3346d","scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba","scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","package.json":"73ab9869dfb6b045d0a549943024a1b32c04b238bceb658b0d450d330fa7cc20","package-lock.json":"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.sql":"940f73ee4d2782381a0ea378f1735e5afb77409c222994783dadb2974f3e9469","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/material-review.json":"a1ea765968b128fc7ab35dfcc91cf14d3ec7fae8addd57e1472a182131f14900","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/start-before.json":"1bfc58296afe4af56f3b48caddf28b70f4fcbf08cefa2243efffb382094eddd6","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.json":"f064919f47268121cc394b75c362f804f1b4a51c6127360bae7c62db00d66a09","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/creator.json":"61a8e2fa4bc6c9153553d6c30dcb18ab52ca5c4a150ba101729c8c9c8ca60c41","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/creator-run.json":"ca8997214cc6029d377fcad5b02731eefd58fc1e8eaa844d4bde8e02e98be9b2","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/c-acceptance.json":"dc8847105382e6b388d0497899b58895aa5ad1fd51dcb1cd9e1c9f8ed2653570","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/binding.json":"4c22caba565b1a2bcb3fb78255510b3ad81cd5a804e74bae48c6dc0d6ffcfd0f","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/guard.json":"40ad5517ec9eea82c4904bf53e9b08652400e701ba8c3dcf517ff0bc35e5cddf","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/guard-run.json":"96a5bcd8f2675b3b9d3adfd8850567ddd9059f924b3cb8c2b75bc2bd94e934db","../carrier/data/rcap-grade-a/launch-control/ordinary-final-start-only-creator/guard-c-acceptance.json":"af57412439948f689d378f96eaab21eca4864a47d2d6bb8ca9b25460cc44bab4"}).filter(f=>f.startsWith('../carrier/data/'))){const dest=root+'/'+file.split('/').at(-1);fs.copyFileSync(file,dest,fs.constants.COPYFILE_EXCL);fs.chmodSync(dest,0o600);}
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'5e2467de309188eaf370561b7adfc32613621a05');
+          assert.equal(JSON.parse(fs.readFileSync('../carrier/vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          const pins={"scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba","scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin-start-only-entry.mjs":"783cc09a43c389a6fc79789668bf0746a05252e7563ea6a1543d0b09198909b6","scripts/rcap-hosted-ordinary-admin-start-only.mjs":"bb5d5fca876a429b8327c0c26cc1bd8071ceb68e31b7f849b7bdb98467e3346d","scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","scripts/rcap-hosted-ordinary-launch-recovery.mjs":"17ee2dd31d019c5bbada7edf77e4f4ab2df8487205d42bb0252a3fd4a941dbfb","package.json":"73ab9869dfb6b045d0a549943024a1b32c04b238bceb658b0d450d330fa7cc20","package-lock.json":"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/binding.json":"e2ef7271ae2ae4a14e3efcdf47564814ec36b5e8b92d434122659e3119497110","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/baseline-poststate.json":"e183312a22a1c8ab49a3e461d88bed76408e97c6139fe19dad1577435e275d86","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/baseline-journal.json":"e05ab07203b4474cfe086b4e41426cd9dd41998544488c5df413b86d897c1ef8","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/preview.json":"cb3c58a30a6a43f7d1fce7521fba33ef6d3295446ba59912e6601fdba3212f35","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/preview-run.json":"bfe9787f8a5a6f09ca7197b8c7ef1112920559c0cbcbd934cc80eacc18030280","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/preview-c.json":"c90a374fed1d0d9ba4c24359aee4313e6e019e5fc71e57dacc6b01291f46dcb9","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/guard.json":"802ae65d902e2cb56ac5f8a24bd25d0235eb95f86ca8dbc54c86e783823dec86","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/guard-poststate.json":"8f7569f72ed57c1b733757e113bdca533f8013317299dcae8f2deaaa17295786","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/guard-run.json":"1874da6099d34c9668e0e5271d9e4e0ba13982e94ad60def2235dc7bdb2eed0a","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/guard-c.json":"4ad1e3f2d8ef45dd6e00a46b5d22d38821d990170abc80518cde0190deb2c6ef","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/worker-compatibility-c.json":"c758bfa91b6cbf865aaa9d7ee69327c6dad58ddac38dd748bad1f0dcf9225420","../carrier/data/rcap-grade-a/launch-control/ordinary-normal-launch-recovery/recovery-admission-c.json":"3a76d319ba25d8409cecdec397afaceca4b2e4c78f8ee03a97e7b361bc38b39f","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.sql":"940f73ee4d2782381a0ea378f1735e5afb77409c222994783dadb2974f3e9469"};
+          for(const [file,pin]of Object.entries(pins)){assert.match(pin??'',/^[a-f0-9]{64}$/,'BEFORE_AUTH_HOLD: corrected target/guard/compatibility/new request C admission required');assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),pin);}
+          const root=process.env.GITHUB_WORKSPACE+'/launch-recovery-input';assert(!fs.existsSync(root));fs.mkdirSync(root,{mode:0o700});fs.chmodSync(root,0o700);for(const file of Object.keys(pins).filter(f=>f.startsWith('../carrier/data/'))){const dest=root+'/'+file.split('/').at(-1);fs.copyFileSync(file,dest,fs.constants.COPYFILE_EXCL);fs.chmodSync(dest,0o600);}
           JS
-      - name: Verify actual successful creator and retained original Start admission with no network
-        run: node scripts/rcap-hosted-ordinary-admin-start-only-entry.mjs --verify
+      - name: Verify exact corrected target and separately admitted NEW request before network
+        run: node scripts/rcap-hosted-ordinary-launch-recovery.mjs --verify
       - name: Reuse existing locked browser dependencies without builds or browser installation
         run: npm ci --ignore-scripts
-      - name: Continue only the original normal-admin Start and preserve mandatory poststate
+      - name: Forward one normal launch with fresh preflight snapshot and mandatory poststate
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: node scripts/rcap-hosted-ordinary-admin-start-only-entry.mjs
-      - name: Preserve only typed private original Start evidence
+        run: node scripts/rcap-hosted-ordinary-launch-recovery.mjs
+      - name: Preserve only the new recovery response and unchanged spent-journal evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ordinary-admin-start-only-${{ github.run_id }}
+          name: ordinary-normal-launch-recovery-${{ github.run_id }}
           path: |
-            ordinary-start-only-evidence/start-only-before.json
-            ordinary-start-only-evidence/start-only-response.json
-            ordinary-start-only-evidence/start-only-uncertain.json
-            ordinary-start-only-evidence/start-only-poststate.json
-            ordinary-start-only-evidence/result.json
+            ordinary-launch-recovery-evidence/start-only-before.json
+            ordinary-launch-recovery-evidence/start-only-response.json
+            ordinary-launch-recovery-evidence/start-only-uncertain.json
+            ordinary-launch-recovery-evidence/start-only-poststate.json
+            ordinary-launch-recovery-evidence/result.json
           if-no-files-found: warn
+
   dtc_existing_session_readonly:
     name: Read only the correct saved DTC Checkout and its own PaymentIntent
     if: inputs.mode == 'dtc_existing_session_readonly'
