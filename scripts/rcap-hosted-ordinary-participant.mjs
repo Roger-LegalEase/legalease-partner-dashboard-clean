@@ -142,7 +142,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
   let sessionId=previous?.sessionId??null,targetItemId=previous?.itemId??null,intakeRequestId=previous?.intakeRequestId??null;
   let firstEnqueueCapableActionAt=previous?.firstEnqueueCapableActionAt??null,generationRequests=previous?.generationRequests??0;
   if(previous&&!targetItemId)assert.ok(uuid(sessionId),'Uncertain intake requires native reconciliation; never start again');
-  let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false,resumeEmptySession=false;
+  let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false,resumeEmptySession=false,deniedRequestCount=0;
   const save=async(stage,details={})=>{
     const record={schema:'ordinary-participant-private-custody/v1',origin,applicationSha:binding.applicationSha,deploymentId:binding.deploymentId,sourceBindingSha256:binding.sourceBindingSha256,participantUserId:ORDINARY_PARTICIPANT,partnerSlug:ORDINARY_PARTNER,sessionId,itemId:targetItemId,intakeRequestId,firstEnqueueCapableActionAt,generationRequests,stage,...details};
     await checkpoint(record);assert.deepEqual(await loadCustody(),record,'Private checkpoint must be durable before forwarding');return record;
@@ -154,12 +154,22 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     const generate=method==='POST'&&u.pathname==='/api/expungement-ai/packet/generate';
     if(generate){generationCount++;generationRequests++;}
     let body=null;try{body=request.postDataJSON();}catch{}
-    if(!ordinaryRequestAllowed({url:request.url(),method,body},{origin,targetItemId,sessionId,generationAllowed,generationCount:generationRequests})||await authorizeRequest(request,{origin,participantUserId:ORDINARY_PARTICIPANT,targetItemId,sessionId})!==true){unexpectedRequest=true;await route.abort();return;}
+    const deny=async reason=>{
+      unexpectedRequest=true;deniedRequestCount++;
+      try {if(deniedRequestCount<=8){
+        const headers=request.headers(),resource=request.resourceType();
+        const originClass=u.origin===origin?'application':u.origin===authOrigin?'auth':/(^|\.)stripe\.com$/i.test(u.hostname)?'stripe':/(^|\.)vercel\.live$/i.test(u.hostname)?'preview_toolbar':'other';
+        const pathClass=u.pathname==='/api/expungement-ai/packet/generate'?'packet_generate':/^\/api\/expungement-ai\/briefcase\/[^/]+\/packet-information$/.test(u.pathname)?'packet_information':/\/(download|download-link|render)(\/|$)/.test(u.pathname)?'packet_download':/\/(checkout|stripe)(\/|$)/.test(u.pathname)?'checkout':u.pathname.startsWith('/auth/v1/')?'auth':u.pathname.startsWith('/_next/')?'app_asset':u.pathname.startsWith('/api/')?'other_api':u.pathname.startsWith('/briefcase/')?'briefcase_page':'other';
+        await checkpoint({schemaVersion:'ordinary-request-guard-denial/v1',reason,deniedRequestCount,method:['GET','HEAD','POST','PUT','PATCH','DELETE','OPTIONS'].includes(method)?method:'OTHER',originClass,pathClass,resourceType:['document','script','stylesheet','image','font','xhr','fetch','manifest','other'].includes(resource)?resource:'other',targetItemMatch:!!targetItemId&&(u.pathname.split('/').includes(targetItemId)||body?.briefcaseItemId===targetItemId),hasQuery:!!u.search,nextRouterPrefetch:headers['next-router-prefetch']==='1',purposePrefetch:headers.purpose?.toLowerCase()==='prefetch',secPurposePrefetch:headers['sec-purpose']?.toLowerCase().includes('prefetch')===true,generationCount,generationRequests,generationAllowed});
+      }} finally {await route.abort();}
+    };
+    if(!ordinaryRequestAllowed({url:request.url(),method,body},{origin,targetItemId,sessionId,generationAllowed,generationCount:generationRequests})){await deny('participant_policy');return;}
+    if(await authorizeRequest(request,{origin,participantUserId:ORDINARY_PARTICIPANT,targetItemId,sessionId})!==true){await deny('controller_policy');return;}
     if(method==='POST'&&u.origin===origin&&u.pathname==='/api/expungement-ai/screening/pending'){
-      pendingCount++;if((previous&&!resumeEmptySession)||pendingCount!==1||body?.anonymousSessionId!==sessionId){unexpectedRequest=true;await route.abort();return;}
+      pendingCount++;if((previous&&!resumeEmptySession)||pendingCount!==1||body?.anonymousSessionId!==sessionId){await deny('pending_replay');return;}
     }
     if(method==='POST'&&u.origin===origin&&u.pathname==='/api/expungement-ai/screening/pending/claim'){
-      claimCount++;if((previous&&!resumeEmptySession)||claimCount!==1){unexpectedRequest=true;await route.abort();return;}
+      claimCount++;if((previous&&!resumeEmptySession)||claimCount!==1){await deny('claim_replay');return;}
     }
     if(generate)await save('ordinary_generate_before_forward');
     if(!originalResponseOperation(request,config))return route.fallback();
@@ -237,9 +247,21 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     await anonymousPage.goto(`${origin}/briefcase`);
     await strangerPage.goto(`${origin}/briefcase`);
     assert.equal(await apiStatus(anonymousPage),401);assert.equal(await apiStatus(strangerPage),404);
-    if(previous)await page.goto(`${origin}/briefcase/${itemId}/packet-information`);
-    else await page.getByRole('link',{name:'Complete packet information',exact:true}).click();
-    await page.waitForURL(u=>u.origin===origin && u.pathname===`/briefcase/${itemId}/packet-information`);
+    if(previous?.stage==='ordinary_review_opened') {
+      const ready=await readOwner();assert.equal(ready.status,200);assert.equal(ready.body.ok,true);
+      assert.ok(Number.isInteger(previous.revision));assert.equal(ready.body.revision,previous.revision);
+      assert.equal(ready.body.resumeSectionId,'review');assert.equal(ready.body.nextAction,'review_packet');assert.equal(ready.body.reviewPath,`/briefcase/${itemId}/review`);
+      assert.deepEqual(ready.body.missingInputIds,[]);assert.deepEqual(ready.body.pendingDerivations,[]);assert.deepEqual(ready.body.recordClarificationIds,[]);
+      assert.equal(ready.body.courtRecordConflict,false);assert.equal(ready.body.caProp64Clarification,false);assert.equal(ready.body.readyToGenerate,false);
+      await page.goto(`${origin}${ready.body.reviewPath}`);
+      await page.waitForURL(u=>u.origin===origin&&u.pathname===ready.body.reviewPath);
+      const after=await readOwner();assert.equal(after.status,200);assert.equal(after.body.revision,ready.body.revision);assert.deepEqual(after.body.answers,ready.body.answers);
+      await checkpoint({schemaVersion:'ordinary-review-get-resume/v1',revision:after.body.revision,normalReviewPostCountThisInvocation:0});
+    } else {
+      if(previous)await page.goto(`${origin}/briefcase/${itemId}/packet-information`);
+      else await page.getByRole('link',{name:'Complete packet information',exact:true}).click();
+      await page.waitForURL(u=>u.origin===origin && u.pathname===`/briefcase/${itemId}/packet-information`);
+    }
     let saves=0,savedRevision=previous?.revision??null;
     for(;saves<80 && new URL(page.url()).pathname.endsWith('/packet-information');saves++) {
       const builder=page.locator("[data-packet-information-builder='active']");
@@ -320,6 +342,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     }
     await page.waitForURL(u=>u.origin===origin && u.pathname===`/briefcase/${itemId}/review`);
     assert.equal(await page.locator('[data-packet-verification-state]').getAttribute('data-packet-verification-state'),'unverified');
+    await checkpoint({schemaVersion:'ordinary-preverify-request-guard/v1',generationCount,generationRequests,unexpectedRequest,deniedRequestCount,failingGuard:generationCount!==0?'generation_count':unexpectedRequest?'unexpected_request':null});
     assert.equal(generationCount,0);assert.equal(unexpectedRequest,false);
     await native(false);
     // Sponsored Verify auto-enqueues. Hold the entire producer/consumer window first.
