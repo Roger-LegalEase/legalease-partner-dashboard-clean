@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [clinic_saved_readonly, dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [dtc_stripe_ingress_readonly, clinic_saved_readonly, dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       clinic_attempt_id:
         description: "Owner-authorized Clinic attempt identity; required for clinic_setup_only, never reused"
@@ -139,6 +139,45 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
+  dtc_stripe_ingress_readonly:
+    name: Read only saved DTC Stripe ingress and payment facts
+    if: inputs.mode == 'dtc_stripe_ingress_readonly'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Require exact readonly purpose and real source bytes before credentials
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |-
+          node --input-type=module <<'JS'
+          import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+          assert.equal(process.env.GITHUB_REPOSITORY,'Roger-LegalEase/legalease-partner-dashboard-clean');assert.equal(process.env.GITHUB_ACTIONS,'true');assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.match(process.env.GITHUB_SHA??'',/^[a-f0-9]{40}$/);assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          const input=JSON.parse(process.env.DISPATCH_INPUTS);for(const[k,v]of Object.entries({mode:'dtc_stripe_ingress_readonly',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',tools_sha:'987d0c9df170641a9abe40f0d5ec450e740abaa1',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'}))assert.equal(input[k],v);
+          for(const k of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[k]);assert.equal(input.sponsor_items??'[]','[]');assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
+          for(const[f,pin]of Object.entries({"scripts/rcap-dtc-stripe-ingress-readonly.mjs":"122314f1615425269fd01586ae45b788378b3d028d1c1cd11f521905bc9537b5","scripts/rcap-hosted-existing-dtc-continuation.mjs":"90d895dd9a0bb57dcc3ef5391d4dab08b6b125a06b864f7ff15ef759e6c9ddb6","scripts/rcap-hosted-response-contract.mjs":"dd8c1eca0741df9ff8eb3013f99522ca38be6c55b6c650ecab4266623d433b44"}))assert.equal(createHash('sha256').update(fs.readFileSync(f)).digest('hex'),pin);
+          JS
+      - name: Read only exact saved-case Stripe facts; never retarget or enqueue
+        env:
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          STRIPE_INGRESS_EVIDENCE_FILE: ${{ runner.temp }}/dtc-stripe-readonly/result.json
+        run: node scripts/rcap-dtc-stripe-ingress-readonly.mjs
+      - name: Preserve only sanitized readonly facts and capability limits
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-dtc-stripe-readonly-${{ github.run_id }}
+          path: ${{ runner.temp }}/dtc-stripe-readonly/result.json
+          if-no-files-found: warn
   clinic_setup_only:
     name: Normal Clinic consent and screening only
     if: inputs.mode == 'clinic_setup_only' || inputs.mode == 'clinic_prerequisites_only'
