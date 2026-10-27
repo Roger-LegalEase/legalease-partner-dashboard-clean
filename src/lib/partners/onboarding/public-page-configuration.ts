@@ -4,7 +4,7 @@ import { getAuthoritativelyPublicPartnerRecord } from "@/lib/partners/public-par
 import { loadArtifactSourceInput } from "./artifact-service";
 import { artifactGeneratorVersion, detectArtifactDrift, projectArtifactSource } from "./artifact-domain";
 import type { CoBrandedPagePreview, RenderedDocument } from "./artifact-generator";
-import { isRcapLaunchStudioEnabled } from "./feature";
+import { isRcap2Enabled, isRcapLaunchStudioEnabled } from "./feature";
 
 /** Only assets actually selected for the approved public composition are public. */
 export function visiblePublicPageAssetIds(preview: Pick<CoBrandedPagePreview, "logo" | "heroImage" | "showPartnerLogo">): string[] {
@@ -16,7 +16,7 @@ export function visiblePublicPageAssetIds(preview: Pick<CoBrandedPagePreview, "l
 
 /** Public reads require activation, publication and the exact current approvals. */
 export async function getApprovedPublicPageConfiguration(partnerSlug: string, verificationToken: string | null = null) {
-  if (!isRcapLaunchStudioEnabled()) return null;
+  if (!isRcap2Enabled() && !isRcapLaunchStudioEnabled()) return null;
   const partner = await getAuthoritativelyPublicPartnerRecord(partnerSlug,verificationToken);
   if (!partner) return null;
   const admin = getSupabaseAdminClient();
