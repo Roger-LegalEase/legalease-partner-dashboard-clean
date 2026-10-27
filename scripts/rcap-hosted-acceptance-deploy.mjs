@@ -31,7 +31,7 @@ import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { assertPreviewResponse, assertPreservedOrdinaryPreview, createRestPreview, FROZEN_WORKER_METADATA } from "./rcap-hosted-vercel-rest-transport.mjs";
+import { assertPreviewResponse, assertPreservedOrdinaryPreview, createRestPreview, PREVIEW_WORKER_METADATA } from "./rcap-hosted-vercel-rest-transport.mjs";
 import { fileURLToPath } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
@@ -53,6 +53,7 @@ const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
+const APP_ONLY_DIAGNOSTIC = APPLICATION_SHA === 'b8b980c5b95b3342420b63c60ba3f36d3f7bf85f' && process.env.PHASE_INPUT === SOURCE_SUCCESSOR_PHASE;
 const SOURCE_SUCCESSOR = process.env.PHASE_INPUT === SOURCE_SUCCESSOR_PHASE;
 const RUNTIME_REPAIR = process.env.PHASE_INPUT === MANAGED_RUNTIME_REPAIR_PHASE;
 const HELD_PURPOSE_PREVIEW = [CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE].includes(process.env.PHASE_INPUT);
@@ -162,7 +163,7 @@ function record(caseId, passed, observed) {
 const REQUIRED_CASES = [
   "deployed_to_preview_not_production",
   "deployment_carries_the_final_application_sha",
-  "deployment_carries_the_accepted_worker_binding",
+  APP_ONLY_DIAGNOSTIC ? "diagnostic_worker_is_held_without_binding" : "deployment_carries_the_accepted_worker_binding",
   "deterministic_nonproduction_return_alias_bound",
   "bound_to_the_acceptance_supabase_project_only",
   "production_aliases_unchanged",
@@ -378,7 +379,7 @@ async function findReusableDeployment() {
   if (ISOLATED_CLINIC_PREVIEW || MANAGED_START) {
     // Read every page, including non-READY attempts. An incomplete/ambiguous
     // prior creation is a readback boundary, never permission to create twice.
-    const expected = { ...FROZEN_WORKER_METADATA, rcapPreviewPurpose: ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : "managed_start", rcapApplicationSha: APPLICATION_SHA,
+    const expected = { ...PREVIEW_WORKER_METADATA, rcapPreviewPurpose: ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : "managed_start", rcapApplicationSha: APPLICATION_SHA,
       rcapAcceptanceProjectRef: PROJECT_REF, rcapClinicDemoMode: CLINIC_DEMO_MODE || "none",
       rcapRouteState: ROUTE_STATE_TAG, rcapStagingScopeSha256: sha256(SCOPE_IDS),
       rcapReturnOrigin: RETURN_ORIGIN, rcapStripeConfigured: "false", rcapCatalogProduct: "inline",
@@ -412,7 +413,7 @@ async function findReusableDeployment() {
       (d.readyState ?? d.state) === "READY" &&
       (d.target === null || d.target === "preview") &&
       d.meta?.rcapApplicationSha === APPLICATION_SHA &&
-      Object.entries(FROZEN_WORKER_METADATA).every(([key,value]) => d.meta?.[key] === value) &&
+      Object.entries(PREVIEW_WORKER_METADATA).every(([key,value]) => d.meta?.[key] === value) &&
       d.meta?.rcapAcceptanceProjectRef === PROJECT_REF &&
       (process.env.PHASE_INPUT !== "replace_preview" || (d.meta?.rcapClosedPreview === "true" && d.meta?.rcapPartnerOnboardingEnabled === "true")) &&
       d.meta?.rcapStripeConfigured === String(STRIPE_CONFIGURED) &&
@@ -679,7 +680,7 @@ const deploymentMeta = {
   ...(SOURCE_SUCCESSOR?sourceSuccessorMetadata(RETURN_ORIGIN):{}),
   ...(configuredSandboxEnv?currentPurposeMetadata(CONFIGURED_SANDBOX_PHASE,RETURN_ORIGIN):{}),
   ...(process.env.PHASE_INPUT === "replace_preview" ? { rcapClosedPreview: "true", rcapPartnerOnboardingEnabled: "true" } : {}),
-  ...FROZEN_WORKER_METADATA,
+  ...PREVIEW_WORKER_METADATA,
   ...(ISOLATED_CLINIC_PREVIEW ? { rcapPreviewPurpose: "mississippi_clinic" } : MANAGED_START ? { rcapPreviewPurpose: "managed_start" } : {}),
   ...(MANAGED_START ? { rcapOrdinaryGrantSha256: "9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40", rcapSponsoredChannel: MANAGED_START.grant.channel } : {}),
   rcapApplicationSha: APPLICATION_SHA,
@@ -741,9 +742,9 @@ let deploymentId = null;
     `Vercel reports target=${JSON.stringify(target)} for this deployment (must be Preview); readyState=${detail.json?.readyState ?? "unknown"}`
   );
   record(
-    "deployment_carries_the_accepted_worker_binding",
-    Object.entries(FROZEN_WORKER_METADATA).every(([key,value]) => meta[key] === value),
-    `deployment metadata records worker ${meta.rcapWorkerSourceSha} at ${meta.rcapWorkerDigest}; canonical inputs ${meta.rcapWorkerInputFingerprint}`
+    APP_ONLY_DIAGNOSTIC ? "diagnostic_worker_is_held_without_binding" : "deployment_carries_the_accepted_worker_binding",
+    Object.entries(PREVIEW_WORKER_METADATA).every(([key,value]) => meta[key] === value),
+    APP_ONLY_DIAGNOSTIC ? "APP-only diagnostic; worker HELD, compatibility UNQUALIFIED" : `deployment metadata records worker ${meta.rcapWorkerSourceSha} at ${meta.rcapWorkerDigest}; canonical inputs ${meta.rcapWorkerInputFingerprint}`
   );
   record(
     "deployment_carries_the_final_application_sha",

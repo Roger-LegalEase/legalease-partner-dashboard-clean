@@ -1,3 +1,4 @@
+import {DIAGNOSTIC_STATUS,requireOrdinaryDiagnosticPreview} from "./require-ordinary-diagnostic-preview.mjs";
 // A HELD tuple can create only its acceptance Preview. It is not CURRENT and
 // cannot authorize production, acceptance writes, payments, or worker claims.
 import assert from 'node:assert/strict';
@@ -6,6 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {verifyReleaseCandidateBinding,requireCurrentReleaseCandidate} from './verify-release-candidate-binding.mjs';
 import {CANDIDATE} from './verify-pinned-worker-successor.mjs';
 function requirePreviewAdmission(root,inputs,phase){
+ if(phase==='managed_start_source_successor'&&JSON.parse(fs.readFileSync(root+'/'+CANDIDATE)).status===DIAGNOSTIC_STATUS)return requireOrdinaryDiagnosticPreview(root,inputs);
  const candidate=JSON.parse(fs.readFileSync(root+'/'+CANDIDATE));
  const fields=['schemaVersion','status','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha','publication','readOnlyImageAcceptance','runtimeAccepted','workerRebuildRequired','previewExecution','resume','productionAuthorized','productionAuthorization','deploymentAuthorized','clinicDispatchReady','hostedAdmission','releaseBaseSha','supersededRecord','supersededRecordSha256'];
  assert.deepEqual(Object.keys(candidate).sort(),fields.sort(),'exact HELD Preview record; unknown permissions refused');
@@ -43,6 +45,7 @@ export const requirePreviewPreparation=requireHeldPreviewAdmission;
 // normal CURRENT requirement, including its real-time freshness check.
 export function loadPreviewTransportIdentity(root){
  const candidate=JSON.parse(fs.readFileSync(root+'/'+CANDIDATE));
+ if(candidate.status===DIAGNOSTIC_STATUS)return requireOrdinaryDiagnosticPreview(root,{phase:process.env.PHASE_INPUT,applicationSha:process.env.APPLICATION_SHA_INPUT,workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT,workerDigest:process.env.WORKER_DIGEST_INPUT,toolsSha:process.env.TOOLS_SHA_INPUT,workflowSourceSha:process.env.RCAP_ADMITTED_CONTROLLER_SHA});
  if(candidate.status!=='FORWARD_BOUND_HOSTED_PENDING')return requireCurrentReleaseCandidate(root);
  const env=process.env;
  const supplied=env.PHASE_INPUT!==undefined;

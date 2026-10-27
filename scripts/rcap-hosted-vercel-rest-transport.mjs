@@ -1,3 +1,4 @@
+import {DIAGNOSTIC_WORKER_METADATA} from './grade-a-launch-control/require-ordinary-diagnostic-preview.mjs';
 import {fileURLToPath} from 'node:url';
 import {loadPreviewTransportIdentity} from './grade-a-launch-control/require-preview-preparation.mjs';
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
@@ -13,6 +14,7 @@ export const FROZEN_WORKER_METADATA = Object.freeze({
   rcapWorkerDigest: release.workerDigest,
   rcapWorkerInputFingerprint: release.workerInputFingerprint
 });
+export const PREVIEW_WORKER_METADATA = release.appOnlyDiagnostic ? DIAGNOSTIC_WORKER_METADATA : FROZEN_WORKER_METADATA;
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 
@@ -22,7 +24,8 @@ const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 export function createPreviewRequest({identity, applicationSha, runtimeEnv, buildEnv, meta}) {
   if (identity?.teamId !== HOSTED_VERCEL_TEAM_ID || identity?.projectId !== HOSTED_VERCEL_PROJECT_ID || identity?.projectName !== HOSTED_VERCEL_PROJECT_NAME) throw new Error('REST_PINNED_IDENTITY_MISMATCH');
   if (applicationSha !== FROZEN_APPLICATION_SHA || meta?.rcapApplicationSha !== applicationSha || meta?.rcapAcceptanceProjectRef !== ACCEPTANCE_PROJECT || meta?.rcapReturnOrigin !== expectedHostedReturnOrigin(applicationSha, meta?.rcapPreviewPurpose)) throw new Error('REST_FROZEN_METADATA_MISMATCH');
-  if (Object.entries(FROZEN_WORKER_METADATA).some(([key,value]) => meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
+  if (release.appOnlyDiagnostic && ['rcapWorkerSourceSha','rcapWorkerDigest','rcapWorkerInputFingerprint'].some(key=>Object.hasOwn(meta??{},key))) throw new Error('REST_DIAGNOSTIC_WORKER_CLAIM_REFUSED');
+  if (Object.entries(PREVIEW_WORKER_METADATA).some(([key,value]) => meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
   for (const name of ['rcapStripeConfigured','rcapRouteState','rcapClinicDemoMode','rcapStagingScopeSha256']) if (typeof meta[name] !== 'string') throw new Error('REST_METADATA_MISSING');
   for (const env of [runtimeEnv, buildEnv]) {
     if (!env || Object.values(env).some(value => typeof value !== 'string')) throw new Error('REST_ENV_INVALID');
@@ -45,7 +48,8 @@ export function assertPreviewResponse(d, expectedMeta, expectedId) {
   if (!Object.hasOwn(d, 'target') || (d.target !== null && d.target !== 'preview')) throw new Error('REST_NON_PREVIEW_REFUSED');
   if (!/^[a-z0-9-]+\.vercel\.app$/.test(d.url ?? '')) throw new Error('REST_DEPLOYMENT_URL_INVALID');
   if (d.projectId !== HOSTED_VERCEL_PROJECT_ID || d.gitSource?.sha !== FROZEN_APPLICATION_SHA) throw new Error('REST_DEPLOYMENT_SOURCE_MISMATCH');
-  if (Object.entries(FROZEN_WORKER_METADATA).some(([key,value]) => d.meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
+  if (release.appOnlyDiagnostic && ['rcapWorkerSourceSha','rcapWorkerDigest','rcapWorkerInputFingerprint'].some(key=>Object.hasOwn(d.meta??{},key))) throw new Error('REST_DIAGNOSTIC_WORKER_CLAIM_REFUSED');
+  if (Object.entries(PREVIEW_WORKER_METADATA).some(([key,value]) => d.meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
   if (Object.entries(expectedMeta).some(([key,value]) => d.meta?.[key] !== value)) throw new Error('REST_DEPLOYMENT_METADATA_MISMATCH');
   return d;
 }
