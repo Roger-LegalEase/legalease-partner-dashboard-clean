@@ -12,7 +12,7 @@ const grant=JSON.parse(grantText);
 const sha='828de28b383715d545d4eead791f9d80a237447b';
 const binding={schema:'rcap-partner-acceptance-launch/v1',applicationSha:sha,projectId:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',supabaseProjectRef:'hyflxnlhpmiqxvvcoiia',partnerSlug:'legalease-ordinary-qa-20261024',adminAuthUserId:'6574d21e-5e0a-4567-b14e-01447c162f37'};
 function context(phase='managed_start_preview') {
- return {APPLICATION_SHA:sha,PROJECT_REF:binding.supabaseProjectRef,EXPECTED_PROJECT_REF:binding.supabaseProjectRef,
+ return {SOURCE_SUCCESSOR:phase==='managed_start_source_successor',RUNTIME_REPAIR:phase==='managed_start_runtime_repair',APPLICATION_SHA:sha,PROJECT_REF:binding.supabaseProjectRef,EXPECTED_PROJECT_REF:binding.supabaseProjectRef,
   ROUTE_STATE:phase==='managed_start_preview'?'staging_scoped':'',SCOPE_IDS:phase==='managed_start_preview'?grant.participantUserIds.join(','):'',CLINIC_DEMO_MODE:'',ISOLATED_CLINIC_PREVIEW:false,LEGAL_AID_EMAIL:null,CATALOG_PRODUCT_ID:'',configuredSandboxEnv:null,HELD_PURPOSE_PREVIEW:false,
   RETURN_ORIGIN:'https://rcap-acceptance-synthetic.vercel.app',SUPABASE_URL:`https://${binding.supabaseProjectRef}.supabase.co`,
   keys:{anon:'synthetic-anon',service:'synthetic-service'},PRESERVED_DATA_KEYS:{LEGAL_AID_RESTRICTED_FIELD_KEY:'synthetic-data-key',LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:'v1',PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:'synthetic-pseudonym'},
