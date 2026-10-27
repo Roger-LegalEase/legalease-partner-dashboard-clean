@@ -100,12 +100,13 @@ function assertCustody(record,binding) {
 
 // The controller owns durable private custody, actual live admission and strict
 // actor/origin policy. Imports do not create a case, claim, verify or run a worker.
-export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,origin,email,password,admit,assertExclusiveWindow,verifyPreparedImageBeforeVerify,readNative,checkpoint,loadCustody,authorizeRequest,bypass='',profile}) {
+export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,origin,email,password,admit,assertExclusiveWindow,verifyPreparedImageBeforeVerify,readNative,checkpoint,loadCustody,authorizeRequest,bypass='',profile,onParticipantPhase,onParticipantObservation}) {
   for(const fn of [admit,assertExclusiveWindow,verifyPreparedImageBeforeVerify,readNative,checkpoint,loadCustody,authorizeRequest])assert.equal(typeof fn,'function');
   assert.equal(typeof RegExp.escape,'function','Accepted screening driver requires a supported runtime before any intake action');
   assert.equal(new URL(origin).origin,origin);assert.equal(new URL(origin).protocol,'https:');assert.ok(email&&password);
-  const binding=await admit();assertOrdinaryAdmission(binding,origin,profile);
-  const previous=await loadCustody();if(previous)assertCustody(previous,binding);
+  const phase=async name=>{if(onParticipantPhase)await onParticipantPhase(name);};
+  await phase('participant_admission');const binding=await admit();assertOrdinaryAdmission(binding,origin,profile);
+  await phase('participant_custody');const previous=await loadCustody();if(previous)assertCustody(previous,binding);
   let sessionId=previous?.sessionId??null,targetItemId=previous?.itemId??null,intakeRequestId=previous?.intakeRequestId??null;
   let firstEnqueueCapableActionAt=previous?.firstEnqueueCapableActionAt??null,generationRequests=previous?.generationRequests??0;
   if(previous&&!targetItemId)assert.ok(uuid(sessionId),'Uncertain intake requires native reconciliation; never start again');
@@ -115,7 +116,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     await checkpoint(record);assert.deepEqual(await loadCustody(),record,'Private checkpoint must be durable before forwarding');return record;
   };
   const config={origin,authOrigin};
-  const observer=createOriginalResponseObserver(config,{bypass});
+  const observer=createOriginalResponseObserver(config,{bypass,...(onParticipantObservation?{onStage:e=>{if(e.operation==='signin'&&Number.isInteger(e.httpStatus))onParticipantObservation({authRequestStatus:e.httpStatus});}}:{})});
   const guard=async route=>{
     const request=route.request(),u=new URL(request.url()),method=request.method();
     const generate=method==='POST'&&u.pathname==='/api/expungement-ai/packet/generate';
@@ -136,15 +137,16 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
       return route.fulfill(value);
     }});
   };
-  await page.route('**/*',guard);
+  await phase('participant_routes');await page.route('**/*',guard);
   try {
-    const signin=captureOriginalResponseOnce(page,'signin',config);
+    await phase('owner_signin_observer');const signin=captureOriginalResponseOnce(page,'signin',config);
     try {
-      await page.goto(`${origin}/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase`);
-      await page.locator('input[name="email"]').fill(email);await page.locator('input[name="password"]').fill(password);
-      await page.getByRole('button',{name:'Sign in',exact:true}).click();
-      assert.equal((await signin.read()).userId,ORDINARY_PARTICIPANT,'Normal sign-in must resolve to the approved owner');
-      await page.waitForURL(u=>u.origin===origin&&u.pathname==='/briefcase');
+      await phase('owner_signin_navigation');await page.goto(`${origin}/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase`);
+      if(onParticipantObservation)onParticipantObservation(await page.evaluate(()=>{const form=document.querySelector('form:has(input[name="password"])');const button=Array.from(document.querySelectorAll('button')).find(b=>b.textContent?.trim()==='Sign in');return{formHandlerReady:form?.getAttribute('data-handler-ready')==='true',signInButtonEnabled:!!button&&!button.disabled};}));
+      await phase('owner_signin_fill_email');await page.locator('input[name="email"]').fill(email);await phase('owner_signin_fill_password');await page.locator('input[name="password"]').fill(password);
+      await phase('owner_signin_click');await page.getByRole('button',{name:'Sign in',exact:true}).click();
+      await phase('owner_signin_response');assert.equal((await signin.read()).userId,ORDINARY_PARTICIPANT,'Normal sign-in must resolve to the approved owner');
+      await phase('owner_briefcase_navigation');await page.waitForURL(u=>u.origin===origin&&u.pathname==='/briefcase');
     }finally{signin.dispose();}
     if(previous){
       if(!targetItemId){
@@ -155,9 +157,10 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
         await save('ordinary_claim_reconciled_same_owned_case');
       }
     }else{
-      const landing=await page.goto(`${origin}/p/${ORDINARY_PARTNER}`);assert.equal(landing.status(),200);
-      await page.locator(`a[href="/intake/${ORDINARY_PARTNER}"]`).click();await page.waitForURL(u=>u.origin===origin&&u.pathname===`/intake/${ORDINARY_PARTNER}`);
-      intakeRequestId=await page.locator('input[name="requestId"]').inputValue();assert.ok(uuid(intakeRequestId));
+      await phase('public_landing_navigation');const landing=await page.goto(`${origin}/p/${ORDINARY_PARTNER}`);assert.equal(landing.status(),200);
+      await phase('intake_get_navigation');await page.locator(`a[href="/intake/${ORDINARY_PARTNER}"]`).click();await page.waitForURL(u=>u.origin===origin&&u.pathname===`/intake/${ORDINARY_PARTNER}`);
+      await phase('intake_request_id_read');intakeRequestId=await page.locator('input[name="requestId"]').inputValue();assert.ok(uuid(intakeRequestId));
+      await phase('before_durable_intake_checkpoint');
       await save('ordinary_before_intake_start');
       const captured=await openScreeningWithProfile(page,config,async()=>{
         await page.getByRole('button',{name:'Start free screening',exact:true}).click();

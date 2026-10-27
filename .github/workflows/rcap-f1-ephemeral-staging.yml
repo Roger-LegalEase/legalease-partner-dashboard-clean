@@ -3484,7 +3484,7 @@ jobs:
       actions: read
 
   ordinary_full_journey:
-    name: Diagnose Ordinary construction once and stop before participant or worker
+    name: Complete only a Start-admitted ordinary sponsored journey
     if: inputs.mode == 'ordinary_full_journey'
     permissions:
       contents: read
@@ -3525,13 +3525,23 @@ jobs:
         run: node scripts/rcap-hosted-ordinary-full-journey-entry.mjs --verify
       - name: Reuse locked existing browser dependencies without application build
         run: npm ci --ignore-scripts
-      - name: Diagnose existing construction and stranger Auth then stop
+      - name: Authenticate existing read-only registry custody
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Prepare only accepted immutable worker without starting a container
+        run: |
+          image=$(node --input-type=module -e "import{ORDINARY}from'./scripts/rcap-hosted-ordinary-full-admission.mjs';console.log('ghcr.io/roger-legalease/rcap-render-worker@'+ORDINARY.digest)")
+          docker pull "$image"
+      - name: Run one admitted ordinary UI claim Verify one worker and private delivery
         env:
           DISPATCH_INPUTS: ${{ toJSON(inputs) }}
           GITHUB_TOKEN: ${{ github.token }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: node scripts/rcap-hosted-ordinary-full-journey-entry.mjs --diagnose-construction
+        run: node scripts/rcap-hosted-ordinary-full-journey-entry.mjs
       - name: Preserve private ordinary custody and typed evidence
         if: always()
         uses: actions/upload-artifact@v4
