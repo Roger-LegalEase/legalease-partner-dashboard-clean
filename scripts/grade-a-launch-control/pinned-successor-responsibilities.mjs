@@ -40,6 +40,11 @@ const previewControls = new Set([
   "scripts/rcap-clinic-setup-request-guard.test.mjs",
   "scripts/rcap-clinic-setup-resource-loading.test.mjs",
   "scripts/rcap-configured-sandbox-preview-contract.mjs",
+  // Exact C58 purpose constructor/test controls; no scripts/** or APP exemption.
+  "scripts/rcap-configured-sandbox-preview.mjs",
+  "scripts/rcap-clinic-deploy-preview.mjs",
+  "scripts/rcap-purpose-preview-admission.test.mjs",
+  "scripts/rcap-purpose-preview-targets.test.mjs",
   "scripts/rcap-managed-start-preview-phase.test.mjs",
   "scripts/rcap-hosted-acceptance-deploy.mjs",
   "scripts/rcap-hosted-acceptance-preflight.test.mjs",

@@ -49,3 +49,9 @@ test('actual retarget main writes URL only and restores the exact prior URL afte
  const failed=await run({failure:true});assert.equal(failed.evidence.passed,false);assert.equal(failed.evidence.inverse.restored,true);assert.equal(failed.writes.length,2);assert.equal(failed.writes[1].url,failed.before);assert.equal(failed.endpoint.url,failed.before);assert.deepEqual(failed.endpoint.enabled_events,EXPECTED_EVENTS);
  const live=await run({live:true});assert.equal(live.evidence.passed,false);assert.equal(live.calls,0);assert.equal(live.writes.length,0);
 });
+
+test('new wrappers/tests are exact named Preview controls without a broad script or runtime exemption',async()=>{
+ const {previewControl,boundedControl}=await import('./grade-a-launch-control/pinned-successor-responsibilities.mjs');
+ for(const p of ['scripts/rcap-configured-sandbox-preview.mjs','scripts/rcap-clinic-deploy-preview.mjs','scripts/rcap-purpose-preview-admission.test.mjs','scripts/rcap-purpose-preview-targets.test.mjs'])assert.equal(previewControl(p),true);
+ for(const p of ['scripts/unreviewed-provider-driver.mjs','scripts/rcap-purpose-preview-unknown.mjs','src/lib/unreviewed-runtime.ts']){assert.equal(previewControl(p),false);assert.equal(boundedControl(p),false);}
+});
