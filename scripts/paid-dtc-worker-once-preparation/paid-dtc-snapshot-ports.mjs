@@ -13,7 +13,7 @@ SELECT jsonb_build_object(
 export function createActualPaidReceiptAssertion({getActualPaidInputs}){
  assert.equal(typeof getActualPaidInputs,'function');return async({target})=>{const{actualArgs,custody}=await getActualPaidInputs();assert.deepEqual(buildActualPaidTarget(actualArgs,custody),target);};
 }
-export function createPaidDtcSnapshotPort({queryRows,readTargetJobAndProvenance,assertServiceRoleTargetIdentity,checkpoint}){
+export function createPaidDtcSnapshotPort({queryRows,readTargetJobAndProvenance,assertServiceRoleTargetIdentity,checkpoint,identity}){
  for(const f of [queryRows,readTargetJobAndProvenance,assertServiceRoleTargetIdentity,checkpoint])assert.equal(typeof f,'function');let initial=null,finished=false;
  return async({stage,target,window,sql})=>{
   validatePaidTarget(target);assert(['prestate','poststate'].includes(stage));assert.equal(finished,false);assert.equal(initial===null,stage==='prestate');await assertServiceRoleTargetIdentity();
@@ -29,7 +29,7 @@ export function createPaidDtcSnapshotPort({queryRows,readTargetJobAndProvenance,
   const state={projectRef:'hyflxnlhpmiqxvvcoiia',serviceRoleTargetIdentityVerified:true,targetReceiptSha256:target.protectedReceiptSha256,readOnly:true,bucket:aggregate.bucket,currentQueueRpcBodies:aggregate.currentQueueRpcBodies,aggregate:aggregate.aggregate,completeness,claimState,target:join,targetJobStatus:details.job.status};
   if(stage==='prestate'){initial={historySha256:hash(JSON.stringify(history)),ids:new Set(claimState.keys())};}
   else{
-   Object.assign(state,assertActualPaidPoststate({target,job:details.job,provenance:details.provenance}));state.finalizedTargetOnly=details.job.status==='artifact_validated'&&details.job.id===target.jobId;state.unrelatedHistoryUnchanged=initial.historySha256===hash(JSON.stringify(history));state.surpriseIngressCount=[...claimState.keys()].filter(id=>!initial.ids.has(id)).length;finished=true;
+   Object.assign(state,assertActualPaidPoststate({target,job:details.job,provenance:details.provenance,identity}));state.finalizedTargetOnly=details.job.status==='artifact_validated'&&details.job.id===target.jobId;state.unrelatedHistoryUnchanged=initial.historySha256===hash(JSON.stringify(history));state.surpriseIngressCount=[...claimState.keys()].filter(id=>!initial.ids.has(id)).length;finished=true;
   }
   // Safe receipt only. Exact rows/provenance/provider/case values stay in the controlled process.
   await checkpoint({schemaVersion:'paid-dtc-snapshot-safe/v1',stage,targetReceiptSha256:target.protectedReceiptSha256,readOnly:true,claimRows:claimState.size,claimStateSha256:hash(JSON.stringify([...claimState])),unrelatedRenderHistorySha256:hash(JSON.stringify(history)),aggregate:state.aggregate,completeness:state.completeness,targetCounts:join,privateBucket:state.bucket.privateExactlyOnce,rpcBodies:state.currentQueueRpcBodies.map(({name,prosrcSha256})=>({name,prosrcSha256}))});

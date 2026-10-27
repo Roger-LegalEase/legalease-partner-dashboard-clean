@@ -1,3 +1,4 @@
+import {requireQualifiedWorkerImage} from '../worker-once-preparation/qualified-worker-image.mjs';
 // Two stages in ONE guarded GHA job: existing E310 URL-only operation, then its conditional inverse.
 import assert from'node:assert/strict';import fs from'node:fs';import path from'node:path';import{createHash}from'node:crypto';import{execFileSync,spawnSync}from'node:child_process';import{pathToFileURL}from'node:url';
 import{requireFrozenPaidWindow}from'./paid-dtc-continuous-window.mjs';
@@ -10,7 +11,8 @@ export async function restoreExactExistingUrl({stripe,helpers,preimage}){
  const current=await stripe('GET');const identity=helpers.assessWebhookEndpoint({endpoint:current,endpointId:ENDPOINT,requiredUrl:preimage.requiredUrl});assert(identity.safe);assert(current.url===preimage.requiredUrl||current.url===preimage.beforeUrl,'unknown third destination is never overwritten');if(current.url!==preimage.beforeUrl)await stripe('POST',preimage.beforeUrl);const restored=await stripe('GET');const result=helpers.assessWebhookEndpoint({endpoint:restored,endpointId:ENDPOINT,requiredUrl:preimage.beforeUrl});assert(result.safe&&!result.needsUpdate);return{restored:true,urlOnly:true,endpointCreated:false,endpointDeleted:false,enabledEventsWritten:false,signingSecretReadOrWritten:false};
 }
 export async function prepareRetarget(env=process.env,{fetcher=fetch,runCommand=spawnSync}={}){
- const c=context(env),windowBytes=fs.readFileSync(path.join(c.carrier,'scripts/dtc-controlled-window.json')),windowSha=fs.readFileSync(path.join(c.carrier,'scripts/dtc-controlled-window.sha256'),'utf8').trim(),window=requireFrozenPaidWindow(windowBytes,{expectedSha256:windowSha,phase:'before_retarget'}),helpers=await import(pathToFileURL(c.moduleFile));
+ const identity=JSON.parse(env.DISPATCH_INPUTS??'{}').mode==='dtc_saved_existing_fulfillment'?requireQualifiedWorkerImage():undefined;
+ const c=context(env),windowBytes=fs.readFileSync(path.join(c.carrier,'scripts/dtc-controlled-window.json')),windowSha=fs.readFileSync(path.join(c.carrier,'scripts/dtc-controlled-window.sha256'),'utf8').trim(),window=requireFrozenPaidWindow(windowBytes,{expectedSha256:windowSha,phase:'before_retarget',identity}),helpers=await import(pathToFileURL(c.moduleFile));
  const bypass=(env.VERCEL_AUTOMATION_BYPASS_SECRET??'').trim();assert(bypass);for(const[k,v]of Object.entries({HOSTED_APPLICATION_SHA:APP,ACCEPTANCE_SUPABASE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',HOSTED_PREVIEW_DEPLOYMENT_ID:DEPLOYMENT,HOSTED_PREVIEW_HOSTNAME:HOST}))assert.equal(env[k],v);
  const native=path.join(c.out,'stripe-webhook-retarget.json'),stampFile=path.join(c.out,'stripe-webhook-retarget-attempt-start.json');assert(!fs.existsSync(native)&&!fs.existsSync(stampFile)&&!fs.existsSync(c.privateFile));
  const startedAt=new Date().toISOString(),stripe=stripePort(env,fetcher),requiredUrl=helpers.buildRequiredWebhookUrl({hostname:HOST,bypass});

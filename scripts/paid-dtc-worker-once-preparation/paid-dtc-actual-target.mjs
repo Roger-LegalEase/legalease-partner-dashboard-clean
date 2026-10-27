@@ -1,3 +1,4 @@
+import {requireQualifiedWorkerImage} from '../worker-once-preparation/qualified-worker-image.mjs';
 // Pure actual-receipt binding; no live client, synthesized native receipt or persistence.
 import assert from 'node:assert/strict';import {createHash}from'node:crypto';
 import {validatePaidTarget}from'./paid-dtc-worker-once.mjs';
@@ -15,8 +16,9 @@ export function buildActualPaidTarget({job,session,intent,event,baseline,lineIte
  validatePaidTarget(target);return Object.freeze(target);
 }
 
-export function assertActualPaidPoststate({target,job,provenance}){
- validatePaidTarget(target);assert.equal(job.id,target.jobId);assert.equal(job.packet_id,target.packetId);assert.equal(job.consumer_briefcase_item_id,target.itemId);assert.equal(job.consumer_auth_user_id,target.ownerId);assert.equal(job.consumer_verification_hash,target.verificationHash);assert.equal(job.input_hash,target.inputHash);assert.equal(job.person_id,target.personId);assert.equal(job.matter_id,target.matterId);assert.equal(job.partner_id,null);assert.equal(job.status,'artifact_validated');assert.equal(job.container_digest,'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494');
+export function assertActualPaidPoststate({target,job,provenance,identity}){
+ if(identity!==undefined)requireQualifiedWorkerImage(identity);
+ validatePaidTarget(target);assert.equal(job.id,target.jobId);assert.equal(job.packet_id,target.packetId);assert.equal(job.consumer_briefcase_item_id,target.itemId);assert.equal(job.consumer_auth_user_id,target.ownerId);assert.equal(job.consumer_verification_hash,target.verificationHash);assert.equal(job.input_hash,target.inputHash);assert.equal(job.person_id,target.personId);assert.equal(job.matter_id,target.matterId);assert.equal(job.partner_id,null);assert.equal(job.status,'artifact_validated');assert.equal(job.container_digest,identity?.digest??'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494');
  assert.equal(job.delivery_eligibility,'eligible');assert(['zero_charge','consumed','already_consumed','overage_consumed'].includes(job.accounting_result));assert.match(job.output_sha256,/^[a-f0-9]{64}$/);assert(Number.isSafeInteger(job.output_byte_count)&&job.output_byte_count>0);assert(Number.isSafeInteger(job.page_count)&&job.page_count>0);assert.equal(job.output_storage_path,`packet-artifacts/consumer/${target.matterId}/${target.jobId}/${job.output_sha256}.pdf`);
  for(const[k,v]of Object.entries({briefcase_item_id:target.itemId,consumer_auth_user_id:target.ownerId,matter_id:target.matterId,render_job_id:target.jobId,verification_hash:target.verificationHash,entitlement_source:'consumer_payment'}))assert.equal(provenance[k],v);
  for(const[k,v]of Object.entries({provider:'rcap_durable_render_v1',source:'verified_render_job',packetId:target.packetId,renderJobId:target.jobId,artifactSha256:job.output_sha256,storagePath:job.output_storage_path,contentType:'application/pdf',pageCount:job.page_count}))assert.equal(provenance.artifact?.[k],v);

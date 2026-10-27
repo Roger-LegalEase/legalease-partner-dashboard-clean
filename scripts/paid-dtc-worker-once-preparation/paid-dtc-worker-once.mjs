@@ -1,3 +1,4 @@
+import {requireQualifiedWorkerImage} from '../worker-once-preparation/qualified-worker-image.mjs';
 // Source preparation only; no live clients, CLI, pulls, registry login, synthetic admission, or default execution ports.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -23,20 +24,22 @@ export function bindPaidReadOnlyTemplates(target,window){
  const files=['../worker-once-preparation/GLOBAL-QUEUE-WINDOW-COMPLETENESS.TEMPLATE.NOT-EXECUTED.sql','PAID-DTC-TARGET-JOIN.TEMPLATE.NOT-EXECUTED.sql'];
  return Object.fromEntries(files.map(file=>{const raw=fs.readFileSync(new URL(file,import.meta.url));if(file.startsWith('../'))assert.equal(hash(raw),'787c50a5971f5c2ea7aa82612f966750235681799277b1a6f4b72ebe6fd24684');else assert.equal(hash(raw),'7172e82cc895f21a0a16eab8f25ed54db78b7e74bba01bd2b3dcb040af1bab5e');const sql=raw.toString().replace(/__([A-Za-z0-9_]+)__/g,(_,k)=>{assert(Object.hasOwn(values,k));return values[k];});assert(!sql.includes('__'));return[file,sql];}));
 }
-export async function executeAdmittedPaidDtcOnce({target,window,env,runId,ports}){
+export async function executeAdmittedPaidDtcOnce({target,window,env,runId,ports,identity}){
+ if(identity!==undefined)requireQualifiedWorkerImage(identity);
+ const executionSource=identity?.source??SOURCE,executionImage=identity?.image??IMAGE,executionDigest=identity?.digest??DIGEST;
  validatePaidTarget(target);validateWindow(window,Date.now());
  assert(Number.isFinite(Date.parse(target.firstEnqueueCapableActionAt))&&Date.parse(window.startedAt)<=Date.parse(target.firstEnqueueCapableActionAt)&&Date.parse(target.firstEnqueueCapableActionAt)<=Date.now(),'custody began before the actual first enqueue-capable action');
  for(const k of ['assertContinuousWindow','readSnapshot','verifyPreparedImage','invokeOnce','assertActualPaidReceipt'])assert.equal(typeof ports[k],'function');
  let attempted=false,stage='prestate';
- const receipt={schemaVersion:'paid-dtc-worker-once-safe/v1',status:'HOLD',workerSourceSha:SOURCE,image:IMAGE,targetReceiptSha256:target.protectedReceiptSha256,targetJobSha256:hash(target.jobId),windowReceiptSha256:window.custodyReceiptSha256,attempted:false,ownerPrivateRetrievalProven:false};
+ const receipt={schemaVersion:'paid-dtc-worker-once-safe/v1',status:'HOLD',workerSourceSha:executionSource,image:executionImage,targetReceiptSha256:target.protectedReceiptSha256,targetJobSha256:hash(target.jobId),windowReceiptSha256:window.custodyReceiptSha256,attempted:false,ownerPrivateRetrievalProven:false};
  try{
   await ports.assertContinuousWindow({stage,target,window});
   await ports.assertActualPaidReceipt({target,window});
-  const image=await ports.verifyPreparedImage();assert.equal(image.digest,DIGEST);assert.equal(image.sourceSha,SOURCE);assert.equal(image.nonRoot,true);assert.equal(image.ephemeralGithubExecutor,true);
+  const image=await ports.verifyPreparedImage();assert.equal(image.digest,executionDigest);assert.equal(image.sourceSha,executionSource);assert.equal(image.nonRoot,true);assert.equal(image.ephemeralGithubExecutor,true);
   const sql=bindPaidReadOnlyTemplates(target,window),before=await ports.readSnapshot({stage,target,window,sql}),infinityBaseline=assertSnapshot(before,target,1);
   for(const k of ['exactTargetJobCount','exactAllBindingsJoinCount','globalEligibleAllKinds','acceptedRendererEligible','targetRankAllKinds','targetRankAcceptedRenderer'])assert.equal(before.target[k],1,'actual supported paid DTC target must be sole eligible rank1');
   assert.equal(before.target.readOnly,'on');assert.equal(before.target.exactPaidAuthorityCount,1);assert.equal(before.target.exactProtectedInputCount,1);assert.equal(before.claimState.get(target.jobId)?.status,'queued');
-  const invocation=dockerOnceInvocation(env,runId);validateWindow(window,Date.now());
+  const invocation=dockerOnceInvocation(env,runId,identity);validateWindow(window,Date.now());
   await ports.assertContinuousWindow({stage:'immediately_before_once',target,window});
   stage='once';attempted=true;let run;
   try{run=await ports.invokeOnce(invocation);}catch{run={status:null,signal:null,error:true};}
