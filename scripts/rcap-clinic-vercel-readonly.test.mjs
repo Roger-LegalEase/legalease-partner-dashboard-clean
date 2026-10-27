@@ -23,6 +23,7 @@ const selected=(w,value)=>Object.entries(w.jobs).filter(([,j])=>!j.if||vm.runInN
 // Dedicated purpose jobs are reviewed by the separate purpose-carrier suite.
 function normalizePurposeJobs(after,before){
  if(!before.jobs.ordinary_admin_configure_capacity){delete after.jobs.ordinary_admin_configure_capacity;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_configure_capacity');}
+ if(!before.jobs.ordinary_admin_materials_start){delete after.jobs.ordinary_admin_materials_start;after.on.workflow_dispatch.inputs.mode.options=after.on.workflow_dispatch.inputs.mode.options.filter(v=>v!=='ordinary_admin_materials_start');}
  for(const name of ['configured_sandbox_preview','hosted_clinic_deploy','hosted_stripe_retarget']){if(before.jobs[name])after.jobs[name]=structuredClone(before.jobs[name]);else delete after.jobs[name];}
  if(after.jobs.hosted&&before.jobs.hosted)after.jobs.hosted.if=before.jobs.hosted.if;
 }
