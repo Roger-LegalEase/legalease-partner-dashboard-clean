@@ -101,7 +101,7 @@ test('only the same application, matter, success state and Session count as a re
 });
 
 for (const [browserName, checkout] of [['standard', completeHostedCheckout], ['savedDtc', completeSavedHostedCheckout]]) {
-for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only', ...(browserName==='savedDtc'?['window-fail','checkpoint-before-fail','checkpoint-after-fail','diagnostic-stop','required-fields-stop']:[])]) {
+for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only', ...(browserName==='savedDtc'?['window-fail','checkpoint-before-fail','checkpoint-after-fail','diagnostic-stop','required-fields-stop','return-probe-error']:[])]) {
   test(`Checkout orchestration ${browserName} ${scenario} with local browser double`, async t => {
     const expected = scenario === 'non-vercel-return' ? 'https://untrusted.example/briefcase/matter-a?checkout=success' : 'https://preview.vercel.app/briefcase/matter-a?checkout=success';
     const secret = 'SYNTHETIC-bypass-SECRET';
@@ -110,7 +110,7 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
     const requests = [];
     const submissionCheckpoints = [];
     const succeeds = ['success', 'bootstrap-redirect', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error'].includes(scenario);
-    const opensStripe = succeeds || ['challenge', 'wrong-return', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only','window-fail','checkpoint-before-fail','checkpoint-after-fail','diagnostic-stop','required-fields-stop'].includes(scenario);
+    const opensStripe = succeeds || ['challenge', 'wrong-return', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only','window-fail','checkpoint-before-fail','checkpoint-after-fail','diagnostic-stop','required-fields-stop','return-probe-error'].includes(scenario);
     let current = 'https://checkout.stripe.com/c/pay/cs_test_local';
     const mutations = [];
     let closed = 0;
@@ -152,6 +152,7 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
         },
         first: () => ({
           isVisible: async () => {
+            if(submitted&&scenario==='return-probe-error'){const error=Error(sensitiveError);error.name='TargetClosedError';throw error;}
             if (submitted && ['navigation-race', 'delayed-commit-race'].includes(scenario)) {
               if (scenario === 'navigation-race') { current = expected; listener?.(page); }
               throw Error(sensitiveError);
@@ -166,7 +167,7 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
             if (selector.includes('hosted-payment-submit-button')) {
               submitted = true;
               if (scenario === 'submit-error') throw Error(`generic submit failure ${secret} ${cookieValue}`);
-              if (['navigation-race', 'delayed-commit-race', 'generic-before-return', 'deadline-return'].includes(scenario)) return;
+              if (['navigation-race', 'delayed-commit-race', 'generic-before-return', 'deadline-return','return-probe-error'].includes(scenario)) return;
               if (scenario === 'iframe-only') { listener?.({ url: () => expected }); return; }
               current = scenario === 'wrong-return' ? 'https://challenge.stripe.com/verify?token=private-token&email=private-person#private-fragment'
                 : scenario === 'wrong-path' ? expected.replace('matter-a', 'matter-b')
@@ -232,6 +233,8 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
       if(scenario==='diagnostic-stop'){assert.equal(outcome.failureReason,'diagnostic_stop_before_pay');assert.equal(submitted,false);assert.deepEqual(submissionCheckpoints,[]);assert(!JSON.stringify(outcome).includes('PRIVATE_DIAGNOSTIC_MESSAGE'));}
       if(scenario==='required-fields-stop'){assert.equal(outcome.failureReason,'required_fields_missing');assert.equal(outcome.submitInspection.controls[0].name,'unrecognized_control');assert.equal(outcome.submitInspection.controls[0].missing,true);assert.equal(submitted,false);}
       if(scenario.startsWith('checkpoint-'))assert.equal(outcome.failureReason,'submission_checkpoint_failed');
+      const expectedDiagnostic={'submit-error':{phase:'submit_click',errorClass:'Error'},'generic-before-return':{phase:'return_wait',errorClass:'Error'},'return-probe-error':{phase:'return_challenge_probe',errorClass:'TargetClosedError'}};
+      if(expectedDiagnostic[scenario])assert.deepEqual(outcome.diagnostic,expectedDiagnostic[scenario]);
     }
     assert.equal(captures, succeeds ? 1 : 0);
     assert.equal(closed, 2);
