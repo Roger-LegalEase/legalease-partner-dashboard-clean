@@ -28,7 +28,16 @@ async function fulfillSavedDtc({stage,window},io){
  let session=await io.session(sessionId);assertSession(session,baseline,sessionId);const lineItems=await io.lineItems(sessionId);assertLines(lineItems,session);
  if(session.payment_status!=='paid'||session.status!=='complete'){
   assert.notEqual(state.payment_status,'paid');assert.equal(session.status,'open');assert.equal(session.payment_status,'unpaid');assert.equal(jobs.length,0);assert(!custody.providerAttempted,'uncertain browser payment is never repeated');assert.equal(new URL(session.url).origin,'https://checkout.stripe.com');phase='provider_checkout';await witness('provider_checkout',{sessionSha256:hash(sessionId)});
-  const browser=await io.completeCheckout({checkoutUrl:session.url,expectedReturnUrl:session.success_url.replace('{CHECKOUT_SESSION_ID}',sessionId)});assert.equal(browser.completed,true);assert(cardEntryEvidence(browser.notes??[]));session=await io.session(sessionId);
+  let browser;
+  try { browser=await io.completeCheckout({checkoutUrl:session.url,expectedReturnUrl:session.success_url.replace('{CHECKOUT_SESSION_ID}',sessionId)}); }
+  catch { browser={completed:false,failureReason:'browser_operation_failed'}; }
+  const safeBrowser={completed:browser?.completed===true,
+   humanInteractionRequired:typeof browser?.humanInteractionRequired==='boolean'?browser.humanInteractionRequired:null,
+   failureReason:['completed','promotion_rejected','card_not_supplied','required_fields_missing','submit_control_missing','return_not_observed','preview_bootstrap_failed','unexpected_destination','provider_challenge','final_payment_window_check_failed','submission_checkpoint_failed','browser_operation_failed'].includes(browser?.failureReason)?browser.failureReason:'unclassified_browser_result',
+   submitAttempted:typeof browser?.submitAttempted==='boolean'?browser.submitAttempted:null};
+  await io.checkpoint({phase:'provider_checkout_browser_returned',sessionSha256:hash(sessionId),...safeBrowser});
+  if(!safeBrowser.completed||safeBrowser.humanInteractionRequired===true)return Object.freeze({phase:'HOLD_RECONCILE_NO_RETRY',errorClass:'CheckoutBrowserRefusal',browser:safeBrowser,rawPdfPersisted:false,newCase:false,newFacts:false,newVerification:false});
+  assert(cardEntryEvidence(browser.notes??[]));session=await io.session(sessionId);
  }
  assertSession(session,baseline,sessionId,true);const intent=await io.paymentIntent(session.payment_intent);assert.equal(intent.id,session.payment_intent);assert.equal(intent.livemode,false);assert.equal(intent.status,'succeeded');assert.equal(intent.amount_received,5000);assert.equal(intent.currency,'usd');
  phase='webhook_reconciliation';state=await io.waitPaid();assertMatter(state,baseline);assert.equal(state.payment_status,'paid');assert.equal(state.payment_authority,'server_webhook');assert.equal(state.payment_valid,true);assert.equal(state.checkout_session_id,sessionId);assert.equal(state.payment_person_id,session.metadata.person_id);assert.equal(state.payment_matter_id,session.metadata.matter_id);assert.equal(state.payment_product_id,session.metadata.product_id);assert.match(state.provider_event_id,/^evt_/);

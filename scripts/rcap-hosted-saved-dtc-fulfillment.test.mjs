@@ -36,3 +36,27 @@ const authCalls=transport.filter(c=>c.url.includes('/auth/'));assert.equal(authC
 assert.throws(()=>createStripeReadTransport({fetcher:async()=>{},testKey:'sk_live_forbidden'}));
 const {createSavedCheckoutBrowser}=await import('./rcap-hosted-saved-dtc-checkout-port.mjs');let browserOptions;const browserPort=createSavedCheckoutBrowser({completeHostedCheckout:async options=>{browserOptions=options;return{};},ownerAuthUserId:DTC.owner,ownerEmail:'owner@rcap-acceptance.test',sessionCookies:await actorPorts.ownerSessionCookies(),previewProtectionBypassSecret:'PRIVATE_BYPASS',beforeFinalPay:async()=>{}});await browserPort({checkoutUrl:'https://checkout.stripe.com/c/pay/fixture',expectedReturnUrl:DTC.origin+'/briefcase/'+DTC.item+'?payment=return&session_id=cs_test_fixture'});assert.equal(browserOptions.screenshotDir,null);assert.equal(browserOptions.promotionCode,null);assert.equal(browserOptions.onReturn,null);assert.equal(browserOptions.executablePath,'/usr/bin/google-chrome');
 console.log('PASS: normal existing owner/freshOwner/stranger Auth, anonymous cookie omission, app-only bypass and explicit browser email/session/no screenshot/no promotion/existingChrome. No live clients invoked.');
+
+for(const browser of [
+ {completed:false,humanInteractionRequired:true,failureReason:'provider_challenge',submitAttempted:false},
+ {completed:false,humanInteractionRequired:true,failureReason:'provider_challenge',submitAttempted:true},
+ {completed:false,humanInteractionRequired:false,failureReason:'final_payment_window_check_failed',submitAttempted:false},
+ {completed:false,humanInteractionRequired:false,failureReason:'browser_operation_failed',submitAttempted:true},
+ {completed:false,humanInteractionRequired:true,failureReason:'PRIVATE_REASON https://private.invalid?token=PRIVATE_TOKEN',notes:['PRIVATE_NOTES'],returnUrl:'PRIVATE_URL'}
+]){
+ const f=fixture('open');f.io.completeCheckout=async()=>{f.counts.browser++;return browser;};
+ const result=await runSavedDtcFulfillment({stage,window},f.io);
+ assert.equal(result.phase,'HOLD_RECONCILE_NO_RETRY');assert.equal(result.errorClass,'CheckoutBrowserRefusal');
+ assert.equal(result.browser.submitAttempted,typeof browser.submitAttempted==='boolean'?browser.submitAttempted:null);
+ assert.equal(result.browser.humanInteractionRequired,browser.humanInteractionRequired);
+ assert.equal(result.browser.failureReason,browser.failureReason.startsWith('PRIVATE_')?'unclassified_browser_result':browser.failureReason);
+ assert.equal(f.checkpoints.at(-1).phase,'provider_checkout_browser_returned');
+ assert.deepEqual(Object.values(f.counts),[0,1,0,0]);
+ for(const secret of ['PRIVATE_REASON','PRIVATE_NOTES','PRIVATE_URL','PRIVATE_TOKEN'])assert(!JSON.stringify([result,f.checkpoints]).includes(secret));
+}
+const thrownBrowser=fixture('open');thrownBrowser.io.completeCheckout=async()=>{thrownBrowser.counts.browser++;throw Error('PRIVATE_THROW https://private.invalid');};
+const thrownResult=await runSavedDtcFulfillment({stage,window},thrownBrowser.io);
+assert.equal(thrownResult.phase,'HOLD_RECONCILE_NO_RETRY');assert.equal(thrownResult.browser.submitAttempted,null);
+assert.equal(thrownResult.browser.humanInteractionRequired,null);assert.equal(thrownResult.browser.failureReason,'browser_operation_failed');
+assert.deepEqual(Object.values(thrownBrowser.counts),[0,1,0,0]);assert(!JSON.stringify([thrownResult,thrownBrowser.checkpoints]).includes('PRIVATE_THROW'));
+console.log('PASS incomplete/unknown browser outcome keeps typed safe reason and submission uncertainty, no render/worker/retry or private details');

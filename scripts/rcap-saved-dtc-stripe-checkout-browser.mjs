@@ -331,7 +331,8 @@ export async function completeHostedCheckout({
   // Called once with the live page after Stripe hands the browser back, for
   // capturing the post-payment screens. It observes; it must not act.
   onReturn = null,
-  beforeFinalPay
+  beforeFinalPay,
+  onSubmitCheckpoint = async () => {}
 }) {
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
     throw new Error('Exact HTTPS Checkout success URL is required before opening the provider page.');
@@ -340,6 +341,9 @@ export async function completeHostedCheckout({
   const screenshots = [];
   const postReturnCaptureFailures = [];
   let promotion = null;
+  let submitAttempted = false;
+  let finalPayCheckStarted = false;
+  let finalPayCheckPassed = false;
   let exactReturnObserved = false;
   let unexpectedDestination = null;
   let observingReturn = false;
@@ -353,6 +357,11 @@ export async function completeHostedCheckout({
     const file = path.join(screenshotDir, `${label}-${name}.png`);
     await page.screenshot({ path: file, fullPage: true });
     screenshots.push(file);
+  };
+
+  const checkpointSubmit = async phase => {
+    try { await onSubmitCheckpoint({ phase, submitAttempted }); }
+    catch { const error = new Error('Checkout submission checkpoint failed.'); error.code = 'CHECKOUT_SUBMISSION_CHECKPOINT_FAILED'; throw error; }
   };
 
   // Observe committed main-frame navigation before submitting. DOM probes can
@@ -384,7 +393,7 @@ export async function completeHostedCheckout({
     }
     try { await shoot('returned'); }
     catch { captureFailure('screenshot'); }
-    return { completed: true, returnUrl: sanitizedCheckoutDestination(expectedReturnUrl), promotion,
+    return { completed: true, humanInteractionRequired: false, failureReason: "completed", submitAttempted, returnUrl: sanitizedCheckoutDestination(expectedReturnUrl), promotion,
       postReturnCaptureFailures, notes, screenshots };
   };
 
@@ -402,7 +411,7 @@ export async function completeHostedCheckout({
       await shoot("promotion-applied");
       if (!promotion.entered || !promotion.accepted) {
         notes.push('Promotion was not accepted; stopped before submitting Checkout. Review this Session before another attempt.');
-        return { completed: false, humanInteractionRequired: true, promotion, notes, screenshots };
+        return { completed: false, humanInteractionRequired: true, failureReason: "promotion_rejected", submitAttempted, promotion, notes, screenshots };
       }
     }
 
@@ -424,7 +433,7 @@ export async function completeHostedCheckout({
       if (!card) {
         notes.push("an amount is due but no card was supplied");
         await shoot("amount-due-without-card");
-        return { completed: false, promotion, notes, screenshots };
+        return { completed: false, humanInteractionRequired: false, failureReason: "card_not_supplied", submitAttempted, promotion, notes, screenshots };
       }
       await fillAcrossFrames(page, [
         'input[name="cardNumber"]', 'input[placeholder*="card number" i]', 'input[autocomplete="cc-number"]'
@@ -451,7 +460,7 @@ export async function completeHostedCheckout({
     if (remaining.length) {
       notes.push(`required fields need operator review: ${remaining.join(", ")}`);
       await shoot("required-fields-unfilled");
-      return { completed: false, humanInteractionRequired: true, promotion, notes, screenshots };
+      return { completed: false, humanInteractionRequired: true, failureReason: "required_fields_missing", submitAttempted, promotion, notes, screenshots };
     }
     await requireNoProviderChallenge(page);
     await shoot("form-complete");
@@ -466,15 +475,20 @@ export async function completeHostedCheckout({
     if (!submit) {
       notes.push("no submit control found on the Checkout page");
       await shoot("no-submit");
-      return { completed: false, promotion, notes, screenshots };
+      return { completed: false, humanInteractionRequired: false, failureReason: "submit_control_missing", submitAttempted, promotion, notes, screenshots };
     }
     const submitDisabled = await submit.isDisabled().catch(() => false);
     notes.push(`submit control ${submitDisabled ? "is disabled" : "is enabled"}`);
     observingReturn = true;
     page.on('framenavigated', observeReturn);
     if (typeof beforeFinalPay !== 'function') throw new Error('Actual final payment window check required.');
+    finalPayCheckStarted = true;
     await beforeFinalPay();
-    await submit.click({ timeout: FIELD_TIMEOUT });
+    finalPayCheckPassed = true;
+    await checkpointSubmit("provider_checkout_submit_before_forward");
+    submitAttempted = true;
+    try { await submit.click({ timeout: FIELD_TIMEOUT }); }
+    finally { await checkpointSubmit("provider_checkout_submit_after_attempt"); }
 
     // Only the application's exact success return counts. A challenge redirect,
     // cancellation, or unrelated page is not a completed browser journey.
@@ -523,11 +537,11 @@ export async function completeHostedCheckout({
     requireExpectedDestination();
     if (exactReturnObserved) return await finishObservedReturn();
 
-    return { completed: false, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
+    return { completed: false, humanInteractionRequired: false, failureReason: "return_not_observed", submitAttempted, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
   } catch (error) {
     // Re-read after an interrupted DOM operation. Only navigation-specific
     // errors may await a commit; an unrelated error before return still fails.
-    if (observingReturn && error?.code !== 'CHECKOUT_HUMAN_INTERACTION_REQUIRED') {
+    if (observingReturn && error?.code !== 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' && error?.code !== 'CHECKOUT_SUBMISSION_CHECKPOINT_FAILED') {
       observeReturn(page.mainFrame());
       if (!exactReturnObserved && !unexpectedDestination
         && /execution context was destroyed|frame was detached|navigation interrupted/i.test(String(error?.message))) {
@@ -552,7 +566,12 @@ export async function completeHostedCheckout({
           : 'Checkout browser operation failed; review the existing Session before retrying.';
     notes.push(`browser error: ${message}`);
     if (error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' && !error?.sanitizedDestination) await shoot("error").catch(() => {});
-    return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', notes, screenshots };
+    const failureReason = error?.code === 'CHECKOUT_PREVIEW_BOOTSTRAP_FAILED' ? 'preview_bootstrap_failed'
+      : error?.sanitizedDestination ? 'unexpected_destination'
+        : error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' ? 'provider_challenge'
+          : error?.code === 'CHECKOUT_SUBMISSION_CHECKPOINT_FAILED' ? 'submission_checkpoint_failed'
+            : finalPayCheckStarted && !finalPayCheckPassed ? 'final_payment_window_check_failed' : 'browser_operation_failed';
+    return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', failureReason, submitAttempted, notes, screenshots };
   } finally {
     if (observingReturn) page.off('framenavigated', observeReturn);
     await context.close().catch(() => {});

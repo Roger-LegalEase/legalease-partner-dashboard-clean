@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import { chromium } from 'playwright';
+import { completeHostedCheckout as completeSavedHostedCheckout } from './rcap-saved-dtc-stripe-checkout-browser.mjs';
 import { requireNoProviderChallenge, fillRemainingRequired, isExpectedCheckoutReturn,
   expectedCheckoutTotal, checkoutAmountMatches, completeHostedCheckout } from './rcap-stripe-checkout-browser.mjs';
 
@@ -99,15 +100,17 @@ test('only the same application, matter, success state and Session count as a re
   assert.equal(isExpectedCheckoutReturn(expected, undefined), false);
 });
 
-for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only']) {
-  test(`Checkout orchestration ${scenario} with local browser double`, async t => {
+for (const [browserName, checkout] of [['standard', completeHostedCheckout], ['savedDtc', completeSavedHostedCheckout]]) {
+for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only', ...(browserName==='savedDtc'?['window-fail','checkpoint-before-fail','checkpoint-after-fail']:[])]) {
+  test(`Checkout orchestration ${browserName} ${scenario} with local browser double`, async t => {
     const expected = scenario === 'non-vercel-return' ? 'https://untrusted.example/briefcase/matter-a?checkout=success' : 'https://preview.vercel.app/briefcase/matter-a?checkout=success';
     const secret = 'SYNTHETIC-bypass-SECRET';
     const cookieValue = 'SYNTHETIC-cookie-VALUE';
     const events = [];
     const requests = [];
+    const submissionCheckpoints = [];
     const succeeds = ['success', 'bootstrap-redirect', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error'].includes(scenario);
-    const opensStripe = succeeds || ['challenge', 'wrong-return', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only'].includes(scenario);
+    const opensStripe = succeeds || ['challenge', 'wrong-return', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only','window-fail','checkpoint-before-fail','checkpoint-after-fail'].includes(scenario);
     let current = 'https://checkout.stripe.com/c/pay/cs_test_local';
     const mutations = [];
     let closed = 0;
@@ -199,7 +202,12 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
       close: async () => { closed++; },
     };
     t.mock.method(chromium, 'launch', async () => ({ newContext: async options => { assert.equal(options?.extraHTTPHeaders, undefined); return context; }, close: async () => { closed++; } }));
-    const outcome = await completeHostedCheckout({ checkoutUrl: current, expectedReturnUrl: expected,
+    const outcome = await checkout({ checkoutUrl: current, expectedReturnUrl: expected,
+      beforeFinalPay: async () => { assert.equal(submitted,false); if(scenario==='window-fail')throw Error(sensitiveError); },
+      onSubmitCheckpoint: async receipt => {
+        assert.equal(receipt.submitAttempted,submitted);submissionCheckpoints.push(structuredClone(receipt));
+        if(scenario==='checkpoint-before-fail'&&receipt.submitAttempted===false||scenario==='checkpoint-after-fail'&&receipt.submitAttempted===true)throw Error(sensitiveError);
+      },
       previewProtectionBypassSecret: scenario === 'no-secret' ? '' : secret,
       sessionCookies: [{ name: 'synthetic', value: 'local-only' }],
       screenshotDir: scenario === 'screenshot-error' ? '/tmp/checkout-followup-synthetic-screenshots' : null,
@@ -209,6 +217,16 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
         if (scenario === 'capture-error') throw Error(sensitiveError);
       } });
     assert.equal(outcome.completed, succeeds);
+    if(browserName==='savedDtc'){
+      assert.equal(outcome.submitAttempted,submitted);
+      if(submitted)assert.deepEqual(submissionCheckpoints.map(c=>c.submitAttempted),[false,true]);
+      else assert.equal(submissionCheckpoints.length,scenario==='checkpoint-before-fail'?1:0);
+      assert.equal(typeof outcome.failureReason,'string');
+      if(succeeds)assert.equal(outcome.failureReason,'completed');
+      if(scenario==='challenge')assert.equal(outcome.failureReason,'provider_challenge');
+      if(scenario==='window-fail')assert.equal(outcome.failureReason,'final_payment_window_check_failed');
+      if(scenario.startsWith('checkpoint-'))assert.equal(outcome.failureReason,'submission_checkpoint_failed');
+    }
     assert.equal(captures, succeeds ? 1 : 0);
     assert.equal(closed, 2);
     if (['capture-error', 'dom-ready-error', 'screenshot-error', 'navigation-race', 'delayed-commit-race'].includes(scenario)) {
@@ -225,6 +243,7 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
     if (scenario === 'challenge' || scenario === 'wrong-return') assert.equal(outcome.humanInteractionRequired, true);
     assert.ok(mutations.filter(value => value.includes('hosted-payment-submit-button')).length <= 1);
   });
+}
 }
 
 
