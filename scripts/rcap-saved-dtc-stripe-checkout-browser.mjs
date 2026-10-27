@@ -438,6 +438,7 @@ export async function completeHostedCheckout({
     optionalDialog.cardFormVisible=true;
     await beforeDialogInteraction('after_link_dialog_close');
     await onSubmitCheckpoint({phase:'provider_checkout_observed_link_card_continuation',diagnosticOnly:true,trial:false,realSubmitAttempted:false,optionalDialog});
+    return true;
   };
 
   const inspectDialogAndTrial = async submit => {
@@ -604,6 +605,17 @@ export async function completeHostedCheckout({
       return{completed:false,humanInteractionRequired:!(interaction.optionalDialog?.dismissed&&interaction.optionalDialog?.overlayGone),failureReason:'diagnostic_stop_before_pay',submitAttempted:false,submitInspection,submitObstruction:{before,after,billingBlurred},...interaction,notes,screenshots};
     }
     const authorizeFinalPay = async () => {
+      failurePhase = 'before_final_pay';
+      if(continueObservedLinkCard){
+        await onSubmitCheckpoint({phase:'provider_checkout_final_guard_obstruction',diagnosticOnly:true,trial:false,realSubmitAttempted:false,submitObstruction:await readCheckoutSubmitObstruction(page,submit)});
+        if(await continueAfterObservedLinkClose()){
+          await prepareCheckoutSubmitNormally({page,submit});
+          const current=await readCheckoutSubmitObstruction(page,submit);
+          if(current.status!=='inspected'||Object.values(current.signals).some(v=>v!==false)||!['self','child'].includes(current.buttonGeometry?.centerHitRelation)||!await manualCardVisible())throw Error('Card continuation obstructed after late Close.');
+          const retrial=await trialCheckoutSubmitActionability({submit,checkpoint:onSubmitCheckpoint});
+          if(retrial.status!=='passed'||retrial.hitTargetAfter.blockerClass!=='submit_or_child')throw Error('Card continuation trial failed after late Close.');
+        }
+      }
       await requireNoProviderChallenge(page);
       if(continueObservedLinkCard){const current=await readCheckoutSubmitObstruction(page,submit);if(current.status!=='inspected'||Object.values(current.signals).some(v=>v!==false)||!['self','child'].includes(current.buttonGeometry?.centerHitRelation)||!await manualCardVisible())throw Error('Card continuation changed before final Pay guard.');}
       finalPayCheckStarted = true;
