@@ -3,7 +3,7 @@ const YAML=createRequire(import.meta.url)('yaml'),file='.github/workflows/rcap-f
 const mode='hosted_managed_start_preview',job=current.jobs[mode],controller='f45bc47d825aa4decaaa473109c49f73c119f5ad',tools='3cce5e7f7a617f16f0ce8485f54c46a734bbe1f1';
 const selected=m=>Object.entries(current.jobs).filter(([,j])=>!j.if||vm.runInNewContext(j.if,{inputs:{mode:m},startsWith:(s,p)=>s.startsWith(p)})).map(([k])=>k);
 test('only existing managed mode gets dedicated repair job; all normal/materials/purpose jobs and inputs remain exact720',()=>{
- const a=structuredClone(current),b=structuredClone(prior);delete a.jobs[mode];a.jobs.hosted.if=b.jobs.hosted.if;assert.deepEqual(a,b);
+ const a=structuredClone(current),b=structuredClone(prior);assert.equal(a.on.workflow_dispatch.inputs.mode.options.filter(x=>x===mode).length,1);assert(!b.on.workflow_dispatch.inputs.mode.options.includes(mode));a.on.workflow_dispatch.inputs.mode.options=a.on.workflow_dispatch.inputs.mode.options.filter(x=>x!==mode);delete a.jobs[mode];a.jobs.hosted.if=b.jobs.hosted.if;assert.deepEqual(a,b);
  for(const m of [mode,'ordinary_admin_materials_start','ordinary_admin_configure_capacity','ordinary_admin_readonly','ordinary_admin_provision','configured_sandbox_preview','hosted_clinic_deploy','hosted_stripe_retarget'])assert.deepEqual(selected(m),[m]);
 });
 test('exact current repair dispatch and actualcarrier source guards reject replay/customer inputs/source overrides before credentials',()=>{
