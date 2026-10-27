@@ -14,8 +14,7 @@ export const QUALIFIED_FORWARD_FINGERPRINT='sha256:6d082ab7f7f07745a0e69a886fb59
 const DIR='data/rcap-grade-a/launch-control/',PLAN=DIR+'QUALIFIED_WORKER_SOURCE_EQUIVALENCE.json';
 const records=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'].map(n=>DIR+n+'.json');
 const hash=b=>createHash('sha256').update(b).digest('hex');
-export function verifyQualifiedWorkerForwardBinding(root,candidate){
- try{
+export function assertQualifiedWorkerCompatibility(root){
   const read=p=>fs.readFileSync(path.join(root,p));
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024}).trim();
   const at=(sha,p)=>execFileSync('git',['show',sha+':'+p],{cwd:root,maxBuffer:64*1024*1024});
@@ -51,6 +50,15 @@ export function verifyQualifiedWorkerForwardBinding(root,candidate){
   const publicationEvidence=JSON.parse(at(QUALIFIED_FORWARD_APP,'data/rcap-render/worker-publication-evidence.json'));
   assert.equal(publicationEvidence.sourceSha,identity.source);assert.equal(publicationEvidence.immutableRegistryDigest,identity.digest);assert.equal(publicationEvidence.workflowConclusion,'success');assert.equal(publicationEvidence.runtimeAccepted,true);assert.equal(publicationEvidence.imageAcceptance.sourceSha,identity.source);assert.equal(publicationEvidence.imageAcceptance.digest,identity.digest);assert.equal(publicationEvidence.imageAcceptance.runId,40505631029);
   const compatibilityBinding={path:compatibilityPath,sha256:hash(compatibilityBytes)};
+  return {identity,plan,compatibilityBinding};
+}
+export function verifyQualifiedWorkerForwardBinding(root,candidate){
+ try{
+  const {identity,plan,compatibilityBinding}=assertQualifiedWorkerCompatibility(root);
+  const read=p=>fs.readFileSync(path.join(root,p));
+  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024}).trim();
+  const at=(sha,p)=>execFileSync('git',['show',sha+':'+p],{cwd:root,maxBuffer:64*1024*1024});
+  const compatibilityPath=DIR+'QUALIFIED_WORKER_APP_COMPATIBILITY.json',proofPath=DIR+'QUALIFIED_WORKER_IMPORT_CLOSURE.json',publicationPath=DIR+'QUALIFIED_WORKER_PUBLICATION_COMPATIBILITY.json';
   assert.match(candidate.toolsSha??'',/^[a-f0-9]{40}$/);
   const expected={applicationSha:QUALIFIED_FORWARD_APP,workerSourceSha:identity.source,workerDigest:identity.digest,workerInputFingerprint:QUALIFIED_FORWARD_FINGERPRINT,toolsSha:candidate.toolsSha};
   const publication={runId:40504068956,workflowSourceSha:identity.source,artifactId:12733289924,digest:identity.digest};

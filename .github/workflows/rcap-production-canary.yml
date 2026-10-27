@@ -73,7 +73,7 @@ jobs:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: ${{ inputs.phase == 'preflight' && inputs.application_sha == '4c189b682d0a9225a21b9fdf8a2ebc50500029d6' && inputs.worker_source_sha == '84a75b6e65dc69e6c371afac44f1284e0debf722' && 257 || 0 }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -86,7 +86,14 @@ jobs:
       - name: Verify the exact frozen identity and image-input equivalence
         run: |
           set -euo pipefail
-          git fetch --no-tags origin captain-release
+          if [ "$RCAP_PRODUCTION_PHASE" = preflight ] && [ "$RCAP_APPLICATION_SHA" = 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 ] && [ "$RCAP_WORKER_SOURCE_SHA" = 84a75b6e65dc69e6c371afac44f1284e0debf722 ]; then
+            git fetch --no-tags --depth=257 origin captain-release
+            for required in 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 84a75b6e65dc69e6c371afac44f1284e0debf722 ed8d0902a99c5326f75987a942eb507b6cfb16cf 68784f1d89c1f2120a7f4c385569f8918d1492d1 0cd12827498a582b8558c312d8d5eae7076e7c3a; do
+              git cat-file -e "$required^{commit}"
+            done
+          else
+            git fetch --no-tags origin captain-release
+          fi
           [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ] || { echo "::error::workflow execution checkout mismatch"; exit 1; }
           # Existing successor binding verifies ancestry, exact orchestration
           # bytes and canonical worker input equivalence. Separate current
@@ -143,12 +150,12 @@ jobs:
         run: |
           set -euo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
-          REF="$IMAGE_REPOSITORY@$WORKER_DIGEST"
+          REF="$IMAGE_REPOSITORY@$RCAP_WORKER_DIGEST"
           docker pull "$REF" >/dev/null
           ACTUAL="$(docker inspect --format='{{index .RepoDigests 0}}' "$REF" | sed 's/.*@//')"
           REVISION="$(docker inspect --format='{{index .Config.Labels "org.opencontainers.image.revision"}}' "$REF")"
-          [ "$ACTUAL" = "$WORKER_DIGEST" ] || { echo "::error::worker digest readback mismatch"; exit 1; }
-          [ "$REVISION" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker OCI revision mismatch"; exit 1; }
+          [ "$ACTUAL" = "$RCAP_WORKER_DIGEST" ] || { echo "::error::worker digest readback mismatch"; exit 1; }
+          [ "$REVISION" = "$RCAP_WORKER_SOURCE_SHA" ] || { echo "::error::worker OCI revision mismatch"; exit 1; }
           echo "Accepted worker pulled by digest; OCI revision matches the frozen worker source."
 
       - name: Discover and record Production identity and rollback
