@@ -3,13 +3,16 @@ import assert from'node:assert/strict';
 import{CURRENT_PURPOSE_TUPLE,CURRENT_ORDINARY_PREVIEW,currentPurposeMetadata,CLINIC_PURPOSE,CONFIGURED_SANDBOX_PHASE}from'./rcap-configured-sandbox-preview-contract.mjs';
 import{managedRepairMetadata}from'./rcap-managed-start-runtime-repair-contract.mjs';
 export const SOURCE_SUCCESSOR_PHASE='managed_start_source_successor';
-export const SOURCE_SUCCESSOR_APP='9aadacd0c5a7fac90a1662f1928b7b86f8685c7a';
-export const SOURCE_SUCCESSOR_ID='ordinary-prepare-command-trace-v1';
+export const SOURCE_SUCCESSOR_APP='13879821bcee9efbf60b1cdc27aba98459c51ffe';
+export const SOURCE_SUCCESSOR_ID='ordinary-program-native-trace-v2';
 const PROJECT='prj_cdgwGzFqIHgEUlzEburSLaZETdQV';
-export const SOURCE_SUCCESSOR_PREDECESSOR=Object.freeze({id:'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt',hostname:'legalease-partner-dashboard-clean-nrvu23zle-roger947s-projects.vercel.app',alias:'legalease-rcap-managed-c0052e13d980-roger947s-projects.vercel.app'});
-export const SOURCE_SUCCESSOR_ALIAS='legalease-rcap-managed-9aadacd0c5a7-roger947s-projects.vercel.app';
+const OLD_REPAIR=Object.freeze({id:'dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt',hostname:'legalease-partner-dashboard-clean-nrvu23zle-roger947s-projects.vercel.app',alias:'legalease-rcap-managed-c0052e13d980-roger947s-projects.vercel.app'});
+export const SOURCE_SUCCESSOR_PREDECESSOR=Object.freeze({id:'dpl_DVC1stkcRAySuJ33KxnfqEcKPR1D',hostname:'legalease-partner-dashboard-clean-72rgysl9h-roger947s-projects.vercel.app',alias:'legalease-rcap-managed-9aadacd0c5a7-roger947s-projects.vercel.app'});
+export const SOURCE_SUCCESSOR_ALIAS='legalease-rcap-managed-13879821bcee-roger947s-projects.vercel.app';
+const PREDECESSOR_METADATA=Object.freeze({"rcapWorkerSourceSha":"32499751569359315248c2048fa111064a47c67f","rcapWorkerDigest":"sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494","rcapWorkerInputFingerprint":"sha256:6e3d8a6ed5390effb3945085ac6159016e806f19ada509ee36f6fc0c06efcea0","rcapApplicationSha":"9aadacd0c5a7fac90a1662f1928b7b86f8685c7a","rcapAcceptanceProjectRef":"hyflxnlhpmiqxvvcoiia","rcapPreviewPurpose":"managed_start","rcapClinicDemoMode":"none","rcapRouteState":"staging_scoped","rcapStagingScopeSha256":"da8d2556ebe1c462a3892d4f17799458724ab301a94323c1e1eccaca48aae038","rcapReturnOrigin":"https://legalease-rcap-managed-9aadacd0c5a7-roger947s-projects.vercel.app","rcapStripeConfigured":"false","rcapCatalogProduct":"inline","rcapOrdinaryGrantSha256":"9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40","rcapSponsoredChannel":"mississippi_preview","rcapManagedSourceSuccessor":"ordinary-prepare-command-trace-v1","rcapSourcePredecessor":"dpl_BAxSvMXJCJqUAxATgpZgANAjZhjt","rcapOnboardingLaunchPrepEnabled":"true","rcapLaunchStudioEnabled":"false"});
 export const SOURCE_SUCCESSOR_PROTECTED=Object.freeze([
- {...SOURCE_SUCCESSOR_PREDECESSOR,kind:'repair'},
+ {...SOURCE_SUCCESSOR_PREDECESSOR,kind:'source_predecessor'},
+ {...OLD_REPAIR,kind:'repair'},
  {...CURRENT_ORDINARY_PREVIEW,kind:'managed_start_preview'},
  {id:'dpl_4dcAZzgpzB71AFT3pPokeZzg7UA4',hostname:'legalease-partner-dashboard-clean-567xzll2v-roger947s-projects.vercel.app',alias:'legalease-rcap-c0052e13d980-roger947s-projects.vercel.app',kind:CONFIGURED_SANDBOX_PHASE},
  {id:'dpl_DeFafrLVF3CaAds8k2xR68iU1nKS',hostname:'legalease-partner-dashboard-clean-chpz1v7ys-roger947s-projects.vercel.app',alias:'legalease-rcap-clinic-c0052e13d980-roger947s-projects.vercel.app',kind:CLINIC_PURPOSE}
@@ -20,8 +23,8 @@ export function assertSourceSuccessorRelease(release,env,head){
 }
 export function sourceSuccessorMetadata(origin){assert.equal(origin,'https://'+SOURCE_SUCCESSOR_ALIAS);return{...currentPurposeMetadata('managed_start_preview',origin),rcapApplicationSha:SOURCE_SUCCESSOR_APP,rcapManagedSourceSuccessor:SOURCE_SUCCESSOR_ID,rcapSourcePredecessor:SOURCE_SUCCESSOR_PREDECESSOR.id,rcapOnboardingLaunchPrepEnabled:'true',rcapLaunchStudioEnabled:'false'};}
 export function assertProtectedSourceDeployment(d,known,originFor){
- assert.equal(d?.projectId,PROJECT);assert.equal(d.id,known.id);assert.equal(d.url,known.hostname);assert.equal(d.gitSource?.sha,CURRENT_PURPOSE_TUPLE.applicationSha);assert(Object.hasOwn(d,'target')&&(d.target===null||d.target==='preview'));assert.equal(d.readyState,'READY');
- const purpose=known.kind==='repair'?'managed_start_preview':known.kind,origin=originFor(CURRENT_PURPOSE_TUPLE.applicationSha,purpose===CLINIC_PURPOSE?'mississippi_clinic':purpose===CONFIGURED_SANDBOX_PHASE?'none':'managed_start');const expected=known.kind==='repair'?managedRepairMetadata(origin):currentPurposeMetadata(purpose,origin);for(const[k,v]of Object.entries(expected))assert.equal(d.meta?.[k],v,'SOURCE_SUCCESSOR_PRESERVATION:'+k);return{id:d.id,url:d.url,target:d.target,sourceSha:d.gitSource.sha,readyState:d.readyState,meta:expected};
+ assert.equal(d?.projectId,PROJECT);assert.equal(d.id,known.id);assert.equal(d.url,known.hostname);assert.equal(d.gitSource?.sha,known.kind==='source_predecessor'?'9aadacd0c5a7fac90a1662f1928b7b86f8685c7a':CURRENT_PURPOSE_TUPLE.applicationSha);assert(Object.hasOwn(d,'target')&&(d.target===null||d.target==='preview'));assert.equal(d.readyState,'READY');
+ const purpose=known.kind==='repair'?'managed_start_preview':known.kind,origin=originFor(CURRENT_PURPOSE_TUPLE.applicationSha,purpose===CLINIC_PURPOSE?'mississippi_clinic':purpose===CONFIGURED_SANDBOX_PHASE?'none':'managed_start');const expected=known.kind==='source_predecessor'?PREDECESSOR_METADATA:known.kind==='repair'?managedRepairMetadata(origin):currentPurposeMetadata(purpose,origin);for(const[k,v]of Object.entries(expected))assert.equal(d.meta?.[k],v,'SOURCE_SUCCESSOR_PRESERVATION:'+k);return{id:d.id,url:d.url,target:d.target,sourceSha:d.gitSource.sha,readyState:d.readyState,meta:expected};
 }
 export function assertSourceSuccessorAliasAbsent(response){assert.equal(response.status,404,'SOURCE_SUCCESSOR_ALIAS_PREEXISTING_HOLD');}
 export function refusePriorSourceSuccessorAttempt(d){if(d?.gitSource?.sha===SOURCE_SUCCESSOR_APP||d?.meta?.rcapApplicationSha===SOURCE_SUCCESSOR_APP)throw Error('SOURCE_SUCCESSOR_PRIOR_ATTEMPT_REQUIRES_RECONCILIATION');}
