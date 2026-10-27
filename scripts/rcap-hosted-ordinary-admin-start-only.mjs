@@ -140,11 +140,15 @@ export async function createStartOnlyBrowserIo({context,admitSourceTarget,readPr
   for(const f of [admitSourceTarget,readProtectedPoststate,checkpoint,credentialReader])assert.equal(typeof f,'function');
   assert.ok(typeof bypass==='string'&&bypass.trim()&&!/[\r\n]/.test(bypass));
   const authOrigin='https://hyflxnlhpmiqxvvcoiia.supabase.co';
-  let page, snapshot, authPosts=0, startPosts=0, authorized=null;
+  let page, snapshot, authPosts=0, startPosts=0, authorized=null, admittedDeploymentId=null;
   await context.route('**/*',async route=>{
     const r=route.request(),u=new URL(r.url());
     if(u.origin===OLD_ORIGIN)return route.abort('blockedbyclient');
-    const normalized=u.origin===START_ONLY.origin?OLD_ORIGIN+u.pathname+u.search:r.url();
+    let normalized=u.origin===START_ONLY.origin?OLD_ORIGIN+u.pathname+u.search:r.url();
+    if(u.origin===START_ONLY.origin&&u.searchParams.has('dpl')){
+      if(!admittedDeploymentId||u.search!=='?dpl='+admittedDeploymentId||!/^\/_next\/static\/chunks\/[A-Za-z0-9_.~/-]+\.(?:js|css)$/.test(u.pathname))return route.abort('blockedbyclient');
+      normalized=OLD_ORIGIN+u.pathname+'?dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF';
+    }
     let allowed=requestAllowed(normalized,r.method(),authPosts);
     if(r.method()==='POST'&&u.origin===START_ONLY.origin){
       allowed=false;
@@ -164,6 +168,7 @@ export async function createStartOnlyBrowserIo({context,admitSourceTarget,readPr
       const native=await admitSourceTarget(expected);
       // The runtime read supplements the creator native; it never replaces that admission.
       assert.equal(native.applicationSha,START_ONLY.app);assert.equal(native.origin,START_ONLY.origin);assert.equal(native.nativeCreatorVerified,true);
+      assert.match(native.deploymentId??'',/^dpl_[A-Za-z0-9]+$/);admittedDeploymentId=native.deploymentId;
       page=await context.newPage();
       const r=await page.goto(START_ONLY.origin+'/api/rcap/release',{waitUntil:'domcontentloaded'});
       assert.equal(r.status(),200);const body=await r.json();
