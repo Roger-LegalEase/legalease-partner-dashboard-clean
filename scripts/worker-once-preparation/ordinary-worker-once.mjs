@@ -15,12 +15,12 @@ const templateHashes={
  'ACTUAL-ORDINARY-TARGET-PRECLAIM-JOIN.TEMPLATE.NOT-EXECUTED.sql':'7b282341840a72d321bf7781afa023a9b5916e4cdaf65d94c6eeaaaef3b2a7ed'
 };
 const targetFields=['jobId','packetId','itemId','ownerId','sessionId','personId','matterId','entitlementId'];
-function validateTarget(t){
+export function validateTarget(t){
  for(const k of targetFields)assert.match(t[k]??'',UUID,'actual ordinary target UUID');
  for(const k of ['verificationHash','inputHash','protectedReceiptSha256'])assert.match(t[k]??'',SHA,'protected actual target custody');
  assert.equal(t.packetNamespace,'expungement-ai-consumer');assert.equal(t.partnerSlug,'legalease-ordinary-qa-20261024');
  assert.equal(t.clinicEventId,null);assert.equal(t.acquisitionMode,'partner');
- assert.equal(t.applicationSha,'c0052e13d9801d24080275aab02c70c6ea213fa3');assert.equal(t.rendererKind,'packet_document_v1');
+ assert.equal(t.applicationSha,'9aadacd0c5a7fac90a1662f1928b7b86f8685c7a');assert.equal(t.rendererKind,'packet_document_v1');
 }
 function validateWindow(w,now){
  assert.match(w.custodyReceiptSha256??'',SHA,'actual root/C continuous-window custody');
