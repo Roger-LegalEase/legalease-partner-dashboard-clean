@@ -11,7 +11,7 @@ const RECORDS=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TO
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024}).trim();
 const blob=(root,sha,p)=>execFileSync('git',['show',sha+':'+p],{cwd:root,maxBuffer:64*1024*1024});
-const PROJECT='wwtwtsmywnckfkdaqqeg',QUALIFIED_RELEASE_BASE='0cd12827498a582b8558c312d8d5eae7076e7c3a';
+const PROJECT='wwtwtsmywnckfkdaqqeg',QUALIFIED_RELEASE_BASE='9c120d99f800c1fcf2ccf5c4b4e5b3eedd75a291';
 export const QUALIFIED_PREFLIGHT_STATUS='QUALIFIED_HOSTED_ACCEPTED_PREFLIGHT_ONLY';
 export const QUALIFIED_PREFLIGHT_EVIDENCE={
  authority:{path:EVIDENCE+'OWNER-EXECUTION-ORDER39318.json',sha256:'cc11ef00c38aa787847d06aeb20a0323e526afc5cbd9f2c9aef6903deba04e2e'},

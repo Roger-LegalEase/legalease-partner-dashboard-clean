@@ -22,7 +22,7 @@ test('actual C54 and all three journeys are mandatory; absent or modified closur
  altered(QUALIFIED_PREFLIGHT_EVIDENCE.closure.path,()=>Buffer.from('{}'),()=>assert.throws(()=>readQualifiedPreflightEvidence(root),{code:'ERR_ASSERTION'}));
 });
 test('pure generator preserves predecessor and canonical mismatch and grants only existing first preflight',()=>{
- const records=prepareQualifiedWorkerPreflightRecords(root,{toolsSha:head(),releaseBaseSha:'0cd12827498a582b8558c312d8d5eae7076e7c3a'}),c=records[candidatePath];
+ const records=prepareQualifiedWorkerPreflightRecords(root,{toolsSha:head(),releaseBaseSha:'9c120d99f800c1fcf2ccf5c4b4e5b3eedd75a291'}),c=records[candidatePath];
  assert.equal(Object.keys(records).length,3);assert.equal(c.canonicalSourceEquivalent,false);assert.equal(c.canonicalRebuildRequired,true);assert.equal(c.workerRebuildRequired,true);assert.equal(c.candidateCanonicalFingerprint,null);
  assert.deepEqual(c.productionAuthorization.phases,['preflight']);assert.equal(c.productionAuthorization.recordedAt,'2026-10-26T02:07:42.386Z');assert.equal(c.qualifiedWorkerPreflight.evidence.authority.sha256,'cc11ef00c38aa787847d06aeb20a0323e526afc5cbd9f2c9aef6903deba04e2e');
  for(const key of ['stagedDeploymentId','rollbackDeploymentId','smokeReceipt','activationReceipt'])assert.equal(Object.hasOwn(c,key),false);

@@ -15,6 +15,6 @@ test('actual worker-pull shell consumes existing RCAP identity variables and ref
 test('qualified first-preflight history is bounded and includes every required immutable source',()=>{
  assert.match(workflow,/fetch-depth:.*inputs.phase == 'preflight'.*257 \|\| 0/);assert.match(workflow,/git fetch --no-tags --depth=257 origin captain-release/);
  const refs=workflow.match(/for required in (.+); do/)[1].split(' ');
- for(const ref of refs){execFileSync('git',['cat-file','-e',ref+'^{commit}']);assert(Number(execFileSync('git',['rev-list','--count',ref+'..HEAD'],{encoding:'utf8'}))<257);}
+ for(const ref of refs){execFileSync('git',['cat-file','-e',ref+'^{commit}']);assert(Number(execFileSync('git',['rev-list','--ancestry-path','--count',ref+'..HEAD'],{encoding:'utf8'}))<257);}
  assert.equal(refs.length,5);
 });
