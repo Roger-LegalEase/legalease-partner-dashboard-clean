@@ -391,7 +391,7 @@ jobs:
           if-no-files-found: warn
 
   ordinary_admin_launch_preflight_readonly:
-    name: Read only final qualified Ordinary guard predicates
+    name: Read corrected Ordinary guard against compensated baseline
     if: inputs.mode == 'ordinary_admin_launch_preflight_readonly'
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -403,13 +403,10 @@ jobs:
     env:
       DISPATCH_INPUTS: "${{ toJSON(inputs) }}"
       RCAP_GUARD_BINDING_FILE: "${{ github.workspace }}/start-only-input/binding.json"
-      RCAP_GUARD_BINDING_SHA256: "6915347f7a2a598909ccfa5d71cc994865cf0e8ca9d25dcec8f9a967c07fe523"
+      RCAP_GUARD_BINDING_SHA256: "983ede38a4efbdb5e4a82a3fcac1ca713dd59da8c6cdcc11b9375137ec38722a"
       RCAP_GUARD_CREATOR_FILE: "${{ github.workspace }}/start-only-input/creator.json"
       RCAP_GUARD_CREATOR_RUN_FILE: "${{ github.workspace }}/start-only-input/creator-run.json"
       RCAP_GUARD_C_ACCEPTANCE_FILE: "${{ github.workspace }}/start-only-input/c-acceptance.json"
-      RCAP_START_RETAINED_BEFORE_FILE: "${{ github.workspace }}/start-only-input/start-before.json"
-      RCAP_START_RETAINED_REVIEW_FILE: "${{ github.workspace }}/start-only-input/material-review.json"
-      RCAP_START_RETAINED_POSTSTATE_FILE: "${{ github.workspace }}/start-only-input/poststate.json"
       RCAP_START_POSTSTATE_SQL_FILE: "${{ github.workspace }}/start-only-input/poststate.sql"
       RCAP_START_EVIDENCE_DIR: "${{ github.workspace }}/ordinary-guard-readonly-evidence"
     steps:
@@ -421,11 +418,11 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /vercel.json
-            /data/rcap-grade-a/launch-control/ordinary-start-only-retained/
-            /data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/
+            /data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.sql
+            /data/rcap-grade-a/launch-control/ordinary-687-guard-readonly-creator/
       - uses: actions/checkout@v4
         with:
-          ref: e5bb7184ad41112878f6aff971f002cda43bbcfd
+          ref: 228035be81f31e35e25653b00c26676999928a70
           path: admitted-tools
           fetch-depth: 0
           persist-credentials: false
@@ -436,9 +433,9 @@ jobs:
         run: |
           node --input-type=module <<'JS'
           import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
-          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'e5bb7184ad41112878f6aff971f002cda43bbcfd');
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'228035be81f31e35e25653b00c26676999928a70');
           assert.equal(JSON.parse(fs.readFileSync('../carrier/vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
-          const pins={"scripts/rcap-hosted-ordinary-admin-start-only-entry.mjs":"c2bc34fce01a0a089add1d3512ae8f4f0b4ca96e7dc7212fc67c6eb91ca2cb70","scripts/rcap-hosted-ordinary-admin-start-only.mjs":"72a2f82393df7c4a86d53b198fbef344cfbfed4de96e40cc59c6bcf0fb06eb78","scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba","scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","package.json":"73ab9869dfb6b045d0a549943024a1b32c04b238bceb658b0d450d330fa7cc20","package-lock.json":"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7","scripts/rcap-hosted-ordinary-guard-readonly.mjs":"9fc592b8b966a6e21bd0d31e7acd64ba68f66a9019cf559445bb823e1e7bd757","scripts/rcap-hosted-ordinary-guard-readonly.test.mjs":"fc0a9f9befbe884ee0a2df781f642fc601d7e6ffd8a2e012b4ff46035134a936","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.sql":"940f73ee4d2782381a0ea378f1735e5afb77409c222994783dadb2974f3e9469","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/start-before.json":"1bfc58296afe4af56f3b48caddf28b70f4fcbf08cefa2243efffb382094eddd6","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/material-review.json":"a1ea765968b128fc7ab35dfcc91cf14d3ec7fae8addd57e1472a182131f14900","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.json":"f064919f47268121cc394b75c362f804f1b4a51c6127360bae7c62db00d66a09","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/binding.json":"6915347f7a2a598909ccfa5d71cc994865cf0e8ca9d25dcec8f9a967c07fe523","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/creator.json":"61a8e2fa4bc6c9153553d6c30dcb18ab52ca5c4a150ba101729c8c9c8ca60c41","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/creator-run.json":"ca8997214cc6029d377fcad5b02731eefd58fc1e8eaa844d4bde8e02e98be9b2","../carrier/data/rcap-grade-a/launch-control/ordinary-final-guard-readonly-creator/c-acceptance.json":"dc8847105382e6b388d0497899b58895aa5ad1fd51dcb1cd9e1c9f8ed2653570"};
+          const pins={"scripts/rcap-hosted-ordinary-admin-start-only-entry.mjs":"c2bc34fce01a0a089add1d3512ae8f4f0b4ca96e7dc7212fc67c6eb91ca2cb70","scripts/rcap-hosted-ordinary-admin-start-only.mjs":"72a2f82393df7c4a86d53b198fbef344cfbfed4de96e40cc59c6bcf0fb06eb78","scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba","scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","package.json":"73ab9869dfb6b045d0a549943024a1b32c04b238bceb658b0d450d330fa7cc20","package-lock.json":"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7","scripts/rcap-hosted-ordinary-guard-readonly.mjs":"6cb3ff652427a9fa918981f9697598ac00e829dffca13863776ec1671aef3a5a","scripts/rcap-hosted-ordinary-guard-readonly.test.mjs":"219ca505a8ef6a80ddd49385fb4e2800ab042d74198d630054c5aebc4d107455","../carrier/data/rcap-grade-a/launch-control/ordinary-start-only-retained/poststate.sql":"940f73ee4d2782381a0ea378f1735e5afb77409c222994783dadb2974f3e9469","../carrier/data/rcap-grade-a/launch-control/ordinary-687-guard-readonly-creator/binding.json":"983ede38a4efbdb5e4a82a3fcac1ca713dd59da8c6cdcc11b9375137ec38722a","../carrier/data/rcap-grade-a/launch-control/ordinary-687-guard-readonly-creator/creator.json":"cb3c58a30a6a43f7d1fce7521fba33ef6d3295446ba59912e6601fdba3212f35","../carrier/data/rcap-grade-a/launch-control/ordinary-687-guard-readonly-creator/creator-run.json":"bfe9787f8a5a6f09ca7197b8c7ef1112920559c0cbcbd934cc80eacc18030280","../carrier/data/rcap-grade-a/launch-control/ordinary-687-guard-readonly-creator/c-acceptance.json":"c90a374fed1d0d9ba4c24359aee4313e6e019e5fc71e57dacc6b01291f46dcb9","data/rcap-grade-a/launch-control/ordinary-compensated-guard-baseline/poststate.json":"e183312a22a1c8ab49a3e461d88bed76408e97c6139fe19dad1577435e275d86","data/rcap-grade-a/launch-control/ordinary-compensated-guard-baseline/journal.json":"e05ab07203b4474cfe086b4e41426cd9dd41998544488c5df413b86d897c1ef8","data/rcap-grade-a/launch-control/ordinary-compensated-guard-baseline/c-acceptance.json":"b13e6519977fe9a157ee577396c933dc34beb72d1fbed16039e32f910bf6f82f"};
           for(const [file,pin]of Object.entries(pins)){assert.match(pin??'',/^[a-f0-9]{64}$/,'BEFORE_AUTH_HOLD: actual native/C pins required');assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),pin);}
           const root=process.env.GITHUB_WORKSPACE+'/start-only-input';fs.mkdirSync(root,{mode:0o700});fs.chmodSync(root,0o700);
           for(const file of Object.keys(pins).filter(f=>f.startsWith('../carrier/data/'))){const dest=root+'/'+file.split('/').at(-1);fs.copyFileSync(file,dest,fs.constants.COPYFILE_EXCL);fs.chmodSync(dest,0o600);}
