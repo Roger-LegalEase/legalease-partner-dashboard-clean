@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {safeStaticAsset,collectConfigureDiagnostic} from './rcap-hosted-ordinary-admin-configure-diagnostic.mjs';
+import {ORIGIN} from './rcap-hosted-ordinary-admin-readonly.mjs';
+const suffix='?dpl=dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF';
+const dynamic=ORIGIN+'/_next/static/chunks/app/internal/partners/onboarding/%5BpartnerSlug%5D/page.js'+suffix;
+const p=safeStaticAsset(dynamic);assert.equal(p.pathname.includes('%5BpartnerSlug%5D'),true);assert.equal(p.currentGuardWouldAllow,false);assert.equal(p.dplMatchesExpected,true);
+assert.equal(safeStaticAsset(ORIGIN+'/_next/static/chunks/known.js'+suffix).currentGuardWouldAllow,true);
+for(const u of ['https://outside.example/_next/static/chunks/a.js',ORIGIN+'/api/private-profile?token=PRIVATE_TOKEN',ORIGIN+'/#profile','https://user:PRIVATE_PASSWORD@'+new URL(ORIGIN).host+'/_next/static/a.js'])assert.equal(safeStaticAsset(u),null);
+const privateQuery=safeStaticAsset(ORIGIN+'/_next/static/chunks/a.js?dpl=dpl_PRIVATE_TOKEN&token=PRIVATE_TOKEN');assert.equal(JSON.stringify(privateQuery).includes('PRIVATE_TOKEN'),false);assert.deepEqual(privateQuery.queryNames,['dpl','other']);
+let evaluated=0;const fake={pages:()=>[{url:()=>ORIGIN+'/briefcase'}]};assert.equal((await collectConfigureDiagnostic(fake,[])).available,false);assert.equal(evaluated,0);
+const raw={assetUrls:[dynamic,ORIGIN+'/api/private-profile?token=PRIVATE_TOKEN'],editor:{formValid:true,reactSubmitHandlerPresent:false},save:{enabled:true},service:{equalsScreeningOnly:true},authority:{nonempty:true}};const context={pages:()=>[{url:()=>ORIGIN+'/internal/partners/onboarding/legalease-ordinary-qa-20261024',evaluate:async fn=>{evaluated++;assert.equal(typeof fn,'function');return raw;}}]};const result=await collectConfigureDiagnostic(context,[p]);assert.equal(result.staticAssets.length,1);assert.equal(result.staticAssets[0].currentGuardWouldAllow,false);assert.equal(result.actionsPerformed,0);assert.equal(result.customerWrites,0);assert.equal(JSON.stringify(result).includes('PRIVATE_TOKEN'),false);assert.equal('assetUrls' in result,false);
+console.log('PASS: strict ownstatic projection, knownexactdpl only, dynamic-path guardobservations, privatequery/credential/profile redaction, exactQA pageonly, booleans/staticmetadata only; no DOMactions/browser/Auth/network.');
