@@ -39,7 +39,7 @@ concurrency:
 
 env:
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  EVIDENCE_PATH: data/rcap-render/worker-publication-evidence.json
+  EVIDENCE_PATH: data/rcap-render/worker-candidates/ms-closure-8da-publication.json
 
 jobs:
   accept:
@@ -166,6 +166,22 @@ jobs:
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/verify-rcap-worker-image-revision.mjs
+
+      - name: Prove packaged closure and the actual Clinic claimed route offline
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          docker run --rm -i --network none --read-only --entrypoint node "$REF" --input-type=module <<'NODE'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {register} from 'node:module';
+          const bytes=fs.readFileSync('deploy/rcap-render-worker/runtime-data-manifest.json');assert.equal(createHash('sha256').update(bytes).digest('hex'),'84a37c4143ea1caf83889de78b180b43403a3c117f743e77eb10d2515c0d086a');const manifest=JSON.parse(bytes);assert.equal(manifest.files.length,219);
+          for(const f of manifest.files)assert.equal(createHash('sha256').update(fs.readFileSync(f.path)).digest('hex'),f.sha256);
+          register('./scripts/lib/ts-esm-loader.mjs',import.meta.url);
+          const {resolveClaimedPacketRenderRoute}=await import('./src/lib/rcap/documents/packet-route-resolver.ts');const {workerStaticPacketBinding}=await import('./src/lib/rcap/fulfillment/worker-static-authority.ts');
+          const route=resolveClaimedPacketRenderRoute({state:'MS',pathway:'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',trackId:'ms-nonconv'});assert.equal(route.routeKind,'factory_v2');assert.equal(route.rendererKind,'packet_document_v1');
+          const binding=workerStaticPacketBinding('MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal','ms-nonconv');assert.equal(binding?.packetSpecificationSha256,'23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126');
+          console.log('Packaged219file closure and exact claimed MS route verified offline; no credentials, facts, job claim, or render.');
+          NODE
 
       - name: Prove the container does not run as root
         env:
