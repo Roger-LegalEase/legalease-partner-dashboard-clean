@@ -1726,7 +1726,7 @@ jobs:
 
   hosted:
     name: Persistent hosted acceptance staging
-    if: startsWith(inputs.mode, 'hosted_') && inputs.mode != 'hosted_clinic_deploy' && inputs.mode != 'hosted_stripe_retarget'
+    if: startsWith(inputs.mode, 'hosted_') && inputs.mode != 'hosted_clinic_deploy' && inputs.mode != 'hosted_stripe_retarget' && inputs.mode != 'hosted_managed_start_preview'
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
       sponsor_case: ${{ inputs.sponsor_case }}
@@ -2016,3 +2016,85 @@ jobs:
           pkill -f "next start" || true
           docker rm -f f1-worker 2>/dev/null || true
           supabase stop --no-backup || true
+
+  hosted_managed_start_preview:
+    name: Repair only the exact ordinary managed Preview runtime configuration
+    if: inputs.mode == 'hosted_managed_start_preview'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: admitted-controller
+    env:
+      APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+      WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+      WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+      TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+      ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+      RCAP_ADMITTED_CONTROLLER_SHA: f45bc47d825aa4decaaa473109c49f73c119f5ad
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Require the exact purpose dispatch and real carrier identity before credentials
+        working-directory: carrier
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';
+          assert.equal(process.env.GITHUB_REPOSITORY,'Roger-LegalEase/legalease-partner-dashboard-clean');assert.equal(process.env.GITHUB_ACTIONS,'true');assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');
+          assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
+          assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          const input=JSON.parse(process.env.DISPATCH_INPUTS);
+          const expected={"mode":"hosted_managed_start_preview","application_sha":"c0052e13d9801d24080275aab02c70c6ea213fa3","tools_sha":"3cce5e7f7a617f16f0ce8485f54c46a734bbe1f1","worker_source_sha":"32499751569359315248c2048fa111064a47c67f","worker_digest":"sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494","supabase_project_ref":"hyflxnlhpmiqxvvcoiia"};
+          for(const [key,value]of Object.entries(expected))assert.equal(input[key],value);
+          for(const key of ['preview_hostname','preview_deployment_id','preview_creation_run_id'])assert.ok(!input[key]);
+          for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
+          assert.equal(input.sponsor_items??'[]','[]');assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
+          JS
+      - uses: actions/checkout@v4
+        with:
+          ref: f45bc47d825aa4decaaa473109c49f73c119f5ad
+          path: admitted-controller
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Bind the exact native HELD controller bytes separately from the real carrier
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'f45bc47d825aa4decaaa473109c49f73c119f5ad');assert.equal(process.env.RCAP_ADMITTED_CONTROLLER_SHA,'f45bc47d825aa4decaaa473109c49f73c119f5ad');
+          for(const [name,hash]of Object.entries({"PENDING_WORKER_SUCCESSOR":"a98a12687815abdeb7c251950bec773b0bb4350c2408ffbb041b017e2c93128d","RELEASE_CANDIDATE_BINDING":"4813cd468fd1785aa01a9e0ab3a5b45054e0ee9a956cc4cd1d67e6c97bdb5732","HOSTED_TOOLS_BINDING":"ac20e5ed8cf3cd9eee60ca7969f305e738469d699470c18b1ddf359e4eb92a16"}))assert.equal(createHash('sha256').update(fs.readFileSync('data/rcap-grade-a/launch-control/'+name+'.json')).digest('hex'),hash);
+          JS
+      - name: Install only the admitted controller locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Reuse only the admitted locked dependencies for carrier receipt parsing
+        working-directory: carrier
+        run: ln -s ../admitted-controller/node_modules node_modules
+      - name: Require the native purpose-specific HELD source gate before credentials
+        env:
+          PHASE_INPUT: managed_start_runtime_repair
+        run: node scripts/rcap-managed-start-runtime-repair.mjs --verify
+      - name: Create or hold the exact purpose target through the existing constructor
+        env:
+          PHASE_INPUT: managed_start_runtime_repair
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION }}
+          HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: ${{ secrets.HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET }}
+        run: node scripts/rcap-managed-start-runtime-repair.mjs
+      - name: Preserve only the safe native purpose creation receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-managed-runtime-repair-${{ github.run_id }}
+          path: admitted-controller/hosted-acceptance-evidence/deploy.json
+          if-no-files-found: warn
