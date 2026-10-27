@@ -7,7 +7,7 @@ import {DTC} from './rcap-hosted-saved-dtc-contracts.mjs';
 
 test('resolved redacted identity permits unique optional nonfinancial close plus one trial; mandatory/unknown/ambiguous/covered states stop',async()=>{
  const saved={launch:chromium.launch,document:globalThis.document,style:globalThis.getComputedStyle,input:globalThis.HTMLInputElement,w:globalThis.innerWidth,h:globalThis.innerHeight};
- try{for(const scenario of ['optional','unknown_close_only','mandatory','ambiguous','backdrop_remains']){
+ try{for(const scenario of ['optional','unknown_close_only','mandatory','ambiguous','backdrop_remains','unknown_snapshot']){
   let modalVisible=true,backdropVisible=true,closeClicks=0,trials=0,realPay=0,fresh=0,closed=0;const checkpoints=[];
   class Element{
    constructor(tag,attrs={},text=''){this.tagName=tag;this.attrs=attrs;this.textContent=text;this.innerText=text;this.children=[];this.parentElement=null;this.type=tag==='BUTTON'?'button':'text';}
@@ -31,7 +31,7 @@ test('resolved redacted identity permits unique optional nonfinancial close plus
   const empty={first(){return this;},isVisible:async()=>false,all:async()=>[]};
   const submit={first(){return this;},count:async()=>1,isVisible:async()=>true,isDisabled:async()=>false,evaluate:async fn=>fn(button),scrollIntoViewIfNeeded:async options=>assert.deepEqual(options,{timeout:20000}),click:async options=>{if(options.trial!==true){realPay++;throw Error('No real Pay');}assert.deepEqual(options,{trial:true,timeout:20000});trials++;}};
   let url='https://checkout.stripe.com/c/pay/FIXTURE_ONLY';const main={url:()=>url};
-  const page={frames:()=>[main],mainFrame:()=>main,url:()=>url,goto:async value=>{url=value;},waitForTimeout:async()=>{},on:()=>{},off:()=>{},evaluate:async(fn,arg)=>fn(arg),locator:selector=>selector==='dialog,[role="dialog"],[role="alertdialog"]'?{all:async()=>modalVisible?[dialogLocator]:[]}:selector==='input[autocomplete="one-time-code"]'?{first(){return this;},isVisible:async()=>modalVisible}:selector.startsWith('button')?submit:empty};
+  const page={frames:()=>[main],mainFrame:()=>main,url:()=>url,goto:async value=>{url=value;},waitForTimeout:async()=>{},on:()=>{},off:()=>{},evaluate:async(fn,arg)=>{if(scenario==='unknown_snapshot')throw Error('No reliable DOM snapshot');return fn(arg);},locator:selector=>selector==='dialog,[role="dialog"],[role="alertdialog"]'?{all:async()=>modalVisible?[dialogLocator]:[]}:selector==='input[autocomplete="one-time-code"]'?{first(){return this;},isVisible:async()=>modalVisible}:selector.startsWith('button')?submit:empty};
   const health=DTC.origin+'/api/health',response={url:()=>health,status:()=>200,dispose:async()=>{},json:async()=>({ok:true,checks:{db:'ok'},timestamp:'fixture'})};
   const context={newPage:async()=>page,cookies:async()=>[{name:'_vercel_jwt',domain:new URL(DTC.origin).hostname,path:'/',secure:true}],request:{get:async()=>response},close:async()=>{closed++;}};
   chromium.launch=async()=>({newContext:async()=>context,close:async()=>{closed++;}});
