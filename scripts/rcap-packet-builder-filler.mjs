@@ -194,56 +194,58 @@ export async function answerBuilderStep(page, options = {}) {
   // `q-<factId>` identity is not something to step over quietly: it is either
   // a question this filler would silently skip, leaving the screen incomplete,
   // or a control that should not be there. Either way the journey stops.
-  const screen = await builder.evaluate((node) => {
-    const usable = (element) => {
-      if (element.disabled) return false;
-      const box = element.getBoundingClientRect();
-      return box.width > 0 && box.height > 0;
-    };
-    const ids = new Set();
-    const unaccounted = [];
-    for (const control of node.querySelectorAll("input, select, textarea")) {
-      if (!usable(control)) continue;
-      if (control.type === "hidden") continue;
-      // This exact control navigates sections; it does not collect a participant fact.
-      if (control.tagName === "SELECT" && control.id === "packet-section-select" && control.parentElement?.tagName === "NAV"
-        && ["Packet sections", "Secciones del paquete"].includes(control.parentElement.getAttribute("aria-label"))) continue;
-      let raw = control.getAttribute("name") ?? control.getAttribute("id") ?? "";
-      if (!raw.startsWith("q-")) {
-        const group = control.closest('[role="group"][aria-labelledby]');
-        const prompt = group?.getAttribute("aria-labelledby") ?? "";
-        const parts = group ? [...group.querySelectorAll("input, select, textarea")] : [];
-        if (/^q-.+-prompt$/.test(prompt) && parts.length === 3
-          && parts[0].tagName === "SELECT" && parts[0].id === prompt.replace(/-prompt$/, "")
-          && parts[1].tagName === "SELECT" && parts[2].tagName === "INPUT"
-          && parts[2].type === "text" && parts[2].getAttribute("inputmode") === "numeric"
-          && parts[2].getAttribute("maxlength") === "4") raw = parts[0].id;
+  const answered = new Set();
+  // Answering a prerequisite can reveal another required control on this screen.
+  while (true) {
+    const screen = await builder.evaluate((node) => {
+      const usable = (element) => {
+        if (element.disabled) return false;
+        const box = element.getBoundingClientRect();
+        return box.width > 0 && box.height > 0;
+      };
+      const ids = new Set();
+      const unaccounted = [];
+      for (const control of node.querySelectorAll("input, select, textarea")) {
+        if (!usable(control)) continue;
+        if (control.type === "hidden") continue;
+        // This exact control navigates sections; it does not collect a participant fact.
+        if (control.tagName === "SELECT" && control.id === "packet-section-select" && control.parentElement?.tagName === "NAV"
+          && ["Packet sections", "Secciones del paquete"].includes(control.parentElement.getAttribute("aria-label"))) continue;
+        let raw = control.getAttribute("name") ?? control.getAttribute("id") ?? "";
+        if (!raw.startsWith("q-")) {
+          const group = control.closest('[role="group"][aria-labelledby]');
+          const prompt = group?.getAttribute("aria-labelledby") ?? "";
+          const parts = group ? [...group.querySelectorAll("input, select, textarea")] : [];
+          if (/^q-.+-prompt$/.test(prompt) && parts.length === 3
+            && parts[0].tagName === "SELECT" && parts[0].id === prompt.replace(/-prompt$/, "")
+            && parts[1].tagName === "SELECT" && parts[2].tagName === "INPUT"
+            && parts[2].type === "text" && parts[2].getAttribute("inputmode") === "numeric"
+            && parts[2].getAttribute("maxlength") === "4") raw = parts[0].id;
+        }
+        if (!raw.startsWith("q-")) {
+          unaccounted.push(control.getAttribute("id") || control.getAttribute("name") || `<${control.tagName.toLowerCase()}>`);
+          continue;
+        }
+        const id = raw.replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
+        if (id) ids.add(id);
       }
-      if (!raw.startsWith("q-")) {
-        unaccounted.push(control.getAttribute("id") || control.getAttribute("name") || `<${control.tagName.toLowerCase()}>`);
-        continue;
-      }
-      const id = raw.replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
-      if (id) ids.add(id);
-    }
-    return { questionIds: [...ids], unaccounted };
-  });
+      return { questionIds: [...ids], unaccounted };
+    });
 
-  if (screen.unaccounted.length > 0) {
-    throw new Error(
-      `packet-information screen has ${screen.unaccounted.length} visible participant control(s) this filler does not recognise: `
-        + `${screen.unaccounted.join(", ")}. A grouped screen must be answered in full, so the journey stops rather than `
-        + "leaving a control untouched and reporting success."
-    );
-  }
-  if (screen.questionIds.length === 0) {
-    throw new Error("packet-information screen renders no answerable participant control");
-  }
-  // One question on the screen is the single-question shape the review page's
-  // edit link renders. It is answered by identity exactly as each question on a
-  // section screen is; there is no separate legacy path.
-  for (const questionId of screen.questionIds) {
+    if (screen.unaccounted.length > 0) {
+      throw new Error(
+        `packet-information screen has ${screen.unaccounted.length} visible participant control(s) this filler does not recognise: `
+          + `${screen.unaccounted.join(", ")}. A grouped screen must be answered in full, so the journey stops rather than `
+          + "leaving a control untouched and reporting success."
+      );
+    }
+    if (screen.questionIds.length === 0) {
+      throw new Error("packet-information screen renders no answerable participant control");
+    }
+    const questionId = screen.questionIds.find(id => !answered.has(id));
+    if (!questionId) return;
     await answerOneControl(page, { ...options, questionId });
+    answered.add(questionId);
   }
 }
 
@@ -320,6 +322,15 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
     const saved = await parts.evaluateAll(nodes => nodes.map(node => node.value));
     if (saved.join("-") !== [month, day, year].join("-")) refuse("date", "canonical date did not stick");
     return;
+  }
+
+  if (questionId === "social_security_number") {
+    const sensitive = builder.locator("input[id='q-social_security_number'][type='password'][inputmode='numeric'][autocomplete='off']:visible:enabled");
+    if (await sensitive.count() === 1) {
+      if (!(await sensitive.inputValue()).trim()) await sensitive.fill(packetFieldValue(questionId, prompt, routeKey));
+      if (!(await sensitive.inputValue()).trim()) refuse("protected identifier", "the value did not stick");
+      return;
+    }
   }
 
   const text = builder.locator(only
