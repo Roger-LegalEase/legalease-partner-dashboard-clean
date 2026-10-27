@@ -142,7 +142,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
   let sessionId=previous?.sessionId??null,targetItemId=previous?.itemId??null,intakeRequestId=previous?.intakeRequestId??null;
   let firstEnqueueCapableActionAt=previous?.firstEnqueueCapableActionAt??null,generationRequests=previous?.generationRequests??0;
   if(previous&&!targetItemId)assert.ok(uuid(sessionId),'Uncertain intake requires native reconciliation; never start again');
-  let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false,resumeEmptySession=false,deniedRequestCount=0;
+  let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false,resumeEmptySession=false,deniedRequestCount=0,blockedPassiveScriptCount=0;
   const save=async(stage,details={})=>{
     const record={schema:'ordinary-participant-private-custody/v1',origin,applicationSha:binding.applicationSha,deploymentId:binding.deploymentId,sourceBindingSha256:binding.sourceBindingSha256,participantUserId:ORDINARY_PARTICIPANT,partnerSlug:ORDINARY_PARTNER,sessionId,itemId:targetItemId,intakeRequestId,firstEnqueueCapableActionAt,generationRequests,stage,...details};
     await checkpoint(record);assert.deepEqual(await loadCustody(),record,'Private checkpoint must be durable before forwarding');return record;
@@ -155,13 +155,18 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     if(generate){generationCount++;generationRequests++;}
     let body=null;try{body=request.postDataJSON();}catch{}
     const deny=async reason=>{
-      unexpectedRequest=true;deniedRequestCount++;
+      const resource=request.resourceType();
+      const blockedPassiveScript=reason==='controller_policy'&&method==='GET'&&resource==='script'&&u.protocol==='https:'&&u.origin!==origin&&u.origin!==authOrigin&&!u.username&&!u.password&&!u.hash
+        &&!/^\/api\//.test(u.pathname)&&!/(?:^|\/)(auth|checkout|stripe)(?:\/|$)/.test(u.pathname);
+      // Blocked passive assets never execute; customer/API request denials remain fatal.
+      if(blockedPassiveScript)blockedPassiveScriptCount++;else unexpectedRequest=true;
+      deniedRequestCount++;
       try {if(deniedRequestCount<=8){
-        const headers=request.headers(),resource=request.resourceType();
+        const headers=request.headers();
         const originClass=u.origin===origin?'application':u.origin===authOrigin?'auth':/(^|\.)stripe\.com$/i.test(u.hostname)?'stripe':/(^|\.)vercel\.live$/i.test(u.hostname)?'preview_toolbar':'other';
         const pathClass=u.pathname==='/api/expungement-ai/packet/generate'?'packet_generate':/^\/api\/expungement-ai\/briefcase\/[^/]+\/packet-information$/.test(u.pathname)?'packet_information':/\/(download|download-link|render)(\/|$)/.test(u.pathname)?'packet_download':/\/(checkout|stripe)(\/|$)/.test(u.pathname)?'checkout':u.pathname.startsWith('/auth/v1/')?'auth':u.pathname.startsWith('/_next/')?'app_asset':u.pathname.startsWith('/api/')?'other_api':u.pathname.startsWith('/briefcase/')?'briefcase_page':'other';
-        await checkpoint({schemaVersion:'ordinary-request-guard-denial/v1',reason,deniedRequestCount,method:['GET','HEAD','POST','PUT','PATCH','DELETE','OPTIONS'].includes(method)?method:'OTHER',originClass,pathClass,resourceType:['document','script','stylesheet','image','font','xhr','fetch','manifest','other'].includes(resource)?resource:'other',targetItemMatch:!!targetItemId&&(u.pathname.split('/').includes(targetItemId)||body?.briefcaseItemId===targetItemId),hasQuery:!!u.search,nextRouterPrefetch:headers['next-router-prefetch']==='1',purposePrefetch:headers.purpose?.toLowerCase()==='prefetch',secPurposePrefetch:headers['sec-purpose']?.toLowerCase().includes('prefetch')===true,generationCount,generationRequests,generationAllowed});
-      }} finally {await route.abort();}
+        await checkpoint({schemaVersion:'ordinary-request-guard-denial/v1',reason,fatal:!blockedPassiveScript,deniedRequestCount,blockedPassiveScriptCount,method:['GET','HEAD','POST','PUT','PATCH','DELETE','OPTIONS'].includes(method)?method:'OTHER',originClass,pathClass,resourceType:['document','script','stylesheet','image','font','xhr','fetch','manifest','other'].includes(resource)?resource:'other',targetItemMatch:!!targetItemId&&(u.pathname.split('/').includes(targetItemId)||body?.briefcaseItemId===targetItemId),hasQuery:!!u.search,nextRouterPrefetch:headers['next-router-prefetch']==='1',purposePrefetch:headers.purpose?.toLowerCase()==='prefetch',secPurposePrefetch:headers['sec-purpose']?.toLowerCase().includes('prefetch')===true,generationCount,generationRequests,generationAllowed});
+      }} catch(error){unexpectedRequest=true;throw error;} finally {await route.abort();}
     };
     if(!ordinaryRequestAllowed({url:request.url(),method,body},{origin,targetItemId,sessionId,generationAllowed,generationCount:generationRequests})){await deny('participant_policy');return;}
     if(await authorizeRequest(request,{origin,participantUserId:ORDINARY_PARTICIPANT,targetItemId,sessionId})!==true){await deny('controller_policy');return;}
@@ -342,7 +347,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     }
     await page.waitForURL(u=>u.origin===origin && u.pathname===`/briefcase/${itemId}/review`);
     assert.equal(await page.locator('[data-packet-verification-state]').getAttribute('data-packet-verification-state'),'unverified');
-    await checkpoint({schemaVersion:'ordinary-preverify-request-guard/v1',generationCount,generationRequests,unexpectedRequest,deniedRequestCount,failingGuard:generationCount!==0?'generation_count':unexpectedRequest?'unexpected_request':null});
+    await checkpoint({schemaVersion:'ordinary-preverify-request-guard/v1',generationCount,generationRequests,unexpectedRequest,deniedRequestCount,blockedPassiveScriptCount,failingGuard:generationCount!==0?'generation_count':unexpectedRequest?'unexpected_request':null});
     assert.equal(generationCount,0);assert.equal(unexpectedRequest,false);
     await native(false);
     // Sponsored Verify auto-enqueues. Hold the entire producer/consumer window first.
