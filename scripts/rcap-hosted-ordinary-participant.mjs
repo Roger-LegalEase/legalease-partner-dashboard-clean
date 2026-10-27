@@ -240,8 +240,38 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     if(previous)await page.goto(`${origin}/briefcase/${itemId}/packet-information`);
     else await page.getByRole('link',{name:'Complete packet information',exact:true}).click();
     await page.waitForURL(u=>u.origin===origin && u.pathname===`/briefcase/${itemId}/packet-information`);
-    let saves=0;
+    let saves=0,savedRevision=previous?.revision??null;
     for(;saves<80 && new URL(page.url()).pathname.endsWith('/packet-information');saves++) {
+      const builder=page.locator("[data-packet-information-builder='active']");
+      if(await builder.getByRole('heading',{name:'Review your saved packet information',exact:true}).isVisible()) {
+        assert.equal(await builder.locator('[data-packet-question]').count(),0,'Completion must not skip participant questions');
+        const unknownControls=await builder.evaluate(node=>[...node.querySelectorAll('input,select,textarea')].filter(control=>{
+          const box=control.getBoundingClientRect();if(control.disabled||control.type==='hidden'||box.width===0||box.height===0)return false;
+          return !(control.tagName==='SELECT'&&control.id==='packet-section-select'&&control.parentElement?.tagName==='NAV'&&['Packet sections','Secciones del paquete'].includes(control.parentElement.getAttribute('aria-label')));
+        }).length);
+        assert.equal(unknownControls,0,'Completion must not skip unknown controls');
+        const ready=await readOwner();assert.equal(ready.status,200);assert.equal(ready.body.ok,true);
+        assert.ok(Number.isInteger(ready.body.revision));if(savedRevision!==null)assert.equal(ready.body.revision,savedRevision);
+        assert.equal(ready.body.resumeSectionId,'review');assert.equal(ready.body.nextAction,'review_packet');
+        assert.equal(ready.body.reviewPath,`/briefcase/${itemId}/review`);
+        assert.deepEqual(ready.body.missingInputIds,[]);assert.deepEqual(ready.body.pendingDerivations,[]);
+        assert.deepEqual(ready.body.recordClarificationIds,[]);assert.equal(ready.body.courtRecordConflict,false);
+        assert.equal(ready.body.caProp64Clarification,false);assert.equal(ready.body.readyToGenerate,false);
+        await save('ordinary_review_transition_pending',{revision:ready.body.revision});
+        let normalPosts=0;const normalResponses=[];
+        const exactPost=r=>r.method()==='POST'&&new URL(r.url()).origin===origin&&new URL(r.url()).pathname===endpoint&&!new URL(r.url()).search;
+        const onRequest=r=>{if(exactPost(r))normalPosts++;};const onResponse=r=>{if(exactPost(r.request()))normalResponses.push(r);};
+        page.on('request',onRequest);page.on('response',onResponse);
+        try {
+          await page.getByRole('button',{name:'Review packet facts',exact:true}).click();
+          await page.waitForURL(u=>u.origin===origin&&u.pathname===ready.body.reviewPath);
+        } finally {page.off('request',onRequest);page.off('response',onResponse);}
+        assert.ok(normalPosts<=1);assert.equal(normalResponses.length,normalPosts);
+        for(const response of normalResponses){assert.equal(response.status(),200);const receipt=await response.json();assert.equal(receipt.ok,true);assert.ok(receipt.revision>=ready.body.revision);}
+        const after=await readOwner();assert.equal(after.status,200);assert.deepEqual(after.body.answers,ready.body.answers);assert.ok(after.body.revision>=ready.body.revision);
+        await save('ordinary_review_opened',{revision:after.body.revision,normalReviewPostCount:normalPosts});
+        break;
+      }
       await answerBuilderStep(page,{routeKey:MS_NONCONVICTION_ROUTE.routeId});
       const review=page.getByRole('button',{name:'Review packet facts',exact:true});
       const continueButton=await review.isVisible() ? review : page.getByRole('button',{name:'Save and continue',exact:true});
@@ -282,6 +312,7 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
       assert.equal(saved.status(),200);
       const body=await saved.json();assert.equal(body.ok,true);assert.ok(body.revision>=submitted.expectedRevision);
       await save('ordinary_packet_saved',{expectedRevision:submitted.expectedRevision,revision:body.revision,saveIndex:saves});
+      savedRevision=body.revision;
       // Server owner read + reload proves persistence and ordinary save/resume.
       const before=await readOwner();assert.equal(before.status,200);assert.equal(before.body.revision,body.revision);
       await page.reload();
