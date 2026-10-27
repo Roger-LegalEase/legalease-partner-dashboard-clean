@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       clinic_attempt_id:
         description: "Owner-authorized Clinic attempt identity; required for clinic_setup_only, never reused"
@@ -524,6 +524,128 @@ jobs:
             carrier/ordinary-admin-configure-capacity-evidence/allocation-response.json
             carrier/ordinary-admin-configure-capacity-evidence/allocation-state.json
             carrier/ordinary-admin-configure-capacity-evidence/result.json
+          if-no-files-found: warn
+
+  ordinary_admin_materials_start:
+    name: Prepare current QA materials and Start only after actual review
+    if: inputs.mode == 'ordinary_admin_materials_start'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: carrier
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Require the exact current ordinary materials and Start dispatch before credentials
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import assert from 'node:assert/strict';
+          import {createHash} from 'node:crypto';
+          assert.equal(process.env.GITHUB_REPOSITORY,'Roger-LegalEase/legalease-partner-dashboard-clean');
+          assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');
+          assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');
+          assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');
+          assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
+          assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
+          const input=JSON.parse(process.env.DISPATCH_INPUTS);
+          const expected={mode:'ordinary_admin_materials_start',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',tools_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia',preview_hostname:'legalease-rcap-managed-c0052e13d980-roger947s-projects.vercel.app',preview_deployment_id:'dpl_7dmD2g1xZccLiTbkJL9Xp3wCrWyF',preview_creation_run_id:'40424719189'};
+          for(const [key,value]of Object.entries(expected))assert.equal(input[key],value);
+          for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
+          assert.equal(input.sponsor_items??'[]','[]');assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
+          for(const [file,hash]of Object.entries({"scripts/rcap-hosted-ordinary-admin-readonly.mjs":"728455bd5108add8d54986636de5c6af859a275e514c51cb0d01e8f7c828f9b7","scripts/rcap-hosted-ordinary-admin.mjs":"23440d88d3266a5ae6a7ef3f63cdb5cc900527c512aab0379790d2e86201d830","scripts/rcap-hosted-ordinary-admin-postprovision.mjs":"ec3dd0d541f111b61d7857e020b260532ca30bdc4d6d6315b265ff3e7cde0aba","scripts/rcap-hosted-ordinary-admin-materials-start.mjs":"c9c0a60899bbd7ea999dc211e7d5e787cce71c51afd4a5599e9bdc52e0d41de8","scripts/rcap-hosted-ordinary-admin-materials-start-caller.mjs":"8206c138681bd315a6800e734ea726f0c369d6496326c25432c41a67b8ac4b7c","scripts/rcap-hosted-ordinary-admin-materials-start-runner.mjs":"9cc27b64ea6397d441e74e9079377bfe3cbe0d9b790eda064f373d0cd93de9d9"}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),hash);
+          JS
+      - uses: actions/checkout@v4
+        with:
+          ref: 1e5878528f0b7aea1ada192b01b514bd38b54192
+          path: admitted-controller
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Bind the already accepted immutable controller record bytes
+        working-directory: admitted-controller
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'1e5878528f0b7aea1ada192b01b514bd38b54192');
+          for(const [name,hash]of Object.entries({PENDING_WORKER_SUCCESSOR:'5d7dd5da43ed35e9a23ec78e45cd0c5d3757515414beb55f77c4bfb32a63db17',RELEASE_CANDIDATE_BINDING:'4d2b52fc8266e72e1c26683aae6e60ba279ce7cafde4db79244a154e5e2443bb',HOSTED_TOOLS_BINDING:'eced4fb24457d0f666304a3eae3b765681f3705f1be6d6be317e10b599fcaff5'}))assert.equal(createHash('sha256').update(fs.readFileSync('data/rcap-grade-a/launch-control/'+name+'.json')).digest('hex'),hash);
+          JS
+      - name: Install only locked controller runner dependencies without builds or browser install
+        working-directory: admitted-controller
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Use the existing runner Chrome and pinned controller dependencies
+        run: |
+          test -x /usr/bin/google-chrome
+          ln -s ../admitted-controller/node_modules node_modules
+      - name: Require the exact original credential source object without executing it
+        run: |
+          if ! git cat-file -e 'd3d8ff707d4d21ab508405494e6ee27056582a1a^{commit}' 2>/dev/null; then
+            git fetch --no-tags --no-write-fetch-head origin d3d8ff707d4d21ab508405494e6ee27056582a1a
+          fi
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
+          const bytes=execFileSync('git',['show','d3d8ff707d4d21ab508405494e6ee27056582a1a:scripts/rcap-hosted-acceptance-auth-config.mjs'],{stdio:['ignore','pipe','ignore']});
+          assert.equal(createHash('sha256').update(bytes).digest('hex'),'cdf9d28192cc54de72e6c9ccef5f389c678b7472a60c6408ad54b0735e5d695c');
+          JS
+      - name: Read only the original accepted native creation artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method GET repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/12699943085/zip > "$RUNNER_TEMP/ordinary-admin-native.zip"
+          python3 - <<'PY'
+          import os,pathlib,hashlib,zipfile
+          root=pathlib.Path(os.environ['RUNNER_TEMP']);archive=root/'ordinary-admin-native.zip';raw=archive.read_bytes()
+          assert len(raw)==10460999
+          assert hashlib.sha256(raw).hexdigest()=='1d667454449b63925213f640d8bce706b041d8190398aa6fd73336e1b0d3ef84'
+          with zipfile.ZipFile(archive) as z:
+              entry=z.getinfo('deploy.json');assert 0<entry.file_size<=2097152;data=z.read(entry)
+          assert hashlib.sha256(data).hexdigest()=='76e5b1baaf13de456482194956deedaff8f6468abef6ff0a90fe615a4c451711'
+          output=root/'ordinary-admin-native';output.mkdir(mode=0o700);(output/'deploy.json').write_bytes(data);os.chmod(output/'deploy.json',0o600)
+          PY
+          gh api --method GET repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/12705506477/zip > "$RUNNER_TEMP/ordinary-configure-native.zip"
+          python3 - <<'PY'
+          import os,pathlib,hashlib,zipfile
+          root=pathlib.Path(os.environ['RUNNER_TEMP']);raw=(root/'ordinary-configure-native.zip').read_bytes()
+          assert len(raw)==6804
+          assert hashlib.sha256(raw).hexdigest()=='e1629724df4391849edc8d7be860ecd655fce5c1b42ae5d04e9097678e1a81e3'
+          pins={'result.json':'fe9007b61fd08de6c96b3473964d918a47acfd23e3895557af5804829cc775d6','allocation-before.json':'adcdb5aa0869f136082fc52c6cee27f7598d12783e933e21c5d84c28ff10493a','allocation-response.json':'c25261920aec7b648a2716a23548fa964feb7e46c690a9f50a3eaaae9fa9cecd','allocation-state.json':'f367a781043e31568168d0d4c869cfb28329dfd9f52ee5ddea258dcafb790b90'}
+          output=root/'ordinary-configure-native';output.mkdir(mode=0o700)
+          with zipfile.ZipFile(root/'ordinary-configure-native.zip') as z:
+              for name,expected in pins.items():
+                  entry=z.getinfo(name);assert 0<entry.file_size<=65536;data=z.read(entry);assert hashlib.sha256(data).hexdigest()==expected
+                  (output/name).write_bytes(data);os.chmod(output/name,0o600)
+          PY
+      - name: Prepare current materials and conditionally Start only after actual DOM review
+        env:
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          RCAP_ADMIN_NATIVE_DEPLOY_FILE: ${{ runner.temp }}/ordinary-admin-native/deploy.json
+          RCAP_ADMIN_CONFIGURE_RECEIPT_DIR: ${{ runner.temp }}/ordinary-configure-native
+          ORDINARY_ADMIN_EVIDENCE_FILE: ordinary-admin-materials-start-evidence/result.json
+        run: node scripts/rcap-hosted-ordinary-admin-materials-start-runner.mjs
+      - name: Preserve only exact typed program operation and material review checkpoints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ordinary-admin-materials-start-${{ github.run_id }}
+          path: |
+            carrier/ordinary-admin-materials-start-evidence/initial.json
+            carrier/ordinary-admin-materials-start-evidence/materials_prepare-before.json
+            carrier/ordinary-admin-materials-start-evidence/materials_prepare-response.json
+            carrier/ordinary-admin-materials-start-evidence/materials_prepare-state.json
+            carrier/ordinary-admin-materials-start-evidence/material-review.json
+            carrier/ordinary-admin-materials-start-evidence/start-before.json
+            carrier/ordinary-admin-materials-start-evidence/start-response.json
+            carrier/ordinary-admin-materials-start-evidence/start-state.json
+            carrier/ordinary-admin-materials-start-evidence/result.json
           if-no-files-found: warn
 
   clinic_owned_matter_readonly:
