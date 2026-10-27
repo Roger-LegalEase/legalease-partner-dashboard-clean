@@ -25,6 +25,7 @@ SELECT current_database() AS database_name, current_user AS database_user,
  (SELECT jsonb_build_object('consumer_auth_user_id',s.consumer_auth_user_id,'briefcase_item_id',s.briefcase_item_id,'claimed_user_id',s.claimed_user_id,'claimed_at',s.claimed_at,'product',s.product,'partner_slug',s.partner_slug,'partner_benefit_active',s.partner_benefit_active,'jurisdiction',s.jurisdiction,'profile_version',s.profile_version,'screening_answers',s.screening_answers) FROM public.get_consumer_briefcase_presentation_source('${ORDINARY_PARTICIPANT}','${itemId}') s) AS source,
  (SELECT to_jsonb(a) FROM public.sponsored_packet_render_authority('${MS_NONCONVICTION_ROUTE.routeId}','${sessionId}','${itemId}','${ORDINARY_PARTICIPANT}') a) AS authority,
  (SELECT jsonb_build_object('consumer_auth_user_id',v.consumer_auth_user_id,'briefcase_item_id',v.briefcase_item_id,'revision',v.revision,'status',v.status,'verification_hash',v.verification_hash,'jurisdiction',coalesce(v.verification_snapshot,v.draft_snapshot)->>'jurisdiction','pathwayId',coalesce(v.verification_snapshot,v.draft_snapshot)->>'pathwayId') FROM public.consumer_packet_verifications v WHERE v.briefcase_item_id='${itemId}') AS verification,
+ (SELECT count(*) FROM public.clinic_packet_funding f WHERE f.briefcase_item_id='${itemId}'::uuid) AS funding_count,
  (SELECT coalesce(jsonb_agg(jsonb_build_object('id',j.id,'route_id',j.route_id,'renderer_kind',j.renderer_kind,'status',j.status,'attempt_count',j.attempt_count,'briefcase_item_id',j.briefcase_item_id,'sponsored_consumer_briefcase_item_id',j.sponsored_consumer_briefcase_item_id,'sponsored_consumer_auth_user_id',j.sponsored_consumer_auth_user_id,'sponsored_session_id',j.sponsored_session_id,'sponsored_clinic_event_id',j.sponsored_clinic_event_id,'sponsored_route_key',j.sponsored_route_key,'sponsored_verification_hash',j.sponsored_verification_hash,'output_storage_path',j.output_storage_path,'output_sha256',j.output_sha256) ORDER BY j.created_at,j.id),'[]'::jsonb) FROM public.packet_render_jobs j WHERE j.briefcase_item_id='${itemId}' OR j.sponsored_consumer_briefcase_item_id='${itemId}') AS jobs;
 COMMIT;`;
 }
@@ -141,10 +142,11 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
   await phase('participant_custody');const previous=await loadCustody();if(previous)assertCustody(previous,binding);
   let sessionId=previous?.sessionId??null,targetItemId=previous?.itemId??null,intakeRequestId=previous?.intakeRequestId??null;
   let firstEnqueueCapableActionAt=previous?.firstEnqueueCapableActionAt??null,generationRequests=previous?.generationRequests??0;
+  let reconciledPendingBoundary=previous?.reconciledPendingBoundary??null;
   if(previous&&!targetItemId)assert.ok(uuid(sessionId),'Uncertain intake requires native reconciliation; never start again');
   let generationAllowed=false,generationCount=0,pendingCount=0,claimCount=0,unexpectedRequest=false,resumeEmptySession=false,deniedRequestCount=0,blockedPassiveScriptCount=0;
   const save=async(stage,details={})=>{
-    const record={schema:'ordinary-participant-private-custody/v1',origin,applicationSha:binding.applicationSha,deploymentId:binding.deploymentId,sourceBindingSha256:binding.sourceBindingSha256,participantUserId:ORDINARY_PARTICIPANT,partnerSlug:ORDINARY_PARTNER,sessionId,itemId:targetItemId,intakeRequestId,firstEnqueueCapableActionAt,generationRequests,stage,...details};
+    const record={schema:'ordinary-participant-private-custody/v1',origin,applicationSha:binding.applicationSha,deploymentId:binding.deploymentId,sourceBindingSha256:binding.sourceBindingSha256,participantUserId:ORDINARY_PARTICIPANT,partnerSlug:ORDINARY_PARTNER,sessionId,itemId:targetItemId,intakeRequestId,firstEnqueueCapableActionAt,generationRequests,...(reconciledPendingBoundary?{reconciledPendingBoundary}:{}),stage,...details};
     await checkpoint(record);assert.deepEqual(await loadCustody(),record,'Private checkpoint must be durable before forwarding');return record;
   };
   const config={origin,authOrigin};
@@ -252,9 +254,12 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     await anonymousPage.goto(`${origin}/briefcase`);
     await strangerPage.goto(`${origin}/briefcase`);
     assert.equal(await apiStatus(anonymousPage),401);assert.equal(await apiStatus(strangerPage),404);
-    if(previous?.stage==='ordinary_review_opened') {
+    const pendingVerifyResume=previous?.stage==='ordinary_verification_and_enqueue_pending';
+    if(previous?.stage==='ordinary_review_opened'||pendingVerifyResume) {
+      if(pendingVerifyResume){assert.equal(generationRequests,0);assert.equal(existing.verification?.status,'unverified');assert.equal(existing.verification.verification_hash,null);assert.equal(existing.funding_count,0);assert.equal(existing.jobs.length,0);assert.ok(Number.isFinite(Date.parse(previous.firstEnqueueCapableActionAt)));}
       const ready=await readOwner();assert.equal(ready.status,200);assert.equal(ready.body.ok,true);
-      assert.ok(Number.isInteger(previous.revision));assert.equal(ready.body.revision,previous.revision);
+      const expectedRevision=previous.revision??existing.verification?.revision;
+      assert.ok(Number.isInteger(expectedRevision));assert.equal(ready.body.revision,expectedRevision);
       assert.equal(ready.body.resumeSectionId,'review');assert.equal(ready.body.nextAction,'review_packet');assert.equal(ready.body.reviewPath,`/briefcase/${itemId}/review`);
       assert.deepEqual(ready.body.missingInputIds,[]);assert.deepEqual(ready.body.pendingDerivations,[]);assert.deepEqual(ready.body.recordClarificationIds,[]);
       assert.equal(ready.body.courtRecordConflict,false);assert.equal(ready.body.caProp64Clarification,false);assert.equal(ready.body.readyToGenerate,false);
@@ -262,6 +267,10 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
       await page.waitForURL(u=>u.origin===origin&&u.pathname===ready.body.reviewPath);
       const after=await readOwner();assert.equal(after.status,200);assert.equal(after.body.revision,ready.body.revision);assert.deepEqual(after.body.answers,ready.body.answers);
       await checkpoint({schemaVersion:'ordinary-review-get-resume/v1',revision:after.body.revision,normalReviewPostCountThisInvocation:0});
+      if(pendingVerifyResume){
+        reconciledPendingBoundary={priorReconciliation:previous.reconciledPendingBoundary??null,originalFirstEnqueueCapableActionAt:previous.reconciledPendingBoundary?.originalFirstEnqueueCapableActionAt??previous.firstEnqueueCapableActionAt,priorFirstEnqueueCapableActionAt:previous.firstEnqueueCapableActionAt,revision:after.body.revision,generationRequests:0,fundingCount:0,jobCount:0,reconciledAt:new Date().toISOString()};
+        await checkpoint({schemaVersion:'ordinary-pending-verify-reconciliation/v1',...reconciledPendingBoundary});
+      }
     } else {
       if(previous)await page.goto(`${origin}/briefcase/${itemId}/packet-information`);
       else await page.getByRole('link',{name:'Complete packet information',exact:true}).click();
@@ -349,17 +358,35 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     assert.equal(await page.locator('[data-packet-verification-state]').getAttribute('data-packet-verification-state'),'unverified');
     await checkpoint({schemaVersion:'ordinary-preverify-request-guard/v1',generationCount,generationRequests,unexpectedRequest,deniedRequestCount,blockedPassiveScriptCount,failingGuard:generationCount!==0?'generation_count':unexpectedRequest?'unexpected_request':null});
     assert.equal(generationCount,0);assert.equal(unexpectedRequest,false);
-    await native(false);
-    // Sponsored Verify auto-enqueues. Hold the entire producer/consumer window first.
+    const beforeVerify=await native(false),ownerReady=await readOwner();
+    assert.equal(beforeVerify.verification?.status,'unverified');assert.equal(beforeVerify.verification.verification_hash,null);assert.equal(beforeVerify.funding_count,0);
+    assert.equal(ownerReady.status,200);assert.equal(ownerReady.body.ok,true);assert.equal(ownerReady.body.revision,beforeVerify.verification?.revision);
+    assert.deepEqual(ownerReady.body.missingInputIds,[]);assert.deepEqual(ownerReady.body.pendingDerivations,[]);assert.equal(ownerReady.body.nextAction,'review_packet');assert.equal(ownerReady.body.reviewPath,`/briefcase/${itemId}/review`);
+    const region=page.locator('[data-packet-verification-state="unverified"]');
+    const action=region.getByRole('button',{name:'Verify and prepare clinic packet',exact:true});
+    const actionCount=await action.count(),genericCount=await region.getByRole('button',{name:'I verified these packet facts',exact:true}).count();
+    const actionVisible=actionCount===1&&await action.isVisible(),actionEnabled=actionCount===1&&await action.isEnabled();
+    const sponsoredMode=await region.getByText('Covered by your partner program',{exact:true}).count()===1;
+    const fulfillmentHeld=await region.getByText('A packet is not available for this route yet. Your eligibility result and saved information remain available.',{exact:true}).count()>0;
+    const finishInformation=await region.getByText('Finish the rest of your information before you continue.',{exact:true}).count()>0;
+    await checkpoint({schemaVersion:'ordinary-verify-action-readiness/v1',revision:ownerReady.body.revision,missingCount:ownerReady.body.missingInputIds.length,pendingCount:ownerReady.body.pendingDerivations.length,sponsoredMode,fulfillmentHeld,finishInformation,actionCount,genericCount,actionVisible,actionEnabled});
+    assert.equal(sponsoredMode,true);assert.equal(fulfillmentHeld,false);assert.equal(finishInformation,false);assert.equal(actionCount,1);assert.equal(genericCount,0);assert.equal(actionVisible,true);assert.equal(actionEnabled,true);
+    // Only the current enabled sponsored action may cross the next durable boundary.
     const currentBinding=await admit();assertOrdinaryAdmission(currentBinding,origin,profile);for(const key of ['applicationSha','origin','deploymentId','sourceBindingSha256'])assert.equal(currentBinding[key],binding[key],'Admission changed during the owned case');await assertExclusiveWindow();await verifyPreparedImageBeforeVerify();
-    firstEnqueueCapableActionAt=new Date().toISOString();await save('ordinary_verification_and_enqueue_pending');
+    if(firstEnqueueCapableActionAt!==null){assert.equal(pendingVerifyResume,true);assert.equal(reconciledPendingBoundary?.priorFirstEnqueueCapableActionAt,firstEnqueueCapableActionAt);}
+    firstEnqueueCapableActionAt=new Date().toISOString();await save('ordinary_verification_and_enqueue_pending',{revision:ownerReady.body.revision});
     generationAllowed=true;
-    const verification=page.waitForResponse(r=>matches(r,endpoint));
-    const generation=page.waitForResponse(r=>matches(r,'/api/expungement-ai/packet/generate'));
-    await page.getByRole('button',{name:'Verify and prepare clinic packet',exact:true}).click();
-    const verified=await verification;assert.equal(verified.status(),200);
+    let verified,generated,clickStarted=false,clickReturned=false,verificationStatus=null,generationStatus=null;
+    try {
+      [verified,generated]=await Promise.all([
+        page.waitForResponse(r=>matches(r,endpoint)).then(r=>{verificationStatus=r.status();return r;}),
+        page.waitForResponse(r=>matches(r,'/api/expungement-ai/packet/generate')).then(r=>{generationStatus=r.status();return r;}),
+        (async()=>{clickStarted=true;await action.click();clickReturned=true;})()
+      ]);
+    } catch(error){generationAllowed=false;await checkpoint({schemaVersion:'ordinary-verify-action-failure/v1',revision:ownerReady.body.revision,clickStarted,clickReturned,verificationStatus,generationStatus,generationCount,generationRequests,unexpectedRequest});throw error;}
+    assert.equal(verified.status(),200);
     const vb=await verified.json();assert.equal(vb.ok,true);assert.equal(vb.readyToGenerate,true);assert.equal(vb.commercialActions?.generationAllowed,true);assert.equal(vb.commercialActions?.checkoutAllowed,false);
-    const generated=await generation;assert.equal(generated.status(),200);
+    assert.equal(generated.status(),200);
     const gb=await generated.json();assert.equal(gb.briefcaseItemId,itemId);assert.equal(gb.packetStatus,'generating');assert.equal(gb.canDownload,false);
     generationAllowed=false;assert.equal(generationCount,1);assert.equal(unexpectedRequest,false);
     const queued=await native(true);await assertExclusiveWindow();
