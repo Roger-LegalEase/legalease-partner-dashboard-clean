@@ -13,10 +13,12 @@ import {runSavedDtcFulfillment} from './rcap-hosted-saved-dtc-fulfillment.mjs';
 import {createSavedDtcWorkerBinding} from './rcap-hosted-saved-dtc-worker.mjs';
 import {requireFrozenPaidWindow} from './paid-dtc-worker-once-preparation/paid-dtc-continuous-window.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
-test('unpublished84a worker holds actual existing-DTC entry before auth; creator, Pay preparation, Clinic retry guards and default324 retained',async()=>{
+test('published but unqualified84a worker holds actual existing-DTC entry before auth; creator, Pay preparation, Clinic retry guards and default324 retained',async()=>{
  assert.equal(QUALIFIED_WORKER_IMAGE.source,'84a75b6e65dc69e6c371afac44f1284e0debf722');
- assert.equal(QUALIFIED_WORKER_IMAGE.digest,null);assert.equal(QUALIFIED_WORKER_IMAGE.image,null);
- assert(Object.values(QUALIFIED_WORKER_EVIDENCE).every(x=>x===null));
+ assert.equal(QUALIFIED_WORKER_IMAGE.digest,'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1');assert.equal(QUALIFIED_WORKER_IMAGE.image,'ghcr.io/roger-legalease/rcap-render-worker@sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1');
+ assert.equal(QUALIFIED_WORKER_EVIDENCE.publicationReceiptSha256,'fe6100d154eb9aa7a17b8899f6395e9466e2a3b4192e23e905fc293a59763e85');
+ assert.equal(QUALIFIED_WORKER_EVIDENCE.publicationRunId,'40504068956');
+ for(const key of ['qualificationReceiptSha256','qualificationRunId','qualificationAcceptanceSha256'])assert.equal(QUALIFIED_WORKER_EVIDENCE[key],null);
  assert.throws(()=>requireQualifiedWorkerImage(),/HOLD before authentication/);
  assert.throws(()=>requireQualifiedWorkerImage({...QUALIFIED_WORKER_IMAGE}),/source-reviewed/);
  assert.throws(()=>admitQualifiedWorkerImage({}),/HOLD before authentication/);
