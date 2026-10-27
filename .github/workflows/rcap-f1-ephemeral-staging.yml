@@ -2424,7 +2424,7 @@ jobs:
           supabase stop --no-backup || true
 
   hosted_managed_start_preview:
-    name: Repair only the exact ordinary managed Preview runtime configuration
+    name: Create only the exact ordinary9aad source successor Preview
     if: inputs.mode == 'hosted_managed_start_preview'
     runs-on: ubuntu-latest
     timeout-minutes: 120
@@ -2437,7 +2437,7 @@ jobs:
       WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
       TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
       ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-      RCAP_ADMITTED_CONTROLLER_SHA: 27eda6f6470c4f5fd37a441cbdba853ef73e74d1
+      RCAP_ADMITTED_CONTROLLER_SHA: 3e755c9726184bba052bd985dcf2388b9cf8b79b
     steps:
       - uses: actions/checkout@v4
         with:
@@ -2459,7 +2459,7 @@ jobs:
           assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.match(process.env.GITHUB_SHA,/^[a-f0-9]{40}$/);assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);
           assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
           const input=JSON.parse(process.env.DISPATCH_INPUTS);
-          const expected={"mode":"hosted_managed_start_preview","application_sha":"c0052e13d9801d24080275aab02c70c6ea213fa3","tools_sha":"52404e944c35c884c52ce9b85323d880c13be9cc","worker_source_sha":"32499751569359315248c2048fa111064a47c67f","worker_digest":"sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494","supabase_project_ref":"hyflxnlhpmiqxvvcoiia"};
+          const expected={"mode":"hosted_managed_start_preview","application_sha":"9aadacd0c5a7fac90a1662f1928b7b86f8685c7a","tools_sha":"c4a9eb13a51a1dba676c7716b5da022b98823418","worker_source_sha":"32499751569359315248c2048fa111064a47c67f","worker_digest":"sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494","supabase_project_ref":"hyflxnlhpmiqxvvcoiia"};
           for(const [key,value]of Object.entries(expected))assert.equal(input[key],value);
           for(const key of ['preview_hostname','preview_deployment_id','preview_creation_run_id'])assert.ok(!input[key]);
           for(const key of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[key]);
@@ -2467,7 +2467,7 @@ jobs:
           JS
       - uses: actions/checkout@v4
         with:
-          ref: 27eda6f6470c4f5fd37a441cbdba853ef73e74d1
+          ref: 3e755c9726184bba052bd985dcf2388b9cf8b79b
           path: admitted-controller
           fetch-depth: 0
           persist-credentials: false
@@ -2475,8 +2475,8 @@ jobs:
         run: |
           node --input-type=module <<'JS'
           import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
-          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'27eda6f6470c4f5fd37a441cbdba853ef73e74d1');assert.equal(process.env.RCAP_ADMITTED_CONTROLLER_SHA,'27eda6f6470c4f5fd37a441cbdba853ef73e74d1');
-          for(const [name,hash]of Object.entries({"PENDING_WORKER_SUCCESSOR":"6becf19961e4a001ebe6693004ac409fe4be6005c6462a73331526660f094c39","RELEASE_CANDIDATE_BINDING":"86a8ce88beb3cbeec5475a93bfdea28631ef61d993f0194b509cd8b925644dff","HOSTED_TOOLS_BINDING":"22eb81f06a3451028e825da32e84edba1d6589abb926240a132db1ec85d18b65"}))assert.equal(createHash('sha256').update(fs.readFileSync('data/rcap-grade-a/launch-control/'+name+'.json')).digest('hex'),hash);
+          assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'3e755c9726184bba052bd985dcf2388b9cf8b79b');assert.equal(process.env.RCAP_ADMITTED_CONTROLLER_SHA,'3e755c9726184bba052bd985dcf2388b9cf8b79b');
+          for(const [name,hash]of Object.entries({"PENDING_WORKER_SUCCESSOR":"ba63846ad6a736b72d0e1d1efffdf9e73e0fd8f218544d76d6af973603837ffc","RELEASE_CANDIDATE_BINDING":"205c3f68c0be4116a7e5396cc99d546599bfba8a83bb205d24dd40babe47ca3a","HOSTED_TOOLS_BINDING":"6c028eb59ee64f0d262cd43e70c153f2bb5cd773cf85b4ad97cdaf3c2b85ea45"}))assert.equal(createHash('sha256').update(fs.readFileSync('data/rcap-grade-a/launch-control/'+name+'.json')).digest('hex'),hash);
           JS
       - name: Install only the admitted controller locked dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
@@ -2485,11 +2485,11 @@ jobs:
         run: ln -s ../admitted-controller/node_modules node_modules
       - name: Require the native purpose-specific HELD source gate before credentials
         env:
-          PHASE_INPUT: managed_start_runtime_repair
-        run: node scripts/rcap-managed-start-runtime-repair.mjs --verify
+          PHASE_INPUT: managed_start_source_successor
+        run: node scripts/rcap-managed-start-source-successor.mjs --verify
       - name: Create or hold the exact purpose target through the existing constructor
         env:
-          PHASE_INPUT: managed_start_runtime_repair
+          PHASE_INPUT: managed_start_source_successor
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
@@ -2497,12 +2497,12 @@ jobs:
           HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY }}
           HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION }}
           HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: ${{ secrets.HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET }}
-        run: node scripts/rcap-managed-start-runtime-repair.mjs
+        run: node scripts/rcap-managed-start-source-successor.mjs
       - name: Preserve only the safe native purpose creation receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rcap-managed-runtime-repair-${{ github.run_id }}
+          name: rcap-managed-source-successor-${{ github.run_id }}
           path: admitted-controller/hosted-acceptance-evidence/deploy.json
           if-no-files-found: warn
 
