@@ -4,6 +4,7 @@ import {DTC,hash,assertMatter,currentBaseline,assertFulfillmentStage,assertSessi
 import {deliveryRefusal,privateObjectRefusal,cardEntryEvidence} from './rcap-hosted-response-contract.mjs';
 import {EXISTING_MODE,EXISTING_HISTORY,NO_PAY_RESULT_SHA,assertExistingMode,assertExistingHistory,assertExistingWindowBudget} from './rcap-dtc-existing-fulfillment.mjs';
 import {SESSION_SHA} from './rcap-dtc-existing-session-readonly.mjs';
+import {safeCheckoutBrowserDiagnostic} from './rcap-checkout-browser-diagnostic.mjs';
 const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const SHA=/^[a-f0-9]{64}$/;
 const IMAGE='ghcr.io/roger-legalease/rcap-render-worker@'+DTC.digest;
@@ -36,8 +37,8 @@ async function fulfillSavedDtc({stage,window,mode='dtc_saved_fulfillment'},io){
   assert.notEqual(state.payment_status,'paid');assert.equal(session.status,'open');assert.equal(session.payment_status,'unpaid');assert.equal(jobs.length,0);if(existing){assert.equal(session.payment_intent,null);await io.reconcileExistingCheckout({stage,state,custody});assertExistingWindowBudget(window);}else assert(!custody.providerAttempted,'uncertain browser payment is never repeated');assert.equal(new URL(session.url).origin,'https://checkout.stripe.com');phase='provider_checkout';await witness('provider_checkout',{sessionSha256:hash(sessionId)});
   let browser;
   try { browser=await io.completeCheckout({checkoutUrl:session.url,expectedReturnUrl:session.success_url.replace('{CHECKOUT_SESSION_ID}',sessionId)}); }
-  catch { browser={completed:false,failureReason:'browser_operation_failed'}; }
-  const safeBrowser={completed:browser?.completed===true,
+  catch(error) { browser={completed:false,failureReason:'browser_operation_failed',diagnostic:safeCheckoutBrowserDiagnostic({phase:'adapter_call',errorClass:error?.name})}; }
+  const safeBrowser={completed:browser?.completed===true,diagnostic:safeCheckoutBrowserDiagnostic(browser?.diagnostic),
    humanInteractionRequired:typeof browser?.humanInteractionRequired==='boolean'?browser.humanInteractionRequired:null,
    failureReason:['completed','diagnostic_stop_before_pay','promotion_rejected','card_not_supplied','required_fields_missing','submit_control_missing','return_not_observed','preview_bootstrap_failed','unexpected_destination','provider_challenge','final_payment_window_check_failed','submission_checkpoint_failed','browser_operation_failed'].includes(browser?.failureReason)?browser.failureReason:'unclassified_browser_result',
    submitAttempted:typeof browser?.submitAttempted==='boolean'?browser.submitAttempted:null};

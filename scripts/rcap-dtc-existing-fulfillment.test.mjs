@@ -53,6 +53,7 @@ function fixture(options={}){
   counts.simulatedSubmit++;await o.onSubmitCheckpoint({phase:'provider_checkout_submit_after_attempt',submitAttempted:true});
   if(options.challenge)return {completed:false,humanInteractionRequired:true,failureReason:'provider_challenge',submitAttempted:true};
   if(options.unknownThrow)throw Error('PRIVATE_BROWSER_FAILURE');
+  if(options.browserFailure)return {completed:false,humanInteractionRequired:false,failureReason:'browser_operation_failed',submitAttempted:true,diagnostic:options.diagnostic};
   paid=true;return {completed:true,humanInteractionRequired:false,submitAttempted:true,notes:['card number: filled','card expiry: filled','card cvc: filled']};
  };
  const make=()=>createSavedDtcRuntime({mode:EXISTING_MODE,noPayEvidence:{bytes:evidence,sha256:NO_PAY_RESULT_SHA},window,env:{SUPABASE_ACCESS_TOKEN:'PRIVATE_MANAGEMENT',SUPABASE_ANON_KEY:'fixture_anon',VERCEL_AUTOMATION_BYPASS_SECRET:'PRIVATE_BYPASS',STRIPE_SECRET_KEY:'sk_test_fixture'},fetcher,credentialsFor:async actor=>({email:actor+'@rcap-acceptance.test',password:'PRIVATE_PASSWORD'}),completeHostedCheckout,controls,workerFactory:()=>worker,checkpoint:async r=>{if(options.failedCheckpoint&&r.phase==='provider_checkout_submit_before_forward')throw Error('Checkpoint unavailable');checkpoints.push(r);},sleep:async()=>{}});
@@ -90,4 +91,14 @@ test('missing actual frozen source evidence refuses executable new entry before 
   const result=await mainSavedDtc({DISPATCH_INPUTS:JSON.stringify(input),GITHUB_ACTIONS:'true',GITHUB_SHA:'a'.repeat(40),GITHUB_WORKFLOW_SHA:'a'.repeat(40),GITHUB_REF_NAME:'codex/f-vercel-raw-readonly-20261026'});
   assert.equal(result.phase,'HOLD_RECONCILE_NO_RETRY');assert.equal(remoteCalls,0);assert.equal(fs.statSync('dtc-saved-existing-fulfillment-evidence/result.json').mode&0o777,0o600);
  }finally{globalThis.fetch=oldFetch;process.exitCode=oldExit;process.chdir(cwd);fs.rmSync(tmp,{recursive:true,force:true});}
+});
+
+test('DTC browser diagnostic reaches safe checkpoint and HOLD result without another purchase/job',async()=>{
+ const f=fixture({browserFailure:true,diagnostic:{phase:'submit_click',errorClass:'TimeoutError',message:'PRIVATE_URL https://private.invalid',stack:'PRIVATE_STACK'}});const result=await f.run();assert.equal(result.phase,'HOLD_RECONCILE_NO_RETRY');assert.deepEqual(result.browser.diagnostic,{phase:'submit_click',errorClass:'TimeoutError'});assert.deepEqual(f.checkpoints.at(-1).diagnostic,result.browser.diagnostic);assert.equal(result.browser.submitAttempted,true);assert.equal(result.historicalSubmitAttempted,null);assert.equal(f.counts.checkout,0);assert.equal(f.counts.render,0);assert.equal(f.counts.worker,0);assert.equal(f.counts.simulatedSubmit,1);assert(!JSON.stringify([result,f.checkpoints]).includes('PRIVATE_'));
+});
+test('DTC browser diagnostic rejects arbitrary phases/classes/private fields at the adapter boundary',async()=>{
+ const f=fixture({browserFailure:true,diagnostic:{phase:'PRIVATE_PHASE',errorClass:'PRIVATE_ERROR',error:'PRIVATE_TOKEN',url:'https://private.invalid'}});const result=await f.run();assert.deepEqual(result.browser.diagnostic,{phase:'unclassified_phase',errorClass:'UnknownError'});assert.equal(result.browser.submitAttempted,true);assert(!JSON.stringify([result,f.checkpoints]).includes('PRIVATE_'));assert.equal(f.counts.worker,0);
+});
+test('DTC browser diagnostic records escaped adapter exceptions while retaining unknown submission status',async()=>{
+ const f=fixture({unknownThrow:true});const result=await f.run();assert.equal(result.phase,'HOLD_RECONCILE_NO_RETRY');assert.deepEqual(result.browser.diagnostic,{phase:'adapter_call',errorClass:'Error'});assert.equal(result.browser.submitAttempted,null);assert.equal(result.historicalSubmitAttempted,null);assert.equal(f.counts.checkout,0);assert.equal(f.counts.render,0);assert.equal(f.counts.worker,0);assert(!JSON.stringify([result,f.checkpoints]).includes('PRIVATE_BROWSER_FAILURE'));
 });

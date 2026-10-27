@@ -1,3 +1,4 @@
+import {safeCheckoutBrowserDiagnostic} from './rcap-checkout-browser-diagnostic.mjs';
 // Complete a Stripe Checkout Session the way a customer does: in a browser, on
 // Stripe's own hosted page.
 //
@@ -386,6 +387,7 @@ export async function completeHostedCheckout({
   let exactReturnObserved = false;
   let unexpectedDestination = null;
   let observingReturn = false;
+  let failurePhase = 'browser_setup';
   const browser = await chromium.launch({ ...(executablePath ? {executablePath} : {}), args: ["--no-sandbox"] });
   const context = await browser.newContext();
   const page = await context.newPage();
@@ -438,11 +440,14 @@ export async function completeHostedCheckout({
 
   try {
     if (sessionCookies.length > 0) await context.addCookies(sessionCookies);
+    failurePhase = 'preview_bootstrap';
     const bootstrap = await bootstrapPreviewCheckoutReturn(context, expectedReturnUrl, previewProtectionBypassSecret);
     notes.push(`Preview protection ready: ${bootstrap.origin}${bootstrap.pathname}; cookie ${bootstrap.cookieName} domain ${bootstrap.cookieDomain}`);
+    failurePhase = 'checkout_open';
     await page.goto(checkoutUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
     await page.waitForTimeout(2500);
     await shoot("opened");
+    failurePhase = 'checkout_fill';
     await requireNoProviderChallenge(page);
 
     if (promotionCode) {
@@ -526,26 +531,40 @@ export async function completeHostedCheckout({
     if (typeof beforeFinalPay !== 'function') throw new Error('Actual final payment window check required.');
     finalPayCheckStarted = true;
     submitInspection = await readCheckoutSubmitState(page, submit, looksFree);
+    failurePhase = 'before_final_pay';
     await beforeFinalPay(submitInspection);
     finalPayCheckPassed = true;
+    failurePhase = 'before_submit_checkpoint';
     await checkpointSubmit("provider_checkout_submit_before_forward");
     submitAttempted = true;
+    failurePhase = 'submit_click';
     try { await submit.click({ timeout: FIELD_TIMEOUT }); }
-    finally { await checkpointSubmit("provider_checkout_submit_after_attempt"); }
+    finally {
+      const interruptedPhase = failurePhase;
+      failurePhase = 'after_submit_checkpoint';
+      await checkpointSubmit("provider_checkout_submit_after_attempt");
+      failurePhase = interruptedPhase;
+    }
 
     // Only the application's exact success return counts. A challenge redirect,
     // cancellation, or unrelated page is not a completed browser journey.
+    failurePhase = 'return_observation';
     const deadline = Date.now() + 90_000;
     while (Date.now() < deadline) {
+      failurePhase = 'return_observation';
       observeReturn(page.mainFrame());
       requireExpectedDestination();
       if (exactReturnObserved) return await finishObservedReturn();
+      failurePhase = 'return_wait';
       await page.waitForTimeout(1500);
+      failurePhase = 'return_observation';
       observeReturn(page.mainFrame());
       requireExpectedDestination();
       if (exactReturnObserved) return await finishObservedReturn();
+      failurePhase = 'return_challenge_probe';
       await requireNoProviderChallenge(page);
     }
+    failurePhase = 'return_diagnostics';
     {
       // Say what the page is complaining about. "Still on Stripe's page" on its
       // own sent this harness round another cycle guessing at the cause; the
@@ -582,6 +601,7 @@ export async function completeHostedCheckout({
 
     return { completed: false, humanInteractionRequired: false, failureReason: "return_not_observed", submitAttempted, submitInspection, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
   } catch (error) {
+    const diagnostic = safeCheckoutBrowserDiagnostic({phase:failurePhase,errorClass:error?.name});
     // Re-read after an interrupted DOM operation. Only navigation-specific
     // errors may await a commit; an unrelated error before return still fails.
     if (observingReturn && error?.code !== 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' && error?.code !== 'CHECKOUT_SUBMISSION_CHECKPOINT_FAILED') {
@@ -615,7 +635,7 @@ export async function completeHostedCheckout({
         : error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' ? 'provider_challenge'
           : error?.code === 'CHECKOUT_SUBMISSION_CHECKPOINT_FAILED' ? 'submission_checkpoint_failed'
             : finalPayCheckStarted && !finalPayCheckPassed ? 'final_payment_window_check_failed' : 'browser_operation_failed';
-    return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', failureReason, submitAttempted, submitInspection, notes, screenshots };
+    return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', failureReason, diagnostic, submitAttempted, submitInspection, notes, screenshots };
   } finally {
     if (observingReturn) page.off('framenavigated', observeReturn);
     await context.close().catch(() => {});
