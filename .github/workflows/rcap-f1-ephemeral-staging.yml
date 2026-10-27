@@ -140,7 +140,7 @@ env:
 
 jobs:
   dtc_stripe_pending_readonly:
-    name: Classify only the pending test event from accepted Stripe observation
+    name: Read only the current pending event exact prewrite precondition
     if: inputs.mode == 'dtc_stripe_pending_readonly'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -164,18 +164,19 @@ jobs:
           assert.equal(process.env.GITHUB_REPOSITORY,'Roger-LegalEase/legalease-partner-dashboard-clean');assert.equal(process.env.GITHUB_ACTIONS,'true');assert.equal(process.env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1');assert.equal(process.env.GITHUB_REF_NAME,'codex/f-vercel-raw-readonly-20261026');assert.match(process.env.GITHUB_SHA??'',/^[a-f0-9]{40}$/);assert.equal(process.env.GITHUB_WORKFLOW_SHA,process.env.GITHUB_SHA);assert.equal(JSON.parse(fs.readFileSync('vercel.json')).git.deploymentEnabled[process.env.GITHUB_REF_NAME],false);
           const input=JSON.parse(process.env.DISPATCH_INPUTS);for(const[k,v]of Object.entries({mode:'dtc_stripe_pending_readonly',application_sha:'c0052e13d9801d24080275aab02c70c6ea213fa3',tools_sha:'987d0c9df170641a9abe40f0d5ec450e740abaa1',worker_source_sha:'32499751569359315248c2048fa111064a47c67f',worker_digest:'sha256:cd0d3ab9098ed47028d5d89ae5280904520f28bc7331fc9ca17b2a2978a3f494',supabase_project_ref:'hyflxnlhpmiqxvvcoiia'}))assert.equal(input[k],v);
           for(const k of ['clinic_attempt_id','sponsor_case','contradiction_job_id','promotion_code','journey_state','expected_total_cents','resume_matter_id','clinic_resume_authorization','clinic_session_closure_authorization'])assert.ok(!input[k]);assert.equal(input.sponsor_items??'[]','[]');assert.ok(input.sponsor_fulfillment===undefined||input.sponsor_fulfillment===false||input.sponsor_fulfillment==='false');
-          for(const[f,pin]of Object.entries({"scripts/rcap-dtc-stripe-pending-readonly.mjs":"dd10646b6690abe219909e39913aaaceb26bc078f03da4055853dd4cfa2d92c8","scripts/rcap-hosted-existing-dtc-continuation.mjs":"90d895dd9a0bb57dcc3ef5391d4dab08b6b125a06b864f7ff15ef759e6c9ddb6","scripts/rcap-hosted-response-contract.mjs":"dd8c1eca0741df9ff8eb3013f99522ca38be6c55b6c650ecab4266623d433b44"}))assert.equal(createHash('sha256').update(fs.readFileSync(f)).digest('hex'),pin);
+          for(const[f,pin]of Object.entries({"scripts/rcap-dtc-stripe-pending-prewrite-readonly.mjs":"965d466f8d508538ef084fb73f765b16f05e896cb8536e00d26f81035ba62e2c","scripts/rcap-dtc-stripe-pending-readonly.mjs":"dd10646b6690abe219909e39913aaaceb26bc078f03da4055853dd4cfa2d92c8","scripts/rcap-hosted-existing-dtc-continuation.mjs":"90d895dd9a0bb57dcc3ef5391d4dab08b6b125a06b864f7ff15ef759e6c9ddb6","scripts/rcap-hosted-response-contract.mjs":"dd8c1eca0741df9ff8eb3013f99522ca38be6c55b6c650ecab4266623d433b44"}))assert.equal(createHash('sha256').update(fs.readFileSync(f)).digest('hex'),pin);
           JS
-      - name: Read only frozen failed-event interval and classify unique pending subject
+      - name: Read frozen pending subject then one exact readonly hyfl precondition
         env:
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           STRIPE_PENDING_EVIDENCE_FILE: ${{ runner.temp }}/dtc-stripe-pending-readonly/result.json
-        run: node scripts/rcap-dtc-stripe-pending-readonly.mjs
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-dtc-stripe-pending-prewrite-readonly.mjs
       - name: Preserve only sanitized readonly facts and capability limits
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rcap-dtc-stripe-pending-readonly-${{ github.run_id }}
+          name: rcap-dtc-stripe-pending-prewrite-readonly-${{ github.run_id }}
           path: ${{ runner.temp }}/dtc-stripe-pending-readonly/result.json
           if-no-files-found: warn
   dtc_stripe_ingress_readonly:
