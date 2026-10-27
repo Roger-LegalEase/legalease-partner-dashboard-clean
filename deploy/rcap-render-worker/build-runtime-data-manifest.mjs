@@ -29,19 +29,6 @@ const OUT = path.join(here, "runtime-data-manifest.json");
 
 /** Every entry carries why it is in the image and what reads it. */
 const ENTRIES = [
-  // Current MS successor evidence required by the claimed-worker route.
-  {"path": "data/record-clearing/legal-decisions/2026-10-19-ms-nonconv-paid-consumer-successor-v4.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/participant-data-rights/question-contract-predecessors/MS-nonconviction-expungement-99-19-71-4.c63e420.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review-2026-10-20.evidence.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_MS_NONCONVICTION_2026-10-20.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/participant-data-rights/question-contract-source-successor-20261011.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261011.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/legal-decisions/SPECIFICATION_DERIVATION_RECONCILIATION_2026-09-20.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
-  {"path": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts (loadMsPaidConsumerSuccessor)", "why": "Exact MS successor approval and question-contract evidence required by the claimed personalized route resolver; absence retires the route."},
   { path: "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf", kind: "file",
     readBy: "src/lib/rcap/fulfillment/sponsored-channel-authority.ts (grant.artifacts)", why: "The ordinary internal QA decision hashes this approved Spanish artifact at runtime; every granted variant must be present." },
   {"path": "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json", "kind": "file", "readBy": "src/lib/expungement-ai/ca-prop64-juvenile-config.ts", "why": "Static JSON import: copied by the existing specification directory, but nested below its manifest enumeration."},
@@ -242,8 +229,7 @@ for (const entry of ENTRIES) {
     files.push({ path: rel, sha256: sha256(a), bytes: fs.statSync(a).size, readBy: entry.readBy, why: entry.why });
   }
 }
-// Ordinal order keeps the manifest stable across Node and ICU locales.
-files.sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
+files.sort((a, b) => a.path.localeCompare(b.path));
 
 const manifest = {
   schemaVersion: "rcap-render-worker-runtime-data/v1",
@@ -257,7 +243,7 @@ const manifest = {
   files
 };
 
-const serialized = JSON.stringify(manifest, null, 2).replace(/[^\x00-\x7f]/g, char => "\\u" + char.charCodeAt(0).toString(16).padStart(4, "0")) + "\n";
+const serialized = JSON.stringify(manifest, null, 2) + "\n";
 if (process.argv.includes("--check")) {
   const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf8") : "";
   if (current !== serialized) { console.error("runtime-data-manifest.json is stale; regenerate it."); process.exit(1); }

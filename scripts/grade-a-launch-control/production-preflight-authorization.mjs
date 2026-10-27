@@ -1,3 +1,4 @@
+import {requireQualifiedWorkerPreflightPhase} from './qualified-worker-preflight-binding.mjs';
 import {requireForwardProductionPhase} from './verify-forward-production-successor.mjs';
 import {requireHotfixPhase} from './hotfix-production-contract.mjs';
 import assert from 'node:assert/strict';
@@ -50,6 +51,7 @@ export function assertPreflightOnlyAuthorization(candidate) {
 
 // Shared by the existing Production contract and dependency-free early entrypoint gates.
 export function requireProductionPhaseAuthorization(candidate, phase) {
+  if(candidate?.qualifiedWorkerPreflight)return requireQualifiedWorkerPreflightPhase(candidate,phase);
   if(candidate?.hotfixProduction)return requireHotfixPhase(candidate,phase);
   if(candidate?.forwardProduction)return requireForwardProductionPhase(candidate,phase);
   if (candidate?.releaseBaseSha === PREACTIVATION_BASE || candidate?.status === PREACTIVATION_STATUS) {

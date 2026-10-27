@@ -1,3 +1,6 @@
+import {verifyQualifiedWorkerPreflightBinding} from './qualified-worker-preflight-binding.mjs';
+import {verifyQualifiedWorkerForwardBinding} from './verify-qualified-worker-forward-binding.mjs';
+import {QUALIFIED_WORKER_IMAGE} from '../worker-once-preparation/qualified-worker-image.mjs';
 import {AUTHORIZED_FORWARD,verifyForwardProductionSuccessor} from './verify-forward-production-successor.mjs';
 import {PUBLIC_VERIFICATION_CLOSURE_BASE,PUBLIC_VERIFICATION_CLOSED_STATUS,PUBLIC_VERIFICATION_CLOSED_SCOPE,BOUND_PUBLIC_VERIFICATION} from './production-preflight-authorization.mjs';
 import {PUBLIC_VERIFICATION_BASE,PUBLIC_VERIFICATION_STATUS,PUBLIC_VERIFICATION_SCOPE,assertPublicVerificationAuthorization} from './production-preflight-authorization.mjs';
@@ -68,6 +71,8 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = [], history) {
+  if(candidate?.qualifiedWorkerPreflight)return verifyQualifiedWorkerPreflightBinding(root,candidate);
+  if(candidate?.workerSourceSha===QUALIFIED_WORKER_IMAGE.source)return verifyQualifiedWorkerForwardBinding(root,candidate);
   // A pinned preparation record is descriptive and NEVER current/dispatchable.
   // Validate it before comparing the orchestration checkout to application
   // runtime inputs: publication evidence is intentionally newer here, while

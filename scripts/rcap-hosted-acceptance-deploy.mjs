@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {SOURCE_SUCCESSOR_PHASE,SOURCE_SUCCESSOR_PROTECTED,sourceSuccessorMetadata,assertProtectedSourceDeployment,assertSourceSuccessorAliasAbsent,refusePriorSourceSuccessorAttempt,restoreSourceSuccessorAlias} from './rcap-managed-start-source-successor-contract.mjs';
 // Hosted acceptance staging — the Vercel Preview deployment.
 //
 // Deploys the final application SHA to the EXISTING Vercel project's PREVIEW
@@ -24,7 +25,10 @@
 // Secrets are sent in the authenticated REST request body and are never
 // echoed or written to the evidence bundle.
 
+import {MANAGED_RUNTIME_REPAIR_PHASE,MANAGED_REPAIR_PREDECESSOR,managedRepairMetadata,classifyManagedRepairSibling,assertManagedRepairAliasPrestate,restoreManagedRepairAlias} from './rcap-managed-start-runtime-repair-contract.mjs';
+import {assertPurposeRuntimeIdentity,CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE,CURRENT_PURPOSE_TUPLE,CURRENT_ORDINARY_PREVIEW,CONFIGURED_SANDBOX_OWNER,currentPurposeMetadata,classifyCurrentPurposeDeployment,configuredSandboxOverrides} from './rcap-configured-sandbox-preview-contract.mjs';
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { assertPreviewResponse, assertPreservedOrdinaryPreview, createRestPreview, FROZEN_WORKER_METADATA } from "./rcap-hosted-vercel-rest-transport.mjs";
@@ -37,7 +41,7 @@ import {
   HOSTED_ORDINARY_PREVIEW,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
-} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+} from "./rcap-managed-preview-vercel-identity.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
@@ -49,6 +53,10 @@ const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
+const SOURCE_SUCCESSOR = process.env.PHASE_INPUT === SOURCE_SUCCESSOR_PHASE;
+const RUNTIME_REPAIR = process.env.PHASE_INPUT === MANAGED_RUNTIME_REPAIR_PHASE;
+const HELD_PURPOSE_PREVIEW = [CONFIGURED_SANDBOX_PHASE,CLINIC_PURPOSE].includes(process.env.PHASE_INPUT);
+const configuredSandboxEnv = process.env.PHASE_INPUT === CONFIGURED_SANDBOX_PHASE ? configuredSandboxOverrides(process.env) : null;
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
 const ISOLATED_CLINIC_PREVIEW = process.env.HOSTED_ISOLATED_CLINIC_PREVIEW === "true";
@@ -95,8 +103,53 @@ function preservedDataKeys(env) {
 }
 const PRESERVED_DATA_KEYS = preservedDataKeys(process.env);
 
+// GA-43/GA-52: this future controller supplies configuration, never platform identity.
+const MANAGED_START = ["managed_start_preview","managed_start_runtime_repair","managed_start_source_successor"].includes(process.env.PHASE_INPUT) ? (() => {
+  if (CLINIC_DEMO_MODE || ISOLATED_CLINIC_PREVIEW
+    || process.env.HOSTED_STRIPE_TEST_SECRET || process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET
+    || process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID || LEGAL_AID_EMAIL) {
+    throw new Error("DEPLOY_MANAGED_START_PURPOSE_MISMATCH");
+  }
+  let binding;
+  try { binding = JSON.parse(process.env.HOSTED_PARTNER_LAUNCH_RELEASE_AUTHORIZATION ?? ""); }
+  catch { throw new Error("DEPLOY_MANAGED_START_BINDING_INVALID"); }
+  const fields = ["schema", "applicationSha", "projectId", "supabaseProjectRef", "partnerSlug", "adminAuthUserId"];
+  if (!binding || typeof binding !== "object" || Array.isArray(binding)
+    || Object.keys(binding).sort().join() !== fields.sort().join()
+    || Object.values(binding).some(value => typeof value !== "string")
+    || binding.schema !== "rcap-partner-acceptance-launch/v1"
+    || !/^[a-f0-9]{40}$/.test(APPLICATION_SHA) || binding.applicationSha !== APPLICATION_SHA
+    || binding.projectId !== "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    || PROJECT_REF !== EXPECTED_PROJECT_REF || binding.supabaseProjectRef !== EXPECTED_PROJECT_REF
+    || binding.partnerSlug !== "legalease-ordinary-qa-20261024"
+    || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(binding.adminAuthUserId)) {
+    throw new Error("DEPLOY_MANAGED_START_BINDING_INVALID");
+  }
+  const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+  if (typeof bypass !== "string" || !bypass.trim() || /[\r\n]/.test(bypass)) {
+    throw new Error("DEPLOY_MANAGED_START_BYPASS_REQUIRED");
+  }
+  let grantText;
+  try {
+    grantText = execFileSync("git", ["show", `${APPLICATION_SHA}:data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json`], { cwd: rootDir, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch { throw new Error("DEPLOY_MANAGED_START_GRANT_SOURCE_MISSING"); }
+  if (sha256(grantText) !== "9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40") {
+    throw new Error("DEPLOY_MANAGED_START_GRANT_MISMATCH");
+  }
+  const grant = JSON.parse(grantText);
+  if (sha256(JSON.stringify(grant)) !== "316a211790dbdaca3bd260beac0a854076ebed618390b339b1d68b6a40381ebb"
+    || grant.partnerSlug !== binding.partnerSlug || grant.acceptanceProjectRef !== PROJECT_REF
+    || grant.acquisitionMode !== "partner" || grant.eventId !== null || grant.eventName !== null
+    || ROUTE_STATE !== grant.routeState || SCOPE_IDS !== grant.participantUserIds.join(",")
+    || sha256(SCOPE_IDS) !== grant.participantScopeSha256) {
+    throw new Error("DEPLOY_MANAGED_START_GRANT_SCOPE_MISMATCH");
+  }
+  return { authorization: JSON.stringify(binding), bypass, grant };
+
+})() : null;
+
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
-const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA, ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : "");
+const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA, ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : MANAGED_START ? "managed_start" : "");
 const RETURN_ALIAS_HOST = new URL(RETURN_ORIGIN).host;
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
@@ -117,6 +170,11 @@ const REQUIRED_CASES = [
   "deployed_application_health_is_200",
   "delivery_route_refuses_on_the_deployed_instance"
 ];
+if (HELD_PURPOSE_PREVIEW) REQUIRED_CASES.push("purpose_runtime_source_identity", "current_ordinary_preview_unchanged", "purpose_siblings_unchanged");
+if (configuredSandboxEnv) REQUIRED_CASES.push("ordinary_preview_unchanged", "configured_sandbox_scope_and_purpose_exact");
+if (MANAGED_START) REQUIRED_CASES.push("managed_start_release_source_bound", "ordinary_preview_unchanged");
+if (SOURCE_SUCCESSOR) REQUIRED_CASES.push('source_successor_protected_targets_unchanged');
+if (RUNTIME_REPAIR) REQUIRED_CASES.push("repair_predecessor_immutable_unchanged", "purpose_siblings_unchanged");
 if (ISOLATED_CLINIC_PREVIEW) REQUIRED_CASES.push("ordinary_preview_unchanged", "clinic_scope_and_purpose_exact");
 
 function sha256(value) {
@@ -172,6 +230,7 @@ const evidence = {
   schemaVersion: "rcap-hosted-acceptance-deploy/v1",
   acceptanceProjectRef: PROJECT_REF,
   applicationSha: APPLICATION_SHA,
+  ...((HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR||SOURCE_SUCCESSOR)?{purposeSource:{phase:process.env.PHASE_INPUT,carrierSha:process.env.GITHUB_SHA,carrierWorkflowSha:process.env.GITHUB_WORKFLOW_SHA,controllerSha:process.env.RCAP_ADMITTED_CONTROLLER_SHA,toolsSha:process.env.TOOLS_SHA_INPUT,runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT}}:{}),
   deliveryRouteState: ROUTE_STATE || "disabled (flag not set)",
   neverPassedProdFlag: true,
   neverWroteProjectLevelEnv: true,
@@ -192,18 +251,59 @@ async function ordinaryPreviewSnapshot() {
   return { deploymentId: HOSTED_ORDINARY_PREVIEW.id, immutableHostname: HOSTED_ORDINARY_PREVIEW.immutableHostname, alias, details };
 }
 
+async function currentOrdinaryPreviewSnapshot() {
+  const alias = new URL(expectedHostedReturnOrigin(CURRENT_PURPOSE_TUPLE.applicationSha,'managed_start')).host;
+  if (RETURN_ALIAS_HOST === alias) throw new Error('DEPLOY_CURRENT_ORDINARY_ALIAS_NOT_ISOLATED');
+  const details = [];
+  for (const name of [CURRENT_ORDINARY_PREVIEW.id,CURRENT_ORDINARY_PREVIEW.hostname,alias]) {
+    const response = await vercelApi('/v13/deployments/'+encodeURIComponent(name));
+    if(response.status!==200)throw new Error('DEPLOY_CURRENT_ORDINARY_READBACK_FAILED');
+    const d=classifyCurrentPurposeDeployment(response.json,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);
+    if(d.phase!=='managed_start_preview')throw new Error('DEPLOY_CURRENT_ORDINARY_PURPOSE_MISMATCH');
+    details.push({name,...d});
+  }
+  return details;
+}
+async function sourceSuccessorProtectedSnapshot(){
+ const result=[];for(const known of SOURCE_SUCCESSOR_PROTECTED){for(const name of [known.id,known.hostname,...(known.alias?[known.alias]:[])]){const response=await vercelApi('/v13/deployments/'+encodeURIComponent(name));if(response.status!==200)throw Error('DEPLOY_SOURCE_SUCCESSOR_PROTECTED_READBACK_FAILED');result.push({name,...assertProtectedSourceDeployment(response.json,known,expectedHostedReturnOrigin)});}}return result;
+}
+async function repairPredecessorSnapshot(){
+  const result=[];
+  for(const name of [MANAGED_REPAIR_PREDECESSOR.id,MANAGED_REPAIR_PREDECESSOR.hostname]){
+    const response=await vercelApi('/v13/deployments/'+encodeURIComponent(name));
+    const known=assertManagedRepairAliasPrestate(response,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);result.push({name,...known});
+  }
+  return result;
+}
+async function purposeSiblingSnapshot(before) {
+  const result=[];
+  for(const prior of before){
+    const response=await vercelApi('/v13/deployments/'+encodeURIComponent(prior.id));
+    if(response.status!==200)throw new Error('DEPLOY_PURPOSE_SIBLING_READBACK_FAILED');
+    result.push(classifyCurrentPurposeDeployment(response.json,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin));
+  }
+  return result;
+}
+
 // --- 0. Before-picture of everything this run must not disturb ---------------
 const beforeProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
-const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
+const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env${(HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR||SOURCE_SUCCESSOR)?"?decrypt=false":""}`);
 if (beforeProject.status !== 200 || !Array.isArray(beforeProject.json?.alias) || beforeEnv.status !== 200 || !Array.isArray(beforeEnv.json?.envs)) {
   throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
+}
+// Existing project readback must prove platform system variables are exposed.
+if ((MANAGED_START || HELD_PURPOSE_PREVIEW) && beforeProject.json?.autoExposeSystemEnvs !== true) {
+  throw new Error("DEPLOY_MANAGED_START_SYSTEM_ENV_EXPOSURE_UNPROVEN");
 }
 const aliasesBefore = Array.isArray(beforeProject.json?.alias)
   ? beforeProject.json.alias.filter((a) => a?.target === "PRODUCTION").map((a) => a.domain).sort()
   : [];
 const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.envs : []);
 evidence.productionBefore = { aliases: aliasesBefore, environmentShape: envBefore };
-if (ISOLATED_CLINIC_PREVIEW) evidence.ordinaryPreviewBefore = await ordinaryPreviewSnapshot();
+if (ISOLATED_CLINIC_PREVIEW || MANAGED_START || configuredSandboxEnv) evidence.ordinaryPreviewBefore = await ordinaryPreviewSnapshot();
+if (HELD_PURPOSE_PREVIEW) evidence.currentOrdinaryPreviewBefore = await currentOrdinaryPreviewSnapshot();
+if(SOURCE_SUCCESSOR){evidence.sourceSuccessorProtectedBefore=await sourceSuccessorProtectedSnapshot();const response=await vercelApi('/v13/deployments/'+encodeURIComponent(RETURN_ALIAS_HOST));assertSourceSuccessorAliasAbsent(response);evidence.sourceSuccessorAliasBefore={hostname:RETURN_ALIAS_HOST,state:'absent'};}
+if(RUNTIME_REPAIR){evidence.runtimeRepairPredecessorBefore=await repairPredecessorSnapshot();const a=await vercelApi("/v13/deployments/"+encodeURIComponent(RETURN_ALIAS_HOST));assertManagedRepairAliasPrestate(a,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);evidence.runtimeRepairAliasBefore={hostname:RETURN_ALIAS_HOST,deploymentId:MANAGED_REPAIR_PREDECESSOR.id};}
 if (aliasesBefore.includes(RETURN_ALIAS_HOST)) {
   console.error(`DEPLOY: deterministic acceptance alias ${RETURN_ALIAS_HOST} is attached to Production; refusing`);
   process.exit(1);
@@ -245,20 +345,51 @@ if (ISOLATED_CLINIC_PREVIEW && (process.env.HOSTED_STRIPE_TEST_SECRET || process
 }
 
 async function findReusableDeployment() {
-  if (ISOLATED_CLINIC_PREVIEW) {
+  if (HELD_PURPOSE_PREVIEW || RUNTIME_REPAIR || SOURCE_SUCCESSOR) {
+    const matches=[],siblings=[],cursors=new Set(),seen=new Set();let until=null,pages=0,details=0,predecessors=0;
+    do {
+      if(++pages>50)throw new Error('DEPLOY_PURPOSE_SEARCH_PAGE_BOUND');
+      const res=await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100${until===null?'':`&until=${encodeURIComponent(until)}`}`);
+      if(res.status!==200||!Array.isArray(res.json?.deployments)||res.json.deployments.length>100||!res.json.pagination||!Object.hasOwn(res.json.pagination,'next'))throw new Error('DEPLOY_PURPOSE_SEARCH_INCOMPLETE');
+      for(const summary of res.json.deployments){
+        const reported=[summary.meta?.rcapApplicationSha,summary.gitSource?.sha,summary.meta?.githubCommitSha].filter(Boolean);
+        if(reported.length&&!reported.includes(APPLICATION_SHA))continue;
+        if(++details>200)throw new Error('DEPLOY_PURPOSE_SEARCH_DETAIL_BOUND');
+        const id=summary.uid??summary.id;if(!/^dpl_[A-Za-z0-9]+$/.test(id??''))throw new Error('DEPLOY_PURPOSE_SEARCH_ID_INVALID');
+        const detail=await vercelApi('/v13/deployments/'+encodeURIComponent(id));
+        if(detail.status!==200)throw new Error('DEPLOY_PURPOSE_SEARCH_READBACK_FAILED');
+        const d=detail.json;
+        if(d?.gitSource?.sha!==APPLICATION_SHA&&d?.meta?.rcapApplicationSha!==APPLICATION_SHA&&d?.meta?.githubCommitSha!==APPLICATION_SHA)continue;
+        if(seen.has(id))throw new Error('DEPLOY_PURPOSE_DUPLICATE_SEARCH_ID');seen.add(id);
+        if(SOURCE_SUCCESSOR){refusePriorSourceSuccessorAttempt(d);throw Error('DEPLOY_SOURCE_SUCCESSOR_UNKNOWN_ATTEMPT');}
+        const known=RUNTIME_REPAIR?classifyManagedRepairSibling(d,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin):classifyCurrentPurposeDeployment(d,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);
+        if(RUNTIME_REPAIR&&known.id===MANAGED_REPAIR_PREDECESSOR.id)predecessors++;
+        if(!RUNTIME_REPAIR&&known.phase===process.env.PHASE_INPUT)matches.push({url:'https://'+known.url,id:known.id});else siblings.push(known);
+      }
+      const next=res.json.pagination.next;if(next!==null&&(!Number.isFinite(next)||cursors.has(next)))throw new Error('DEPLOY_PURPOSE_SEARCH_PAGINATION_INVALID');
+      until=next;cursors.add(next);
+    }while(until!==null);
+    if(RUNTIME_REPAIR&&predecessors!==1)throw new Error('DEPLOY_REPAIR_EXACT_PREDECESSOR_REQUIRED');
+    if(matches.length>1)throw new Error('DEPLOY_PURPOSE_MULTIPLE_EXACT_TARGETS');
+    evidence.purposePreviewSearch={complete:true,pages,details,exactReadyMatches:matches,siblings,observedAt:new Date().toISOString()};
+    evidence.purposeSiblingsBefore=siblings;
+    return matches[0]??null;
+  }
+  if (ISOLATED_CLINIC_PREVIEW || MANAGED_START) {
     // Read every page, including non-READY attempts. An incomplete/ambiguous
     // prior creation is a readback boundary, never permission to create twice.
-    const expected = { ...FROZEN_WORKER_METADATA, rcapPreviewPurpose: "mississippi_clinic", rcapApplicationSha: APPLICATION_SHA,
-      rcapAcceptanceProjectRef: PROJECT_REF, rcapClinicDemoMode: CLINIC_DEMO_MODE,
+    const expected = { ...FROZEN_WORKER_METADATA, rcapPreviewPurpose: ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : "managed_start", rcapApplicationSha: APPLICATION_SHA,
+      rcapAcceptanceProjectRef: PROJECT_REF, rcapClinicDemoMode: CLINIC_DEMO_MODE || "none",
       rcapRouteState: ROUTE_STATE_TAG, rcapStagingScopeSha256: sha256(SCOPE_IDS),
-      rcapReturnOrigin: RETURN_ORIGIN, rcapStripeConfigured: "false", rcapCatalogProduct: "inline" };
+      rcapReturnOrigin: RETURN_ORIGIN, rcapStripeConfigured: "false", rcapCatalogProduct: "inline",
+      ...(MANAGED_START ? { rcapOrdinaryGrantSha256: "9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40", rcapSponsoredChannel: MANAGED_START.grant.channel } : {}) };
     const matches = [], cursors = new Set();
     let until = null;
     do {
       const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100${until === null ? "" : `&until=${encodeURIComponent(until)}`}`);
       if (res.status !== 200 || !Array.isArray(res.json?.deployments) || !res.json.pagination || !Object.hasOwn(res.json.pagination, "next")) throw new Error("DEPLOY_CLINIC_SEARCH_INCOMPLETE");
       for (const summary of res.json.deployments) {
-        if (summary.meta?.rcapApplicationSha !== APPLICATION_SHA || summary.meta?.rcapClinicDemoMode !== CLINIC_DEMO_MODE) continue;
+        if (summary.meta?.rcapApplicationSha !== APPLICATION_SHA || summary.meta?.rcapClinicDemoMode !== (CLINIC_DEMO_MODE || "none")) continue;
         const detail = await vercelApi(`/v13/deployments/${encodeURIComponent(summary.uid ?? summary.id)}`);
         if (detail.status !== 200) throw new Error("DEPLOY_CLINIC_SEARCH_READBACK_FAILED");
         // Same-source Clinic attempts must be reconciled, not bypassed by a new deployment.
@@ -366,19 +497,41 @@ if (MISSISSIPPI_PREVIEW_MODE && (ROUTE_STATE !== "staging_scoped" || SCOPE_IDS.s
   process.exit(1);
 }
 
+if (MANAGED_START) {
+  const participantId = MANAGED_START.grant.participantUserIds[0];
+  const lookup = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ query: `select id from auth.users where id='${participantId}'::uuid and deleted_at is null and (banned_until is null or banned_until < now())` })
+  });
+  const rows = await lookup.json().catch(() => null);
+  if (!lookup.ok || !Array.isArray(rows) || rows.length !== 1 || rows[0]?.id !== participantId) {
+    throw new Error("DEPLOY_MANAGED_START_EXISTING_PARTICIPANT_REQUIRED");
+  }
+  evidence.managedStartExistingParticipant = { id: participantId, verified: true, created: false };
+}
+
+if(configuredSandboxEnv){
+  const lookup=await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`,{method:'POST',headers:{Authorization:`Bearer ${SUPABASE_ACCESS_TOKEN}`,'Content-Type':'application/json'},body:JSON.stringify({query:`select id from auth.users where id='${CONFIGURED_SANDBOX_OWNER}'::uuid and deleted_at is null and (banned_until is null or banned_until < now())`})});
+  const rows=await lookup.json().catch(()=>null);if(!lookup.ok||!Array.isArray(rows)||rows.length!==1||rows[0]?.id!==CONFIGURED_SANDBOX_OWNER)throw new Error('DEPLOY_CONFIGURED_EXISTING_PARTICIPANT_REQUIRED');
+  evidence.configuredSandboxExistingParticipant={verified:true,created:false};
+}
+
 const reusable = await findReusableDeployment();
 // Legacy metadata cannot prove the deployed keys equal the preserved inputs.
 // Refuse reuse until that exact deployment has independent continuity proof;
 // never silently reuse it or create a second deployment to bypass the hold.
 if (reusable) throw new Error("DEPLOY_REUSE_PRESERVED_KEY_CONTINUITY_UNPROVEN");
-if (ISOLATED_CLINIC_PREVIEW) {
+if (ISOLATED_CLINIC_PREVIEW || configuredSandboxEnv) {
   const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
   if (current.status !== 404) {
     if (current.status !== 200 || !reusable || current.json?.id !== reusable.id) throw new Error("DEPLOY_CLINIC_ALIAS_CONFLICT");
     assertPreviewResponse(current.json, { rcapReturnOrigin: RETURN_ORIGIN, rcapClinicDemoMode: CLINIC_DEMO_MODE }, reusable.id);
   }
-  evidence.clinicScope = { participants: HOSTED_MS_CLINIC_PARTICIPANTS, scope: SCOPE_IDS, sha256: sha256(SCOPE_IDS) };
-  fs.writeFileSync(path.join(EVIDENCE_DIR, "clinic-deploy-before.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+  if(HELD_PURPOSE_PREVIEW)evidence.purposeAliasBefore={hostname:RETURN_ALIAS_HOST,state:current.status===404?"absent":"existing",deploymentId:current.json?.id??null};
+  if(ISOLATED_CLINIC_PREVIEW)evidence.clinicScope = { participants: HOSTED_MS_CLINIC_PARTICIPANTS, scope: SCOPE_IDS, sha256: sha256(SCOPE_IDS) };
+  else evidence.configuredSandboxScope={participantCount:1,sha256:sha256(SCOPE_IDS)};
+  fs.writeFileSync(path.join(EVIDENCE_DIR, ISOLATED_CLINIC_PREVIEW?"clinic-deploy-before.json":"configured-sandbox-before.json"), `${JSON.stringify(evidence, null, 2)}\n`);
 }
 
 // --- 1. Deploy to Preview ----------------------------------------------------
@@ -386,7 +539,7 @@ if (ISOLATED_CLINIC_PREVIEW) {
 // ONLY when ROUTE_STATE is explicitly set; the default deployment carries no
 // flag at all, so the control's own default (disabled) applies.
 // Candidate staging cannot inherit payment, legacy billing or outbound delivery authority.
-const closedPreviewEnv = process.env.PHASE_INPUT === "replace_preview" ? {
+const closedPreviewEnv = (process.env.PHASE_INPUT === "replace_preview" || ISOLATED_CLINIC_PREVIEW || MANAGED_START) ? {
   RCAP_PARTNER_ONBOARDING_ENABLED: "true",
   RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "disabled",
   RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "",
@@ -402,7 +555,8 @@ const closedPreviewEnv = process.env.PHASE_INPUT === "replace_preview" ? {
   RESEND_API_KEY: "",
   INTERNAL_ADMIN_ACCESS_TOKEN: "",
   LEGALEASE_OS_EVENTS_ENABLED: "false",
-  LEGALEASE_OS_EVENTS_ENDPOINT: ""
+  LEGALEASE_OS_EVENTS_ENDPOINT: "",
+  ...(ISOLATED_CLINIC_PREVIEW ? { STRIPE_CONSUMER_PACKET_PRODUCT_ID: "", PARTNER_EMAIL_PROVIDER: "" } : {})
 } : {};
 const runtimeEnv = {
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
@@ -426,6 +580,7 @@ const runtimeEnv = {
   ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {}),
   // Server-only transport to this Acceptance deployment; never build inputs.
   ...PRESERVED_DATA_KEYS,
+  ...(HELD_PURPOSE_PREVIEW?{NEXT_PUBLIC_RCAP_BUILD_SHA:APPLICATION_SHA,RCAP_2_0_ENABLED:"true",RCAP_PARTNER_LAUNCH_ENABLED:"false",RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:"",RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:"",VERCEL_AUTOMATION_BYPASS_SECRET:""}:{}),
   // Legal Aid browser phase only, and only when the workflow was given all
   // three nonproduction email values: the Preview then carries a real email
   // provider so follow-up delivery to the authorized test mailbox can be
@@ -438,10 +593,29 @@ const runtimeEnv = {
     PARTNER_EMAIL_FROM: LEGAL_AID_EMAIL.from
   } : {}),
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
-  ...closedPreviewEnv
+  ...closedPreviewEnv,
+  ...(ISOLATED_CLINIC_PREVIEW ? {
+    RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE,
+    RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS,
+    RCAP_SPONSORED_PREVIEW_CHANNEL: CLINIC_DEMO_MODE
+  } : {}),
+  ...(configuredSandboxEnv?.runtime ?? {}),
+  ...(MANAGED_START ? {
+    NEXT_PUBLIC_RCAP_BUILD_SHA: APPLICATION_SHA,
+    RCAP_2_0_ENABLED: "true",
+    ...((RUNTIME_REPAIR||SOURCE_SUCCESSOR)?{RCAP_ONBOARDING_LAUNCH_PREP_ENABLED:"true",RCAP_LAUNCH_STUDIO_ENABLED:"false"}:{}),
+    RCAP_CONSUMER_DELIVERY_ROUTE_STATE: MANAGED_START.grant.routeState,
+    RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: MANAGED_START.grant.participantUserIds.join(","),
+    RCAP_SPONSORED_PREVIEW_CHANNEL: MANAGED_START.grant.channel,
+    RCAP_PARTNER_LAUNCH_ENABLED: "true",
+    RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION: MANAGED_START.authorization,
+    RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN: "",
+    VERCEL_AUTOMATION_BYPASS_SECRET: MANAGED_START.bypass
+  } : {})
 };
 const buildEnv = {
   ...closedPreviewEnv,
+  ...(ISOLATED_CLINIC_PREVIEW ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "", LEGAL_AID_RESTRICTED_FIELD_KEY: "", LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: "", PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: "" } : {}),
   ...(process.env.PHASE_INPUT === "replace_preview" ? { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: "", VERCEL_ANALYZE_BUILD_OUTPUT: "1" } : {}),
   NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
@@ -458,7 +632,22 @@ const buildEnv = {
   // affected. Trimming the bundle instead would mean editing src/ — a new
   // application freeze, a new worker image, and a re-run of both required
   // checks, to change nothing a participant can observe.
-  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
+  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1",
+  ...(configuredSandboxEnv?.build ?? {}),
+  ...(HELD_PURPOSE_PREVIEW?{NEXT_PUBLIC_RCAP_BUILD_SHA:APPLICATION_SHA,RCAP_2_0_ENABLED:"true",SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY:"",LEGAL_AID_RESTRICTED_FIELD_KEY:"",LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:"",PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:"",RCAP_PARTNER_LAUNCH_ENABLED:"false",RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION:"",RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN:"",VERCEL_AUTOMATION_BYPASS_SECRET:""}:{}),
+  ...(MANAGED_START ? {
+    NEXT_PUBLIC_RCAP_BUILD_SHA: APPLICATION_SHA,
+    RCAP_2_0_ENABLED: "true",
+    SUPABASE_URL,
+    SUPABASE_SERVICE_ROLE_KEY: "",
+    LEGAL_AID_RESTRICTED_FIELD_KEY: "",
+    LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: "",
+    PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: "",
+    RCAP_PARTNER_LAUNCH_ENABLED: "false",
+    RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION: "",
+    RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN: "",
+    VERCEL_AUTOMATION_BYPASS_SECRET: ""
+  } : {})
 };
 
 // A live Stripe key must never reach this environment, and the check is on the
@@ -486,9 +675,13 @@ const buildEnv = {
 }
 
 const deploymentMeta = {
+  ...(RUNTIME_REPAIR?managedRepairMetadata(RETURN_ORIGIN):{}),
+  ...(SOURCE_SUCCESSOR?sourceSuccessorMetadata(RETURN_ORIGIN):{}),
+  ...(configuredSandboxEnv?currentPurposeMetadata(CONFIGURED_SANDBOX_PHASE,RETURN_ORIGIN):{}),
   ...(process.env.PHASE_INPUT === "replace_preview" ? { rcapClosedPreview: "true", rcapPartnerOnboardingEnabled: "true" } : {}),
   ...FROZEN_WORKER_METADATA,
-  ...(ISOLATED_CLINIC_PREVIEW ? { rcapPreviewPurpose: "mississippi_clinic" } : {}),
+  ...(ISOLATED_CLINIC_PREVIEW ? { rcapPreviewPurpose: "mississippi_clinic" } : MANAGED_START ? { rcapPreviewPurpose: "managed_start" } : {}),
+  ...(MANAGED_START ? { rcapOrdinaryGrantSha256: "9db1864b330945e3307a430a013328f9ec5a00ccfb2dee2bfec68dab8a780e40", rcapSponsoredChannel: MANAGED_START.grant.channel } : {}),
   rcapApplicationSha: APPLICATION_SHA,
   rcapAcceptanceProjectRef: PROJECT_REF,
   rcapStripeConfigured: String(STRIPE_CONFIGURED),
@@ -565,12 +758,34 @@ let deploymentId = null;
   evidence.deploymentAliases = Array.isArray(detail.json?.alias) ? detail.json.alias : [];
 }
 
+if (MANAGED_START || HELD_PURPOSE_PREVIEW) {
+  const response = await fetch(`${deploymentUrl}/api/rcap/release`, {
+    method: "GET", redirect: "manual", signal: AbortSignal.timeout(30000),
+    headers: { "x-vercel-protection-bypass": MANAGED_START?MANAGED_START.bypass:process.env.VERCEL_AUTOMATION_BYPASS_SECRET, "x-vercel-skip-toolbar": "1" }
+  });
+  const release = await response.json().catch(() => null);
+  let identity;
+  try{identity=assertPurposeRuntimeIdentity({status:response.status,body:release,applicationSha:APPLICATION_SHA,adminLaunch:Boolean(MANAGED_START)});}
+  catch{throw new Error(MANAGED_START?"DEPLOY_MANAGED_START_RELEASE_SOURCE_UNPROVEN":"DEPLOY_PURPOSE_RUNTIME_SOURCE_IDENTITY_UNPROVEN");}
+  record(MANAGED_START?"managed_start_release_source_bound":"purpose_runtime_source_identity", identity.runtimeSourceIdentityVerified,
+    `immutable release GET=${response.status}; exact build/runtime source=${identity.runtimeSourceIdentityVerified}; ordinary admin launch sourceBound=${identity.adminLaunchSourceBound}`);
+  const proof={status:response.status,...identity,applicationSha:APPLICATION_SHA,deploymentId};
+  if(MANAGED_START)evidence.managedStartRelease={...proof,sourceBound:release.sourceBound};else evidence.purposeRuntimeRelease=proof;
+}
+
+let sourceSuccessorAliasAttempted=false;
+let runtimeRepairAliasAttempted=false;
+try {
 if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed && verdicts.get("deployment_carries_the_final_application_sha")?.passed) {
   const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
   const currentId = current.json?.id ?? current.json?.uid ?? null;
-  if (ISOLATED_CLINIC_PREVIEW && current.status !== 404 && (current.status !== 200 || currentId !== deploymentId)) throw new Error("DEPLOY_CLINIC_ALIAS_CONFLICT");
+  if(SOURCE_SUCCESSOR)assertSourceSuccessorAliasAbsent(current);
+  else if(RUNTIME_REPAIR)assertManagedRepairAliasPrestate(current,VERCEL_IDENTITY.projectId,expectedHostedReturnOrigin);
+  else if ((ISOLATED_CLINIC_PREVIEW || MANAGED_START || HELD_PURPOSE_PREVIEW) && current.status !== 404 && (current.status !== 200 || currentId !== deploymentId)) throw new Error("DEPLOY_CLINIC_ALIAS_CONFLICT");
   if (current.status !== 200 || currentId !== deploymentId) {
-    if (ISOLATED_CLINIC_PREVIEW) fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, status:"ALIAS_ASSIGNMENT_PENDING"}, null, 2)}\n`);
+    if (ISOLATED_CLINIC_PREVIEW || MANAGED_START || HELD_PURPOSE_PREVIEW) fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, status:"ALIAS_ASSIGNMENT_PENDING"}, null, 2)}\n`);
+    if(SOURCE_SUCCESSOR)sourceSuccessorAliasAttempted=true;
+    if(RUNTIME_REPAIR)runtimeRepairAliasAttempted=true;
     const assigned = await vercelApi(`/v2/deployments/${encodeURIComponent(deploymentId)}/aliases`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -595,6 +810,12 @@ if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed &
     `${RETURN_ALIAS_HOST} resolves to deployment ${boundId ?? "(none)"}; target=${JSON.stringify(boundTarget)}; exact SHA/return-origin metadata=${boundMeta.rcapApplicationSha === APPLICATION_SHA && boundMeta.rcapReturnOrigin === RETURN_ORIGIN}`
   );
   evidence.aliasAssignment = { hostname: RETURN_ALIAS_HOST, deploymentId: boundId, target: boundTarget, passed: aliasPassed };
+  if(SOURCE_SUCCESSOR){evidence.sourceSuccessorAliasInverse={hostname:RETURN_ALIAS_HOST,priorState:'absent',createdDeploymentId:deploymentId,currentBindingMustEqual:deploymentId,performed:false};if(!aliasPassed)throw Error('DEPLOY_SOURCE_SUCCESSOR_ALIAS_FAILED_NO_RETRY');}
+  if(RUNTIME_REPAIR){
+    evidence.runtimeRepairAliasInverse={hostname:RETURN_ALIAS_HOST,priorDeploymentId:MANAGED_REPAIR_PREDECESSOR.id,createdDeploymentId:deploymentId,currentBindingMustEqual:deploymentId,performed:false};
+    if(!aliasPassed){fs.writeFileSync(path.join(EVIDENCE_DIR,"deploy.json"),`${JSON.stringify({...evidence,passed:false,status:"REPAIR_ALIAS_FAILED_NO_RETRY"},null,2)}\n`);throw Error("DEPLOY_REPAIR_ALIAS_FAILED_NO_RETRY");}
+  }
+  if(HELD_PURPOSE_PREVIEW)evidence.purposeAliasInverse={hostname:RETURN_ALIAS_HOST,priorState:evidence.purposeAliasBefore?.state,createdDeploymentId:deploymentId,currentBindingMustEqual:deploymentId,permittedScope:"Only remove the new binding introduced by this operation if it still names this exact deployment; never alter pre-existing or Production aliases",performed:false};
 } else {
   record("deterministic_nonproduction_return_alias_bound", false, "Vercel returned no deployment id to bind");
 }
@@ -614,7 +835,7 @@ console.log(`  exact acceptance return origin: ${previewUrl}`);
 // So this is derived rather than assumed. The previous host is queried on its
 // own and asked which application SHA it carries; the new deployment is asked
 // for any alias that would let a stable URL survive the move.
-if (!ISOLATED_CLINIC_PREVIEW) {
+if (!ISOLATED_CLINIC_PREVIEW && !MANAGED_START) {
   const previousHost = (process.env.HOSTED_PREVIOUS_WEBHOOK_HOST ?? "").trim().replace(/^https:\/\//, "");
   const newHost = previewUrl.replace(/^https:\/\//, "");
   const stableAliases = (evidence.deploymentAliases ?? []).filter((a) => typeof a === "string" && a.length > 0);
@@ -679,7 +900,7 @@ if (!ISOLATED_CLINIC_PREVIEW) {
     `${aliasesBefore.length} production alias(es) before, ${aliasesAfter.length} after, identical sets`
   );
 
-  const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
+  const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env${(HELD_PURPOSE_PREVIEW||RUNTIME_REPAIR||SOURCE_SUCCESSOR)?"?decrypt=false":""}`);
   if (afterProject.status !== 200 || !Array.isArray(afterProject.json?.alias) || afterEnv.status !== 200 || !Array.isArray(afterEnv.json?.envs)) {
     throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
   }
@@ -692,9 +913,27 @@ if (!ISOLATED_CLINIC_PREVIEW) {
   evidence.productionUntouched = { aliasCount: aliasesAfter.length, productionVariableCount: envAfter.length };
   evidence.productionAfter = { aliases: aliasesAfter, environmentShape: envAfter };
 }
-if (ISOLATED_CLINIC_PREVIEW) {
+if (ISOLATED_CLINIC_PREVIEW || MANAGED_START || configuredSandboxEnv) {
   evidence.ordinaryPreviewAfter = await ordinaryPreviewSnapshot();
   record("ordinary_preview_unchanged", JSON.stringify(evidence.ordinaryPreviewBefore) === JSON.stringify(evidence.ordinaryPreviewAfter), "ordinary deployment, immutable hostname and application-SHA alias compared before/after");
+}
+if(SOURCE_SUCCESSOR){evidence.sourceSuccessorProtectedAfter=await sourceSuccessorProtectedSnapshot();record('source_successor_protected_targets_unchanged',JSON.stringify(evidence.sourceSuccessorProtectedBefore)===JSON.stringify(evidence.sourceSuccessorProtectedAfter),'9aad source predecessor triplet, BaX repair triplet, original managed immutable pair, DTC and Clinic triplets unchanged; Production independently preserved');}
+if(RUNTIME_REPAIR){
+  evidence.runtimeRepairPredecessorAfter=await repairPredecessorSnapshot();record('repair_predecessor_immutable_unchanged',JSON.stringify(evidence.runtimeRepairPredecessorBefore)===JSON.stringify(evidence.runtimeRepairPredecessorAfter),'original managed immutable deployment stays unchanged; alias transition is separately guarded');
+  evidence.purposeSiblingsAfter=await purposeSiblingSnapshot(evidence.purposeSiblingsBefore??[]);record('purpose_siblings_unchanged',JSON.stringify(evidence.purposeSiblingsBefore)===JSON.stringify(evidence.purposeSiblingsAfter),'known same-application sibling identities remain unchanged');
+}
+if (HELD_PURPOSE_PREVIEW) {
+  evidence.currentOrdinaryPreviewAfter=await currentOrdinaryPreviewSnapshot();
+  record('current_ordinary_preview_unchanged',JSON.stringify(evidence.currentOrdinaryPreviewBefore)===JSON.stringify(evidence.currentOrdinaryPreviewAfter),'current managed ordinary target preserved across all three names');
+  evidence.purposeSiblingsAfter=await purposeSiblingSnapshot(evidence.purposeSiblingsBefore??[]);
+  record('purpose_siblings_unchanged',JSON.stringify(evidence.purposeSiblingsBefore)===JSON.stringify(evidence.purposeSiblingsAfter),'all reconciled same-application purpose siblings remain unchanged');
+}
+if(configuredSandboxEnv){
+  const expected=currentPurposeMetadata(CONFIGURED_SANDBOX_PHASE,RETURN_ORIGIN);
+  record('configured_sandbox_scope_and_purpose_exact',Object.entries(expected).every(([key,value])=>evidence.deployment.metadata[key]===value),'existing scoped owner/test catalog only; no payment or worker executed');
+}
+
+if (ISOLATED_CLINIC_PREVIEW) {
   record("clinic_scope_and_purpose_exact", evidence.deployment.metadata.rcapStagingScopeSha256 === sha256(Object.values(HOSTED_MS_CLINIC_PARTICIPANTS).join(","))
     && evidence.deployment.metadata.rcapRouteState === "staging_scoped" && evidence.deployment.metadata.rcapClinicDemoMode === "mississippi_preview", "existing A/B identities only; exact scope hash and Clinic metadata");
   evidence.clinicExecutionPerformed = false;
@@ -716,9 +955,10 @@ if (ISOLATED_CLINIC_PREVIEW) {
       // protected Preview, and the query form is the one Vercel's own
       // documentation and Roger's Stripe destination rely on.
       const joiner = pathname.includes("?") ? "&" : "?";
-      const suffix = bypass ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(bypass)}` : "";
+      const suffix = bypass && !MANAGED_START ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(bypass)}` : "";
       const res = await fetch(`${previewUrl}${pathname}${suffix}`, {
         ...init,
+        ...(MANAGED_START ? { redirect: "manual" } : {}),
         headers: { ...(init.headers ?? {}), ...bypassHeaders }
       });
       let json = null;
@@ -783,5 +1023,20 @@ if (ISOLATED_CLINIC_PREVIEW) {
     ].join("\n") + "\n");
   }
   if (evidence.passed) console.log(`DEPLOY PASSED — ${previewUrl} on ${PROJECT_REF}, Preview only, production untouched.`);
+  if(SOURCE_SUCCESSOR&&!evidence.passed)throw Error("DEPLOY_SOURCE_SUCCESSOR_POSTCHECK_FAILED");
+  if(RUNTIME_REPAIR&&!evidence.passed)throw Error("DEPLOY_REPAIR_POSTCHECK_FAILED");
   process.exit(evidence.passed ? 0 : 1);
+}
+
+} catch(error) {
+  if(SOURCE_SUCCESSOR){
+    if(sourceSuccessorAliasAttempted){try{evidence.sourceSuccessorAliasInverse=await restoreSourceSuccessorAlias({api:vercelApi,newDeploymentId:deploymentId});}catch{evidence.sourceSuccessorAliasInverse={performed:false,restored:false,blocked:true,currentBindingMustEqual:deploymentId};}}
+    fs.writeFileSync(path.join(EVIDENCE_DIR,'deploy.json'),`${JSON.stringify({...evidence,passed:false,status:'SOURCE_SUCCESSOR_STOP_NO_RETRY'},null,2)}\n`);throw Error('DEPLOY_SOURCE_SUCCESSOR_STOP_NO_RETRY');
+  }
+  if(RUNTIME_REPAIR){
+    if(runtimeRepairAliasAttempted){try{evidence.runtimeRepairAliasInverse=await restoreManagedRepairAlias({api:vercelApi,alias:RETURN_ALIAS_HOST,newDeploymentId:deploymentId,assertPredecessor:repairPredecessorSnapshot});}catch{evidence.runtimeRepairAliasInverse={performed:false,restored:false,blocked:true,priorDeploymentId:MANAGED_REPAIR_PREDECESSOR.id,currentBindingMustEqual:deploymentId};}}
+    fs.writeFileSync(path.join(EVIDENCE_DIR,"deploy.json"),`${JSON.stringify({...evidence,passed:false,status:"REPAIR_STOP_NO_RETRY"},null,2)}\n`);
+    throw Error("DEPLOY_REPAIR_STOP_NO_RETRY");
+  }
+  throw error;
 }
