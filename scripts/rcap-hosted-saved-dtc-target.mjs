@@ -1,0 +1,10 @@
+// Reuse accepted failed-creator + successful-recovery chain; never relabel the failed original creator.
+import assert from 'node:assert/strict';import fs from 'node:fs/promises';import path from 'node:path';
+import {admit,loadRecoveryView,PINS}from './rcap-hosted-existing-dtc-readonly-runner.mjs';
+import {assertConsumerPurposeRelease}from './rcap-hosted-consumer-purpose-release.mjs';import{DTC,hash}from './rcap-hosted-saved-dtc-contracts.mjs';
+export async function loadSavedDtcTarget(env){
+ const raw=await fs.readFile(new URL('./dtc-readonly-native-binding.json',import.meta.url));assert.equal(hash(raw),'bcd7621fc416adf59e6fbcaac39259815c95d491e6f9287743a8edef8517e6e4');const binding=JSON.parse(raw);assert(path.isAbsolute(env.RUNNER_TEMP));const files={creatorNativeFile:'DTC_CREATOR_NATIVE_FILE',creatorRunFile:'DTC_CREATOR_RUN_FILE',recoveryFile:'DTC_RECOVERY_FILE',recoveryRunFile:'DTC_RECOVERY_RUN_FILE'};const config={creationRun:PINS.creationRun,toolsSha:PINS.tools,controllerSha:PINS.controller,origin:binding.origin,deploymentId:binding.deploymentId,recoveryBinding:binding,savedCaseSha256:hash(DTC.item)};for(const [name,key]of Object.entries(files)){assert(path.isAbsolute(env[key]??''));assert.equal(path.dirname(env[key]),env.RUNNER_TEMP);config[name]=env[key];}const native=await loadRecoveryView(config);admit(config,native);return Object.freeze({config,native});
+}
+export function createSavedDtcRuntimeVerifier({target,env,fetcher,checkpoint}){
+ assert.equal(typeof fetcher,'function');assert.equal(typeof checkpoint,'function');return async()=>{admit(target.config,target.native);assert.equal(target.config.origin,DTC.origin);assert.equal(target.config.deploymentId,DTC.deploymentId);const response=await fetcher(DTC.origin+'/api/rcap/release',{method:'GET',headers:{'x-vercel-protection-bypass':env.VERCEL_AUTOMATION_BYPASS_SECRET},redirect:'error',signal:AbortSignal.timeout(15000)});await checkpoint({phase:'actual_purpose_runtime_identity',observedHttpStatus:response.status});assertConsumerPurposeRelease({status:response.status,json:await response.json()},'configured_sandbox_preview');};
+}

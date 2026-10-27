@@ -1,0 +1,7 @@
+import assert from 'node:assert/strict';
+import {DTC} from './rcap-hosted-saved-dtc-contracts.mjs';
+// The explicit function is the operator-only copy of accepted completeHostedCheckout, not the full payment harness.
+export function createSavedCheckoutBrowser({completeHostedCheckout,ownerAuthUserId,ownerEmail,sessionCookies,previewProtectionBypassSecret,beforeFinalPay}){
+ assert.equal(typeof completeHostedCheckout,'function');assert.equal(typeof beforeFinalPay,'function');assert.equal(ownerAuthUserId,DTC.owner);assert(typeof ownerEmail==='string'&&ownerEmail.endsWith('@rcap-acceptance.test'));assert(Array.isArray(sessionCookies)&&sessionCookies.length>0);for(const c of sessionCookies){assert.equal(c.domain,new URL(DTC.origin).hostname);assert(c.name.startsWith('sb-'+DTC.project+'-auth-token'));assert.equal(c.secure,true);}assert(typeof previewProtectionBypassSecret==='string'&&previewProtectionBypassSecret.trim());
+ return async({checkoutUrl,expectedReturnUrl})=>{assert.equal(new URL(checkoutUrl).origin,'https://checkout.stripe.com');const target=new URL(expectedReturnUrl);assert.equal(target.origin,DTC.origin);assert.equal(target.pathname,'/briefcase/'+DTC.item);return completeHostedCheckout({checkoutUrl,expectedReturnUrl,previewProtectionBypassSecret,email:ownerEmail,sessionCookies,promotionCode:null,screenshotDir:null,onReturn:null,executablePath:'/usr/bin/google-chrome',beforeFinalPay});};
+}
