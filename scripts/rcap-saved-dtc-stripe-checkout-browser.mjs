@@ -382,8 +382,10 @@ export async function completeHostedCheckout({
   submitObstructionOnly = false,
   providerExpectedAmountCents = null,
   beforeDialogInteraction = null,
-  allowKnownLinkCloseExperiment = false
+  allowKnownLinkCloseExperiment = false,
+  continueObservedLinkCard = false
 }) {
+  if(typeof continueObservedLinkCard!=='boolean'||continueObservedLinkCard&&(submitObstructionOnly||submitActionabilityOnly||!prepareSubmitActionability||typeof beforeDialogInteraction!=='function'))throw Error('Observed Link continuation requires guarded full checkout.');
   if(typeof allowKnownLinkCloseExperiment!=='boolean'||allowKnownLinkCloseExperiment&&!submitObstructionOnly)throw Error('Link Close experiment is NoPay only.');
   if(typeof submitObstructionOnly!=='boolean'||submitObstructionOnly&&submitActionabilityOnly||typeof prepareSubmitActionability!=='boolean'||typeof submitActionabilityOnly!=='boolean')throw new Error('Explicit actionability-only mode required.');
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
@@ -421,13 +423,30 @@ export async function completeHostedCheckout({
     return safeCheckoutBrowserDiagnostic({phase:failurePhase,errorClass,buttonGeometry:await readCheckoutSubmitGeometry(submitControl),navigation});
   };
 
+  const manualCardVisible = async () => {
+    for(const scope of frameScopes(page))for(const selector of ['input[name="cardNumber"]','input[autocomplete="cc-number"]'])if(await scope.locator(selector).isVisible())return true;
+    return false;
+  };
+  const continueAfterObservedLinkClose = async () => {
+    if(!continueObservedLinkCard)return;
+    const current=await readCheckoutSubmitObstruction(page,null);
+    if(current.status==='inspected'&&Object.values(current.signals).every(v=>v===false))return;
+    if(optionalDialogInspected)throw Object.assign(Error('Repeated provider dialog; preserve existing session.'),{code:'CHECKOUT_HUMAN_INTERACTION_REQUIRED'});
+    optionalDialogInspected=true;
+    optionalDialog=await inspectOptionalCheckoutDialog({page,continueObservedLinkCard:true,checkpoint:onSubmitCheckpoint,beforeInteraction:()=>beforeDialogInteraction('before_link_dialog_close')});
+    if(optionalDialog.actionBasis!=='observed_link_card_continuation'||!optionalDialog.dismissed||!optionalDialog.overlayGone||!await manualCardVisible())throw Object.assign(Error('Known Link card continuation not established; preserve existing session.'),{code:'CHECKOUT_HUMAN_INTERACTION_REQUIRED'});
+    optionalDialog.cardFormVisible=true;
+    await beforeDialogInteraction('after_link_dialog_close');
+    await onSubmitCheckpoint({phase:'provider_checkout_observed_link_card_continuation',diagnosticOnly:true,trial:false,realSubmitAttempted:false,optionalDialog});
+  };
+
   const inspectDialogAndTrial = async submit => {
     if(optionalDialogInspected)return {optionalDialog,actionabilityTrial:null};
     optionalDialogInspected=true;
     optionalDialog=await inspectOptionalCheckoutDialog({page,allowKnownLinkCloseExperiment,checkpoint:onSubmitCheckpoint,beforeInteraction:async()=>{if(typeof beforeDialogInteraction!=='function')throw Error('Fresh same-session state required');await beforeDialogInteraction();}});
     if(!optionalDialog.dismissed||!optionalDialog.overlayGone)return {optionalDialog,actionabilityTrial:null};
     if(optionalDialog.actionBasis==='known_link_close_experiment'){
-      let cardVisible=false;for(const scope of frameScopes(page))for(const selector of ['input[name="cardNumber"]','input[autocomplete="cc-number"]'])if(await scope.locator(selector).isVisible())cardVisible=true;
+      const cardVisible=await manualCardVisible();
       optionalDialog.cardFormVisible=cardVisible;
       if(!cardVisible)return {optionalDialog:{...optionalDialog,status:'hold',humanRequirement:'Manual card form not visible after Close; no trial.'},actionabilityTrial:null};
     }
@@ -491,6 +510,7 @@ export async function completeHostedCheckout({
     await page.waitForTimeout(2500);
     await shoot("opened");
     failurePhase = 'checkout_fill';
+    await continueAfterObservedLinkClose();
     await requireNoProviderChallenge(page);
 
     if (promotionCode) {
@@ -515,6 +535,7 @@ export async function completeHostedCheckout({
     await fillAcrossFrames(page, [
       'input[name="email"]', 'input[type="email"]', 'input[autocomplete="email"]'
     ], email, "email", notes);
+    await continueAfterObservedLinkClose();
     await requireNoProviderChallenge(page);
 
     if (!looksFree) {
@@ -584,6 +605,7 @@ export async function completeHostedCheckout({
     }
     const authorizeFinalPay = async () => {
       await requireNoProviderChallenge(page);
+      if(continueObservedLinkCard){const current=await readCheckoutSubmitObstruction(page,submit);if(current.status!=='inspected'||Object.values(current.signals).some(v=>v!==false)||!['self','child'].includes(current.buttonGeometry?.centerHitRelation)||!await manualCardVisible())throw Error('Card continuation changed before final Pay guard.');}
       finalPayCheckStarted = true;
       submitInspection = await readCheckoutSubmitState(page, submit, looksFree);
       failurePhase = 'before_final_pay';
@@ -593,7 +615,10 @@ export async function completeHostedCheckout({
     if (prepareSubmitActionability && !submitActionabilityOnly) {
       failurePhase = 'submit_click';
       const preparation = await prepareGuardedCheckoutSubmit({page, submit,
-        selectedIndex:selectedSubmitIndex, checkpoint:onSubmitCheckpoint,
+        selectedIndex:selectedSubmitIndex, checkpoint:async value=>{
+          if(continueObservedLinkCard&&value.phase==='provider_checkout_submit_actionability_before_trial'){const current=await readCheckoutSubmitObstruction(page,submit);if(current.status!=='inspected'||Object.values(current.signals).some(v=>v!==false)||!['self','child'].includes(current.buttonGeometry?.centerHitRelation)||!await manualCardVisible())throw Error('Card continuation obstructed before trial.');}
+          await onSubmitCheckpoint(value);
+        },
         authorize:authorizeFinalPay});
       if (preparation.status !== 'passed') return {completed:false,
         humanInteractionRequired:false,failureReason:'submit_actionability_failed',
