@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { captureOriginalResponseOnce, openScreeningWithProfile, runScreeningFromOriginalProfile, saveScreeningAndClaim } from './rcap-clinic-screening-profile.mjs';
 import { createOriginalResponseObserver, originalResponseOperation, observedOriginalResponse } from './rcap-clinic-original-response.mjs';
 import { answerBuilderStep } from './rcap-packet-builder-filler.mjs';
-import { MS_NONCONVICTION_ROUTE, MS_NONCONVICTION_SCREENING_ANSWERS } from './lib/rcap-ms-nonconviction-fixture.mjs';
+import { MS_NONCONVICTION_ROUTE, MS_NONCONVICTION_SCREENING_ANSWERS, MS_NONCONVICTION_PACKET_ANSWERS } from './lib/rcap-ms-nonconviction-fixture.mjs';
 
 export const ORDINARY_PARTNER = 'legalease-ordinary-qa-20261024';
 export const ORDINARY_PARTICIPANT = 'b6dc86a3-12bb-490d-b130-48d95d426a1e';
@@ -243,14 +243,30 @@ export async function runOrdinaryParticipant({page,anonymousPage,strangerPage,or
     let saves=0;
     for(;saves<80 && new URL(page.url()).pathname.endsWith('/packet-information');saves++) {
       await answerBuilderStep(page,{routeKey:MS_NONCONVICTION_ROUTE.routeId});
-      const request=page.waitForRequest(r=>r.method()==='POST' && new URL(r.url()).pathname===endpoint);
-      const response=page.waitForResponse(r=>matches(r,endpoint));
       const review=page.getByRole('button',{name:'Review packet facts',exact:true});
+      const continueButton=await review.isVisible() ? review : page.getByRole('button',{name:'Save and continue',exact:true});
       await save('ordinary_packet_save_pending',{saveIndex:saves});
-      await (await review.isVisible() ? review : page.getByRole('button',{name:'Save and continue',exact:true})).click();
-      const submitted=(await request).postDataJSON();
+      let request,saved,saveRequestObserved=false;
+      try {
+        [request,saved]=await Promise.all([
+          page.waitForRequest(r=>r.method()==='POST' && new URL(r.url()).pathname===endpoint).then(r=>{saveRequestObserved=true;return r;}),
+          page.waitForResponse(r=>matches(r,endpoint)),
+          continueButton.click()
+        ]);
+      } catch(error) {
+        const validation=await page.locator("[data-packet-information-builder='active']").evaluate((node,knownIds)=>{
+          const invalid=[...node.querySelectorAll('[aria-invalid="true"]')].filter(element=>{
+            const box=element.getBoundingClientRect();return box.width>0&&box.height>0;
+          });
+          const ids=invalid.map(element=>element.closest('[data-packet-question]')?.getAttribute('data-packet-question'));
+          return {visibleInvalidControlCount:invalid.length,invalidQuestionIds:[...new Set(ids.filter(id=>knownIds.includes(id)))]};
+        },Object.keys(MS_NONCONVICTION_PACKET_ANSWERS)).catch(()=>null);
+        await checkpoint({schemaVersion:'ordinary-packet-save-failure/v1',saveIndex:saves,saveRequestObserved,validationObservationAvailable:validation!==null,...validation});
+        throw error;
+      }
+      const submitted=request.postDataJSON();
       assert.ok(Number.isInteger(submitted.expectedRevision));assert.ok(!submitted.verify);
-      const saved=await response;assert.equal(saved.status(),200);
+      assert.equal(saved.status(),200);
       const body=await saved.json();assert.equal(body.ok,true);assert.ok(body.revision>=submitted.expectedRevision);
       await save('ordinary_packet_saved',{expectedRevision:submitted.expectedRevision,revision:body.revision,saveIndex:saves});
       // Server owner read + reload proves persistence and ordinary save/resume.
