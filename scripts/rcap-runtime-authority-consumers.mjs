@@ -25,6 +25,7 @@ export const RUNTIME_AUTHORITY_MODULES = Object.freeze([
   'src/lib/rcap/fulfillment/grade-a-registry.ts',
   'src/lib/rcap/fulfillment/consumer-specification-binding.ts',
   'src/lib/rcap/fulfillment/worker-static-authority.ts',
+  'src/lib/rcap/fulfillment/sponsored-channel-authority.ts',
 ]);
 
 /** Select behavioral probes only when the entry can reach their real module. */
@@ -255,6 +256,16 @@ export function discoverRuntimeAuthorityConsumers({ root = DEFAULT_ROOT_DIR, roo
   return { rootDir: root, consumers, entries, unresolvedImports: [], authorityRoots: [...RUNTIME_AUTHORITY_MODULES], moduleCount: moduleCache.size };
 }
 
+// Turbopack's native Glob matches the full entry name and treats JS lookbehind literally.
+function addProgramNativeTracingKey(includes, consumers) {
+  const program = consumers.find(entry => entry.entry === 'src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/program/route.ts');
+  if (program) {
+    const key = `/app/${program.appPath.replace(/^\//, '')}`.replace(/[\\*?\[\]{}()!+@]/g, '\\$&');
+    includes[key] = [...includes[program.tracingKey]];
+  }
+  return includes;
+}
+
 export function createRuntimeAuthorityTracingIncludes(options = {}) {
   const { rootDir, consumers, entries } = discoverRuntimeAuthorityConsumers(options);
   const sourceGuard = path.join(rootDir, 'src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
@@ -274,7 +285,7 @@ export function createRuntimeAuthorityTracingIncludes(options = {}) {
       throw new Error(`Runtime authority tracing scope mismatch: ${entry.entry}`);
     }
   }
-  return includes;
+  return addProgramNativeTracingKey(includes, consumers);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -287,7 +298,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
 
 export const RUNTIME_AUTHORITY_INCLUDES = RUNTIME_AUTHORITY_FILES.map(p => p.replace(/^\.\//, ''));
 export function tracingIncludesFor(consumers) {
-  return Object.fromEntries(consumers.map(c => [c.tracingKey, [...RUNTIME_AUTHORITY_INCLUDES]]));
+  return addProgramNativeTracingKey(Object.fromEntries(consumers.map(c => [c.tracingKey, [...RUNTIME_AUTHORITY_INCLUDES]])), consumers);
 }
 export function emittedAppRoutes({ rootDir = DEFAULT_ROOT_DIR } = {}) {
   const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, '.next/server/app-paths-manifest.json'), 'utf8'));
