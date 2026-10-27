@@ -460,7 +460,7 @@ jobs:
           if-no-files-found: warn
 
   dtc_existing_session_no_pay_inspection:
-    name: Read only the existing Checkout dialog identity and offered controls
+    name: Inspect existing Checkout dialog and dismiss only a confirmed optional prompt
     if: inputs.mode == 'dtc_existing_session_no_pay_inspection'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -472,7 +472,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 08bd668c3087e321a2fc0a79811d548d265f3ffc
+          ref: 48d518ff62522b69e22a57d8be5468aee9760278
           fetch-depth: 0
           path: carrier
           persist-credentials: false
@@ -498,18 +498,20 @@ jobs:
             /scripts/rcap-checkout-submit-obstruction.mjs
             /scripts/rcap-dtc-submit-obstruction.test.mjs
             /scripts/rcap-dtc-submit-semantic-identity.test.mjs
+            /scripts/rcap-checkout-optional-dialog.mjs
+            /scripts/rcap-checkout-optional-dialog.test.mjs
             /vercel.json
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Require exact non-submitting source closure before existing credentials
+      - name: Require exact bounded optional-dialog source before existing credentials
         run: |
           node --input-type=module <<'JS'
-          import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'08bd668c3087e321a2fc0a79811d548d265f3ffc');for(const[file,pin]of Object.entries({"package-lock.json":"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7","package.json":"73ab9869dfb6b045d0a549943024a1b32c04b238bceb658b0d450d330fa7cc20","scripts/rcap-checkout-browser-diagnostic.mjs":"d6d280ff632bfb3910e7e18d57dea84383c16aaf9ddd7a2f5215485923482a7a","scripts/rcap-checkout-submit-actionability.mjs":"7f901a0caaf269094da7bad617942239b38d99b8b9f15f551627dc0edce94f04","scripts/rcap-checkout-submit-actionability.test.mjs":"8ad85b43e4fd846093980218d3f45829f6bb6eb37803f548e849149449c15923","scripts/rcap-dtc-existing-fulfillment.mjs":"dc884bf0b2b438849fab42ba0b4f1a34b97579f1abccec1aadb2221bb0591206","scripts/rcap-dtc-existing-session-no-pay-inspection.mjs":"125976a214ef88b9d9ce3a6842c24c1e089deeedcb9ee89eb3f64b60c761f03c","scripts/rcap-dtc-existing-session-readonly.mjs":"3993153713f7ea4cd86b4746dfb70c26caae7c02c469150ade8f144d7dfda426","scripts/rcap-hosted-acceptance-vercel-identity.mjs":"59f2fd14c24e3610c70265e3be192a70b18d7ae65c12f4ab5abc54bc434655b2","scripts/rcap-hosted-consumer-purpose-release.mjs":"80caaa03662874ffdc43174578fe20ae28f14c0ab82686ba169cc3e96b402d99","scripts/rcap-hosted-existing-dtc-continuation.mjs":"90d895dd9a0bb57dcc3ef5391d4dab08b6b125a06b864f7ff15ef759e6c9ddb6","scripts/rcap-hosted-response-contract.mjs":"dd8c1eca0741df9ff8eb3013f99522ca38be6c55b6c650ecab4266623d433b44","scripts/rcap-hosted-saved-dtc-contracts.mjs":"6157d6b4669db26feb4976d99f2be9df62a56d8113005a0672ad3d8de9f4e416","scripts/rcap-hosted-saved-dtc-credentials.mjs":"b0d9662511ae04fa0ca4da7f0341cecaefc10dadb62bd675eb92d6e09834e8fa","scripts/rcap-hosted-saved-dtc-ports.mjs":"00bba0f693ccc97773e12ac1fccf954d3adce2d6e62e75d0263d86b5ced06805","scripts/rcap-saved-dtc-stripe-checkout-browser.mjs":"e373ccd328a1d6d8b5524f97d451ae0ba9ae7e0f01b732445720833d3d83a7c1","scripts/rcap-stripe-checkout-browser.mjs":"7d3c481373d9b0b07d1043ef1a9c6d55efd831d24af9d38aaa73c77ea77e4b1d","vercel.json":"6cd68b2f302c6f6f41d0cbfc918c77d13a541c16a961925ba1ae5178b296ab8b","scripts/rcap-checkout-submit-obstruction.mjs":"9218e25970f2504b30ab99c8d5ee093693213b0db5b25826aae2eb15353af705","scripts/rcap-dtc-submit-obstruction.test.mjs":"53cddf771c25eba000207d9b46884979b3a9e43072a2ec023baefb99435234a0","scripts/rcap-dtc-submit-semantic-identity.test.mjs":"eebe926ee7d9b6f58819c55abbf68bc46d1a332f26a956ed2b930fecac3f23b9"}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),pin);
+          import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),'48d518ff62522b69e22a57d8be5468aee9760278');for(const[file,pin]of Object.entries({"package-lock.json":"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7","package.json":"73ab9869dfb6b045d0a549943024a1b32c04b238bceb658b0d450d330fa7cc20","scripts/rcap-checkout-browser-diagnostic.mjs":"d6d280ff632bfb3910e7e18d57dea84383c16aaf9ddd7a2f5215485923482a7a","scripts/rcap-checkout-submit-actionability.mjs":"7f901a0caaf269094da7bad617942239b38d99b8b9f15f551627dc0edce94f04","scripts/rcap-checkout-submit-actionability.test.mjs":"8ad85b43e4fd846093980218d3f45829f6bb6eb37803f548e849149449c15923","scripts/rcap-dtc-existing-fulfillment.mjs":"dc884bf0b2b438849fab42ba0b4f1a34b97579f1abccec1aadb2221bb0591206","scripts/rcap-dtc-existing-session-no-pay-inspection.mjs":"0542047fcf98e6cfadafa6040f7faea4a77f7a07898507127a0056ad4269e727","scripts/rcap-dtc-existing-session-readonly.mjs":"3993153713f7ea4cd86b4746dfb70c26caae7c02c469150ade8f144d7dfda426","scripts/rcap-hosted-acceptance-vercel-identity.mjs":"59f2fd14c24e3610c70265e3be192a70b18d7ae65c12f4ab5abc54bc434655b2","scripts/rcap-hosted-consumer-purpose-release.mjs":"80caaa03662874ffdc43174578fe20ae28f14c0ab82686ba169cc3e96b402d99","scripts/rcap-hosted-existing-dtc-continuation.mjs":"90d895dd9a0bb57dcc3ef5391d4dab08b6b125a06b864f7ff15ef759e6c9ddb6","scripts/rcap-hosted-response-contract.mjs":"dd8c1eca0741df9ff8eb3013f99522ca38be6c55b6c650ecab4266623d433b44","scripts/rcap-hosted-saved-dtc-contracts.mjs":"6157d6b4669db26feb4976d99f2be9df62a56d8113005a0672ad3d8de9f4e416","scripts/rcap-hosted-saved-dtc-credentials.mjs":"b0d9662511ae04fa0ca4da7f0341cecaefc10dadb62bd675eb92d6e09834e8fa","scripts/rcap-hosted-saved-dtc-ports.mjs":"00bba0f693ccc97773e12ac1fccf954d3adce2d6e62e75d0263d86b5ced06805","scripts/rcap-saved-dtc-stripe-checkout-browser.mjs":"8e8a28439474633ec1aea1ff24f634ac8bdc7b9becead91a5be1714b91716299","scripts/rcap-stripe-checkout-browser.mjs":"7d3c481373d9b0b07d1043ef1a9c6d55efd831d24af9d38aaa73c77ea77e4b1d","vercel.json":"6cd68b2f302c6f6f41d0cbfc918c77d13a541c16a961925ba1ae5178b296ab8b","scripts/rcap-checkout-submit-obstruction.mjs":"a72f19385af16abfb693de70c2bb8c77b658e8f923652921d550dc3b469e9c93","scripts/rcap-dtc-submit-obstruction.test.mjs":"b306e4f12d320ff531ef79411ea584f473f84f564dc413aa9d8255c20e96856e","scripts/rcap-dtc-submit-semantic-identity.test.mjs":"7024e9a4a0e0ca99cae1ae29f8d4aad3473fbc3ad5a10306a5b774741b7f75ec","scripts/rcap-checkout-optional-dialog.mjs":"cee1400ff6f3d96eb4b1c0be308c10af7c4d1087527dca4ff5f6786357037807","scripts/rcap-checkout-optional-dialog.test.mjs":"0239bb3d54d760ee189180bcd1106e25d4f0b7dfc9c9d74fb00b0d44ad65e523"}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),pin);
           JS
       - name: Reuse existing locked browser dependencies without builds or browser installation
         run: npm ci --ignore-scripts
-      - name: Inspect same-session blocking DOM and reject every trial or real submission checkpoint
+      - name: Inspect same-session dialog; permit optional close and one conditional trial, never Pay
         env:
           DISPATCH_INPUTS: ${{ toJSON(inputs) }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
