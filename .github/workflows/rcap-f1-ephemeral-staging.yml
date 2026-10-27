@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [clinic_unverified_draft_save, dtc_saved_fulfillment, dtc_stripe_pending_readonly, dtc_stripe_ingress_readonly, clinic_saved_readonly, dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
+        options: [dtc_existing_session_readonly, clinic_unverified_draft_save, dtc_saved_fulfillment, dtc_stripe_pending_readonly, dtc_stripe_ingress_readonly, clinic_saved_readonly, dtc_saved_readonly, ordinary_admin_materials_start, ordinary_admin_configure_capacity, ordinary_admin_provision, ordinary_admin_readonly, clinic_vercel_readonly, clinic_owned_matter_packet, clinic_setup_only, clinic_prerequisites_only, clinic_owned_matter_readonly, configured_sandbox_preview, configured_sandbox_recover, production_hotfix, successor_nonproduction_closure, ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_managed_start_preview, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       clinic_attempt_id:
         description: "Owner-authorized Clinic attempt identity; required for clinic_setup_only, never reused"
@@ -139,6 +139,43 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
+  dtc_existing_session_readonly:
+    name: Read only the correct saved DTC Checkout and its own PaymentIntent
+    if: inputs.mode == 'dtc_existing_session_readonly'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: carrier
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: carrier
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Require exact read-only source closure before existing credentials
+        run: |
+          node --input-type=module <<'JS'
+          import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';for(const[file,pin]of Object.entries({"scripts/rcap-dtc-existing-session-readonly.mjs":"3993153713f7ea4cd86b4746dfb70c26caae7c02c469150ade8f144d7dfda426","scripts/rcap-hosted-saved-dtc-contracts.mjs":"6157d6b4669db26feb4976d99f2be9df62a56d8113005a0672ad3d8de9f4e416","scripts/rcap-hosted-existing-dtc-continuation.mjs":"90d895dd9a0bb57dcc3ef5391d4dab08b6b125a06b864f7ff15ef759e6c9ddb6","scripts/rcap-hosted-response-contract.mjs":"dd8c1eca0741df9ff8eb3013f99522ca38be6c55b6c650ecab4266623d433b44"}))assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex'),pin);
+          JS
+      - name: Read the one persisted saved-case session without browser or provider writes
+        env:
+          DISPATCH_INPUTS: ${{ toJSON(inputs) }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: node scripts/rcap-dtc-existing-session-readonly.mjs
+      - name: Preserve typed correct-session status only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dtc-existing-session-readonly-${{ github.run_id }}
+          path: carrier/dtc-existing-session-readonly-evidence/result.json
+          if-no-files-found: warn
   dtc_saved_fulfillment:
     name: One controlled saved DTC fulfillment and conditional endpoint inverse
     if: inputs.mode == 'dtc_saved_fulfillment'
