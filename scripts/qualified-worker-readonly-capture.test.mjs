@@ -29,11 +29,11 @@ test('rollback capsule preserves complete reviewed nonsecret config and refuses 
  const m=machine(),c=nonsecretRollbackCapsule(m);assert.deepEqual(JSON.parse(c.bytes).config,m.config);assert.equal(c.sha256.length,64);assert(c.bytes.toString().includes(origin));
  for(const mutate of [m=>m.config.env.SUPABASE_SERVICE_ROLE_KEY=secret,m=>m.config.env.OTHER_SECRET=secret,m=>m.config.metrics={headers:{Authorization:'Bearer '+secret}},m=>m.config.metrics={apiKey:'opaque-secret-literal'},m=>m.config.metadata.extra=secret,m=>m.config.files=[{raw_value:secret}],m=>m.config.init.exec=['node','-e','console.log(secret)'],m=>m.config.env.SUPABASE_URL='https://user:password@example.supabase.co']){const x=machine();mutate(x);assert.throws(()=>nonsecretRollbackCapsule(x));}
 });
-async function capture({denyExec=false,restrictedRole=false,secretConfig=false,drift=false,unreviewedConfig=false}={}){
+async function capture({denyExec=false,restrictedRole=false,secretConfig=false,drift=false,unreviewedConfig=false,nativeProviderShape=false}={}){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'qualified-worker-readonly-')),calls=[];
  try{
   for(const ref of Object.values(READINESS_REFS)){const p=path.join(root,ref.path);fs.mkdirSync(path.dirname(p),{recursive:true});fs.copyFileSync(ref.path,p);}
-  const m=machine();if(unreviewedConfig)m.config.checks={};if(secretConfig)m.config.env.SUPABASE_SERVICE_ROLE_KEY=secret;let detail=0;
+  const m=nativeProviderShape?nativeShapeMachine():machine();if(unreviewedConfig)m.config.checks={};if(secretConfig)m.config.env.SUPABASE_SERVICE_ROLE_KEY=secret;let detail=0;
   const result=await captureQualifiedWorkerReadiness({root,checkExecution:false,env:{FLY_API_TOKEN:'synthetic-fly-token',SUPABASE_ACCESS_TOKEN:'synthetic-management-token',GITHUB_SHA:'c'.repeat(40),GITHUB_RUN_ID:'12345'},fetchImpl:async(url,o)=>{
    calls.push({url,o});let body;
    if(url.endsWith('/exec')){assert.equal(o.method,'POST');const b=JSON.parse(o.body);assert(Array.isArray(b.command));assert.equal(b.command[0],'node');assert.equal(b.cmd,undefined);assert.equal(b.timeout,15);if(denyExec)return{ok:false,status:403};body={exit_code:0,stdout:JSON.stringify({schemaVersion:'qualified-worker-effective-binding/v1',passed:true,machineId:id,projectRef:project,workerPid:1,roleProven:true,queueHeadStatus:200,credentialKind:'authenticated_secret_key_service_role',secretValuesIncluded:false,customerRowsRead:false})};}
@@ -84,4 +84,17 @@ test('bounded config shape map includes every refused field type without values 
 });
 test('capture retains complete bounded property shapes on custody refusal without writing raw config',async()=>{
  const {result:r,files}=await capture({unreviewedConfig:true});assert.equal(r.status,'HOLD_READINESS_INCOMPLETE');assert(r.rollbackConfigShape.entries.some(e=>e.fieldPath==='config.checks'&&e.jsonType==='object'));assert(r.rollbackConfigShape.entries.some(e=>e.fieldPath==='config.env.NODE_ENV'&&e.jsonType==='string'));assert(!JSON.stringify(r.rollbackConfigShape).includes(origin));assert(!files.includes('rollback-config.nonsecret.private.json'));assert(r.observations.effectiveWorker.passed);assert.equal(r.workerPlacementAuthorized,false);
+});
+
+// Exact 25 property paths/types from actual40624985052; values below are synthetic, not a claim about native stop values.
+function nativeShapeMachine(){
+ const m=machine();m.config={env:{ENABLE_SUPABASE_PARTNER_DATA:'true',FLY_PROCESS_GROUP:'app',NODE_ENV:'production',PRIMARY_REGION:'iad',RCAP_WORKER_CLAIM_SECONDS:'600',RCAP_WORKER_CONTAINER_DIGEST:'sha256:'+'b'.repeat(64)},init:{},guest:{cpu_kind:'shared',cpus:1,memory_mb:1024},metadata:{fly_flyctl_version:'0.4.0',fly_platform_version:'v2',fly_process_group:'app',fly_release_id:'RELEASE000000001',fly_release_version:'1'},image:'registry.fly.io/legalease-rcap-render-worker:old',restart:{policy:'always'},stop_config:{timeout:'30s',signal:'SIGTERM'}};return m;
+}
+test('actual25 provider fields preserve exact config, validate native stop facts and reject unsafe variants',()=>{
+ const m=nativeShapeMachine(),shape=rollbackConfigShape(m.config);assert.equal(shape.entries.length,25);assert.equal(shape.truncated,false);const c=nonsecretRollbackCapsule(m);assert.deepEqual(JSON.parse(c.bytes).config,m.config);assert.deepEqual(c.stopConfig,{signal:'SIGTERM',timeout:'30s',workerLoopHandlesSignal:true});
+ for(const mutate of [x=>x.config.stop_config.password=secret,x=>x.config.stop_config.signal='SIGTERM;echo',x=>x.config.stop_config.timeout='$(echo secret)',x=>x.config.stop_config.timeout='-30s',x=>x.config.env.FLY_PROCESS_GROUP='app/secret',x=>x.config.env.PRIMARY_REGION='iad;echo',x=>x.config.env.SUPABASE_SERVICE_ROLE_KEY=secret]){const x=nativeShapeMachine();mutate(x);assert.throws(()=>nonsecretRollbackCapsule(x));}
+ const unhandled=nativeShapeMachine();unhandled.config.stop_config.signal='SIGKILL';assert.equal(nonsecretRollbackCapsule(unhandled).stopConfig.workerLoopHandlesSignal,false);
+});
+test('actual25 provider capture exposes validated stop_config without guessing legacy fields or claiming handoff',async()=>{
+ const {result:r,files}=await capture({nativeProviderShape:true});assert.equal(r.status,'READINESS_CAPTURED_REQUIRES_C_REVIEW');assert(files.includes('rollback-config.nonsecret.private.json'));assert.deepEqual(r.machine.stopConfig,{signal:'SIGTERM',timeout:'30s',workerLoopHandlesSignal:true});assert.equal(r.machine.stopConfigSource,'native_config.stop_config');assert.equal(r.machine.killSignal,'SIGTERM');assert.equal(r.machine.killTimeout,'30s');assert.equal(r.handoffProven,false);assert.equal(r.workerPlacementAuthorized,false);assert(r.observations.effectiveWorker.passed);assert.equal(r.observations.queue.transaction_read_only,'on');
 });
