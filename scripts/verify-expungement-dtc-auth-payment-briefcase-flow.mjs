@@ -93,6 +93,23 @@ if (sources.verificationAction && sources.verificationClient) {
     "Negative control failed: Checkout became reachable before explicit protected verification."
   );
 
+  const serverAuthorizationRemoved = {
+    ...sources,
+    verificationClient: sources.verificationClient.replace("commercialActions?.checkoutAllowed === true", "true")
+  };
+  assert(authBriefcaseFlowViolations(serverAuthorizationRemoved).some(message => message.includes("server authorization")),
+    "Negative control failed: removing protected server checkout authorization was not detected.");
+
+  const revisionBindingRemoved = {
+    ...sources,
+    verificationClient: sources.verificationClient.replace(
+      "body: JSON.stringify({ answers, verify: true, expectedRevision })",
+      "body: JSON.stringify({ answers, verify: true })"
+    )
+  };
+  assert(authBriefcaseFlowViolations(revisionBindingRemoved).some(message => message.includes("revision binding")),
+    "Negative control failed: removing the protected verification revision was not detected.");
+
   const directCheckoutRestored = {
     ...sources,
     reviewPage: sources.reviewPage.replace("<PacketVerificationAction", "<ConsumerCheckoutButton")
@@ -196,12 +213,12 @@ function authBriefcaseFlowViolations(input) {
       "Final verification must delegate payment to the protected PacketVerificationAction."
     );
     require(
-      input.verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode })")
+      input.verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode, commercialActions: allowedActions })")
         && input.verificationAction.includes("nextActions.checkout")
         && input.verificationClient.includes("if (!verified)")
-        && input.verificationClient.includes("checkout: !packetReady")
-        && input.verificationClient.includes("body: JSON.stringify({ answers, verify: true })"),
-      "Consumer Checkout must remain gated by explicit protected verification and absent after immutable Ready."
+        && input.verificationClient.includes("checkout: !packetReady && commercialActions?.checkoutAllowed === true")
+        && input.verificationClient.includes("body: JSON.stringify({ answers, verify: true, expectedRevision })"),
+      "Consumer Checkout must remain gated by explicit protected verification, server authorization and revision binding, and absent after immutable Ready."
     );
   } else {
     require(input.briefcaseDetail.includes("Complete packet information") && input.briefcaseDetail.includes("Review for accuracy"), "Exact Briefcase matter must expose packet information and accuracy review.");

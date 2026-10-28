@@ -145,6 +145,19 @@ assert(
   "Negative control failed: omitting the protected sponsored entitlement was not detected."
 );
 
+for (const entry of ["generatePaidConsumerPacket", "getConsumerPacketStatus", "packetGenerationAllowedNow"]) {
+  const start = sources.packetGeneration.indexOf(`export async function ${entry}(`);
+  assert(start >= 0, `Missing sponsored admission entry: ${entry}`);
+  const omitted = {
+    ...sources,
+    packetGeneration: sources.packetGeneration.slice(0, start) + sources.packetGeneration.slice(start).replace(
+      "entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined", "entitlement: undefined"
+    )
+  };
+  assert(approvedCommercialFlowViolations(omitted).some(message => message.includes("sponsored_credit entitlement")),
+    `Negative control failed: ${entry} omitted the protected sponsored entitlement.`);
+}
+
 const sponsoredEntitlementFalsified = {
   ...sources,
   packetGeneration: sources.packetGeneration.replace(
@@ -244,8 +257,8 @@ function approvedCommercialFlowViolations(input) {
     require(input.reviewPage.includes("initiallyVerified={initiallyVerified}") && input.reviewPage.includes('const initiallyVerified = item?.verificationStatus === "verified" && reviewSafety.safe;'), "The review action must derive its initial state from protected verification status and current review safety.");
     require(input.reviewPage.includes('packetReady={item.artifact.status === "ready"}'), "The review action must derive packet readiness from protected artifact readiness.");
     require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentState === "paid" ? "paid" : "consumer"}'), "The review action mode must derive from protected payment state.");
-    require(input.verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode })") && input.verificationAction.includes("nextActions.checkout"), "The verified consumer action must own matter-bound Checkout.");
-    require(input.verificationClient.includes("if (!verified)") && input.verificationClient.includes("checkout: !packetReady"), "No consumer Checkout may exist before explicit verification or after immutable Ready access.");
+    require(input.verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode, commercialActions: allowedActions })") && input.verificationAction.includes("nextActions.checkout"), "The verified consumer action must own matter-bound Checkout through protected server actions.");
+    require(input.verificationClient.includes("if (!verified)") && input.verificationClient.includes("checkout: !packetReady && commercialActions?.checkoutAllowed === true"), "No consumer Checkout may exist before explicit verification, without server authorization, or after immutable Ready access.");
   } else {
     require(input.reviewPage.includes("<ConsumerCheckoutButton"), "The final accuracy review must own matter-bound Checkout until the protected presentation UI is integrated.");
   }
@@ -274,8 +287,8 @@ function approvedCommercialFlowViolations(input) {
     ? input.packetGeneration.slice(sponsoredEntitlementStart, sponsoredEntitlementEnd)
     : "";
   require(
-    (input.packetGeneration.match(/entitlement: sponsorship\.sponsored \? sponsorship\.entitlement : undefined/g) ?? []).length === 2,
-    "Every sponsored generation/status admission must receive the protected sponsored_credit entitlement."
+    (input.packetGeneration.match(/entitlement: sponsorship\.sponsored \? sponsorship\.entitlement : undefined/g) ?? []).length === 3,
+    "Every sponsored generation/status/presentation admission must receive the protected sponsored_credit entitlement."
   );
   require(
     sponsoredEntitlementSource.includes('kind: "sponsored_credit"')
