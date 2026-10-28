@@ -219,7 +219,13 @@ function rpc(name, params, role = null) {
     .join(", ");
   try {
     const rows = rowsFromJson(`select * from ${name}(${args})`, { role });
-    return Promise.resolve({ data: rows, error: null });
+    const value = rows.length === 1 && Object.keys(rows[0]).length === 1 ? Object.values(rows[0])[0] : undefined;
+    // PostgREST returns SQL boolean scalars directly, rather than a table row.
+    const scalarBoolean = typeof value === "boolean" && db.scalar(`select exists (
+      select 1 from pg_proc where pronamespace='public'::regnamespace and proname=${quote(name)}
+      and pronargs=${Object.keys(params ?? {}).length} and prorettype='boolean'::regtype and not proretset
+    )`) === "t";
+    return Promise.resolve({ data: scalarBoolean ? value : rows, error: null });
   } catch (error) {
     return Promise.resolve({
       data: null,

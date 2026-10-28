@@ -12,6 +12,11 @@ name: Consumer launch rails DB acceptance
 
 on:
   workflow_dispatch:
+    inputs:
+      run_sandbox:
+        description: Run the isolated Stripe sandbox and current application payment HTTP regression
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -22,6 +27,7 @@ concurrency:
 
 jobs:
   db-acceptance:
+    if: ${{ !inputs.run_sandbox }}
     name: Runner-local Supabase DB acceptance
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -67,3 +73,35 @@ jobs:
       - name: Stop the disposable stack
         if: always()
         run: supabase stop --no-backup || true
+
+  stripe-sandbox-regression:
+    if: ${{ inputs.run_sandbox }}
+    name: Isolated Stripe sandbox through application webhook and local PostgreSQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Verify unchanged approved application source
+        run: |
+          git fetch --depth=1 origin 4c189b682d0a9225a21b9fdf8a2ebc50500029d6
+          git diff --exit-code 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 -- src supabase data package.json package-lock.json next.config.*
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - name: Run real sandbox Checkout and signed webhook against disposable PostgreSQL
+        env:
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          QA_APPLICATION_SHA: 4c189b682d0a9225a21b9fdf8a2ebc50500029d6
+        run: node scripts/verify-expungement-consumer-payment-http.mjs --stripe-sandbox --write
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: isolated-stripe-sandbox-regression
+          path: |
+            data/rcap-render/consumer-payment-http.json
+            data/rcap-render/stripe-sandbox-regression.json
+          if-no-files-found: warn

@@ -35,8 +35,14 @@ if (!ephemeralPgAvailable()) {
 
 // A Stripe TEST webhook secret. Signatures below are genuinely computed against
 // it by the SDK; nothing here forges a verification result.
-const WEBHOOK_SECRET = "whsec_rcap_consumer_payment_http_test_secret";
-process.env.STRIPE_SECRET_KEY = "sk_test_rcap_consumer_payment_http";
+const sandbox = process.argv.includes("--stripe-sandbox");
+if (sandbox) {
+  assert.match(process.env.HOSTED_STRIPE_TEST_SECRET ?? "", /^sk_test_/, "Sandbox regression refuses live or missing Stripe credentials.");
+  assert.match(process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "", /^whsec_/, "A sandbox signing secret is required.");
+  assert.notEqual(process.env.VERCEL_ENV, "production", "Sandbox regression refuses a production runtime.");
+}
+const WEBHOOK_SECRET = sandbox ? process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET : "whsec_rcap_consumer_payment_http_test_secret";
+process.env.STRIPE_SECRET_KEY = sandbox ? process.env.HOSTED_STRIPE_TEST_SECRET : "sk_test_rcap_consumer_payment_http";
 process.env.STRIPE_WEBHOOK_SECRET = WEBHOOK_SECRET;
 process.env.STRIPE_LEGACY_WEBHOOK_SECRET = WEBHOOK_SECRET;
 process.env.NEXT_PUBLIC_SUPABASE_URL = "http://127.0.0.1:54321";
@@ -1173,6 +1179,65 @@ await runCaseGroup(["P17"], async () => {
 });
 
 // =============================================================================
+if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4"], async () => {
+  assert(!process.argv.includes("--local-publication-fixture"), "Real sandbox regression must use the approved release inputs.");
+  const balance = await stripe.balance.retrieve();
+  assert.equal(balance.livemode, false, "The provider must independently confirm sandbox mode before any order.");
+  const account = await stripe.accounts.retrieve();
+  check("S1", "provider confirms isolated Stripe test mode", balance.livemode === false);
+  const itemId = await createItem(USER_A, "stripe-sandbox");
+  const item = await getBriefcaseItemForWebhook(USER_A, itemId);
+  const { createConsumerPacketCheckout } = await import("../src/lib/expungement-ai/payment-adapter.ts");
+  const returnUrl = "https://example.com/legalease-isolated-qa-complete";
+  let sessionId;
+  try {
+    const checkout = await createConsumerPacketCheckout({ userId: USER_A, item, successUrl: returnUrl, cancelUrl: "https://example.com/legalease-isolated-qa-cancel" });
+    sessionId = checkout.checkoutSessionId;
+    const opened = await stripe.checkout.sessions.retrieve(sessionId);
+    assert.equal(opened.livemode, false);
+    assert.equal(opened.amount_total, 5000);
+    assert.equal(opened.client_reference_id, itemId);
+    assert.equal(db.scalar(`select checkout_session_id from consumer_briefcase_items where id='${itemId}'`), sessionId);
+    check("S2", "real application Checkout is bound to the exact owner matter before return", true);
+    const { completeHostedCheckout } = await import("./rcap-stripe-checkout-browser.mjs");
+    const browser = await completeHostedCheckout({ checkoutUrl: opened.url, expectedReturnUrl: returnUrl });
+    assert.equal(browser.completed, true, JSON.stringify({ humanInteractionRequired: browser.humanInteractionRequired, notes: browser.notes }));
+    const paid = await stripe.checkout.sessions.retrieve(sessionId);
+    assert.equal(paid.livemode, false);
+    assert.equal(paid.payment_status, "paid");
+    assert.equal(paid.amount_total, 5000);
+    let event;
+    for (let attempt = 0; attempt < 20 && !event; attempt++) {
+      const events = await stripe.events.list({ type: "checkout.session.completed", limit: 100 });
+      event = events.data.find(row => row.data.object.id === sessionId);
+      if (!event) await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    assert(event && event.livemode === false, "Unmodified provider completion event is required; never manufacture payment status.");
+    const response = await webhookRoute.POST(signedWebhookRequest(event));
+    assert.equal(response.status, 200);
+    assert.equal(paymentRow(itemId).payment_status, "paid");
+    assert.equal(jobsFor(itemId).length, 1);
+    check("S3", "Stripe test-card payment crosses the signed application webhook and durable queue", true);
+    const replay = await webhookRoute.POST(signedWebhookRequest(event));
+    assert.equal(replay.status, 200);
+    assert.equal(jobsFor(itemId).length, 1);
+    check("S4", "real provider event replay creates no second job or payment", true);
+    fs.writeFileSync(path.join(rootDir, "data/rcap-render/stripe-sandbox-regression.json"), JSON.stringify({
+      applicationSha: process.env.QA_APPLICATION_SHA, accountId: account.id, livemode: false,
+      sessionId, providerEventId: event.id, amountCents: paid.amount_total, currency: paid.currency,
+      providerPaymentStatus: paid.payment_status, realCheckoutBrowserCompleted: true,
+      webhookHttpStatus: response.status, replayHttpStatus: replay.status, durableJobsForMatter: 1,
+      database: "disposable runner-local PostgreSQL", productionServicesUsed: false,
+      limitations: "Provider Checkout through durable job creation; deployed application UI and final worker delivery are separate checks."
+    }, null, 2) + "\n");
+  } finally {
+    if (sessionId) {
+      const remaining = await stripe.checkout.sessions.retrieve(sessionId);
+      if (remaining.status === "open") await stripe.checkout.sessions.expire(sessionId);
+    }
+  }
+});
+
 const passed = results.filter((r) => r.passed).length;
 const report = {
   schemaVersion: "rcap-consumer-payment-http/v1",
