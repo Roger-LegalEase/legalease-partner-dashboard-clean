@@ -3,9 +3,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {requireCurrentReleaseCandidate} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
-import {requireProductionPhaseAuthorization} from './grade-a-launch-control/production-preflight-authorization.mjs';
-import {readQualifiedWorkerPlacementEvidence} from './grade-a-launch-control/qualified-production-database-binding.mjs';
 import {captureQualifiedWorkerReadiness} from './qualified-worker-readonly-capture.mjs';
 const APP='legalease-rcap-render-worker',SOURCE='84a75b6e65dc69e6c371afac44f1284e0debf722',DIGEST='sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1';
 const hash=b=>createHash('sha256').update(b).digest('hex');
@@ -37,6 +34,7 @@ function write(root,name,value,raw=false){
  const directory=path.join(root,'production-worker-evidence'),bytes=raw?value:Buffer.from(JSON.stringify(value,null,2)+'\n');fs.mkdirSync(directory,{recursive:true,mode:0o700});const file=path.join(directory,name),fd=fs.openSync(file,'wx',0o600);try{fs.writeFileSync(fd,bytes);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}assert.equal(hash(fs.readFileSync(file)),hash(bytes));const d=fs.openSync(directory,'r');try{fs.fsyncSync(d);}finally{fs.closeSync(d);}return{path:name,sha256:hash(bytes)};
 }
 export async function verifyQualifiedWorkerTransition({stage,root=process.cwd(),env=process.env,fetchImpl=fetch,capture=captureQualifiedWorkerReadiness}={}){
+ const [{requireCurrentReleaseCandidate},{requireProductionPhaseAuthorization},{readQualifiedWorkerPlacementEvidence}]=await Promise.all([import('./grade-a-launch-control/verify-release-candidate-binding.mjs'),import('./grade-a-launch-control/production-preflight-authorization.mjs'),import('./grade-a-launch-control/qualified-production-database-binding.mjs')]);
  assert(['pre-effect','post-placement'].includes(stage));const candidate=requireCurrentReleaseCandidate(root);requireProductionPhaseAuthorization(candidate,'production_worker_deploy');assert.equal(candidate.workerSourceSha,SOURCE);assert.equal(candidate.workerDigest,DIGEST);assert.equal(env.FLY_APP_NAME,APP);assert.equal(env.RCAP_WORKER_SOURCE_SHA??env.WORKER_SOURCE_SHA,SOURCE);assert.equal(env.RCAP_WORKER_DIGEST??env.WORKER_DIGEST,DIGEST);
  const accepted=readQualifiedWorkerPlacementEvidence(root);assert.deepEqual(candidate.qualifiedWorkerDatabase.acceptedWorkerReadiness,accepted.descriptor);
  let result={schemaVersion:'qualified-worker-'+stage+'/v1',passed:false,stage,automaticRetry:false,automaticRollback:false,activationAuthorized:false};

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "qualified-worker-readonly-readiness/v1",
+  "capturedAt": "2026-10-28T03:49:32.187Z",
+  "app": "legalease-rcap-render-worker",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "prerequisites": {
+    "actualSmokeRunId": 40619590234,
+    "actualDatabaseRunId": 40617912474,
+    "refs": {
+      "contract": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-WORKER-READINESS-SOURCE-CONTRACT.json",
+        "sha256": "eee34ed96c38588909c24a0df18f483d880b92e4f440549df2ceba2c6f59b12c"
+      },
+      "smokeAcceptance": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-406195-SMOKE-ACCEPTANCE.json",
+        "sha256": "12eedb1ba8c7cbe03d21093cb2bb5c50ea8733df76c9c53efc05ef6cc2ed3e6b"
+      },
+      "smoke": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/ACTUAL-406195-smoke.json",
+        "sha256": "9fd7702305a6cea54ed1bfaf88b5d4c6aab2c01846aa5628efa28b4f025397e9"
+      },
+      "databaseAcceptance": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-406179-FINAL-DATABASE-ACCEPTANCE.json",
+        "sha256": "cdd534190abd576171ff6db85c943873e1600ee84e2a5dfad1fbdfa742ac452c"
+      }
+    }
+  },
+  "executionSha": "f7c9aaad0b71bc7a5e2b6f511039132d78006548",
+  "runId": 40628380931,
+  "transport": {
+    "machineInventory": "GET",
+    "processProbe": "POST exec; bounded metadata and zero-row HEAD only",
+    "queue": "POST SQL; BEGIN READ ONLY; API read_only=false; postgres/on required"
+  },
+  "workerMutated": false,
+  "productionDatabaseMutated": false,
+  "customerRowsRead": false,
+  "secretValuesIncluded": false,
+  "compatibilityAccepted": false,
+  "handoffProven": false,
+  "workerPlacementAuthorized": false,
+  "activationAuthorized": false,
+  "observations": {
+    "effectiveWorker": {
+      "schemaVersion": "qualified-worker-effective-binding/v1",
+      "passed": true,
+      "machineId": "d8de5e4f759278",
+      "projectRef": "wwtwtsmywnckfkdaqqeg",
+      "workerPid": 634,
+      "roleProven": true,
+      "queueHeadStatus": 200,
+      "secretValuesIncluded": false,
+      "customerRowsRead": false,
+      "credentialKind": "authenticated_jwt_service_role"
+    },
+    "queue": {
+      "current_user": "postgres",
+      "session_user": "postgres",
+      "transaction_read_only": "on",
+      "queued": 0,
+      "claimed": 0,
+      "rendering": 0,
+      "validating": 0,
+      "live_leases": 0,
+      "expired_leases": 0,
+      "missing_leases": 0,
+      "eligible_queued": 0,
+      "scheduled_queued": 0,
+      "retryable_failed": 0,
+      "terminal_failed": 0,
+      "exposure_group_count": 0,
+      "status_counts": {},
+      "exposed_work": []
+    }
+  },
+  "refusals": [],
+  "machine": {
+    "id": "d8de5e4f759278",
+    "state": "started",
+    "instanceId": "01M609ZC1E1YMKEP4RQXM6HRBK",
+    "imageDigest": "sha256:d419035c8968664ef6d6865bb2942ed92e2fed6beb6c0236d3557dbdf5d88c1e",
+    "immutableImageReference": "registry.fly.io/legalease-rcap-render-worker@sha256:d419035c8968664ef6d6865bb2942ed92e2fed6beb6c0236d3557dbdf5d88c1e",
+    "ociRevision": "84a75b6e65dc69e6c371afac44f1284e0debf722",
+    "exportedDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
+    "restartPolicy": "always",
+    "killSignal": "SIGTERM",
+    "killTimeout": "30s",
+    "memoryMb": 1024,
+    "serviceCount": 0,
+    "stopConfig": {
+      "signal": "SIGTERM",
+      "timeout": "30s",
+      "workerLoopHandlesSignal": true
+    },
+    "stopConfigSource": "native_config.stop_config"
+  },
+  "rollback": {
+    "path": "rollback-config.nonsecret.private.json",
+    "sha256": "9d9ac0ecdd249e8f6b8aad4ad622146571fdda630432f434c39f1569fc416a29",
+    "configSha256": "90795ae85a22b09ed9226c224c8efbf1bf28e34713eb4a0891172b227af2fea1",
+    "durableVerified": true
+  },
+  "machineUnchangedDuringCapture": true,
+  "status": "READINESS_CAPTURED_REQUIRES_C_REVIEW"
+}
