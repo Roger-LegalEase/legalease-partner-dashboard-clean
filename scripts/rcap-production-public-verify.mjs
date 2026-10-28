@@ -56,6 +56,8 @@ const SCREENING_PLAN = [
   [/how did the case end/i, /dismissed|dropped|no-billed|not prosecuted/i],
   [/what kind of charge/i, /^misdemeanor/i],
   [/sound like your situation/i, /^non-conviction expungement for dismissal/i],
+  // C defines this ordinary synthetic fixture as having no program order; no real case inference.
+  [/which program is named in this case.s order or written admission request/i, /^no program order or admission request$/i],
   [/completed everything the court ordered/i, /^yes/i],
   [/how long ago/i, /^1-2 years ago/i]
 ];
