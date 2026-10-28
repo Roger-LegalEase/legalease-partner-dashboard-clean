@@ -29,11 +29,11 @@ test('rollback capsule preserves complete reviewed nonsecret config and refuses 
  const m=machine(),c=nonsecretRollbackCapsule(m);assert.deepEqual(JSON.parse(c.bytes).config,m.config);assert.equal(c.sha256.length,64);assert(c.bytes.toString().includes(origin));
  for(const mutate of [m=>m.config.env.SUPABASE_SERVICE_ROLE_KEY=secret,m=>m.config.env.OTHER_SECRET=secret,m=>m.config.metrics={headers:{Authorization:'Bearer '+secret}},m=>m.config.metrics={apiKey:'opaque-secret-literal'},m=>m.config.metadata.extra=secret,m=>m.config.files=[{raw_value:secret}],m=>m.config.init.exec=['node','-e','console.log(secret)'],m=>m.config.env.SUPABASE_URL='https://user:password@example.supabase.co']){const x=machine();mutate(x);assert.throws(()=>nonsecretRollbackCapsule(x));}
 });
-async function capture({denyExec=false,restrictedRole=false,secretConfig=false,drift=false}={}){
+async function capture({denyExec=false,restrictedRole=false,secretConfig=false,drift=false,unreviewedConfig=false}={}){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'qualified-worker-readonly-')),calls=[];
  try{
   for(const ref of Object.values(READINESS_REFS)){const p=path.join(root,ref.path);fs.mkdirSync(path.dirname(p),{recursive:true});fs.copyFileSync(ref.path,p);}
-  const m=machine();if(secretConfig)m.config.env.SUPABASE_SERVICE_ROLE_KEY=secret;let detail=0;
+  const m=machine();if(unreviewedConfig)m.config.checks={};if(secretConfig)m.config.env.SUPABASE_SERVICE_ROLE_KEY=secret;let detail=0;
   const result=await captureQualifiedWorkerReadiness({root,checkExecution:false,env:{FLY_API_TOKEN:'synthetic-fly-token',SUPABASE_ACCESS_TOKEN:'synthetic-management-token',GITHUB_SHA:'c'.repeat(40),GITHUB_RUN_ID:'12345'},fetchImpl:async(url,o)=>{
    calls.push({url,o});let body;
    if(url.endsWith('/exec')){assert.equal(o.method,'POST');const b=JSON.parse(o.body);assert(Array.isArray(b.command));assert.equal(b.command[0],'node');assert.equal(b.cmd,undefined);assert.equal(b.timeout,15);if(denyExec)return{ok:false,status:403};body={exit_code:0,stdout:JSON.stringify({schemaVersion:'qualified-worker-effective-binding/v1',passed:true,machineId:id,projectRef:project,workerPid:1,roleProven:true,queueHeadStatus:200,credentialKind:'authenticated_secret_key_service_role',secretValuesIncluded:false,customerRowsRead:false})};}
@@ -57,4 +57,20 @@ test('actual prerequisites required and workflow keeps legacy default, explicit 
  assert.equal(readReadinessPrerequisites(process.cwd()).actualSmokeRunId,40619590234);
  assert.throws(()=>readReadinessPrerequisites(os.tmpdir()));
  const w=fs.readFileSync('.github/workflows/rcap-worker-identity-readonly.yml','utf8');assert(w.includes('default: false'));assert(w.includes('SUPABASE_ACCESS_TOKEN'));assert(w.includes('if: always()'));assert(!/npm ci|docker |flyctl deploy|flyctl stop|push:/.test(w));
+});
+
+test('custody diagnostic names only exact guard category and safe field path without relaxing any guard',()=>{
+ const cases=[
+  [m=>m.config.checks={},'unreviewed_config_field','config.checks'],
+  [m=>m.config.metadata.extra='private-value','unreviewed_metadata_field_or_format','config.metadata.extra'],
+  [m=>m.config.env.SUPABASE_SERVICE_ROLE_KEY=secret,'unreviewed_environment_name','config.env.SUPABASE_SERVICE_ROLE_KEY'],
+  [m=>m.config.metrics={headers:{Authorization:'Bearer '+secret}},'literal_credential_field','config.metrics.headers.Authorization'],
+  [m=>m.config[secret]='private-value','unreviewed_config_field','config.<unrecognized_name>'],
+  [m=>m.config.image='private-image-value','image_reference_format','config.image']
+ ];
+ for(const [mutate,category,fieldPath] of cases){const m=machine();mutate(m);assert.throws(()=>nonsecretRollbackCapsule(m),error=>{assert.equal(error.category,category);assert.equal(error.fieldPath,fieldPath);const diagnostic=JSON.stringify({category:error.category,fieldPath:error.fieldPath});for(const value of [secret,'private-value','private-image-value'])assert(!diagnostic.includes(value));return true;});}
+ assert.deepEqual(JSON.parse(nonsecretRollbackCapsule(machine()).bytes).config,machine().config);
+});
+test('custody diagnostic persists failed field while preserving independent binding and queue facts without a capsule',async()=>{
+ const {result:r,files}=await capture({unreviewedConfig:true});assert.equal(r.status,'HOLD_READINESS_INCOMPLETE');assert.deepEqual(r.rollbackCustodyRefusal,{category:'unreviewed_config_field',fieldPath:'config.checks'});assert(r.observations.effectiveWorker.passed);assert.equal(r.observations.queue.current_user,'postgres');assert.equal(r.machineUnchangedDuringCapture,true);assert(!files.includes('rollback-config.nonsecret.private.json'));assert.equal(r.workerPlacementAuthorized,false);assert.equal(r.workerMutated,false);
 });
