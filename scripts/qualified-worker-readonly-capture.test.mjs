@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {inspectEffectiveWorker,effectiveProbeCommand,READINESS_QUEUE_SQL,validateQueueCapture,nonsecretRollbackCapsule,captureQualifiedWorkerReadiness,READINESS_REFS,readReadinessPrerequisites} from './qualified-worker-readonly-capture.mjs';
+import {inspectEffectiveWorker,effectiveProbeCommand,READINESS_QUEUE_SQL,validateQueueCapture,nonsecretRollbackCapsule,captureQualifiedWorkerReadiness,READINESS_REFS,readReadinessPrerequisites,rollbackConfigShape} from './qualified-worker-readonly-capture.mjs';
 const id='d8de5e4f759278',project='wwtwtsmywnckfkdaqqeg',origin='https://'+project+'.supabase.co',secret='sb_secret_SYNTHETIC_WITHHELD_123456';
 function procFixture({key=secret,url=origin,matching=1,workerMachine=id}={}){
  const environment={FLY_MACHINE_ID:workerMachine,NEXT_PUBLIC_SUPABASE_URL:url,SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',SUPABASE_SERVICE_ROLE_KEY:key,ENABLE_SUPABASE_PARTNER_DATA:'true'};
@@ -73,4 +73,15 @@ test('custody diagnostic names only exact guard category and safe field path wit
 });
 test('custody diagnostic persists failed field while preserving independent binding and queue facts without a capsule',async()=>{
  const {result:r,files}=await capture({unreviewedConfig:true});assert.equal(r.status,'HOLD_READINESS_INCOMPLETE');assert.deepEqual(r.rollbackCustodyRefusal,{category:'unreviewed_config_field',fieldPath:'config.checks'});assert(r.observations.effectiveWorker.passed);assert.equal(r.observations.queue.current_user,'postgres');assert.equal(r.machineUnchangedDuringCapture,true);assert(!files.includes('rollback-config.nonsecret.private.json'));assert.equal(r.workerPlacementAuthorized,false);assert.equal(r.workerMutated,false);
+});
+
+test('bounded config shape map includes every refused field type without values or command contents',()=>{
+ const config={checks:{health:{port:1234}},schedule:'private-schedule-value',init:{exec:['private-command-content',secret]},env:{SUPABASE_SERVICE_ROLE_KEY:secret},metadata:{[secret]:'private-value'}};
+ const r=rollbackConfigShape(config),encoded=JSON.stringify(r);assert.equal(r.truncated,false);for(const value of [secret,'private-command-content','private-schedule-value','private-value','1234'])assert(!encoded.includes(value));
+ for(const [fieldPath,jsonType] of [['config.checks','object'],['config.checks.health.port','number'],['config.schedule','string'],['config.init.exec','array'],['config.init.exec.0','string'],['config.env.SUPABASE_SERVICE_ROLE_KEY','string'],['config.metadata.<unrecognized_name>','string']])assert(r.entries.some(e=>e.fieldPath===fieldPath&&e.jsonType===jsonType));
+ const wide=rollbackConfigShape(Object.fromEntries(Array.from({length:200},(_,i)=>['field_'+i,secret])));assert.equal(wide.entries.length,128);assert.equal(wide.truncated,true);assert(!JSON.stringify(wide).includes(secret));
+ const deep=rollbackConfigShape({one:{two:{three:{four:{five:secret}}}}});assert.equal(deep.truncated,true);assert(!deep.entries.some(e=>e.fieldPath.endsWith('.five')));
+});
+test('capture retains complete bounded property shapes on custody refusal without writing raw config',async()=>{
+ const {result:r,files}=await capture({unreviewedConfig:true});assert.equal(r.status,'HOLD_READINESS_INCOMPLETE');assert(r.rollbackConfigShape.entries.some(e=>e.fieldPath==='config.checks'&&e.jsonType==='object'));assert(r.rollbackConfigShape.entries.some(e=>e.fieldPath==='config.env.NODE_ENV'&&e.jsonType==='string'));assert(!JSON.stringify(r.rollbackConfigShape).includes(origin));assert(!files.includes('rollback-config.nonsecret.private.json'));assert(r.observations.effectiveWorker.passed);assert.equal(r.workerPlacementAuthorized,false);
 });
