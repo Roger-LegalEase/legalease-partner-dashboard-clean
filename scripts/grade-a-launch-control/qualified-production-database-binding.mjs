@@ -8,6 +8,7 @@ import {readQualifiedPreflightEvidence,prepareQualifiedWorkerPreflightRecords} f
 import {assertQualifiedWorkerCompatibility,QUALIFIED_FORWARD_APP} from './verify-qualified-worker-forward-binding.mjs';
 import {applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {QUALIFIED_DATABASE_PACKAGE_PATH,readQualifiedDatabasePackage} from '../qualified-production-database-package.mjs';
+import {readQualifiedDatabaseAcceptedFirstCommit} from '../qualified-db-accepted-first-commit.mjs';
 const EVIDENCE='data/rcap-grade-a/launch-control/qualified-release-evidence/';
 const RECORDS=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'].map(n=>'data/rcap-grade-a/launch-control/'+n+'.json');
 const RELEASE_BASE='e49d4fee4d3c082f3be9571f4d3f5d77f5b2f67b';
@@ -16,7 +17,8 @@ const blob=(root,sha,p)=>execFileSync('git',['show',sha+':'+p],{cwd:root,maxBuff
 const hash=b=>createHash('sha256').update(b).digest('hex');
 // This is package technical acceptance; root still requires independent frozen-source/runtime admission.
 export const QUALIFIED_DATABASE_ADMISSION={path:EVIDENCE+'C-WWT-TWO-MIGRATION-TECHNICAL-ACCEPTANCE.json',sha256:'66870fde5677c63a4b2e3c1a051f3e4cd58ef917d954956eec64e3e81121aba0'};
-export const QUALIFIED_DATABASE_PACKAGE_SHA256='dad0cd2218ecf6bc8cb490b156c00909520c9185f5423dd0980b304989cd7239';
+export const QUALIFIED_DATABASE_PACKAGE_SHA256='4a3f5a3b79f99d0eeb1678fcce4cbb363a5b45d2ff864a6d68bd34d08cdfaab4';
+const ORIGINAL_PACKAGE_SHA256='dad0cd2218ecf6bc8cb490b156c00909520c9185f5423dd0980b304989cd7239';
 export const QUALIFIED_DATABASE_NO_EFFECT={path:EVIDENCE+'C-406135-NO-EFFECT-DISPOSITION.json',sha256:'186ee65aa9d932f58bbb8456f3860a03470782649c878b540abfafaf84c45aed'};
 const NO_EFFECT_RESULT={path:EVIDENCE+'ACTUAL-406135-RESULT.json',sha256:'08d89d9285e9f26da49c0b687748c5322d55945aaecc9fe553c401d94d7b5521'};
 export const QUALIFIED_DATABASE_PREREQUISITES={
@@ -41,7 +43,7 @@ export function readQualifiedProductionDatabasePrerequisites(root){
 export function readQualifiedDatabaseTechnicalAdmission(root){
  assert(QUALIFIED_DATABASE_ADMISSION,'Actual C technical package admission is required before any database phase');
  const bytes=fs.readFileSync(path.join(root,QUALIFIED_DATABASE_ADMISSION.path));assert.equal(hash(bytes),QUALIFIED_DATABASE_ADMISSION.sha256);
- const admission=JSON.parse(bytes);assert.equal(admission.schemaVersion,'wwt-two-source-migration-package-independent-technical-acceptance/v1');assert.equal(admission.authority,'CODEX C');assert.equal(admission.accepted,true);assert.equal(admission.databaseWriteAdmitted,false);assert.equal(admission.executionAdmitted,false);assert.equal(admission.projectRef,'wwtwtsmywnckfkdaqqeg');assert.equal(admission.applicationSha,QUALIFIED_FORWARD_APP);assert(Number.isFinite(Date.parse(admission.at))&&Date.parse(admission.at)<=Date.now());assert.equal(admission.packageSha256,QUALIFIED_DATABASE_PACKAGE_SHA256);
+ const admission=JSON.parse(bytes);assert.equal(admission.schemaVersion,'wwt-two-source-migration-package-independent-technical-acceptance/v1');assert.equal(admission.authority,'CODEX C');assert.equal(admission.accepted,true);assert.equal(admission.databaseWriteAdmitted,false);assert.equal(admission.executionAdmitted,false);assert.equal(admission.projectRef,'wwtwtsmywnckfkdaqqeg');assert.equal(admission.applicationSha,QUALIFIED_FORWARD_APP);assert(Number.isFinite(Date.parse(admission.at))&&Date.parse(admission.at)<=Date.now());assert.equal(admission.packageSha256,ORIGINAL_PACKAGE_SHA256);
  return admission;
 }
 export function readQualifiedDatabaseNoEffectRearm(root){
@@ -51,7 +53,7 @@ export function readQualifiedDatabaseNoEffectRearm(root){
  for(const key of ['databaseMutationRequestSent','boundWireCreated','databaseWriteOccurredThroughThisRun','automaticRetryAdmitted','redispatchUnchangedControllerAdmitted'])assert.equal(c[key],false);
  assert.equal(c.transactionsAttempted,0);assert.equal(c.transactionsCommitted,0);assert.equal(c.actualStage,'before_transaction_1');assert.equal(c.rawResult.sha256,NO_EFFECT_RESULT.sha256);assert.equal(c.artifact.serverDigestVerified,true);assert.equal(c.artifact.independentlyDownloadedByC,true);
  assert(Number.isFinite(Date.parse(c.at))&&Date.parse(c.at)<=Date.now());
- assert.equal(result.schemaVersion,'qualified-production-database-execution/v1');assert.equal(result.status,'HOLD_DATABASE_RECONCILIATION_NO_RETRY');assert.equal(result.stage,c.actualStage);assert.equal(result.attemptedTransactions,0);assert.equal(result.committedTransactions,0);assert.equal(result.runId,c.runId);assert.equal(result.workflowExecutionSha,c.executionSha);assert.equal(result.releaseTuple.toolsSha,c.toolsSha);assert.equal(result.actualTargetProjectRef,'wwtwtsmywnckfkdaqqeg');assert.equal(result.packageSha256,QUALIFIED_DATABASE_PACKAGE_SHA256);
+ assert.equal(result.schemaVersion,'qualified-production-database-execution/v1');assert.equal(result.status,'HOLD_DATABASE_RECONCILIATION_NO_RETRY');assert.equal(result.stage,c.actualStage);assert.equal(result.attemptedTransactions,0);assert.equal(result.committedTransactions,0);assert.equal(result.runId,c.runId);assert.equal(result.workflowExecutionSha,c.executionSha);assert.equal(result.releaseTuple.toolsSha,c.toolsSha);assert.equal(result.actualTargetProjectRef,'wwtwtsmywnckfkdaqqeg');assert.equal(result.packageSha256,ORIGINAL_PACKAGE_SHA256);
  assert.equal(result.transactions.length,2);for(const t of result.transactions){assert.equal(t.outcome,'not_attempted');assert.equal(t.wireSha256,undefined);assert.equal(t.nativeReceipt,undefined);}
  return {disposition:QUALIFIED_DATABASE_NO_EFFECT,result:NO_EFFECT_RESULT,at:c.at,runId:c.runId,jobId:c.jobId,executionSha:c.executionSha,toolsSha:c.toolsSha,artifactId:c.artifact.id,artifactSha256:c.artifact.zipSha256};
 }
@@ -59,15 +61,16 @@ export function readQualifiedDatabaseNoEffectRearm(root){
 export function prepareQualifiedDatabaseRecords(root,{toolsSha,releaseBaseSha}){
  assert.equal(releaseBaseSha,RELEASE_BASE);assert.match(toolsSha??'',/^[a-f0-9]{40}$/);git(root,['merge-base','--is-ancestor',releaseBaseSha,toolsSha]);
  const rearm=readQualifiedDatabaseNoEffectRearm(root);assert.notEqual(toolsSha,rearm.toolsSha,'Prior tools cannot be rearmed unchanged');assert.notEqual(toolsSha,rearm.executionSha,'Prior controller cannot be reused as corrected tools');
+ const priorAcceptedCommit=readQualifiedDatabaseAcceptedFirstCommit(root);assert.notEqual(toolsSha,priorAcceptedCommit.toolsSha);assert.notEqual(toolsSha,priorAcceptedCommit.executionSha);
  const admission=readQualifiedDatabaseTechnicalAdmission(root),prerequisites=readQualifiedProductionDatabasePrerequisites(root),source=readQualifiedDatabasePackage(root,QUALIFIED_DATABASE_PACKAGE_SHA256);
- assert.equal(source.manifest.workerSourceSha,prerequisites.identity.source);assert.equal(source.manifest.workerDigest,prerequisites.identity.digest);assert.equal(admission.workerSourceSha,source.manifest.workerSourceSha);assert.equal(admission.workerDigest,source.manifest.workerDigest);assert.equal(admission.beforeStateSha256,source.manifest.beforeStateSha256);assert.equal(admission.comparisonModule.sha256,source.manifest.comparisonModule.sha256);
+ assert.equal(source.manifestSha256,priorAcceptedCommit.correctedPackageSha256);assert.equal(source.manifest.workerSourceSha,prerequisites.identity.source);assert.equal(source.manifest.workerDigest,prerequisites.identity.digest);assert.equal(admission.workerSourceSha,source.manifest.workerSourceSha);assert.equal(admission.workerDigest,source.manifest.workerDigest);assert.equal(admission.beforeStateSha256,source.manifest.beforeStateSha256);assert.equal(admission.comparisonModule.sha256,'833cf0955ab7d7e9371829a9f3973fd11e3ed6ca0c65925d74a898b25f7db07c');assert.equal(source.manifest.comparisonModule.sha256,'c676bcc49e827cd76fb24953bad3fc92e8d03de40a9e2309f2b6c05c0d3836e2');assert.equal(source.manifest.supersedes.packageSha256,admission.packageSha256);
  const original=prepareQualifiedWorkerPreflightRecords(root,{toolsSha,releaseBaseSha:'9c120d99f800c1fcf2ccf5c4b4e5b3eedd75a291'}),records={};
- const profile={schemaVersion:'qualified-production-two-migration-binding/v1',phase:'forward_chain_migrate',releaseBaseSha,package:{path:QUALIFIED_DATABASE_PACKAGE_PATH,sha256:QUALIFIED_DATABASE_PACKAGE_SHA256},technicalAdmission:QUALIFIED_DATABASE_ADMISSION,technicalAdmissionAt:admission.at,priorNoEffectRearm:rearm,prerequisites:QUALIFIED_DATABASE_PREREQUISITES};
+ const profile={schemaVersion:'qualified-production-two-migration-binding/v1',phase:'forward_chain_migrate',releaseBaseSha,package:{path:QUALIFIED_DATABASE_PACKAGE_PATH,sha256:QUALIFIED_DATABASE_PACKAGE_SHA256},technicalAdmission:QUALIFIED_DATABASE_ADMISSION,correctedTechnicalAdmission:priorAcceptedCommit.correctedTechnicalAdmission,technicalAdmissionAt:admission.at,priorNoEffectRearm:rearm,priorAcceptedCommit,prerequisites:QUALIFIED_DATABASE_PREREQUISITES};
  for(const rel of RECORDS){
   const before=blob(root,releaseBaseSha,rel),record={...original[rel]};delete record.qualifiedWorkerPreflight;
-  records[rel]={...record,status:'QUALIFIED_PRODUCTION_DATABASE_ONLY',qualifiedWorkerDatabase:profile,
+  records[rel]={...record,status:'QUALIFIED_PRODUCTION_DATABASE_REMAINING_TRANSACTION_ONLY',qualifiedWorkerDatabase:profile,
    productionAuthorization:{...record.productionAuthorization,recordedAt:prerequisites.authority.nativeOwner.timestamp,phases:['forward_chain_migrate'],stagedDeploymentId:prerequisites.preflight.deployments.stagedProduction,rollbackDeploymentId:prerequisites.preflight.deployments.rollbackTarget,
-    authority:QUALIFIED_DATABASE_PREREQUISITES.authority,note:'Derived from retained owner orders and exact C package technical admission. Only the two unchanged source migrations through their separately pinned transaction-local guarded payloads. No retry or inverse; smoke, worker placement and activation remain held.'},
+    authority:QUALIFIED_DATABASE_PREREQUISITES.authority,note:'Derived from retained owner orders and exact C package technical admission. Only remaining canonical index1 after the independently accepted actual index0 commit, with exact fresh post1 CAS and original transaction-local guards. No first replay, retry or inverse; smoke, worker placement and activation remain held.'},
    consumedPreflight:{runId:40606269080,receipt:QUALIFIED_DATABASE_PREREQUISITES.preflight,acceptance:QUALIFIED_DATABASE_PREREQUISITES.acceptance},supersededRecord:JSON.parse(before),supersededRecordSha256:hash(before)};
  }
  return records;

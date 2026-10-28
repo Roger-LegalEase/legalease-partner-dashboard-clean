@@ -29,7 +29,7 @@
   "beforeStateSha256": "1e4fa54085fd76e91c2edb7fe68a97fd7a6575b01b9068c2d1031c3cab2acf2c",
   "comparisonModule": {
     "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/wwt-package-comparison.mjs",
-    "sha256": "833cf0955ab7d7e9371829a9f3973fd11e3ed6ca0c65925d74a898b25f7db07c",
+    "sha256": "c676bcc49e827cd76fb24953bad3fc92e8d03de40a9e2309f2b6c05c0d3836e2",
     "exports": [
       "flatten",
       "normalize",
@@ -458,9 +458,9 @@
     "Optional before-use recovery performs fail-closed existence/xmin checks on affected funding/jobs/newregistry/capacity without returning customer row contents; no such check executed by B."
   ],
   "supersedes": {
-    "packageSha256": "79e932000cfaa8a84cbcca8067e662a664bb9fafd0455ac873c6ff2982f34871",
-    "preservedAt": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/superseded-79e93200",
-    "reason": "Actual186e selector exposes existingcapacity relation only after documentnullable. JS+SQL now accept ONLY single new registry projection exactlyequal verifiedcorepostrelation; no newobject allowance."
+    "packageSha256": "dad0cd2218ecf6bc8cb490b156c00909520c9185f5423dd0980b304989cd7239",
+    "preservedAt": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/superseded-dad0cd22",
+    "reason": "Actual406158 core presence rows have name/present/overloads, not signature. One JS predicate now requires typeof signature string before helper-signature comparison. SQL native guard is already null-safe; wire/SQL/normalizer/readers/source expectations unchanged."
   },
   "capacityProjectionCorrection": {
     "selectorSource": "unchanged186e line15",
@@ -471,5 +471,20 @@
       "sha256": "594bfe8f76df43e1522ae5644c56568dca3c12525292903497a8ec5c7a218f72"
     },
     "unrelatedExtrasStillFail": true
+  },
+  "priorPackageLineage": {
+    "packageSha256": "79e932000cfaa8a84cbcca8067e662a664bb9fafd0455ac873c6ff2982f34871",
+    "preservedAt": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/superseded-79e93200",
+    "reason": "Actual186e selector exposes existingcapacity relation only after documentnullable. JS+SQL now accept ONLY single new registry projection exactlyequal verifiedcorepostrelation; no newobject allowance."
+  },
+  "recordShapeCorrection": {
+    "actualRun": 40615885933,
+    "actualComparisonEvidence": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-406158-postcommit-comparator-20261028/ACTUAL-POSTCOMMIT-COMPARISON-RESULT.json",
+      "sha256": "05d03c81f3f36e1e232da7d4a883eee8a19b60fb80c3cd8d97d3a5676bb69ed9"
+    },
+    "scope": "JS one-predicate shape check only; original core presence rows still fully compared in final preservation equality",
+    "SQLAndWireTemplatesUnchanged": true,
+    "noTransaction1ReplayAuthority": true
   }
 }

@@ -5,14 +5,17 @@ import {hash,executeQualifiedDatabaseTransactions} from './qualified-production-
 import {loadQualifiedDatabasePackage} from './qualified-production-database-package.mjs';
 import {requireProductionMigrationRelease} from './rcap-production-migration-contract.mjs';
 import {assertForwardSingleAttempt} from './grade-a-launch-control/forward-production-single-attempt.mjs';
+import {readQualifiedDatabaseAcceptedFirstCommit} from './qualified-db-accepted-first-commit.mjs';
 const PROJECT='wwtwtsmywnckfkdaqqeg',API='https://api.supabase.com/v1/projects/'+PROJECT;
 export async function runQualifiedProductionDatabase({env,rootDir,fetchImpl,release,evidenceDir}){
  assert.equal(env.RCAP_PRODUCTION_PHASE,'forward_chain_migrate');assert.equal(release.productionProjectRef,PROJECT);assert.ok(env.SUPABASE_ACCESS_TOKEN?.trim());
  // This repeats the current binding/phase gate before loading executable package components.
  requireProductionMigrationRelease(rootDir,env);
  const source=await loadQualifiedDatabasePackage(rootDir,release.qualifiedWorkerDatabase.package.sha256),{comparison}=source;
+ const priorAcceptedCommit=readQualifiedDatabaseAcceptedFirstCommit(rootDir);
+ assert.deepEqual(release.qualifiedWorkerDatabase.priorAcceptedCommit,priorAcceptedCommit);
  const output=path.join(evidenceDir,'qualified-database-'+env.GITHUB_RUN_ID);fs.mkdirSync(output,{mode:0o700});
- let sequence=0,requestSequence=0;const snapshots=[];
+ let sequence=0;const snapshots=[];
  const write=(name,value,raw=false)=>{
   assert.equal(path.basename(name),name);const file=path.join(output,name),bytes=raw?Buffer.from(value):Buffer.from(JSON.stringify(value)+'\n');
   const fd=fs.openSync(file,'wx',0o600);try{fs.writeFileSync(fd,bytes);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
@@ -26,7 +29,7 @@ export async function runQualifiedProductionDatabase({env,rootDir,fetchImpl,rele
   assert.ok([200,201].includes(response.status),'Management query did not return a successful transaction response');
   const rows=JSON.parse(bytes);assert(Array.isArray(rows));return rows;
  };
- const result=await executeQualifiedDatabaseTransactions({transactions:source.transactions,
+ const result=await executeQualifiedDatabaseTransactions({transactions:source.transactions,priorAcceptedCommit,
   admit:async()=>{
    requireProductionMigrationRelease(rootDir,env);const inventory=await assertForwardSingleAttempt(release,{env,fetchImpl});if(inventory)write('native-attempt-accounting.json',inventory);
    const response=await fetchImpl(API,{method:'GET',headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN},redirect:'error',signal:AbortSignal.timeout(20000)});
@@ -41,7 +44,7 @@ export async function runQualifiedProductionDatabase({env,rootDir,fetchImpl,rele
   assertState:async(index,snapshot)=>{
    comparison.requireReadOnlyCapture(snapshot);const actual=comparison.stateSha256(snapshot);
    if(snapshots[index])assert.equal(actual,comparison.stateSha256(snapshots[index]),'Immediate catalog differs from verified state');
-   else if(index===0){assert.equal(actual,source.manifest.beforeStateSha256,'Current WWT preimage differs from admitted capture');snapshots[0]=snapshot;}
+   else if(index===1){assert.equal(actual,priorAcceptedCommit.acceptedPoststateSha256,'Current WWT preimage differs from accepted actual transaction-one poststate');snapshots[1]=snapshot;}
    else{
     assert(snapshots[index-1]);const verified=comparison.compareTransition({index:index-1,before:snapshots[index-1],after:snapshot,effects:source.effects});snapshots[index]=snapshot;
     write('verified-poststate-'+index+'.json',verified);return verified;
@@ -55,8 +58,9 @@ export async function runQualifiedProductionDatabase({env,rootDir,fetchImpl,rele
    write('transaction-'+(index+1)+'.wire-intent.json',{...custody,canonicalSha256:wire.canonicalSha256,beforeStateSha256:wire.beforeStateSha256,actualTargetProjectRef:PROJECT});
    return {...wire,wirePath:custody.path};
   },
-  apply:async wireSql=>{
-   const index=requestSequence++,rows=await query(wireSql,'transaction-'+(index+1),false),receipts=rows.filter(row=>row?.wwt_schema_operation_receipt);
+  apply:async(wireSql,{index})=>{
+   assert.equal(index,1,'Only the remaining canonical transaction may execute');
+   const rows=await query(wireSql,'transaction-'+(index+1),false),receipts=rows.filter(row=>row?.wwt_schema_operation_receipt);
    assert.equal(receipts.length,1,'Exactly one native guarded SQL receipt required');return receipts[0].wwt_schema_operation_receipt;
   },
   persist:async journal=>{write('checkpoint-'+String(++sequence).padStart(3,'0')+'.json',journal);},

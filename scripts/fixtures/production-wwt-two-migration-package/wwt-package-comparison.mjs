@@ -58,7 +58,7 @@ export function compareTransition({index,before,after,effects}){
   });
   for(const key of ['requested_relation_presence','requested_function_presence','planned_existing_update_hashes'])if(a[scope][key])masked[scope][key]=a[scope][key].map(rec=>{
    if(index===0&&key==='requested_relation_presence'&&rec.name==='ordinary_sponsored_packet_routes'){assert.equal(rec.kind,'r');assert.equal(rec.present,true);const old=b[scope][key].find(x=>x.name===rec.name);equal(omit(rec,['kind','present']),omit(old,['kind','present']));return old;}
-   if(index===0&&key==='requested_function_presence'&&sig(rec)==='public.sponsored_packet_route_for_source(text,uuid,uuid,uuid)'){assert.equal(rec.present,true);const old=b[scope][key].find(x=>x.signature===rec.signature);equal(omit(rec,['present']),omit(old,['present']));return old;}
+   if(index===0&&key==='requested_function_presence'&&typeof rec.signature==='string'&&sig(rec)==='public.sponsored_packet_route_for_source(text,uuid,uuid,uuid)'){assert.equal(rec.present,true);const old=b[scope][key].find(x=>x.signature===rec.signature);equal(omit(rec,['present']),omit(old,['present']));return old;}
    if(index===1&&key==='planned_existing_update_hashes'&&e.functions[sig(rec)]){assert.equal(rec.definition_sha256,e.functions[sig(rec)].definitionSha256);assert.equal(rec.body_md5,e.functions[sig(rec)].bodyMd5);const old=b[scope][key].find(x=>x.signature===rec.signature);equal(omit(rec,['definition_sha256','body_md5']),omit(old,['definition_sha256','body_md5']));return old;}
    return rec;
   });

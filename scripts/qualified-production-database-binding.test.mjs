@@ -9,8 +9,8 @@ import {requireQualifiedDatabasePhase} from './grade-a-launch-control/qualified-
 import {QUALIFIED_DATABASE_PACKAGE_PATH,readQualifiedDatabasePackage} from './qualified-production-database-package.mjs';
 const root=process.cwd(),head=()=>execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),file='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',candidate=()=>JSON.parse(fs.readFileSync(file));
 const alter=(file,change,check)=>{const original=fs.readFileSync(file);try{fs.writeFileSync(file,change(original));check();}finally{fs.writeFileSync(file,original);}};
-test('actual C66870 acceptance and DAD0 package are required source prerequisites, with no native postimage claimed',()=>{
- const c=readQualifiedDatabaseTechnicalAdmission(root),p=readQualifiedDatabasePackage(root,QUALIFIED_DATABASE_PACKAGE_SHA256);assert.equal(c.accepted,true);assert.equal(c.executionAdmitted,false);assert.equal(c.packageSha256,QUALIFIED_DATABASE_PACKAGE_SHA256);assert.equal(p.manifest.beforeStateSha256,c.beforeStateSha256);assert.equal(p.transactions[1].descriptor.beforeStateSha256,null);
+test('original C66870 acceptance and corrected package lineage are required source prerequisites, with no native postimage claimed',()=>{
+ const c=readQualifiedDatabaseTechnicalAdmission(root),p=readQualifiedDatabasePackage(root,QUALIFIED_DATABASE_PACKAGE_SHA256);assert.equal(c.accepted,true);assert.equal(c.executionAdmitted,false);assert.equal(c.packageSha256,p.manifest.supersedes.packageSha256);assert.equal(p.manifest.beforeStateSha256,c.beforeStateSha256);assert.equal(p.transactions[1].descriptor.beforeStateSha256,null);
  alter(QUALIFIED_DATABASE_ADMISSION.path,()=>Buffer.from('{}'),()=>assert.throws(()=>readQualifiedDatabaseTechnicalAdmission(root)));
 });
 test('pure generator preserves actual consumed e49d records and only derives the two-migration phase',()=>{
