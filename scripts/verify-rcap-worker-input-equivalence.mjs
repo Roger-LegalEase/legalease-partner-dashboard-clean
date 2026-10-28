@@ -21,6 +21,7 @@
 // at runtime is a different question and not this contract's.
 
 import path from "node:path";
+import fs from "node:fs";
 import process from "node:process";
 import { createWorkerInputPlan } from "./rcap-hosted-acceptance-worker-input-plan.mjs";
 
@@ -57,6 +58,19 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // `reuse` requires equivalence; `report` prints the answer and never fails on
   // drift, for the measurement steps that record a rebuild rather than refuse it.
   const mode = flag("mode", "reuse");
+  // The frozen public dispatcher invokes this CLI after its mandatory current gate.
+  // Qualified reuse consumes that exact phase proof; canonical equivalence stays false.
+  if (mode === "reuse" && process.env.RCAP_PRODUCTION_PHASE === "public_verify") {
+    const candidatePath = path.join(rootDir, 'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json');
+    const candidate = JSON.parse(fs.readFileSync(candidatePath, 'utf8'));
+    if (candidate.qualifiedWorkerDatabase?.phase === 'public_verify') {
+      const {requireProductionMigrationRelease} = await import('./rcap-production-migration-contract.mjs');
+      const admitted = requireProductionMigrationRelease(rootDir, process.env);
+      if (base !== admitted.workerSourceSha || head !== admitted.toolsSha) throw new Error('Qualified public worker reuse tuple mismatch');
+      console.log('Exact qualified public verification worker reuse accepted; canonical source equivalence remains false.');
+      process.exit(0);
+    }
+  }
   let result;
   try {
     result = workerInputEquivalence(rootDir, base, head);
