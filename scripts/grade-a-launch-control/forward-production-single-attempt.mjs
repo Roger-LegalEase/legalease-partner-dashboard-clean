@@ -9,15 +9,23 @@ export async function assertForwardSingleAttempt(candidate,{env=process.env,fetc
  const base='https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean';
  async function get(p){const r=await fetchImpl(base+p,{method:'GET',headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'},redirect:'error',signal:AbortSignal.timeout(30000)});assert(r.ok,'native attempt inventory GET failed');return r.json();}
  const current=await get('/actions/runs/'+runId);assert.equal(current.id,runId);assert.equal(current.head_sha,env.GITHUB_SHA);assert.equal(current.run_attempt,1);assert.equal(current.event,'workflow_dispatch');assert.equal(current.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');assert.equal(current.head_branch,'captain-release');assert.equal(current.repository.full_name.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');
- // GitHub created_at is second-granular; include the entire approval second.
+ const rearm=qualified?.priorNoEffectRearm;let accounted=false;
+ if(rearm){assert.equal(candidate.toolsSha===rearm.toolsSha||candidate.toolsSha===rearm.executionSha,false,'New corrected tools required');assert.notEqual(current.head_sha,rearm.executionSha,'Prior controller cannot be redispatched');assert.ok(Date.parse(current.created_at)>=Math.ceil(Date.parse(rearm.at)/1000)*1000,'Current native run must follow actual C no-effect disposition');}
+ const finish=()=>{if(!rearm)return;assert(accounted,'Exact accepted no-effect attempt must remain accounted in original inventory');return{originalTechnicalAdmissionAt:qualified.technicalAdmissionAt,currentRunId:runId,workflowExecutionSha:current.head_sha,knownAttempts:[{classification:'KNOWN_ACCEPTED_NO_EFFECT',runId:rearm.runId,jobId:rearm.jobId,stepNumber:20,priorControllerSha:rearm.executionSha,priorToolsSha:rearm.toolsSha,disposition:rearm.disposition,actualResult:rearm.result,artifactId:rearm.artifactId,artifactSha256:rearm.artifactSha256}],rearmNotBefore:rearm.at};};
+ // GitHub created_at is second-granular; include the entire original approval second.
  const after=Math.floor(Date.parse(qualified?qualified.technicalAdmissionAt:candidate.forwardProduction.owner.recordedAt)/1000)*1000;assert(Number.isFinite(after));
  for(let page=1;page<=100;page++){
   const inventory=await get('/actions/workflows/rcap-f1-ephemeral-staging.yml/runs?event=workflow_dispatch&per_page=100&page='+page);assert(Array.isArray(inventory.workflow_runs));
   for(const run of inventory.workflow_runs){if(run.id===runId||Date.parse(run.created_at)<after)continue;assert(run.id<runId,'another later native dispatch exists; stop');let jobPage=1;
-   while(jobPage<=100){const jobs=await get('/actions/runs/'+run.id+'/jobs?per_page=100&page='+jobPage);assert(Array.isArray(jobs.jobs));for(const job of jobs.jobs)for(const s of job.steps??[])if(s.name===step&&s.conclusion!=='skipped'){assert(s.status==='queued'&&s.conclusion===null,'owner-authorized phase already attempted, running or failed; explicit new decision required');}
+   while(jobPage<=100){const jobs=await get('/actions/runs/'+run.id+'/jobs?per_page=100&page='+jobPage);assert(Array.isArray(jobs.jobs));for(const job of jobs.jobs)for(const s of job.steps??[])if(s.name===step&&s.conclusion!=='skipped'){
+     if(rearm&&run.id===rearm.runId){
+      assert.equal(run.head_sha,rearm.executionSha);assert.equal(run.run_attempt,1);assert.equal(run.event,'workflow_dispatch');assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');assert.equal(run.head_branch,'captain-release');assert.equal(run.repository?.full_name?.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');assert.equal(run.status,'completed');assert.equal(run.conclusion,'failure');assert.ok(Date.parse(run.created_at)<Date.parse(rearm.at));
+      assert.equal(job.id,rearm.jobId);assert.equal(s.number,20);assert.equal(s.status,'completed');assert.equal(s.conclusion,'failure');accounted=true;
+     }else assert(s.status==='queued'&&s.conclusion===null,'owner-authorized phase already attempted, running or failed; explicit new decision required');
+    }
     if(jobs.jobs.length<100)break;jobPage++;}assert(jobPage<=100,'complete native job inventory required');
   }
-  if(inventory.workflow_runs.length<100||inventory.workflow_runs.every(r=>Date.parse(r.created_at)<after))return;
+  if(inventory.workflow_runs.length<100||inventory.workflow_runs.every(r=>Date.parse(r.created_at)<after))return finish();
  }
  throw Error('complete native attempt inventory required');
 }

@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "qualified-production-migration-actual-readonly-actor-stop-independent-disposition/v1",
+  "authority": "CODEX C",
+  "at": "2026-10-28T01:18:06.500367+00:00",
+  "decision": "ACCEPT_ACTUAL_40613540061_ZERO_WIRES_ZERO_TRANSACTIONS_READONLY_ACTOR_MISMATCH_STOP",
+  "accepted": true,
+  "runId": 40613540061,
+  "jobId": 122570596879,
+  "executionSha": "f55de37acde2069f77b2b0891a555249e9f25ec3",
+  "toolsSha": "be8adb541166e356c4d0cf9039fa1e2b956b3932",
+  "consumedAdmissionSha256": "a381bc77dff90fb9510dd954d1872503c976fae52479b6571a7094a89b8bda52",
+  "admissionConsumed": true,
+  "artifact": {
+    "id": 12784655990,
+    "zipPath": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406135-migration-artifact/artifact.zip",
+    "zipSha256": "5ce07daf1e393a2d45f55ca2b6700155a3fe3a57b7a001fa8b30b7ffd2bdd7a6",
+    "serverDigestVerified": true,
+    "fileCount": 14,
+    "independentlyDownloadedByC": true
+  },
+  "rawResult": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406135-migration-artifact/extracted/qualified-database-40613540061/result.json",
+    "sha256": "08d89d9285e9f26da49c0b687748c5322d55945aaecc9fe553c401d94d7b5521"
+  },
+  "actualStatus": "HOLD_DATABASE_RECONCILIATION_NO_RETRY",
+  "actualStage": "before_transaction_1",
+  "databaseMutationRequestSent": false,
+  "transactionsAttempted": 0,
+  "transactionsCommitted": 0,
+  "boundWireCreated": false,
+  "databaseWriteOccurredThroughThisRun": false,
+  "actualReadonlyTransportContext": {
+    "core": {
+      "current_user": "supabase_read_only_user",
+      "session_user": "supabase_read_only_user",
+      "transaction_read_only": "on",
+      "search_path": "\"$user\", public"
+    },
+    "fulfillment": {
+      "current_user": "supabase_read_only_user",
+      "session_user": "supabase_read_only_user",
+      "transaction_read_only": "on",
+      "search_path": "\"$user\", public"
+    },
+    "ordinaryRegistry": {
+      "current_user": "supabase_read_only_user",
+      "session_user": "supabase_read_only_user",
+      "transaction_read_only": "on",
+      "search_path": "\"$user\", public"
+    }
+  },
+  "exactFailureBoundary": "Comparison requireReadOnlyCapture rejects current_user/session_user before native-catalog save or baseline state hash comparison; this is not evidence of actual schema migration failure or database drift.",
+  "independentFiniteComparison": {
+    "normalizer": "Accepted833cf unchanged",
+    "differenceCount": 15,
+    "differences": [
+      "current_user and session_user postgres -> supabase_read_only_user in three scopes (6 values)",
+      "search_path differs in all three scopes (3 values)",
+      "Six core DDL event trigger regprocedure function names become extensions-qualified (6 values)"
+    ],
+    "otherCatalogDifferencesObserved": 0,
+    "nativePostimageClaim": false
+  },
+  "correctionCriterion": {
+    "owner": "F with B exact transport-context analysis",
+    "criterion": "Match accepted authenticated postgres principal and catalog rendering context without weakening any role, source hash, guard or preservation check.",
+    "reviewedSafeApproach": "Management API read_only:false/default may be used only with the exact independently pinned three metadata SQL strings which each own BEGIN READ ONLY ... COMMIT. SQL transaction remains read-only; neither the parameter nor this disposition permits mutable metadata-probe SQL. Explicitly account for current search_path/rendering differences rather than assuming actor-only fix guarantees equality.",
+    "preserve": [
+      "Keep exact canonical SQL/wire/package source and baseline semantics.",
+      "No actor exclusion from normalizer, fake postgres label, guessed after hash, blind baseline rebase or disabled guard.",
+      "Validate authenticated target/principal/read-only transaction/current search_path and actual catalog values before any guarded mutation.",
+      "No SQL recovery/inverse needed; both transactions remain unattempted."
+    ]
+  },
+  "evidenceFilesSha256": {
+    "before_transaction_1-ordinaryRegistry.response.private.json": "ceb436ecc5ab1a14e3f48d79e08699141d0b9b0239a0f75edcdadec0a0c31c34",
+    "actual-project-identity.json": "9ef857c49717bdcd21eed6438ffc68a15a9c6ce3485e4b432a2c5e2974323701",
+    "checkpoint-002.json": "943210bb934780863c759ae050742fa62d8765af0fb7e78eabb0b75c094cffe4",
+    "result.json": "08d89d9285e9f26da49c0b687748c5322d55945aaecc9fe553c401d94d7b5521",
+    "before_transaction_1-fulfillment.http.json": "32cead2dda7a1a7ca7cc216436454fa1347e4b07cffdb10c360616bcf338a83a",
+    "before_transaction_1-core.request.private.json": "5816a6138ed38b8e336b50052e3843cfb5607dfaafe349ec84a0f036008d430b",
+    "checkpoint-001.json": "9c51aa2ae8bf8f5bde153dd89daac0e89461d3500f94c4927b5b8e595b3702ef",
+    "before_transaction_1-core.response.private.json": "b33acb688fa749c66a8c9039f0f2b0a6e0e934e72115dcaf0abdda6b8502c050",
+    "before_transaction_1-core.http.json": "c8675227307da5a854dfe69702c080e781b7c0135558c3545c9cd1b9d46da4c5",
+    "before_transaction_1-ordinaryRegistry.http.json": "dff6c8ecd8404d8d6d89417824ea511407d92af230a13df2771369b96a1fdcbd",
+    "before_transaction_1-fulfillment.request.private.json": "c51f1dd8c1a778a4998e9a87ea2091632a4d235fdf0fbdfa5b684a989f077d8b",
+    "before_transaction_1-fulfillment.response.private.json": "1f5dd641ebfccc78052353cf3ca13a49f6524a5abc57a710ccb8432c0c3a8595",
+    "before_transaction_1-ordinaryRegistry.request.private.json": "94293ec6b842a06e96a49edfa6128d4951ab8ae48604ae8f4158da289ccb866c"
+  },
+  "automaticRetryAdmitted": false,
+  "redispatchUnchangedControllerAdmitted": false,
+  "nextOwner": "F return minimal exact transport correction and focused actual-context/affected-gate evidence; C source/controller technical admission under retained owner authority. No broad reconciliation or new business approval.",
+  "freshBusinessApprovalRequired": false,
+  "smokeAdmitted": false,
+  "workerPlacementAdmitted": false,
+  "activationAdmitted": false,
+  "databaseCompatibilityAccepted": false,
+  "counts": {
+    "closed": 54,
+    "open": 0,
+    "hostedComplete": 3,
+    "hostedTotal": 3
+  }
+}

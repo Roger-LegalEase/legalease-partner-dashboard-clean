@@ -28,13 +28,14 @@ export async function runQualifiedProductionDatabase({env,rootDir,fetchImpl,rele
  };
  const result=await executeQualifiedDatabaseTransactions({transactions:source.transactions,
   admit:async()=>{
-   requireProductionMigrationRelease(rootDir,env);await assertForwardSingleAttempt(release,{env,fetchImpl});
+   requireProductionMigrationRelease(rootDir,env);const inventory=await assertForwardSingleAttempt(release,{env,fetchImpl});if(inventory)write('native-attempt-accounting.json',inventory);
    const response=await fetchImpl(API,{method:'GET',headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN},redirect:'error',signal:AbortSignal.timeout(20000)});
    assert.equal(response.status,200);const project=await response.json();assert.equal(project.ref??project.id,PROJECT);
    write('actual-project-identity.json',{status:response.status,actualTargetProjectRef:PROJECT,authenticatedProjectRef:project.ref??project.id});
   },
   readState:async stage=>{
-   const snapshot={};for(const reader of source.readers)snapshot[reader.key]=await query(reader.sql,stage+'-'+reader.key,true);
+   // BEGIN READ ONLY in the pinned SQL enforces read-only capture while the API retains the admitted postgres principal.
+   const snapshot={};for(const reader of source.readers)snapshot[reader.key]=await query(reader.sql,stage+'-'+reader.key,false);
    comparison.requireReadOnlyCapture(snapshot);write(stage+'.native-catalog.private.json',snapshot);return snapshot;
   },
   assertState:async(index,snapshot)=>{

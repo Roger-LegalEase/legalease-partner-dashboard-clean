@@ -104,7 +104,7 @@ jobs:
         if: inputs.phase == 'clinic_migrate' || inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
         run: |
           if node -e "process.exit(JSON.parse(require('fs').readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')).qualifiedWorkerDatabase ? 0 : 1)"; then
-            QUALIFIED_DB_CONTROLLER_TEST=1 node --test scripts/qualified-production-database.test.mjs scripts/qualified-production-database-attempt.test.mjs scripts/qualified-production-database-binding.test.mjs scripts/grade-a-launch-control/qualified-preflight-workflow.test.mjs scripts/qualified-db-workflow-selection.test.mjs
+            QUALIFIED_DB_CONTROLLER_TEST=1 node --test scripts/qualified-production-database.test.mjs scripts/qualified-production-database-attempt.test.mjs scripts/qualified-production-database-binding.test.mjs scripts/grade-a-launch-control/qualified-preflight-workflow.test.mjs scripts/qualified-db-workflow-selection.test.mjs scripts/qualified-db-read-principal.test.mjs scripts/qualified-db-no-effect-rearm.test.mjs
           else
             node --test scripts/rcap-production-migration-contract.test.mjs
           fi
