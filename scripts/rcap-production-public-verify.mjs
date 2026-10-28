@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {clickVisibleScreeningChoice} from './public-screening-choice.mjs';
 import {assertForwardSingleAttempt} from './grade-a-launch-control/forward-production-single-attempt.mjs';
 // Read-only verification of the ACTIVATED Production release on its public
 // domain. This control cannot build, promote, roll back, or change any Vercel,
@@ -65,6 +66,7 @@ fs.mkdirSync(SHOTS_DIR, { recursive: true });
 const verdicts = [];
 const evidence = {
   schemaVersion: "rcap-production-public-verify/v1",
+  priorPublicAttempt: RELEASE_CANDIDATE.qualifiedWorkerDatabase?.priorPublicAttempt ?? null,
   startedAt: new Date().toISOString(),
   applicationSha: APPLICATION_SHA,
   workerSourceSha: WORKER_SOURCE_SHA,
@@ -213,12 +215,7 @@ async function walkMississippiScreening(hostname) {
         break;
       }
       if (!rule) { unplanned = { step, headings, excerpt: bodyText.slice(0, 400) }; steps.push(entry); break; }
-      const candidates = await page.locator("label, [role=radio], button[type=button], [role=option], li").all();
-      let clicked = null;
-      for (const candidate of candidates) {
-        const text = ((await candidate.textContent().catch(() => "")) ?? "").trim();
-        if (rule[1].test(text)) { await candidate.click(); clicked = text; break; }
-      }
+      const clicked = await clickVisibleScreeningChoice(page, rule[1]);
       entry.clicked = clicked;
       steps.push(entry);
       if (!clicked) { unplanned = { step, headings, noChoiceMatched: true, options }; break; }

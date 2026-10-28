@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "qualified-production-public-actual-individual-criteria-independent-acceptance/v1",
+  "authority": "CODEX C",
+  "at": "2026-10-28T05:06:02.477648+00:00",
+  "decision": "ACCEPT_ACTUAL_406355_TEN_LIVE_PROVIDER_BUILD_ORIGIN_CRITERIA_HOLD_ONLY_MS_BROWSER_COMPLETION",
+  "accepted": true,
+  "runId": 40635569139,
+  "jobId": 122641621413,
+  "executionSha": "909b83fce17244b49e59341ca82f0c1cf9c5b097",
+  "toolsSha": "aecdf1948215562589370a39a8cc4f6e6302b32e",
+  "artifact": {
+    "id": 12793517342,
+    "zipSha256": "4f1e5658a11fbc3d4db6dfb53aa25916c4672f07a369dab933b7a1e610a6a63f",
+    "serverDigestIndependentlyVerifiedByC": true,
+    "fileCount": 6,
+    "actualReceipt": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406355-production-public-artifact/extracted/production-public-verify.json",
+      "sha256": "a01eb63e78a24a678c0507439947871be9ecca9874cbac1229c0e59544dc8ced"
+    }
+  },
+  "acceptedIndividualCriteria": {
+    "nativeVerdicts": [
+      {
+        "caseId": "release_identity_is_exact",
+        "passed": true,
+        "observed": "application, worker source and immutable digest match the frozen authorization"
+      },
+      {
+        "caseId": "exact_vercel_project_is_bound",
+        "passed": true,
+        "observed": "exact Vercel team and project are bound"
+      },
+      {
+        "caseId": "activated_deployment_carries_exact_application",
+        "passed": true,
+        "observed": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz is READY, Production-target, built from 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 and carries the exact worker identity"
+      },
+      {
+        "caseId": "public_domain_is_a_production_domain",
+        "passed": true,
+        "observed": "expungement.ai is one of 7 Production domains: expungement.ai, legalease-partner-dashboard-clean.vercel.app, legalease.com, legaleasepartner.com, www.expungement.ai, www.legalease.com, www.legaleasepartner.com"
+      },
+      {
+        "caseId": "public_domains_resolve_to_activated_deployment",
+        "passed": true,
+        "observed": "expungement.ai and every other resolvable Production domain (6 of 7) resolve to dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz; no deployment of their own (redirect hosts, proven over HTTPS below): www.legalease.com (lookup HTTP 404)"
+      },
+      {
+        "caseId": "rollback_target_remains_ready",
+        "passed": true,
+        "observed": "dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6 remains READY for rollback"
+      },
+      {
+        "caseId": "public_domain_serves_the_application",
+        "passed": true,
+        "observed": "https://expungement.ai/ is 200 on expungement.ai through Vercel; /api/health is 200 with checks.db=ok"
+      },
+      {
+        "caseId": "www_host_lands_on_the_activated_release",
+        "passed": true,
+        "observed": "https://www.expungement.ai/ answers 200 on expungement.ai through Vercel"
+      },
+      {
+        "caseId": "public_build_matches_canonical_domain",
+        "passed": true,
+        "observed": "all 12 build assets referenced by / on expungement.ai are served byte-identical by legalease-partner-dashboard-clean.vercel.app"
+      },
+      {
+        "caseId": "public_runtime_origin_matches_canonical_domain",
+        "passed": true,
+        "observed": "exactly one Supabase origin on expungement.ai (3 pages, 15 chunks) and it is the origin the canonical domain exposes; canonical project host: true"
+      }
+    ],
+    "exactLiveApplicationWorkerTuple": true,
+    "publicDomainAndAllResolvableMappings8w9Accepted": true,
+    "domainResolution": [
+      {
+        "domain": "expungement.ai",
+        "lookupStatus": 200,
+        "deploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+        "target": "production",
+        "state": "READY"
+      },
+      {
+        "domain": "legalease-partner-dashboard-clean.vercel.app",
+        "lookupStatus": 200,
+        "deploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+        "target": "production",
+        "state": "READY"
+      },
+      {
+        "domain": "legalease.com",
+        "lookupStatus": 200,
+        "deploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+        "target": "production",
+        "state": "READY"
+      },
+      {
+        "domain": "legaleasepartner.com",
+        "lookupStatus": 200,
+        "deploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+        "target": "production",
+        "state": "READY"
+      },
+      {
+        "domain": "www.expungement.ai",
+        "lookupStatus": 200,
+        "deploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+        "target": "production",
+        "state": "READY"
+      },
+      {
+        "domain": "www.legalease.com",
+        "lookupStatus": 404,
+        "deploymentId": null,
+        "target": null,
+        "state": null
+      },
+      {
+        "domain": "www.legaleasepartner.com",
+        "lookupStatus": 200,
+        "deploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+        "target": "production",
+        "state": "READY"
+      }
+    ],
+    "rollback2SRReady": true,
+    "httpsRootHealthDbAndWww": {
+      "rootStatus": 200,
+      "rootFinalUrl": "https://expungement.ai/",
+      "rootServedByVercel": true,
+      "healthStatus": 200,
+      "healthFinalHost": "expungement.ai",
+      "healthChecks": {
+        "db": "ok"
+      },
+      "healthCacheControl": "no-store",
+      "wwwStatus": 200,
+      "wwwFinalUrl": "https://expungement.ai/"
+    },
+    "twelveByteIdenticalPublicCanonicalBuildAssets": {
+      "assetsReferencedByPublicRoot": 12,
+      "assetsIdenticalOnCanonicalDomain": 12,
+      "assetInventorySha256": "d1965049feea93d246878e2ed5be37e2c327d7f429591e05758ac1832c128703",
+      "comparisons": [
+        {
+          "source": "/_next/static/chunks/0-hrh_uw98wb_.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/03~yq9q893hmn.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/05efiop9yrqzr.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/0aqpm5mabssqz.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/0i.l9589uvx0j.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/0mjommnkwbqly.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/0re8tk4-vssb-.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/0tpqgkkz9nuf8.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/0uqgm3y7qfyr6.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/11hoao1sm226v.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/128aahewwf1we.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        },
+        {
+          "source": "/_next/static/chunks/turbopack-0ofv4dff~juen.js?dpl=dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+          "publicStatus": 200,
+          "canonicalStatus": 200,
+          "identical": true
+        }
+      ]
+    },
+    "singleCanonicalWwtRuntime3Pages15Chunks": {
+      "publicOriginCount": 1,
+      "publicOriginSha256": "95a93681facc6145a7be36627c8e0bd9b1cf29c0c7fe08f6b2ec2b480a49ddbf",
+      "canonicalOriginSha256": "95a93681facc6145a7be36627c8e0bd9b1cf29c0c7fe08f6b2ec2b480a49ddbf",
+      "isCanonicalProjectHost": true,
+      "pagesInspected": 3,
+      "chunksInspected": 15
+    },
+    "sourceAcquisitionAndCurrentPublicReleaseGatesActuallyPassed": true,
+    "noDeploymentAliasEnvironmentDatabaseAccountOrChargeMutationIntroducedByControl": true
+  },
+  "mappingQualification": "Six native direct deployment lookups resolve8w9; www.legalease.com returns404 in this later public read. Do not claim seven successful direct lookups from this run. Accepted activation earlier proved seven; rawpublic result/redirect scope remains recorded honestly. Main expungement.ai/www public health/build origin verified.",
+  "actualBrowserEvidence": {
+    "screeningResult": null,
+    "failureKind": "locator.click hidden-element timeout",
+    "viewedActualStep04": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406355-production-public-artifact/extracted/mississippi-screening/step-04.png",
+      "sha256": "399a0b3c017db4d61530898fed93cb1ffc61b38abdfcb6bbc308a51b89d11b54"
+    },
+    "observedScreen": "Step5of8: optional situation help is collapsed; visible Show optional help and Continue/Skip buttons. Harness broad locator finds matching hidden label and times out before result.",
+    "fiveActualScreenshotProofs": [
+      {
+        "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406355-production-public-artifact/extracted/mississippi-screening/step-00.png",
+        "sha256": "9308477099cfa9447b6fad0842351f94b11a26fac7cde0d9eee861396e510ec0"
+      },
+      {
+        "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406355-production-public-artifact/extracted/mississippi-screening/step-01.png",
+        "sha256": "c4975ed7a9c4b1d2a1e4ffcbaa695141c012f12a6fd19504b11d69cfc9990ad7"
+      },
+      {
+        "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406355-production-public-artifact/extracted/mississippi-screening/step-02.png",
+        "sha256": "a86408868316e3fda3a3e6592374591ffe3777adf5057efe708f0fda79c26e93"
+      },
+      {
+        "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406355-production-public-artifact/extracted/mississippi-screening/step-03.png",
+        "sha256": "cdcce4751e07b0c2852e43fabfe30da7162290770531db5ac8bf9ef7bdcf8fff"
+      },
+      {
+        "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406355-production-public-artifact/extracted/mississippi-screening/step-04.png",
+        "sha256": "399a0b3c017db4d61530898fed93cb1ffc61b38abdfcb6bbc308a51b89d11b54"
+      }
+    ],
+    "interpretation": "Actual product screenshot supports a harness interaction correction. No conclusion of legal decision regression, missing eligible result or successful completion is invented."
+  },
+  "soleUnsatisfiedLiveCriterion": {
+    "owner": "F/A",
+    "criterion": "Complete existing fresh anonymous MS dismissed-misdemeanor visible-answer screening to nonconviction pathway, with no presumed DUI/underage-alcohol prompts and no Checkout, and retain actual result evidence.",
+    "finiteSourceCorrection": "At actual observed optional-help screen, use visible Show optional help disclosure before matching and clicking visible option, or supported visible optional skip consistent with established case. Never click hidden labels, forceClick, injectanswers/state, changeexpectedlegalpath or save/createaccount. Preserve all acceptedactual10livecriteria and exactapp.",
+    "remainingNativeScreeningVerdicts": [
+      "mississippi_screening_starts_fresh",
+      "mississippi_screening_never_presumes_dui_or_underage_alcohol",
+      "mississippi_screening_reaches_the_non_conviction_pathway",
+      "mississippi_screening_opens_no_checkout"
+    ],
+    "nextEvidence": "Minimal existingbrowser harness correction/focused interaction proof plus concrete currentrelease binding and exact failed-run accounting for changed-condition one readonly screening continuation. No broad sourceaudit/repeated DB/smoke/worker/activation/journeys or newlegalcase conclusions."
+  },
+  "failedPublicAttemptMustBeAccounted": true,
+  "unchangedPublicRedispatchAdmitted": false,
+  "browserCorrectionSourcePreparationAdmitted": true,
+  "newPublicRuntimeAdmitted": false,
+  "actualPublicVerificationAccepted": false,
+  "productionLaunchVerified": false,
+  "activationReplayAdmitted": false,
+  "workerPlacementAdmitted": false,
+  "rollbackAdmitted": false,
+  "freshBusinessApprovalRequired": false,
+  "counts": {
+    "closed": 54,
+    "open": 0,
+    "hostedComplete": 3,
+    "hostedTotal": 3
+  }
+}
