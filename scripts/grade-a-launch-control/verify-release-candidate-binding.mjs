@@ -1,3 +1,4 @@
+import {verifyQualifiedDatabaseBinding} from './qualified-production-database-binding.mjs';
 import {verifyQualifiedWorkerPreflightBinding} from './qualified-worker-preflight-binding.mjs';
 import {verifyQualifiedWorkerForwardBinding} from './verify-qualified-worker-forward-binding.mjs';
 import {QUALIFIED_WORKER_IMAGE} from '../worker-once-preparation/qualified-worker-image.mjs';
@@ -71,6 +72,7 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = [], history) {
+  if(candidate?.qualifiedWorkerDatabase)return verifyQualifiedDatabaseBinding(root,candidate);
   if(candidate?.qualifiedWorkerPreflight)return verifyQualifiedWorkerPreflightBinding(root,candidate);
   if(candidate?.workerSourceSha===QUALIFIED_WORKER_IMAGE.source)return verifyQualifiedWorkerForwardBinding(root,candidate);
   // A pinned preparation record is descriptive and NEVER current/dispatchable.

@@ -1,10 +1,13 @@
 #!/usr/bin/env node
+import {requireProductionMigrationRelease} from './rcap-production-migration-contract.mjs';
 // Contract verifier for the exact Production forward-chain readback and migration phases.
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
+const qualifiedCandidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json','utf8'));
+if(qualifiedCandidate.qualifiedWorkerDatabase){requireProductionMigrationRelease(process.cwd());console.log('Exact qualified two-migration binding and source package verified; no SQL executed.');process.exit(0);}
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This historical permission remains bound to its original tuple. It never
 // supplies successor Production permission.

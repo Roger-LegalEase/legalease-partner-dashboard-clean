@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {runQualifiedProductionDatabase} from './qualified-production-database-runtime.mjs';
 import {fundingCatalogQuery} from './rcap-production-funding-dependency-contract.mjs';
 // Exact Production forward-chain apply and direct readback.
 //
@@ -354,6 +355,10 @@ try {
   }
 
   const release = requireRelease(ROOT_DIR, env);
+  if(release.qualifiedWorkerDatabase){
+    evidence.productionDatabaseMutationAttempted=null;evidence.productionDatabaseMutated=null;evidence.productionDatabaseMutationOutcome='qualified_adapter_journal_is_authoritative';
+    return await runQualifiedProductionDatabase({env,rootDir:ROOT_DIR,fetchImpl:fetch,release,evidenceDir:EVIDENCE_DIR});
+  }
   evidence.releaseTuple = { applicationSha: release.applicationSha, workerSourceSha: release.workerSourceSha, workerDigest: release.workerDigest, toolsSha: env.RCAP_TOOLS_SHA };
   const correction = PHASE === 'forward_chain_migrate' ? loadCorrection(ROOT_DIR) : null;
   if(correction) evidence.forwardCorrectionAuthorization = {

@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "wwt-two-source-migration-package-independent-technical-acceptance/v1",
+  "authority": "CODEX C",
+  "at": "2026-10-28T00:40:16.119879+00:00",
+  "decision": "ACCEPT_EXACT_WWT_TWO_TRANSACTION_FORWARD_PACKAGE_TECHNICAL_CRITERIA",
+  "accepted": true,
+  "package": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/PACKAGE.PROPOSED.NOT-EXECUTED.json",
+    "sha256": "dad0cd2218ecf6bc8cb490b156c00909520c9185f5423dd0980b304989cd7239"
+  },
+  "packageSha256": "dad0cd2218ecf6bc8cb490b156c00909520c9185f5423dd0980b304989cd7239",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "applicationSha": "4c189b682d0a9225a21b9fdf8a2ebc50500029d6",
+  "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
+  "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
+  "comparisonModule": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/wwt-package-comparison.mjs",
+    "sha256": "833cf0955ab7d7e9371829a9f3973fd11e3ed6ca0c65925d74a898b25f7db07c",
+    "exports": [
+      "flatten",
+      "normalize",
+      "stateSha256",
+      "requireReadOnlyCapture",
+      "compareTransition",
+      "bindWire"
+    ],
+    "compareTransitionArguments": "{index,before,after,effects: parsed SOURCE-EFFECTS.PROPOSED.json}",
+    "bindWireArguments": "{index,before,transaction,template:string,canonicalSql:string} -> {wireSql,wireSha256,canonicalSha256,beforeStateSha256}"
+  },
+  "sourceEffects": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/SOURCE-EFFECTS.PROPOSED.json",
+    "sha256": "ba2511ef3019ee7f8ef55d0afc68b796a2cc28b9fa0d2c9b0b7a56e335b3ab1e"
+  },
+  "guardHelpers": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/GUARD-HELPERS.PROPOSED.NOT-EXECUTED.sql",
+    "sha256": "41187fa91ffc21b881634cd6b76b454406ba11400b2932f047f66514f3415794"
+  },
+  "beforeStateSha256": "1e4fa54085fd76e91c2edb7fe68a97fd7a6575b01b9068c2d1031c3cab2acf2c",
+  "initialActualSnapshot": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/production-qualified-preflight-20261027/database-compatibility/WWT-THREE-PARSED.PRIVATE.json",
+    "sha256": "a834fa3bd39798df07eec23d46d483e4f9f22d229c05175976f29e953f722b1a"
+  },
+  "readers": [
+    {
+      "key": "core",
+      "path": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/review-evidence/codex-i/ordinary-rcap-existing-implementation-recovery-20261025/full-chain-operational-preparation-20261026/PROPOSED-CONSOLIDATED-ORDINARY-READONLY.sql",
+      "sha256": "220f84d5405d4b6794d35de96740a8ec4cf168ee6f3faff316c7c2e40409b327"
+    },
+    {
+      "key": "fulfillment",
+      "path": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/review-evidence/codex-i/ordinary-rcap-existing-implementation-recovery-20261025/full-chain-operational-preparation-20261026/PROPOSED-FULFILLMENT-SUPPLEMENT-READONLY.NOT-EXECUTED.sql",
+      "sha256": "eb0ec7793417ed9ad807e8b7d9b783898917be9be75ab1aee11346e93b3196f0"
+    },
+    {
+      "key": "ordinaryRegistry",
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/database-i/current-ordinary-reconciliation/ONE-REGISTRY-AND-MISSING-CHAIN.READONLY.NOT-EXECUTED.sql",
+      "sha256": "186e29b999fd730f4979788adc40c0b69b72df80515077480c1ef56393c993b9"
+    }
+  ],
+  "transactions": [
+    {
+      "index": 0,
+      "canonicalPath": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/production-qualified-preflight-20261027/migration-candidates/20261023151500_ordinary_sponsored_packet_authority.sql",
+      "canonicalSha256": "ffbb587fec452fc360668e63936eccad773125b77821790e1f1ed2571045c738",
+      "canonicalBytes": 19692,
+      "wireTemplatePath": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/STEP-1.WIRE-TEMPLATE.PROPOSED.NOT-EXECUTED.sql",
+      "wireTemplateSha256": "eb9af0692773ec8ecfa4d4a22c79b4fec74b4c12534578ddc793ecff66b4dac9",
+      "preGuardInsertion": {
+        "bytes": 47059,
+        "sha256": "7128996e09e967318739cecf867b5914a507511d17633df27b3b4cefffe4b11d"
+      },
+      "postGuardInsertion": {
+        "bytes": 7958,
+        "sha256": "fb00b1039ff75e043724b1e4f7f6475d560328c4f6bca4e283c8ca4f3828cdae"
+      },
+      "beforeStateSha256": "1e4fa54085fd76e91c2edb7fe68a97fd7a6575b01b9068c2d1031c3cab2acf2c",
+      "beforeStateSource": "frozen_actual_three_catalogs",
+      "afterStateSha256": null,
+      "afterStateSource": "ONLY_actual_native_readback_after_guarded_commit_not_a_predicted_native_hash"
+    },
+    {
+      "index": 1,
+      "canonicalPath": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/production-qualified-preflight-20261027/migration-candidates/20261024193000_managed_program_capacity.sql",
+      "canonicalSha256": "6fd142707a1fb3b41be0887af38ee2ea7ba0bce7b8400750fcb8e01b44cbfcb4",
+      "canonicalBytes": 10035,
+      "wireTemplatePath": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/STEP-2.WIRE-TEMPLATE.PROPOSED.NOT-EXECUTED.sql",
+      "wireTemplateSha256": "935ad73a66c88ad1df88267041e2bf671ac70466242c03221b976e7f11e3c07c",
+      "preGuardInsertion": {
+        "bytes": 47065,
+        "sha256": "303d189a7fb8c61f9f13032ad2d35eb49bfd1d18b76d36b894778014a3e3a83b"
+      },
+      "postGuardInsertion": {
+        "bytes": 1446,
+        "sha256": "e5a7a580397b9e82221588e13ab9b92a49ec8e49fc22e9ff1c556236d7bd29b0"
+      },
+      "beforeStateSha256": null,
+      "beforeStateSource": "ACTUAL_verified_step1_poststate_journal_required",
+      "afterStateSha256": null,
+      "afterStateSource": "ONLY_actual_native_readback_after_guarded_commit_not_a_predicted_native_hash"
+    }
+  ],
+  "acceptedCriteria": [
+    "Exact App4c source applicability accepted a012c0d64d807bc03b938cf00b800bdfdd439e98a1de2604145bf032befe1781; no other migration or seed admitted.",
+    "Actual WWT baseline durable a834fa3b; exact three existing read-only readers and authenticated WWT target required.",
+    "Independently checked all nine declared component pins, both canonical source pins and wire-template pins. Removing only individually byte-counted/hashed two named guard insertions exactly recovers each original canonical SQL byte.",
+    "Bound wire hash remains distinct from canonical source hash; first baseline fixed, second before-state only actual confirmed intermediate readback; no predicted native after hash.",
+    "Source-owned BEGIN/COMMIT remain two independent transactions. Transaction-local exact preimage comparison and permitted-effects/preservation comparison precede COMMIT.",
+    "JavaScript and SQL normalizers retain catalog field values and role/ACL/policy/descriptor protections; only declared observational/context fields and identity ordering normalize. External readonly actor validation remains required.",
+    "Exact capacity conditional projection correction is accepted: source-validated core capacity post-descriptor must equal the one newly exposed ordinaryRegistry relation; missing/duplicate/drift rejected. All unrelated fields remain compared.",
+    "Ordinary five function targets reuse accepted exact actual-WWT 24-anchor proof. New helper/registry/funding and capacity expectations remain source-derived, not claimed native WWT postimages.",
+    "Durable actual per-transaction intent/wire/response/readback required; partial or unknown outcome STOP, no automatic retry/replay/inverse; unchanged live2SR/aliases and held stage8w9 preserved.",
+    "Forward-compatible HOLD recovery accepted b52c4afbb03f43d269b770917924ce611d6500b76154266fc6cac523c414e878. No broad automatic DB inverse required."
+  ],
+  "focusedEvidence": {
+    "BProjectionBoundary": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/codex-b/production-wwt-two-migration-package-20261028/CAPACITY-PROJECTION-BOUNDARY-CHECK.json",
+      "sha256": "594bfe8f76df43e1522ae5644c56568dca3c12525292903497a8ec5c7a218f72"
+    },
+    "CIndependentIsolatedCheck": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/C-WWT-CAPACITY-PROJECTION-ISOLATED-COMPARATOR-CHECK.mjs",
+      "sha256": "5c2c529c11835e0a71f4dae66a080208aacf74d780ec7aab98939b3378c4834c",
+      "result": "PASS exact projection + missing/duplicate/projection privilege drift/core-and-projection privilege drift rejection",
+      "syntheticRelationIsolation": true,
+      "nativePostimageClaim": false,
+      "sqlExecuted": false
+    }
+  },
+  "supersedesExactCriterionHold": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/C-WWT-PACKAGE-CAPACITY-CONDITIONAL-READER-PROJECTION-EXACT-B-CRITERION-HOLD.json",
+    "sha256": "37c96c5c81dbe77278245aca2f2cb83dcfa4f93c31a4ffef95716258e5984440"
+  },
+  "optionalRecoveryTemplatesExecutionAccepted": false,
+  "recoveryExclusion": "Recovery files are package custody components only. No inverse/rollback SQL is admitted; any specific recovery requires actual state and separate technical review. No inverse is prerequisite to this forward package.",
+  "databaseWriteAdmitted": false,
+  "executionAdmitted": false,
+  "productionDatabaseCompatibilityAccepted": false,
+  "freshBusinessApprovalRequired": false,
+  "nextOwner": "F bind this exact technical receipt and package pin into minimal existing forward_chain_migrate/canary source; C review exact final source/frozen phase/runtime prerequisites, then A sole executor. No circular future acceptance or widening to smoke/worker/activation.",
+  "limitations": [
+    "No SQL executed or native SQL-positive/commit/poststate proof claimed.",
+    "This is intrinsic package technical acceptance, not frozen runtime or Production write admission.",
+    "Existing e49 frozen phase remains preflight-only until exact next phase binding and independent admission."
+  ],
+  "counts": {
+    "closed": 54,
+    "open": 0,
+    "hostedComplete": 3,
+    "hostedTotal": 3
+  }
+}
