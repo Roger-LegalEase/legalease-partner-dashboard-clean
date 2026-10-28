@@ -73,7 +73,7 @@ jobs:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
-          fetch-depth: ${{ (inputs.phase == 'preflight' || inputs.phase == 'forward_chain_migrate') && inputs.application_sha == '4c189b682d0a9225a21b9fdf8a2ebc50500029d6' && inputs.worker_source_sha == '84a75b6e65dc69e6c371afac44f1284e0debf722' && 257 || 0 }}
+          fetch-depth: ${{ (inputs.phase == 'preflight' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'smoke') && inputs.application_sha == '4c189b682d0a9225a21b9fdf8a2ebc50500029d6' && inputs.worker_source_sha == '84a75b6e65dc69e6c371afac44f1284e0debf722' && 257 || 0 }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -86,7 +86,7 @@ jobs:
       - name: Verify the exact frozen identity and image-input equivalence
         run: |
           set -euo pipefail
-          if { [ "$RCAP_PRODUCTION_PHASE" = preflight ] || [ "$RCAP_PRODUCTION_PHASE" = forward_chain_migrate ]; } && [ "$RCAP_APPLICATION_SHA" = 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 ] && [ "$RCAP_WORKER_SOURCE_SHA" = 84a75b6e65dc69e6c371afac44f1284e0debf722 ]; then
+          if { [ "$RCAP_PRODUCTION_PHASE" = preflight ] || [ "$RCAP_PRODUCTION_PHASE" = forward_chain_migrate ] || [ "$RCAP_PRODUCTION_PHASE" = smoke ]; } && [ "$RCAP_APPLICATION_SHA" = 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 ] && [ "$RCAP_WORKER_SOURCE_SHA" = 84a75b6e65dc69e6c371afac44f1284e0debf722 ]; then
             git fetch --no-tags --depth=257 origin captain-release
             for required in 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 84a75b6e65dc69e6c371afac44f1284e0debf722 ed8d0902a99c5326f75987a942eb507b6cfb16cf 68784f1d89c1f2120a7f4c385569f8918d1492d1 0cd12827498a582b8558c312d8d5eae7076e7c3a 9c120d99f800c1fcf2ccf5c4b4e5b3eedd75a291 e49d4fee4d3c082f3be9571f4d3f5d77f5b2f67b; do
               git cat-file -e "$required^{commit}"
@@ -143,6 +143,9 @@ jobs:
       - name: Verify the bounded Production canary smoke contract
         if: inputs.phase == 'smoke'
         run: |
+          if node -e "process.exit(JSON.parse(require('fs').readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')).qualifiedWorkerDatabase?.phase === 'smoke' ? 0 : 1)"; then
+            QUALIFIED_SMOKE_CONTROLLER_TEST=1 node --test scripts/qualified-production-smoke-binding.test.mjs
+          fi
           node scripts/verify-rcap-production-smoke.mjs
           node scripts/test-rcap-production-smoke-mutations.mjs
 

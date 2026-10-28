@@ -88,6 +88,7 @@ const evidence = {
   stagedDeploymentId: STAGED_DEPLOYMENT_ID,
   rollbackDeploymentId: ROLLBACK_DEPLOYMENT_ID,
   migrationHashes: REQUIRED_MIGRATION_HASHES,
+  databaseCompatibility: RELEASE_CANDIDATE.qualifiedWorkerDatabase?.completedDatabase ?? null,
   realParticipantRecordsCreated: false,
   realChargesCreated: false,
   checkoutCreated: false,

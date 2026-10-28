@@ -75,10 +75,46 @@ export function prepareQualifiedDatabaseRecords(root,{toolsSha,releaseBaseSha}){
  }
  return records;
 }
+export const QUALIFIED_DATABASE_COMPLETION_REFS={
+ acceptance:{path:EVIDENCE+'C-406179-FINAL-DATABASE-ACCEPTANCE.json',sha256:'cdd534190abd576171ff6db85c943873e1600ee84e2a5dfad1fbdfa742ac452c'},
+ result:{path:EVIDENCE+'ACTUAL-406179-result.json',sha256:'7401d0363a4dbdacfd3c1bc1f8f342e33a4639d58f84b7a00a07db33b1aea042'},
+ proof:{path:EVIDENCE+'C-406179-FULL-TRANSITION-PROOF.json',sha256:'0d28100049764a43692cf293a1def35379b9403dfdca25b5abf7ecb170c05858'},
+};
+const DATABASE_EXECUTION='8b496ce7fb75e241851c301866371473c83c9fd2';
+export function readQualifiedDatabaseCompletion(root){
+ const documents=Object.fromEntries(Object.entries(QUALIFIED_DATABASE_COMPLETION_REFS).map(([key,ref])=>{const bytes=fs.readFileSync(path.join(root,ref.path));assert.equal(hash(bytes),ref.sha256,'Actual final database evidence '+key);return[key,JSON.parse(bytes)];}));
+ const {acceptance:c,result,proof}=documents,prior=readQualifiedDatabaseAcceptedFirstCommit(root);
+ assert.equal(c.schemaVersion,'qualified-production-two-required-migrations-final-database-independent-acceptance/v1');assert.equal(c.authority,'CODEX C');assert.equal(c.accepted,true);assert.equal(c.runId,40617912474);assert.equal(c.executionSha,DATABASE_EXECUTION);assert.equal(c.toolsSha,'d1eed693336cfd377caea5845806e9ee3c64a95a');assert(Number.isFinite(Date.parse(c.at))&&Date.parse(c.at)<=Date.now());
+ for(const key of ['databaseCompatibilityAccepted','productionDatabaseCompatibilityAccepted','allRequiredTwoMigrationCriteriaAccepted','migrationExecutionComplete','smokeSourcePreparationScopeAccepted'])assert.equal(c[key],true);
+ for(const key of ['anyMigrationReplayOrRetryAdmitted','smokeExecutionAdmitted','workerPlacementAdmitted','activationAdmitted','publicVerifyAdmitted','canonicalSourceEquivalent'])assert.equal(c[key],false);assert.equal(c.canonicalRebuildRequired,true);
+ assert.equal(c.artifact.serverDigestIndependentlyVerifiedByC,true);assert.equal(c.actualResult.sha256,QUALIFIED_DATABASE_COMPLETION_REFS.result.sha256);assert.equal(c.independentActualProof.sha256,QUALIFIED_DATABASE_COMPLETION_REFS.proof.sha256);assert.equal(c.packageSha256,QUALIFIED_DATABASE_PACKAGE_SHA256);
+ assert.equal(result.schemaVersion,'qualified-production-database-execution/v1');assert.equal(result.status,'DATABASE_POSTSTATE_VERIFIED_REQUIRES_C_ACCEPTANCE');assert.equal(result.stage,'complete');assert.equal(result.passed,true);assert.equal(result.runId,c.runId);assert.equal(result.workflowExecutionSha,c.executionSha);assert.equal(result.packageSha256,c.packageSha256);assert.equal(result.attemptedTransactions,1);assert.equal(result.committedTransactions,1);assert.equal(result.automaticRetry,false);assert.equal(result.automaticInverse,false);assert.equal(result.effectsLimitedToCanonicalTransactions,true);assert.equal(result.smokeAuthorized,false);
+ for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'])assert.equal(result.releaseTuple[key],c[key]);assert.equal(result.releaseTuple.toolsSha,c.toolsSha);assert.equal(result.actualTargetProjectRef,c.productionProjectRef);
+ assert.deepEqual(result.priorAcceptedCommit,prior);assert.equal(result.transactions.length,2);assert.deepEqual(result.transactions[0],{...prior.transaction,outcome:'prior_commit_independently_verified'});
+ assert.equal(c.firstAcceptedTransaction.replayedByCurrentRun,false);assert.equal(c.firstAcceptedTransaction.acceptanceSha256,prior.disposition.sha256);assert.deepEqual(c.firstAcceptedTransaction.nativeReceipt,prior.transaction.nativeReceipt);
+ const second=result.transactions[1];assert.equal(second.outcome,'poststate_verified');assert.equal(second.nativeReceipt.step,1);assert.equal(second.nativeReceipt.schemaVersion,'wwt-two-migration-schema-native-receipt/v1');assert.equal(second.nativeReceipt.canonicalSha256,second.sha256);assert.equal(second.nativeReceipt.transactionLocalPreimageAndPreservationGuardPassed,true);assert.match(second.nativeReceipt.catalogOwnerXid,/^[1-9][0-9]*$/);assert.deepEqual(second.nativeReceipt,c.secondAcceptedTransaction.nativeReceipt);assert.equal(second.wireSha256,c.secondAcceptedTransaction.boundWireSha256);assert.deepEqual(second.poststate,c.secondAcceptedTransaction.actualPoststate);assert.equal(second.beforeStateSha256,prior.acceptedPoststateSha256);
+ assert.equal(proof.schemaVersion,'c-actual-step2-final-source-effects-preservation-proof/v1');assert.equal(proof.runId,c.runId);for(const key of ['actualFreshPost1MatchedTwice','wireAndCanonicalAndRequestVerified','priorFirstCommitPreservedWithoutReplay','originalInventoryBothKnownAccounted','firstTransactionRequestAbsent','allUnrelatedMetadataPreserved'])assert.equal(proof[key],true);assert.equal(proof.productionSQLExecutedByC,false);assert.deepEqual(proof.transitionResult,second.poststate);assert.equal(proof.acceptedFinalStateSha256,c.actualFinalStateSha256);assert.equal(second.poststate.afterStateSha256,c.actualFinalStateSha256);assert.equal(second.poststate.nativePoststate,true);assert.equal(c.totalRequiredAcceptedSourceCommits,2);
+ const scope=c.nextStageSourceContract;assert.equal(scope.phase,'smoke');assert.equal(scope.phaseOnly,true);assert.deepEqual(scope.sameReleaseTupleRequired,Object.fromEntries(['applicationSha','workerSourceSha','workerDigest'].map(key=>[key,c[key]])));
+ return{...QUALIFIED_DATABASE_COMPLETION_REFS,runId:c.runId,executionSha:c.executionSha,toolsSha:c.toolsSha,at:c.at,artifactId:c.artifact.id,artifactSha256:c.artifact.zipSha256,actualFinalStateSha256:c.actualFinalStateSha256,deployments:scope.sameDeployments};
+}
+// Pure preparation of the existing smoke phase; actual migration grants remain predecessor evidence.
+export function prepareQualifiedSmokeRecords(root,{toolsSha,releaseBaseSha}){
+ assert.equal(releaseBaseSha,DATABASE_EXECUTION);git(root,['merge-base','--is-ancestor',releaseBaseSha,toolsSha]);assert.notEqual(toolsSha,releaseBaseSha);
+ const completedDatabase=readQualifiedDatabaseCompletion(root),records=prepareQualifiedDatabaseRecords(root,{toolsSha,releaseBaseSha:RELEASE_BASE});
+ for(const rel of RECORDS){
+  const record=records[rel],before=blob(root,releaseBaseSha,rel),previous=JSON.parse(before);
+  assert.equal(previous.toolsSha,completedDatabase.toolsSha);assert.equal(previous.qualifiedWorkerDatabase.phase,'forward_chain_migrate');assert.deepEqual(previous.qualifiedWorkerDatabase.priorAcceptedCommit,record.qualifiedWorkerDatabase.priorAcceptedCommit);
+  assert.equal(record.productionAuthorization.stagedDeploymentId,completedDatabase.deployments.stagedProduction);assert.equal(record.productionAuthorization.rollbackDeploymentId,completedDatabase.deployments.rollbackAndCurrentLive);
+  records[rel]={...record,status:'QUALIFIED_PRODUCTION_STAGED_SMOKE_ONLY',qualifiedWorkerDatabase:{...record.qualifiedWorkerDatabase,migrationReleaseBaseSha:RELEASE_BASE,releaseBaseSha,phase:'smoke',completedDatabase},
+   productionAuthorization:{...record.productionAuthorization,phases:['smoke'],note:'Existing staged smoke only after actual final database compatibility acceptance. Existing synthetic SQL fixture must roll back with zero residue. No migration replay, alias/environment change, worker placement, activation or live customer transaction.'},supersededRecord:previous,supersededRecordSha256:hash(before)};
+ }
+ return records;
+}
 export function verifyQualifiedDatabaseBinding(root,candidate){
  try{
   assert.equal(candidate.qualifiedWorkerDatabase?.schemaVersion,'qualified-production-two-migration-binding/v1');
-  const expected=prepareQualifiedDatabaseRecords(root,{toolsSha:candidate.toolsSha,releaseBaseSha:candidate.qualifiedWorkerDatabase.releaseBaseSha});
+  const prepare=candidate.qualifiedWorkerDatabase.phase==='smoke'?prepareQualifiedSmokeRecords:prepareQualifiedDatabaseRecords;
+  const expected=prepare(root,{toolsSha:candidate.toolsSha,releaseBaseSha:candidate.qualifiedWorkerDatabase.releaseBaseSha});
   for(const rel of RECORDS)assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root,rel))),expected[rel]);assert.deepEqual(candidate,expected[RECORDS[1]]);
   assert(applicationInputEquivalence(root,QUALIFIED_FORWARD_APP,'HEAD').equivalent,'Exact frozen application');
   const head=git(root,['rev-parse','HEAD']);git(root,['merge-base','--is-ancestor',candidate.toolsSha,head]);
@@ -90,6 +126,6 @@ export function verifyQualifiedDatabaseBinding(root,candidate){
 }
 export function requireQualifiedDatabasePhase(candidate,phase,root=process.cwd()){
  const result=verifyQualifiedDatabaseBinding(root,candidate);assert.equal(result.current,true,result.reasons.join('; '));
- assert.equal(phase,'forward_chain_migrate','Smoke requires actual database poststate/C acceptance and a new phase binding; all other phases remain held');
+ assert.equal(phase,candidate.qualifiedWorkerDatabase.phase,'Only this exact qualified phase is admitted. Smoke requires actual database poststate/C acceptance and a new phase binding; all other phases remain held');
  return candidate.productionAuthorization;
 }
