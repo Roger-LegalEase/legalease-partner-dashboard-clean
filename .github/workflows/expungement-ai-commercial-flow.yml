@@ -7,6 +7,10 @@ on:
         description: Run the isolated Stripe sandbox payment regression
         type: boolean
         default: false
+      run_human:
+        description: Keep one isolated test Checkout and database alive for a human operator
+        type: boolean
+        default: false
   push:
     branches:
       - codex/expungement-ai-free-briefcase-paid-packet
@@ -59,12 +63,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ inputs.run_human && 'human' || 'default' }}
+  cancel-in-progress: ${{ !inputs.run_human }}
 
 jobs:
   verify:
-    if: ${{ !inputs.run_sandbox }}
+    if: ${{ !inputs.run_sandbox && !inputs.run_human }}
     name: Verify free Briefcase and matter-level packet payment
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -158,10 +162,10 @@ jobs:
         run: node scripts/test-rcap-consumer-payment-http-mutations.mjs
 
   stripe-sandbox-regression:
-    if: ${{ inputs.run_sandbox }}
-    name: Isolated Stripe sandbox through application webhook and local PostgreSQL
+    if: ${{ inputs.run_sandbox || inputs.run_human }}
+    name: ${{ inputs.run_human && 'Human-assisted isolated Stripe verification' || 'Automated Stripe sandbox regression' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: ${{ inputs.run_human && 70 || 20 }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -174,7 +178,9 @@ jobs:
           git diff --exit-code 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 -- src supabase data package.json package-lock.json next.config.*
       - run: npm ci --ignore-scripts
       - run: npx playwright install --with-deps chromium
+        if: ${{ !inputs.run_human }}
       - name: Run real sandbox Checkout and signed webhook against disposable PostgreSQL
+        if: ${{ !inputs.run_human }}
         env:
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
@@ -182,6 +188,51 @@ jobs:
           RCAP_PARTNER_ONBOARDING_ENABLED: "true"
           RCAP_2_0_ENABLED: "true"
         run: node scripts/verify-expungement-consumer-payment-http.mjs --stripe-sandbox --write
+      - name: Prepare human-assisted Checkout and keep its database alive
+        if: ${{ inputs.run_human }}
+        env:
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          QA_APPLICATION_SHA: 4c189b682d0a9225a21b9fdf8a2ebc50500029d6
+          RCAP_PARTNER_ONBOARDING_ENABLED: "true"
+          RCAP_2_0_ENABLED: "true"
+        run: |
+          set -euo pipefail
+          nohup bash -c 'set +e; node scripts/verify-expungement-consumer-payment-http.mjs --stripe-human --write; qa_result=$?; printf "%s\n" "$qa_result" > "$RUNNER_TEMP/stripe-human.exit"' > "$RUNNER_TEMP/stripe-human.log" 2>&1 < /dev/null &
+          for attempt in $(seq 1 180); do
+            if test -s data/rcap-render/stripe-human-handoff.cms && test -s data/rcap-render/stripe-human-status.json; then
+              cat data/rcap-render/stripe-human-status.json
+              exit 0
+            fi
+            if test -f "$RUNNER_TEMP/stripe-human.exit"; then cat "$RUNNER_TEMP/stripe-human.log"; exit 1; fi
+            sleep 2
+          done
+          echo "Human handoff was not prepared within six minutes."
+          exit 1
+      - name: Publish encrypted Checkout handoff only
+        if: ${{ inputs.run_human }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: stripe-human-encrypted-handoff-${{ github.run_id }}
+          path: |
+            data/rcap-render/stripe-human-handoff.cms
+            data/rcap-render/stripe-human-status.json
+          if-no-files-found: error
+          retention-days: 1
+      - name: Wait for human test payment and verify real event, replay and PDF delivery
+        if: ${{ inputs.run_human }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 600); do
+            if test -f "$RUNNER_TEMP/stripe-human.exit"; then
+              cat "$RUNNER_TEMP/stripe-human.log"
+              qa_result=$(cat "$RUNNER_TEMP/stripe-human.exit")
+              exit "$qa_result"
+            fi
+            sleep 5
+          done
+          echo "Human verification runtime exceeded its controlled window."
+          exit 1
       - uses: actions/upload-artifact@v4
         if: always()
         with:

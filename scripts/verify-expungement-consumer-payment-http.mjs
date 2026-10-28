@@ -35,7 +35,10 @@ if (!ephemeralPgAvailable()) {
 
 // A Stripe TEST webhook secret. Signatures below are genuinely computed against
 // it by the SDK; nothing here forges a verification result.
-const sandbox = process.argv.includes("--stripe-sandbox");
+const human = process.argv.includes("--stripe-human");
+const sandbox = process.argv.includes("--stripe-sandbox") || human;
+if (human) assert(!process.argv.includes("--claimed-matter-fixture-check") && !process.argv.includes("--local-publication-fixture"),
+  "Human acceptance must use real provider evidence and approved release inputs only.");
 if (sandbox) {
   assert.match(process.env.HOSTED_STRIPE_TEST_SECRET ?? "", /^sk_test_/, "Sandbox regression refuses live or missing Stripe credentials.");
   assert.match(process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "", /^whsec_/, "A sandbox signing secret is required.");
@@ -114,6 +117,9 @@ function check(id, title, passed, observed) {
 // A failed fulfillment prerequisite must not hide independent signature and
 // isolation checks. Every unreached assertion is recorded as FAILED, never skipped.
 async function runCaseGroup(ids, execute) {
+  // The human acceptance process executes only the real-provider journey.
+  // Synthetic payment controls run independently and are not counted here.
+  if (human && !ids.includes("S1")) return;
   globalThis.__rcapPaymentTestGroup = ids;
   try { await execute(); } catch (error) {
     const missing = ids.filter(id => !results.some(row => row.id === id));
@@ -1312,9 +1318,19 @@ if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4", "C1", "W1"], async () =
     assert.equal(opened.client_reference_id, itemId);
     assert.equal(db.scalar(`select checkout_session_id from consumer_briefcase_items where id='${itemId}'`), sessionId);
     check("S2", "real application Checkout is bound to the exact owner matter before return", true);
-    const { completeHostedCheckout } = await import("./rcap-stripe-checkout-browser.mjs");
-    const browser = await completeHostedCheckout({ checkoutUrl: opened.url, expectedReturnUrl: returnUrl, isolatedTestReturn: true });
-    assert.equal(browser.completed, true, JSON.stringify({ humanInteractionRequired: browser.humanInteractionRequired, notes: browser.notes }));
+    if (human) {
+      const { waitForHumanCheckout } = await import("./lib/stripe-human-checkout.mjs");
+      await waitForHumanCheckout({ stripe, opened,
+        identity: { runId: process.env.GITHUB_RUN_ID, applicationSha: process.env.QA_APPLICATION_SHA,
+          participantUserId: USER_A, briefcaseItemId: itemId, matterId: consumerMatterIdForItem(itemId), accountId: account.id },
+        certificatePath: path.join(rootDir,"scripts/fixtures/fsn-stripe-human-handoff-20261028.pem"),
+        envelopePath: path.join(rootDir,"data/rcap-render/stripe-human-handoff.cms"),
+        statusPath: path.join(rootDir,"data/rcap-render/stripe-human-status.json") });
+    } else {
+      const { completeHostedCheckout } = await import("./rcap-stripe-checkout-browser.mjs");
+      const browser = await completeHostedCheckout({ checkoutUrl: opened.url, expectedReturnUrl: returnUrl, isolatedTestReturn: true });
+      assert.equal(browser.completed, true, JSON.stringify({ humanInteractionRequired: browser.humanInteractionRequired, notes: browser.notes }));
+    }
     const paid = await stripe.checkout.sessions.retrieve(sessionId);
     assert.equal(paid.livemode, false);
     assert.equal(paid.payment_status, "paid");
@@ -1326,21 +1342,49 @@ if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4", "C1", "W1"], async () =
       if (!event) await new Promise(resolve => setTimeout(resolve, 1000));
     }
     assert(event && event.livemode === false, "Unmodified provider completion event is required; never manufacture payment status.");
+    event = await stripe.events.retrieve(event.id);
+    assert.equal(event.type,"checkout.session.completed");
+    assert.equal(event.livemode,false);assert.equal(event.data.object.id,sessionId);
+    const paymentIntentId = typeof paid.payment_intent === "string" ? paid.payment_intent : paid.payment_intent?.id;
+    assert(paymentIntentId,"A real settled $50 payment must carry its provider PaymentIntent.");
+    const intent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    assert.equal(intent.livemode,false);assert.equal(intent.status,"succeeded");
+    assert.equal(intent.amount,5000);assert.equal(intent.amount_received,5000);assert.equal(intent.currency,"usd");
     const response = await webhookRoute.POST(signedWebhookRequest(event));
     assert.equal(response.status, 200);
     assert.equal(paymentRow(itemId).payment_status, "paid");
-    assert.equal(jobsFor(itemId).length, 1);
+    const beforeJobs = jobsFor(itemId);assert.equal(beforeJobs.length,1);
+    assert.equal(beforeJobs[0].consumer_auth_user_id,USER_A);assert.equal(beforeJobs[0].consumer_briefcase_item_id,itemId);
+    assert.equal(beforeJobs[0].matter_id,consumerMatterIdForItem(itemId));
+    const { consumerPacketPaymentAuthority } = await import("../src/lib/expungement-ai/consumer-payment-authority.ts");
+    const binding = { productId:"expungement_packet",personId:beforeJobs[0].person_id,matterId:consumerMatterIdForItem(itemId) };
+    const authority = await consumerPacketPaymentAuthority(itemId,USER_A,binding);
+    assert.equal(authority.valid,true);assert.equal(authority.providerEventId,event.id);
+    const beforePayment = paymentRow(itemId);
+    const eventCount = () => db.scalar(`select count(*) from processed_stripe_events where stripe_event_id='${event.id}'`);
+    assert.equal(eventCount(),"1");
     check("S3", "Stripe test-card payment crosses the signed application webhook and durable queue", true);
     const replay = await webhookRoute.POST(signedWebhookRequest(event));
     assert.equal(replay.status, 200);
-    assert.equal(jobsFor(itemId).length, 1);
-    check("S4", "real provider event replay creates no second job or payment", true);
+    assert.deepEqual(jobsFor(itemId),beforeJobs);assert.deepEqual(paymentRow(itemId),beforePayment);
+    assert.deepEqual(await consumerPacketPaymentAuthority(itemId,USER_A,binding),authority);assert.equal(eventCount(),"1");
+    const replayedIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    assert.equal(replayedIntent.latest_charge,intent.latest_charge);assert.equal(replayedIntent.amount_received,5000);
     const delivery = await deliverSandboxMatter(itemId);
+    assert.equal((await webhookRoute.POST(signedWebhookRequest(event))).status,200);
+    assert.deepEqual(jobsFor(itemId),beforeJobs);assert.deepEqual(paymentRow(itemId),beforePayment);assert.equal(eventCount(),"1");
+    assert.equal(db.scalar(`select count(*) from consumer_packet_payment_consumption where consumer_briefcase_item_id='${itemId}'`),"1");
+    check("S4", "real event replay before and after delivery preserves the charge, entitlement and exact job", true);
     fs.writeFileSync(path.join(rootDir, "data/rcap-render/stripe-sandbox-regression.json"), JSON.stringify({
       ...delivery,
       applicationSha: process.env.QA_APPLICATION_SHA, accountId: account.id, livemode: false,
       sessionId, providerEventId: event.id, amountCents: paid.amount_total, currency: paid.currency,
-      providerPaymentStatus: paid.payment_status, realCheckoutBrowserCompleted: true, isolatedSyntheticReturnPage: true,
+      providerPaymentStatus: paid.payment_status, realCheckoutBrowserCompleted: !human, humanAssistedCheckout: human,
+      verificationApproach: human ? "human_hosted_checkout" : "automated_hosted_checkout", isolatedSyntheticReturnPage: true,
+      participantUserId: USER_A, briefcaseItemId: itemId, matterId: binding.matterId, personId: binding.personId,
+      providerEventSha256: createHash("sha256").update(JSON.stringify(event)).digest("hex"),
+      paymentIntentId, stripeChargeId: intent.latest_charge, paymentAuthority: authority,
+      processedProviderEventCount: Number(eventCount()), replayPaymentRecordUnchanged: true, replayStripeChargeUnchanged: true,
       webhookHttpStatus: response.status, replayHttpStatus: replay.status, durableJobsForMatter: 1,
       database: "disposable runner-local PostgreSQL", productionServicesUsed: false,
       limitations: "Application routes, real Stripe Checkout browser, local PostgreSQL and source worker/private storage; deployed immutable worker identity checked separately."
@@ -1360,6 +1404,8 @@ const report = {
   migrationSequence: SEQUENCE,
   syntheticPublicationFixture: process.argv.includes("--local-publication-fixture"),
   realStripeSandbox: sandbox,
+  humanAssistedCheckout: human,
+  syntheticPaymentControlsExecuted: !human,
   totals: { cases: results.length, passed, failed: results.length - passed },
   cases: results
 };
