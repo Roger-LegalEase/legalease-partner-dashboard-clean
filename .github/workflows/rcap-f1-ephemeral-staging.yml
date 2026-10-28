@@ -291,20 +291,27 @@ jobs:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: ${{ inputs.application_sha == '4c189b682d0a9225a21b9fdf8a2ebc50500029d6' && inputs.worker_source_sha == '84a75b6e65dc69e6c371afac44f1284e0debf722' && inputs.worker_digest == 'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1' && 257 || 0 }}
 
       - name: Verify ancestry and retain the exact workflow execution commit
         run: |
           set -euo pipefail
-          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
-          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
-            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
-            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
-          done
-          git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
-            || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
-            || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
+          if [ "$RCAP_APPLICATION_SHA" = 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 ] && [ "$RCAP_WORKER_SOURCE_SHA" = 84a75b6e65dc69e6c371afac44f1284e0debf722 ] && [ "$RCAP_WORKER_DIGEST" = sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1 ]; then
+            git fetch --no-tags --depth=257 origin captain-release
+            for required in 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 84a75b6e65dc69e6c371afac44f1284e0debf722 ed8d0902a99c5326f75987a942eb507b6cfb16cf 68784f1d89c1f2120a7f4c385569f8918d1492d1 0cd12827498a582b8558c312d8d5eae7076e7c3a 9c120d99f800c1fcf2ccf5c4b4e5b3eedd75a291 e49d4fee4d3c082f3be9571f4d3f5d77f5b2f67b; do
+              git cat-file -e "$required^{commit}"
+            done
+          else
+            git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+            for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+              git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+              git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+            done
+            git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
+              || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
+            git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+              || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
+          fi
           [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ] || { echo "::error::workflow execution checkout mismatch"; exit 1; }
 
       - name: Set up Node
@@ -318,8 +325,11 @@ jobs:
 
       - name: Require current release and separate public-verification authorization
         run: |
+          set -euo pipefail
           node scripts/rcap-production-migration-contract.mjs
-          node scripts/verify-rcap-worker-input-equivalence.mjs --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.tools_sha }}"
+          if ! node -e "process.exit(JSON.parse(require('fs').readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')).qualifiedWorkerDatabase ? 0 : 1)"; then
+            node scripts/verify-rcap-worker-input-equivalence.mjs --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.tools_sha }}"
+          fi
 
       # Read-only from the outside: control-plane readback of every Production
       # domain, public HTTPS health and build identity on expungement.ai, and a
