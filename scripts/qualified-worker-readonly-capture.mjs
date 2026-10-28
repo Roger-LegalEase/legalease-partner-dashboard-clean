@@ -34,7 +34,8 @@ export async function inspectEffectiveWorker({proc,request,ownPid,machineId}){
   const key=env.SUPABASE_SERVICE_ROLE_KEY;let credentialKind;
   if(/^sb_secret_[A-Za-z0-9_-]+$/.test(key))credentialKind='authenticated_secret_key_service_role';
   else{const parts=key.split('.');if(parts.length!==3)throw Error();const claims=JSON.parse(Buffer.from(parts[1],'base64url'));if(claims.role!=='service_role'||claims.ref!=='wwtwtsmywnckfkdaqqeg')throw Error();credentialKind='authenticated_jwt_service_role';}
-  const response=await request(origin.origin+'/rest/v1/packet_render_jobs?select=id&limit=0',{method:'HEAD',headers:{apikey:key,Authorization:'Bearer '+key},redirect:'error',signal:AbortSignal.timeout(10000)});result.queueHeadStatus=response.status;
+  const headers={apikey:key};if(credentialKind==='authenticated_jwt_service_role')headers.Authorization='Bearer '+key;
+  const response=await request(origin.origin+'/rest/v1/packet_render_jobs?select=id&limit=0',{method:'HEAD',headers,redirect:'error',signal:AbortSignal.timeout(10000)});result.queueHeadStatus=response.status;
   if(![200,206].includes(response.status))throw Error();result.roleProven=true;result.credentialKind=credentialKind;result.passed=true;
  }catch{result.refusalCode='effective_worker_binding_unproven';}
  return result;
