@@ -13,10 +13,10 @@ const env={VERCEL_ENV:'preview',SUPABASE_URL:`https://${grant.acceptanceProjectR
 let fault=null,reads=[];
 const fakeFs={readFileSync(path){reads.push(path);if(fault?.path===path){if(fault.code)throw Object.assign(new Error('PRIVATE ERROR'),{code:fault.code});return Buffer.from('wrong');}return fs.readFileSync(path);}};
 function load(source,imports,extra={}){
- const module={exports:{}};
+ const loadedModule={exports:{}};
  const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText;
- vm.runInNewContext(js,{module,exports:module.exports,process:{env:{...env}},require(name){if(Object.hasOwn(imports,name))return imports[name];throw new Error('Unexpected import '+name);},...extra});
- return module.exports;
+ vm.runInNewContext(js,{module:loadedModule,exports:loadedModule.exports,process:{env:{...env}},require(name){if(Object.hasOwn(imports,name))return imports[name];throw new Error('Unexpected import '+name);},...extra});
+ return loadedModule.exports;
 }
 const imports={'server-only':{},'node:fs':fakeFs,'node:crypto':{createHash},'@/lib/server-runtime-environment':{resolveDeploymentEnvironment:()=> 'preview'},'@/../data/record-clearing/legal-decisions/2026-10-23-ms-nonconv-sponsored-preview.json':clinic,'@/../data/record-clearing/legal-decisions/2026-10-24-ms-nonconv-ordinary-internal-qa.json':grant};
 const current=load(read(authority),imports);
