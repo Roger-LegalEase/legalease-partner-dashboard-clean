@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ inputs.handoff_history && 3 || 1 }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20
