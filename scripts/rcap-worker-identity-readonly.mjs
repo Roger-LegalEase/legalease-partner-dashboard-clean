@@ -12,7 +12,9 @@ export async function readWorkerIdentity({token,fetchImpl=fetch}){
  if(!Array.isArray(machines)||machines.some(m=>!m.id||!m.state))throw Error('Incomplete Fly machine identity');
  return {schemaVersion:'rcap-worker-readonly-identity/v1',app:APP,capturedAt:new Date().toISOString(),readOnly:true,secretValuesIncluded:false,machines:machines.map(m=>({id:m.id,state:m.state,imageReference:m.config?.image??null,imageDigest:m.image_ref?.digest??null,imageRegistry:m.image_ref?.registry??null,imageRepository:m.image_ref?.repository??null,ociRevision:m.image_ref?.labels?.['org.opencontainers.image.revision']??null,recordedSourceSha:m.config?.metadata?.rcap_worker_source_sha??null,acceptedDigest:m.config?.env?.RCAP_WORKER_CONTAINER_DIGEST??null}))};
 }
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
- try{const result=await readWorkerIdentity({token:process.env.FLY_API_TOKEN});fs.mkdirSync('worker-identity-evidence',{recursive:true});fs.writeFileSync('worker-identity-evidence/identity.json',JSON.stringify(result,null,2)+'\n');console.log('Fly machine identities recorded; GET only; no environment/configuration values emitted.');}
+async function main(){
+ try{if(process.env.RCAP_QUALIFIED_WORKER_READINESS==='1'){const {captureQualifiedWorkerReadiness}=await import('./qualified-worker-readonly-capture.mjs');const r=await captureQualifiedWorkerReadiness();console.log(r.status);if(r.status!=='READINESS_CAPTURED_REQUIRES_C_REVIEW')process.exitCode=1;return;}const result=await readWorkerIdentity({token:process.env.FLY_API_TOKEN});fs.mkdirSync('worker-identity-evidence',{recursive:true});fs.writeFileSync('worker-identity-evidence/identity.json',JSON.stringify(result,null,2)+'\n');console.log('Fly machine identities recorded; GET only; no environment/configuration values emitted.');}
  catch{console.error('Read-only Fly identity inspection failed; raw response and credential withheld.');process.exitCode=1;}
 }
+
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))await main();

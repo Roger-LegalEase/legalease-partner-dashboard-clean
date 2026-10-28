@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "qualified-production-actual-staged-smoke-independent-acceptance/v1",
+  "authority": "CODEX C",
+  "at": "2026-10-28T02:22:57.718046+00:00",
+  "decision": "ACCEPT_ACTUAL_406195_STAGED_PRODUCTION_SMOKE_ROLLBACK_ZERO_RESIDUE_RUNTIME_RLS_RESET_COMPLETE",
+  "accepted": true,
+  "smokeAccepted": true,
+  "productionStagedSmokeAccepted": true,
+  "runId": 40619590234,
+  "smokeRunId": 40619590234,
+  "jobId": 122590106664,
+  "workflowJobConclusion": "success",
+  "executionSha": "a4a38219b034e7bb03339d95db08f54944aab8f8",
+  "toolsSha": "1a2462770ed70cb71fd6a834e2e113024b8860c0",
+  "applicationSha": "4c189b682d0a9225a21b9fdf8a2ebc50500029d6",
+  "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
+  "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "stagedDeploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+  "rollbackDeploymentId": "dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6",
+  "actualSmoke": {
+    "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406195-smoke-artifact/extracted/production-canary-smoke.json",
+    "sha256": "9fd7702305a6cea54ed1bfaf88b5d4c6aab2c01846aa5628efa28b4f025397e9"
+  },
+  "artifact": {
+    "id": 12787340194,
+    "zipPath": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406195-smoke-artifact/artifact.zip",
+    "zipSha256": "b6c3626d1f41e84f6009e8b7171b76b673bc57acfa5f59d4d2b9aac8b5ef5386",
+    "serverDigestIndependentlyVerifiedByC": true,
+    "fileCount": 1
+  },
+  "consumedRuntimeAdmissionSha256": "e79b09723dbfcf6621f041db302e397de2af0fc52d8b2a8cd8c476edac9a3856",
+  "actualDatabaseCompletion": {
+    "acceptance": {
+      "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-406179-FINAL-DATABASE-ACCEPTANCE.json",
+      "sha256": "cdd534190abd576171ff6db85c943873e1600ee84e2a5dfad1fbdfa742ac452c"
+    },
+    "result": {
+      "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/ACTUAL-406179-result.json",
+      "sha256": "7401d0363a4dbdacfd3c1bc1f8f342e33a4639d58f84b7a00a07db33b1aea042"
+    },
+    "proof": {
+      "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-406179-FULL-TRANSITION-PROOF.json",
+      "sha256": "0d28100049764a43692cf293a1def35379b9403dfdca25b5abf7ecb170c05858"
+    },
+    "runId": 40617912474,
+    "executionSha": "8b496ce7fb75e241851c301866371473c83c9fd2",
+    "toolsSha": "d1eed693336cfd377caea5845806e9ee3c64a95a",
+    "at": "2026-10-28T02:03:21.467405+00:00",
+    "artifactId": 12786112435,
+    "artifactSha256": "e22d4cf9df1f8f7ee0f470b0c398e17586c0cc3a4ce9470e633b677811c9f348",
+    "actualFinalStateSha256": "9a69ac706e312838d8a47472d38f2d530bce816e00cd03ed4d66ce90f214c6a8",
+    "deployments": {
+      "stagedProduction": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+      "rollbackAndCurrentLive": "dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6"
+    }
+  },
+  "verdicts": [
+    {
+      "caseId": "exact_staged_application_worker_identity",
+      "passed": true,
+      "observed": "READY staged deployment carries exact application and worker metadata"
+    },
+    {
+      "caseId": "rollback_target_is_ready_and_still_active",
+      "passed": true,
+      "observed": "recorded rollback is READY and remains the sole active Production target"
+    },
+    {
+      "caseId": "runtime_supabase_origin_is_canonical",
+      "passed": true,
+      "observed": "one staged runtime origin maps to the authenticated canonical Production project"
+    },
+    {
+      "caseId": "staged_health_is_200",
+      "passed": true,
+      "observed": "status=200; structured checks=true"
+    },
+    {
+      "caseId": "production_clinic_schema_direct_readback",
+      "passed": true,
+      "observed": "RLS tables=10/10; functions=22/22"
+    },
+    {
+      "caseId": "save_claim_schema_read_back_exact",
+      "passed": true,
+      "observed": "consumer_pending_screening_results required columns present=[claim_token_hash,screening_correlation_id,anonymous_session_id,status,claimed_matter_id,candidate_route_context,locale,partner_slug,program_id,event_id,campaign_name,access_code_id,consent_grant_id] absent=[]; legacy columns present=[] absent=[matter_id,source_session_id,pending_token_hash]; function claim_pending_screening_result=present; table participant_claim_events=present"
+    },
+    {
+      "caseId": "transactional_synthetic_fixture_rolled_back",
+      "passed": true,
+      "observed": "users=0; events=0; sessions=0; matters=0"
+    },
+    {
+      "caseId": "colorado_juvenile_guidance_has_no_commerce",
+      "passed": true,
+      "observed": "exact-SHA Colorado verifier 56/56 plus rolled-back Production DB no-checkout/no-job/no-credit assertions"
+    },
+    {
+      "caseId": "clinic_negative_control_isolated",
+      "passed": true,
+      "observed": "authenticated negative control saw zero participant session, case, or follow-up rows under Production RLS"
+    },
+    {
+      "caseId": "clinic_reset_boundary_passed",
+      "passed": true,
+      "observed": "{\"passed\":true,\"resetPrepareStatus\":200,\"resetPrepared\":true,\"resetPrepareStateIsNoSession\":true,\"resetRecoveryCookieIssued\":true,\"resetCloseStatus\":200,\"resetCloseSuccess\":true,\"resetRevocationConfirmed\":true,\"resetSignOutConfirmed\":true,\"resetClearSiteDataStorage\":true,\"resetClinicCookiesCleared\":true,\"resetCompleteStatus\":200,\"resetCompleteSuccess\":true,\"resetCleanEntryPathSafe\":true,\"resetRecoveryRetired\":true}"
+    }
+  ],
+  "actualStartedAt": "2026-10-28T02:15:58.300Z",
+  "actualFinishedAt": "2026-10-28T02:16:29.751Z",
+  "acceptedCriteria": [
+    "Actual hosted immutable stage8w9 is READY/App4c/qualified worker metadata84a+c574; rollback2SR remains sole active Production target. No new deployment/promotion.",
+    "Actual staged runtime has exactly one canonical authenticated WWT Supabase origin, accepted hash95a93681; staged health200 structuredchecks.",
+    "Production Clinic direct schema/RLS readback10tables22functions, save-claim required fields/function/events present and old fields absent.",
+    "Explicit rolled-back synthetic SQL fixture with independent residue users0/events0/sessions0/matters0; realparticipant/charges/Checkout/worker/deploy/alias/environment/persistentDB effects false.",
+    "Colorado existing56/56 plus actual rolled-back no-commerce/no-job/no-credit assertions and authenticated negative control isolation accepted.",
+    "Clean anonymous reset actual prepare/close/complete200; recovery issued/retired, revocation/signout/storage and Clinic cookie cleanup/safe entry all passed. No cookie/secret/origin bytes persisted.",
+    "Actual completedDatabase identity equals exact frozen profile and Cfinalcdd/result7401/proof0d281; no migration replay/extra historical certification."
+  ],
+  "transactionalFixtureRolledBack": true,
+  "independentResidueZero": true,
+  "productionDatabasePersistentlyMutated": false,
+  "runtimeCanonicalProductionTargetAccepted": true,
+  "negativeControlRlsAccepted": true,
+  "resetBoundaryAccepted": true,
+  "physicalProductionWorkerPlacementAccepted": false,
+  "productionActivated": false,
+  "launchVerified": false,
+  "smokeRerunRequired": false,
+  "repeatThreeJourneysRequired": false,
+  "executionAdmitted": false,
+  "databaseWriteAdmitted": false,
+  "workerPlacementAdmitted": false,
+  "activationAdmitted": false,
+  "publicVerifyAdmitted": false,
+  "nextOwner": "F prepare finite existing worker-phase source bound to actual DBcdd and this actual smoke acceptance/result, same4c/84a/c574/8w9/2SR. Actual current rollback/effective WWT process binding/queue lifecycle/safe single-worker handoff criteria from Cb81 remain; no empty-queue/forced-drain requirement. A sole executor after exact source/runtime admission.",
+  "freshBusinessApprovalRequired": false,
+  "counts": {
+    "closed": 54,
+    "open": 0,
+    "hostedComplete": 3,
+    "hostedTotal": 3
+  }
+}
