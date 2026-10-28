@@ -92,7 +92,13 @@ const SEQUENCE = [
   // Promotion codes: the writer, the constraints and the entitlement probe stop
   // asserting one price and start reconciling the order, so the cases below run
   // against the rule the release actually ships.
-  "supabase/migrations/20260917090000_consumer_promotion_codes.sql"
+  "supabase/migrations/20260901130000_consumer_private_delivery.sql",
+  "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
+  "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql",
+  "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql",
+  "supabase/migrations/20260906130000_verified_artifact_regeneration.sql",
+  "supabase/migrations/20260917090000_consumer_promotion_codes.sql",
+  "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql"
 ];
 
 const USER_A = fixtureUuid("user-a");
@@ -176,7 +182,17 @@ function boot() {
     unique(document_packet_id)
   )`);
   db.sql(`create table public.processed_stripe_events (stripe_event_id text primary key, event_type text, related_object_id text, created_at timestamptz not null default now())`);
-  db.sql(`create table public.screening_sessions (session_id text primary key, flow_mode text, partner_slug text, partner_benefit_active boolean)`);
+  db.sql(`create table public.screening_sessions (session_id uuid primary key, flow_mode text, partner_slug text, partner_benefit_active boolean,
+    jurisdiction text, claimed_slot_state text, status text, updated_at timestamptz default now(), partner_access_code_id uuid, campaign_name text);
+    create table public.clinic_events(id uuid primary key,partner_slug text,name text,jurisdiction text,status text,sponsorship_allocation integer);
+    create table public.clinic_cases(id uuid primary key,event_id uuid,participant_user_id uuid,screening_session_id uuid,matter_id uuid,
+      jurisdiction text,route_disposition text,queue_status text,last_activity_at timestamptz default now(),updated_at timestamptz default now());
+    create table public.partner_entitlement(partner_slug text primary key,screenings_used integer default 0,screenings_allowed integer default 0,
+      pause_at_cap boolean default false,overage_enabled boolean default false,overage_packets integer default 0,
+      overage_amount_cents integer default 0,overage_packet_price_cents integer default 5000,updated_at timestamptz default now());
+    create table public.rcap_record_events(id uuid primary key default gen_random_uuid(),record_type text,record_id text,partner_slug text,event_type text,occurred_at timestamptz,actor text,metadata jsonb);
+    create table public.rcap_screening_analytics_events(id uuid primary key default gen_random_uuid(),session_id uuid,partner_slug text,
+      partner_access_code_id uuid,campaign_name text,event_type text,packet_route_available boolean,occurred_at timestamptz,metadata jsonb);`);
   db.sql(`insert into auth.users (id, email) values ('${USER_A}','a@test.local'), ('${USER_B}','b@test.local')`);
 
   for (const file of SEQUENCE) db.applyFile(path.join(rootDir, file));
@@ -211,8 +227,8 @@ const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profil
 // that always fails downstream.
 const MS_PATHWAY = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
-async function createItem(userId, label, { paymentAllowed = true, jurisdiction = "MS" } = {}) {
-  const id = fixtureUuid(`item/${label}`);
+async function createItem(userId, label, { paymentAllowed = true, jurisdiction = "MS", existingItemId = null } = {}) {
+  const id = existingItemId ?? fixtureUuid(`item/${label}`);
   const requiredInputIds = [
     "age_at_offense", "case_outcome", "charge", "contact_information", "county", "court",
     "disposition_date", "financial_obligations", "jurisdiction", "offense_category", "offense_level",
@@ -301,7 +317,7 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
   // matter. This local fixture models that input instead of asking rendering
   // to invent a language for a matter whose attribution omitted it.
   const artifactRefs = JSON.stringify({ commercialFlow, attribution: { locale: "en" } }).replaceAll("'", "''");
-  db.sql(
+  if (!existingItemId) db.sql(
     `insert into public.consumer_briefcase_items
       (id, user_id, item_type, jurisdiction, status, payment_allowed,
        pathway_label, result_code, packet_type, payment_status, amount_cents,
@@ -1179,13 +1195,110 @@ await runCaseGroup(["P17"], async () => {
 });
 
 // =============================================================================
-if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4"], async () => {
+async function drainCompletedFixtureQueue() {
+  const queue = await import("../src/lib/rcap/render/job-queue.ts");
+  await queue.releaseExpiredRenderClaims();
+  await queue.requeueRetryableRenderJobs();
+  for (let count = 0; count < 200; count++) {
+    const claim = await queue.claimNextRenderJob("completed-fixture-cleanup", ["packet_document_v1"], 60);
+    if (!claim) return;
+    await queue.failRenderJob(claim.id, claim.fencingToken, "render_failed", "Prior isolated case completed", false);
+  }
+  throw new Error("Prior isolated fixture queue did not drain.");
+}
+
+async function deliverSandboxMatter(itemId) {
+  const queue = await import("../src/lib/rcap/render/job-queue.ts");
+  const { runWorkerCycle } = await import("../src/lib/rcap/render/render-worker.ts");
+  const { renderClaimPacket } = await import("./rcap-render-worker.mjs");
+  const { authorizePacketDownload, streamAuthorizedPacket } = await import("../src/lib/rcap/render/packet-delivery.ts");
+  const objects = new Map();
+  const storage = {
+    async upload(key, bytes) { if (objects.has(key)) return { ok: false, reason: "object already exists" }; objects.set(key, Buffer.from(bytes)); return { ok: true }; },
+    async read(key) { const bytes = objects.get(key); return bytes ? Buffer.from(bytes) : null; }
+  };
+  const cycle = await runWorkerCycle({
+    queue: { claim: queue.claimNextRenderJob, startRender: queue.startRender, startValidation: queue.startValidation,
+      fail: queue.failRenderJob, finalize: queue.finalizeRenderJob,
+      releaseExpired: queue.releaseExpiredRenderClaims, requeueRetryable: queue.requeueRetryableRenderJobs },
+    storage, renderer: { render: renderClaimPacket }, workerId: "isolated-stripe-sandbox",
+    containerDigest: "sha256:local-isolated-regression",
+    allowlists: { allowedSourceShas: new Set(), knownProfileVersions: new Set([getProfileByJurisdiction("MS").profileVersion]), supportedRendererKinds: new Set(["packet_document_v1"]) }
+  });
+  assert.equal(cycle.outcome, "finalized", JSON.stringify(cycle));
+  const job = jobsFor(itemId)[0];
+  assert.equal(cycle.jobId, job.id);
+  const ports = {
+    getJob: queue.getRenderJob, storage,
+    async userOwnsBriefcaseItem(userId, id) { return db.scalar(`select exists(select 1 from consumer_briefcase_items where id='${id}' and user_id='${userId}')`) === "t"; },
+    async getCurrentVerification(id) {
+      const row = db.json(`select row_to_json(t) from (select * from consumer_packet_verifications where briefcase_item_id='${id}' and status='verified') t`);
+      return row && { snapshot: row.verification_snapshot, hash: row.verification_hash, ownerUserId: row.consumer_auth_user_id, matterId: row.matter_id, alreadyDownloaded: false };
+    },
+    recordEvent: queue.recordDeliveryEvent
+  };
+  const decision = await authorizePacketDownload(ports, { jobId: job.id, userId: USER_A });
+  assert.equal(decision.ok, true, JSON.stringify(decision));
+  const response = await streamAuthorizedPacket(ports, decision, { userId: USER_A });
+  const bytes = Buffer.from(await response.arrayBuffer());
+  assert(bytes.subarray(0, 5).equals(Buffer.from("%PDF-")));
+  const consumption = db.scalar(`select count(*) from consumer_packet_payment_consumption where consumer_briefcase_item_id='${itemId}'`);
+  const repeat = await authorizePacketDownload(ports, { jobId: job.id, userId: USER_A });
+  assert.equal(repeat.ok, true);
+  assert.equal(await (await streamAuthorizedPacket(ports, repeat, { userId: USER_A })).arrayBuffer().then(value => Buffer.from(value).equals(bytes)), true);
+  assert.equal((await authorizePacketDownload(ports, { jobId: job.id, userId: USER_B })).ok, false);
+  assert.equal((await authorizePacketDownload(ports, { jobId: job.id, userId: null })).ok, false);
+  assert.equal(db.scalar(`select count(*) from consumer_packet_payment_consumption where consumer_briefcase_item_id='${itemId}'`), consumption);
+  assert.equal(consumption, "1");
+  fs.writeFileSync(path.join(rootDir, "data/rcap-render/stripe-sandbox-packet.pdf"), bytes);
+  check("W1", "actual renderer, validated private object, owner/repeat delivery and cross-owner denials", true);
+  return { packetSha256: createHash("sha256").update(bytes).digest("hex"), packetByteCount: bytes.length, ownerDownloadStatus: response.status, repeatDownloadIdentical: true, unauthorizedDownloadDenied: true, consumerConsumptions: 1, workerExecution: "application source in isolated runner; deployed worker identity checked separately" };
+}
+
+async function createClaimedSandboxMatter() {
+  const { POST: createPending } = await import("../src/app/api/expungement-ai/screening/pending/route.ts");
+  const { POST: claimPending } = await import("../src/app/api/expungement-ai/screening/pending/claim/route.ts");
+  const { MS_NONCONVICTION_SCREENING_ANSWERS } = await import("./lib/rcap-ms-nonconviction-fixture.mjs");
+  await drainCompletedFixtureQueue();
+  setSession({ isAuthenticated: true, isVerified: true, userId: USER_A });
+  const request = (path, body) => new Request(`http://127.0.0.1:3000${path}`, {
+    method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body)
+  });
+  const pendingResponse = await createPending(request("/api/expungement-ai/screening/pending", {
+    jurisdiction: "MS", profileVersion: getProfileByJurisdiction("MS").profileVersion,
+    screeningCorrelationId: fixtureUuid("sandbox-screening-correlation"), answers: MS_NONCONVICTION_SCREENING_ANSWERS, locale: "en"
+  }));
+  assert.equal(pendingResponse.status, 200, "Real screening pending-result creation must succeed.");
+  const pending = await pendingResponse.json();
+  const claimResponse = await claimPending(request("/api/expungement-ai/screening/pending/claim", { claimToken: pending.claimToken }));
+  assert.equal(claimResponse.status, 200, "Real authenticated claim must create its owner-bound Briefcase matter.");
+  const claim = await claimResponse.json();
+  const itemId = await createItem(USER_A, "stripe-sandbox", { existingItemId: claim.matterId });
+  const item = await getBriefcaseItemForWebhook(USER_A, itemId);
+  const { readTrustedBriefcasePresentationSource } = await import("../src/lib/expungement-ai/briefcase-presentation-authority.ts");
+  const source = await readTrustedBriefcasePresentationSource({ consumerAuthUserId: USER_A, item });
+  assert.equal(source.ok, true, source.reason);
+  assert.equal(source.value.product, "expungement_ai_dtc");
+  assert.equal(source.value.partnerBenefitActive, false);
+  assert.equal(source.value.matterId, consumerMatterIdForItem(itemId));
+  check("C1", "real screening and authenticated claim establish canonical DTC acquisition", true);
+  return itemId;
+}
+
+if (process.argv.includes("--claimed-matter-fixture-check")) await runCaseGroup(["C1", "W1"], async () => {
+  const itemId = await createClaimedSandboxMatter();
+  const event = stripeEvent("evt_claimed_local_delivery", await checkoutSession({ itemId, userId: USER_A, sessionId: "cs_claimed_local_delivery" }));
+  assert.equal((await webhookRoute.POST(signedWebhookRequest(event))).status, 200);
+  await deliverSandboxMatter(itemId);
+});
+
+if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4", "C1", "W1"], async () => {
   assert(!process.argv.includes("--local-publication-fixture"), "Real sandbox regression must use the approved release inputs.");
   const balance = await stripe.balance.retrieve();
   assert.equal(balance.livemode, false, "The provider must independently confirm sandbox mode before any order.");
   const account = await stripe.accounts.retrieve();
   check("S1", "provider confirms isolated Stripe test mode", balance.livemode === false);
-  const itemId = await createItem(USER_A, "stripe-sandbox");
+  const itemId = await createClaimedSandboxMatter();
   const item = await getBriefcaseItemForWebhook(USER_A, itemId);
   const { createConsumerPacketCheckout } = await import("../src/lib/expungement-ai/payment-adapter.ts");
   const returnUrl = "https://example.com/legalease-isolated-qa-complete";
@@ -1222,13 +1335,15 @@ if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4"], async () => {
     assert.equal(replay.status, 200);
     assert.equal(jobsFor(itemId).length, 1);
     check("S4", "real provider event replay creates no second job or payment", true);
+    const delivery = await deliverSandboxMatter(itemId);
     fs.writeFileSync(path.join(rootDir, "data/rcap-render/stripe-sandbox-regression.json"), JSON.stringify({
+      ...delivery,
       applicationSha: process.env.QA_APPLICATION_SHA, accountId: account.id, livemode: false,
       sessionId, providerEventId: event.id, amountCents: paid.amount_total, currency: paid.currency,
       providerPaymentStatus: paid.payment_status, realCheckoutBrowserCompleted: true,
       webhookHttpStatus: response.status, replayHttpStatus: replay.status, durableJobsForMatter: 1,
       database: "disposable runner-local PostgreSQL", productionServicesUsed: false,
-      limitations: "Provider Checkout through durable job creation; deployed application UI and final worker delivery are separate checks."
+      limitations: "Application routes, real Stripe Checkout browser, local PostgreSQL and source worker/private storage; deployed immutable worker identity checked separately."
     }, null, 2) + "\n");
   } finally {
     if (sessionId) {
@@ -1244,6 +1359,7 @@ const report = {
   generatedBy: "scripts/verify-expungement-consumer-payment-http.mjs",
   migrationSequence: SEQUENCE,
   syntheticPublicationFixture: process.argv.includes("--local-publication-fixture"),
+  realStripeSandbox: sandbox,
   totals: { cases: results.length, passed, failed: results.length - passed },
   cases: results
 };

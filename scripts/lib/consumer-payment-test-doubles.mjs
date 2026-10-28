@@ -174,12 +174,21 @@ function table(name, role = null) {
   return api;
 }
 
+function quoteColumn(tableName, column, value) {
+  if (Array.isArray(value)) {
+    const type = db.scalar(`select atttypid::regtype::text from pg_attribute
+      where attrelid=${quote(tableName)}::regclass and attname=${quote(column)} and not attisdropped`);
+    if (type === "jsonb" || type === "json") return `'${JSON.stringify(value).replaceAll("'", "''")}'::${type}`;
+  }
+  return quote(value);
+}
+
 async function run(state) {
   const where = state.filters.length ? ` where ${state.filters.join(" and ")}` : "";
   try {
     if (state.op === "insert") {
       const cols = Object.keys(state.payload);
-      const vals = cols.map((c) => quote(state.payload[c]));
+      const vals = cols.map((c) => quoteColumn(state.name, c, state.payload[c]));
       return rowsFromJson(
         `insert into ${state.name} (${cols.join(", ")}) values (${vals.join(", ")}) returning *`,
         { dml: true, role: state.role }
@@ -187,7 +196,7 @@ async function run(state) {
     }
     if (state.op === "upsert") {
       const cols = Object.keys(state.payload);
-      const vals = cols.map((c) => quote(state.payload[c]));
+      const vals = cols.map((c) => quoteColumn(state.name, c, state.payload[c]));
       const conflictCols = state.onConflict.split(",").map((column) => column.trim()).filter(Boolean);
       const updates = cols
         .filter((column) => !conflictCols.includes(column))
@@ -201,7 +210,7 @@ async function run(state) {
     }
     if (state.op === "update") {
       const sets = Object.keys(state.payload)
-        .map((c) => `${c} = ${quote(state.payload[c])}`)
+        .map((c) => `${c} = ${quoteColumn(state.name, c, state.payload[c])}`)
         .join(", ");
       return rowsFromJson(`update ${state.name} set ${sets}${where} returning *`, { dml: true, role: state.role });
     }
@@ -227,12 +236,13 @@ function rpc(name, params, role = null) {
   try {
     const rows = rowsFromJson(`select * from ${name}(${args})`, { role });
     const value = rows.length === 1 && Object.keys(rows[0]).length === 1 ? Object.values(rows[0])[0] : undefined;
-    // PostgREST returns SQL boolean scalars directly, rather than a table row.
-    const scalarBoolean = typeof value === "boolean" && db.scalar(`select exists (
+    // PostgREST returns SQL scalars directly, rather than a table row.
+    const scalarResult = rows.length === 1 && Object.keys(rows[0]).length === 1 && db.scalar(`select exists (
       select 1 from pg_proc where pronamespace='public'::regnamespace and proname=${quote(name)}
-      and pronargs=${Object.keys(params ?? {}).length} and prorettype='boolean'::regtype and not proretset
+      and pronargs=${Object.keys(params ?? {}).length} and prorettype not in ('record'::regtype,'void'::regtype)
+      and prorettype not in (select oid from pg_type where typtype='c') and not proretset
     )`) === "t";
-    return Promise.resolve({ data: scalarBoolean ? value : rows, error: null });
+    return Promise.resolve({ data: scalarResult ? value : rows, error: null });
   } catch (error) {
     return Promise.resolve({
       data: null,

@@ -442,7 +442,7 @@ try {
   const noAuth = await authorizePacketDownload(deliveryPorts, { jobId: jobA, userId: null });
   assert(noAuth.ok === false && noAuth.status === 401, "delivery: unauthenticated is denied");
   const crossPerson = await authorizePacketDownload(deliveryPorts, { jobId: jobA, userId: USER_OTHER });
-  assert(crossPerson.ok === false && crossPerson.status === 403, "delivery: another user is denied without detail");
+  assert(crossPerson.ok === false && crossPerson.status === 404 && crossPerson.code === "not_found" && crossPerson.message === "This packet does not exist.", "delivery: another user is denied without detail");
   const unknownJob = await authorizePacketDownload(deliveryPorts, { jobId: "3d3d3d3d-1111-1111-1111-111111111111", userId: USER_OWNER });
   assert(unknownJob.ok === false && unknownJob.status === 404, "delivery: unknown job is not found");
 

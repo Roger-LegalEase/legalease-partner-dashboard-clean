@@ -179,6 +179,8 @@ jobs:
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
           QA_APPLICATION_SHA: 4c189b682d0a9225a21b9fdf8a2ebc50500029d6
+          RCAP_PARTNER_ONBOARDING_ENABLED: "true"
+          RCAP_2_0_ENABLED: "true"
         run: node scripts/verify-expungement-consumer-payment-http.mjs --stripe-sandbox --write
       - uses: actions/upload-artifact@v4
         if: always()
@@ -187,4 +189,5 @@ jobs:
           path: |
             data/rcap-render/consumer-payment-http.json
             data/rcap-render/stripe-sandbox-regression.json
+            data/rcap-render/stripe-sandbox-packet.pdf
           if-no-files-found: warn
