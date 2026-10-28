@@ -108,11 +108,12 @@ export function nonsecretRollbackCapsule(machine){
  const bytes=Buffer.from(JSON.stringify({machineId:machine.id,instanceId:machine.instance_id??null,imageDigest:machine.image_ref?.digest,immutableImageReference:'registry.fly.io/'+APP+'@'+machine.image_ref?.digest,ociRevision:machine.image_ref?.labels?.['org.opencontainers.image.revision']??null,config})+'\n');
  return{bytes,sha256:hash(bytes),configSha256:hash(JSON.stringify(config)),stopConfig};
 }
-export async function captureQualifiedWorkerReadiness({env=process.env,fetchImpl=fetch,root=process.cwd(),checkExecution=true}={}){
+export async function captureQualifiedWorkerReadiness({env=process.env,fetchImpl=fetch,root=process.cwd(),checkExecution=true,evidenceDirectory='worker-identity-evidence'}={}){
  const prerequisites=readReadinessPrerequisites(root);
  if(checkExecution){assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');assert.equal(env.GITHUB_REF,'refs/heads/captain-release');assert.equal(env.GITHUB_RUN_ATTEMPT,'1');assert.equal(env.GITHUB_REPOSITORY?.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),env.GITHUB_SHA);assert.equal(execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim(),'');}
  assert(env.FLY_API_TOKEN&&env.SUPABASE_ACCESS_TOKEN);
- const directory=path.join(root,'worker-identity-evidence');fs.mkdirSync(directory,{recursive:true,mode:0o700});
+ assert(['worker-identity-evidence','production-worker-evidence/pre-effect','production-worker-evidence/post-placement'].includes(evidenceDirectory));
+ const directory=path.join(root,evidenceDirectory);fs.mkdirSync(directory,{recursive:true,mode:0o700});
  const write=(name,value,raw=false)=>{const bytes=raw?value:Buffer.from(JSON.stringify(value,null,2)+'\n'),p=path.join(directory,name),fd=fs.openSync(p,'wx',0o600);try{fs.writeFileSync(fd,bytes);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}assert.equal(hash(fs.readFileSync(p)),hash(bytes));const d=fs.openSync(directory,'r');try{fs.fsyncSync(d);}finally{fs.closeSync(d);}return{path:name,sha256:hash(bytes)};};
  const result={schemaVersion:'qualified-worker-readonly-readiness/v1',capturedAt:new Date().toISOString(),app:APP,projectRef:PROJECT,prerequisites,executionSha:env.GITHUB_SHA??null,runId:Number(env.GITHUB_RUN_ID)||null,transport:{machineInventory:'GET',processProbe:'POST exec; bounded metadata and zero-row HEAD only',queue:'POST SQL; BEGIN READ ONLY; API read_only=false; postgres/on required'},workerMutated:false,productionDatabaseMutated:false,customerRowsRead:false,secretValuesIncluded:false,compatibilityAccepted:false,handoffProven:false,workerPlacementAuthorized:false,activationAuthorized:false,observations:{},refusals:[]};
  const json=async(url,options)=>{const r=await fetchImpl(url,{...options,redirect:'error',signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('HTTP_'+r.status);return r.json();};

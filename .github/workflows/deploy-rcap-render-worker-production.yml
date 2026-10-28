@@ -68,15 +68,29 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: ${{ inputs.worker_source_sha == '84a75b6e65dc69e6c371afac44f1284e0debf722' && inputs.worker_digest == 'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1' && 257 || 0 }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      - name: Ensure bounded qualified worker history
+        if: inputs.worker_source_sha == '84a75b6e65dc69e6c371afac44f1284e0debf722' && inputs.worker_digest == 'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=257 origin captain-release
+          for required in 4c189b682d0a9225a21b9fdf8a2ebc50500029d6 84a75b6e65dc69e6c371afac44f1284e0debf722 ed8d0902a99c5326f75987a942eb507b6cfb16cf 68784f1d89c1f2120a7f4c385569f8918d1492d1 0cd12827498a582b8558c312d8d5eae7076e7c3a 9c120d99f800c1fcf2ccf5c4b4e5b3eedd75a291 e49d4fee4d3c082f3be9571f4d3f5d77f5b2f67b; do
+            git cat-file -e "$required^{commit}"
+          done
+          [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ] || { echo "::error::workflow execution checkout mismatch"; exit 1; }
+
       - name: Install frozen release-control dependencies
         run: npm ci
+
+      - name: Verify the qualified worker placement controls
+        if: inputs.worker_source_sha == '84a75b6e65dc69e6c371afac44f1284e0debf722' && inputs.worker_digest == 'sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1'
+        run: QUALIFIED_WORKER_CONTROLLER_TEST=1 node --test scripts/qualified-worker-deployment-inputs.test.mjs scripts/qualified-worker-placement.test.mjs
 
       - name: Refuse any worker identity outside the frozen candidate
         env:
@@ -88,14 +102,20 @@ jobs:
           import fs from "node:fs";
           import { requireProductionPhaseAuthorization } from "./scripts/grade-a-launch-control/production-preflight-authorization.mjs";
           import { verifyProductionPreflightEvidence } from "./scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs";
+          import { requireCurrentReleaseCandidate } from "./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs";
+          import { readQualifiedWorkerDeploymentInputs } from "./scripts/qualified-worker-deployment-inputs.mjs";
           const sha = process.env.INPUT_WORKER_SOURCE_SHA ?? "";
           const digest = process.env.INPUT_WORKER_DIGEST ?? "";
           if (!/^[a-f0-9]{40}$/.test(sha)) throw new Error("worker_source_sha must be an exact 40-character SHA");
           if (!/^sha256:[a-f0-9]{64}$/.test(digest)) throw new Error("worker_digest must be an exact sha256 digest");
           const candidate = JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8"));
           requireProductionPhaseAuthorization(candidate, "production_worker_deploy");
-          verifyProductionPreflightEvidence(process.cwd());
           const publication = JSON.parse(fs.readFileSync("data/rcap-render/worker-publication-evidence.json", "utf8"));
+          const qualified = Boolean(candidate.qualifiedWorkerDatabase);
+          if (qualified) {
+            requireCurrentReleaseCandidate(process.cwd());
+            readQualifiedWorkerDeploymentInputs(process.cwd(), candidate, publication);
+          } else verifyProductionPreflightEvidence(process.cwd());
           const mismatches = [];
           if (candidate.workerSourceSha !== sha) mismatches.push("candidate workerSourceSha");
           if (candidate.workerDigest !== digest) mismatches.push("candidate workerDigest");
@@ -118,7 +138,7 @@ jobs:
           else {
             if (acceptance.conclusion !== "success") mismatches.push("image acceptance conclusion");
             if (acceptance.digest !== digest) mismatches.push("image acceptance digest");
-            if (acceptance.tag !== sha) mismatches.push("image acceptance tag");
+            if (acceptance[qualified ? "sourceSha" : "tag"] !== sha) mismatches.push("image acceptance source");
             if (acceptance.digest !== candidate.workerDigest) mismatches.push("image acceptance vs candidate digest");
           }
           if (mismatches.length) throw new Error("refused: " + mismatches.join(", "));
@@ -169,6 +189,7 @@ jobs:
         if: steps.worker_readiness.outputs.disposition == 'WRITE_REQUIRED_AND_PROVEN'
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           WORKER_DIGEST: ${{ inputs.worker_digest }}
         run: |
@@ -178,8 +199,16 @@ jobs:
           docker tag "$IMAGE_REPOSITORY@$WORKER_DIGEST" "$MIRROR"
           docker push "$MIRROR" >/dev/null
           MIRROR_DIGEST="$(docker inspect --format='{{range .RepoDigests}}{{println .}}{{end}}' "$MIRROR" | grep '^registry.fly.io/' | sed 's/.*@//' | head -n1)"
+          [[ "$MIRROR_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "::error::mirror digest unavailable"; exit 1; }
           echo "mirror digest: $MIRROR_DIGEST"
           echo "RCAP_FLY_IMAGE_DIGEST=$MIRROR_DIGEST" >> "$GITHUB_ENV"
+          export RCAP_FLY_IMAGE_DIGEST="$MIRROR_DIGEST"
+          PLACEMENT_FLAGS=()
+          if node -e "process.exit(JSON.parse(require('fs').readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')).qualifiedWorkerDatabase ? 0 : 1)"; then
+            node scripts/qualified-worker-placement.mjs pre-effect
+            WORKER_MACHINE_ID="$(node -e "process.stdout.write(JSON.parse(require('fs').readFileSync('production-worker-evidence/qualified-placement-intent.json')).machineId)")"
+            PLACEMENT_FLAGS=(--only-machines "$WORKER_MACHINE_ID" --update-only --deploy-retries 0 --skip-release-command)
+          fi
           flyctl deploy \
             --app "$FLY_APP_NAME" \
             --config "$FLY_CONFIG" \
@@ -187,6 +216,7 @@ jobs:
             --env "RCAP_WORKER_CONTAINER_DIGEST=$WORKER_DIGEST" \
             --ha=false \
             --strategy immediate \
+            "${PLACEMENT_FLAGS[@]}" \
             --yes
 
       - name: Verify the production worker is running the exact image and the queue is being served
@@ -196,7 +226,12 @@ jobs:
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
           RCAP_PRODUCTION_PROJECT_REF: ${{ env.PRODUCTION_PROJECT_REF }}
-        run: node scripts/verify-rcap-production-worker-execution.mjs
+        run: |
+          set -euo pipefail
+          node scripts/verify-rcap-production-worker-execution.mjs
+          if node -e "process.exit(JSON.parse(require('fs').readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')).qualifiedWorkerDatabase ? 0 : 1)"; then
+            node scripts/qualified-worker-placement.mjs post-placement
+          fi
 
       - name: Upload the production worker execution evidence
         if: always()

@@ -9,6 +9,7 @@ import {assertQualifiedWorkerCompatibility,QUALIFIED_FORWARD_APP} from './verify
 import {applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {QUALIFIED_DATABASE_PACKAGE_PATH,readQualifiedDatabasePackage} from '../qualified-production-database-package.mjs';
 import {readQualifiedDatabaseAcceptedFirstCommit} from '../qualified-db-accepted-first-commit.mjs';
+import {readReadinessPrerequisites,nonsecretRollbackCapsule} from '../qualified-worker-readonly-capture.mjs';
 const EVIDENCE='data/rcap-grade-a/launch-control/qualified-release-evidence/';
 const RECORDS=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'].map(n=>'data/rcap-grade-a/launch-control/'+n+'.json');
 const RELEASE_BASE='e49d4fee4d3c082f3be9571f4d3f5d77f5b2f67b';
@@ -110,10 +111,35 @@ export function prepareQualifiedSmokeRecords(root,{toolsSha,releaseBaseSha}){
  }
  return records;
 }
+export const QUALIFIED_WORKER_READINESS_REFS={
+ acceptance:{path:EVIDENCE+'C-406256-READINESS-ACCEPTANCE.json',sha256:'ed60a2b5abc4a4f9cc3b4a30b8e0d0c0aaad0359c0ba65f3f4d81ee0b8d9a07b'},
+ identity:{path:EVIDENCE+'ACTUAL-406256-identity.json',sha256:'2b07395c45b6c8f6c8f6e55c40925d9ed0f0959ac866a66177048a6165275073'},
+ capsule:{path:EVIDENCE+'ACTUAL-406256-rollback-config.json',sha256:'c1809cb5c0d04b5c43d0c68c2688decbc61e0daca03fa1db30a537860067f760'},
+};
+const READINESS_EXECUTION='36f0f8ccdd9cd6923686fdd34a1674e53cc9aaf1';
+export function readQualifiedWorkerPlacementEvidence(root){
+ const documents=Object.fromEntries(Object.entries(QUALIFIED_WORKER_READINESS_REFS).map(([k,ref])=>{const b=fs.readFileSync(path.join(root,ref.path));assert.equal(hash(b),ref.sha256,'Actual accepted worker readiness '+k);return[k,JSON.parse(b)];}));
+ const {acceptance:c,identity,capsule}=documents;
+ assert.equal(c.schemaVersion,'qualified-production-actual-worker-readiness-custody-independent-acceptance/v1');assert.equal(c.authority,'CODEX C');assert.equal(c.accepted,true);assert.equal(c.runId,40625686732);assert.equal(c.executionSha,READINESS_EXECUTION);assert.equal(c.artifact.serverDigestIndependentlyVerifiedByC,true);assert.equal(c.identity.sha256,QUALIFIED_WORKER_READINESS_REFS.identity.sha256);assert.equal(c.exactDurableNonsecretRollbackCapsule.sha256,QUALIFIED_WORKER_READINESS_REFS.capsule.sha256);
+ for(const key of ['actualReadinessAccepted','rollbackCustodyAccepted','effectiveWwtBindingAccepted','queueLifecycleFactsAccepted','nativeStopAndLeaseParametersAccepted'])assert.equal(c[key],true);for(const key of ['workerPlacementAdmitted','actualHandoffAccepted','activationAdmitted'])assert.equal(c[key],false);
+ assert.equal(identity.schemaVersion,'qualified-worker-readonly-readiness/v1');assert.equal(identity.status,'READINESS_CAPTURED_REQUIRES_C_REVIEW');assert.equal(identity.runId,c.runId);assert.equal(identity.executionSha,c.executionSha);assert.deepEqual(identity.refusals,[]);assert.equal(identity.machineUnchangedDuringCapture,true);assert.deepEqual(identity.machine,c.acceptedMachine);assert.deepEqual(identity.observations.effectiveWorker,c.acceptedProcess);assert.deepEqual(identity.observations.queue,c.acceptedQueue);assert.equal(identity.rollback.sha256,QUALIFIED_WORKER_READINESS_REFS.capsule.sha256);assert.equal(identity.rollback.configSha256,c.nativeConfigSha256);assert.equal(identity.rollback.durableVerified,true);
+ assert.equal(c.nativeStop.signal,'SIGTERM');assert.equal(c.nativeStop.timeout,'30s');assert.equal(c.nativeStop.claimLeaseSeconds,600);assert.equal(c.nativeStop.workerLoopHandlesSignal,true);assert.equal(c.existingExposedWorkCompatibility.acceptedAtCapture,true);assert.equal(c.existingExposedWorkCompatibility.notAnEmptyQueueRequirement,true);assert.equal(c.noFurtherReadinessCaptureRequiredForUnchangedAcceptedFacts,true);
+ const safe=nonsecretRollbackCapsule({id:capsule.machineId,instance_id:capsule.instanceId,image_ref:{digest:capsule.imageDigest,labels:{'org.opencontainers.image.revision':capsule.ociRevision}},config:capsule.config});assert.equal(safe.sha256,QUALIFIED_WORKER_READINESS_REFS.capsule.sha256);assert.equal(safe.configSha256,c.nativeConfigSha256);assert.equal(capsule.config.env.RCAP_WORKER_CLAIM_SECONDS,'600');assert.deepEqual(safe.stopConfig,c.acceptedMachine.stopConfig);
+ const descriptor={...QUALIFIED_WORKER_READINESS_REFS,runId:c.runId,executionSha:c.executionSha,acceptedMachine:c.acceptedMachine,configSha256:c.nativeConfigSha256,acceptedExposure:c.acceptedQueue.exposed_work,nativeStop:c.nativeStop};
+ return{descriptor,identity,capsule,acceptance:c};
+}
+export function prepareQualifiedWorkerPlacementRecords(root,{toolsSha,releaseBaseSha}){
+ assert.equal(releaseBaseSha,READINESS_EXECUTION);assert.notEqual(toolsSha,releaseBaseSha);git(root,['merge-base','--is-ancestor',releaseBaseSha,toolsSha]);
+ const evidence=readQualifiedWorkerPlacementEvidence(root),completedSmoke=readReadinessPrerequisites(root),records=prepareQualifiedSmokeRecords(root,{toolsSha,releaseBaseSha:DATABASE_EXECUTION});
+ for(const rel of RECORDS){const record=records[rel],before=blob(root,releaseBaseSha,rel),previous=JSON.parse(before);assert.equal(previous.qualifiedWorkerDatabase.phase,'smoke');assert.deepEqual(previous.qualifiedWorkerDatabase.completedDatabase,record.qualifiedWorkerDatabase.completedDatabase);
+  records[rel]={...record,status:'QUALIFIED_PRODUCTION_WORKER_PLACEMENT_ONLY',qualifiedWorkerDatabase:{...record.qualifiedWorkerDatabase,smokeReleaseBaseSha:DATABASE_EXECUTION,releaseBaseSha,phase:'production_worker_deploy',completedSmoke,acceptedWorkerReadiness:evidence.descriptor},productionAuthorization:{...record.productionAuthorization,phases:['production_worker_deploy'],note:'Existing exact immutable worker placement only after accepted DB, staged smoke and current rollback/readiness. Require fresh immediate pre-effect identity/config/WWT/exposure checks and actual safe same-machine handoff/postproof. No rebuild, queue reset, blind rollback or app activation.'},supersededRecord:previous,supersededRecordSha256:hash(before)};
+ }
+ return records;
+}
 export function verifyQualifiedDatabaseBinding(root,candidate){
  try{
   assert.equal(candidate.qualifiedWorkerDatabase?.schemaVersion,'qualified-production-two-migration-binding/v1');
-  const prepare=candidate.qualifiedWorkerDatabase.phase==='smoke'?prepareQualifiedSmokeRecords:prepareQualifiedDatabaseRecords;
+  const prepare=candidate.qualifiedWorkerDatabase.phase==='production_worker_deploy'?prepareQualifiedWorkerPlacementRecords:candidate.qualifiedWorkerDatabase.phase==='smoke'?prepareQualifiedSmokeRecords:prepareQualifiedDatabaseRecords;
   const expected=prepare(root,{toolsSha:candidate.toolsSha,releaseBaseSha:candidate.qualifiedWorkerDatabase.releaseBaseSha});
   for(const rel of RECORDS)assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root,rel))),expected[rel]);assert.deepEqual(candidate,expected[RECORDS[1]]);
   assert(applicationInputEquivalence(root,QUALIFIED_FORWARD_APP,'HEAD').equivalent,'Exact frozen application');
