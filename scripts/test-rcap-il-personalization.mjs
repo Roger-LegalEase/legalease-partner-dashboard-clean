@@ -11,6 +11,7 @@ const { withIllinoisRegistry } = await import('./test-rcap-il-authority-fixture.
 register('./lib/consumer-payment-test-loader.mjs', import.meta.url);
 register('./test-rcap-il-delivery-loader.mjs', import.meta.url);
 const { bindEphemeralDb } = await import('./lib/consumer-payment-test-doubles.mjs');
+const { installCurrentSponsoredAuthority } = await import('./lib/current-sponsored-authority-fixture.mjs');
 const { bindDeliveryDb, literal: q, sponsoredItems } = await import('./test-rcap-il-delivery-boundaries.mjs');
 const { generatePaidConsumerPacket, getConsumerPacketStatus } = await import('../src/lib/expungement-ai/packet-generation.ts');
 const { issueConsumerArtifactDownloadGrant, authorizeConsumerArtifactDownload } = await import('../src/lib/expungement-ai/private-delivery.ts');
@@ -83,8 +84,12 @@ function setup() {
     '20260919010000_illinois_carried_forward_specification_digest',
     '20260924161239_preserve_packet_publisher_attribution',
     '20260924172645_preserve_sponsored_regeneration_attribution',
+    '20260917090000_consumer_promotion_codes',
+    '20260927152649_clinic_packet_funding_choice',
   ]) db.applyFile(`supabase/migrations/${migration}.sql`);
-  db.sql(`insert into partner_records values(${q(partnerId)},'il-clinic-sponsor');
+  installCurrentSponsoredAuthority(db);
+  db.applyFile('supabase/migrations/20261010214500_rcap_integrated_consumer_funding.sql');
+  db.sql(`insert into partner_records(id,partner_slug) values(${q(partnerId)},'il-clinic-sponsor');
     insert into partner_packet_entitlement(partner_id,packet_cap,overage_enabled,overage_cap) values(${q(partnerId)},20,false,0);
     insert into partner_entitlement(partner_slug,screenings_used,screenings_allowed,pause_at_cap,overage_enabled)
       values('il-clinic-sponsor',0,20,true,false);
@@ -128,7 +133,7 @@ function seed(name, address, sponsored=false) {
     sponsoredItems.set(itemId,sourceSessionId);
   } else {
   assert.equal(db.scalar(`select ok from bind_consumer_checkout_verification(${q(userId)},${q(itemId)},${q('cs-'+itemId)},'stripe','expungement_packet',${q(personId)},${q(matterId)},${q(verificationHash)})`), 't');
-  assert.equal(db.scalar(`select outcome from record_consumer_packet_payment(${q(itemId)},'paid',5000,'usd','stripe',${q('evt-'+itemId)},${q('cs-'+itemId)},null,null,'server_webhook','synthetic-local-test','expungement_packet',${q(personId)},${q(matterId)},${q(verificationHash)})`), 'recorded_paid');
+  assert.equal(db.scalar(`select outcome from record_consumer_packet_payment(${q(itemId)},'paid',5000,5000,0,'usd','stripe',${q('evt-'+itemId)},${q('cs-'+itemId)},${q('pi-'+itemId)},null,'server_webhook','synthetic-local-test','expungement_packet',${q(personId)},${q(matterId)})`), 'recorded_paid');
   }
   const c = { userId, itemId, personId, matterId, snapshot, verificationHash, sponsored, sourceSessionId }; cases.push(c); return c;
 }
@@ -193,9 +198,22 @@ try {
     const bob=seed('Bruno Sample', '202 Second Street');
     const claire=seed('Claire Sponsored', '404 Third Street', true);
     const diego=seed('Diego Sponsored', '505 Fourth Street', true);
-    const participants=[alice,bob,claire,diego];
+    const participants=[alice,bob];
     process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE='staging_scoped';
     process.env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE=participants.map(c=>c.userId).join(',');
+    // Illinois has no current sponsored-channel decision. Exercise the real
+    // refusal here; current authorized sponsored delivery is covered by the MS
+    // binding suite, including grant revocation and exactly-once accounting.
+    const held = error => error?.name === 'PacketFulfillmentNotProvenError'
+      && error.routeKey === 'IL:felony-prostitution-relief'
+      && error.missing?.includes('an open posture for sponsored entitlement');
+    for (const c of [claire,diego]) {
+      await assert.rejects(()=>generatePaidConsumerPacket({userId:c.userId,briefcaseItemId:c.itemId}),held);
+      assert.equal(db.scalar(`select count(*) from packet_render_jobs where sponsored_consumer_briefcase_item_id=${q(c.itemId)}`),'0');
+      assert.equal(db.scalar(`select count(*) from consumer_packet_artifact_provenance where briefcase_item_id=${q(c.itemId)}`),'0');
+    }
+    assert.equal(db.scalar('select count(*) from packet_credit_ledger'),'0');
+    evidence.heldSponsoredParticipants=2;
     for (const c of participants) {
       const result=await generatePaidConsumerPacket({userId:c.userId,briefcaseItemId:c.itemId});
       assert.equal(result.packetStatus,'generating'); assert.equal(result.canDownload,false); assert.ok(result.renderJobId);
@@ -269,7 +287,7 @@ try {
       evidence.participants.push({mode:c.sponsored?'sponsored':'consumer',matterId:c.matterId,jobId:c.jobId,packetId:job.packetId,participant:c.snapshot.packetAnswers.participant_full_legal_name,expectedAddress:c.snapshot.packetAnswers.mailing_address,sha256:hash(c.bytes),verificationHash:c.verificationHash});
     }
     if (verifyFailure) {
-      assert.equal(db.scalar('select count(*) from packet_render_jobs'),'4');
+      assert.equal(db.scalar('select count(*) from packet_render_jobs'),'2');
       assert.equal(db.scalar('select count(*) from consumer_packet_artifact_provenance'),'0');
       assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'0');
       assert.equal(db.scalar('select count(*) from packet_credit_ledger'),'0');
@@ -278,7 +296,7 @@ try {
       const retry=await generatePaidConsumerPacket({userId:alice.userId,briefcaseItemId:alice.itemId});
       assert.equal(retry.renderJobId,alice.jobId);
       assert.equal((await runWorkerCycle(deps)).outcome,'failed');
-      assert.equal(db.scalar('select count(*) from packet_render_jobs'),'4');
+      assert.equal(db.scalar('select count(*) from packet_render_jobs'),'2');
       await assert.rejects(()=>generatePaidConsumerPacket({userId:bob.userId,briefcaseItemId:alice.itemId}), /not found/i);
       await assert.rejects(()=>generatePaidConsumerPacket({userId:bob.userId,briefcaseItemId:claire.itemId}), /not found/i);
       evidence.result='FAIL-CLOSED checks PASS; explicit renderer failure double, no artifact or Ready';
@@ -300,8 +318,8 @@ try {
     });
     assert.deepEqual(await reproduceParticipantPacket(),alice.bytes,'identical inputs reproduce exact bytes');
     assert.equal(await computeNormalizedFingerprint(await reproduceParticipantPacket()),await computeNormalizedFingerprint(alice.bytes));
-    assert.equal(db.scalar('select count(*) from packet_render_jobs'),'4');
-    assert.equal(db.scalar('select count(*) from consumer_packet_artifact_provenance'),'4');
+    assert.equal(db.scalar('select count(*) from packet_render_jobs'),'2');
+    assert.equal(db.scalar('select count(*) from consumer_packet_artifact_provenance'),'2');
     assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'2');
     for(const c of participants) {
       for(const other of participants.filter(p=>p!==c)) assert.ok(!c.text.toUpperCase().includes(other.snapshot.packetAnswers.participant_full_legal_name.toUpperCase()));
@@ -309,9 +327,9 @@ try {
       const retry=await generatePaidConsumerPacket({userId:c.userId,briefcaseItemId:c.itemId});
       assert.equal(retry.canDownload,true);assert.equal(retry.artifactRefs.renderJobId,c.jobId);assert.deepEqual(accounting(),before);
     }
-    assert.equal(db.scalar("select screenings_used from partner_entitlement where partner_slug='il-clinic-sponsor'"),'2');
-    assert.equal(db.scalar("select count(*) from packet_credit_ledger where event_type='consumed'"),'2');
-    assert.equal(db.scalar("select count(*) from rcap_screening_analytics_events where event_type='packet_generated'"),'2');
+    assert.equal(db.scalar("select screenings_used from partner_entitlement where partner_slug='il-clinic-sponsor'"),'0');
+    assert.equal(db.scalar("select count(*) from packet_credit_ledger where event_type='consumed'"),'0');
+    assert.equal(db.scalar("select count(*) from rcap_screening_analytics_events where event_type='packet_generated'"),'0');
     evidence.initialAccounting=accounting();
     assert.equal(db.scalar("select count(*) from consumer_briefcase_items where payment_status='paid'"),'2','sponsorship never manufactures a consumer payment');
     // Material edits close old delivery and change actual rendered text.
@@ -349,48 +367,13 @@ try {
     }
     const wrongFamily={...ports,getJob:async(id)=>{ const j=await getRenderJob(id);return {...j,personalizedBinding:{...j.personalizedBinding,packetFamilyId:'il-prostitution-j-auto-set'}};}};
     assert.equal((await authorizePacketDownload(wrongFamily,{jobId:bob.jobId,userId:bob.userId})).ok,false);
-    const beforeWrongEvent=accounting();
-    db.sql(`update clinic_events set jurisdiction='WI' where id=${q(eventId)}`);
-    const denied=seed('Wrong Event Participant','707 Denied Street',true);
-    process.env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE+=','+denied.userId;
-    const countBefore=db.scalar('select count(*) from packet_render_jobs');
-    await assert.rejects(()=>generatePaidConsumerPacket({userId:denied.userId,briefcaseItemId:denied.itemId}),/sponsored render queue refused/);
-    assert.equal(db.scalar('select count(*) from packet_render_jobs'),countBefore);
-    assert.equal((await authorizePacketDownload(ports,{jobId:claire.jobId,userId:claire.userId})).ok,false);
-    assert.equal((await getConsumerPacketStatus({userId:claire.userId,briefcaseItemId:claire.itemId})).canDownload,false);
-    db.sql(`update clinic_events set jurisdiction='IL' where id=${q(eventId)}`);
-    assert.deepEqual(accounting(),beforeWrongEvent);
-    const sponsorAttribution=db.json(`select artifact_refs_json->'attribution' from consumer_briefcase_items where id=${q(claire.itemId)}`);
-    assert.equal(sponsorAttribution.locale,'en','initial sponsored finalization retains durable locale');
+    const beforeHeldEdit=accounting();
     const sponsorChanged={...claire.snapshot,packetAnswers:{...claire.snapshot.packetAnswers,mailing_address:'606 Sponsor Change'}};
     db.sql(`update consumer_packet_verifications set verification_snapshot=${q(JSON.stringify(sponsorChanged))},verification_hash=${q(hash(sponsorChanged))} where briefcase_item_id=${q(claire.itemId)}`);
-    assert.equal((await authorizePacketDownload(ports,{jobId:claire.jobId,userId:claire.userId})).ok,false);
-    try {
-      const changedSponsor=await generatePaidConsumerPacket({userId:claire.userId,briefcaseItemId:claire.itemId});
-      assert.ok(changedSponsor.renderJobId); assert.notEqual(changedSponsor.renderJobId,claire.jobId);
-      const cycle=await runWorkerCycle(deps); assert.equal(cycle.outcome,'finalized',JSON.stringify(cycle));
-      const regeneratedRefs=db.json(`select artifact_refs_json from consumer_briefcase_items where id=${q(claire.itemId)}`);
-      assert.deepEqual(regeneratedRefs.attribution,sponsorAttribution,'sponsored regeneration preserves the entire durable attribution');
-      assert.equal(regeneratedRefs.renderJobId,changedSponsor.renderJobId,'Briefcase points to the regenerated artifact');
-      const ready=await getConsumerPacketStatus({userId:claire.userId,briefcaseItemId:claire.itemId});
-      assert.equal(ready.canDownload,true,'sponsored regeneration must publish protected provenance');
-      assert.equal(ready.artifactRefs.renderJobId,changedSponsor.renderJobId);
-      const decision=await authorizePacketDownload(ports,{jobId:changedSponsor.renderJobId,userId:claire.userId});
-      assert.equal(decision.ok,true);
-      const pdf=path.join(output,'sponsored-changed.pdf');fs.writeFileSync(pdf,decision.bytes);
-      const content=execFileSync('pdftotext',['-layout',pdf,'-'],{encoding:'utf8'});
-      assert.ok(content.includes('606 Sponsor Change'));assert.ok(!content.includes('404 Third Street'));
-      evidence.sponsoredChangedFact={field:'mailing_address',before:'404 Third Street',after:'606 Sponsor Change',sha256:hash(decision.bytes),jobId:changedSponsor.renderJobId};
-      await assertRevision(claire,changedSponsor.renderJobId,hash(sponsorChanged));
-      assert.deepEqual(db.json(`select artifact_refs_json from consumer_briefcase_items where id=${q(claire.itemId)}`),regeneratedRefs,'exact replay preserves regenerated metadata and attribution');
-      assert.deepEqual(accounting(),beforeWrongEvent,'sponsored regeneration consumes no additional allowance');
-    }catch(error){
-      evidence.failures.push({check:'sponsored changed-verification regeneration',error:error.message});
-      const latest=db.json(`select row_to_json(j) from packet_render_jobs j where sponsored_consumer_briefcase_item_id=${q(claire.itemId)} and sponsored_verification_hash=${q(hash(sponsorChanged))}`);
-      const old=db.json(`select artifact from consumer_packet_artifact_provenance where briefcase_item_id=${q(claire.itemId)}`);
-      const attempted={...old,verificationHash:hash(sponsorChanged),artifactSha256:latest.output_sha256,renderJobId:latest.id};
-      evidence.sponsoredRegenerationRefusal=db.json(`select row_to_json(f) from finalize_sponsored_packet_generation_for_route('IL:felony-prostitution-relief',${q(claire.sourceSessionId)},${q(claire.itemId)},${q(hash(sponsorChanged))},${q(JSON.stringify(attempted))},${q(latest.id)}) f`);
-    }
+    await assert.rejects(()=>generatePaidConsumerPacket({userId:claire.userId,briefcaseItemId:claire.itemId}),held);
+    assert.equal(db.scalar(`select count(*) from consumer_packet_artifact_provenance where briefcase_item_id=${q(claire.itemId)}`),'0');
+    assert.deepEqual(accounting(),beforeHeldEdit,'editing facts cannot bypass the current sponsored-channel hold');
+    evidence.sponsoredHoldSurvivesFactEdit=true;
     const original=db.json(`select row_to_json(p) from consumer_packet_artifact_provenance p where briefcase_item_id=${q(alice.itemId)}`);
     const failedSnapshot={...changed,packetAnswers:{...changed.packetAnswers,mailing_address:'808 Failed Render Street'}};
     const failedHash=hash(failedSnapshot);
@@ -409,7 +392,7 @@ try {
   assert.equal((await authorizePacketDownload(ports,{jobId:cases[0].jobId,userId:cases[0].userId})).ok,false,'committed revoked authority never delivers');
   console.log(JSON.stringify(evidence,null,2));
   assert.equal(evidence.failures.length,0,JSON.stringify(evidence.failures));
-  console.log(verifyFailure ? 'Consumer and sponsored entry, immutable inputs, explicit renderer failure and no false Ready PASS' : 'Personalized consumer and sponsored generation -> real verified queue -> actual worker -> protected provenance -> owner/repeat download PASS (local only)');
+  console.log(verifyFailure ? 'Consumer entry, immutable inputs, renderer failure and sponsored-channel holds PASS' : 'Personalized consumer generation, worker, protected provenance, owner/repeat download and current IL sponsored-channel refusal PASS (local only)');
 } finally {
   delete process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE;delete process.env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE;
   if (previousNodeEnv === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = previousNodeEnv;

@@ -3,6 +3,8 @@
 // hosted project is contacted by this test.
 
 import assert from "node:assert/strict";
+import { buildMsNonConvictionVerification } from "./lib/rcap-ms-nonconviction-fixture.mjs";
+import { HOSTED_FINAL_REVIEW_ANSWERS } from "./rcap-hosted-final-verification.mjs";
 import fs from "node:fs";
 import Module from "node:module";
 import path from "node:path";
@@ -114,6 +116,12 @@ const PATHWAY_ID = "non-conviction-expungement-for-dismissal-no-disposition-or-a
 const TRACK_ID = "ms-nonconv";
 const UNRECORDED_PATHWAY_ID = "pa-path-a-non-conviction-expungement";
 const APP_ORIGIN = "https://axis-serving-believed-century.trycloudflare.com";
+
+const verifiedFixture = buildMsNonConvictionVerification({
+  ...loadTsWithMocks("src/lib/expungement-ai/authoritative-screening-result.ts", {}),
+  ...loadTsWithMocks("src/lib/expungement-ai/packet-information.ts", {}),
+  matterId: ITEM, answerOverrides: HOSTED_FINAL_REVIEW_ANSWERS
+});
 
 function eligibleItem(overrides = {}) {
   return {
@@ -236,27 +244,7 @@ function buildPaymentAdapter({
         return {
           hash: verificationHash,
           snapshot: lastSnapshot = {
-            jurisdiction: JURISDICTION,
-            pathwayId: PATHWAY_ID,
-            // The server-owned track, from the specification this route's
-            // Grade-A record binds. A route match alone is not commercial
-            // authority: the record names an exact track, family, provider and
-            // specification, and the protected snapshot is where that comes
-            // from. The forged-track case below still forges on the ITEM,
-            // which is the writable surface, and must not win.
-            selectedTrackId: TRACK_ID,
-            treatmentClassification: null,
-            deferralComponentIds: [],
-            packetType: "custom_pleading",
-            resultCode: "packet_ready",
-            paymentAllowed: true,
-            packetPlan: null,
-            profileVersion: "2026-06-19-source-conversion-1",
-            profileAuthorityFingerprint: "b".repeat(64),
-            profileSourceFingerprint: "c".repeat(64),
-            packetFamilyIdentifiers: { mode: "custom_pleading", sourceFormIds: [] },
-            verifiedAt: new Date().toISOString(),
-            packetAnswers: JSON.parse(read("data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json")).facts,
+            ...verifiedFixture.snapshot,
             ...verificationSnapshotOverrides
           },
           revision: verificationRevision
@@ -297,6 +285,7 @@ const cases = [
 for (const [label, options, expected] of cases) {
   const h = buildPaymentAdapter(options);
   const item = eligibleItem();
+  if (expected) await h.adapter.requireConsumerPacketPurchaseReadiness(USER, item);
   const permitted = await h.adapter.consumerPacketPurchaseAllowedNow(USER, item);
   assert.equal(permitted, expected, `${label}: server presentation`);
   assert.equal(h.createCalls.length + h.persistCalls.length, 0, "presentation must create no order");
@@ -327,8 +316,11 @@ for (const mode of ["consumer", "paid", "sponsored"]) {
 assert.equal(client.packetVerificationActions({ verified: true, packetReady: false, mode: "consumer" }).checkout, false);
 assert.equal(client.packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored", commercialActions: allow }).generation, null);
 assert.equal(client.packetVerificationActions({ verified: true, packetReady: true, mode: "paid", commercialActions: deny }).openPacket, true);
-for (const [ok, payload, expected] of [[true, { readyToGenerate: true }, deny], [false, { commercialActions: allow }, deny], [true, { commercialActions: allow }, allow]]) {
-  const response = await client.requestPacketVerification({ itemId: ITEM, answers: {}, fetchImpl: async () => ({ ok, json: async () => payload }) });
+const receipt = { ok: true, revision: 4, answers: {}, questions: [], reviewQuestions: [], sections: [],
+  missingInputIds: [], pendingDerivations: [], resumeSectionId: null, reviewPath: `/briefcase/${ITEM}/review`,
+  readyToGenerate: true, reviewReason: "explicit_final_verification", nextAction: "review_packet", commercialActions: allow };
+for (const [ok, payload, expected] of [[true, { readyToGenerate: true }, deny], [false, receipt, deny], [true, { commercialActions: allow }, deny], [true, receipt, allow]]) {
+  const response = await client.requestPacketVerification({ itemId: ITEM, expectedRevision: 4, answers: {}, fetchImpl: async () => ({ ok, json: async () => payload }) });
   assert.deepEqual(response.commercialActions, expected, "legacy verified response alone grants no commercial action");
 }
 console.log("PASS: checkout prerequisite truth table and participant action agreement; no provider contacted.");
@@ -355,6 +347,8 @@ function generationHarness({ snapshot = verifiedSnapshot, verified = true, benef
   mocks["@/lib/expungement-ai/briefcase-presentation-authority"] = { readTrustedBriefcasePresentationSource: async () => ({ ok: true, value: {
     product: "rcap_partner", partnerBenefitActive: benefit, partnerSlug: "test-partner", sourceSessionId: "test-session", matterId: sourceMatterId
   } }) };
+  mocks["@/lib/partners/onboarding/program-packet-funding"] = { getProgramPacketFunding: async () => "sponsored" };
+  mocks["@/lib/expungement-ai/clinic-packet-funding"] = { rcapConsumerPacketAuthorized: async () => false };
   mocks["@/lib/expungement-ai/consumer-payment-authority"] = { consumerPacketPaymentAuthority: async () => ({ valid: false }) };
   mocks["@/lib/rcap/fulfillment/sponsored-channel-context"] = { readSponsoredChannelContext: async () => sponsoredContext };
   mocks["@/lib/rcap/render/personalized-packet"] = { isPersonalizedDeliveryRoute: () => true };

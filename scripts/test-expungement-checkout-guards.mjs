@@ -789,7 +789,7 @@ async function protectedCasBehavior() {
     consumerAuthUserId: USER,
     briefcaseItemId: ITEM
   });
-  assert.deepEqual(missingDraftRead, { ok: false, reason: "protected_verification_authority_missing" });
+  assert.deepEqual(missingDraftRead, { ok: false, reason: "protected_verification_authority_invalid" });
   omitDraftOnRead = false;
 
   refusePersist = true;

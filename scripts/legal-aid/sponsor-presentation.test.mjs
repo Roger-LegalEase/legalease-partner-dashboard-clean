@@ -8,7 +8,7 @@ const adapter=loadTsWithMocks('src/lib/expungement-ai/briefcase-presentation-aut
  }
 });
 const source={jurisdiction:'IL',profileVersion:'1',matterId:'same-matter',answers:{known:'preserved'},product:'rcap_partner',sourceSessionId:'same-session',claimedAt:'2026-09-27T00:00:00Z',partnerBenefitActive:true,partnerSlug:'same-sponsor'};
-const evaluation={pathwayLabel:'Same verified route',packetType:'custom_pleading',selectedTrackId:'il-prostitution-j-vacate',evaluation:{jurisdiction:'IL',resultCode:'packet_ready',pathwayId:'felony-prostitution-relief',nextSteps:[],userLabel:'Saved result'}};
+const evaluation={pathwayLabel:'Same verified route',packetType:'custom_pleading',selectedTrackId:'il-prostitution-j-vacate',evaluation:{reasons:[],jurisdiction:'IL',resultCode:'packet_ready',pathwayId:'felony-prostitution-relief',nextSteps:[],userLabel:'Saved result'}};
 for(const mode of ['sponsored','dtc_unpaid','dtc_paid','outage'])test(`protected financial presentation: ${mode}`,async()=>{
  let paymentReads=0;
  const item=await adapter.decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId:'owner',item:{id:'same-matter',createdAt:'2026-09-27'}},{
@@ -16,6 +16,7 @@ for(const mode of ['sponsored','dtc_unpaid','dtc_paid','outage'])test(`protected
   readProtectedVerification:async()=>({ok:false,reason:'protected_verification_authority_missing'}),
   readTrustedPendingSource:async()=>({ok:true,value:source}),
   evaluateAuthoritative:()=>evaluation,
+  readProgramPacketFunding:async()=>"sponsored",
   readClinicDtcAuthorization:async()=>{if(mode==='outage')throw Error('read failed');return mode.startsWith('dtc');},
   readPaymentAuthority:async()=>{paymentReads++;return mode==='dtc_paid'?{valid:true,reason:'paid'}:{valid:false,reason:'unpaid'};}
  });

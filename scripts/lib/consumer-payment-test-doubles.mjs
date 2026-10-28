@@ -101,7 +101,8 @@ function table(name, role = null) {
     op: null,
     payload: null,
     order: null,
-    onConflict: null
+    onConflict: null,
+    limit: null
   };
 
   const api = {
@@ -145,6 +146,11 @@ function table(name, role = null) {
     },
     order(column, { ascending = true } = {}) {
       state.order = `${column} ${ascending ? "asc" : "desc"}`;
+      return api;
+    },
+    limit(count) {
+      if (!Number.isSafeInteger(count) || count < 0) throw new Error("limit() requires a nonnegative integer");
+      state.limit = count;
       return api;
     },
     async maybeSingle() {
@@ -200,7 +206,8 @@ async function run(state) {
       return rowsFromJson(`update ${state.name} set ${sets}${where} returning *`, { dml: true, role: state.role });
     }
     const order = state.order ? ` order by ${state.order}` : "";
-    return rowsFromJson(`select ${state.columns} from ${state.name}${where}${order}`, { role: state.role });
+    const limit = state.limit === null ? "" : ` limit ${state.limit}`;
+    return rowsFromJson(`select ${state.columns} from ${state.name}${where}${order}${limit}`, { role: state.role });
   } catch (error) {
     // Postgres refusals — a revoked grant, a violated check constraint, a
     // unique conflict — surface the way the Supabase client surfaces them, as

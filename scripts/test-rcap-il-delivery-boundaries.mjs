@@ -26,6 +26,6 @@ export function protectedPacketInformationModelFor(verification) {
 export async function readTrustedBriefcasePresentationSource({ item }) {
   const { consumerMatterIdForItem } = await import('../src/lib/expungement-ai/consumer-identity.ts');
   return { ok: true, value: sponsoredItems.has(item.id)
-    ? { product: 'rcap_partner', partnerBenefitActive: true, partnerSlug: 'il-clinic-sponsor', sourceSessionId: sponsoredItems.get(item.id), matterId: consumerMatterIdForItem(item.id) }
+    ? { jurisdiction: 'IL', product: 'rcap_partner', partnerBenefitActive: true, partnerSlug: 'il-clinic-sponsor', sourceSessionId: sponsoredItems.get(item.id), matterId: consumerMatterIdForItem(item.id) }
     : { product: 'expungement_ai' } };
 }

@@ -617,7 +617,7 @@ try {
   assert.notEqual(input.containerDigest,receipt.immutableRegistryDigest);
   await refuses('old published source/digest cannot authorize a different running worker',
     ()=>fs.writeFileSync(staticPath,JSON.stringify(selfReference)),()=>fs.writeFileSync(staticPath,staticBytes));
-  await refuses('absent current grant',()=>sponsoredChannelDecisions.pop(),()=>sponsoredChannelDecisions.push(grant));
+  await refuses('absent current grant',()=>assert.equal(sponsoredChannelDecisions.shift(),grant),()=>sponsoredChannelDecisions.unshift(grant));
   await refuses('wrong specification',()=>db.sql(`update sponsored_packet_render_routes set packet_specification_sha256=${q('a'.repeat(64))} where route_key=${q(grant.routeId)}`),
     ()=>db.sql(`update sponsored_packet_render_routes set packet_specification_sha256=${q(grant.packetSpecificationSha256)} where route_key=${q(grant.routeId)}`));
   await refuses('wrong partner',()=>db.sql(`update clinic_events set partner_slug='wrong-partner' where id=${q(grant.eventId)}`),
