@@ -1323,7 +1323,7 @@ if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4", "C1", "W1"], async () =
       await waitForHumanCheckout({ stripe, opened,
         identity: { runId: process.env.GITHUB_RUN_ID, applicationSha: process.env.QA_APPLICATION_SHA,
           participantUserId: USER_A, briefcaseItemId: itemId, matterId: consumerMatterIdForItem(itemId), accountId: account.id },
-        certificatePath: path.join(rootDir,"scripts/fixtures/fsn-stripe-human-handoff-20261028.pem"),
+        certificatePath: path.join(rootDir,"scripts/fixtures/fsn-stripe-human-handoff-20261028.public.txt"),
         envelopePath: path.join(rootDir,"data/rcap-render/stripe-human-handoff.cms"),
         statusPath: path.join(rootDir,"data/rcap-render/stripe-human-status.json") });
     } else {
