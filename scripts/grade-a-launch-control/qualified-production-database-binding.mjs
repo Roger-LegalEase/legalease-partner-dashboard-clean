@@ -10,6 +10,7 @@ import {applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {QUALIFIED_DATABASE_PACKAGE_PATH,readQualifiedDatabasePackage} from '../qualified-production-database-package.mjs';
 import {readQualifiedDatabaseAcceptedFirstCommit} from '../qualified-db-accepted-first-commit.mjs';
 import {readReadinessPrerequisites,nonsecretRollbackCapsule} from '../qualified-worker-readonly-capture.mjs';
+import {readHandoffHistoryInputs,HANDOFF_HISTORY_REFS} from '../worker-handoff-history-readonly.mjs';
 const EVIDENCE='data/rcap-grade-a/launch-control/qualified-release-evidence/';
 const RECORDS=['PENDING_WORKER_SUCCESSOR','RELEASE_CANDIDATE_BINDING','HOSTED_TOOLS_BINDING'].map(n=>'data/rcap-grade-a/launch-control/'+n+'.json');
 const RELEASE_BASE='e49d4fee4d3c082f3be9571f4d3f5d77f5b2f67b';
@@ -136,10 +137,40 @@ export function prepareQualifiedWorkerPlacementRecords(root,{toolsSha,releaseBas
  }
  return records;
 }
+export const QUALIFIED_WORKER_COMPLETION_REFS={
+ acceptance:{path:EVIDENCE+'C-406283-406313-SAFE-WORKER-ACCEPTANCE.json',sha256:'01ed18aea807d2ef726676749958d129a795b575ad6a5e3fff65c97354299bee'},
+ pre:{path:EVIDENCE+'ACTUAL-406283-pre-identity.json',sha256:'18c8be6b216e2eb0429c06e3e03d4938b655c7d905f5dd85ca3a46861b52fa25'},
+ execution:{path:EVIDENCE+'ACTUAL-406283-execution.json',sha256:'670f491f09f88c5f13f1cd4ad3bc6cd683987318186a1c5761d64f454bb6ffbd'},
+ history:{path:EVIDENCE+'ACTUAL-406313-history.json',sha256:'a180c259a0860d7bf9aadf67c19cdb261891807faebef7a908b746cbeacf4b66'},
+};
+const WORKER_EXECUTION='f7c9aaad0b71bc7a5e2b6f511039132d78006548';
+export function readQualifiedWorkerCompletion(root){
+ const input=readHandoffHistoryInputs(root),d=Object.fromEntries(Object.entries(QUALIFIED_WORKER_COMPLETION_REFS).map(([k,r])=>{const b=fs.readFileSync(path.join(root,r.path));assert.equal(hash(b),r.sha256,'Actual worker completion '+k);return[k,JSON.parse(b)];})),c=d.acceptance;
+ assert.equal(c.schemaVersion,'qualified-production-safe-matching-worker-transition-original-scope-independent-acceptance/v1');assert.equal(c.authority,'CODEX C');assert.equal(c.accepted,true);assert(Number.isFinite(Date.parse(c.at))&&Date.parse(c.at)<=Date.now());
+ for(const key of ['physicalMatchingWorkerAccepted','wholeMatchingWorkerTransitionAccepted','safeHandoffAccepted','actualHandoffAccepted','noGuardOrNativeHistoryRewritten'])assert.equal(c[key],true);
+ for(const key of ['cleanExitCodesObserved','oldExitEventObserved','strictPostGuardPassed','activationAdmitted','repeatWorkerPlacementAdmitted','rollbackAdmitted'])assert.equal(c[key],false);
+ assert.equal(c.actualEvidence.placementRunId,40628380931);assert.equal(c.actualEvidence.historyRunId,40631332815);
+ for(const [key,ref] of Object.entries({acceptedPhysicalPlacementAndNativeConfig:HANDOFF_HISTORY_REFS.partial,actualPreEffectIdentityQueue:QUALIFIED_WORKER_COMPLETION_REFS.pre,actualPostPlacementIdentityQueue:HANDOFF_HISTORY_REFS.post,actualOldRollbackCapsule:HANDOFF_HISTORY_REFS.oldConfig,actualPostConfig:HANDOFF_HISTORY_REFS.postConfig,actualPlacementIntent:HANDOFF_HISTORY_REFS.intent,actualExecutionEightChecksPass:QUALIFIED_WORKER_COMPLETION_REFS.execution,strictPostGuardResultUnchanged:HANDOFF_HISTORY_REFS.postReceipt,actualHistory:QUALIFIED_WORKER_COMPLETION_REFS.history}))assert.equal(c.actualEvidence[key].sha256,ref.sha256);
+ assert.equal(d.pre.runId,40628380931);assert.equal(d.pre.executionSha,WORKER_EXECUTION);assert.deepEqual(d.pre.machine,input.oldIdentity.machine);assert.equal(d.pre.rollback.sha256,HANDOFF_HISTORY_REFS.oldConfig.sha256);
+ for(const identity of [d.pre,input.post]){assert.deepEqual(identity.refusals,[]);assert.equal(identity.machineUnchangedDuringCapture,true);const q=identity.observations.queue;assert.deepEqual(q.status_counts,{});assert.deepEqual(q.exposed_work,[]);assert.equal(q.current_user,'postgres');assert.equal(q.session_user,'postgres');assert.equal(q.transaction_read_only,'on');for(const key of ['queued','claimed','rendering','validating','live_leases','expired_leases','missing_leases','eligible_queued','scheduled_queued','retryable_failed','terminal_failed','exposure_group_count'])assert.equal(q[key],0);}
+ assert.equal(input.post.observations.effectiveWorker.passed,true);assert.equal(input.post.observations.effectiveWorker.projectRef,'wwtwtsmywnckfkdaqqeg');assert.equal(input.post.observations.effectiveWorker.roleProven,true);assert.equal(input.post.observations.effectiveWorker.queueHeadStatus,200);
+ assert.equal(d.execution.result,'PASS');assert.equal(d.execution.checks.length,8);assert(d.execution.checks.every(v=>v.passed===true));assert.equal(d.execution.workerSourceSha,input.post.machine.ociRevision);assert.equal(d.execution.workerDigest,input.post.machine.exportedDigest);
+ assert.equal(d.history.runId,40631332815);assert.equal(d.history.executionSha,'70325ad2a0a5b73b186a05ee1b1726ece4e25a08');assert.equal(d.history.status,'HOLD_NATIVE_HANDOFF_HISTORY_UNPROVEN');assert.equal(d.history.handoffVerified,false);assert.equal(d.history.machineUnchangedDuringHistoryRead,true);assert.deepEqual(d.history.currentBefore,d.history.currentAfter);assert.equal(d.history.currentAfter.instanceId,input.post.machine.instanceId);assert.equal(d.history.currentAfter.imageDigest,input.post.machine.imageDigest);assert.equal(d.history.currentAfter.configSha256,input.post.rollback.configSha256);
+ return{...QUALIFIED_WORKER_COMPLETION_REFS,placementInputs:HANDOFF_HISTORY_REFS,runId:40628380931,executionSha:WORKER_EXECUTION,historyRunId:40631332815,acceptedAt:c.at,safeTransitionAccepted:true,historicalCleanExitObserved:false,strictPostGuardPassed:false,machine:input.post.machine,configSha256:input.post.rollback.configSha256};
+}
+// C accepts this actual no-exposed-work transition; the native strict postguard remains failed.
+export function prepareQualifiedActivationRecords(root,{toolsSha,releaseBaseSha}){
+ assert.equal(releaseBaseSha,WORKER_EXECUTION);assert.notEqual(toolsSha,releaseBaseSha);git(root,['merge-base','--is-ancestor',releaseBaseSha,toolsSha]);
+ const completedWorker=readQualifiedWorkerCompletion(root),records=prepareQualifiedWorkerPlacementRecords(root,{toolsSha,releaseBaseSha:READINESS_EXECUTION});
+ for(const rel of RECORDS){const record=records[rel],before=blob(root,releaseBaseSha,rel),previous=JSON.parse(before);assert.equal(previous.qualifiedWorkerDatabase.phase,'production_worker_deploy');assert.deepEqual(previous.qualifiedWorkerDatabase.completedSmoke,record.qualifiedWorkerDatabase.completedSmoke);
+  records[rel]={...record,status:'QUALIFIED_PRODUCTION_ACTIVATION_ONLY',qualifiedWorkerDatabase:{...record.qualifiedWorkerDatabase,workerPlacementReleaseBaseSha:READINESS_EXECUTION,releaseBaseSha,phase:'activate',completedWorker},productionAuthorization:{...record.productionAuthorization,phases:['activate'],smokeRunId:record.qualifiedWorkerDatabase.completedSmoke.actualSmokeRunId,smokeArtifactSha256:record.qualifiedWorkerDatabase.completedSmoke.refs.smoke.sha256,note:'Existing exact stage activation only after independently accepted actual DB, smoke and safe matching worker transition. Preserve exact rollback, alias/domain scope, single attempt and runtime controls. No migration, worker operation, rebuild, environment change or public-verification grant.'},supersededRecord:previous,supersededRecordSha256:hash(before)};
+ }
+ return records;
+}
 export function verifyQualifiedDatabaseBinding(root,candidate){
  try{
   assert.equal(candidate.qualifiedWorkerDatabase?.schemaVersion,'qualified-production-two-migration-binding/v1');
-  const prepare=candidate.qualifiedWorkerDatabase.phase==='production_worker_deploy'?prepareQualifiedWorkerPlacementRecords:candidate.qualifiedWorkerDatabase.phase==='smoke'?prepareQualifiedSmokeRecords:prepareQualifiedDatabaseRecords;
+  const prepare=candidate.qualifiedWorkerDatabase.phase==='activate'?prepareQualifiedActivationRecords:candidate.qualifiedWorkerDatabase.phase==='production_worker_deploy'?prepareQualifiedWorkerPlacementRecords:candidate.qualifiedWorkerDatabase.phase==='smoke'?prepareQualifiedSmokeRecords:prepareQualifiedDatabaseRecords;
   const expected=prepare(root,{toolsSha:candidate.toolsSha,releaseBaseSha:candidate.qualifiedWorkerDatabase.releaseBaseSha});
   for(const rel of RECORDS)assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root,rel))),expected[rel]);assert.deepEqual(candidate,expected[RECORDS[1]]);
   assert(applicationInputEquivalence(root,QUALIFIED_FORWARD_APP,'HEAD').equivalent,'Exact frozen application');

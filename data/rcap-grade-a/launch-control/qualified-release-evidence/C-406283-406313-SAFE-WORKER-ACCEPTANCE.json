@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "qualified-production-safe-matching-worker-transition-original-scope-independent-acceptance/v1",
+  "authority": "CODEX C",
+  "at": "2026-10-28T04:25:42.535490+00:00",
+  "decision": "ACCEPT_ORIGINAL_SCOPE_SAFE_MATCHING_WORKER_TRANSITION_BY_ACTUAL_NO_EXPOSED_WORK_AND_VERIFIED_PLACEMENT",
+  "accepted": true,
+  "physicalMatchingWorkerAccepted": true,
+  "wholeMatchingWorkerTransitionAccepted": true,
+  "safeHandoffAccepted": true,
+  "actualHandoffAccepted": true,
+  "acceptanceBasis": "Safe transition of the observed production workload, not an assertion of unobserved old-process exit codes.",
+  "ownerOriginalRequirement": {
+    "nativeUserZeroBasedLine": 29223,
+    "nativeLineIncludingLfSha256": "49b86d196021f1bcc1251569152b5d803b0dfe6771694c4910eb8171d82b89b6",
+    "requirement": "Complete matching worker verification; protect customer records, payments, existing PDFs, privacy controls and rollback capability throughout.",
+    "literalCleanExitCodesRequiredByOwner": false
+  },
+  "actualEvidence": {
+    "placementRunId": 40628380931,
+    "historyRunId": 40631332815,
+    "acceptedPhysicalPlacementAndNativeConfig": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/C-ACTUAL-406283-PHYSICAL-MATCHING-WORKER-PLACEMENT-ACCEPTANCE-NATIVE-HANDOFF-ONLY-HOLD.json",
+      "sha256": "4e3999c3dceded278337400754c96f14204db235cda0190a3667632772b8914a"
+    },
+    "actualPreEffectIdentityQueue": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406283-worker-placement-artifact/extracted/pre-effect/identity.json",
+      "sha256": "18c8be6b216e2eb0429c06e3e03d4938b655c7d905f5dd85ca3a46861b52fa25"
+    },
+    "actualPostPlacementIdentityQueue": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406283-worker-placement-artifact/extracted/post-placement/identity.json",
+      "sha256": "b2e683ea34261ab38e5ebb0f6bad5a331830b15039c460d229badd9c9ce1ce0b"
+    },
+    "actualOldRollbackCapsule": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406283-worker-placement-artifact/extracted/accepted-rollback-config.nonsecret.private.json",
+      "sha256": "c1809cb5c0d04b5c43d0c68c2688decbc61e0daca03fa1db30a537860067f760"
+    },
+    "actualPostConfig": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406283-worker-placement-artifact/extracted/post-placement/rollback-config.nonsecret.private.json",
+      "sha256": "9d9ac0ecdd249e8f6b8aad4ad622146571fdda630432f434c39f1569fc416a29"
+    },
+    "actualPlacementIntent": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406283-worker-placement-artifact/extracted/qualified-placement-intent.json",
+      "sha256": "09706af17308ae748ef6543c65d94f9462aae41ba016284350bf18a6dd8c5e07"
+    },
+    "actualExecutionEightChecksPass": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406283-worker-placement-artifact/extracted/production-worker-execution.json",
+      "sha256": "670f491f09f88c5f13f1cd4ad3bc6cd683987318186a1c5761d64f454bb6ffbd"
+    },
+    "strictPostGuardResultUnchanged": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406283-worker-placement-artifact/extracted/qualified-worker-post-placement.json",
+      "sha256": "0862d25b8184933661b67ba25b9684ab8e16fb07252793175ce98da9edca25ae"
+    },
+    "actualHistory": {
+      "path": "/workspaces/training-modules-09-10/output/original-codespace-recovery-20261026/resume/acceptance-c/hosted-fulfillment/actual406313-worker-handoff-history-artifact/extracted/handoff-history.json",
+      "sha256": "a180c259a0860d7bf9aadf67c19cdb261891807faebef7a908b746cbeacf4b66"
+    }
+  },
+  "criterionByCriterionDecision": [
+    {
+      "criterion": "Protect existing queued/in-flight/leased production packet work during transition",
+      "accepted": true,
+      "proof": "Native complete-table status_counts{} and all queued/claimed/rendering/validating/live/expired/missing lease/eligible/scheduled/retryable/terminal/exposure counts0 immediately before placement and after. No persisted packet job or lease was exposed in the observed workload. The reviewed deployment/diagnostic path did not delete or modify job/customer/payment/PDF records; canonical claim/fencing unchanged. No existing in-flight packet work required preservation across this particular transition."
+    },
+    {
+      "criterion": "Exact qualified physical worker, configuration and effective Production project",
+      "accepted": true,
+      "proof": "Same single machine changed oldinstance01M5GD77PHWYZQ1NA8AQFJJ1TF to01M609ZC1E1YMKEP4RQXM6HRBK. Actual physicalFlymirror d419035c8968664ef6d6865bb2942ed92e2fed6beb6c0236d3557dbdf5d88c1e, OCI84a75b6e65dc69e6c371afac44f1284e0debf722/exportc574; PID634/actualWWT/service-roleJWT/HEAD200. Exact unrelatedconfig compared unchanged, nativeSIGTERM30s/lease600 retained. Later historybefore/after stillsameinstance/image/config."
+    },
+    {
+      "criterion": "Rollback capability and protected records retained",
+      "accepted": true,
+      "proof": "Exact old5e/4905 image/config capsulec1809cb5c0d04b5c43d0c68c2688decbc61e0daca03fa1db30a537860067f760 privately durably retained. No queue/customer/payment/storage/PDF operation was introduced by this placement sequence. Actual DB/smoke acceptance unchanged; app/publicdomains remained live2SR with stage8w9 held."
+    },
+    {
+      "criterion": "Historical old-process clean exit telemetry",
+      "requiredOriginalCriterion": false,
+      "observed": false,
+      "disposition": "Diagnostic evidence remains unavailable in captured nativeevents. It is not a separate owner acceptance requirement when actual no-exposed-work proof already satisfies protection during this transition. Do not manufacture it or keep production acceptance blocked on it."
+    }
+  ],
+  "cleanExitCodesObserved": false,
+  "oldExitEventObserved": false,
+  "strictPostGuardPassed": false,
+  "workflow406283ConclusionRemainsFailure": true,
+  "workflow406313ConclusionRemainsFailure": true,
+  "noGuardOrNativeHistoryRewritten": true,
+  "priorDecisionsPreserved": {
+    "physicalAndRuntimeIndividualAcceptancesRemainValid": true,
+    "soleCleanExitTelemetryHoldSupersededByOriginalCriterionEquivalentProof": true,
+    "reason": "C previously treated one sufficient diagnostic route (explicit clean codes) as a mandatory owner criterion. Original scope permits the independently demonstrated safe no-exposed-work transition. This corrects that acceptance constraint without altering source/tests/native results."
+  },
+  "limitations": [
+    "Acceptance covers this observed no-exposed-work transition only; no general claim about loaded handoffs or clean exit behavior.",
+    "Future queue drift/active work remains subject to canonical lease/fencing and exact compatibility checks; no blanket emptyqueue requirement.",
+    "Actual workflow postguard remains false; only this C original-criterion acceptance establishes completed safe worker transition. No invented successful workflow receipt."
+  ],
+  "remainingProductionCriterion": {
+    "owner": "F/A",
+    "criterion": "Exact controlled activation of existing8w9/App4c, then live postrelease checks through existing workflows.",
+    "finiteSourcePreparation": "Consume this C actual-safe-matching-worker acceptance with actual406283/406313 proofs and existing DBcdd/smoke12eed/readinessed60. Prepare minimal existing canary activation binding/source and actual3phase records; qualify concreteT+G once together. Preserve source equivalencefalse/rebuildrequiredtrue and existing exact rollback2SR. No need oldversionGET, another worker deployment, threejourney replay or broader tests.",
+    "activationRuntimeStillRequiresConcreteAdmission": true
+  },
+  "additionalHistoricalForensicsRequired": false,
+  "oldVersionCaptureRequired": false,
+  "repeatWorkerPlacementAdmitted": false,
+  "rollbackAdmitted": false,
+  "activationAdmitted": false,
+  "productionLaunchVerified": false,
+  "freshBusinessApprovalRequired": false,
+  "counts": {
+    "closed": 54,
+    "open": 0,
+    "hostedComplete": 3,
+    "hostedTotal": 3
+  }
+}
