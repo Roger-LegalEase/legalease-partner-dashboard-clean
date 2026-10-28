@@ -144,6 +144,14 @@ assert(
   "Negative control failed: direct Checkout on review was not rejected."
 );
 
+for (const claimService of [
+  sources.claimService.replace('isPartnerSession && await getProgramPacketFunding(row.partner_slug!,row.jurisdiction)==="sponsored"', 'isPartnerSession'),
+  sources.claimService.replace('{ isPartnerSession:sponsored }', '{ isPartnerSession }')
+]) {
+  assert(persistenceWiringViolations({ ...sources, claimService }).some((failure) => /funding|clamp payment/.test(failure)),
+    "Negative control failed: a screening-only partner acquired sponsored packet benefits.");
+}
+
 if (failures.length) {
   console.error(`verify-rcap-briefcase-result-persistence: ${failures.length} failure(s)`);
   for (const f of failures) console.error(`  - ${f}`);
@@ -179,7 +187,8 @@ function persistenceWiringViolations(input) {
   require(input.claimService.includes('supabase.rpc("claim_pending_screening_result"'), "Pending claims must use the server-authoritative writer.");
   require(input.claimService.includes("clampAuthoritativeMatterInput"), "Pending claims must apply the server-authoritative matter clamps.");
   require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Only a server-validated partner session may receive sponsored persistence posture.");
-  require(input.claimService.includes("buildSaveInput") && input.claimService.includes("{ isPartnerSession }"), "The verified partner posture must clamp payment during save-input construction.");
+  require(input.claimService.includes('const sponsored = isPartnerSession && await getProgramPacketFunding(row.partner_slug!,row.jurisdiction)==="sponsored"'), "Sponsored persistence must require authoritative program packet funding.");
+  require(input.claimService.includes("buildSaveInput") && input.claimService.includes("{ isPartnerSession:sponsored }"), "The verified partner posture must clamp payment during save-input construction.");
   require(input.claimService.includes('stage: "not_started"') && input.claimService.includes("requiredInputIds"), "Packet-ready saves must attach the prepayment packet-information model.");
   require(input.claimService.includes("exactMatterPath(matterId)"), "Pending claims must return the exact saved Briefcase matter.");
   require(!input.pendingClaim.includes("createConsumerPacketCheckout") && !input.pendingClaim.includes("stripe"), "Pending claims must not create Checkout or call Stripe.");

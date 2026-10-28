@@ -154,7 +154,7 @@ requireSource(
 );
 
 requireSource(
-  !packetBuilder.includes("save(index >= questions.length - 1)") && packetBuilder.includes("await save(false)"),
+  !packetBuilder.includes("verify: true") && packetBuilder.includes("answers: changedPacketAnswers(submitted, confirmed.current)") && packetBuilder.includes("expectedRevision: submittedRevision") && packetBuilder.includes('await save(screenId, "next")'),
   "The final packet-fact save must remain unverified."
 );
 requireSource(
@@ -256,6 +256,13 @@ if (verificationClientExists) {
       "Consumer checkout must require the explicit current server-owned checkout permission."
     );
   }
+  const receipt = {
+    ok: true, revision: 5, answers: { court: "Hinds County Circuit Court" },
+    questions: [], reviewQuestions: [], sections: [], missingInputIds: [], pendingDerivations: [],
+    resumeSectionId: null, reviewPath: "/briefcase/matter%2F1/review",
+    readyToGenerate: true, reviewReason: "authoritative_route_confirmed", nextAction: "review_packet",
+    commercialActions: { fulfillmentAvailable: true, checkoutAllowed: true, generationAllowed: false }
+  };
   const observed = { body: null, method: null, path: null };
   const boundary = http.createServer(async (request, response) => {
     observed.method = request.method;
@@ -265,10 +272,10 @@ if (verificationClientExists) {
     observed.body = JSON.parse(Buffer.concat(chunks).toString("utf8"));
     const valid = request.method === "POST"
       && request.url === "/api/expungement-ai/briefcase/matter%2F1/packet-information"
-      && JSON.stringify(observed.body) === JSON.stringify({ answers: { court: "Hinds County Circuit Court" }, verify: true });
+      && JSON.stringify(observed.body) === JSON.stringify({ answers: { court: "Hinds County Circuit Court" }, verify: true, expectedRevision: 4 });
     response.writeHead(valid ? 200 : 400, { "content-type": "application/json" });
     response.end(JSON.stringify(valid
-      ? { ok: true, readyToGenerate: true, reviewReason: "authoritative_route_confirmed", missingInputIds: [] }
+      ? receipt
       : { ok: false, readyToGenerate: false, reviewReason: "invalid_request" }));
   });
   await listen(boundary);
@@ -277,15 +284,28 @@ if (verificationClientExists) {
     const endpoint = `http://127.0.0.1:${address.port}/api/expungement-ai/briefcase/matter%2F1/packet-information`;
     const result = await requestPacketVerification({
       itemId: "matter/1",
+      expectedRevision: 4,
       answers: { court: "Hinds County Circuit Court" },
       endpoint
     });
     requireSource(
       observed.method === "POST"
-        && JSON.stringify(observed.body) === JSON.stringify({ answers: { court: "Hinds County Circuit Court" }, verify: true })
-        && result.readyToGenerate === true,
-      "The verification client must cross an HTTP handler boundary with answers + verify:true and consume readyToGenerate."
+        && JSON.stringify(observed.body) === JSON.stringify({ answers: { court: "Hinds County Circuit Court" }, verify: true, expectedRevision: 4 })
+        && result.readyToGenerate === true && result.commercialActions.checkoutAllowed === true,
+      "The verification client must bind the revision across HTTP and consume a valid server receipt with explicit commercial permission."
     );
+    for (const invalid of [
+      { ok: true, readyToGenerate: true, reviewReason: "authoritative_route_confirmed", missingInputIds: [] },
+      { ...receipt, revision: 3 },
+      { ...receipt, reviewPath: "/briefcase/another-matter/review" },
+      { ...receipt, commercialActions: undefined },
+      { ...receipt, commercialActions: { ...receipt.commercialActions, checkoutAllowed: "true" } }
+    ]) {
+      const denied = await requestPacketVerification({ itemId: "matter/1", expectedRevision: 4, answers: {},
+        fetchImpl: async () => new Response(JSON.stringify(invalid), { status: 200 }) });
+      requireSource(!denied.ok && !denied.readyToGenerate && !denied.commercialActions.checkoutAllowed && !denied.commercialActions.generationAllowed,
+        "An incomplete, stale, cross-matter or malformed verification receipt must never grant commercial actions.");
+    }
   } finally {
     await close(boundary);
   }
@@ -612,10 +632,10 @@ requireSource(
     && reviewPage.includes("summary.screeningAnswers")
     && reviewPage.includes("summary.packetAnswers")
     && reviewPage.includes('value={item.jurisdiction ?? "Unavailable"}')
-    && reviewPage.includes('value={item.pathwayLabel ?? "Saved packet pathway"}')
+    && reviewPage.includes('packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)')
     && reviewPage.includes("Details we already have")
     && reviewPage.includes("aria-describedby=\"verification-context-description\"")
-    && reviewPage.includes("verificationAnswers={model.initialAnswers}")
+    && reviewPage.includes("verificationAnswers={{}}") && reviewPage.includes("expectedRevision={model.revision}")
     && reviewPage.includes("canVerify={summary.complete")
     && reviewPage.indexOf("summary.screeningAnswers") < reviewPage.indexOf("<PacketVerificationAction"),
   "The complete server-canonical summary must appear before, and gate, the explicit verification action."
@@ -666,7 +686,7 @@ requireSource(
     && reviewPage.includes("item.packetDraft")
     && packetInformationPage.includes("item.packetDraft")
     && packetInformationPage.includes("questions={displayedQuestions}")
-    && packetInformationPage.includes("initialAnswers={model.initialAnswers}")
+    && packetInformationPage.includes("initialAnswers={packetAnswersForOwnerEditing(item.jurisdiction, item.pathwayId, model.initialAnswers,")
     && packetInformationPage.includes("initiallyMissing={model.missingInputIds}")
     && reviewPage.includes("model?.reviewSafety")
     && reviewPage.includes("verificationSummary({")
@@ -822,7 +842,7 @@ requireSource(
 );
 
 requireSource(
-  screeningResult.includes('fallback: "Save to my Briefcase and continue"'),
+  screeningResult.includes('fallback: "Save my result and continue"') && screeningResult.includes("Briefcase"),
   "Packet-ready result CTAs must describe the actual Briefcase handoff."
 );
 requireSource(

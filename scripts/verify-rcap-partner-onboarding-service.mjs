@@ -162,23 +162,41 @@ test("partner staff cannot save onboarding data", async () => {
   assert.match(error.message, /administrator/i);
 });
 
-test("the authoritative commercial gate blocks edits", async () => {
-  const harness = createServiceHarness({
-    workspace: {
-      status: "commercially_blocked",
-      commercial_gate_status: "blocked"
+for (const enabled of [false, true]) {
+  test(`RCAP 2 enabled=${enabled}: legacy commercial status preserves the correct edit policy`, async () => {
+    const prior = process.env.RCAP_2_0_ENABLED;
+    const priorOnboarding = process.env.RCAP_PARTNER_ONBOARDING_ENABLED;
+    process.env.RCAP_PARTNER_ONBOARDING_ENABLED = "true";
+    process.env.RCAP_2_0_ENABLED = String(enabled);
+    try {
+      const harness = createServiceHarness({ workspace: {
+        status: "commercially_blocked", commercial_gate_status: "blocked"
+      } });
+      const save = () => harness.service.savePartnerOnboardingSection(partnerContext, draftSaveInput());
+      if (enabled) {
+        const result = await save();
+        assert.equal(result.section.data.public_organization_name, "Community Partner");
+        assert.equal(harness.rpcLog.length, 1);
+      } else {
+        await expectCode(save, "commercially_blocked");
+        assert.equal(harness.rpcLog.length, 0);
+      }
+      for (const status of ["paused", "closed"]) {
+        const stopped = createServiceHarness({ workspace: { status } });
+        await expectCode(() => stopped.service.savePartnerOnboardingSection(partnerContext, draftSaveInput()), "invalid_transition");
+        assert.equal(stopped.rpcLog.length, 0);
+      }
+      const staff = createServiceHarness();
+      await expectCode(() => staff.service.savePartnerOnboardingSection({ ...partnerContext, role: "partner_staff" }, draftSaveInput()), "forbidden");
+      assert.equal(staff.requestLog.length, 0);
+    } finally {
+      if (priorOnboarding === undefined) delete process.env.RCAP_PARTNER_ONBOARDING_ENABLED;
+      else process.env.RCAP_PARTNER_ONBOARDING_ENABLED = priorOnboarding;
+      if (prior === undefined) delete process.env.RCAP_2_0_ENABLED;
+      else process.env.RCAP_2_0_ENABLED = prior;
     }
   });
-  await expectCode(
-    () =>
-      harness.service.savePartnerOnboardingSection(
-        partnerContext,
-        draftSaveInput()
-      ),
-    "commercially_blocked"
-  );
-  assert.equal(harness.rpcLog.length, 0);
-});
+}
 
 test("draft save accepts incomplete safe data and separates normalized collections", async () => {
   const harness = createServiceHarness();
