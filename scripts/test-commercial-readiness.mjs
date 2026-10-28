@@ -112,8 +112,6 @@ const PRODUCT = "expungement_packet";
  * route with no record.
  */
 const JURISDICTION = "MS";
-const PATHWAY_ID = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
-const TRACK_ID = "ms-nonconv";
 const UNRECORDED_PATHWAY_ID = "pa-path-a-non-conviction-expungement";
 const APP_ORIGIN = "https://axis-serving-believed-century.trycloudflare.com";
 

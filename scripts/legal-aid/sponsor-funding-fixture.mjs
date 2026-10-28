@@ -1,6 +1,5 @@
 import { installCurrentSponsoredAuthority } from "../lib/current-sponsored-authority-fixture.mjs";
 // Disposable synthetic shapes reused from the existing IL sponsored transaction proof.
-import fs from "node:fs";
 import path from "node:path";
 import { createHash, randomUUID } from "node:crypto";
 import { register } from "node:module";

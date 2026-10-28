@@ -311,10 +311,16 @@ export async function bootstrapPreviewCheckoutReturn(context, expectedReturnUrl,
  * Returns browser-return evidence; the caller requires both that evidence and
  * authoritative Session settlement read back from Stripe.
  */
+export function isolatedCheckoutReturnAllowed(url, stripeKey, bypassSecret) {
+  return url === "https://example.com/legalease-isolated-qa-complete"
+    && stripeKey?.startsWith("sk_test_") === true && !bypassSecret;
+}
+
 export async function completeHostedCheckout({
   checkoutUrl,
   expectedReturnUrl,
   previewProtectionBypassSecret,
+  isolatedTestReturn = false,
   promotionCode = null,
   card = STRIPE_TEST_CARD,
   // Synthetic contact for this authorized fixture. A provider challenge stops
@@ -333,6 +339,9 @@ export async function completeHostedCheckout({
 }) {
   if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
     throw new Error('Exact HTTPS Checkout success URL is required before opening the provider page.');
+  }
+  if (isolatedTestReturn && !isolatedCheckoutReturnAllowed(expectedReturnUrl, process.env.STRIPE_SECRET_KEY, previewProtectionBypassSecret)) {
+    throw new Error("Isolated Checkout return requires the exact synthetic public URL, a test key and no deployment bypass secret.");
   }
   const notes = [];
   const screenshots = [];
@@ -388,8 +397,12 @@ export async function completeHostedCheckout({
 
   try {
     if (sessionCookies.length > 0) await context.addCookies(sessionCookies);
-    const bootstrap = await bootstrapPreviewCheckoutReturn(context, expectedReturnUrl, previewProtectionBypassSecret);
-    notes.push(`Preview protection ready: ${bootstrap.origin}${bootstrap.pathname}; cookie ${bootstrap.cookieName} domain ${bootstrap.cookieDomain}`);
+    if (isolatedTestReturn) {
+      notes.push("Isolated synthetic public return page; application return UI is not claimed by this browser check.");
+    } else {
+      const bootstrap = await bootstrapPreviewCheckoutReturn(context, expectedReturnUrl, previewProtectionBypassSecret);
+      notes.push(`Preview protection ready: ${bootstrap.origin}${bootstrap.pathname}; cookie ${bootstrap.cookieName} domain ${bootstrap.cookieDomain}`);
+    }
     await page.goto(checkoutUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
     await page.waitForTimeout(2500);
     await shoot("opened");

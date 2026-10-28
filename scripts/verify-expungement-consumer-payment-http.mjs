@@ -1313,7 +1313,7 @@ if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4", "C1", "W1"], async () =
     assert.equal(db.scalar(`select checkout_session_id from consumer_briefcase_items where id='${itemId}'`), sessionId);
     check("S2", "real application Checkout is bound to the exact owner matter before return", true);
     const { completeHostedCheckout } = await import("./rcap-stripe-checkout-browser.mjs");
-    const browser = await completeHostedCheckout({ checkoutUrl: opened.url, expectedReturnUrl: returnUrl });
+    const browser = await completeHostedCheckout({ checkoutUrl: opened.url, expectedReturnUrl: returnUrl, isolatedTestReturn: true });
     assert.equal(browser.completed, true, JSON.stringify({ humanInteractionRequired: browser.humanInteractionRequired, notes: browser.notes }));
     const paid = await stripe.checkout.sessions.retrieve(sessionId);
     assert.equal(paid.livemode, false);
@@ -1340,7 +1340,7 @@ if (sandbox) await runCaseGroup(["S1", "S2", "S3", "S4", "C1", "W1"], async () =
       ...delivery,
       applicationSha: process.env.QA_APPLICATION_SHA, accountId: account.id, livemode: false,
       sessionId, providerEventId: event.id, amountCents: paid.amount_total, currency: paid.currency,
-      providerPaymentStatus: paid.payment_status, realCheckoutBrowserCompleted: true,
+      providerPaymentStatus: paid.payment_status, realCheckoutBrowserCompleted: true, isolatedSyntheticReturnPage: true,
       webhookHttpStatus: response.status, replayHttpStatus: replay.status, durableJobsForMatter: 1,
       database: "disposable runner-local PostgreSQL", productionServicesUsed: false,
       limitations: "Application routes, real Stripe Checkout browser, local PostgreSQL and source worker/private storage; deployed immutable worker identity checked separately."

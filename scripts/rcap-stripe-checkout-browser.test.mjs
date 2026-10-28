@@ -3,7 +3,7 @@ import test from 'node:test';
 import fs from 'node:fs';
 import { chromium } from 'playwright';
 import { requireNoProviderChallenge, fillRemainingRequired, isExpectedCheckoutReturn,
-  expectedCheckoutTotal, checkoutAmountMatches, completeHostedCheckout } from './rcap-stripe-checkout-browser.mjs';
+  expectedCheckoutTotal, checkoutAmountMatches, completeHostedCheckout, isolatedCheckoutReturnAllowed } from './rcap-stripe-checkout-browser.mjs';
 
 test('ordinary, partially discounted and zero-total attempts have distinct exact amounts', () => {
   assert.equal(expectedCheckoutTotal({ promotionCode: null }), 5000);
@@ -245,4 +245,18 @@ test('payment acceptance requires settlement AND a positively observed browser r
     assert.equal(accepts(settled, { completed }), settled && completed === true);
   }
   assert.match(harness, /if \(!settled \|\| outcome.completed !== true \|\| outcome.humanInteractionRequired\) finish\(\);/);
+});
+
+test('isolated public return cannot bypass Vercel or use live credentials', async () => {
+  const expected = "https://example.com/legalease-isolated-qa-complete";
+  assert.equal(isolatedCheckoutReturnAllowed(expected, "sk_test_synthetic", undefined), true);
+  for (const [url,key,bypass] of [
+    ["https://preview.vercel.app/legalease-isolated-qa-complete","sk_test_synthetic",undefined],
+    ["https://expungement.ai/legalease-isolated-qa-complete","sk_test_synthetic",undefined],
+    [expected,"sk_live_synthetic",undefined], [expected,undefined,undefined],
+    [expected,"sk_test_synthetic","synthetic-deployment-secret"],
+    [expected+"?unexpected=1","sk_test_synthetic",undefined]
+  ]) assert.equal(isolatedCheckoutReturnAllowed(url,key,bypass),false);
+  await assert.rejects(() => completeHostedCheckout({checkoutUrl:"https://checkout.stripe.com/synthetic",
+    expectedReturnUrl:"https://preview.vercel.app/return",isolatedTestReturn:true}), /exact synthetic public URL/);
 });
