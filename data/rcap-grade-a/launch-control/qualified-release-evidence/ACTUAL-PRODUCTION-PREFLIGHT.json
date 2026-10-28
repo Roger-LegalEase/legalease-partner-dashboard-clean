@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-production-preflight/v2",
+  "phase": "preflight",
+  "startedAt": "2026-10-28T00:05:28.611Z",
+  "valueReadbackRequirement": "superseded",
+  "valueSource": "exact staged deployment runtime",
+  "requestedIdentity": {
+    "applicationSha": "4c189b682d0a9225a21b9fdf8a2ebc50500029d6",
+    "acceptedToolsSha": "726e3c95dc336639b5ee1e4098c89941bf1ed555",
+    "executionToolsSha": "726e3c95dc336639b5ee1e4098c89941bf1ed555",
+    "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
+    "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1"
+  },
+  "projectRefs": {
+    "production": "wwtwtsmywnckfkdaqqeg",
+    "acceptance": "hyflxnlhpmiqxvvcoiia"
+  },
+  "productionConfigurationMutationAttempted": false,
+  "environmentVariableChanged": false,
+  "productionAliasChanged": false,
+  "productionDatabaseMutated": false,
+  "applicationChanged": false,
+  "workerChanged": false,
+  "originPersisted": false,
+  "secretsPersisted": false,
+  "stagedDeploymentCreated": true,
+  "deployments": {
+    "rollbackTarget": "dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6",
+    "stagedProduction": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+    "acceptedPreview": "dpl_EKFt6QAwvunZa4jeNW3XuaZmKhzN"
+  },
+  "controlHashes": {
+    "environmentMetadataBeforeSha256": "7e72118db6c7304bdd0f544b8135cc19d44f2e0b77a98915d98d6f7a5ae5b807",
+    "environmentMetadataAfterSha256": "7e72118db6c7304bdd0f544b8135cc19d44f2e0b77a98915d98d6f7a5ae5b807",
+    "productionAliasMappingBeforeSha256": "bd7a3d765335aaba3707c8de7ea9d0b80741eec6f904cf6e402d721335eaab08",
+    "productionAliasMappingAfterSha256": "bd7a3d765335aaba3707c8de7ea9d0b80741eec6f904cf6e402d721335eaab08"
+  },
+  "runtimeProof": {
+    "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+    "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+    "exactlyOneProductionOrigin": true,
+    "exactlyOneAcceptanceOrigin": true,
+    "productionOriginSha256": "95a93681facc6145a7be36627c8e0bd9b1cf29c0c7fe08f6b2ec2b480a49ddbf",
+    "acceptanceOriginSha256": "971d32dcfe8e954c04c5335d3c087e8e5e77477aaa4262c14dfafc75689be18d",
+    "productionProjectMatch": true,
+    "acceptanceProjectMatch": true,
+    "productionPagesInspected": 3,
+    "productionChunksInspected": 15,
+    "acceptancePagesInspected": 3,
+    "acceptanceChunksInspected": 15
+  },
+  "verdicts": [
+    {
+      "caseId": "release_identity_is_exact",
+      "passed": true,
+      "observed": "application, tools, worker source, and immutable digest match the frozen authorization"
+    },
+    {
+      "caseId": "production_vercel_project_is_exact",
+      "passed": true,
+      "observed": "team and project resolve to the pinned Production control plane"
+    },
+    {
+      "caseId": "rollback_target_recorded_before_mutation",
+      "passed": true,
+      "observed": "current READY Production deployment identity recorded before staging"
+    },
+    {
+      "caseId": "staged_production_deployment_is_exact",
+      "passed": true,
+      "observed": "READY Production-target staging identity is exact and is not the active Production deployment"
+    },
+    {
+      "caseId": "accepted_preview_deployment_is_exact",
+      "passed": true,
+      "observed": "accepted READY Preview deployment and per-deployment acceptance identity are exact"
+    },
+    {
+      "caseId": "production_runtime_project_is_canonical",
+      "passed": true,
+      "observed": "exact staged runtime maps to canonical Production project wwtwtsmywnckfkdaqqeg"
+    },
+    {
+      "caseId": "acceptance_preview_project_is_exact",
+      "passed": true,
+      "observed": "exact accepted Preview runtime maps to acceptance project hyflxnlhpmiqxvvcoiia"
+    },
+    {
+      "caseId": "production_environment_is_separate_from_acceptance",
+      "passed": true,
+      "observed": "Production and acceptance runtime project identities are distinct"
+    },
+    {
+      "caseId": "production_environment_metadata_unchanged",
+      "passed": true,
+      "observed": "project environment metadata SHA-256 is unchanged"
+    },
+    {
+      "caseId": "production_aliases_unchanged",
+      "passed": true,
+      "observed": "active Production deployment and domain mapping SHA-256 are unchanged"
+    },
+    {
+      "caseId": "preflight_performed_no_production_mutation",
+      "passed": true,
+      "observed": "no environment, alias, database, application, or worker mutation occurred"
+    }
+  ],
+  "finishedAt": "2026-10-28T00:08:20.717Z",
+  "passed": true,
+  "failure": null
+}

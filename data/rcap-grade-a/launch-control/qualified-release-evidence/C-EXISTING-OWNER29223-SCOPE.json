@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "production-existing-owner-authority-scope-independent-disposition/v1",
+  "authority": "CODEX C",
+  "at": "2026-10-28T00:16:13.066024+00:00",
+  "decision": "EXISTING_OWNER_AUTHORITY_COVERS_BOUNDED_ROLLBACK_ONLY_STAGED_SQL_SMOKE_NO_NEW_BUSINESS_GRANT_REQUIRED",
+  "recordedBy": "CODEX C authority interpretation; not a fabricated owner quote",
+  "nativeOwner": {
+    "path": "/home/codespace/.codex/sessions/2026/10/23/rollout-2026-10-23T23-37-32-01a16b20-7a17-7880-8cdb-e5a2366f9f09.jsonl",
+    "zeroBasedLine": 29223,
+    "sha256IncludingLF": "49b86d196021f1bcc1251569152b5d803b0dfe6771694c4910eb8171d82b89b6",
+    "timestamp": "2026-10-28T00:02:56.591Z"
+  },
+  "retainedPriorOwnerAuthoritySha256": "cc11ef00c38aa787847d06aeb20a0323e526afc5cbd9f2c9aef6903deba04e2e",
+  "actualOwnerTextExtracts": [
+    "The current frozen release authorization permits the preflight phase only. Deployment and activation remain separately gated.",
+    "After independently accepting its result, prepare the exact remaining release phases using the existing Production canary and worker-deployment workflows.",
+    "Obtain any specifically required authorization before performing those phases. Do not request approvals already granted.",
+    "Complete applicable migration and readback, staged Production smoke, matching worker verification, controlled activation, and live post-release checks."
+  ],
+  "interpretation": [
+    "Latest actual owner instruction plus retained39318 covers necessary bounded staged smoke and rollback verification within the existing requested release. A SQLcanary limited to one reviewed transaction with ROLLBACK/noresidue and no livecustomer/provider effects is within that alreadyrequested smoke verification.",
+    "Do NOT claim a new owner smoke grant is missing merely because current generated records are preflight-only. Those frozenphase records are a technical execution hold and must be correctly rebound; they are not evidence the owner withdrew the explicit remaining release instruction.",
+    "No demonstrated bounded rollback-only smoke operation here requires renewed businessapproval. Identify an actual operation outside the existing scope before requesting ownerpermission.",
+    "Deployment/activation remain separately technicallygated: no execution follows from this authority interpretation alone. Each exactphase needs matching acceptedtuple/stage/rollback, applicableDBcompatibility/readbacks and actual priorphaseproof."
+  ],
+  "boundedSqlSmokeConditions": [
+    "Use only the existing supported smoke/canary path with exact reviewed SQL/source hash and explicitactualProductionproject binding.",
+    "One bounded QA-only transaction ending ROLLBACK, complete error/finallyrollback cleanup, no lasting rows/schema/roles/grants/objects or workerclaims.",
+    "No actualcustomerrecords/payment/privatePDF edits; no externalcharges/providerwebhooks/emails/accountmessages/storage sideeffects; no threejourney replays.",
+    "Prove currentDBcompatibility and exact smoke source/phaseboundaries first; if source exceeds these limits, HOLD and identify the exact actual operation. Do not call unreviewed broader SQL alreadyaccepted."
+  ],
+  "nextExactAction": {
+    "action": "Complete B actualWWTcatalog\u2192App4crequiredcontract comparison; prepare minimum exact smoke phase binding under existing ownerinstruction using existing workflows.",
+    "inputs": {
+      "applicationSha": "4c189b682d0a9225a21b9fdf8a2ebc50500029d6",
+      "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
+      "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
+      "stagedDeploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+      "rollbackDeploymentId": "dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6",
+      "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+      "actualPreflightAcceptanceSha256": "c281b20fba2e159242126465eae08e668f444dfa49ea6add4ec4c234130d1b41"
+    },
+    "owner": "A existing phase/canary execution plan, B DBcomparison, F only specifically assigned minimal binding work, C technical source/phase acceptance",
+    "notRequired": "No renewed blanket or separate business smoke approval for this bounded alreadyrequested operation."
+  },
+  "executionAuthorityGrantedByThisReceipt": false,
+  "currentFrozenPhases": [
+    "preflight"
+  ],
+  "laterExecutionStillHeld": true,
+  "genuinelyUncoveredOperationEstablished": null,
+  "counts": {
+    "closed": 54,
+    "open": 0,
+    "hostedComplete": 3
+  },
+  "limits": "Authority scope decision only. No newphase guard bypass, sourceplatformdevelopment, migration, smoke, workerplacement or activation operation performed or technically admitted."
+}
