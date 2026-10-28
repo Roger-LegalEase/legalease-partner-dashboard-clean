@@ -1,11 +1,11 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
-  "status": "QUALIFIED_PRODUCTION_DATABASE_ONLY",
+  "status": "QUALIFIED_PRODUCTION_DATABASE_REMAINING_TRANSACTION_ONLY",
   "applicationSha": "4c189b682d0a9225a21b9fdf8a2ebc50500029d6",
   "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
   "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
   "workerInputFingerprint": "sha256:6d082ab7f7f07745a0e69a886fb59e9d396e3aa29233422a072b16edbd794cc2",
-  "toolsSha": "3d49d0dfe5d9174c995567f867f9223e87444218",
+  "toolsSha": "d1eed693336cfd377caea5845806e9ee3c64a95a",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "runtimeAccepted": true,
@@ -20,7 +20,7 @@
     "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
     "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
     "workerInputFingerprint": "sha256:6d082ab7f7f07745a0e69a886fb59e9d396e3aa29233422a072b16edbd794cc2",
-    "toolsSha": "3d49d0dfe5d9174c995567f867f9223e87444218",
+    "toolsSha": "d1eed693336cfd377caea5845806e9ee3c64a95a",
     "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
     "recordedBy": "Roger Roman",
     "recordedAt": "2026-10-28T00:02:56.591Z",
@@ -31,7 +31,7 @@
       "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-EXISTING-OWNER29223-SCOPE.json",
       "sha256": "01c2d60d1c3cecb48e04e5979f848b057c091d53dbd4ad69d04f1fb245711452"
     },
-    "note": "Derived from retained owner orders and exact C package technical admission. Only the two unchanged source migrations through their separately pinned transaction-local guarded payloads. No retry or inverse; smoke, worker placement and activation remain held.",
+    "note": "Derived from retained owner orders and exact C package technical admission. Only remaining canonical index1 after the independently accepted actual index0 commit, with exact fresh post1 CAS and original transaction-local guards. No first replay, retry or inverse; smoke, worker placement and activation remain held.",
     "stagedDeploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
     "rollbackDeploymentId": "dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6"
   },
@@ -57,7 +57,7 @@
       "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
       "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
       "workerInputFingerprint": "sha256:6d082ab7f7f07745a0e69a886fb59e9d396e3aa29233422a072b16edbd794cc2",
-      "toolsSha": "3d49d0dfe5d9174c995567f867f9223e87444218",
+      "toolsSha": "d1eed693336cfd377caea5845806e9ee3c64a95a",
       "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
       "deploymentId": "dpl_EKFt6QAwvunZa4jeNW3XuaZmKhzN",
       "target": null,
@@ -7690,11 +7690,15 @@
     "releaseBaseSha": "e49d4fee4d3c082f3be9571f4d3f5d77f5b2f67b",
     "package": {
       "path": "scripts/fixtures/production-wwt-two-migration-package/PACKAGE.PROPOSED.NOT-EXECUTED.json",
-      "sha256": "dad0cd2218ecf6bc8cb490b156c00909520c9185f5423dd0980b304989cd7239"
+      "sha256": "4a3f5a3b79f99d0eeb1678fcce4cbb363a5b45d2ff864a6d68bd34d08cdfaab4"
     },
     "technicalAdmission": {
       "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-WWT-TWO-MIGRATION-TECHNICAL-ACCEPTANCE.json",
       "sha256": "66870fde5677c63a4b2e3c1a051f3e4cd58ef917d954956eec64e3e81121aba0"
+    },
+    "correctedTechnicalAdmission": {
+      "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-4A3F-CORRECTED-PACKAGE-ACCEPTANCE.json",
+      "sha256": "4fd113aca9139acd65ea575613de97c791d617d827a3000a5e98c821cc51010e"
     },
     "technicalAdmissionAt": "2026-10-28T00:40:16.119879+00:00",
     "priorNoEffectRearm": {
@@ -7713,6 +7717,54 @@
       "toolsSha": "be8adb541166e356c4d0cf9039fa1e2b956b3932",
       "artifactId": 12784655990,
       "artifactSha256": "5ce07daf1e393a2d45f55ca2b6700155a3fe3a57b7a001fa8b30b7ffd2bdd7a6"
+    },
+    "priorAcceptedCommit": {
+      "correctedTechnicalAdmission": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-4A3F-CORRECTED-PACKAGE-ACCEPTANCE.json",
+        "sha256": "4fd113aca9139acd65ea575613de97c791d617d827a3000a5e98c821cc51010e"
+      },
+      "correctedPackageSha256": "4a3f5a3b79f99d0eeb1678fcce4cbb363a5b45d2ff864a6d68bd34d08cdfaab4",
+      "disposition": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-406158-STEP1-ACCEPTANCE.json",
+        "sha256": "e82284d9d126003df68c86116a509efd36718ccad196f1762163f343029ef02c"
+      },
+      "proof": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-406158-FULL-TRANSITION-PROOF.json",
+        "sha256": "43b3c5e3478019dfe932b66a596541d84eb8e968fc81889abfffb72d143e2432"
+      },
+      "result": {
+        "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/ACTUAL-406158-result.json",
+        "sha256": "aa51b043396ef37a9bf194d9eeeec7086a6fb1c12016cceb38b610b60bfdf370"
+      },
+      "at": "2026-10-28T01:43:55.215322+00:00",
+      "runId": 40615885933,
+      "jobId": 122578151687,
+      "executionSha": "99029c7892a7032c105024041d7a0dbe61ca5063",
+      "toolsSha": "3d49d0dfe5d9174c995567f867f9223e87444218",
+      "artifactId": 12784679399,
+      "artifactSha256": "a10100fcfb04bf3e37a53b7ee27902b61b9dfad4a631fc3c8b5eb876835c5c59",
+      "remainingCanonicalIndices": [
+        1
+      ],
+      "acceptedPoststateSha256": "31e3b4f731a52013f0c91e1c3bbbd19b5131a0c3ae2ba41ab9f4b41b7ffce5ce",
+      "transaction": {
+        "path": "supabase/migrations/20261023151500_ordinary_sponsored_packet_authority.sql",
+        "sha256": "ffbb587fec452fc360668e63936eccad773125b77821790e1f1ed2571045c738",
+        "wireTemplateSha256": "eb9af0692773ec8ecfa4d4a22c79b4fec74b4c12534578ddc793ecff66b4dac9",
+        "outcome": "transaction_commit_response_received",
+        "wirePath": "transaction-1.bound-wire.private.sql",
+        "wireSha256": "f5ecc42edf70899b24679994f82c508acce16f8c4c4052165c3eb4fa4b9f085b",
+        "beforeStateSha256": "1e4fa54085fd76e91c2edb7fe68a97fd7a6575b01b9068c2d1031c3cab2acf2c",
+        "nativeReceipt": {
+          "step": 0,
+          "observedAt": "2026-10-28T01:38:14.552908+00:00",
+          "schemaVersion": "wwt-two-migration-schema-native-receipt/v1",
+          "canonicalSha256": "ffbb587fec452fc360668e63936eccad773125b77821790e1f1ed2571045c738",
+          "catalogOwnerXid": "1866297927",
+          "appliedTransactionStart": "2026-10-28T01:38:10.680539+00:00",
+          "transactionLocalPreimageAndPreservationGuardPassed": true
+        }
+      }
     },
     "prerequisites": {
       "preflight": {
