@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-production-activation/v1",
+  "startedAt": "2026-10-28T04:48:50.272Z",
+  "applicationSha": "4c189b682d0a9225a21b9fdf8a2ebc50500029d6",
+  "workerSourceSha": "84a75b6e65dc69e6c371afac44f1284e0debf722",
+  "workerDigest": "sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "stagedDeploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+  "rollbackDeploymentId": "dpl_2SRcG3kEvG9UU1udDZ7GZR7naLc6",
+  "smokeRunId": 40619590234,
+  "migrationHashes": [
+    "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
+    "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
+    "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010"
+  ],
+  "promotionAttempted": true,
+  "promotionCompleted": true,
+  "promotion": {
+    "control": "promote",
+    "targetDeploymentId": "dpl_8w9xAAvEp45jn8J3PUQn4ibTnzKz",
+    "httpStatus": 201,
+    "ok": true,
+    "errorCode": null,
+    "errorMessage": null
+  },
+  "productionAliasChanged": true,
+  "deploymentTriggered": false,
+  "environmentVariableChanged": false,
+  "productionDatabaseMutated": false,
+  "applicationChanged": false,
+  "workerChanged": false,
+  "realParticipantRecordsCreated": false,
+  "realChargesCreated": false,
+  "automaticRollback": {
+    "attempted": false,
+    "completed": false,
+    "productionMoved": null,
+    "control": null,
+    "failure": null
+  },
+  "originPersisted": false,
+  "secretsPersisted": false,
+  "controlHashes": {
+    "smokeArtifactSha256": "9fd7702305a6cea54ed1bfaf88b5d4c6aab2c01846aa5628efa28b4f025397e9",
+    "environmentMetadataBeforeSha256": "2617279fa19cf09ea3f8112cd611f2c3c1e94e3f875e7a24db85eed95b04cb39",
+    "environmentMetadataAfterSha256": "2617279fa19cf09ea3f8112cd611f2c3c1e94e3f875e7a24db85eed95b04cb39",
+    "deploymentInventoryBeforeSha256": "9c8c2b177511f178c149b52bbbe5e4f47755ce3e8716f948cbef6feaebeee4a2",
+    "deploymentInventoryAfterSha256": "9c8c2b177511f178c149b52bbbe5e4f47755ce3e8716f948cbef6feaebeee4a2",
+    "productionMappingBeforeSha256": "cc4af04e573b67b6119b52e16e0c76f81b65388249832fb2a8e7b838cfbea8f9",
+    "productionMappingAfterSha256": "ee6cc6616cfe6dfccfe92d40f6c8ea8d7fcf2d2ec20e99d3894cbf89c985a4d7",
+    "activeRuntimeOriginSha256": "95a93681facc6145a7be36627c8e0bd9b1cf29c0c7fe08f6b2ec2b480a49ddbf"
+  },
+  "verdicts": [
+    {
+      "caseId": "successful_smoke_artifact_is_exact",
+      "passed": true,
+      "observed": "exact successful rollback-safe smoke artifact is bound to this activation"
+    },
+    {
+      "caseId": "exact_vercel_project_is_bound",
+      "passed": true,
+      "observed": "exact Vercel team and project are bound"
+    },
+    {
+      "caseId": "staged_deployment_identity_is_exact",
+      "passed": true,
+      "observed": "READY Production-target staged deployment carries exact application and worker metadata"
+    },
+    {
+      "caseId": "rollback_is_ready_and_active_before_promotion",
+      "passed": true,
+      "observed": "recorded READY rollback deployment is the sole active Production target"
+    },
+    {
+      "caseId": "production_clinic_schema_is_exact",
+      "passed": true,
+      "observed": "Production Clinic schema readback RLS=10/10; functions=22/22"
+    },
+    {
+      "caseId": "production_domains_resolve_to_staged_deployment",
+      "passed": true,
+      "observed": "all 7 Production domains resolve to the exact staged deployment"
+    },
+    {
+      "caseId": "active_production_health_is_200",
+      "passed": true,
+      "observed": "structured health is 200 on the exact canonical Vercel Production runtime domain"
+    },
+    {
+      "caseId": "active_runtime_project_is_canonical",
+      "passed": true,
+      "observed": "exactly one active Production runtime origin maps to the canonical Supabase project"
+    },
+    {
+      "caseId": "environment_metadata_is_unchanged",
+      "passed": true,
+      "observed": "Vercel environment metadata SHA-256 is unchanged"
+    },
+    {
+      "caseId": "activation_created_no_deployment",
+      "passed": true,
+      "observed": "deployment identity inventory SHA-256 is unchanged; the staged deployment was promoted without rebuild"
+    },
+    {
+      "caseId": "rollback_target_remains_ready",
+      "passed": true,
+      "observed": "recorded rollback deployment remains READY after activation"
+    }
+  ],
+  "runtimeProof": {
+    "productionProjectMatch": true,
+    "exactlyOneOrigin": true,
+    "healthyDomainCount": 1,
+    "productionDomainCount": 7,
+    "pagesInspected": 3,
+    "chunksInspected": 15
+  },
+  "finishedAt": "2026-10-28T04:49:30.730Z",
+  "passed": true,
+  "failure": null
+}
