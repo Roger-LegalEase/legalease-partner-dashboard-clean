@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {assertReviewedExposure,assertFreshWorkerPrestate,assertQualifiedWorkerPoststate} from './qualified-worker-placement.mjs';
+import {assertReviewedExposure,assertFreshWorkerPrestate,assertQualifiedWorkerPoststate,projectNativeHandoffEvents} from './qualified-worker-placement.mjs';
 import {readQualifiedWorkerPlacementEvidence,prepareQualifiedWorkerPlacementRecords,requireQualifiedDatabasePhase,verifyQualifiedDatabaseBinding} from './grade-a-launch-control/qualified-production-database-binding.mjs';
 const root=process.cwd(),evidence=readQualifiedWorkerPlacementEvidence(root),head=()=>execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),file='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',base='36f0f8ccdd9cd6923686fdd34a1674e53cc9aaf1',mirror='sha256:'+'f'.repeat(64),source='84a75b6e65dc69e6c371afac44f1284e0debf722',digest='sha256:c574d7ca3864dfcae9de3cb4fc77c8c324ace050310333093042f961e6f0b5f1';
 test('exact accepted readiness/rollback capsule are required; new worker-only records retain actual predecessor history',()=>{
@@ -30,3 +30,9 @@ test('contained workflow places only the admitted machine after mirror/fresh pro
 if(process.env.QUALIFIED_WORKER_CONTROLLER_TEST==='1'){
  test('actual frozen worker phase passes current binding and refuses smoke, migration and activation grants',()=>{const c=JSON.parse(fs.readFileSync(file));assert.equal(verifyQualifiedDatabaseBinding(root,c).current,true);assert.deepEqual(requireQualifiedDatabasePhase(c,'production_worker_deploy'),c.productionAuthorization);for(const phase of ['smoke','forward_chain_migrate','activate','public_verify'])assert.throws(()=>requireQualifiedDatabasePhase(c,phase));});
 }
+
+test('explicit native clean codes are mandatory and bounded event projection never fabricates missing evidence or emits raw requests',()=>{
+ for(const absent of ['exit_code','guest_exit_code']){const x=syntheticPost();delete x.events[0].request.exit_event[absent];assert.throws(()=>assertQualifiedWorkerPoststate(x.actual,evidence,x.intent,mirror,x.events,x.config));const projection=projectNativeHandoffEvents(x.events);assert.equal(projection.events[0][absent==='exit_code'?'exitCode':'guestExitCode'],null);}
+ const x=syntheticPost();x.events[0].request.secret='must-not-emit';x.events[0].request.exit_event.command='must-not-emit-command';const p=projectNativeHandoffEvents(x.events);assert.equal(p.events[0].exitCode,0);assert.equal(p.events[0].guestExitCode,0);assert.equal(p.events[0].requestedStop,true);assert.equal(p.events[1].type,'start');assert(!JSON.stringify(p).includes('must-not-emit'));assert(!JSON.stringify(p).includes('command'));
+ const bounded=projectNativeHandoffEvents(Array.from({length:40},()=>x.events[0]));assert.equal(bounded.events.length,32);assert.equal(bounded.truncated,true);assert.equal(projectNativeHandoffEvents(null).events.length,0);
+});
