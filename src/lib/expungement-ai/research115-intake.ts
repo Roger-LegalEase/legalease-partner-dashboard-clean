@@ -9,6 +9,7 @@ import { GA_NONCONVICTION_ROUTE, georgiaNonconvictionQuestions } from "@/lib/rca
 import { MD_CANNABIS_ROUTE, evaluateMarylandCannabis, marylandCannabisQuestions, marylandCannabisFactIds } from "@/lib/rcap-engine/maryland-cannabis-research";
 import { MASSACHUSETTS_ADULT_SEALING_ROUTE, evaluateMassachusettsAdultSealing, massachusettsAdultSealingQuestions } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
 import { MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS, massachusettsAdultSealingDocumentQuestions, massachusettsAdultSealingDocumentAnswerKnown } from "@/lib/rcap/documents/massachusetts-adult-sealing-document-facts";
+import { ALASKA_IDENTITY_DOCUMENT_FACT_IDS, alaskaIdentityDocumentQuestions, alaskaIdentityDocumentAnswerKnown } from "@/lib/rcap/documents/alaska-identity-document-facts";
 
 export function research115Eligibility(routeKey: string, facts: Readonly<Record<string, unknown>>, asOf: string) {
   const projected = { ...facts };
@@ -30,7 +31,8 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
 }
 
 export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
-  if (routeKey === AK_IDENTITY_ROUTE) return alaskaIdentityQuestions(facts, includeInactive).map(q => q.id);
+  if (routeKey === AK_IDENTITY_ROUTE) return [...alaskaIdentityQuestions(facts, includeInactive).map(q => q.id),
+    ...(includeInactive || evaluateAlaskaIdentity(facts, new Date().toISOString().slice(0, 10)).branchId === "dps_initial_request" ? [...ALASKA_IDENTITY_DOCUMENT_FACT_IDS, "case_identifier"] : [])];
   if (routeKey === WEST_VIRGINIA_407_ROUTE) return westVirginia407Questions(routeKey).map(q => q.id);
   if (routeKey === MD_CANNABIS_ROUTE) return marylandCannabisFactIds(facts, includeInactive);
   if (routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE) return [...massachusettsAdultSealingQuestions(routeKey, facts, includeInactive).map(q => q.id), ...MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS];
@@ -47,7 +49,9 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
     id: q.id, type: q.type, prompt: q.en, promptEs: q.es,
     options: "options" in q && q.options ? [...q.options] : undefined, optionsEn: "optionsEn" in q && q.optionsEn ? [...q.optionsEn] : undefined, optionsEs: "optionsEs" in q && q.optionsEs ? [...q.optionsEs] : undefined
   }));
-  return definitions
+  const alaskaDocuments = routeKey === AK_IDENTITY_ROUTE && evaluateAlaskaIdentity(facts, new Date().toISOString().slice(0, 10)).branchId === "dps_initial_request"
+    ? alaskaIdentityDocumentQuestions(routeKey).map(q => ({ ...q, options: undefined, optionsEn: undefined, optionsEs: undefined })) : [];
+  return [...definitions, ...alaskaDocuments]
     .map(q => ({ id: q.id, stage: "packet_information", prompt: q.prompt,
       type: q.type === "yes_no_unknown" ? "yes_no_unsure" : q.type === "number" ? "text" : q.type,
       required: !("required" in q && q.required === false), contextOnly: false,
@@ -76,12 +80,15 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
       if (!copy) throw new Error("Unsupported Maryland packet component: " + id);
       return copy[0];
     }) : componentCopy?.map(([en]) => en) ?? [];
+  const documentIds = routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS
+    : routeKey === AK_IDENTITY_ROUTE && gate?.status === "qualifying" ? ALASKA_IDENTITY_DOCUMENT_FACT_IDS : [];
+  const documentAnswerKnown = routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? massachusettsAdultSealingDocumentAnswerKnown : alaskaIdentityDocumentAnswerKnown;
   const missing = additions.filter(q => q.required && (questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid"
-    || routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE && MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS.some(id => id === q.id)
-      && !massachusettsAdultSealingDocumentAnswerKnown(routeKey, q.id, model.initialAnswers[q.id], new Date().toISOString().slice(0, 10)))
+    || documentIds.some(id => id === q.id)
+      && !documentAnswerKnown(routeKey, q.id, model.initialAnswers[q.id], new Date().toISOString().slice(0, 10)))
     || gate?.missingFactIds.includes(q.id)).map(q => q.id);
-  if (routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE && model.questions.some(q => q.id === "participant_full_legal_name" && q.required)
-    && !massachusettsAdultSealingDocumentAnswerKnown(routeKey, "participant_full_legal_name", model.initialAnswers.participant_full_legal_name, new Date().toISOString().slice(0, 10))) missing.push("participant_full_legal_name");
+  if (documentIds.length && model.questions.some(q => q.id === "participant_full_legal_name" && q.required)
+    && !documentAnswerKnown(routeKey, "participant_full_legal_name", model.initialAnswers.participant_full_legal_name, new Date().toISOString().slice(0, 10))) missing.push("participant_full_legal_name");
   return { ...model, questions: merge(model.questions), builderQuestions: merge(model.builderQuestions),
     missingInputIds: [...new Set([...model.missingInputIds, ...missing])],
     ...(model.expectedComponents && gate ? { expectedComponents: components } : {}),

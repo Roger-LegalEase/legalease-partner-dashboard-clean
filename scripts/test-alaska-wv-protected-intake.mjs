@@ -22,7 +22,7 @@ const cases = [
     facts: { ma_100a_whole_record_reviewed: 'Yes', ma_100a_all_record_classifications_confirmed: 'Yes', ma_100a_all_dispositions_description: 'All Massachusetts entries: one misdemeanor conviction; latest court/disposition/custody end2023-10-29; no other entries.', ma_100a_latest_misdemeanor_event: '2023-10-29', ma_100a_latest_felony_event: 'none', ma_100a_latest_sex_offense_completion: 'none', ma_100a_excluded_firearms_or_public_integrity_record: 'No', ma_100a_recent_finding_three_years: 'No', ma_100a_recent_custody_three_years: 'No' },
     excluded: { ma_100a_excluded_firearms_or_public_integrity_record: 'Yes' }, held: { ma_100a_all_record_classifications_confirmed: 'No' }, status: 'needs_review',
     component: 'Official Commissioner of Probation section100A sealing request' },
-  { route: 'AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180',
+  { route: 'AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180', declared: 19,
     key: 'ak_seal_explanation', value: 'The arrested person used my name; agency records will be obtained separately.',
     facts: { ak_seal_record_origin: 'alaska', ak_seal_record_holder: 'alaska_dps', ak_seal_request_stage: 'initial_request', ak_seal_basis: 'mistaken_identity', ak_seal_explanation: 'The arrested person used my name; agency records will be obtained separately.', ak_seal_arrest_or_citation: 'Yes', ak_seal_prosecutor_referral: 'Yes', ak_seal_disposition: 'dismissed', ak_seal_verification_status: 'not_obtained' },
     excluded: { ak_seal_basis: 'dismissal_only' }, held: { ak_seal_request_stage: 'denied_or_contested' }, status: 'attorney_review',
@@ -228,5 +228,43 @@ check('MA material document uncertainty stays missing through actual save and ca
     assert.throws(() => maMatter({ ...snapshot, verifiedAt: maFrozen.verifiedAt }, maFrozen.matterId), /unknown_document_fact/);
     assert.equal(snapshot.paymentAllowed, false);
   }
+});
+const { alaskaIdentityDocumentFromSnapshot: akDocument } = await import('../src/lib/rcap/documents/alaska-identity-document-facts.ts');
+const akFrozen = JSON.parse(fs.readFileSync('scripts/fixtures/alaska-identity-reviewed-input.json'));
+const akDocumentAnswers = { participant_full_legal_name: 'Avery Linden Fiction', ak_seal_first_name: 'Avery', ak_seal_middle_name: 'Linden', ak_seal_last_name: 'Fiction', ak_seal_mailing_address: '900 Fictional Way, Anchorage, AK 99501', ak_seal_phone: '907-555-0104', ak_seal_date_of_birth: '1987-04-14', ak_seal_arrest_date: '2019-05-09', ak_seal_offense_date: '2019-05-08', case_identifier: '3AN-19-01234CR', charge: 'Theft in the fourth degree' };
+let akSaved;
+check('AK actual saved facts reproduce the independently reviewed eight-field native input', () => {
+  akSaved = save(savedMatters.get('AK'), { ...akFrozen.materialScreeningFacts, ...akDocumentAnswers });
+  const snapshot = akSaved.draftSnapshot ?? akSaved.snapshot;
+  const mapped = akDocument({ ...snapshot, verifiedAt: '2026-10-29T12:00:00Z' }, 'synthetic-AK');
+  assert.deepEqual(mapped.facts, akFrozen.facts);
+  assert.equal(mapped.materialScreeningFacts.ak_seal_explanation, akFrozen.materialScreeningFacts.ak_seal_explanation);
+  assert.deepEqual(mapped.unfilledParticipantFactIds, []);
+  assert.equal(snapshot.paymentAllowed, false); assert.notEqual(akSaved.status, 'verified');
+});
+check('AK optional unknown document facts remain blank/manual and never become material eligibility gates', () => {
+  const saved = save(akSaved, { ak_seal_phone: { unknown: true, value: '907-555-0104' }, ak_seal_date_of_birth: 'no sé' });
+  const snapshot = saved.draftSnapshot ?? saved.snapshot, model = P.protectedPacketInformationModelFor(saved);
+  for (const id of ['ak_seal_suffix', 'ak_seal_phone', 'ak_seal_date_of_birth']) {
+    const q = model.questions.find(q => q.id === id); assert.equal(q.required, false); assert.equal(q.lifecyclePhase, 'optional_or_later');
+    assert(!model.missingInputIds.includes(id));
+  }
+  const mapped = akDocument({ ...snapshot, verifiedAt: '2026-10-29T12:00:00Z' }, 'synthetic-AK');
+  assert(!Object.hasOwn(mapped.facts, 'participant.phone')); assert(!Object.hasOwn(mapped.facts, 'participant.date_of_birth'));
+  assert(mapped.unfilledParticipantFactIds.includes('participant.phone')); assert(mapped.unfilledParticipantFactIds.includes('participant.date_of_birth'));
+});
+check('AK unsupported and different-agency branches hide document collection while preserving saved history', () => {
+  for (const change of [{ ak_seal_basis: 'dismissal_only' }, { ak_seal_record_holder: 'other_agency' }]) {
+    const saved = save(akSaved, change), snapshot = saved.draftSnapshot ?? saved.snapshot, model = P.protectedPacketInformationModelFor(saved);
+    assert(!model.questions.some(q => q.id === 'ak_seal_first_name'));
+    assert(!I.research115PacketFactIds(ak.route, model.initialAnswers).includes('ak_seal_first_name'));
+    assert(I.research115PacketFactIds(ak.route, model.initialAnswers, true).includes('ak_seal_first_name'));
+    assert.equal(snapshot.packetAnswers.ak_seal_first_name, 'Avery'); assert.equal(snapshot.paymentAllowed, false);
+  }
+});
+check('AK unknown required name stays missing and cannot populate a participant document', () => {
+  const saved = save(akSaved, { ak_seal_first_name: { unknown: true, value: 'Avery' } }), snapshot = saved.draftSnapshot ?? saved.snapshot;
+  assert(P.protectedPacketInformationModelFor(saved).missingInputIds.includes('ak_seal_first_name'));
+  assert.throws(() => akDocument({ ...snapshot, verifiedAt: '2026-10-29T12:00:00Z' }, 'synthetic-AK'), /unknown_document_fact/);
 });
 console.log(`${checks}/${checks} protected research-intake controls passed; local integration only, no paid fulfillment or production proof.`);
