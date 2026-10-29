@@ -11,6 +11,17 @@ const { resolveRuntimeText } = await import('../src/lib/expungement-ai/localizat
 const witnesses = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses;
 const asOf = '2026-10-29';
 const cases = [
+  { route: 'MD:cannabis-specific-expungement', declared: 214,
+    key: 'md_cannabis_record_reference', value: 'Frozen fictional docket record; no clerk contact or attached records asserted.',
+    prepare: { md_cannabis_basis: 'possession', md_cannabis_only_charge: 'Yes', md_cannabis_fee_choice: 'paid' },
+    facts: { md_cannabis_basis: 'possession', md_cannabis_charge_id: '1', md_cannabis_charge_statute: 'CR 5-601', md_cannabis_charge_disposition: 'guilty', md_cannabis_conviction_date: '2022-06-01', md_cannabis_only_charge: 'Yes', md_cannabis_all_charges_listed: 'Yes', md_cannabis_pending_proceeding: 'No', md_cannabis_recital_confirmed: 'Yes', md_cannabis_sentence_complete: 'Yes', md_cannabis_completion_date: '2023-10-29', md_cannabis_case_search_checked: 'Yes', md_cannabis_case_search_result: 'not_shown', md_cannabis_court_record_status: 'exists_unexpunged', md_cannabis_record_reference: 'Frozen fictional docket record; no clerk contact or attached records asserted.', md_cannabis_restitution_status: 'not_ordered', md_cannabis_court_level: 'district', md_cannabis_filing_court_confirmed: 'Yes', md_cannabis_court_transfer: 'none', md_cannabis_case_appealed: 'No', md_cannabis_contested: 'No', md_cannabis_fee_choice: 'paid' },
+    excluded: { md_cannabis_pending_proceeding: 'Yes' }, held: { md_cannabis_contested: 'Yes' }, status: 'attorney_review',
+    component: 'Official Maryland cannabis petition CC-DC-CR-072D' },
+  { route: 'MA:adult-conviction-sealing-under-m-g-l-c-276-100a', declared: 13,
+    key: 'ma_100a_all_dispositions_description', value: 'All Massachusetts entries: one misdemeanor conviction; latest court/disposition/custody end2023-10-29; no other entries.',
+    facts: { ma_100a_whole_record_reviewed: 'Yes', ma_100a_all_record_classifications_confirmed: 'Yes', ma_100a_all_dispositions_description: 'All Massachusetts entries: one misdemeanor conviction; latest court/disposition/custody end2023-10-29; no other entries.', ma_100a_latest_misdemeanor_event: '2023-10-29', ma_100a_latest_felony_event: 'none', ma_100a_latest_sex_offense_completion: 'none', ma_100a_excluded_firearms_or_public_integrity_record: 'No', ma_100a_recent_finding_three_years: 'No', ma_100a_recent_custody_three_years: 'No' },
+    excluded: { ma_100a_excluded_firearms_or_public_integrity_record: 'Yes' }, held: { ma_100a_all_record_classifications_confirmed: 'No' }, status: 'needs_review',
+    component: 'Official Commissioner of Probation section100A sealing request' },
   { route: 'AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180',
     key: 'ak_seal_explanation', value: 'The arrested person used my name; agency records will be obtained separately.',
     facts: { ak_seal_record_origin: 'alaska', ak_seal_record_holder: 'alaska_dps', ak_seal_request_stage: 'initial_request', ak_seal_basis: 'mistaken_identity', ak_seal_explanation: 'The arrested person used my name; agency records will be obtained separately.', ak_seal_arrest_or_citation: 'Yes', ak_seal_prosecutor_referral: 'Yes', ak_seal_disposition: 'dismissed', ak_seal_verification_status: 'not_obtained' },
@@ -23,6 +34,7 @@ const cases = [
     component: 'Section 60A-4-407(b) application' }
 ];
 let checks = 0;
+const savedMatters = new Map();
 function check(label, fn) { fn(); checks++; console.log('PASS ' + label); }
 for (const c of cases) {
   const state = c.route.slice(0, 2), profile = getProfileByJurisdiction(state);
@@ -30,8 +42,13 @@ for (const c of cases) {
   const witness = witnesses.find(w => w.pathwayKey === c.route);
   assert(witness, 'Existing exact route witness required');
   const answers = Object.fromEntries(Object.entries(witness.finalAnswers).filter(([id]) => publicIds.has(id)));
+  if (state === 'MA') {
+    assert(publicIds.has('court'));
+    answers.court = 'Optional fictional historical court reference';
+  }
   const authoritative = evaluate({ jurisdiction: state, profileVersion: profile.profileVersion, matterId: 'synthetic-' + state, answers });
-  const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers, dependencies: {}, capturedAt: asOf + 'T00:00:00.000Z' });
+  const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers,
+    dependencies: {}, capturedAt: asOf + 'T00:00:00.000Z' });
   assert(seed);
   const original = { status: 'unverified', reason: 'synthetic_source_witness', revision: 0, draftHash: seed.hash, draftSnapshot: seed.snapshot };
   const bytes = JSON.stringify(original);
@@ -44,7 +61,7 @@ for (const c of cases) {
     assert.equal(original.draftSnapshot.paymentAllowed, false);
   });
   check(state + ' exact closed writable list and bilingual UI choices', () => {
-    assert.equal(I.research115PacketFactIds(c.route, c.facts, true).length, Object.keys(c.facts).length);
+    assert.equal(I.research115PacketFactIds(c.route, c.facts, true).length, c.declared ?? Object.keys(c.facts).length);
     assert(!I.research115PacketFactIds(c.route, { ...c.facts, forged_approval: 'Yes' }, true).includes('forged_approval'));
     for (const q of I.research115PacketQuestions(c.route, c.facts)) {
       assert(q.translations.es.prompt);
@@ -60,7 +77,9 @@ for (const c of cases) {
     assert.equal(unknown.status, 'unknown'); assert(unknown.missingFactIds.includes(c.key));
   });
   check(state + ' actual save retains facts without creating verification or payment authority', () => {
-    const saved = P.packetInformationPatch({ protectedVerification: original, answers: c.facts });
+    const prepared = c.prepare ? P.packetInformationPatch({ protectedVerification: original, answers: c.prepare }) : null;
+    if (c.prepare) assert(prepared?.protectedTransition, 'Ordinary parent selection must save before conditional questions');
+    const saved = P.packetInformationPatch({ protectedVerification: prepared?.protectedTransition.nextVerification ?? original, answers: c.facts });
     assert(saved?.protectedTransition, 'Material fields must survive the real patch boundary');
     const next = saved.protectedTransition.nextVerification, snapshot = next.draftSnapshot ?? next.snapshot;
     assert.equal(snapshot.packetAnswers[c.key], c.value);
@@ -72,6 +91,12 @@ for (const c of cases) {
     assert(!correctionIds.has('forged_approval'));
     assert.equal(P.heldPacketCorrectionInputIds({ ...nextModel, packetPlan: null }, nextModel.resultCode).size, 0);
     assert(nextModel.expectedComponents.includes(c.component));
+    if (state === 'MA') {
+      assert(!nextModel.requiredInputIds.includes('court'), 'The whole-record Commissioner request has no mandatory primary court');
+      assert(!nextModel.expectedComponents.some(text => /proposed order|prosecutor service/i.test(text)));
+      assert.equal(snapshot.screeningAnswers.court, 'Optional fictional historical court reference', 'Optional historical facts must survive a save');
+    }
+    savedMatters.set(state, next);
     if (state === 'WV') { assert.equal(nextModel.expectedComponents.length, 5); assert(!nextModel.expectedComponents.some(s => /proposed order/i.test(s))); }
     const unknown = P.packetInformationPatch({ protectedVerification: next, answers: { [c.key]: { unknown: true, value: c.value } } });
     assert(unknown?.protectedTransition);
@@ -88,7 +113,15 @@ for (const c of cases) {
   });
   for (const facts of [c.facts, { ...c.facts, ...c.excluded }, { ...c.facts, ...c.held }, {}]) {
     const gate = I.research115Eligibility(c.route, facts, asOf);
-    check(state + ' exact bilingual outcome ' + gate.status, () => assert.equal(resolveRuntimeText('es', gate.reason), gate.reasonEs));
+    check(state + ' bilingual outcome ' + gate.status, () => {
+      const es = resolveRuntimeText('es', gate.reason);
+      if (gate.reasonEs) assert.equal(es, gate.reasonEs);
+      else {
+        assert.notEqual(es, gate.reason, 'Known Maryland outcomes must not fall back to untranslated technical text');
+        const expected = { qualifying: /072D.*tribunal.*\$30/, excluded: /pendiente|proceso penal/i, attorney_review: /objeción|contenciosa/i, unknown: /inventario|cargos/i };
+        assert.match(es, expected[gate.status]);
+      }
+    });
   }
   check(state + ' fabricated approval and server route changes do not survive save', () => {
     const bad = P.packetInformationPatch({ protectedVerification: original, answers: { [c.key]: c.value, forged_approval: 'Yes', legalSignoffStatus: 'signed_off', paymentAllowed: true, jurisdiction: 'NV', pathwayId: 'other' } });
@@ -98,7 +131,7 @@ for (const c of cases) {
     assert.equal(snapshot.jurisdiction, state); assert.equal(snapshot.pathwayId, c.route.slice(3)); assert.equal(snapshot.paymentAllowed, false);
   });
 }
-const ak = cases[0], wv = cases[1];
+const ak = cases.find(c => c.route.startsWith('AK:')), wv = cases.find(c => c.route.startsWith('WV:'));
 check('Alaska adverse branch hides unrelated facts but retains declared history only', () => {
   const stopped = { ...ak.facts, ...ak.excluded };
   assert.equal(I.research115PacketFactIds(ak.route, stopped).length, 6);
@@ -109,4 +142,56 @@ check('West Virginia six-calendar-month boundary uses probation expiration', () 
   assert.equal(I.research115Eligibility(wv.route, { ...wv.facts, [wv.key]: '2026-04-29' }, '2026-10-28').status, 'not_yet');
   assert.equal(I.research115Eligibility(wv.route, { ...wv.facts, [wv.key]: '2026-04-29' }, asOf).status, 'qualifying');
 });
-console.log(`${checks}/${checks} Alaska/WV protected intake controls passed; local integration only, no paid fulfillment or production proof.`);
+for (const c of cases.filter(c => ['MD', 'MA'].includes(c.route.slice(0, 2)))) {
+  for (const value of ['I am not sure', 'unknown', { unknown: true, value: c.value }]) check(c.route.slice(0, 2) + ' material narrative uncertainty agrees with its actual input control ' + JSON.stringify(value), () => {
+    const facts = { ...c.facts, [c.key]: value }, before = JSON.stringify(facts);
+    assert.equal(I.research115Eligibility(c.route, facts, asOf).status, 'unknown');
+    assert.equal(JSON.stringify(facts), before, 'Evaluation projection must not rewrite raw saved facts');
+  });
+}
+function save(previous, answers) {
+  const patch = P.packetInformationPatch({ protectedVerification: previous, answers });
+  assert(patch?.protectedTransition); return patch.protectedTransition.nextVerification;
+}
+check('MD ordinary mixed-charge saves build actual facts without participant unit authorization', () => {
+  let next = save(savedMatters.get('MD'), { md_cannabis_only_charge: 'No' });
+  next = save(next, { md_cannabis_additional_charge_count: '1' });
+  assert(P.protectedPacketInformationModelFor(next).questions.some(q => q.id === 'md_cannabis_other_1_description'));
+  next = save(next, { md_cannabis_other_1_id: '2', md_cannabis_other_1_description: 'First-degree assault', md_cannabis_other_1_statute: 'CR 3-202', md_cannabis_other_1_disposition: 'guilty', md_cannabis_other_1_minor_traffic: 'No', md_cannabis_other_1_cannabis: 'No', md_cannabis_charge_inventory: [], md_cannabis_unit_eligible: 'Yes' });
+  const model = P.protectedPacketInformationModelFor(next);
+  assert.equal(I.research115Eligibility('MD:cannabis-specific-expungement', model.initialAnswers, asOf).status, 'qualifying');
+  assert(!Object.hasOwn(model.packetAnswers, 'md_cannabis_charge_inventory')); assert(!Object.hasOwn(model.packetAnswers, 'md_cannabis_unit_eligible'));
+  const pwid = save(next, { md_cannabis_basis: 'pwid', md_cannabis_charge_statute: 'CR 5-602', md_cannabis_new_conviction_during_wait: 'No' });
+  assert.equal(I.research115Eligibility('MD:cannabis-specific-expungement', P.protectedPacketInformationModelFor(pwid).initialAnswers, asOf).status, 'attorney_review');
+  const single = save(next, { md_cannabis_only_charge: 'Yes' }), singleModel = P.protectedPacketInformationModelFor(single);
+  assert.equal(singleModel.packetAnswers.md_cannabis_other_1_description, 'First-degree assault');
+  assert(!singleModel.questions.some(q => q.id === 'md_cannabis_other_1_description'));
+});
+check('MD requested waiver selects its documents; missing amounts never default to zero', () => {
+  const partial = save(savedMatters.get('MD'), { md_cannabis_fee_choice: 'waiver' });
+  const incomplete = P.protectedPacketInformationModelFor(partial);
+  assert(incomplete.missingInputIds.includes('md_cannabis_fin_total')); assert.deepEqual(incomplete.expectedComponents, []);
+  const financial = { md_cannabis_prepaid_waiver_requested: 'Yes', md_cannabis_unable_to_prepay: 'Yes', md_cannabis_final_costs_requested: 'No', md_cannabis_restricted_case_type: 'No', md_cannabis_fin_household: '1', md_cannabis_fin_period: 'month', md_cannabis_fin_total: '750.00', md_cannabis_fin_income_complete: 'Yes', md_cannabis_fin_property_complete: 'Yes', md_cannabis_fin_debts_complete: 'Yes' };
+  for (const key of ['wages', 'commissions', 'ssi', 'retirement', 'unemployment', 'cashAssistance', 'alimony', 'rent', 'other']) financial['md_cannabis_fin_income_' + key] = key === 'wages' ? '750.00' : '0';
+  for (const key of ['realEstate', 'vehicles', 'bank', 'stocks', 'other']) financial['md_cannabis_fin_property_' + key] = '0';
+  for (const key of ['creditCard', 'carLoan', 'other']) financial['md_cannabis_fin_debt_' + key] = '0';
+  const complete = save(partial, financial), model = P.protectedPacketInformationModelFor(complete);
+  assert.equal(I.research115Eligibility('MD:cannabis-specific-expungement', model.initialAnswers, asOf).status, 'qualifying');
+  assert.equal(model.expectedComponents.length, 4); assert(model.expectedComponents.some(s => s.includes('CC-DC-089'))); assert(model.expectedComponents.some(s => s.includes('MDJ-008')));
+  const uncertain = save(complete, { md_cannabis_fin_property_bank: { unknown: true, value: '0' } }), unknown = P.protectedPacketInformationModelFor(uncertain);
+  assert(unknown.missingInputIds.includes('md_cannabis_fin_property_bank')); assert.deepEqual(unknown.expectedComponents, []);
+  const paid = save(complete, { md_cannabis_fee_choice: 'paid' }), returned = P.protectedPacketInformationModelFor(paid);
+  assert.equal(returned.packetAnswers.md_cannabis_fin_total, '750.00'); assert(!returned.questions.some(q => q.id === 'md_cannabis_fin_total'));
+  assert.equal(returned.expectedComponents.length, 2);
+});
+check('MA saved class changes expose the right history and retain inactive facts', () => {
+  let next = save(savedMatters.get('MA'), { ma_100a_latest_misdemeanor_event: 'none', ma_100a_latest_felony_event: '2019-10-29' });
+  let model = P.protectedPacketInformationModelFor(next);
+  assert(model.questions.some(q => q.id === 'ma_100a_recent_finding_seven_years'));
+  assert(!model.questions.some(q => q.id === 'ma_100a_recent_finding_three_years'));
+  next = save(next, { ma_100a_recent_finding_seven_years: 'No', ma_100a_recent_custody_seven_years: 'No' });
+  model = P.protectedPacketInformationModelFor(next);
+  assert.equal(I.research115Eligibility('MA:adult-conviction-sealing-under-m-g-l-c-276-100a', model.initialAnswers, asOf).status, 'qualifying');
+  assert.equal(model.packetAnswers.ma_100a_recent_finding_three_years, 'No');
+});
+console.log(`${checks}/${checks} protected research-intake controls passed; local integration only, no paid fulfillment or production proof.`);

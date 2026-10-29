@@ -1,5 +1,7 @@
 import georgiaMemo from "@/../data/record-clearing/legal-design-intake/GA.memo.json";
 import westVirginiaMemo from "@/../data/record-clearing/legal-design-intake/WV.memo.json";
+import massachusettsMemo from "@/../data/record-clearing/legal-design-intake/MA.memo.json";
+import { MASSACHUSETTS_ADULT_SEALING_ROUTE } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
 import { WEST_VIRGINIA_407_ROUTE } from "@/lib/rcap-engine/west-virginia-407-facts";
 import georgiaFieldMap from "@/../data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/production-field-map.json";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
@@ -10,6 +12,29 @@ const AK_PATHWAY="sealing-for-mistaken-identity-or-false-accusation-as-12-62-180
 const AK_SHA="1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a";
 const MD_PATHWAY="cannabis-specific-expungement";
 const MD_SHA="87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703";
+
+/** The adopted adult100A request goes to Probation and has no court caption. */
+export function withMassachusettsAdultSealingProcedure(profile: EngineProfile): EngineProfile {
+  if (profile.jurisdiction.code !== "MA") return profile;
+  const track = massachusettsMemo.tracks.find(item => item.trackId === "ma-seal-admin");
+  const sha = "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce";
+  const official = profile.source?.allFolderFiles?.find(source => source.sha256 === sha && source.sizeBytes === 216883);
+  if (!track || track.outputStrategy !== "official_pdf_fill" || track.destination.kind !== "agency"
+    || track.legalDesignDecision.status !== "legal_design_approved_with_limitations" || !official) {
+    throw new Error("Adult100A requires the exact adopted Commissioner request and official source");
+  }
+  const pathwayId = MASSACHUSETTS_ADULT_SEALING_ROUTE.slice(3);
+  return { ...profile, pathways: profile.pathways.map(pathway => pathway.id !== pathwayId ? pathway : { ...pathway,
+    routeType: "administrative", automatic: false, filingRequired: true,
+    receivingOffice: track.destination.name,
+    summary: "Whole-record section100A sealing request to the Commissioner of Probation using the official adult request and applicable perjury declaration. Each record class uses its own statutory event and period; all Massachusetts entries must be considered. No court caption, proposed order or prosecutor service is added. Obtain your own CORI before filing; LegalEase does not collect it, sign for you or make the official decision."
+  }), packetGenerator: { ...profile.packetGenerator, pathways: profile.packetGenerator.pathways.map(plan => plan.pathwayId !== pathwayId ? plan : { ...plan,
+    mode: "official_form_overlay_or_source_form_set", formMappingStatus: "source_candidate_identified",
+    requiredInputIds: (plan.requiredInputIds ?? profile.packetGenerator.requiredInputs ?? []).filter(id => id !== "court"),
+    formCandidates: [structuredClone(official)],
+    selectionRule: "Use only the official Commissioner form for the supported adult100A request and applicable declaration. Preserve juvenile100B, signatures and official-use fields. A single case or court reference is not required for this whole-record request. Commercial admission and private delivery remain separately held."
+  }) } };
+}
 
 /** Exact adopted section407 custom package; the compiled source and approvals remain intact. */
 export function withWestVirginia407Procedure(profile: EngineProfile): EngineProfile {

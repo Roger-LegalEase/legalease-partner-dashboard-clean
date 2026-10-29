@@ -1,5 +1,7 @@
 import { AK_IDENTITY_REASON_COPY } from "@/lib/rcap-engine/alaska-identity-research";
-import { RESEARCH115_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
+import { RESEARCH115_COMPONENT_COPY, MD_CANNABIS_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
+import { massachusettsAdultSealingOutcomeSpanish } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
+import { marylandCannabisOutcomeSpanish } from "@/lib/rcap-engine/maryland-cannabis-outcome-copy";
 import { westVirginia407OutcomeSpanish } from "@/lib/rcap-engine/west-virginia-407-facts";
 import { GA_NONCONVICTION_REASON_COPY } from "@/lib/rcap-engine/georgia-nonconviction-research";
 import { IL_PROGRAM_COPY } from "@/lib/rcap-engine/illinois-program-facts";
@@ -1259,8 +1261,12 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined>; msTimingContext?: MsTimingDisplayContext | null }): string {
-  const componentCopy = locale === "es" ? Object.values(RESEARCH115_COMPONENT_COPY).flat().find(([en]) => en === text) : undefined;
+  const componentCopy = locale === "es" ? [...Object.values(RESEARCH115_COMPONENT_COPY).flat(), ...Object.values(MD_CANNABIS_COMPONENT_COPY)].find(([en]) => en === text) : undefined;
   if (componentCopy) return componentCopy[1];
+  const ma100aCopy = locale === "es" ? massachusettsAdultSealingOutcomeSpanish(text) : null;
+  if (ma100aCopy) return ma100aCopy;
+  const mdCannabisCopy = locale === "es" ? marylandCannabisOutcomeSpanish(text) : null;
+  if (mdCannabisCopy) return mdCannabisCopy;
   const agencyCopy = locale === "es" ? AK_IDENTITY_REASON_COPY.find(([en]) => en === text) : undefined;
   if (agencyCopy) return agencyCopy[1];
   const wv407Copy = locale === "es" ? westVirginia407OutcomeSpanish(text) : null;

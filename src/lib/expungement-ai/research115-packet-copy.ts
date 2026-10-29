@@ -1,8 +1,14 @@
 import { AK_IDENTITY_ROUTE } from "@/lib/rcap-engine/alaska-identity-research";
 import { GA_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/georgia-nonconviction-research";
 import { WEST_VIRGINIA_407_ROUTE } from "@/lib/rcap-engine/west-virginia-407-facts";
+import { MASSACHUSETTS_ADULT_SEALING_ROUTE } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
 
 export const RESEARCH115_COMPONENT_COPY = {
+  [MASSACHUSETTS_ADULT_SEALING_ROUTE]: [
+    ["Official Commissioner of Probation section100A sealing request", "Solicitud oficial de sellado de la sección100A al Comisionado de Libertad Condicional"],
+    ["Applicable adult declaration with participant signature left blank", "Declaración de adulto aplicable con la firma del participante en blanco"],
+    ["Whole-record submission instructions; obtain your own CORI before filing", "Instrucciones para presentar la solicitud sobre el registro completo; obtenga su propio CORI antes de presentar"]
+  ],
   [AK_IDENTITY_ROUTE]: [
     ["Participant portions of the six-page Alaska DPS sealing application", "Partes del participante de la solicitud de sellado de seis páginas de Seguridad Pública de Alaska"],
     ["Participant explanation and continuation if needed", "Explicación del participante y continuación si hace falta"],
@@ -20,5 +26,12 @@ export const RESEARCH115_COMPONENT_COPY = {
     ["Checklist of actual orders and probation-expiration confirmation to obtain before filing", "Lista de órdenes reales y confirmación del vencimiento de la libertad condicional que se deben obtener antes de presentar"],
     ["Hearing and filing instructions", "Instrucciones para la audiencia y la presentación"]
   ]
+} as const;
+
+export const MD_CANNABIS_COMPONENT_COPY = {
+  "CC-DC-CR-072D": ["Official Maryland cannabis petition CC-DC-CR-072D", "Petición oficial de Maryland para cannabis CC-DC-CR-072D"],
+  "CC-DC-089": ["Express court-fee-waiver request CC-DC-089, all three pages", "Solicitud expresa de exención de tasas judiciales CC-DC-089, las tres páginas"],
+  "MDJ-008": ["Restricted financial-information notice MDJ-008", "Aviso de información financiera restringida MDJ-008"],
+  "participant_instructions": ["Court submission and external-record instructions; the court handles service and its order", "Instrucciones para presentar la solicitud al tribunal y obtener registros externos; el tribunal se encarga de la notificación y de su orden"]
 } as const;
 
