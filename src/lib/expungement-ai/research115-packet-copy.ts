@@ -3,6 +3,13 @@ import { GA_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/georgia-nonconviction-
 import { WEST_VIRGINIA_407_ROUTE } from "@/lib/rcap-engine/west-virginia-407-facts";
 import { MASSACHUSETTS_ADULT_SEALING_ROUTE } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
 
+export const IOWA_MISDEMEANOR_COMPONENT_COPY = {
+  form: ["Official Iowa Rule 2.86 Form 2 application, all three pages", "Solicitud oficial de Iowa del Formulario 2 de la Regla 2.86, las tres páginas"],
+  aliases: ["Additional alias continuation sheet", "Hoja de continuación para alias adicionales"],
+  paperService: ["Embedded paper-service certification, left unsigned until actual service", "Certificación de entrega en papel incluida, sin firmar hasta realizar la entrega"],
+  instructions: ["Participant instructions for private completion and obtaining the actual DCI report separately", "Instrucciones para completar los datos en privado y obtener por separado el informe DCI real"]
+} as const;
+
 export const RESEARCH115_COMPONENT_COPY = {
   [MASSACHUSETTS_ADULT_SEALING_ROUTE]: [
     ["Official Commissioner of Probation section100A sealing request", "Solicitud oficial de sellado de la sección100A al Comisionado de Libertad Condicional"],

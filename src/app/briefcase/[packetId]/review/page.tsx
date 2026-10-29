@@ -1,5 +1,6 @@
 import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { COURT_RECORD_CONFLICT_COPY } from "@/lib/expungement-ai/record-fact-copy";
+import { IOWA_MISDEMEANOR_ROUTE, IOWA_MISDEMEANOR_FILING_NOTICES } from "@/lib/rcap-engine/iowa-misdemeanor-native.mjs";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
@@ -130,6 +131,7 @@ export default async function PacketAccuracyReviewPage({
                 <li><LocalizedRuntimeText text={"Court, agency, service, record, and filing fees are separate."} /></li>
                 <li><LocalizedRuntimeText text={"The court or agency makes the final decision. Approval is not guaranteed."} /></li>
                 <li><LocalizedRuntimeText text={"Review names, dates, court information, and charges against your records before filing."} /></li>
+                {`${item.jurisdiction}:${item.pathwayId}` === IOWA_MISDEMEANOR_ROUTE ? IOWA_MISDEMEANOR_FILING_NOTICES.map(notice => <li key={notice.en}><LocalizedCopy {...notice} /></li>) : null}
                 {mississippiClinicPacket ? <li><LocalizedRuntimeText text={"Stop and get legal help for an ambiguous docket entry, unclear venue, diversion or nonadjudication, a related pending matter, prosecutor refusal, or an immigration concern."} /></li> : null}
               </ul>
             </ReviewCard>

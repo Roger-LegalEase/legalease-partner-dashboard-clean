@@ -111,8 +111,8 @@ const count = v => {
   const x = raw(v), s = typeof x === 'number' ? String(x) : typeof x === 'string' ? x.trim() : '';
   return /^(0|[1-9]\d*)$/.test(s) && +s <= 30 ? +s : undefined;
 };
-/** @typedef {{id:string,type:string,en:string,es:string,nullable?:boolean,allowsExplicitUnknown?:boolean,allowsExplicitNull?:boolean,options?:string[],optionsEn?:string[],optionsEs?:string[]}} IowaQuestion */
-/** @returns {IowaQuestion} */
+/** @typedef {{id:string,type:'yes_no_unknown'|'text_or_unknown'|'date_or_unknown'|'single_choice',en:string,es:string,nullable?:boolean,allowsExplicitUnknown?:boolean,allowsExplicitNull?:boolean,options?:string[],optionsEn?:string[],optionsEs?:string[]}} IowaQuestion */
+/** @param {IowaQuestion['type']} type @returns {IowaQuestion} */
 const q = (id, type, en, es, extra = {}) => ({id,type,en,es,...extra});
 const yes = (id,en,es) => q(id,'yes_no_unknown',en,es);
 const choice = (id,options,optionsEn,optionsEs,en,es) => q(id,'single_choice',en,es,{options,optionsEn,optionsEs});
@@ -261,6 +261,11 @@ const preparationCopy={
   instructions:['Review the official Form 2 instructions and the requested acknowledgment before continuing. An acknowledgment does not override the exact offense checks or complete any signature or filing.','Revise las instrucciones oficiales del Formulario 2 y el reconocimiento solicitado antes de continuar. Un reconocimiento no anula las comprobaciones del delito exacto ni completa una firma o la presentación.'],
   representation:['This preparation path supports a self-represented participant. Obtain legal assistance for a represented filing.','Esta vía de preparación corresponde a una persona que se representa a sí misma. Obtenga asistencia legal para una presentación con representación.']
 };
+export const IOWA_MISDEMEANOR_FILING_NOTICES = Object.freeze([
+  {en:IOWA_MISDEMEANOR_MANUAL_SSN.en,es:IOWA_MISDEMEANOR_MANUAL_SSN.es},
+  ...IOWA_MISDEMEANOR_FILING_TASKS.en.map((en,index)=>({en,es:IOWA_MISDEMEANOR_FILING_TASKS.es[index]}))
+]);
+export const IOWA_MISDEMEANOR_OUTCOME_COPY = Object.freeze(Object.values(preparationCopy));
 
 /** @typedef {{routeId:string,scope:'SUPPORTED_DRAFT_PREPARATION_ONLY',status:'qualifying'|'unknown'|'not_yet'|'excluded'|'attorney_review'|'needs_review',reason:string,reasonEs:string,missingFactIds:string[],filingReady:boolean,externalHistoryIncluded:boolean,manualSsn:typeof IOWA_MISDEMEANOR_MANUAL_SSN,exactAnniversary?:boolean,instructions?:typeof IOWA_MISDEMEANOR_FILING_TASKS}} IowaPreparationDecision */
 /** Bounded preparation decision only. The shared native validator also guards

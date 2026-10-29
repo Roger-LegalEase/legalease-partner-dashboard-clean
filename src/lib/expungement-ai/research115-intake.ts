@@ -1,4 +1,4 @@
-import { RESEARCH115_COMPONENT_COPY, MD_CANNABIS_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
+import { RESEARCH115_COMPONENT_COPY, MD_CANNABIS_COMPONENT_COPY, IOWA_MISDEMEANOR_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
 import type { ProfileQuestion, AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import type { ScreeningEvaluation, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
@@ -10,6 +10,14 @@ import { MD_CANNABIS_ROUTE, evaluateMarylandCannabis, marylandCannabisQuestions,
 import { MASSACHUSETTS_ADULT_SEALING_ROUTE, evaluateMassachusettsAdultSealing, massachusettsAdultSealingQuestions } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
 import { MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS, massachusettsAdultSealingDocumentQuestions, massachusettsAdultSealingDocumentAnswerKnown } from "@/lib/rcap/documents/massachusetts-adult-sealing-document-facts";
 import { ALASKA_IDENTITY_DOCUMENT_FACT_IDS, ALASKA_IDENTITY_LATER_INPUT_IDS, alaskaIdentityDocumentQuestions, alaskaIdentityDocumentAnswerKnown } from "@/lib/rcap/documents/alaska-identity-document-facts";
+import { IOWA_MISDEMEANOR_ROUTE, IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS, iowaMisdemeanorQuestions, iowaMisdemeanorFactsFromAnswers, evaluateIowaMisdemeanorPreparation } from "@/lib/rcap-engine/iowa-misdemeanor-native.mjs";
+
+function preparationAnswerComplete(routeKey: string, question: ProfileQuestion, value: unknown, asOf: string): boolean {
+  const state = questionAnswerState(question, value, asOf);
+  return state === "known_valid" || routeKey === IOWA_MISDEMEANOR_ROUTE
+    && IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS.includes(question.id)
+    && (state === "uncertain" || state === "unanswered" && value === null);
+}
 
 export function research115Eligibility(routeKey: string, facts: Readonly<Record<string, unknown>>, asOf: string) {
   const projected = { ...facts };
@@ -21,8 +29,9 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
   }
   // A saved uncertainty is not evidence. Preserve the raw draft and apply the actual control contract only to evaluation.
   for (const question of questions) {
-    if (questionAnswerState(question, facts[question.id], asOf) !== "known_valid") projected[question.id] = undefined;
+    if (!preparationAnswerComplete(routeKey, question, facts[question.id], asOf)) projected[question.id] = undefined;
   }
+  if (routeKey === IOWA_MISDEMEANOR_ROUTE) return { ...evaluateIowaMisdemeanorPreparation(projected, { synthetic: false, filingDate: asOf }), reviewId: "HG007" as const };
   if (routeKey === AK_IDENTITY_ROUTE) return evaluateAlaskaIdentity(projected, asOf);
   if (routeKey === WEST_VIRGINIA_407_ROUTE) return evaluateWestVirginia407(routeKey, projected, asOf);
   if (routeKey === MD_CANNABIS_ROUTE) return evaluateMarylandCannabis(projected, asOf);
@@ -31,6 +40,7 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
 }
 
 export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
+  if (routeKey === IOWA_MISDEMEANOR_ROUTE) return iowaMisdemeanorQuestions(facts, includeInactive).map(q => q.id);
   if (routeKey === AK_IDENTITY_ROUTE) return [...alaskaIdentityQuestions(facts, includeInactive).map(q => q.id),
     ...(includeInactive || evaluateAlaskaIdentity(facts, new Date().toISOString().slice(0, 10)).branchId === "dps_initial_request" ? [...ALASKA_IDENTITY_DOCUMENT_FACT_IDS, "case_identifier", "charge"] : [])];
   if (routeKey === WEST_VIRGINIA_407_ROUTE) return westVirginia407Questions(routeKey).map(q => q.id);
@@ -45,6 +55,7 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
     : routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? [...massachusettsAdultSealingQuestions(routeKey, facts), ...massachusettsAdultSealingDocumentQuestions(routeKey).map(q => ({ ...q, options: undefined, optionsEn: undefined, optionsEs: undefined }))]
     : (routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts)
       : routeKey === AK_IDENTITY_ROUTE ? alaskaIdentityQuestions(facts)
+      : routeKey === IOWA_MISDEMEANOR_ROUTE ? iowaMisdemeanorQuestions(facts)
       : routeKey === MD_CANNABIS_ROUTE ? marylandCannabisQuestions(facts) : []).map(q => ({
     id: q.id, type: q.type, prompt: q.en, promptEs: q.es,
     options: "options" in q && q.options ? [...q.options] : undefined, optionsEn: "optionsEn" in q && q.optionsEn ? [...q.optionsEn] : undefined, optionsEs: "optionsEs" in q && q.optionsEs ? [...q.optionsEs] : undefined
@@ -76,7 +87,13 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
     .map(q => later.has(q.id) ? { ...q, required: false, contextOnly: true, lifecyclePhase: "optional_or_later" as const } : q), ...additions];
   const gate = research115Eligibility(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers, new Date().toISOString().slice(0, 10));
   const componentCopy = RESEARCH115_COMPONENT_COPY[`${model.stateCode}:${model.pathwayId ?? ""}` as keyof typeof RESEARCH115_COMPONENT_COPY];
-  const components = gate?.status !== "qualifying" ? [] : model.stateCode === "MD" && "documentIds" in gate
+  const iowaFacts = routeKey === IOWA_MISDEMEANOR_ROUTE && gate?.status === "qualifying"
+    ? iowaMisdemeanorFactsFromAnswers(model.initialAnswers, { synthetic: false, filingDate: new Date().toISOString().slice(0, 10) }).facts : null;
+  const components = gate?.status !== "qualifying" ? [] : iowaFacts
+    ? [IOWA_MISDEMEANOR_COMPONENT_COPY.form[0],
+      ...(iowaFacts.aliases.length > 1 ? [IOWA_MISDEMEANOR_COMPONENT_COPY.aliases[0]] : []),
+      ...(iowaFacts.filingMethod === "paper" ? [IOWA_MISDEMEANOR_COMPONENT_COPY.paperService[0]] : []),
+      IOWA_MISDEMEANOR_COMPONENT_COPY.instructions[0]] : model.stateCode === "MD" && "documentIds" in gate
     ? gate.documentIds.map(id => {
       const copy = MD_CANNABIS_COMPONENT_COPY[id as keyof typeof MD_CANNABIS_COMPONENT_COPY];
       if (!copy) throw new Error("Unsupported Maryland packet component: " + id);
@@ -85,7 +102,7 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
   const documentIds = routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS
     : routeKey === AK_IDENTITY_ROUTE && gate?.status === "qualifying" ? ALASKA_IDENTITY_DOCUMENT_FACT_IDS : [];
   const documentAnswerKnown = routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? massachusettsAdultSealingDocumentAnswerKnown : alaskaIdentityDocumentAnswerKnown;
-  const missing = additions.filter(q => q.required && (questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid"
+  const missing = additions.filter(q => q.required && (!preparationAnswerComplete(routeKey, q, model.initialAnswers[q.id], new Date().toISOString().slice(0, 10))
     || documentIds.some(id => id === q.id)
       && !documentAnswerKnown(routeKey, q.id, model.initialAnswers[q.id], new Date().toISOString().slice(0, 10)))
     || gate?.missingFactIds.includes(q.id)).map(q => q.id);
