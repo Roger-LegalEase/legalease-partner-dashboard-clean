@@ -4,6 +4,8 @@
  */
 import {dateValue,text,exact} from './iowa-alcohol-native.mjs';
 export const IOWA_7251_ROUTE='IA:minor-prostitution-7251';
+// Form 5 collects its actual age criterion and separate contact fields.
+export const iowa7251LegacyQuestionApplies=(jurisdiction,pathwayId,factId)=>!(jurisdiction==='IA'&&pathwayId==='minor-prostitution-7251'&&['age_at_offense','contact_information'].includes(factId));
 export function validateIowa7251Facts(input){
  exact(input,['synthetic','name','county','caseNumber','plaintiff','convictionDate','filingDate','disposition','proceeding','offense','ageAtAct','historyComplete','laterConvictions','address','city','state','zip','phoneAreaCode','phoneLocal','email','ackCopy','ackConfidential','filingMethod',...(Object.hasOwn(input??{},'under18AtAct')?['under18AtAct']:[])],'Form5 source facts');
  const f=structuredClone(input);
@@ -105,11 +107,15 @@ export function iowa7251FactsFromAnswers(answers,context){
  const age=answers.ia_7251_age_at_act;
  if(!Object.hasOwn(answers,'ia_7251_age_at_act')||unknown(age)||raw(age)===null||typeof raw(age)==='string'&&!raw(age).trim())facts.ageAtAct=null;
  else{const x=raw(age),s=typeof x==='number'?String(x):typeof x==='string'?x.trim():'';if(/^(0|[1-9]\d*)$/.test(s))facts.ageAtAct=+s;else missingFactIds.push('ia_7251_age_at_act');}
+ // Retained known screening facts cannot silently contradict the new factual answers.
+ const legacyAgeValue=raw(answers.age_at_offense);
+ const legacyAge=!unknown(answers.age_at_offense)&&(typeof legacyAgeValue==='number'&&Number.isInteger(legacyAgeValue)&&legacyAgeValue>=0||typeof legacyAgeValue==='string'&&/^(0|[1-9]\d*)$/.test(legacyAgeValue.trim()))&&Number.isSafeInteger(Number(legacyAgeValue))?Number(legacyAgeValue):null;
+ const ageConflict=legacyAge!==null&&(typeof facts.under18AtAct==='boolean'&&facts.under18AtAct!==(legacyAge<18)||Number.isInteger(facts.ageAtAct)&&facts.ageAtAct!==legacyAge);
  facts.historyComplete=take('ia_7251_history_complete','bool');const n=take('ia_7251_later_count','count');
  const supplied=raw(answers.ia_7251_later_count);if((typeof supplied==='number'||typeof supplied==='string'&&/^[0-9]+$/.test(supplied))&&Number(supplied)>25)return{facts:null,missingFactIds:[],refusal:'history_inventory_capacity'};
  if(n!==undefined){facts.laterConvictions=[];for(let i=1;i<=n;i++){const p=`ia_7251_later_${i}_`;facts.laterConvictions.push({date:take(p+'date'),citation:take(p+'citation'),kind:take(p+'kind'),categoryConfirmed:take(p+'category_checked','bool')});}}
  facts.ackCopy=take('ia_7251_ack_copy','bool',true);facts.ackConfidential=take('ia_7251_ack_confidential','bool',true);facts.filingMethod=take('ia_7251_filing_method');
- return{facts:missingFactIds.length?null:facts,missingFactIds:[...new Set(missingFactIds)],refusal:null};
+ return{facts:missingFactIds.length||ageConflict?null:facts,missingFactIds:[...new Set(missingFactIds)],refusal:ageConflict?'age_at_conduct_conflict':null};
 }
 export const IOWA_7251_BEFORE_FILING=Object.freeze({
  en:'Draft only. Personally review and complete Form 5 item 2 about age when the act occurred; intake does not mark that declaration. Review any blank contact fields and acknowledgments, select the truthful representation option, then sign and date. For paper filing, serve the county attorney and truthfully complete the embedded certificate only after service; electronic filing uses court-system service. Seek legal or survivor-services assistance for age uncertainty, trafficking, coercion, exploitation, or actual opposition. No underlying-act narrative is requested.',
@@ -130,6 +136,7 @@ export const IOWA_7251_OUTCOME_COPY=Object.freeze(Object.values(outcomes));
 export function evaluateIowa7251Preparation(answers,context){
  const decoded=iowa7251FactsFromAnswers(answers,context);let status='unknown',key='unknown',validation=null;
  if(decoded.refusal==='history_inventory_capacity'){status='needs_review';key='capacity';}
+ else if(decoded.refusal==='age_at_conduct_conflict'){status='needs_review';key='review';}
  else if(decoded.facts){try{validation=validateIowa7251Facts(decoded.facts);status='qualifying';key='supported';}catch(e){
   const code=e instanceof Error?e.message:'';
   if(code==='two_year_period_incomplete'){status='not_yet';key='not_yet';}

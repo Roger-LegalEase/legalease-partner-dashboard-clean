@@ -1,3 +1,4 @@
+import { iowa7251LegacyQuestionApplies } from "@/lib/rcap-engine/iowa-7251-native.mjs";
 import { northDakotaNonconvictionFinancialApplies } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import { iowaFinancialQuestionApplies } from "@/lib/rcap-engine/iowa-court-debt";
 import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
@@ -580,6 +581,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => iowaFinancialQuestionApplies(jurisdiction, preselectedPathway?.id, id))
+    .filter(id => iowa7251LegacyQuestionApplies(jurisdiction, preselectedPathway?.id, id))
     .filter(id => northDakotaNonconvictionFinancialApplies(jurisdiction, preselectedPathway?.id, id))
     // IL1 required questions are conditional and enforced by their route gate.
     .filter(id => !IL_PROGRAM_FACT_IDS.includes(id))
@@ -1334,6 +1336,7 @@ function ambiguityReason(
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
     .filter(question => iowaFinancialQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
+    .filter(question => iowa7251LegacyQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter(question => northDakotaNonconvictionFinancialApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter(question => dcGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctAutomaticInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))

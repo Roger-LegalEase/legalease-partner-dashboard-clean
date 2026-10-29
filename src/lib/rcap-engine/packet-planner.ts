@@ -1,3 +1,4 @@
+import { iowa7251LegacyQuestionApplies } from "@/lib/rcap-engine/iowa-7251-native.mjs";
 import { northDakotaNonconvictionFinancialApplies } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import { iowaFinancialQuestionApplies } from "@/lib/rcap-engine/iowa-court-debt";
 import { isNorthDakotaUnmappedCandidateForm } from "@/lib/rcap-engine/north-dakota-plan-forms";
@@ -83,6 +84,7 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
       ...(isNy16059Packet(profile.jurisdiction.code, pathwayId) ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS] : [])
     ])].filter(id => iowaFinancialQuestionApplies(profile.jurisdiction.code, pathwayId, id)
       && northDakotaNonconvictionFinancialApplies(profile.jurisdiction.code, pathwayId, id)
+      && iowa7251LegacyQuestionApplies(profile.jurisdiction.code, pathwayId, id)
       && (!isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id))
       && (!(marylandAutomaticWithoutCounty || georgiaAgencyWithoutCounty) || id !== "county")
       && (!dcLocationIsContext || id !== DC_LEGACY_LOCATION)),

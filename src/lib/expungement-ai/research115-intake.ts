@@ -71,7 +71,7 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
 
 export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
   if (routeKey === IOWA_MISDEMEANOR_ROUTE) return iowaMisdemeanorQuestions(facts, includeInactive).map(q => q.id);
-  if (routeKey === IOWA_7251_ROUTE) return iowa7251Questions(facts, includeInactive).map(q => q.id);
+  if (routeKey === IOWA_7251_ROUTE) return [...iowa7251Questions(facts, includeInactive).map(q => q.id), "age_at_offense"];
   if (routeKey === ND_NONCONVICTION_ROUTE) return [...northDakotaNonconvictionFactIds(facts, includeInactive),
     ...(includeInactive || evaluateNorthDakotaNonconviction(routeKey, facts, new Date().toISOString().slice(0, 10))?.status === "qualifying" ? ND_NONCONVICTION_DOCUMENT_FACT_IDS : [])];
   if (Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey)) return iowaAlcoholQuestions(routeKey, facts, includeInactive).map(q => q.id);
@@ -126,7 +126,8 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
   const additions = research115PacketQuestions(routeKey, model.initialAnswers);
   if (!additions.length) return model;
   const later = new Set<string>(routeKey === AK_IDENTITY_ROUTE ? ALASKA_IDENTITY_LATER_INPUT_IDS
-    : Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) || routeKey === IOWA_7251_ROUTE ? ["financial_obligations"] : []);
+    : routeKey === IOWA_7251_ROUTE ? ["financial_obligations", "age_at_offense", "contact_information"]
+    : Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) ? ["financial_obligations"] : []);
   const merge = (prior: ProfileQuestion[]) => [...prior.filter(q => !additions.some(a => a.id === q.id))
     .map(q => later.has(q.id) ? { ...q, required: false, contextOnly: true, lifecyclePhase: "optional_or_later" as const } : q), ...additions];
   const gate = research115Eligibility(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers, new Date().toISOString().slice(0, 10));
