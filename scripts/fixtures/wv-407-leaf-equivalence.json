@@ -1,0 +1,855 @@
+{
+  "schemaVersion": 1,
+  "routeId": "WV:first-offense-drug-possession-conditional-discharge-relief",
+  "basis": "Actual previous pure WV evaluator outputs at a789f69e0 before extraction; assertions compare extraction continuity, not new legal truth or packet-fact expectations",
+  "priorSources": {
+    "src/lib/rcap-engine/research-yes-route-rules.ts": "58730b7177dc908c5eeb5845ed98fd178bb4ad27770674dd9f90089d90d6ab44",
+    "src/lib/rcap-engine/research-yes-route-copy.ts": "bc6b2281c10a1261524685a64a3f3ffff5cd0ba3e813e1e6acdad4933a4de6fc"
+  },
+  "questions": [
+    {
+      "id": "wv_407_alleged_serious_or_repeated_violation",
+      "type": "yes_no_unsure",
+      "prompt": "Has anyone alleged a serious or repeated probation-condition violation, during probation or since?",
+      "promptEs": "\u00bfAlguien ha alegado una infracci\u00f3n grave o repetida de las condiciones, durante la libertad condicional o despu\u00e9s?"
+    },
+    {
+      "id": "wv_407_probation_revoked_or_guilt_entered",
+      "type": "yes_no_unsure",
+      "prompt": "Was probation revoked or an adjudication of guilt entered in this matter?",
+      "promptEs": "\u00bfSe revoc\u00f3 la libertad condicional o se dict\u00f3 una adjudicaci\u00f3n de culpabilidad en este asunto?"
+    },
+    {
+      "id": "wv_407_also_seeking_611126_relief",
+      "type": "yes_no_unsure",
+      "prompt": "Are you also considering conviction expungement under section61-11-26? The interaction of separate lifetime limits requires targeted review.",
+      "promptEs": "\u00bfTambi\u00e9n considera eliminar una condena conforme a la secci\u00f3n61-11-26? La interacci\u00f3n de los l\u00edmites vitalicios requiere revisi\u00f3n espec\u00edfica."
+    },
+    {
+      "id": "wv_407_arrest_date",
+      "type": "date",
+      "prompt": "On what date were you arrested?",
+      "promptEs": "\u00bfEn qu\u00e9 fecha fue arrestado?"
+    },
+    {
+      "id": "wv_407_probation_order_date",
+      "type": "date",
+      "prompt": "When did the court defer proceedings and impose probation?",
+      "promptEs": "\u00bfCu\u00e1ndo aplaz\u00f3 el tribunal el procedimiento e impuso la libertad condicional?"
+    },
+    {
+      "id": "wv_407_dismissal_date",
+      "type": "date",
+      "prompt": "When was the final discharge and dismissal order entered?",
+      "promptEs": "\u00bfCu\u00e1ndo se dict\u00f3 la orden final de alta y desestimaci\u00f3n?"
+    },
+    {
+      "id": "wv_407_probation_term",
+      "type": "text",
+      "prompt": "What probation term did the court impose? Use the actual order and describe any modification.",
+      "promptEs": "\u00bfQu\u00e9 per\u00edodo de libertad condicional impuso el tribunal? Use la orden real y describa cualquier modificaci\u00f3n."
+    },
+    {
+      "id": "wv_407_arresting_agency",
+      "type": "text",
+      "prompt": "Which agency arrested you?",
+      "promptEs": "\u00bfQu\u00e9 agencia lo arrest\u00f3?"
+    },
+    {
+      "id": "wv_407_probation_office",
+      "type": "text",
+      "prompt": "Which probation office supervised you?",
+      "promptEs": "\u00bfQu\u00e9 oficina supervis\u00f3 su libertad condicional?"
+    },
+    {
+      "id": "wv_407_prosecutor_office",
+      "type": "text",
+      "prompt": "Which county prosecuting attorney serves this case?",
+      "promptEs": "\u00bfQu\u00e9 fiscal\u00eda del condado corresponde a este caso?"
+    },
+    {
+      "id": "wv_407_court_costs_status",
+      "type": "single_choice",
+      "prompt": "What is the status of court costs assessed in this case? This does not invent a separate application fee.",
+      "promptEs": "\u00bfCu\u00e1l es el estado de las costas judiciales impuestas en este caso? Esto no supone una tasa separada de solicitud.",
+      "options": [
+        "paid",
+        "unpaid",
+        "not_assessed",
+        "unknown"
+      ],
+      "optionsEs": [
+        "pagadas",
+        "sin pagar",
+        "no se impusieron",
+        "no s\u00e9"
+      ],
+      "optionsEn": [
+        "Paid",
+        "Unpaid",
+        "No costs assessed",
+        "I am not sure"
+      ]
+    },
+    {
+      "id": "wv_407_qualifying_possession_charge",
+      "type": "yes_no_unsure",
+      "prompt": "Was the guilty plea or finding for controlled-substance possession under West Virginia Code60A-4-401(c)?",
+      "promptEs": "\u00bfLa declaraci\u00f3n o determinaci\u00f3n de culpabilidad fue por posesi\u00f3n de sustancias controladas conforme al C\u00f3digo de Virginia Occidental60A-4-401(c)?"
+    },
+    {
+      "id": "wv_407_prior_drug_conviction",
+      "type": "yes_no_unsure",
+      "prompt": "Before this case, had you been convicted of any West Virginia chapter60A offense, or any federal/state offense relating to narcotic drugs, marijuana, stimulants, depressants or hallucinogens?",
+      "promptEs": "\u00bfAntes de este caso hab\u00eda sido condenado por un delito del cap\u00edtulo60A de Virginia Occidental o por un delito federal/estatal relacionado con narc\u00f3ticos, marihuana, estimulantes, depresores o alucin\u00f3genos?"
+    },
+    {
+      "id": "wv_407_previous_discharge",
+      "type": "yes_no_unsure",
+      "prompt": "Before this case, had you already received a discharge and dismissal under section60A-4-407?",
+      "promptEs": "\u00bfAntes de este caso ya hab\u00eda recibido una alta y desestimaci\u00f3n conforme a la secci\u00f3n60A-4-407?"
+    },
+    {
+      "id": "wv_407_discharge_and_dismissal",
+      "type": "yes_no_unsure",
+      "prompt": "Did the court actually discharge you and dismiss the possession case under West Virginia Code 60A-4-407?",
+      "promptEs": "\u00bfEl tribunal realmente le dio de alta de la libertad condicional y desestim\u00f3 el caso de posesi\u00f3n conforme al C\u00f3digo de Virginia Occidental 60A-4-407?"
+    },
+    {
+      "id": "wv_407_probation_expiration_date",
+      "type": "date",
+      "prompt": "On what date did your term of probation expire? This is different from the arrest date or the date of dismissal.",
+      "promptEs": "\u00bfEn qu\u00e9 fecha venci\u00f3 el per\u00edodo de libertad condicional? Esta fecha es distinta de la del arresto o la desestimaci\u00f3n."
+    },
+    {
+      "id": "wv_407_serious_or_repeated_violation",
+      "type": "yes_no_unsure",
+      "prompt": "During probation or afterward, was there any serious or repeated violation of your probation conditions?",
+      "promptEs": "\u00bfDurante la libertad condicional o despu\u00e9s hubo alguna infracci\u00f3n grave o repetida de sus condiciones?"
+    }
+  ],
+  "documentManifest": {
+    "reviewId": "R109",
+    "relief": "expungement",
+    "forum": "court_of_conditional_discharge",
+    "required": [
+      "60A-4-407b_application",
+      "supporting_sworn_affidavit",
+      "certificate_of_service_on_county_prosecutor_and_probation_office",
+      "external_records_checklist",
+      "hearing_and_filing_instructions"
+    ],
+    "conditional": [
+      "local_notice_of_hearing_and_service_proof_as_directed"
+    ],
+    "external": [
+      "actual_discharge_and_dismissal_order",
+      "probation_expiration_information"
+    ],
+    "source": "https://code.wvlegislature.gov/60A-4-407/",
+    "filingReady": false,
+    "note": "The court must hold the statutory hearing. Supporting records are obtained separately; no exhibit is described as attached until it is actually included. The existing adopted design requires a sworn affidavit with a blank jurat and service on the county prosecutor and supervising probation office. Section407 states no application fee; subsection(c) costs and local clerk fees are separate. No proposed order is added beyond the exact five-component design."
+  },
+  "cases": [
+    {
+      "name": "qualifying",
+      "patch": {},
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The supported post-discharge application is timely six calendar months after probation expiration, subject to the court's required hearing and findings.",
+        "reasonEs": "La solicitud posterior al alta cumple el plazo de seis meses calendario desde el vencimiento de la libertad condicional, sujeta a la audiencia y las determinaciones que debe realizar el tribunal.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "Apr29 six-month boundary 2026-10-28",
+      "patch": {},
+      "remove": [],
+      "asOf": "2026-10-28",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Six calendar months have not elapsed from probation expiration. Arrest or dismissal dates cannot replace this anchor.",
+        "reasonEs": "No han transcurrido seis meses calendario desde el vencimiento de la libertad condicional. Las fechas de arresto o desestimaci\u00f3n no pueden sustituir esa fecha inicial.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "Apr29 six-month boundary 2026-10-29",
+      "patch": {},
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The supported post-discharge application is timely six calendar months after probation expiration, subject to the court's required hearing and findings.",
+        "reasonEs": "La solicitud posterior al alta cumple el plazo de seis meses calendario desde el vencimiento de la libertad condicional, sujeta a la audiencia y las determinaciones que debe realizar el tribunal.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "Apr29 six-month boundary 2026-10-30",
+      "patch": {},
+      "remove": [],
+      "asOf": "2026-10-30",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The supported post-discharge application is timely six calendar months after probation expiration, subject to the court's required hearing and findings.",
+        "reasonEs": "La solicitud posterior al alta cumple el plazo de seis meses calendario desde el vencimiento de la libertad condicional, sujeta a la audiencia y las determinaciones que debe realizar el tribunal.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "future probation expiration",
+      "patch": {
+        "wv_407_probation_expiration_date": "2027-01-01"
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The probation term has not yet expired.",
+        "reasonEs": "El per\u00edodo de libertad condicional todav\u00eda no ha vencido.",
+        "missingFactIds": [],
+        "eligibleOn": "2027-07-01"
+      }
+    },
+    {
+      "name": "month-end 2020-08-31/2021-02-27",
+      "patch": {
+        "wv_407_probation_expiration_date": "2020-08-31"
+      },
+      "remove": [],
+      "asOf": "2021-02-27",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Six calendar months have not elapsed from probation expiration. Arrest or dismissal dates cannot replace this anchor.",
+        "reasonEs": "No han transcurrido seis meses calendario desde el vencimiento de la libertad condicional. Las fechas de arresto o desestimaci\u00f3n no pueden sustituir esa fecha inicial.",
+        "missingFactIds": [],
+        "eligibleOn": "2021-02-28"
+      }
+    },
+    {
+      "name": "month-end 2020-08-31/2021-02-28",
+      "patch": {
+        "wv_407_probation_expiration_date": "2020-08-31"
+      },
+      "remove": [],
+      "asOf": "2021-02-28",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The supported post-discharge application is timely six calendar months after probation expiration, subject to the court's required hearing and findings.",
+        "reasonEs": "La solicitud posterior al alta cumple el plazo de seis meses calendario desde el vencimiento de la libertad condicional, sujeta a la audiencia y las determinaciones que debe realizar el tribunal.",
+        "missingFactIds": [],
+        "eligibleOn": "2021-02-28"
+      }
+    },
+    {
+      "name": "month-end 2023-08-31/2024-02-28",
+      "patch": {
+        "wv_407_probation_expiration_date": "2023-08-31"
+      },
+      "remove": [],
+      "asOf": "2024-02-28",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Six calendar months have not elapsed from probation expiration. Arrest or dismissal dates cannot replace this anchor.",
+        "reasonEs": "No han transcurrido seis meses calendario desde el vencimiento de la libertad condicional. Las fechas de arresto o desestimaci\u00f3n no pueden sustituir esa fecha inicial.",
+        "missingFactIds": [],
+        "eligibleOn": "2024-02-29"
+      }
+    },
+    {
+      "name": "month-end 2023-08-31/2024-02-29",
+      "patch": {
+        "wv_407_probation_expiration_date": "2023-08-31"
+      },
+      "remove": [],
+      "asOf": "2024-02-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The supported post-discharge application is timely six calendar months after probation expiration, subject to the court's required hearing and findings.",
+        "reasonEs": "La solicitud posterior al alta cumple el plazo de seis meses calendario desde el vencimiento de la libertad condicional, sujeta a la audiencia y las determinaciones que debe realizar el tribunal.",
+        "missingFactIds": [],
+        "eligibleOn": "2024-02-29"
+      }
+    },
+    {
+      "name": "wv_407_qualifying_possession_charge false",
+      "patch": {
+        "wv_407_qualifying_possession_charge": false
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "excluded",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Section60A-4-407 requires the qualifying possession disposition, the statutory first-drug-offense conditions and no prior use of this once-only discharge. A reported order does not make contrary facts disappear.",
+        "reasonEs": "La secci\u00f3n60A-4-407 exige la resoluci\u00f3n por posesi\u00f3n que cumpla los requisitos, las condiciones legales de primer delito de drogas y ning\u00fan uso anterior de esta alta \u00fanica. Una orden declarada no elimina hechos contrarios.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_qualifying_possession_charge [\"yes\"]",
+      "patch": {
+        "wv_407_qualifying_possession_charge": [
+          "yes"
+        ]
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_qualifying_possession_charge"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_qualifying_possession_charge {\"unknown\":true,\"value\":true}",
+      "patch": {
+        "wv_407_qualifying_possession_charge": {
+          "unknown": true,
+          "value": true
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_qualifying_possession_charge"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_qualifying_possession_charge",
+      "patch": {},
+      "remove": [
+        "wv_407_qualifying_possession_charge"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_qualifying_possession_charge"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_prior_drug_conviction true",
+      "patch": {
+        "wv_407_prior_drug_conviction": true
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "excluded",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Section60A-4-407 requires the qualifying possession disposition, the statutory first-drug-offense conditions and no prior use of this once-only discharge. A reported order does not make contrary facts disappear.",
+        "reasonEs": "La secci\u00f3n60A-4-407 exige la resoluci\u00f3n por posesi\u00f3n que cumpla los requisitos, las condiciones legales de primer delito de drogas y ning\u00fan uso anterior de esta alta \u00fanica. Una orden declarada no elimina hechos contrarios.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_prior_drug_conviction {\"unknown\":true,\"value\":false}",
+      "patch": {
+        "wv_407_prior_drug_conviction": {
+          "unknown": true,
+          "value": false
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_prior_drug_conviction"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_prior_drug_conviction",
+      "patch": {},
+      "remove": [
+        "wv_407_prior_drug_conviction"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_prior_drug_conviction"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_previous_discharge true",
+      "patch": {
+        "wv_407_previous_discharge": true
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "excluded",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Section60A-4-407 requires the qualifying possession disposition, the statutory first-drug-offense conditions and no prior use of this once-only discharge. A reported order does not make contrary facts disappear.",
+        "reasonEs": "La secci\u00f3n60A-4-407 exige la resoluci\u00f3n por posesi\u00f3n que cumpla los requisitos, las condiciones legales de primer delito de drogas y ning\u00fan uso anterior de esta alta \u00fanica. Una orden declarada no elimina hechos contrarios.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_previous_discharge {\"unknown\":true,\"value\":false}",
+      "patch": {
+        "wv_407_previous_discharge": {
+          "unknown": true,
+          "value": false
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_previous_discharge"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_previous_discharge",
+      "patch": {},
+      "remove": [
+        "wv_407_previous_discharge"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_previous_discharge"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_discharge_and_dismissal false",
+      "patch": {
+        "wv_407_discharge_and_dismissal": false
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "excluded",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Program entry or a plea alone is not the completed statutory discharge and dismissal needed by this post-completion product.",
+        "reasonEs": "La entrada en un programa o una declaraci\u00f3n de culpabilidad por s\u00ed solas no constituyen el alta y la desestimaci\u00f3n legales definitivas que exige este producto posterior al cumplimiento.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_discharge_and_dismissal {\"unknown\":true,\"value\":true}",
+      "patch": {
+        "wv_407_discharge_and_dismissal": {
+          "unknown": true,
+          "value": true
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_discharge_and_dismissal"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_discharge_and_dismissal",
+      "patch": {},
+      "remove": [
+        "wv_407_discharge_and_dismissal"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_discharge_and_dismissal"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_serious_or_repeated_violation true",
+      "patch": {
+        "wv_407_serious_or_repeated_violation": true
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "excluded",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The required absence of serious or repeated violations is not established; take the record to counsel.",
+        "reasonEs": "No se ha establecido la ausencia exigida de infracciones graves o repetidas; consulte a un abogado con el registro.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_serious_or_repeated_violation {\"unknown\":true,\"value\":false}",
+      "patch": {
+        "wv_407_serious_or_repeated_violation": {
+          "unknown": true,
+          "value": false
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_serious_or_repeated_violation"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_serious_or_repeated_violation",
+      "patch": {},
+      "remove": [
+        "wv_407_serious_or_repeated_violation"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_serious_or_repeated_violation"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_alleged_serious_or_repeated_violation true",
+      "patch": {
+        "wv_407_alleged_serious_or_repeated_violation": true
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "needs_review",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The adopted self-help design stops for alleged serious or repeated violations; the court must resolve the record.",
+        "reasonEs": "El dise\u00f1o adoptado de autoayuda se detiene ante alegaciones de infracciones graves o repetidas; el tribunal debe resolver el registro.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_alleged_serious_or_repeated_violation {\"unknown\":true,\"value\":false}",
+      "patch": {
+        "wv_407_alleged_serious_or_repeated_violation": {
+          "unknown": true,
+          "value": false
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_alleged_serious_or_repeated_violation"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_alleged_serious_or_repeated_violation",
+      "patch": {},
+      "remove": [
+        "wv_407_alleged_serious_or_repeated_violation"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_alleged_serious_or_repeated_violation"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_probation_revoked_or_guilt_entered true",
+      "patch": {
+        "wv_407_probation_revoked_or_guilt_entered": true
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "excluded",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "A revoked probation or entered adjudication is not the supported final statutory discharge product. Preserve the actual order and seek review.",
+        "reasonEs": "Una libertad condicional revocada o una adjudicaci\u00f3n de culpabilidad no corresponde al producto para un alta legal definitiva. Conserve la orden real y solicite revisi\u00f3n.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_probation_revoked_or_guilt_entered {\"unknown\":true,\"value\":false}",
+      "patch": {
+        "wv_407_probation_revoked_or_guilt_entered": {
+          "unknown": true,
+          "value": false
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_probation_revoked_or_guilt_entered"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_probation_revoked_or_guilt_entered",
+      "patch": {},
+      "remove": [
+        "wv_407_probation_revoked_or_guilt_entered"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_probation_revoked_or_guilt_entered"
+        ]
+      }
+    },
+    {
+      "name": "wv_407_also_seeking_611126_relief true",
+      "patch": {
+        "wv_407_also_seeking_611126_relief": true
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "needs_review",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "The existing design leaves the interaction with section61-11-26 lifetime relief unresolved. Obtain a targeted answer for that combined plan, not blanket reconfirmation of section407.",
+        "reasonEs": "El dise\u00f1o existente deja pendiente la interacci\u00f3n con el beneficio vitalicio de la secci\u00f3n61-11-26. Obtenga una respuesta espec\u00edfica para ese plan combinado; no se requiere una reconfirmaci\u00f3n general de la secci\u00f3n407.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "wv_407_also_seeking_611126_relief {\"unknown\":true,\"value\":false}",
+      "patch": {
+        "wv_407_also_seeking_611126_relief": {
+          "unknown": true,
+          "value": false
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_also_seeking_611126_relief"
+        ]
+      }
+    },
+    {
+      "name": "missing wv_407_also_seeking_611126_relief",
+      "patch": {},
+      "remove": [
+        "wv_407_also_seeking_611126_relief"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_also_seeking_611126_relief"
+        ]
+      }
+    },
+    {
+      "name": "expiry unknown \"unknown\"",
+      "patch": {
+        "wv_407_probation_expiration_date": "unknown"
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_probation_expiration_date"
+        ]
+      }
+    },
+    {
+      "name": "expiry unknown \"2026-02-30\"",
+      "patch": {
+        "wv_407_probation_expiration_date": "2026-02-30"
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_probation_expiration_date"
+        ]
+      }
+    },
+    {
+      "name": "expiry unknown {\"unknown\":true,\"value\":\"2026-04-29\"}",
+      "patch": {
+        "wv_407_probation_expiration_date": {
+          "unknown": true,
+          "value": "2026-04-29"
+        }
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_probation_expiration_date"
+        ]
+      }
+    },
+    {
+      "name": "expiry unknown [\"2026-04-29\"]",
+      "patch": {
+        "wv_407_probation_expiration_date": [
+          "2026-04-29"
+        ]
+      },
+      "remove": [],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_probation_expiration_date"
+        ]
+      }
+    },
+    {
+      "name": "missing expiry",
+      "patch": {},
+      "remove": [
+        "wv_407_probation_expiration_date"
+      ],
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R109",
+        "branchId": "R109:participant_application",
+        "reason": "Confirm the actual statutory discharge/dismissal, probation expiration date and violation history.",
+        "reasonEs": "Confirme el alta y la desestimaci\u00f3n legales reales, la fecha de vencimiento de la libertad condicional y los antecedentes de infracciones de sus condiciones.",
+        "missingFactIds": [
+          "wv_407_probation_expiration_date"
+        ]
+      }
+    }
+  ]
+}
