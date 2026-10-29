@@ -71,6 +71,7 @@ export const profileQuestionSchema = z
     answerContract: z.enum(["ny_16059_transaction_associations_v1", "ny_16059_future_applications_v1", "ny_16059_sealing_history_v1", "ca_prop64_contacts_v1", "ca_prop64_contacts_v2", "ca_prop64_record_fact_v1", "ca_prop64_decimal_grams_v1", "ca_prop64_caption_fact_v1", "ny_16059_packet_text_v1", "ny_16059_case_records_v2", "ny_16059_applicant_statement_v1", "ny_16059_case_court_text_v1"]).optional(),
     transactionCaseRecords: z.array(z.string()).optional(),
     caseRecordReferences: z.object({ firstCaseNumbers: z.string().optional(), additionalCaseNumbers: z.string().optional() }).strict().optional(),
+    awaitingNyCaseRecords: z.literal(true).optional(),
     legacyAnswerText: z.string().optional(),
     savedAnswerNeedsClarification: z.boolean().optional(),
     type: z.string().min(1),
@@ -102,6 +103,8 @@ export const profileQuestionSchema = z
     || question.answerContract === "ny_16059_applicant_statement_v1" && question.id === "ny_16059_applicant_statement" && question.type === "text_or_unknown" && question.multiline === true
     || question.answerContract === "ny_16059_case_court_text_v1" && ["ny_16059_other_filing_court_name", "ny_16059_other_filing_court_county", "ny_16059_court_direction_issuer", "ny_16059_court_direction_date_reference", "ny_16059_court_direction_instruction"].includes(question.id) && question.type === "text_or_unknown", "Invalid scoped answer contract")
   .refine(question => !question.clearEarlierReleaseDate || question.id === "release_date" && question.type === "date_or_unknown" && question.required === false, "Invalid earlier-release-date correction display")
+  .refine(question => !question.awaitingNyCaseRecords || question.id === "ny_16059_court_direction_cases" && question.type === "multi_select"
+    && !question.answerContract && question.options?.length === 0 && question.optionDisplay !== undefined && Object.keys(question.optionDisplay).length === 0, "Invalid NY case-record dependency display")
   .refine(question => !question.contactContext || (question.answerContract === "ca_prop64_contacts_v1" || question.answerContract === "ca_prop64_contacts_v2") && question.type === "filing_contact" && ["ca_prop64_filer_contact", "ca_prop64_court_address"].includes(question.id), "Invalid contact context")
   .refine(question => !question.futureApplicationReferences || question.answerContract === "ny_16059_future_applications_v1" && question.id === "ny_16059_future_sealing_records" && question.type === "future_applications", "Invalid future application context")
   .refine(question => !question.prior16058ApplicationKnown || question.answerContract === "ny_16059_sealing_history_v1" && question.id === "ny_16059_prior_sealing_records" && question.type === "sealing_history", "Invalid application context")

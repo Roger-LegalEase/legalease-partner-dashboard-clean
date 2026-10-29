@@ -56,6 +56,7 @@ export function nyCasePreparationQuestions(answers: Readonly<Record<string, unkn
     "¿A qué casos registrados se refiere esa instrucción o explicación?", "Seleccione las entradas de los casos reales. Conserve los demás expedientes; esta selección no combina casos ni establece un número legal de condenas.");
   directionCases.options = records.map(record => `case:${record.id}`);
   directionCases.optionDisplay = Object.fromEntries(records.map(record => [`case:${record.id}`, filing.optionDisplay![`case:${record.id}`]]));
+  if (nyCourtCaseRecordsState(answers[NY_CASE_RECORDS_ID]) === "unanswered") directionCases.awaitingNyCaseRecords = true;
   const directionConfirmation = question(NY_COURT_DIRECTION_CONFIRMATION_ID, "single_choice", "Have you reviewed this destination and its supporting information against the current cases?",
     "Confirm only what you have recorded, including any unknown details. This sends no request to a court and does not approve the destination. Review again if the destination, instruction or cases change.",
     "¿Ha revisado este destino y sus datos de respaldo con los casos actuales?", "Confirme solo lo que ha registrado, incluidos los detalles desconocidos. Esto no envía una solicitud a un tribunal ni aprueba el destino. Revise de nuevo si cambian el destino, la instrucción o los casos.");

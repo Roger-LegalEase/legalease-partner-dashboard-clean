@@ -31,7 +31,7 @@ import { caProp64Choice, isCaProp64ChoiceQuestion, CA_PROP64_CLARIFICATION_COPY 
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { SensitiveIdentifierField } from "@/components/expungement-ai/screening/fields/SensitiveIdentifierField";
 import { CalendarDateField } from "@/components/expungement-ai/screening/fields/CalendarDateField";
-import { exclusiveOptionsFor, hasIncompatibleAnswerShape, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
+import { exclusiveOptionsFor, hasIncompatibleAnswerShape, scalarAnswerText, normalizeQuestionChoices } from "@/lib/expungement-ai/question-answer-state";
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
@@ -41,7 +41,7 @@ import { isCaProp64QuantityQuestion } from "@/lib/expungement-ai/ca-prop64-quant
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { localizeProfileText } from "@/lib/expungement-ai/localization";
 import { CourtCaseRecordsField } from "@/components/expungement-ai/screening/fields/CourtCaseRecordsField";
-import { NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CASES_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
 import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT } from "@/lib/expungement-ai/ny-16059-case-records";
 
 const YES_NO_UNSURE_OPTIONS = ["Yes", "No", "I am not sure"];
@@ -223,7 +223,18 @@ export function QuestionField({
     }
 
     case "multi_select": {
-      const options = question.options ?? [];
+      const options = normalizeQuestionChoices(question.options).options ?? [];
+      const awaitingCases = stateCode === "NY" && question.id === NY_COURT_DIRECTION_CASES_ID && question.awaitingNyCaseRecords === true
+        && !question.answerContract && Array.isArray(question.options) && question.options.length === 0
+        && question.optionDisplay && typeof question.optionDisplay === "object" && !Array.isArray(question.optionDisplay) && Object.keys(question.optionDisplay).length === 0
+        && (savedValue === undefined || savedValue === null || savedValue === "" || Array.isArray(savedValue) && savedValue.length === 0);
+      if (awaitingCases) return <div className="grid gap-3">
+        {heading}{helperNode}{bannerNode}
+        <p role="status">{locale === "es"
+          ? "Primero agregue los casos en «Revise cada caso judicial incluido en esta solicitud». Después seleccione los casos a los que se refiere la instrucción o explicación."
+          : "First add the court cases in ‘Review each court case covered by this application.’ Then select the cases this instruction or explanation concerns."}</p>
+        {errorNode}
+      </div>;
       if (options.length === 0) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
 
       return (
