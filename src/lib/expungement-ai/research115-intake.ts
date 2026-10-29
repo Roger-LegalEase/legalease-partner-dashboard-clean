@@ -49,6 +49,8 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
   }
   // A saved uncertainty is not evidence. Preserve the raw draft and apply the actual control contract only to evaluation.
   for (const question of questions) {
+    // The strict Form 5 decoder distinguishes omitted/blank optional age from malformed input.
+    if (routeKey === IOWA_7251_ROUTE && question.id === "ia_7251_age_at_act") continue;
     if (!preparationAnswerComplete(routeKey, question, facts[question.id], asOf)) projected[question.id] = undefined;
   }
   if (routeKey === IOWA_MISDEMEANOR_ROUTE) return { ...evaluateIowaMisdemeanorPreparation(projected, { synthetic: false, filingDate: asOf }), reviewId: "HG007" as const };
