@@ -1,0 +1,88 @@
+{
+  "reviewId": "R053",
+  "routeId": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+  "synthetic": true,
+  "environment": "LOCAL_ONLY",
+  "matterId": "SYNTHETIC-R053-OFFICIAL",
+  "snapshot": {
+    "jurisdiction": "ND",
+    "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+    "verifiedAt": "2026-10-29T12:00:00Z",
+    "screeningAnswers": {},
+    "prefilledAnswers": {},
+    "packetAnswers": {
+      "nd_all_charges_nonconviction": "Yes",
+      "nd_qualifying_disposition_date": "2018-09-10",
+      "nd_dismissal_part_of_plea_agreement": "No",
+      "nd_not_fit_to_proceed": "No",
+      "nd_lack_of_criminal_responsibility": "No",
+      "nd_case_appealed": "No",
+      "nd_nonconviction_court_type": "district",
+      "participant_full_legal_name": "Cameron Ellis Fiction",
+      "nd_nonconviction_county": "Cass",
+      "case_identifier": "09-2018-CR-004321",
+      "nd_nonconviction_street_address": "900 Fictional Avenue",
+      "nd_nonconviction_city_state_zip": "Fargo, ND 58102",
+      "nd_nonconviction_phone": "701-555-0153",
+      "nd_nonconviction_email": "cameron.fiction@example.org",
+      "nd_nonconviction_judicial_district": {
+        "unknown": true,
+        "value": "East Central Judicial District"
+      }
+    },
+    "serverFacts": {}
+  },
+  "expected": {
+    "facts": {
+      "participant.full_legal_name": "Cameron Ellis Fiction",
+      "matter.county": "Cass",
+      "matter.case_number": "09-2018-CR-004321",
+      "participant.street_address": "900 Fictional Avenue",
+      "participant.city_state_zip": "Fargo, ND 58102",
+      "participant.phone": "701-555-0153",
+      "participant.email": "cameron.fiction@example.org"
+    },
+    "pageCount": 6,
+    "writtenFields": [
+      "Defendant Name",
+      "Defendant",
+      "Printed Name",
+      "Address",
+      "City State Zip Code",
+      "Telephone Number",
+      "Email Address",
+      "County",
+      "Case Number"
+    ],
+    "componentIds": [
+      "ND-INSTRUCTIONS-CLOSE-NONCONVICTION",
+      "ND-PETITION-CLOSE-NONCONVICTION",
+      "ND-ORDER-CLOSE-NONCONVICTION"
+    ],
+    "sourceSha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+    "protectedBlankFields": [
+      "Check Box7",
+      "Check Box8",
+      "Check Box9",
+      "date",
+      "city",
+      "county",
+      "state",
+      "country",
+      "Judicial District",
+      "Check Box10",
+      "Check Box11"
+    ],
+    "disallowed": [
+      "Morgan Sample",
+      "Acceptance Consumer",
+      "Jordan Avery Sample",
+      "Burleigh",
+      "Bismarck",
+      "undefined",
+      "[INSERT",
+      "TODO",
+      "TBD"
+    ]
+  }
+}
