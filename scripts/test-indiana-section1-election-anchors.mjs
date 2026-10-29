@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {settledIndianaSection1ParticipantSelections as select,INDIANA_SECTION1_PARTICIPANT_SELECTIONS as boxes} from './lib/indiana-cca-section1-route-selections.mjs';
+let checks=0;const check=(label,fn)=>{fn();checks++;console.log('PASS '+label)};
+const run=(facts,trackId='in_section1_petition')=>select({trackId,dispositions:trackId==='in_arrest_no_charges'?['arrested_no_charges_filed']:['all_charges_dismissed'],facts});
+const base={'matter.disposition':'all_charges_dismissed_before_trial','deterministic.filing_date':'2026-10-29','matter.charges':[ {arrest_date:'2020-01-01',charges_filed_date:'2020-01-02',disposition_date:'2026-10-28'} ]};
+check('recent dismissal never resets the statutory arrest/charge clock',()=>assert.equal(run(base)[boxes.AT_LEAST_ONE_YEAR].checked,true));
+for(const [name,rows]of [['arrest',[{arrest_date:'2025-10-30',charges_filed_date:'2025-10-01'}]],['charge',[{arrest_date:'2020-01-01',charges_filed_date:'2025-10-30'}]],['allegation',[{arrest_date:'2020-01-01',juvenile_allegation_date:'2025-10-30'}]],['later case',[{arrest_date:'2020-01-01'},{arrest_date:'2025-10-30'}]]])check('latest '+name+' boundary is not yet met',()=>assert.equal(run({...base,'matter.charges':rows})[boxes.AT_LEAST_ONE_YEAR],undefined));
+check('exact anniversary is included',()=>assert(run({...base,'matter.charges':[{arrest_date:'2025-10-29'}]})[boxes.AT_LEAST_ONE_YEAR].checked));
+check('flat fact adapter uses arrest/charge, not disposition',()=>{const a={...base,'matter.charges':undefined,'matter.arrest_date':'2025-10-28','matter.charges_filed_date':'2025-10-29','matter.disposition_date':'2026-10-29'};assert(run(a)[boxes.AT_LEAST_ONE_YEAR].checked)});
+check('nocharge branch retains distinct election',()=>{const a=run({...base,'matter.charges':[{arrest_date:'2023-01-01'}]},'in_arrest_no_charges');assert(a[boxes.NO_CHARGES_DISPOSITION].checked);assert.equal(a[boxes.CHARGES_FILED],undefined)});
+for(const date of ['2025-02-29','2024-02-30','2024-13-01','2024-00-10','2026-2-1'])check('impossible date refused '+date,()=>assert.throws(()=>run({...base,'matter.charges':[{arrest_date:date}]}),/calendar date/));
+check('invalid filing date refused',()=>assert.throws(()=>run({...base,'deterministic.filing_date':'2026-02-30'}),/calendar date/));
+check('ambiguous leap-day anniversary stays unrendered',()=>assert.throws(()=>run({...base,'matter.charges':[{arrest_date:'2024-02-29'}]}),/leap-day/));
+check('missing event is not manufactured from a disposition',()=>assert.throws(()=>run({...base,'matter.charges':[{disposition_date:'2020-01-01'}]}),/held arrest, charge or allegation/));
+check('court/prosecutor findings are never fabricated',()=>{for(const key of Object.keys(run(base)))assert([boxes.CHARGES_FILED,boxes.NO_CHARGES_DISPOSITION,boxes.AT_LEAST_ONE_YEAR].includes(key))});
+console.log(JSON.stringify({status:'PASS_IN_SECTION1_EVENT_ANCHORS',checks,approvalOrArtifactRewritten:false}));
