@@ -2909,7 +2909,13 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   // exact candidate still reaches the source-contract review below, not payment.
   const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
     && answers.il_cannabis_nonfinancial_complete === "yes";
-  const financialApplies = montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+  // IA.memo ia-12346/ia-12347, Rule 2.83(3): court debt is not a
+  // prerequisite on these two conviction applications. Keep the § 901C.3
+  // paid-obligations gate and every independent timing/eligibility hold.
+  const iowaAlcoholDebtNotRequired = jurisdiction === "IA"
+    && (pathway.id === "public-intoxication-12346" || pathway.id === "underage-alcohol-12347");
+  const financialApplies = !iowaAlcoholDebtNotRequired
+    && montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && oklahomaCleanSlateFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && newJerseyMarijuanaStatusFinancialApplies(profile, pathway.id, answers, "financial_obligations")
@@ -3306,6 +3312,10 @@ export function isCourtFiledPetitionRoute(
     || pathway.id === "second-chance-act-shielding"
     || pathway.id === "juvenile-expungement"
   )) return true;
+  // IA.memo ia-7251 / existing Rule 2.86 Form 5 is an application filed
+  // in the conviction case and served on the county attorney. This fixes its
+  // route kind only; the missing statutory predicate and fulfillment gates hold.
+  if (code === "IA" && pathway.id === "minor-prostitution-7251") return true;
   if (code === "WI" && pathway.id === "adult-conviction-expungement-under-wis-stat-973-015") return true;
   if (routeIsRatifiedDeployable(profile, pathway)) return true;
   // Corrected-but-awaiting-reconfirm routes are user-filed court petitions/motions that we have
