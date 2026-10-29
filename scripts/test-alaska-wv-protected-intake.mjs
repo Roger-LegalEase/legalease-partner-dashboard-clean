@@ -17,7 +17,7 @@ const cases = [
     facts: { md_cannabis_basis: 'possession', md_cannabis_charge_id: '1', md_cannabis_charge_statute: 'CR 5-601', md_cannabis_charge_disposition: 'guilty', md_cannabis_conviction_date: '2022-06-01', md_cannabis_only_charge: 'Yes', md_cannabis_all_charges_listed: 'Yes', md_cannabis_pending_proceeding: 'No', md_cannabis_recital_confirmed: 'Yes', md_cannabis_sentence_complete: 'Yes', md_cannabis_completion_date: '2023-10-29', md_cannabis_case_search_checked: 'Yes', md_cannabis_case_search_result: 'not_shown', md_cannabis_court_record_status: 'exists_unexpunged', md_cannabis_record_reference: 'Frozen fictional docket record; no clerk contact or attached records asserted.', md_cannabis_restitution_status: 'not_ordered', md_cannabis_court_level: 'district', md_cannabis_filing_court_confirmed: 'Yes', md_cannabis_court_transfer: 'none', md_cannabis_case_appealed: 'No', md_cannabis_contested: 'No', md_cannabis_fee_choice: 'paid' },
     excluded: { md_cannabis_pending_proceeding: 'Yes' }, held: { md_cannabis_contested: 'Yes' }, status: 'attorney_review',
     component: 'Official Maryland cannabis petition CC-DC-CR-072D' },
-  { route: 'MA:adult-conviction-sealing-under-m-g-l-c-276-100a', declared: 13,
+  { route: 'MA:adult-conviction-sealing-under-m-g-l-c-276-100a', declared: 22,
     key: 'ma_100a_all_dispositions_description', value: 'All Massachusetts entries: one misdemeanor conviction; latest court/disposition/custody end2023-10-29; no other entries.',
     facts: { ma_100a_whole_record_reviewed: 'Yes', ma_100a_all_record_classifications_confirmed: 'Yes', ma_100a_all_dispositions_description: 'All Massachusetts entries: one misdemeanor conviction; latest court/disposition/custody end2023-10-29; no other entries.', ma_100a_latest_misdemeanor_event: '2023-10-29', ma_100a_latest_felony_event: 'none', ma_100a_latest_sex_offense_completion: 'none', ma_100a_excluded_firearms_or_public_integrity_record: 'No', ma_100a_recent_finding_three_years: 'No', ma_100a_recent_custody_three_years: 'No' },
     excluded: { ma_100a_excluded_firearms_or_public_integrity_record: 'Yes' }, held: { ma_100a_all_record_classifications_confirmed: 'No' }, status: 'needs_review',
@@ -193,5 +193,40 @@ check('MA saved class changes expose the right history and retain inactive facts
   model = P.protectedPacketInformationModelFor(next);
   assert.equal(I.research115Eligibility('MA:adult-conviction-sealing-under-m-g-l-c-276-100a', model.initialAnswers, asOf).status, 'qualifying');
   assert.equal(model.packetAnswers.ma_100a_recent_finding_three_years, 'No');
+});
+const { massachusettsAdultSealingMatterFromSnapshot: maMatter } = await import('../src/lib/rcap/documents/massachusetts-adult-sealing-document-facts.ts');
+const maFrozen = JSON.parse(fs.readFileSync('scripts/fixtures/ma-adult-sealing-reviewed-whole-record-input.json'));
+const maDocumentAnswers = { participant_full_legal_name: 'Casey Bennett', ma_100a_first_name: 'Casey', ma_100a_last_name: 'Bennett', ma_100a_date_of_birth: '1985-05-10', ma_100a_street_address: '60 Pine Street', ma_100a_city: 'Boston', ma_100a_mailing_state: 'MA', ma_100a_postal_code: '02108' };
+let maSaved;
+check('MA actual saved explicit document facts match the independently frozen matter', () => {
+  maSaved = save(savedMatters.get('MA'), { ...maFrozen.facts, ...maDocumentAnswers });
+  const snapshot = maSaved.draftSnapshot ?? maSaved.snapshot;
+  const expected = structuredClone(maFrozen);
+  delete expected.facts.ma_100a_recent_finding_seven_years;
+  delete expected.facts.ma_100a_recent_custody_seven_years;
+  // The real yes/no controls save their declared wire strings; the frozen renderer input used equivalent booleans.
+  Object.assign(expected.facts, { ma_100a_whole_record_reviewed: 'Yes', ma_100a_all_record_classifications_confirmed: 'Yes', ma_100a_excluded_firearms_or_public_integrity_record: 'No', ma_100a_recent_finding_three_years: 'No', ma_100a_recent_custody_three_years: 'No' });
+  assert.deepEqual(maMatter({ ...snapshot, verifiedAt: maFrozen.verifiedAt }, maFrozen.matterId), expected);
+  assert.equal(snapshot.paymentAllowed, false); assert.notEqual(maSaved.status, 'verified');
+});
+check('MA optional middle name and alias do not become required completion facts', () => {
+  const model = P.protectedPacketInformationModelFor(maSaved);
+  for (const id of ['ma_100a_middle_name', 'ma_100a_alias']) {
+    const q = model.questions.find(q => q.id === id);
+    assert.equal(q.required, false); assert.equal(q.lifecyclePhase, 'optional_or_later');
+    assert(!model.missingInputIds.includes(id));
+  }
+  for (const id of Object.keys(maDocumentAnswers).filter(id => id !== 'participant_full_legal_name')) {
+    assert(P.heldPacketCorrectionInputIds(model, model.resultCode).has(id));
+    assert(!model.missingInputIds.includes(id));
+  }
+});
+check('MA material document uncertainty stays missing through actual save and cannot map', () => {
+  for (const id of ['ma_100a_city', 'participant_full_legal_name']) for (const value of ['no sé', { unknown: true, value: maDocumentAnswers[id] }]) {
+    const saved = save(maSaved, { [id]: value }), snapshot = saved.draftSnapshot ?? saved.snapshot;
+    assert(P.protectedPacketInformationModelFor(saved).missingInputIds.includes(id));
+    assert.throws(() => maMatter({ ...snapshot, verifiedAt: maFrozen.verifiedAt }, maFrozen.matterId), /unknown_document_fact/);
+    assert.equal(snapshot.paymentAllowed, false);
+  }
 });
 console.log(`${checks}/${checks} protected research-intake controls passed; local integration only, no paid fulfillment or production proof.`);

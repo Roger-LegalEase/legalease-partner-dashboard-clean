@@ -8,6 +8,7 @@ import { WEST_VIRGINIA_407_ROUTE, evaluateWestVirginia407, westVirginia407Questi
 import { GA_NONCONVICTION_ROUTE, georgiaNonconvictionQuestions } from "@/lib/rcap-engine/georgia-nonconviction-research";
 import { MD_CANNABIS_ROUTE, evaluateMarylandCannabis, marylandCannabisQuestions, marylandCannabisFactIds } from "@/lib/rcap-engine/maryland-cannabis-research";
 import { MASSACHUSETTS_ADULT_SEALING_ROUTE, evaluateMassachusettsAdultSealing, massachusettsAdultSealingQuestions } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
+import { MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS, massachusettsAdultSealingDocumentQuestions, massachusettsAdultSealingDocumentAnswerKnown } from "@/lib/rcap/documents/massachusetts-adult-sealing-document-facts";
 
 export function research115Eligibility(routeKey: string, facts: Readonly<Record<string, unknown>>, asOf: string) {
   const projected = { ...facts };
@@ -32,14 +33,14 @@ export function research115PacketFactIds(routeKey: string, facts: Readonly<Recor
   if (routeKey === AK_IDENTITY_ROUTE) return alaskaIdentityQuestions(facts, includeInactive).map(q => q.id);
   if (routeKey === WEST_VIRGINIA_407_ROUTE) return westVirginia407Questions(routeKey).map(q => q.id);
   if (routeKey === MD_CANNABIS_ROUTE) return marylandCannabisFactIds(facts, includeInactive);
-  if (routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE) return massachusettsAdultSealingQuestions(routeKey, facts, includeInactive).map(q => q.id);
+  if (routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE) return [...massachusettsAdultSealingQuestions(routeKey, facts, includeInactive).map(q => q.id), ...MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS];
   return routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts, includeInactive).map(q => q.id) : [];
 }
 
 /** Authenticated packet intake only; the research does not add a screening questionnaire. */
 export function research115PacketQuestions(routeKey: string, facts: Readonly<Record<string, unknown>>): ProfileQuestion[] {
   const definitions = routeKey === WEST_VIRGINIA_407_ROUTE ? westVirginia407Questions(routeKey)
-    : routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? massachusettsAdultSealingQuestions(routeKey, facts)
+    : routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? [...massachusettsAdultSealingQuestions(routeKey, facts), ...massachusettsAdultSealingDocumentQuestions(routeKey).map(q => ({ ...q, options: undefined, optionsEn: undefined, optionsEs: undefined }))]
     : (routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts)
       : routeKey === AK_IDENTITY_ROUTE ? alaskaIdentityQuestions(facts)
       : routeKey === MD_CANNABIS_ROUTE ? marylandCannabisQuestions(facts) : []).map(q => ({
@@ -49,7 +50,8 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
   return definitions
     .map(q => ({ id: q.id, stage: "packet_information", prompt: q.prompt,
       type: q.type === "yes_no_unknown" ? "yes_no_unsure" : q.type === "number" ? "text" : q.type,
-      required: true, contextOnly: false, lifecyclePhase: "prepay_required",
+      required: !("required" in q && q.required === false), contextOnly: false,
+      lifecyclePhase: "required" in q && q.required === false ? "optional_or_later" : "prepay_required",
       options: q.options ?? null, translations: { es: { prompt: q.promptEs } },
       ...(q.options && q.optionsEs ? { optionDisplay: Object.fromEntries(q.options.map((value, i) => [value, { label: q.optionsEn?.[i] ?? value, translations: { es: { label: q.optionsEs![i] } } }])) } : {}) }));
 }
@@ -62,7 +64,8 @@ type PacketQuestionModel = {
 
 /** Keep raw answers and existing plans; add the material facts to the existing intake surface. */
 export function withResearch115PacketQuestions<T extends PacketQuestionModel>(model: T): T {
-  const additions = research115PacketQuestions(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers);
+  const routeKey = `${model.stateCode}:${model.pathwayId ?? ""}`;
+  const additions = research115PacketQuestions(routeKey, model.initialAnswers);
   if (!additions.length) return model;
   const merge = (prior: ProfileQuestion[]) => [...prior.filter(q => !additions.some(a => a.id === q.id)), ...additions];
   const gate = research115Eligibility(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers, new Date().toISOString().slice(0, 10));
@@ -73,8 +76,12 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
       if (!copy) throw new Error("Unsupported Maryland packet component: " + id);
       return copy[0];
     }) : componentCopy?.map(([en]) => en) ?? [];
-  const missing = additions.filter(q => questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid"
+  const missing = additions.filter(q => q.required && (questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid"
+    || routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE && MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS.some(id => id === q.id)
+      && !massachusettsAdultSealingDocumentAnswerKnown(routeKey, q.id, model.initialAnswers[q.id], new Date().toISOString().slice(0, 10)))
     || gate?.missingFactIds.includes(q.id)).map(q => q.id);
+  if (routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE && model.questions.some(q => q.id === "participant_full_legal_name" && q.required)
+    && !massachusettsAdultSealingDocumentAnswerKnown(routeKey, "participant_full_legal_name", model.initialAnswers.participant_full_legal_name, new Date().toISOString().slice(0, 10))) missing.push("participant_full_legal_name");
   return { ...model, questions: merge(model.questions), builderQuestions: merge(model.builderQuestions),
     missingInputIds: [...new Set([...model.missingInputIds, ...missing])],
     ...(model.expectedComponents && gate ? { expectedComponents: components } : {}),
