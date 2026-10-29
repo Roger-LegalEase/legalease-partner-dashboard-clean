@@ -166,7 +166,7 @@ export function constrainResearch115Evaluation<T extends { evaluation: Screening
     && gate.branchId === "pre_effective_date_petition" && result.profile?.jurisdiction.code === "ND"
     && result.evaluation.pathwayId === ND_NONCONVICTION_ROUTE.slice(3)
     && result.evaluation.resultCode === "guidance_only"
-    && result.evaluation.reasons.some(reason => reason.code === "nd.guidance_only_no_user_filed_court_petition")
+    && result.evaluation.reasons.length === 1 && result.evaluation.reasons[0].code === "nd.guidance_only_no_user_filed_court_petition"
     && plan?.pathwayId === ND_NONCONVICTION_ROUTE.slice(3) && plan.mode === "automatic_relief_verification_and_guidance"
     && plan.formMappingStatus === "source_candidate_identified" && plan.sourceFormIds.length === 1
     && plan.sourceFormIds[0].endsWith(":" + ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256)) {
