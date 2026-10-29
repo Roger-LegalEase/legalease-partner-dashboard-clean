@@ -1,4 +1,6 @@
 import georgiaMemo from "@/../data/record-clearing/legal-design-intake/GA.memo.json";
+import westVirginiaMemo from "@/../data/record-clearing/legal-design-intake/WV.memo.json";
+import { WEST_VIRGINIA_407_ROUTE } from "@/lib/rcap-engine/west-virginia-407-facts";
 import georgiaFieldMap from "@/../data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill/production-field-map.json";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 import alaskaMemo from "@/../data/record-clearing/legal-design-intake/AK.memo.json";
@@ -8,6 +10,31 @@ const AK_PATHWAY="sealing-for-mistaken-identity-or-false-accusation-as-12-62-180
 const AK_SHA="1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a";
 const MD_PATHWAY="cannabis-specific-expungement";
 const MD_SHA="87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703";
+
+/** Exact adopted section407 custom package; the compiled source and approvals remain intact. */
+export function withWestVirginia407Procedure(profile: EngineProfile): EngineProfile {
+  if (profile.jurisdiction.code !== "WV") return profile;
+  const track = westVirginiaMemo.tracks.find(item => item.trackId === "wv_drug_conditional_discharge");
+  if (!track || track.outputStrategy !== "custom_pleading"
+    || track.legalDesignDecision.status !== "legal_design_approved_with_limitations"
+    || track.components.map(item => item.role).join(",") !== "primary_filing,supporting_affidavit,certificate_of_service,records_checklist,filing_instructions") {
+    throw new Error("The section407 procedure requires its exact adopted five-component design");
+  }
+  const pathwayId = WEST_VIRGINIA_407_ROUTE.slice(3);
+  return { ...profile,
+    pathways: profile.pathways.map(pathway => pathway.id !== pathwayId ? pathway : { ...pathway,
+      summary: "Section407 application to the court that imposed probation, at least six months after probation expires and following actual discharge and dismissal. The package contains an application, supporting affidavit, prosecutor/probation service certificate, external-record checklist and filing instructions. The court determines probation violations at a hearing. Obtain and attach the actual orders and written probation-expiration confirmation before filing.",
+      receivingOffice: track.destination.name
+    }),
+    packetGenerator: { ...profile.packetGenerator,
+      pathways: profile.packetGenerator.pathways.map(plan => plan.pathwayId !== pathwayId ? plan : { ...plan,
+        mode: "state_specific_custom_packet_from_source_rules",
+        formCandidates: [], formMappingStatus: "custom_or_manual_mapping_required",
+        selectionRule: "Use only the adopted section407 application, affidavit, service certificate, records checklist and instructions. SCA-C903/C906/C907 and a proposed order are outside this exact package. Preserve court findings, external records and commercial admission gates."
+      })
+    }
+  };
+}
 
 /** Source-backed procedure/form correction only. Stored source and legal approvals remain unchanged. */
 export function withResearchLimitedRouteProcedures(profile: EngineProfile, memo: unknown=alaskaMemo, fieldMap: unknown=alaskaFieldMap): EngineProfile {

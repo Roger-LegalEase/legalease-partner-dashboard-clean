@@ -1,4 +1,4 @@
-import { withResearchLimitedRouteProcedures } from "@/lib/rcap-engine/research-limited-route-procedures";
+import { withResearchLimitedRouteProcedures, withWestVirginia407Procedure } from "@/lib/rcap-engine/research-limited-route-procedures";
 import {withWyoming1501Procedure} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { withWyoming1401Procedure } from "@/lib/rcap-engine/wyoming-1401-facts";
 import "server-only";
@@ -27,7 +27,7 @@ export function getAllJurisdictionProfiles() {
       .readdirSync(profilesRoot)
       .filter((file) => file.endsWith(".json"))
       .sort()
-      .map((file) => withWyoming1501Procedure(withWyoming1401Procedure(withKansasRegistrationProcedure(withGeorgiaPardonPresentation(((profile: EngineProfile) => profile.jurisdiction.code === "GA" ? withResearchLimitedRouteProcedures(profile) : profile)(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile))))));
+      .map((file) => withWestVirginia407Procedure(withWyoming1501Procedure(withWyoming1401Procedure(withKansasRegistrationProcedure(withGeorgiaPardonPresentation(((profile: EngineProfile) => profile.jurisdiction.code === "GA" ? withResearchLimitedRouteProcedures(profile) : profile)(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile)))))));
   }
   return profileCache;
 }
