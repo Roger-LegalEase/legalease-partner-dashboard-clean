@@ -1,4 +1,4 @@
-import { withResearch115PacketQuestions, constrainResearch115Evaluation, research115PacketFactIds } from "@/lib/expungement-ai/research115-intake";
+import { withResearch115PacketQuestions, constrainResearch115Evaluation, research115PacketFactIds, research115Eligibility } from "@/lib/expungement-ai/research115-intake";
 import { GA_RETROACTIVE_HISTORY_IDS, gaRetroactiveHistoryQuestions } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { VA_PARDON_FOLLOW_UP } from "@/lib/expungement-ai/va-pardon-follow-up-copy";
 import { IL_PROGRAM_COPY, IL_PROGRAM_SOURCE, IL_PROGRAM_FACT_IDS, illinoisProgramFactIds, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
@@ -2917,12 +2917,12 @@ export function protectedPacketInformationModelFor(
     // maps and dependencies; this read grants no readiness or verification.
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  if (verification.status !== "verified" && snapshot.jurisdiction === "GA"
-    && snapshot.pathwayId === "non-conviction-record-restriction-through-the-agency-prosecutor-process"
-    && ["guidance_only", "needs_review", "needs_more_info"].includes(snapshot.resultCode ?? "")
+  const heldResearchGate = research115Eligibility(`${snapshot.jurisdiction}:${snapshot.pathwayId ?? ""}`, { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers, ...snapshot.serverFacts }, new Date().toISOString().slice(0, 10));
+  if (verification.status !== "verified" && heldResearchGate?.status === "unknown"
+    && ["not_covered_yet", "guidance_only", "needs_review", "needs_more_info"].includes(snapshot.resultCode ?? "")
     && snapshot.paymentAllowed === false && evaluation.paymentAllowed === false
     && evaluation.resultCode === "needs_more_info"
-    && evaluation.reasons.length > 0 && evaluation.reasons.every(reason => reason.code === "research115.R020.unknown")
+    && evaluation.reasons.length > 0 && evaluation.reasons.every(reason => reason.code === `research115.${heldResearchGate.reviewId}.unknown`)
     && canonicalEqual(snapshot.packetPlan, evaluation.packetPlan ?? null)) {
     // Missing agency facts may tighten a held draft; they grant no verified or commercial authority.
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };

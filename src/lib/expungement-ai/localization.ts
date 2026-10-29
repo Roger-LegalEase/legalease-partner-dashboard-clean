@@ -1,3 +1,6 @@
+import { AK_IDENTITY_REASON_COPY } from "@/lib/rcap-engine/alaska-identity-research";
+import { RESEARCH115_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
+import { westVirginia407OutcomeSpanish } from "@/lib/rcap-engine/west-virginia-407-facts";
 import { GA_NONCONVICTION_REASON_COPY } from "@/lib/rcap-engine/georgia-nonconviction-research";
 import { IL_PROGRAM_COPY } from "@/lib/rcap-engine/illinois-program-facts";
 import { VA_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/virginia-record-origin";
@@ -1256,6 +1259,12 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined>; msTimingContext?: MsTimingDisplayContext | null }): string {
+  const componentCopy = locale === "es" ? Object.values(RESEARCH115_COMPONENT_COPY).flat().find(([en]) => en === text) : undefined;
+  if (componentCopy) return componentCopy[1];
+  const agencyCopy = locale === "es" ? AK_IDENTITY_REASON_COPY.find(([en]) => en === text) : undefined;
+  if (agencyCopy) return agencyCopy[1];
+  const wv407Copy = locale === "es" ? westVirginia407OutcomeSpanish(text) : null;
+  if (wv407Copy) return wv407Copy;
   const gaAgencyCopy = locale === "es" ? GA_NONCONVICTION_REASON_COPY.find(([en]) => en === text) : undefined;
   if (gaAgencyCopy) return gaAgencyCopy[1];
   const nyDateTranslation = locale === "es" ? ny16059ClockDisplayTranslation(text) : undefined;

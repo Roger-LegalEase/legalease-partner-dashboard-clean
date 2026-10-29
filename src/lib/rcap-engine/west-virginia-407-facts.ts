@@ -137,3 +137,5 @@ const OUTCOME_ES: Readonly<Record<string,string>> = {
 "The supported post-discharge application is timely six calendar months after probation expiration, subject to the court's required hearing and findings.":"La solicitud posterior al alta cumple el plazo de seis meses calendario desde el vencimiento de la libertad condicional, sujeta a la audiencia y las determinaciones que debe realizar el tribunal.",
 };
 function spanish(reason:string):string { const es=OUTCOME_ES[reason];if(!es)throw new Error("Research route outcome translation is missing");return es;}
+
+export function westVirginia407OutcomeSpanish(reason: string): string | null { return OUTCOME_ES[reason] ?? null; }

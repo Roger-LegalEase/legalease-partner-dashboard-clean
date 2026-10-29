@@ -27,7 +27,7 @@ export function getAllJurisdictionProfiles() {
       .readdirSync(profilesRoot)
       .filter((file) => file.endsWith(".json"))
       .sort()
-      .map((file) => withWestVirginia407Procedure(withWyoming1501Procedure(withWyoming1401Procedure(withKansasRegistrationProcedure(withGeorgiaPardonPresentation(((profile: EngineProfile) => profile.jurisdiction.code === "GA" ? withResearchLimitedRouteProcedures(profile) : profile)(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile)))))));
+      .map((file) => withWestVirginia407Procedure(withWyoming1501Procedure(withWyoming1401Procedure(withKansasRegistrationProcedure(withGeorgiaPardonPresentation(((profile: EngineProfile) => ["GA", "AK"].includes(profile.jurisdiction.code) ? withResearchLimitedRouteProcedures(profile) : profile)(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile)))))));
   }
   return profileCache;
 }

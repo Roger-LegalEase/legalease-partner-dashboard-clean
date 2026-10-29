@@ -1,21 +1,29 @@
+import { RESEARCH115_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
 import type { ProfileQuestion, AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import type { ScreeningEvaluation, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { evaluateResearchLimitedRoute } from "@/lib/rcap-engine/research115-limited-branches";
+import { AK_IDENTITY_ROUTE, evaluateAlaskaIdentity, alaskaIdentityQuestions } from "@/lib/rcap-engine/alaska-identity-research";
+import { WEST_VIRGINIA_407_ROUTE, evaluateWestVirginia407, westVirginia407Questions } from "@/lib/rcap-engine/west-virginia-407-facts";
 import { GA_NONCONVICTION_ROUTE, georgiaNonconvictionQuestions } from "@/lib/rcap-engine/georgia-nonconviction-research";
 
 export function research115Eligibility(routeKey: string, facts: Readonly<Record<string, unknown>>, asOf: string) {
+  if (routeKey === AK_IDENTITY_ROUTE) return evaluateAlaskaIdentity(facts, asOf);
+  if (routeKey === WEST_VIRGINIA_407_ROUTE) return evaluateWestVirginia407(routeKey, facts, asOf);
   return routeKey === GA_NONCONVICTION_ROUTE ? evaluateResearchLimitedRoute(routeKey, facts, asOf) : null;
 }
 
 export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
+  if (routeKey === AK_IDENTITY_ROUTE) return alaskaIdentityQuestions(facts, includeInactive).map(q => q.id);
+  if (routeKey === WEST_VIRGINIA_407_ROUTE) return westVirginia407Questions(routeKey).map(q => q.id);
   return routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts, includeInactive).map(q => q.id) : [];
 }
 
 /** Authenticated packet intake only; the research does not add a screening questionnaire. */
 export function research115PacketQuestions(routeKey: string, facts: Readonly<Record<string, unknown>>): ProfileQuestion[] {
-  if (routeKey !== GA_NONCONVICTION_ROUTE) return [];
-  const definitions = georgiaNonconvictionQuestions(facts).map(q => ({
+  const definitions = routeKey === WEST_VIRGINIA_407_ROUTE ? westVirginia407Questions(routeKey)
+    : (routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts)
+      : routeKey === AK_IDENTITY_ROUTE ? alaskaIdentityQuestions(facts) : []).map(q => ({
     id: q.id, type: q.type, prompt: q.en, promptEs: q.es,
     options: q.options, optionsEn: q.optionsEn, optionsEs: q.optionsEs
   }));
@@ -29,17 +37,22 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
 
 type PacketQuestionModel = {
   stateCode: string; pathwayId: string | null; questions: ProfileQuestion[]; builderQuestions: ProfileQuestion[];
-  initialAnswers: Record<string, AnswerValue>; missingInputIds: string[]; stage: "not_started" | "in_progress" | "facts_complete" | "ready_to_generate"; reviewedAt: string | null;
+  initialAnswers: Record<string, AnswerValue>; missingInputIds: string[]; stage: "not_started" | "in_progress" | "facts_complete" | "ready_to_generate"; reviewedAt: string | null; expectedComponents?: string[];
 };
+
 
 /** Keep raw answers and existing plans; add the material facts to the existing intake surface. */
 export function withResearch115PacketQuestions<T extends PacketQuestionModel>(model: T): T {
   const additions = research115PacketQuestions(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers);
   if (!additions.length) return model;
   const merge = (prior: ProfileQuestion[]) => [...prior.filter(q => !additions.some(a => a.id === q.id)), ...additions];
-  const missing = additions.filter(q => questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid").map(q => q.id);
+  const gate = research115Eligibility(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers, new Date().toISOString().slice(0, 10));
+  const missing = additions.filter(q => questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid"
+    || gate?.missingFactIds.includes(q.id)).map(q => q.id);
   return { ...model, questions: merge(model.questions), builderQuestions: merge(model.builderQuestions),
     missingInputIds: [...new Set([...model.missingInputIds, ...missing])],
+    ...(model.expectedComponents && gate ? { expectedComponents: gate.status === "qualifying"
+      ? RESEARCH115_COMPONENT_COPY[`${model.stateCode}:${model.pathwayId ?? ""}` as keyof typeof RESEARCH115_COMPONENT_COPY].map(([en]) => en) : [] } : {}),
     ...(missing.length ? { stage: "in_progress", reviewedAt: null } : {}) };
 }
 
