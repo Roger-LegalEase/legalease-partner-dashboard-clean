@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {register} from "node:module";
 register("./lib/ts-esm-loader.mjs",import.meta.url);
 const {evaluateMarylandCannabis:decide,MD_CANNABIS_ROUTE,marylandCannabisQuestions:allQuestions,marylandCannabisFactIds:factIds}=await import("../src/lib/rcap-engine/maryland-cannabis-research.ts");
+const {marylandCannabisOutcomeSpanish:spanish,MD_CANNABIS_OUTCOME_COPY:copy}=await import("../src/lib/rcap-engine/maryland-cannabis-outcome-copy.ts");
 const {adaptMarylandCannabisStructuredFacts:adapt,marylandCannabisStructuredQuestions:questions}=await import("../src/lib/rcap-engine/maryland-cannabis-structured-intake.ts");
 const on="2026-10-29";
 const paid={md_cannabis_basis:"possession",md_cannabis_charge_id:"1",md_cannabis_charge_statute:"CR 5-601",md_cannabis_charge_disposition:"guilty",md_cannabis_conviction_date:"2022-06-01",md_cannabis_only_charge:true,md_cannabis_all_charges_listed:true,md_cannabis_pending_proceeding:false,md_cannabis_recital_confirmed:true,md_cannabis_sentence_complete:true,md_cannabis_completion_date:"2023-10-29",md_cannabis_case_search_checked:true,md_cannabis_case_search_result:"not_shown",md_cannabis_court_record_status:"exists_unexpunged",md_cannabis_record_reference:"Frozen fictional docket facts; no actual clerk contact asserted",md_cannabis_restitution_status:"not_ordered",md_cannabis_court_level:"district",md_cannabis_filing_court_confirmed:true,md_cannabis_court_transfer:"none",md_cannabis_case_appealed:false,md_cannabis_contested:false,md_cannabis_fee_choice:"paid"};
@@ -45,4 +46,22 @@ check("inactive vocabulary preserves all declared branches without inventing val
 check("retention whitelist refuses arbitrary prefixes/raw inventories/server approval keys",()=>{const forged={...paid,md_cannabis_other_26_id:"new",md_cannabis_other_25_forged:"Yes",md_cannabis_fin_income_forged:"1",md_cannabis_charge_inventory:[],md_cannabis_financial_inventory:{},md_cannabis_unit_eligible:"Yes",legalSignoffStatus:"signed_off",paymentAllowed:true,jurisdiction:"NV"};const r=factIds(forged,true);for(const id of["md_cannabis_other_26_id","md_cannabis_other_25_forged","md_cannabis_fin_income_forged","md_cannabis_charge_inventory","md_cannabis_financial_inventory","md_cannabis_unit_eligible","legalSignoffStatus","paymentAllowed","jurisdiction"])assert(!r.includes(id),id)});
 check("question getters preserve existing technical refusal and never qualify unknowns",()=>{const f={...ui(pwid),md_cannabis_completion_date:{unknown:true,value:"2023-10-29"}},before=structuredClone(f),decision=decide(f,on);assert.equal(decision.status,"unknown");allQuestions(f);allQuestions(f,true);assert.deepEqual(decide(f,on),decision);assert.deepEqual(f,before)});
 check("every active/retained question retains human English/Spanish labels",()=>{for(const q of allQuestions({},true)){assert(q.en&&q.es);if(q.options){assert.equal(q.options.length,q.optionsEn.length);assert.equal(q.options.length,q.optionsEs.length);assert(q.optionsEn.every(Boolean));assert(q.optionsEs.every(Boolean))}}});
+for(const [label,facts,status,at,words]of[
+ ["qualifying",paid,"qualifying",on,["tribunal notifica","$30","cargo opcional"]],
+ ["pending",{...paid,md_cannabis_pending_proceeding:true},"excluded",on,["proceso penal pendiente"]],
+ ["nonconviction",{...paid,md_cannabis_charge_disposition:"dismissed"},"excluded",on,["no es una condena"]],
+ ["required fact",{...paid,md_cannabis_charge_id:undefined},"unknown",on,["inventario completo"]],
+ ["structured missing",{...mixed,md_cannabis_other_1_minor_traffic:{unknown:true,value:"No"}},"unknown",on,["datos reales de los otros cargos","desconocidos"]],
+ ["contested",{...paid,md_cannabis_contested:true},"attorney_review",on,["objeción real","asistencia"]],
+ ["mixed PWID",{...mixed,md_cannabis_basis:"pwid",md_cannabis_charge_statute:"CR 5-602",md_cannabis_new_conviction_during_wait:false},"attorney_review",on,["determinación admitida del servidor","no puede autorizar"]],
+ ["source review",paid,"unknown","2026-10-30",["revisión actual de las fuentes","actualizar"]],
+ ["leap day",{...pwid,md_cannabis_completion_date:"2024-02-29"},"unknown",on,["29 de febrero","con precisión"]],
+ ["timing",pwid,"not_yet","2026-10-28",["período de espera","cumplimiento real"]],
+ ["sentence completion",{...paid,md_cannabis_sentence_complete:false},"not_yet",on,["cumplimiento real","supervisión"]],
+ ["restitution dispute",{...paid,md_cannabis_restitution_status:"disputed"},"attorney_review",on,["restitución está en disputa","no se representa como pagada"]],
+ ["new conviction",{...pwid,md_cannabis_new_conviction_during_wait:true,md_cannabis_new_conviction_now_eligible:false},"excluded",on,["nueva condena todavía no reúne"]],
+ ["wrong statute",{...paid,md_cannabis_charge_statute:"CR 5-619"},"excluded",on,["disposición legal registrada","no corresponde"]],
+ ["known technical fee refusal",{...paid,md_cannabis_fee_choice:"unexpected"},"unknown",on,["no acepta los datos","pagará la tasa judicial"]]
+])check("bounded Spanish meaning and unchanged decision: "+label,()=>{const r=decide(facts,at),before=JSON.stringify(r);assert.equal(r.status,status);const es=spanish(r.reason);assert(es);assert.notEqual(es,r.reason);for(const word of words)assert(es.includes(word),word);assert.equal(JSON.stringify(r),before);assert.deepEqual(decide(facts,at),r)});
+check("all bilingual pairs are exact unique lookups, no fallback qualification",()=>{assert.equal(copy.length,110);assert.equal(new Set(copy.map(([en])=>en)).size,110);for(const[en,es]of copy){assert.equal(spanish(en),es);assert.notEqual(en,es);assert(es.trim())}for(const unknown of["unrecognized failure","WRONG_STATUTE: arbitrary supplied data","The existing source predicate refused the supplied facts: INVENTED_NEW_ERROR","The existing source predicate refused the supplied facts: INVALID_DATE: arbitraryField","qualifying"])assert.equal(spanish(unknown),null)});
 console.log(`${checks}/${checks} R041 standalone canonical-intake controls passed; no form, source, legal, fee, commercial or release change.`);
