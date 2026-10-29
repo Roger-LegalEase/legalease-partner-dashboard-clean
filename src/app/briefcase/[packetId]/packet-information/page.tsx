@@ -1,3 +1,5 @@
+import { IOWA_ALCOHOL_ROUTES } from "@/lib/rcap-engine/iowa-alcohol-native.mjs";
+import { IOWA_ALCOHOL_FILING_NOTICES, IOWA_ALCOHOL_FORM4_NOTICE } from "@/lib/expungement-ai/research115-packet-copy";
 import { GA_RETROACTIVE_HISTORY_ROUTE } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { IOWA_MISDEMEANOR_ROUTE, IOWA_MISDEMEANOR_FILING_NOTICES } from "@/lib/rcap-engine/iowa-misdemeanor-native.mjs";
 import { VA_RECORD_CONTEXT_IDS } from "@/lib/expungement-ai/virginia-record-context";
@@ -216,6 +218,7 @@ export default async function PacketInformationPage({
           {preparingMt && preparationModel?.mtDeferredPreparationReviewRequired ? <p className="mb-6 rounded border border-amber-300 p-4" role="status"><LocalizedCopy en="Some saved facts conflict or require review before documents can be used. Review the case records and correct the relevant answers below. Saving a correction does not resolve a legal question or authorize a filing." es="Algunos datos guardados son contradictorios o requieren revisión antes de usar los documentos. Revise los expedientes del caso y corrija las respuestas correspondientes a continuación. Guardar una corrección no resuelve una cuestión jurídica ni autoriza una presentación." /></p> : null}
           {preparingMt && preparationModel?.mtDeferredPreparationNotices?.length ? <ul className="mb-6 list-disc space-y-2 pl-6">{preparationModel.mtDeferredPreparationNotices.map((notice, index) => <li key={`${notice.en}:${index}`}><LocalizedCopy {...notice} /></li>)}</ul> : null}
           {`${item.jurisdiction}:${item.pathwayId}` === IOWA_MISDEMEANOR_ROUTE ? <ul className="mb-6 list-disc space-y-2 pl-6">{IOWA_MISDEMEANOR_FILING_NOTICES.map(notice => <li key={notice.en}><LocalizedCopy {...notice} /></li>)}</ul> : null}
+          {Object.hasOwn(IOWA_ALCOHOL_ROUTES, `${item.jurisdiction}:${item.pathwayId}`) ? <ul className="mb-6 list-disc space-y-2 pl-6">{IOWA_ALCOHOL_FILING_NOTICES.map(notice => <li key={notice.en}><LocalizedCopy {...notice} /></li>)}{item.pathwayId === "underage-alcohol-12347" ? <li><LocalizedCopy {...IOWA_ALCOHOL_FORM4_NOTICE} /></li> : null}</ul> : null}
           {correctingCompletion && eligibilityCorrection ? <nav className="mb-6 grid gap-2" aria-labelledby="eligibility-correction-heading">
             <p id="eligibility-correction-heading" className="font-semibold"><LocalizedCopy en="Choose an answer to correct" es="Elija una respuesta para corregir" /></p>
             {model.questions.filter(question => correctionIds.has(question.id)).map(question => <Link

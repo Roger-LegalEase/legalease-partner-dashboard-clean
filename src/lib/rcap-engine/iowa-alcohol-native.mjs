@@ -66,8 +66,8 @@ const raw=v=>v&&typeof v==='object'?wrapper(v)&&v.unknown!==true?v.value:undefin
 const explicitUnknown=v=>wrapper(v)&&v.unknown===true||typeof raw(v)==='string'&&['unknown','i am not sure','not sure','no sé','no se'].includes(raw(v).trim().toLowerCase());
 const boolean=v=>{if(explicitUnknown(v))return undefined;const x=raw(v),s=typeof x==='string'?x.trim().toLowerCase():'';return x===true||s==='yes'||s==='true'?true:x===false||s==='no'||s==='false'?false:undefined;};
 const inventoryCount=v=>{const x=raw(v),s=typeof x==='number'?String(x):typeof x==='string'?x.trim():'';return /^(0|[1-9]\d*)$/.test(s)&&+s<=25?+s:undefined;};
-/** @typedef {{id:string,type:string,en:string,es:string,allowsExplicitUnknown?:boolean,allowsExplicitNull?:boolean,options?:string[],optionsEn?:string[],optionsEs?:string[]}} AlcoholQuestion */
-/** @returns {AlcoholQuestion} */
+/** @typedef {{id:string,type:'yes_no_unknown'|'text_or_unknown'|'date_or_unknown'|'single_choice',en:string,es:string,allowsExplicitUnknown?:boolean,allowsExplicitNull?:boolean,options?:string[],optionsEn?:string[],optionsEs?:string[]}} AlcoholQuestion */
+/** @param {AlcoholQuestion['type']} type @returns {AlcoholQuestion} */
 const question=(id,type,en,es,extra={})=>({id,type,en,es,...extra});
 const yes=(id,en,es,optionalUnknown=false)=>question(id,'yes_no_unknown',en,es,{allowsExplicitUnknown:optionalUnknown,allowsExplicitNull:optionalUnknown});
 const choice=(id,options,optionsEn,optionsEs,en,es)=>question(id,'single_choice',en,es,{options,optionsEn,optionsEs});

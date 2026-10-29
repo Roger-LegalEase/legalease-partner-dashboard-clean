@@ -10,6 +10,17 @@ export const IOWA_MISDEMEANOR_COMPONENT_COPY = {
   instructions: ["Participant instructions for private completion and obtaining the actual DCI report separately", "Instrucciones para completar los datos en privado y obtener por separado el informe DCI real"]
 } as const;
 
+export const IOWA_ALCOHOL_COMPONENT_COPY = {
+  form3: ["Official Iowa Rule 2.86 Form 3 public-intoxication application, both pages", "Solicitud oficial de Iowa del Formulario 3 de la Regla 2.86 para intoxicación en público, ambas páginas"],
+  form4: ["Official Iowa Rule 2.86 Form 4 underage-alcohol application, both pages", "Solicitud oficial de Iowa del Formulario 4 de la Regla 2.86 para alcohol siendo menor de edad legal, ambas páginas"],
+  instructions: ["Participant instructions for completing the actual conviction and two-year history statements before signing and filing", "Instrucciones para completar las declaraciones reales sobre la condena y los antecedentes durante dos años antes de firmar y presentar"]
+} as const;
+
+export const IOWA_ALCOHOL_FILING_NOTICES = [
+  { en: "This is draft preparation only. Complete any missing contact details and personally review the official conviction and two-year history statements against your actual records before signing and dating the application. Nothing is signed or filed for you.", es: "Esto es solo la preparación de un borrador. Complete los datos de contacto que falten y revise personalmente las declaraciones oficiales sobre la condena y los antecedentes durante dos años, comparándolas con sus expedientes reales, antes de firmar y fechar la solicitud. No se firma ni presenta nada en su nombre." },
+  { en: "For paper filing, provide the required copy to the county attorney and complete the embedded service certification only after actual service. For electronic filing, confirm the actual service procedure. Do not certify an event that did not occur. This packet does not require a DCI request or returned history report.", es: "Si presenta en papel, entregue la copia requerida al fiscal del condado y complete la certificación de entrega incluida solo después de realizar la entrega. Si presenta electrónicamente, confirme el procedimiento real de entrega. No certifique un hecho que no ocurrió. Este paquete no requiere una solicitud al DCI ni un informe de antecedentes recibido." }
+] as const;
+
 export const RESEARCH115_COMPONENT_COPY = {
   [MASSACHUSETTS_ADULT_SEALING_ROUTE]: [
     ["Official Commissioner of Probation section100A sealing request", "Solicitud oficial de sellado de la sección100A al Comisionado de Libertad Condicional"],
@@ -42,3 +53,5 @@ export const MD_CANNABIS_COMPONENT_COPY = {
   "participant_instructions": ["Court submission and external-record instructions; the court handles service and its order", "Instrucciones para presentar la solicitud al tribunal y obtener registros externos; el tribunal se encarga de la notificación y de su orden"]
 } as const;
 
+
+export const IOWA_ALCOHOL_FORM4_NOTICE = { en: "For Form 4, item 1 remains for your own confirmation of the actual section 123.47(3) conviction or a similar local ordinance. A general alcohol conviction is not enough.", es: "En el Formulario 4, el punto 1 queda para que usted confirme personalmente la condena real conforme a la sección 123.47(3) o una ordenanza local similar. Una condena general relacionada con alcohol no es suficiente." } as const;
