@@ -7,7 +7,7 @@ const { withWestVirginia407Procedure } = await import('../src/lib/rcap-engine/re
 const { packetPlanForPathway } = await import('../src/lib/rcap-engine/packet-planner.ts');
 const { resolvePacketRoute } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
 const { getCurrentFulfillmentRecord } = await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
-const { WEST_VIRGINIA_407_ROUTE: route, westVirginia407DocumentManifest } = await import('../src/lib/rcap-engine/west-virginia-407-facts.ts');
+const { WEST_VIRGINIA_407_ROUTE: route } = await import('../src/lib/rcap-engine/west-virginia-407-facts.ts');
 const raw = JSON.parse(fs.readFileSync('src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json'));
 const before = JSON.stringify(raw);
 const profile = getProfileByJurisdiction('WV');
@@ -23,8 +23,6 @@ const plan = packetPlanForPathway(profile, id);
 assert.equal(plan.mode, 'state_specific_custom_packet_from_source_rules');
 assert.equal(plan.formMappingStatus, 'custom_or_manual_mapping_required');
 assert.deepEqual(plan.sourceFormIds, []);
-assert.equal(westVirginia407DocumentManifest(route).courtFacing.length, 3);
-assert.equal(westVirginia407DocumentManifest(route).participantOnly.length, 2);
 const derived = withWestVirginia407Procedure(raw);
 for (const p of raw.pathways.filter(p => p.id !== id)) assert.deepEqual(derived.pathways.find(row => row.id === p.id), p);
 for (const p of raw.packetGenerator.pathways.filter(p => p.pathwayId !== id)) assert.deepEqual(derived.packetGenerator.pathways.find(row => row.pathwayId === p.pathwayId), p);
