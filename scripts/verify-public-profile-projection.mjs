@@ -57,6 +57,7 @@ const QUESTION = obj(
     helperText: leaf,
     type: leaf,
     required: leaf,
+    multiline: leaf,
     contextOnly: leaf,
     doesNotSelectPathway: leaf,
     lifecyclePhase: leaf,
@@ -343,6 +344,14 @@ assert(
 // ---------------------------------------------------------------------------------------------
 // report
 // ---------------------------------------------------------------------------------------------
+for (const multiline of ["true", { internalNotes: "must not be accepted as a presentation flag" }]) {
+  const prior = failures.length;
+  validateAgainstSchema({ id: "synthetic", stage: "screening", prompt: "Synthetic", type: "text", required: false, multiline }, QUESTION, "NEGATIVE", "$.questions[0]");
+  const rejected = failures.length > prior;
+  failures.splice(prior);
+  assert(rejected, "A multiline presentation flag must reject nonboolean values.");
+}
+
 if (failures.length) {
   console.error("Public state-profile projection verification failed:");
   for (const failure of failures.slice(0, 40)) console.error(`- ${failure}`);
@@ -407,6 +416,9 @@ function validateAgainstSchema(value, schema, code, at) {
 
   for (const [key, child] of Object.entries(value)) {
     count += 1;
+    if (key === "multiline" && typeof child !== "boolean") {
+      failures.push(`${code}: multiline must be a boolean at ${at}.${key}.`);
+    }
     const childSchema = schema.fields[key];
     if (!childSchema) {
       // THE PRIMARY CONTROL.
