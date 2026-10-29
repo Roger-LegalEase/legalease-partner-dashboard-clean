@@ -1,4 +1,4 @@
-import { withResearch115PacketQuestions, constrainResearch115Evaluation } from "@/lib/expungement-ai/research115-intake";
+import { withResearch115PacketQuestions, constrainResearch115Evaluation, research115PacketFactIds } from "@/lib/expungement-ai/research115-intake";
 import { GA_RETROACTIVE_HISTORY_IDS, gaRetroactiveHistoryQuestions } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { VA_PARDON_FOLLOW_UP } from "@/lib/expungement-ai/va-pardon-follow-up-copy";
 import { IL_PROGRAM_COPY, IL_PROGRAM_SOURCE, IL_PROGRAM_FACT_IDS, illinoisProgramFactIds, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
@@ -3780,7 +3780,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
       ...(model.requiredInputIds?.length === 0 ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS, CA_SAFE_AT_HOME_ID].filter(id => Object.hasOwn(answers, id)) : [CA_SAFE_AT_HOME_ID])];
   }
   const facts = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
-  const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...(model.heldFactualCorrectionIds ?? [])];
+  const factual = [...research115PacketFactIds(`${model.stateCode}:${model.pathwayId ?? ""}`, facts, includeInactive), ...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...(model.heldFactualCorrectionIds ?? [])];
   const profile = getProfileByJurisdiction(model.stateCode);
   const financial = model.pathwayId
     && !(model.stateCode === "OR" && Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === model.pathwayId))
@@ -3828,7 +3828,7 @@ export function editablePacketInputIds(model: Pick<ProtectedPacketInformationMod
   const excluded = new Set(collection?.facts.filter((fact) => fact.source === "server_route_fact"
     || ["external_actor", "derived"].includes(fact.collection)
     || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
-  const factualIds = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive)];
+  const factualIds = [...research115PacketFactIds(`${model.stateCode}:${model.pathwayId ?? ""}`, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive), ...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive)];
   const corrections = routeFactualCorrectionIds(model, includeInactive).filter(id => id !== "financial_obligations" && !factualIds.includes(id)
     || !(id in model.serverFacts) && !excluded.has(id) && model.questions.some(question => question.id === id));
   const orProfile = model.stateCode === "OR" ? getProfileByJurisdiction("OR") : null;

@@ -8,6 +8,10 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
   return routeKey === GA_NONCONVICTION_ROUTE ? evaluateResearchLimitedRoute(routeKey, facts, asOf) : null;
 }
 
+export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
+  return routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts, includeInactive).map(q => q.id) : [];
+}
+
 /** Authenticated packet intake only; the research does not add a screening questionnaire. */
 export function research115PacketQuestions(routeKey: string, facts: Readonly<Record<string, unknown>>): ProfileQuestion[] {
   if (routeKey !== GA_NONCONVICTION_ROUTE) return [];
