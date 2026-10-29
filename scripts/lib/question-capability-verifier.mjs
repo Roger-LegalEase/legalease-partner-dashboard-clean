@@ -19,6 +19,9 @@ export async function verifyCurrentQuestionCapabilities() {
   const { questionAnswerState, normalizeQuestionChoices } = await actual('src/lib/expungement-ai/question-answer-state.ts');
   const { blocksContinue } = await actual('src/components/expungement-ai/screening/answers.ts');
   const { QuestionField } = await actual('src/components/expungement-ai/screening/QuestionField.tsx');
+  const { caNyQuestionCapabilityScenarios, caNyQuestionCapabilityWitness, caNyQuestionPrerequisiteWitness } = await import('./ca-ny-question-capability-witnesses.mjs');
+  const scenarios = caNyQuestionCapabilityScenarios();
+  const scoped = new Set(scenarios.map(row => row.state + ':' + row.id));
   const descriptors = new Map(), routes = [], failures = [], mutations = [];
   function collect(state, route, surface, audience, question) {
     const key = digest({ state, question });
@@ -36,12 +39,33 @@ export async function verifyCurrentQuestionCapabilities() {
   }
   function capability(state, q) {
     if (!q.required || q.contextOnly) return 'OPTIONAL_OR_CONTEXT_NONBLOCKING';
+    if (scoped.has(state + ':' + q.id)) {
+      const dependency = caNyQuestionPrerequisiteWitness(state, q);
+      if (dependency) {
+        const scenario = scenarios.find(row => row.state === state && row.id === q.id);
+        const profile = profiles.find(profile => profile.jurisdiction.code === state);
+        const plan = profile && packetPlanForPathway(profile, scenario.routeId);
+        if (!plan) return 'INVALID_REQUIRED_DEPENDENCY';
+        const surface = facts => protectedPacketQuestionSurface(profile, scenario.routeId, { ownership_scope: 'yes' }, plan.requiredInputIds, { jurisdiction: state, pathway_id: scenario.routeId }, {}, facts);
+        const blank = surface({}), active = surface(dependency.activatingFacts);
+        const activated = active.builderQuestions.find(question => question.id === q.id);
+        const keys = ['id', 'type', 'required', 'contextOnly', 'answerContract', 'options', 'optionDisplay', 'contactContext', 'caseRecordReferences', 'futureApplicationReferences', 'prior16058ApplicationKnown', 'awaitingNyCaseRecords'];
+        if (!dependency.prerequisiteIds.length || !dependency.prerequisiteIds.every(id => blank.builderQuestions.some(question => question.id === id))
+          || !activated || !keys.every(key => JSON.stringify(activated[key]) === JSON.stringify(dependency.activatedQuestion[key]))
+          || questionAnswerState(q, dependency.activatedValue) === 'known_valid'
+          || questionAnswerState(activated, dependency.activatedValue) !== 'known_valid'
+          || !blocksContinue(q, undefined) || !missingRequiredInputs([q.id], {}, {}, new Map([[q.id, q]])).includes(q.id)) return 'INVALID_REQUIRED_DEPENDENCY';
+        const html = renderToStaticMarkup(createElement(QuestionField, { question: activated, stateCode: state, value: dependency.activatedValue, onChange() {}, sensitiveInputAllowed: true }));
+        return /<(?:input|textarea|select)\b/.test(html) ? 'CAPABLE_AFTER_PREREQUISITES' : 'UNRENDERABLE_REQUIRED_CONTROL';
+      }
+    }
     if (['single_choice', 'multi_select'].includes(q.type)) {
       // Production normalization refuses the entire malformed/duplicate list, without guessing choices.
       const normalized = normalizeQuestionChoices(q.options);
       if (!normalized.options || !Array.isArray(q.options) || normalized.options.length !== q.options.length || !q.options.every((value, index) => typeof value === 'string' && normalized.options[index] === value)) return 'INVALID_REQUIRED_CHOICES';
     }
-    const witness = candidates(q).find(value => questionAnswerState(q, value) === 'known_valid');
+    const structured = scoped.has(state + ':' + q.id) ? caNyQuestionCapabilityWitness(state, q) : null;
+    const witness = [...(structured === null ? [] : [structured]), ...candidates(q)].find(value => questionAnswerState(q, value) === 'known_valid');
     if (witness === undefined) return 'UNSUPPORTED_REQUIRED_CONTROL';
     const html = renderToStaticMarkup(createElement(QuestionField, { question: q, stateCode: state, value: witness, onChange() {}, sensitiveInputAllowed: true }));
     // Authorized-input prop tests widget capability only, not court authorization or participant access.
@@ -75,7 +99,7 @@ export async function verifyCurrentQuestionCapabilities() {
     }
   }
   const results = [...descriptors.values()].map(row => ({ state: row.state, questionId: row.question.id, type: row.question.type, descriptorSha256: digest(row.question), associations: row.associations, status: capability(row.state, row.question) }));
-  for (const row of results) if (!['CAPABLE', 'OPTIONAL_OR_CONTEXT_NONBLOCKING'].includes(row.status)) failures.push(row);
+  for (const row of results) if (!['CAPABLE', 'CAPABLE_AFTER_PREREQUISITES', 'OPTIONAL_OR_CONTEXT_NONBLOCKING'].includes(row.status)) failures.push(row);
   const mo = [...descriptors.values()].find(r => r.state === 'MO' && r.question.id === 'date_of_birth' && r.question.required && !r.question.contextOnly)?.question;
   const sd = [...descriptors.values()].find(r => r.state === 'SD' && r.question.id === 'sd_sis_record_correction_stage' && r.question.required && !r.question.contextOnly)?.question;
   if (!mo || !sd) failures.push({ failure: 'ACTUAL_MO_SD_MUTATION_SEED_MISSING' });
@@ -89,7 +113,7 @@ export async function verifyCurrentQuestionCapabilities() {
     const q = { ...base, ...changed, required: mode !== 'optional', contextOnly: mode === 'context' }, status = capability(state, q);
     const required = mode === 'required', blocked = blocksContinue(q, undefined);
     const missing = missingRequiredInputs(required ? [q.id] : [], {}, {}, new Map([[q.id, q]]));
-    const pass = required ? status !== 'CAPABLE' && status !== 'OPTIONAL_OR_CONTEXT_NONBLOCKING' && blocked && missing.includes(q.id) : status === 'OPTIONAL_OR_CONTEXT_NONBLOCKING' && !blocked && missing.length === 0;
+    const pass = required ? !['CAPABLE', 'CAPABLE_AFTER_PREREQUISITES', 'OPTIONAL_OR_CONTEXT_NONBLOCKING'].includes(status) && blocked && missing.includes(q.id) : status === 'OPTIONAL_OR_CONTEXT_NONBLOCKING' && !blocked && missing.length === 0;
     mutations.push({ id, mode, status, blocked, missingIds: missing, pass });
     if (!pass) failures.push({ failure: 'CAPABILITY_MUTATION_FAILED', id, mode });
   }

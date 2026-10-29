@@ -52,7 +52,7 @@ export function caNyQuestionPrerequisiteWitness(state, question) {
     : state === 'NY' ? [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CASES_ID, NY_COURT_DIRECTION_CONFIRMATION_ID] : [];
   if (!conditionalIds.includes(question.id)) return null;
   const original = (state === 'CA' ? caProp64ContactQuestions({}) : nyCasePreparationQuestions({})).find(q => q.id === question.id);
-  const controlKeys = ['id','type','required','contextOnly','answerContract','options','optionDisplay','contactContext','caseRecordReferences','futureApplicationReferences','prior16058ApplicationKnown'];
+  const controlKeys = ['id','type','required','contextOnly','answerContract','options','optionDisplay','contactContext','caseRecordReferences','futureApplicationReferences','prior16058ApplicationKnown','awaitingNyCaseRecords'];
   if (!controlKeys.every(key => JSON.stringify(original[key]) === JSON.stringify(question[key]))) return null;
   const row = caNyQuestionCapabilityScenarios().find(r => r.state === state && r.id === question.id);
   return { prerequisiteIds: [...row.prerequisiteIds], activatingFacts: structuredClone(row.facts), activatedQuestion: structuredClone(row.question), activatedValue: structuredClone(row.valid) };
