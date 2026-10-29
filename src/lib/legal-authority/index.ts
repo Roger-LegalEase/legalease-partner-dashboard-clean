@@ -1,3 +1,5 @@
+import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
+
 import {
   NO_PARTICIPANT_FILING_OUTCOMES,
   PACKET_BEARING_OUTCOMES,
@@ -118,6 +120,7 @@ export type RoutePaymentAuthority =
  * actually files something at this stage.
  */
 export function routePaymentAuthority(route: LegalRouteContract): RoutePaymentAuthority {
+  if (research115NoRoute(route.routeKey)) return "closed";
   if (NO_PARTICIPANT_FILING_OUTCOMES.includes(route.outcomeMode)) return "closed";
   if (route.stage === "active_case_admission" || route.stage === "automatic" || route.stage === "enforcement") return "closed";
   if (route.packetFamily === null) return "closed";

@@ -1,3 +1,4 @@
+import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
 import { paymentRouteScopeHeld } from "@/lib/rcap-engine/payment-route-scope";
 import { IL_PROGRAM_ROUTE, IL_PROGRAM_FACT_IDS, IL_PROGRAM_SOURCE, IL_PROGRAM_COPY, illinoisProgramFacts, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, VA_RECORD_ORIGIN_COPY, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
@@ -2570,6 +2571,12 @@ function result(
   reasons: ScreeningReason[],
   overrides: Partial<ScreeningEvaluation> = {}
 ): ScreeningEvaluation {
+  const ordinaryPacketRestriction = resultCode === "hard_stop" ? null : research115NoRoute(`${profile.jurisdiction.code}:${overrides.pathwayId ?? ""}`);
+  if (ordinaryPacketRestriction) {
+    if (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution") resultCode = "guidance_only";
+    reasons = [...reasons, { code: `research115.${ordinaryPacketRestriction.reviewId}.nonpaid_procedure`, text: ordinaryPacketRestriction.guidance.en }];
+    overrides = { ...overrides, paymentAllowed: false };
+  }
   const paymentAllowed = overrides.paymentAllowed === true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
   const caProcedure = isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId) ? caProp64ConcentrateProcedure(request.answers) : null;
   const convictionRequestReason = reasons.find(item => Object.keys(CONVICTION_RELIEF_COPY)
@@ -2580,7 +2587,7 @@ function result(
     profileVersion: profile.profileVersion,
     matterId: request.matterId,
     resultCode,
-    userLabel: labelForResult(resultCode),
+    userLabel: ordinaryPacketRestriction && ["needs_review", "needs_more_info"].includes(resultCode) ? labelForResult("guidance_only") : labelForResult(resultCode),
     reasons,
     missingQuestionIds: overrides.missingQuestionIds ?? [],
     cautions: [...(overrides.cautions ?? []), ...(profile.jurisdiction.code === "NY" && overrides.pathwayId === NY_16059_ROUTE
@@ -2591,11 +2598,11 @@ function result(
       ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : []), ...(caProcedure
       ? [...(reasons.some(r => r.text === CA_PROP64_REASON_COPY[caProcedure.code][0]) ? [] : [CA_PROP64_REASON_COPY[caProcedure.code][0]]),
         ...(caProcedure.pendingAppeal ? [CA_PROP64_REASON_COPY.concentrate_pending_appeal[0]] : [])] : [])],
-    nextSteps: specificNextStep ? [specificNextStep.text] : overrides.missingQuestionIds?.includes("financial_obligations")
+    nextSteps: ordinaryPacketRestriction ? [ordinaryPacketRestriction.guidance.en] : specificNextStep ? [specificNextStep.text] : overrides.missingQuestionIds?.includes("financial_obligations")
       ? [FINANCIAL_CLARIFICATION_TEXT, FINANCIAL_OTHER_QUESTIONS_TEXT] : nextStepsForResult(resultCode),
     paymentAllowed,
     ...(overrides.pathwayId ? { pathwayId: overrides.pathwayId } : {}),
-    ...(overrides.packetPlan ? { packetPlan: overrides.packetPlan } : {})
+    ...(!ordinaryPacketRestriction && overrides.packetPlan ? { packetPlan: overrides.packetPlan } : {})
   };
 }
 

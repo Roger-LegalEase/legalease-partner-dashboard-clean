@@ -1,4 +1,5 @@
 import "server-only";
+import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
 
 /**
  * The single server-authoritative Grade-A fulfillment contract.
@@ -848,6 +849,12 @@ export function admitCommercialAction(input: {
   if (!COMMERCIAL_ADMISSION_POINTS.includes(admissionPoint)) {
     const message = `${String(admissionPoint)} is not a recognised commercial admission point.`;
     return refuse(deny("UNSUPPORTED_ROUTE", request?.routeId ?? "", message), "unknown_admission_point", message);
+  }
+
+  const researchRestriction = research115NoRoute(request?.routeId ?? "");
+  if (researchRestriction) {
+    return refuse(deny("UNSUPPORTED_ROUTE", request.routeId, researchRestriction.guidance.en),
+      "research_no_ordinary_packet", researchRestriction.guidance.en);
   }
 
   const authority = evaluateFulfillmentAuthority(record, observation, request?.routeId ?? "");

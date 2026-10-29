@@ -1,3 +1,4 @@
+import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
 import "server-only";
 
 import { createHash } from "node:crypto";
@@ -117,6 +118,7 @@ function factText(value: unknown): string {
  */
 export function renderPreflight(input: RenderPreflightInput): RenderPreflightOutcome {
   const routeKey = renderPreflightRouteKey(input.snapshot);
+  if (research115NoRoute(routeKey)) return { ready: false, reason: "research_no_ordinary_packet", missingFactIds: [] };
   if (!input.snapshot.pathwayId) {
     return { ready: false, reason: "no_pathway_bound", missingFactIds: [] };
   }

@@ -1,3 +1,4 @@
+import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
 // The single authority on what a packet route may do.
 //
 // Every generation, download, payment and Briefcase consumer resolves through
@@ -517,6 +518,8 @@ export function resolveClaimedPacketRenderRoute(input: PacketRouteInput): Packet
 function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolution {
   const jurisdiction = normalizeJurisdictionCode(String(input.state ?? "")).toUpperCase();
   const pathwayId = String(input.pathway ?? "").trim();
+  const restriction = research115NoRoute(`${jurisdiction}:${pathwayId}`);
+  if (restriction) return { ...DISABLED, routeKind: "guidance_only", jurisdiction, pathwayId, reason: restriction.guidance.en };
 
   if (!jurisdiction) {
     return { ...DISABLED, jurisdiction: "", pathwayId, reason: "No jurisdiction was supplied; a packet route cannot be resolved." };
