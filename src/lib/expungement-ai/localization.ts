@@ -1,3 +1,4 @@
+import { GA_NONCONVICTION_REASON_COPY } from "@/lib/rcap-engine/georgia-nonconviction-research";
 import { IL_PROGRAM_COPY } from "@/lib/rcap-engine/illinois-program-facts";
 import { VA_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/virginia-record-origin";
 import { NY_16059_REASON_COPY, NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID, NY_16059_QUESTIONS } from "@/lib/rcap-engine/new-york-16059-questions";
@@ -1255,6 +1256,8 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined>; msTimingContext?: MsTimingDisplayContext | null }): string {
+  const gaAgencyCopy = locale === "es" ? GA_NONCONVICTION_REASON_COPY.find(([en]) => en === text) : undefined;
+  if (gaAgencyCopy) return gaAgencyCopy[1];
   const nyDateTranslation = locale === "es" ? ny16059ClockDisplayTranslation(text) : undefined;
   if (nyDateTranslation) return nyDateTranslation;
   const nyQuestions = NY_16059_QUESTIONS.filter(q => [NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID].includes(q.id));

@@ -61,6 +61,65 @@ export function evaluateGeorgiaNonconviction(facts:Facts,asOf:Date|string):Resea
   const unknown=evaluated.missing.filter(m=>m.fieldId!=='participant.ssn'&&m.fieldId!=='officialDispositionAttachment');
   if(unknown.length)return result('unknown','Material applicant fields remain unresolved.',unknown.map(m=>'ga_nc_'+m.fieldId.split('.').at(-1)));
   return result('qualifying','The exact pre2013 agency application is supported: only applicant SectionOne is prepared. Participant privately completes SSN/signature; actual agency/prosecutor execution and any external disposition remain necessary. No court petition or approval is invented.',[],[FORM,'participant_instructions',...(evaluated.attachmentGuidance?['disposition_acquisition_guidance']:[])],['actual_Georgia_or_FBI_history',...(evaluated.attachmentGuidance?['actual_official_disposition']:[])]);
- }catch(error){const message=error instanceof Error?error.message:String(error);if(message.includes('ACQUITTAL_TEN_DAY_WINDOW'))return {...result('not_yet','The prosecutor has ten days after the acquittal verdict; do not prepare an ordinary application before that window ends.'),eligibleOn:message.match(/\d{4}-\d{2}-\d{2}/)?.[0]};if(message.includes('official disposition unavailable'))return result('attorney_review','Only the prosecutor may request the official-document exception; LegalEase cannot invent it.');return result('unknown','The source-native application rules refused the supplied facts: '+message);}
+ }catch(error){const message=error instanceof Error?error.message:String(error);if(message.includes('ACQUITTAL_TEN_DAY_WINDOW'))return {...result('not_yet','The prosecutor has ten days after the acquittal verdict; do not prepare an ordinary application before that window ends.'),eligibleOn:message.match(/\d{4}-\d{2}-\d{2}/)?.[0]};if(message.includes('official disposition unavailable'))return result('attorney_review','Only the prosecutor may request the official-document exception; LegalEase cannot invent it.');return result('unknown','Review the arrest, disposition and applicant facts against the actual records; these answers do not satisfy the initial agency application requirements.');}
 }
 export const GA_PRE2013_REQUIRED_FORM_FACTS=FIELDS.map(f=>f.factId);
+
+export const GA_NONCONVICTION_REASON_COPY = [
+  [
+    "The actual one-arrest date is needed to select the proper agency or prosecutor process.",
+    "Se necesita la fecha real del arresto específico para elegir el procedimiento correcto ante la agencia o la fiscalía."
+  ],
+  [
+    "The actual history already shows restriction. Do not purchase a duplicate application. Court sealing and jail records are separate procedures.",
+    "El historial real ya muestra la restricción. No compre una solicitud duplicada. El sellado judicial y los registros de la cárcel son procedimientos distintos."
+  ],
+  [
+    "For arrests on or after July1,2013 there is no statewide applicant form. Contact the prosecutor for the county of arrest and verify actual history. No later local application product has been verified by this implementation.",
+    "Para los arrestos del 1 de julio de 2013 o posteriores no existe un formulario estatal para el solicitante. Contacte a la fiscalía del condado del arresto y compruebe el historial real. Esta implementación no ha verificado un producto de solicitud local para esos arrestos."
+  ],
+  [
+    "Complete the actual arrest, disposition and participant facts; a missing exclusion answer never means NO.",
+    "Complete los datos reales del arresto, la disposición y el participante; la falta de respuesta sobre una exclusión nunca significa NO."
+  ],
+  [
+    "This exact pre2013 initial application does not cover the supplied disposition or an arrest absent from both Georgia and FBI history.",
+    "Esta solicitud inicial específica para arrestos anteriores a 2013 no cubre la disposición indicada ni un arresto ausente de los historiales de Georgia y del FBI."
+  ],
+  [
+    "The supplied same-incident plea or statutory exclusion prevents this nonconviction application.",
+    "La declaración de culpabilidad por el mismo incidente o la exclusión legal indicada impide esta solicitud por un caso sin condena."
+  ],
+  [
+    "This is an advice, denial or civil-action branch outside the initial agency request; preserve the actual record for counsel.",
+    "Esta rama de asesoramiento, denegación o acción civil queda fuera de la solicitud inicial a la agencia; conserve el expediente real para consultar con un abogado."
+  ],
+  [
+    "Actual program completion is required for this selected program disposition.",
+    "La disposición de programa seleccionada exige haber completado realmente ese programa."
+  ],
+  [
+    "A future disposition is not an actual completed outcome.",
+    "Una disposición con fecha futura no constituye un resultado realmente completado."
+  ],
+  [
+    "Material applicant fields remain unresolved.",
+    "Quedan datos materiales del solicitante sin resolver."
+  ],
+  [
+    "The exact pre2013 agency application is supported: only applicant SectionOne is prepared. Participant privately completes SSN/signature; actual agency/prosecutor execution and any external disposition remain necessary. No court petition or approval is invented.",
+    "Se admite esta solicitud específica a la agencia para arrestos anteriores a 2013: solo se prepara la Sección Uno del solicitante. El participante completa en privado su número de Seguro Social y firma; siguen siendo necesarias la ejecución real de la agencia o fiscalía y cualquier disposición externa. No se inventa una petición judicial ni una aprobación."
+  ],
+  [
+    "The prosecutor has ten days after the acquittal verdict; do not prepare an ordinary application before that window ends.",
+    "La fiscalía dispone de diez días después del veredicto absolutorio; no prepare una solicitud ordinaria antes de que termine ese plazo."
+  ],
+  [
+    "Only the prosecutor may request the official-document exception; LegalEase cannot invent it.",
+    "Solo la fiscalía puede solicitar la excepción relativa al documento oficial; LegalEase no puede inventarla."
+  ],
+  [
+    "Review the arrest, disposition and applicant facts against the actual records; these answers do not satisfy the initial agency application requirements.",
+    "Compare los datos del arresto, la disposición y el solicitante con los expedientes reales; estas respuestas no cumplen los requisitos de la solicitud inicial a la agencia."
+  ]
+] as const;
