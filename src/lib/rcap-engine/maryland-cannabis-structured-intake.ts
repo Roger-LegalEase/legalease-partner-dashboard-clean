@@ -16,21 +16,21 @@ const PROPERTY=[['realEstate','real estate other than your principal home','bien
 const DEBTS=[['creditCard','credit-card debt','deudas de tarjetas de crédito'],['carLoan','car loans','préstamos de vehículos'],['other','other debts','otras deudas']] as const;
 const amountQuestion=(id:string,en:string,es:string)=>entry(id,`What is the dollar amount of ${en}? Enter 0 only if none; leave unknown if you do not know.`,`¿Cuál es el importe en dólares de ${es}? Escriba 0 solo si no hay; déjelo desconocido si no lo sabe.`);
 
-export function marylandCannabisStructuredQuestions(facts:Facts): Question[]{
+export function marylandCannabisStructuredQuestions(facts:Facts,includeInactive=false): Question[]{
  const q:Question[]=[];
- if(bool(facts.md_cannabis_only_charge)===false){
+ if(includeInactive||bool(facts.md_cannabis_only_charge)===false){
   q.push(entry("md_cannabis_additional_charge_count","How many other charges arose from this same incident? Count every charge, including charges that you are not asking to expunge. Enter a whole number from1to25.","¿Cuántos otros cargos surgieron de este mismo incidente? Cuente todos los cargos, incluidos los que no solicita eliminar. Escriba un número entero de1a25."));
-  const n=count(facts.md_cannabis_additional_charge_count);
+  const n=includeInactive?25:count(facts.md_cannabis_additional_charge_count);
   if(n&&n>0)for(let i=1;i<=n;i++){
    const p=`md_cannabis_other_${i}_`;
    q.push(entry(p+"id",`What is the recorded charge number for other charge${i}?`,`¿Cuál es el número registrado del otro cargo${i}?`),entry(p+"description",`Describe other charge${i} as recorded.`,`Describa el otro cargo${i} tal como figura en el expediente.`),entry(p+"statute",`What exact statute is recorded for other charge${i}?`,`¿Qué disposición legal exacta figura para el otro cargo${i}?`),entry(p+"disposition",`What is the actual recorded disposition of other charge${i}?`,`¿Cuál es el resultado real registrado del otro cargo${i}?`),yes(p+"minor_traffic",`Is other charge${i} a minor traffic offense? Do not infer this from a short title.`,`¿Es el otro cargo${i} una infracción menor de tránsito? No lo deduzca de un título abreviado.`),yes(p+"cannabis",`Does other charge${i} involve cannabis?`,`¿El otro cargo${i} involucra cannabis?`));
   }
  }
- if(text(facts.md_cannabis_fee_choice)==="waiver"){
+ if(includeInactive||text(facts.md_cannabis_fee_choice)==="waiver"){
   q.push(entry("md_cannabis_fin_household","How many family members are in your household, including you? Do not include renters or temporary guests.","¿Cuántos familiares hay en su hogar, incluyéndose usted? No incluya inquilinos ni huéspedes temporales."),choice("md_cannabis_fin_period",["week","month","year"],["Per week","Per month","Per year"],["Por semana","Por mes","Por año"],"Which single period applies to every income amount below?","¿Qué período único corresponde a todos los importes de ingresos que siguen?"),amountQuestion("md_cannabis_fin_total","total household income before taxes for that period","ingresos totales del hogar antes de impuestos para ese período"));
   for(const [key,en,es]of INCOME)q.push(amountQuestion("md_cannabis_fin_income_"+key,en+" for that same period",es+" para ese mismo período"));
-  for(const [key,en,es]of PROPERTY){const id="md_cannabis_fin_property_"+key;q.push(amountQuestion(id,en,es));if(key==="other"&&(cents(facts[id])??0)>0)q.push(entry(id+"_description","Describe the actual other property.","Describa los otros bienes reales."));}
-  for(const [key,en,es]of DEBTS){const id="md_cannabis_fin_debt_"+key;q.push(amountQuestion(id,en,es));if((cents(facts[id])??0)>0)q.push(amountQuestion(id+"_monthly","monthly payments on "+en,"pagos mensuales de "+es),entry(id+"_description",`Identify the actual creditor or describe the ${en}.`,`Identifique al acreedor real o describa ${es}.`));}
+  for(const [key,en,es]of PROPERTY){const id="md_cannabis_fin_property_"+key;q.push(amountQuestion(id,en,es));if(key==="other"&&(includeInactive||(cents(facts[id])??0)>0))q.push(entry(id+"_description","Describe the actual other property.","Describa los otros bienes reales."));}
+  for(const [key,en,es]of DEBTS){const id="md_cannabis_fin_debt_"+key;q.push(amountQuestion(id,en,es));if(includeInactive||(cents(facts[id])??0)>0)q.push(amountQuestion(id+"_monthly","monthly payments on "+en,"pagos mensuales de "+es),entry(id+"_description",`Identify the actual creditor or describe the ${en}.`,`Identifique al acreedor real o describa ${es}.`));}
   q.push(yes("md_cannabis_fin_income_complete","Have you listed all household income and excluded SNAP/food stamps?","¿Ha incluido todos los ingresos del hogar y excluido SNAP/cupones de alimentos?"),yes("md_cannabis_fin_property_complete","Have you listed all required property and excluded your principal home, one vehicle and ordinary personal items?","¿Ha incluido todos los bienes requeridos y excluido su vivienda principal, un vehículo y los artículos personales comunes?"),yes("md_cannabis_fin_debts_complete","Have you listed every actual debt requested by this form?","¿Ha incluido todas las deudas reales que solicita este formulario?"));
  }
  return q;

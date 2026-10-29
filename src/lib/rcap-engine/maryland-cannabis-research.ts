@@ -1,4 +1,4 @@
-import {adaptMarylandCannabisStructuredFacts} from "@/lib/rcap-engine/maryland-cannabis-structured-intake";
+import {adaptMarylandCannabisStructuredFacts,marylandCannabisStructuredQuestions} from "@/lib/rcap-engine/maryland-cannabis-structured-intake";
 import { validateMdCannabis } from "./maryland-cannabis-rules.mjs";
 
 export type MarylandCannabisResult = {
@@ -56,6 +56,30 @@ type Facts = Readonly<Record<string, unknown>>;
 function value(x: unknown): unknown { if(x && typeof x === "object" && !Array.isArray(x) && (x as {unknown?: unknown}).unknown===true)return undefined; return x && typeof x === "object" && !Array.isArray(x) && "value" in x ? (x as {value: unknown}).value : x; }
 function text(x: unknown) { const v=value(x); return typeof v === "string" ? v.trim() : ""; }
 function bool(x: unknown): boolean | undefined { const v=value(x),answer=text(x).toLowerCase(); if(v===true||answer==="yes"||answer==="true")return true;if(v===false||answer==="no"||answer==="false")return false;return undefined; }
+
+/** The existing Maryland branch conditions, isolated from the multi-route adapter. */
+function questionApplies(id: string, facts: Facts): boolean {
+  const basis=text(facts.md_cannabis_basis);
+  if(id==="md_cannabis_conduct_no_longer_crime")return basis==="no_longer_crime";
+  if(["md_cannabis_sentence_complete","md_cannabis_completion_date"].includes(id))return basis==="possession"||basis==="pwid";
+  if(id==="md_cannabis_new_conviction_during_wait")return basis==="pwid";
+  if(id==="md_cannabis_new_conviction_now_eligible")return basis==="pwid"&&bool(facts.md_cannabis_new_conviction_during_wait)===true;
+  if(id==="md_cannabis_restitution_inability_asserted")return text(facts.md_cannabis_restitution_status)==="unable_to_pay";
+  if(id==="md_cannabis_restitution_documentation")return ["paid","unable_to_pay"].includes(text(facts.md_cannabis_restitution_status));
+  if(["md_cannabis_prepaid_waiver_requested","md_cannabis_unable_to_prepay","md_cannabis_final_costs_requested","md_cannabis_restricted_case_type"].includes(id))return text(facts.md_cannabis_fee_choice)==="waiver";
+  if(id==="md_cannabis_no_material_change")return text(facts.md_cannabis_fee_choice)==="waiver"&&bool(facts.md_cannabis_final_costs_requested)===true;
+  if(id==="md_cannabis_appellate_court_confirmed")return bool(facts.md_cannabis_case_appealed)===true;
+  return true;
+}
+
+/** Active questions collect facts; includeInactive declares only the bounded retention vocabulary. */
+export function marylandCannabisQuestions(facts: Facts, includeInactive=false) {
+  return [...MD_CANNABIS_QUESTIONS.filter(q=>includeInactive||questionApplies(q.id,facts)),
+    ...marylandCannabisStructuredQuestions(facts,includeInactive)];
+}
+export function marylandCannabisFactIds(facts: Facts, includeInactive=false): string[] {
+  return marylandCannabisQuestions(facts,includeInactive).map(q=>q.id);
+}
 
 /** Adapt protected matter facts to the already-adopted 072D predicate, rather than maintain another legal engine. */
 export function evaluateMarylandCannabis(answers: Facts, asOf: Date | string): MarylandCannabisResult {
