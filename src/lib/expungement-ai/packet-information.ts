@@ -1,3 +1,4 @@
+import { withResearch115PacketQuestions, constrainResearch115Evaluation } from "@/lib/expungement-ai/research115-intake";
 import { GA_RETROACTIVE_HISTORY_IDS, gaRetroactiveHistoryQuestions } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { VA_PARDON_FOLLOW_UP } from "@/lib/expungement-ai/va-pardon-follow-up-copy";
 import { IL_PROGRAM_COPY, IL_PROGRAM_SOURCE, IL_PROGRAM_FACT_IDS, illinoisProgramFactIds, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
@@ -556,7 +557,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     systemContextKeys: verificationContext.map((entry) => entry.key)
   };
 
-  return {
+  return withResearch115PacketQuestions({
     stateCode: profile.jurisdiction.code,
     stateName: profile.jurisdiction.name,
     pathwayId,
@@ -580,7 +581,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     stage: packetInformationStage(progress.stage),
     updatedAt: typeof progress.updatedAt === "string" ? progress.updatedAt : null,
     reviewedAt: typeof progress.reviewedAt === "string" ? progress.reviewedAt : null
-  };
+  });
 }
 
 export function reviewedPacketInputHash(item: ConsumerBriefcaseItem) {
@@ -3310,7 +3311,7 @@ export function protectedPacketInformationModelFor(
   const gaPreparation = snapshot.jurisdiction === "GA" && snapshot.pathwayId === GA_PARDON_ROUTE
     && canonicalEqual(snapshot.serverFacts, canonicalServerFacts("GA", GA_PARDON_ROUTE))
     ? georgiaPardonPreparationFactIds(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), today: new Date().toISOString().slice(0, 10) }) : null;
-  return {
+  return withResearch115PacketQuestions({
     resultCode: msFactualHistory ? "needs_review" : snapshot.resultCode,
     ...(msFactualHistory ? { msFactualHistoryHeld: true as const } : {}),
     ...(vaPardonChecklist ? { vaPardonTypeHeldContext: {
@@ -3358,7 +3359,7 @@ export function protectedPacketInformationModelFor(
     verificationManifest,
     reviewSafety,
     expectedComponents: msFactualHistory ? [] : expectedPacketComponents(packetPlan)
-  };
+  });
 }
 
 type ProtectedPacketAuthoritySnapshot = PacketVerificationSnapshot | ProtectedPacketDraftSnapshot;
@@ -4662,22 +4663,22 @@ export function evaluateProtectedPacketFacts(snapshot: ProtectedPacketAuthorityS
   const msSource = msRoute && profile ? projectMsFirstOffenderSourceFacts(profile, snapshot.pathwayId, msRaw, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`)) : undefined;
   if (msRoute && !msSource) return null;
   try {
-    return evaluate({
+    return constrainResearch115Evaluation(evaluate({
       jurisdiction: snapshot.jurisdiction,
       profileVersion: snapshot.profileVersion,
       matterId,
       answers
-    }, msSource ?? undefined);
+    }, msSource ?? undefined), `${snapshot.jurisdiction}:${snapshot.pathwayId ?? ""}`, { ...raw, ...snapshot.serverFacts }, new Date().toISOString().slice(0, 10));
   } catch (error) {
     if (!(error instanceof InvalidAnswerError)) return null;
     for (const id of error.invalidQuestionIds) delete answers[id];
     try {
-      return evaluate({
+      return constrainResearch115Evaluation(evaluate({
         jurisdiction: snapshot.jurisdiction,
         profileVersion: snapshot.profileVersion,
         matterId,
         answers
-      }, msSource ?? undefined);
+      }, msSource ?? undefined), `${snapshot.jurisdiction}:${snapshot.pathwayId ?? ""}`, { ...raw, ...snapshot.serverFacts }, new Date().toISOString().slice(0, 10));
     } catch {
       return null;
     }
