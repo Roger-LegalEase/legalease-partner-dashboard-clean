@@ -3,6 +3,7 @@ import Module from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
+import { execFileSync } from "node:child_process";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
@@ -155,7 +156,10 @@ function testImpactReportCountsActualRelief() {
   const data = fs.readFileSync(finalReportDataPath, "utf8");
   const narrative = fs.readFileSync(finalReportNarrativePath, "utf8");
 
-  assert(route.includes("await buildPartnerFinalImpactReportData(parsed.data)"), "Final impact report route must delegate live data loading to report data module.");
+  // The adopted containment change keeps the live loader for analysis but
+  // refuses incomplete exports; never require restoring its unsafe endpoint.
+  assert(route.includes('return unavailablePartnerReport(request, "final")'), "Final impact export must retain the authenticated, tenant-scoped unavailable gate.");
+  execFileSync(process.execPath, ["scripts/test-rcap-hotfix-containment.mjs"], { cwd: rootDir, stdio: "inherit" });
   assert(data.includes("actualReliefDelivered: number"), "Final impact report metrics must expose actual relief delivered.");
   assert(data.includes("actualReliefDeliveredPeople"), "Final impact report data must derive actual relief from person outcomes.");
   assert(data.includes("Actual relief delivered"), "Final impact report tables must label actual relief delivered separately from outcomes available.");

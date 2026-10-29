@@ -15,6 +15,7 @@ import { register } from "node:module";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { PDFDocument } from "pdf-lib";
@@ -37,6 +38,7 @@ const fixture = JSON.parse(readFileSync(path.join(process.cwd(), FIXTURE_PATH), 
 const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 const { composeGradeAPacket, GradeAPacketCompositionError } =
   await import("../src/lib/rcap/grade-a/composer.ts");
+const { composeParticipantDeliveryPacket } = await import("../src/lib/rcap/grade-a/participant-packet.ts");
 const { renderGradeAPacketPdf, gradeAPacketFilename, GRADE_A_RENDERER_KIND, GRADE_A_RENDERER_VERSION, GRADE_A_CONTENT_TYPE } =
   await import("../src/lib/rcap/grade-a/renderer.ts");
 
@@ -74,12 +76,15 @@ const matter = {
   routeKey: fixture.routeKey,
   jurisdiction: fixture.jurisdiction,
   pathwayId: fixture.pathwayId,
-  facts: fixture.facts,
+  // This legacy fixture predates the native identity contract. Keep its bytes
+  // unchanged and disclose the test-local synthetic DOB; contacts stay blank.
+  facts: { ...fixture.facts, date_of_birth: "1990-02-03" },
+  generationPurpose: "participant_delivery",
   verificationHash: fixture.verificationHash,
   verifiedAt: fixture.verifiedAt
 };
 
-const packet = composeGradeAPacket(specification, matter);
+const packet = composeParticipantDeliveryPacket(specification, matter);
 ok("the packet composes", packet.documents.length > 0, `${packet.documents.length} document(s)`);
 ok("the packet carries the specification identity",
   packet.specificationId === specification.specificationId
@@ -91,6 +96,9 @@ ok("the packet is bound to the matter's verification", packet.verificationHash =
 // which several checklist items do.
 const strings = packet.documents.flatMap((document) => document.blocks.flatMap((block) => {
   switch (block.kind) {
+    case "pleading_caption": return [block.court, block.matterTitle, block.caseNumberLabel, block.caseNumber, block.title, block.defendant];
+    case "pleading_paragraph": return [block.text];
+    case "pleading_identity_list": return [block.introduction, ...block.items.flatMap(item => [item.label, item.value])];
     case "heading": return [block.text];
     case "paragraph": return [block.text];
     case "labelled": return [block.label, block.value];
@@ -104,33 +112,38 @@ const strings = packet.documents.flatMap((document) => document.blocks.flatMap((
 const corpus = strings.join("\n");
 const includes = (needle) => corpus.includes(needle);
 
-// The twelve things a Grade-A packet has to carry, each proven by the content
-// that satisfies it rather than by a component name.
-const REQUIRED_ELEMENTS = [
-  ["cover and contents", () => packet.documents.some((d) => d.role === "cover_and_contents"
-    && d.blocks.some((b) => b.kind === "numbered" && b.items.length === packet.documents.length))],
-  ["the filing itself", () => packet.documents.some((d) => d.role === "primary_filing")],
-  ["a proposed order", () => packet.documents.some((d) => d.role === "proposed_order")],
-  ["attachments", () => includes("Criminal judgment") && includes("Charging document showing the quantity")],
-  ["a filing destination", () => includes(specification.filingDestination.statement)],
-  ["fee or waiver instructions", () => includes(specification.feeAndWaiver.statement)
-    && includes(specification.feeAndWaiver.waiverStatement)],
-  ["service or notice treatment", () => includes(specification.serviceAndNotice.statement)],
-  ["copy requirements", () => includes(specification.copyRequirements.originalPlusCopies)],
-  ["a post-filing timeline", () => specification.postFilingTimeline.every((entry) => includes(entry.step))],
-  ["hearing and objection stops", () => specification.hearingAndObjectionStops.every((stop) => includes(stop.situation))],
-  ["a participant checklist", () => specification.participantChecklist.every((item) => includes(item.text))],
-  ["a signature block for the participant", () => packet.documents.some((d) => d.role === "primary_filing"
-    && d.blocks.some((b) => b.kind === "signature" && b.lines.includes("Signature")))]
+// The current native contract has four retained components, not the retired
+// generic cover/checklist package. Reuse its independent source/body hash and
+// court-only render controls rather than inventing documents to fit old prose.
+execFileSync(process.execPath, ["scripts/test-nd-first-offense-participant-family.mjs"], { stdio: "inherit" });
+const expectedComponents = [
+  "nd-marijuana-first-offense-seal-primary-filing-1",
+  "nd-marijuana-first-offense-seal-proposed-order-2",
+  "nd-marijuana-first-offense-seal-legal-effect-explanation-3",
+  "nd-marijuana-first-offense-seal-filing-instructions-4"
 ];
-for (const [label, holds] of REQUIRED_ELEMENTS) ok(`the packet carries ${label}`, holds());
-
-// A judicial block that arrives pre-filled is a fabricated judicial act.
-const courtSignature = packet.documents
-  .find((d) => d.role === "proposed_order")?.blocks
-  .find((b) => b.kind === "signature" && b.lines.includes("Judge"));
-ok("the proposed order carries a court signature block", Boolean(courtSignature));
-ok("the court signature block is left blank", courtSignature?.label === "", JSON.stringify(courtSignature?.label));
+ok("exact four source components appear in order", JSON.stringify(packet.documents.map(d => d.documentId)) === JSON.stringify(expectedComponents));
+for (const role of ["primary_filing", "proposed_order", "legal_effect_explanation", "filing_instructions"]) {
+  ok(`the source component role ${role} is present`, packet.documents.some(d => d.role === role));
+}
+for (const document of packet.documents.filter(d => d.courtFacing)) {
+  ok(`${document.role} has its actual native court caption`, document.blocks.some(b => b.kind === "pleading_caption"));
+}
+const petition = packet.documents.find(d => d.role === "primary_filing");
+const order = packet.documents.find(d => d.role === "proposed_order");
+ok("ten record questions remain handbacks with two genuine blank answer lines", petition.blocks.filter(b => b.kind === "pleading_identity_list").length === 10
+  && petition.blocks.filter(b => b.kind === "pleading_identity_list").every(b => b.items.length === 2 && b.items.every(item => item.label === ".".repeat(84) && item.value === "")));
+ok("participant signature and date stay blank", includes("DATE ..............................   SIGNATURE OF PETITIONER ...................................."));
+ok("court decision and signature stay blank", order.blocks.some(b => b.kind === "pleading_paragraph" && b.text === "ORDERS that ........................................................")
+  && order.blocks.some(b => b.kind === "pleading_paragraph" && b.text === "DATED ..............................")
+  && order.blocks.some(b => b.kind === "pleading_paragraph" && b.text === ".".repeat(50)));
+ok("source filing destination is present", includes("Clerk of Court of the court holding the criminal case"));
+ok("source fee and waiver treatment is present", includes("Fee as recorded: none identified.") && includes("Fee waiver as recorded: not applicable; no fee is identified."));
+ok("source no-service and no-hearing treatment is present", includes("The subsection states no service requirement and no hearing requirement."));
+ok("source irreversible effect and self-help stops are present", includes("once sealed the court record may not be opened even by order of the court")
+  && includes("Any uncertainty whether this was a first offence.") && includes("A subsequent controlled-substance conviction."));
+ok("generic court, case and aggregate contacts are not substituted into native blanks", !includes(fixture.facts.court) && !includes(fixture.facts.case_number) && !includes(fixture.facts.contact_information));
+ok("old fixture bytes are supplemented only with a disclosed synthetic birth date", matter.facts.date_of_birth === "1990-02-03" && !Object.hasOwn(fixture.facts, "date_of_birth"));
 
 // The specification forbids importing chapter 12-60.1's requirements. The packet
 // may EXPLAIN that they do not apply; it may not state them as this route's own.
@@ -159,39 +172,31 @@ function refusal(run) {
   try { run(); return null; } catch (error) { return error; }
 }
 
-// 1. Each required fact, removed one at a time.
-const usedFacts = new Set();
-for (const document of specification.documents) {
-  for (const section of document.sections) {
-    for (const field of section.fields ?? []) usedFacts.add(field);
-    for (const assertion of section.assertions ?? []) for (const f of assertion.facts) usedFacts.add(f);
+// Native identity is required for generation. The ten case-record questions
+// remain manual before-filing tasks, never facts manufactured by the renderer.
+for (const factId of ["participant_full_legal_name", "date_of_birth"]) {
+  for (const value of [undefined, "   ", { unknown: true, value: matter.facts[factId] }]) {
+    const facts = { ...matter.facts };
+    if (value === undefined) delete facts[factId]; else facts[factId] = value;
+    const error = refusal(() => composeParticipantDeliveryPacket(specification, { ...matter, facts }));
+    ok(`absent/blank/unknown ${factId} refuses native composition`, error instanceof GradeAPacketCompositionError);
+    ok(`native refusal names ${factId}`, error?.missingFactIds?.includes(factId));
   }
 }
-let proven = 0;
-for (const factId of [...usedFacts].sort()) {
-  const without = { ...matter, facts: { ...matter.facts } };
-  delete without.facts[factId];
-  const error = refusal(() => composeGradeAPacket(specification, without));
-  ok(`removing ${factId} refuses composition`, error instanceof GradeAPacketCompositionError, String(error));
-  ok(`the refusal for ${factId} names it`, error?.missingFactIds?.includes(factId), JSON.stringify(error?.missingFactIds));
-  proven += 1;
+for (const value of ["1990-02-30", "not a date", "2990-01-01"]) {
+  ok(`invalid birth date ${value} refuses native composition`, refusal(() => composeParticipantDeliveryPacket(specification,
+    { ...matter, facts: { ...matter.facts, date_of_birth: value } })) instanceof GradeAPacketCompositionError);
 }
-ok("at least one fact was mutated", proven > 0);
-
-// 2. A blank value is not a present value.
-const blanked = { ...matter, facts: { ...matter.facts, case_number: "   " } };
-ok("a whitespace-only fact refuses composition",
-  refusal(() => composeGradeAPacket(specification, blanked)) instanceof GradeAPacketCompositionError);
 
 // 3. Another route's matter.
 const wrongRoute = { ...matter, routeKey: "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c" };
 ok("a matter from another route refuses composition",
-  refusal(() => composeGradeAPacket(specification, wrongRoute)) instanceof GradeAPacketCompositionError);
+  refusal(() => composeParticipantDeliveryPacket(specification, wrongRoute)) instanceof GradeAPacketCompositionError);
 
 // 4. An unbound matter.
 const unbound = { ...matter, verificationHash: "" };
 ok("a matter with no verification binding refuses composition",
-  refusal(() => composeGradeAPacket(specification, unbound)) instanceof GradeAPacketCompositionError);
+  refusal(() => composeParticipantDeliveryPacket(specification, unbound)) instanceof GradeAPacketCompositionError);
 
 // 5. A section kind the composer does not implement is refused, not dropped.
 const unknownKind = {
@@ -381,7 +386,7 @@ if (proofComplete) {
 // Determinism is what makes repeat download work without a blob store, and it
 // is what makes the artifact hash mean anything: the same specification and the
 // same verified facts must produce the same bytes every time.
-const second = await renderGradeAPacketPdf(composeGradeAPacket(specification, matter));
+const second = await renderGradeAPacketPdf(composeParticipantDeliveryPacket(specification, matter));
 ok("rendering twice produces identical bytes", bytes.equals(second), `${bytes.length} vs ${second.length}`);
 const artifactSha256 = createHash("sha256").update(bytes).digest("hex");
 
@@ -426,7 +431,7 @@ ok("generation is idempotent on an existing ready artifact",
 
 // ------------------------------------------------------------------- report
 console.log(`Grade-A first packet — ${ROUTE_KEY}`);
-console.log(`  specification ${specification.specificationId} v${specification.specificationVersion} sha256 ${specSha256}`);
+console.log(`  fixture ${FIXTURE_PATH}; test-local synthetic DOB 1990-02-03; optional contacts blank\n  specification ${specification.specificationId} v${specification.specificationVersion} sha256 ${specSha256}`);
 console.log(`  ${packet.documents.length} documents, ${parsed.getPageCount()} pages, ${bytes.length} bytes, ${GRADE_A_CONTENT_TYPE}`);
 console.log(`  renderer ${GRADE_A_RENDERER_KIND} v${GRADE_A_RENDERER_VERSION}`);
 console.log(`  artifact sha256 ${artifactSha256}`);

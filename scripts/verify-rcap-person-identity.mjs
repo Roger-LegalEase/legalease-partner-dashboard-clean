@@ -130,7 +130,7 @@ function testWritePathsAndReportUsePersonCounts() {
   assert(packets.includes("resolvePacketPersonId"), "Packet persistence must resolve person_id.");
   assert(packets.includes("person_id: packet.personId ?? null"), "Packet rows must persist person_id.");
   assert(packets.includes("getRcapPersonOutcomeSummary"), "Packet summary must expose distinct person outcome counts.");
-  assert(finalRoute.includes("await buildPartnerFinalImpactReportData(parsed.data)"), "Final report route must delegate live person-count loading to the report data module.");
+  assert(finalRoute.includes('return unavailablePartnerReport(request, "final")'), "Final report must retain authenticated, tenant-scoped export containment while the person-count loader remains available separately.");
   assert(finalData.includes("distinctPeopleHelped: number"), "Final report data must expose distinct people helped.");
   assert(finalData.includes("actualReliefDeliveredPeople"), "Final report must use people count for actual relief delivered.");
 }

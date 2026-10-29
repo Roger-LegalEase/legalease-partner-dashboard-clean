@@ -109,7 +109,7 @@ function testStaticWiring() {
   const route = fs.readFileSync(routePath, "utf8");
   const reportData = fs.readFileSync(reportDataPath, "utf8");
 
-  assert(route.includes("await buildPartnerFinalImpactReportData(parsed.data)"), "Route must delegate data loading to the report data module.");
+  assert(route.includes('return unavailablePartnerReport(request, "final")'), "Route must retain authenticated, tenant-scoped export containment; local loader tests do not authorize report distribution.");
   assert(!route.includes("getPartnerDocumentActivitySummary"), "Route must not stitch static data with packet summary counts.");
   assert(reportData.includes("getSupabaseAdminClient"), "Report data module must read live Supabase.");
   assert(reportData.includes("getRcapPersonOutcomeSummary"), "Report data module must reuse person outcome counts.");
