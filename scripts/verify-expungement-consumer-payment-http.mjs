@@ -221,49 +221,10 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     requiredInputIds,
     sourceRuleRefs: []
   };
-  const screeningAnswers = {
-    ownership_scope: "Yes",
-    jurisdiction_scope: "State or local",
-    case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-    offense_level: "Misdemeanor",
-    possible_pathway_context: "Non-conviction expungement for dismissal, no disposition, or acquittal",
-    resolved_timing_bucket: "gt_10_years",
-    court_requirements_completed: "yes"
-  };
-  const packetAnswers = {
-    ...JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json"), "utf8")).facts,
-    date_of_birth: "1990-04-12",
-    offense_date: "2014-01-10",
-    arrest_date: "2014-01-10",
-    age_at_offense: { value: "30", unknown: false },
-    case_outcome: screeningAnswers.case_outcome,
-    charge: { value: "Synthetic misdemeanor charge", unknown: false },
-    // The reviewed contact representation: the fixture's three components, joined.
-    contact_information: "123 Magnolia Avenue, Jackson, Mississippi 39201 | 601-555-0142 | morgan.sample@example.test",
-    county: { value: "Hinds County", unknown: false },
-    // Same court as the fixture's court_name / court_type (Municipal).
-    court: { value: "Municipal Court of the City of Jackson", unknown: false },
-    disposition_date: { value: "2015-01-15", unknown: false },
-    financial_obligations: "Yes",
-    offense_category: { value: "Misdemeanor", unknown: false },
-    offense_level: "Misdemeanor",
-    participant_full_legal_name: "Acceptance Consumer",
-    pending_cases: "No",
-    prior_relief: "No",
-    record_type: "Arrest or charge",
-    residency_or_location: { value: "Jackson, Mississippi", unknown: false },
-    sentence_completion_date: "Yes",
-    trafficking_status: "No",
-    ms_charged_trafficking_distribution_manufacture: "No"
-  };
-  // The approved participant composer requires the exact filing facts and
-  // self-help confirmations. Keep the payment assertions unchanged and seed
-  // complete synthetic facts from the already-approved participant fixture.
-  const approvedParticipantFacts = JSON.parse(fs.readFileSync(path.join(rootDir,
-    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json"), "utf8")).facts;
-  for (const [key, value] of Object.entries(approvedParticipantFacts)) {
-    if (!(key in packetAnswers)) packetAnswers[key] = value;
-  }
+  const frozenQaMatter = JSON.parse(fs.readFileSync(path.join(rootDir,
+    "scripts/fixtures/route115-ms-consistent-matter.json"), "utf8"));
+  const screeningAnswers = structuredClone(frozenQaMatter.screeningAnswers);
+  const packetAnswers = structuredClone(frozenQaMatter.facts);
   const commercialFlow = {
     version: 1,
     entitlementSource: "consumer_payment",
