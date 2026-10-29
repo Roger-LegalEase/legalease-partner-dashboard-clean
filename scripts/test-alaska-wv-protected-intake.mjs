@@ -11,7 +11,7 @@ const { resolveRuntimeText } = await import('../src/lib/expungement-ai/localizat
 const witnesses = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses;
 const asOf = '2026-10-29';
 const cases = [
-  { route: 'MD:cannabis-specific-expungement', declared: 214,
+  { route: 'MD:cannabis-specific-expungement', declared: 230,
     key: 'md_cannabis_record_reference', value: 'Frozen fictional docket record; no clerk contact or attached records asserted.',
     prepare: { md_cannabis_basis: 'possession', md_cannabis_only_charge: 'Yes', md_cannabis_fee_choice: 'paid' },
     facts: { md_cannabis_basis: 'possession', md_cannabis_charge_id: '1', md_cannabis_charge_statute: 'CR 5-601', md_cannabis_charge_disposition: 'guilty', md_cannabis_conviction_date: '2022-06-01', md_cannabis_only_charge: 'Yes', md_cannabis_all_charges_listed: 'Yes', md_cannabis_pending_proceeding: 'No', md_cannabis_recital_confirmed: 'Yes', md_cannabis_sentence_complete: 'Yes', md_cannabis_completion_date: '2023-10-29', md_cannabis_case_search_checked: 'Yes', md_cannabis_case_search_result: 'not_shown', md_cannabis_court_record_status: 'exists_unexpunged', md_cannabis_record_reference: 'Frozen fictional docket record; no clerk contact or attached records asserted.', md_cannabis_restitution_status: 'not_ordered', md_cannabis_court_level: 'district', md_cannabis_filing_court_confirmed: 'Yes', md_cannabis_court_transfer: 'none', md_cannabis_case_appealed: 'No', md_cannabis_contested: 'No', md_cannabis_fee_choice: 'paid' },
@@ -279,5 +279,56 @@ check('AK participant draft does not require court, record uploads or unknown op
   assert.equal(reference.required, false); assert.match(reference.prompt, /trial court/); assert.match(reference.prompt, /police, prosecutor or arrest tracking/);
   assert.equal(model.packetAnswers.charge, 'Theft in the fourth degree');
   assert(!model.expectedComponents.some(c => /court petition|proposed order/i.test(c)));
+});
+const MD = await import('../src/lib/rcap/documents/maryland-cannabis-document-facts.ts');
+const mdDocFacts = {
+  participant_full_legal_name: 'Robin Sage Fiction', charge: 'Possession of cannabis',
+  md_cannabis_date_of_birth: '1987-05-11', md_cannabis_street_address: '800 Fictional Lane',
+  md_cannabis_city_state_zip: 'Westminster, MD 21157', md_cannabis_phone: '410-555-0148',
+  md_cannabis_court_option: 'Carroll County (DC)', md_cannabis_court_address: '101 North Court Street, Westminster, MD 21157',
+  md_cannabis_court_phone: '410-871-3500', case_identifier: 'D-10-CR-22-900042',
+  md_cannabis_tracking_number: 'MD-QA-R041-2022', md_cannabis_event: 'arrest', md_cannabis_event_date: '2022-05-01',
+  md_cannabis_arresting_agency: 'Westminster Police Department', md_cannabis_event_locality: 'Carroll County',
+  md_cannabis_incident: 'Possession of cannabis during a fictional traffic stop.'
+};
+let mdSaved;
+check('MD actual protected save connects explicit document facts to the existing native mapper', () => {
+  mdSaved = save(savedMatters.get('MD'), mdDocFacts);
+  const m = P.protectedPacketInformationModelFor(mdSaved), snapshot = mdSaved.draftSnapshot ?? mdSaved.snapshot;
+  for (const id of MD.MARYLAND_CANNABIS_REQUIRED_DOCUMENT_FACT_IDS) {
+    assert.equal(snapshot.packetAnswers[id], mdDocFacts[id]); assert(!m.missingInputIds.includes(id), id);
+  }
+  const input = MD.marylandCannabisDocumentFromSnapshot({ ...snapshot, verifiedAt: asOf + 'T00:00:00Z' }, 'SYNTHETIC-R041-SAVED');
+  assert.equal(input.nativeFacts.person.name, 'Robin Sage Fiction'); assert.equal(input.nativeFacts.person.dob, '1987-05-11');
+  assert.equal(input.nativeFacts.case.number, 'D-10-CR-22-900042'); assert.equal(input.nativeFacts.case.tracking, 'MD-QA-R041-2022');
+  assert.equal(input.nativeFacts.case.eventDate, '2022-05-01'); assert.equal(input.nativeFacts.case.convictionDate, '2022-06-01');
+  assert.equal(input.nativeFacts.court.option, 'Carroll County (DC)');
+  assert.equal(input.nativeFacts.isSyntheticFixture, false); assert.equal(snapshot.paymentAllowed, false);
+  assert.notEqual(mdSaved.status, 'verified');
+});
+for (const [id, value] of [
+  ['participant_full_legal_name', 'No sé'], ['charge', { unknown: true, value: mdDocFacts.charge }],
+  ['md_cannabis_date_of_birth', { unknown: true, value: '1987-05-11' }], ['case_identifier', 'I am not sure'],
+  ['md_cannabis_court_option', 'unknown'], ['md_cannabis_incident', { unknown: true, value: mdDocFacts.md_cannabis_incident }]
+]) check('MD missing/unknown document fact remains unresolved after real save: ' + id, () => {
+  const next = save(mdSaved, { [id]: value }), m = P.protectedPacketInformationModelFor(next);
+  assert(m.missingInputIds.includes(id), id); assert.equal(m.stage, 'in_progress');
+  const snapshot = next.draftSnapshot ?? next.snapshot;
+  assert.throws(() => MD.marylandCannabisDocumentFromSnapshot({ ...snapshot, verifiedAt: asOf + 'T00:00:00Z' }, 'SYNTHETIC-R041-SAVED'), MD.MarylandCannabisDocumentFactsError);
+  assert.equal(snapshot.paymentAllowed, false);
+});
+check('MD optional tracking, email and fax remain optional with bilingual native controls', () => {
+  const m = P.protectedPacketInformationModelFor(mdSaved);
+  for (const id of ['md_cannabis_tracking_number', 'md_cannabis_email', 'md_cannabis_fax']) {
+    const q = m.questions.find(q => q.id === id); assert(q); assert.equal(q.required, false); assert(q.translations.es.prompt);
+    assert(!m.missingInputIds.includes(id));
+  }
+});
+check('MD excluded branch hides document collection and retains saved raw history', () => {
+  const next = save(mdSaved, { md_cannabis_pending_proceeding: 'Yes' }), m = P.protectedPacketInformationModelFor(next);
+  assert(!m.questions.some(q => q.id === 'md_cannabis_incident'));
+  assert.equal(m.initialAnswers.md_cannabis_incident, mdDocFacts.md_cannabis_incident);
+  assert.deepEqual(m.expectedComponents, []);
+  assert(I.research115PacketFactIds('MD:cannabis-specific-expungement', m.initialAnswers, true).includes('md_cannabis_incident'));
 });
 console.log(`${checks}/${checks} protected research-intake controls passed; local integration only, no paid fulfillment or production proof.`);
