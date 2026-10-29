@@ -52,7 +52,7 @@ check("existing Form5 application is a court route, not automatic relief", () =>
 });
 check("existing IA memo distinguishes the exact court-debt requirements", () => {
   const memo = JSON.parse(fs.readFileSync("data/record-clearing/legal-design-intake/IA.memo.json"));
-  for (const id of ["ia-12346", "ia-12347"]) {
+  for (const id of ["ia-7251", "ia-12346", "ia-12347"]) {
     const track = memo.tracks.find(t => t.trackId === id);
     assert(JSON.stringify(track).includes("Rule 2.83(3)"));
     assert(JSON.stringify(track).includes("Court debt is not a precondition"));
@@ -72,10 +72,6 @@ for (const row of routes) {
     if (id === "misdemeanor-901c3") {
       assert.equal(unpaid.resultCode, "not_yet");
       assert(codes(unpaid).includes("ia.timing_or_completion_blocker"));
-    } else if (id === "minor-prostitution-7251") {
-      // This batch repairs classification, not the separate7251 debt rule or
-      // its missing exact statutory predicate. It must still remain held.
-      assert.notEqual(unpaid.resultCode, "guidance_only");
     } else {
       assert.deepEqual(unpaid, paid);
     }

@@ -2909,12 +2909,12 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   // exact candidate still reaches the source-contract review below, not payment.
   const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
     && answers.il_cannabis_nonfinancial_complete === "yes";
-  // IA.memo ia-12346/ia-12347, Rule 2.83(3): court debt is not a
-  // prerequisite on these two conviction applications. Keep the § 901C.3
+  // IA.memo ia-7251/ia-12346/ia-12347, Rule 2.83(3): court debt is not a
+  // prerequisite on these three conviction applications. Keep the § 901C.3
   // paid-obligations gate and every independent timing/eligibility hold.
-  const iowaAlcoholDebtNotRequired = jurisdiction === "IA"
-    && (pathway.id === "public-intoxication-12346" || pathway.id === "underage-alcohol-12347");
-  const financialApplies = !iowaAlcoholDebtNotRequired
+  const iowaDebtNotRequired = jurisdiction === "IA"
+    && (pathway.id === "minor-prostitution-7251" || pathway.id === "public-intoxication-12346" || pathway.id === "underage-alcohol-12347");
+  const financialApplies = !iowaDebtNotRequired
     && montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && oklahomaCleanSlateFinancialApplies(profile, pathway.id, answers, "financial_obligations")
