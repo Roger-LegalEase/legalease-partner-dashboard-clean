@@ -11,19 +11,12 @@ import {sanitizeAndFlatten,scanBytesForActiveContent} from '../../rcap-official-
 import {preserveSourceMetadata,carryDates} from '../../rcap-official-forms/rcap-official-form-finalize.mjs';
 import {extractTextItems} from '../../rcap-official-forms/rcap-pdf-anchor-capture.mjs';
 
+import {dateValue, exact, validateAlcoholFacts, validateFacts} from '../../../src/lib/rcap-engine/iowa-alcohol-native.mjs';
+export {exact, validateAlcoholFacts, validateFacts};
+
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../../..');
 const sha256 = b => crypto.createHash('sha256').update(b).digest('hex');
 const pretty = v => JSON.stringify(v, null, 2) + '\n';
-function text(v, name, max = 200) {
- if (typeof v !== 'string' || !v.trim() || v.trim() !== v || v.length > max || /[\x00-\x1f\x7f]/.test(v)) throw Error(`${name}: nonempty trimmed text required`);
- return v;
-}
-function dateValue(s) {
- if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) throw Error('date: YYYY-MM-DD required');
- const d = new Date(`${s}T00:00:00Z`);
- if (!Number.isFinite(+d) || d.toISOString().slice(0, 10) !== s) throw Error('date: invalid calendar date');
- return d;
-}
 const STAMP = new Date('2026-09-13T00:00:00Z');
 async function finalizedBytes(doc, title = null) {
  doc.setCreationDate(STAMP); doc.setModificationDate(STAMP); if (title) doc.setTitle(title);
@@ -71,51 +64,7 @@ export const authorities={
  routeContractBlob:'2617a0994c1daf51b92189ab99c94f107947d3d4',
  reviewedOn:'2026-09-07'
 };
-export function exact(o,keys,label){if(!o||typeof o!=='object'||Array.isArray(o)||Object.keys(o).some(k=>!keys.includes(k))||keys.some(k=>!Object.hasOwn(o,k)))throw Error(label+': supply exactly the stated fields, including explicit nulls');}
-const contacts=['address','city','state','zip','phone','email'];
 const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
-export function validateAlcoholFacts(input,section='123.46') {
- exact(input,['synthetic','name','county','caseNumber','plaintiff','convictionDate','filingDate','disposition','proceeding','offense','laterConvictions','historyComplete','selfRepresented','convictionStatementConfirmed','cleanPeriodStatementConfirmed','acknowledgedCopy','acknowledgedConfidential','courtDebtBalanceStatus','filingMethod','countyAttorney',...contacts],'facts');
- const f=structuredClone(input);
- if(typeof f.synthetic!=='boolean')throw Error('Explicit synthetic flag required');
- for(const k of ['name','county','caseNumber','plaintiff'])text(f[k],k);
- if(f.disposition!=='conviction'||f.proceeding!=='district_court')throw Error('Wrong disposition/proceeding: this is the district-court conviction route');
- for(const k of ['selfRepresented','historyComplete','convictionStatementConfirmed','cleanPeriodStatementConfirmed','acknowledgedCopy','acknowledgedConfidential'])if(f[k]!==true)throw Error('Missing or false participant confirmation: '+k);
- exact(f.offense,['kind','citation','equivalentTo','confirmation'],'offense');text(f.offense.citation,'offense citation');
- if(f.offense.confirmation!==true||f.offense.equivalentTo!==section)throw Error('Wrong or unconfirmed statutory ground');
- if(f.offense.kind==='statute'){
-  const valid=section==='123.46'?/^123\.46(?:\([23]\))?$/:/^123\.47\(3\)$/;
-  if(!valid.test(f.offense.citation))throw Error('Wrong statutory offense; do not infer broad alcohol eligibility');
- }else if(f.offense.kind!=='local_equivalent')throw Error('Unknown offense kind');
- if(!['paid','unpaid','unknown'].includes(f.courtDebtBalanceStatus))throw Error('Explicit court-debt status, not an invented paid statement');
- if(!['paper','efile'].includes(f.filingMethod))throw Error('Unknown filing method');
- for(const k of contacts)if(f[k]!==null)text(f[k],k);
- if(f.state!==null&&!/^[A-Z]{2}$/.test(f.state))throw Error('Invalid state');
- if(f.zip!==null&&!/^\d{5}(?:-\d{4})?$/.test(f.zip))throw Error('Invalid ZIP');
- if(f.phone!==null&&!/^\d{10}$/.test(f.phone))throw Error('Telephone must contain ten digits');
- if(f.email!==null&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))throw Error('Invalid email');
- if(f.countyAttorney!==null){exact(f.countyAttorney,['name','address','city','state','zip'],'intended recipient');for(const [k,v]of Object.entries(f.countyAttorney))text(v,'intended recipient '+k);if(!/^[A-Z]{2}$/.test(f.countyAttorney.state)||!/^\d{5}(?:-\d{4})?$/.test(f.countyAttorney.zip))throw Error('Invalid recipient state/ZIP');}
- const conviction=dateValue(f.convictionDate),filing=dateValue(f.filingDate);
- // No automatic Feb29 rollover: a date-only anniversary ambiguity is disclosed
- // as an exact timing review, not quietly converted into a 730-day rule.
- const endText=String(conviction.getUTCFullYear()+2)+f.convictionDate.slice(4);
- let end;try{end=dateValue(endText);}catch{throw Error('Leap-day anniversary requires an explicit legal timing determination');}
- if(filing<end)throw Error('Two-year period has not expired');
- if(!Array.isArray(f.laterConvictions))throw Error('Supply an explicit complete subsequent-conviction list');
- const evaluated=[];
- for(const c of f.laterConvictions){
-  exact(c,['date','citation','kind','categoryConfirmed'],'subsequent conviction');text(c.citation,'subsequent citation');
-  if(!['local_traffic','chapter_321_simple','other'].includes(c.kind)||c.categoryConfirmed!==true)throw Error('Unknown subsequent-conviction category');
-  const d=dateValue(c.date);if(d<conviction||d>filing)throw Error('Subsequent-conviction date is inconsistent');
-  if(c.kind==='chapter_321_simple'&&!/^321\./.test(c.citation))throw Error('The traffic exception is chapter 321, not321J or an unknown chapter');
-  const within=d>=conviction&&d<end;
-  if(c.kind==='other'&&+d===+end)throw Error('Subsequent conviction on the exact anniversary needs timing review');
-  if(within&&c.kind==='other')throw Error('Disqualifying conviction within the two-year period');
-  evaluated.push({...c,withinTwoYearPeriod:within,permittedTrafficException:c.kind!=='other'});
- }
- return {facts:f,twoYearAnniversary:endText,daysFromConviction:(filing-conviction)/86400000,subsequentConvictions:evaluated,courtDebtIsNotPrecondition:true,filingReady:false};
-}
-export const validateFacts=f=>validateAlcoholFacts(f);
 export function alcoholFixtures(section='123.46'){
  const base={synthetic:true,name:'Avery Jordan Example',county:'Johnson',caseNumber:'EXAMPLE-INT-100001',plaintiff:'State of Iowa',convictionDate:'2022-01-15',filingDate:'2026-09-07',disposition:'conviction',proceeding:'district_court',offense:{kind:'statute',citation:section==='123.46'?'123.46(2)':'123.47(3)',equivalentTo:section,confirmation:true},laterConvictions:[],historyComplete:true,selfRepresented:true,convictionStatementConfirmed:true,cleanPeriodStatementConfirmed:true,acknowledgedCopy:true,acknowledgedConfidential:true,courtDebtBalanceStatus:'unpaid',filingMethod:'paper',countyAttorney:{name:'Johnson County Attorney',address:'500 S. Clinton Street, Suite 400',city:'Iowa City',state:'IA',zip:'52244-2450'},address:'100 Example Lane',city:'Iowa City',state:'IA',zip:'52240',phone:'3195550101',email:'avery.example@example.org'};
  const b=()=>structuredClone(base);
