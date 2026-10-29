@@ -1,3 +1,4 @@
+import { GA_NONCONVICTION_ROUTE, georgiaNonconvictionQuestions, evaluateGeorgiaNonconviction } from "@/lib/rcap-engine/georgia-nonconviction-research";
 import { resolveNdNonconvictionRoute, ND_NONCONVICTION_EXCLUSIONS } from "@/lib/record-clearing/north-dakota-nonconviction-spec";
 import { nevada176ABranch, nevada176ASubsection3, NEVADA_176A_BRANCH_FACT_IDS, NEVADA_176A_EXCLUDED_CHARGE_FACT_ID } from "@/lib/rcap-engine/nevada-176a-branch";
 
@@ -122,6 +123,7 @@ export const RESEARCH115_LIMITED_QUESTIONS = {
  * null means this module has no implemented rule for that exact route.
  */
 export function evaluateResearchLimitedRoute(routeId: string, facts: Facts, asOf: Date | string): ResearchLimitedBranch | null {
+  if (routeId === GA_NONCONVICTION_ROUTE) return evaluateGeorgiaNonconviction(facts, asOf);
   const reviewId = routeId === ND_ROUTE ? "R053" : routeId === NV_453_ROUTE ? "R058" : routeId === NV_176A_ROUTE ? "R061" : null;
   if (!reviewId) return null;
   const result = (branchId: string, status: ResearchLimitedBranch["status"], reason: string, missingFactIds: string[] = [], documentIds: string[] = [], externalDocumentIds: string[] = []): ResearchLimitedBranch => ({ reviewId, routeId, branchId, status, missingFactIds, documentIds, externalDocumentIds, reason });
@@ -174,4 +176,8 @@ export function evaluateResearchLimitedRoute(routeId: string, facts: Facts, asOf
   const eligibleOn = anniversary(ended, 7);
   if (today < eligibleOn) return {...result(branch, "not_yet", "The subsection (2) petition cannot be filed before seven years after the conditional dismissal or set-aside."), eligibleOn};
   return {...result(branch, "qualifying", "The supported domestic-violence/DUI petition branch has reached seven years. This branch selection does not establish packet or checkout authority.", [], ["petition_to_seal", "declaration", "proposed_sealing_order", "filing_instructions"], ["actual_conditional_dismissal_or_set_aside_order"]), eligibleOn};
+}
+
+export function research115AdditionalQuestions(routeId: string, facts: Readonly<Record<string, unknown>>) {
+  return routeId === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts) : [];
 }

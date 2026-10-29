@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {renderGa,FORM,SOURCE,SOURCE_SHA} from './rcap-packet-recovery/chat5/ga-pre2013.mjs';
+const [frozenPath,outDir]=process.argv.slice(2);assert.ok(frozenPath&&outDir,'Usage:FROZEN_INPUT.json OUT_DIR');
+const frozen=JSON.parse(fs.readFileSync(frozenPath,'utf8'));assert.equal(frozen.synthetic,true);assert.equal(frozen.environment,'LOCAL_ONLY');const f=frozen.nativeFacts;assert.equal(f.sample,true);
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+const r=await renderGa(f),repeat=await renderGa(f);assert.deepEqual(r.bytes,repeat.bytes);assert.equal(r.pageCount,7);assert.ok(r.writes.every(w=>w.page===2));assert.equal(r.review.attachmentGuidance,false);assert.ok(r.review.missing.every(m=>m.fieldId==='participant.ssn'));
+fs.mkdirSync(outDir,{recursive:true});fs.writeFileSync(path.join(outDir,'packet.pdf'),r.bytes);fs.copyFileSync(frozenPath,path.join(outDir,'FROZEN_INPUT.json'));
+const text=spawnSync('pdftotext',['-layout',path.join(outDir,'packet.pdf'),'-'],{encoding:'utf8'});assert.equal(text.status,0);for(const expected of frozen.independentExpectedText)assert.ok(text.stdout.includes(expected),'Frozen expected fact missing:'+expected);for(const bad of ['Morgan Sample','Acceptance Consumer','Jordan Ellis','Alexandria Catherine','[INSERT','{{','2014/2024'])assert.ok(!text.stdout.includes(bad),'Unexpected prior/sample fact:'+bad);
+fs.writeFileSync(path.join(outDir,'packet-text.txt'),text.stdout);
+const guide=r.guide.map(p=>'## '+p.title+'\n\n'+p.sections.map(([a,b])=>a+'\n'+b).join('\n\n')).join('\n\n');fs.writeFileSync(path.join(outDir,'participant-instructions.md'),guide);
+const manifest={schemaVersion:'research115-local-generated-packet/v1',reviewId:'R020',routeId:'GA:non-conviction-record-restriction-through-the-agency-prosecutor-process',environment:'LOCAL_ONLY',evidenceLevel:'GENERATED_AWAITING_PAGE_REVIEW',artifactSha256:r.sha256,frozenInputSha256:hash(fs.readFileSync(frozenPath)),pageCount:r.pageCount,components:r.componentPages,source:{path:SOURCE,sha256:SOURCE_SHA,formId:FORM,liveIssuerBinaryDigestMeasured:false},actualWrites:r.actualWrites,requiredExternal:['Actual Georgia/FBI criminal history','SSN completed privately on officialpaper','Actual agency SectionTwo/prosecutor SectionThree actions'],intentionalBlanks:['Participant signature and actual signaturedate','Private manual SSN','All agency/prosecutor/GBI-owned fields'],repeatGenerationIdentical:true,paymentOrSponsorshipAuthority:'NONE_LOCAL_GENERATION_ONLY',courtOrderGenerated:false,productionDownload:false};fs.writeFileSync(path.join(outDir,'DOCUMENT_MANIFEST.json'),JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({pageCount:r.pageCount,sha256:r.sha256,repeatIdentical:true}));
