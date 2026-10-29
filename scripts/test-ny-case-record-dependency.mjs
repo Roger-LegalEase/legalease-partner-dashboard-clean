@@ -52,4 +52,12 @@ for (const options of [[], null, [active.options[0], {}], [active.options[0], ac
   assert.equal(caNyQuestionPrerequisiteWitness('NY', q), null);
   assert(!render(q).includes(waiting)); assert(blocksContinue(q, undefined));
 });
+for (const row of caNyQuestionCapabilityScenarios().filter(row => row.state === 'NY' && row.question.type === 'single_choice')) {
+  for (const options of [[], null, [row.question.options[0], {}], [row.question.options[0], row.question.options[0]]]) check(row.id + ' malformed/duplicate radios recover ' + JSON.stringify(options), () => {
+    const q = { ...row.question, options }, html = render(q);
+    assert(html.includes('We could not show this required question')); assert(!html.includes('type="radio"'));
+    assert.equal(caNyQuestionPrerequisiteWitness('NY', q), null);
+    assert(blocksContinue(q, undefined));
+  });
+}
 console.log(`${checks}/${checks} NY dependency display controls passed; source/UI definition evidence only, no applicant eligibility or delivery claim.`);

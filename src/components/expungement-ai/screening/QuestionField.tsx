@@ -178,7 +178,7 @@ export function QuestionField({
           ? YES_NO_UNSURE_OPTIONS
           : question.type === "yes_no_prefer_not_to_say"
             ? YES_NO_PREFER_NOT_OPTIONS
-            : question.options ?? [];
+            : normalizeQuestionChoices(question.options).options ?? [];
 
       if (options.length === 0) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
       const caChoice = stateCode === "CA" && isCaProp64ChoiceQuestion(question);
