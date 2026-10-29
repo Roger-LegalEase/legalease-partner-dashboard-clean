@@ -3938,6 +3938,16 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  const profile = getProfileByJurisdiction(model.stateCode);
+  if (profile && model.pathwayId && ["not_covered_yet", "guidance_only", "needs_review", "needs_more_info", "not_yet", "likely_not_eligible"].includes(resultCode ?? "")
+    && canonicalEqual(model.packetPlan, packetPlanForPathway(profile, model.pathwayId))) {
+    const allowed = editablePacketInputIds(model);
+    const facts = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
+    // A qualifying factual save must not strand a still commercially held draft.
+    for (const id of research115PacketFactIds(`${model.stateCode}:${model.pathwayId}`, facts)) {
+      if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
+    }
+  }
   for (const question of gaRetroactiveHistoryQuestions(getProfileByJurisdiction(model.stateCode), model.pathwayId)) {
     if (editablePacketInputIds(model).has(question.id) && model.questions.some(candidate => candidate.id === question.id)) ids.add(question.id);
   }

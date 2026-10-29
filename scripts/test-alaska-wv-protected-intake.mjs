@@ -67,6 +67,10 @@ for (const c of cases) {
     assert.equal(snapshot.paymentAllowed, false); assert.notEqual(next.status, 'verified');
     const nextModel = P.protectedPacketInformationModelFor(next);
     assert(nextModel);
+    const correctionIds = P.heldPacketCorrectionInputIds(nextModel, nextModel.resultCode);
+    for (const id of I.research115PacketFactIds(c.route, c.facts)) assert(correctionIds.has(id), 'Saved held matter must keep its actual correction editor: ' + id);
+    assert(!correctionIds.has('forged_approval'));
+    assert.equal(P.heldPacketCorrectionInputIds({ ...nextModel, packetPlan: null }, nextModel.resultCode).size, 0);
     assert(nextModel.expectedComponents.includes(c.component));
     if (state === 'WV') { assert.equal(nextModel.expectedComponents.length, 5); assert(!nextModel.expectedComponents.some(s => /proposed order/i.test(s))); }
     const unknown = P.packetInformationPatch({ protectedVerification: next, answers: { [c.key]: { unknown: true, value: c.value } } });
