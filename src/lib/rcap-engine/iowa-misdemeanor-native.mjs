@@ -87,6 +87,14 @@ export function validateFacts(input) {
  * answer. No uploaded report, signature, service or attachment is asserted.
  */
 export const IOWA_MISDEMEANOR_ROUTE = 'IA:misdemeanor-901c3';
+// Existing Form2 blank classification/instructions: no approved online SSN
+// collection/delivery channel is configured for this route. This is a manual
+// filing task, never an assertion that the identifier or filing is complete.
+export const IOWA_MISDEMEANOR_MANUAL_SSN = Object.freeze({
+  nativeField:'ssn', requiredBeforeFiling:true, collectedOnline:false,
+  en:'Your Social Security number is left blank for private completion before filing. Enter the truthful value privately before filing; ask the clerk or legal aid how to complete it if you do not have one. Follow the court confidential-filing instructions. This draft is incomplete.',
+  es:'Su número de Seguro Social queda en blanco para completarlo en privado antes de presentar la solicitud. Escriba el valor verdadero en privado antes de presentarla; pregunte al secretario del tribunal o a asistencia legal cómo completarlo si no tiene uno. Siga las instrucciones del tribunal para presentar información confidencial. Este borrador está incompleto.'
+});
 const raw = v => v && typeof v === 'object' && !Array.isArray(v)
   ? v.unknown === true ? undefined : Object.hasOwn(v, 'value') ? v.value : v : v;
 const unknownText = v => typeof raw(v) === 'string' && ['unknown','i am not sure','not sure','no sé','no se'].includes(raw(v).trim().toLowerCase());
@@ -114,7 +122,6 @@ const fields = [
   ['plaintiff','ia_901c3_plaintiff','text','Who is named as plaintiff in the original case caption?','¿Quién figura como demandante en el encabezamiento original del caso?'],
   ['dob','ia_901c3_birth_date','date','What is your birth date? Keep it unknown if you do not know.','¿Cuál es su fecha de nacimiento? Déjela desconocida si no la sabe.',true],
   ['driversLicense','ia_901c3_driver_license','text','What is your driver license number? Keep it unknown if unavailable.','¿Cuál es su número de licencia de conducir? Déjelo desconocido si no está disponible.',true],
-  ['ssn','ia_901c3_ssn','text','What is your Social Security number? Keep it unknown if unavailable.','¿Cuál es su número de Seguro Social? Déjelo desconocido si no está disponible.',true],
   ['address','ia_901c3_address','text','What is your mailing street address?','¿Cuál es su dirección postal (calle)?',true],
   ['city','ia_901c3_city','text','What is your mailing city?','¿Cuál es su ciudad postal?',true],
   ['state','ia_901c3_state','text','What is your two-letter mailing state?','¿Cuál es la abreviatura de dos letras de su estado postal?',true],
@@ -172,7 +179,9 @@ export const IOWA_MISDEMEANOR_FACT_IDS=Object.freeze(iowaMisdemeanorQuestions({}
  * @returns {{facts:Record<string,any>|null,missingFactIds:string[],refusal:string|null}} */
 export function iowaMisdemeanorFactsFromAnswers(answers,context) {
   if(typeof context?.synthetic!=='boolean'||typeof context?.filingDate!=='string')return{facts:null,missingFactIds:[],refusal:'Server-supplied synthetic flag and intended filing/reference date are required.'};
-  const facts={synthetic:context.synthetic,filingDate:context.filingDate},missingFactIds=[];
+  // Ignore all legacy/foreign raw SSN answers. Native Form2 already supports
+  // this explicit null and discloses the private task before filing.
+  const facts={synthetic:context.synthetic,filingDate:context.filingDate,ssn:null},missingFactIds=[];
   const take=(id,type='text',nullable=false)=>{
     const v=answers[id];
     if(nullable&&explicitUnknown(v))return null;

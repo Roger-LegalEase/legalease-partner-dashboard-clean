@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {validateFacts, iowaMisdemeanorQuestions, IOWA_MISDEMEANOR_FACT_IDS, iowaMisdemeanorFactsFromAnswers} from '../src/lib/rcap-engine/iowa-misdemeanor-native.mjs';
+import {validateFacts, iowaMisdemeanorQuestions, IOWA_MISDEMEANOR_FACT_IDS, IOWA_MISDEMEANOR_MANUAL_SSN, iowaMisdemeanorFactsFromAnswers} from '../src/lib/rcap-engine/iowa-misdemeanor-native.mjs';
 
 const modulePath='scripts/rcap-packet-recovery/chat8/ia-901c3.mjs';
 const original=execFileSync('git',['show','b41315541ecfc45a4e9ec7494253d62d0313387b:'+modulePath],{encoding:'utf8'});
@@ -41,6 +41,7 @@ check('all eight retained packet artifacts still match their existing hashes, wi
   for(const row of report.packets)assert.equal(createHash('sha256').update(fs.readFileSync(row.path)).digest('hex'),row.sha256);
 });
 const frozen=JSON.parse(fs.readFileSync(fixtureRoot+'canonical.json'));
+const privateCompletion={...structuredClone(frozen),ssn:null};
 for(const[label,patch,expected]of[
   ['before8years',{convictionDate:'2018-09-08'},'fewer than eight years'],
   ['unknown pending',{pendingCharges:null},'pending or unknown'],
@@ -84,7 +85,7 @@ check('30day history boundary stays participant-reported and never actually atta
 const answers={
   ia_901c3_first_name:'Avery',ia_901c3_last_name:'Example',ia_901c3_has_middle:'Yes',ia_901c3_middle_name:'Jordan',
   ia_901c3_alias_count:'0',county:'Johnson',case_identifier:'EXAMPLE-901C3-0001',ia_901c3_plaintiff:'State of Iowa',
-  ia_901c3_birth_date:'1988-04-12',ia_901c3_driver_license:'EXAMPLE0001',ia_901c3_ssn:'000120001',
+  ia_901c3_birth_date:'1988-04-12',ia_901c3_driver_license:'EXAMPLE0001',
   ia_901c3_address:'100 Example Lane',ia_901c3_city:'Iowa City',ia_901c3_state:'IA',ia_901c3_zip:'52240',
   ia_901c3_phone:'3195550101',ia_901c3_email:'avery.example@example.org',conviction_date:'2017-09-06',
   ia_901c3_offense_section:'714.2(5)',ia_901c3_offense_title:'Theft in the fifth degree',
@@ -100,13 +101,13 @@ const answers={
 };
 const context={synthetic:true,filingDate:'2026-09-07'};
 const decode=a=>iowaMisdemeanorFactsFromAnswers(a,context);
-check('ordinary canonical UIYesNo builds the independently frozen native input exactly',()=>{
-  const d=decode(answers);assert.equal(d.refusal,null);assert.deepEqual(d.missingFactIds,[]);assert.deepEqual(d.facts,frozen);
-  assert.deepEqual(validateFacts(d.facts),oracle.validateFacts(frozen));
+check('ordinary canonical UIYesNo preserves frozen facts with SSN privately deferred',()=>{
+  const d=decode(answers);assert.equal(d.refusal,null);assert.deepEqual(d.missingFactIds,[]);assert.deepEqual(d.facts,privateCompletion);
+  assert.deepEqual(validateFacts(d.facts),oracle.validateFacts(privateCompletion));
 });
 check('ordinary lower-case booleans preserve the same known native facts',()=>{
   const lower=Object.fromEntries(Object.entries(answers).map(([k,v])=>[k,v==='Yes'?'yes':v==='No'?'no':v]));
-  assert.deepEqual(decode(lower).facts,frozen);
+  assert.deepEqual(decode(lower).facts,privateCompletion);
 });
 for(const id of ['financial_obligations','ia_901c3_prior_grant','pending_cases','ia_901c3_alias_count','ia_901c3_deferred_count','ia_901c3_has_middle','conviction_date','ia_901c3_offense_section']){
   for(const value of ['I am not sure',{unknown:true,value:answers[id]}])check(id+' explicit uncertainty cannot retain a qualifying value '+JSON.stringify(value),()=>{
@@ -149,12 +150,12 @@ check('electronic service branch ignores retained inactive paper-recipient answe
 check('closed declared IDs contain every inactive conditional field and no arbitrary prefixes',()=>{
   assert.equal(IOWA_MISDEMEANOR_FACT_IDS.length,new Set(IOWA_MISDEMEANOR_FACT_IDS).size);
   assert(IOWA_MISDEMEANOR_FACT_IDS.includes('ia_901c3_alias_30_middle'));
-  for(const forged of ['ia_901c3_alias_31_first','ia_901c3_alias_1_secret','ia_901c3_anything','synthetic','filingDate','legalSignoffStatus'])assert(!IOWA_MISDEMEANOR_FACT_IDS.includes(forged));
+  for(const forged of ['ia_901c3_alias_31_first','ia_901c3_alias_1_secret','ia_901c3_anything','synthetic','filingDate','legalSignoffStatus','ia_901c3_ssn','social_security_number','ssn'])assert(!IOWA_MISDEMEANOR_FACT_IDS.includes(forged));
   for(const question of iowaMisdemeanorQuestions({},true)){assert(question.en&&question.es);if(question.options){assert.equal(question.options.length,question.optionsEn.length);assert.equal(question.options.length,question.optionsEs.length);}}
 });
 check('forged answer authority fields cannot alter native facts or server context',()=>{
   const d=decode({...answers,synthetic:false,filingDate:'2099-01-01',legalSignoffStatus:'signed_off',ia_901c3_alias_31_first:'FORGED'});
-  assert.deepEqual(d.facts,frozen);assert.equal(iowaMisdemeanorFactsFromAnswers({...answers,synthetic:true,filingDate:'2026-09-07'},{}).facts,null);
+  assert.deepEqual(d.facts,privateCompletion);assert.equal(iowaMisdemeanorFactsFromAnswers({...answers,synthetic:true,filingDate:'2026-09-07'},{}).facts,null);
 });
 check('bounded alias and middle-name branches collect only actual active facts',()=>{
   const a={...answers,ia_901c3_alias_count:'1',ia_901c3_alias_1_first:'AJ',ia_901c3_alias_1_last:'Example',ia_901c3_alias_1_has_middle:'No',ia_901c3_alias_1_middle:'RETAINED INACTIVE'};
@@ -167,5 +168,41 @@ check('bounded alias and middle-name branches collect only actual active facts',
 check('transport never mutates raw saved answers or creates payment/readiness claims',()=>{
   const before=structuredClone(answers),d=decode(answers);assert.deepEqual(answers,before);
   for(const k of ['paymentAllowed','packet_ready','signed_off','entitlement','externalHistoryIncluded'])assert(!Object.hasOwn(d,k));
+});
+check('no active or retained intake question collects an unguarded SSN',()=>{
+  for(const retained of [false,true])for(const question of iowaMisdemeanorQuestions(answers,retained)){
+    assert(!/ssn|social_security_number/.test(question.id));
+    assert(!/Social Security number|número de Seguro Social/i.test(question.en+' '+question.es));
+  }
+});
+check('legacy/foreign raw SSN is ignored and never reaches returned native facts',()=>{
+  const rawSsn='123456789';
+  for(const patch of [{ia_901c3_ssn:rawSsn},{ssn:rawSsn},{social_security_number:rawSsn},{ia_901c3_ssn:{unknown:true,value:rawSsn}}]){
+    const d=decode({...answers,...patch});assert.deepEqual(d.facts,privateCompletion);
+    assert.equal(d.facts.ssn,null);assert(!JSON.stringify(d).includes(rawSsn));
+  }
+});
+check('unknown legacy SSN does not establish payment eligibility or change material rules',()=>{
+  for(const legacy of ['I am not sure',{unknown:true,value:'123456789'}]){
+    const d=decode({...answers,ia_901c3_ssn:legacy});assert.equal(validateFacts(d.facts).filingReady,false);
+    assert.throws(()=>validateFacts(decode({...answers,ia_901c3_ssn:legacy,financial_obligations:'No'}).facts),/financialObligationsPaid/);
+    assert.throws(()=>validateFacts(decode({...answers,ia_901c3_ssn:legacy,pending_cases:'Yes'}).facts),/pending or unknown/);
+    assert.equal(decode({...answers,ia_901c3_ssn:legacy,financial_obligations:'I am not sure'}).facts,null);
+  }
+});
+check('existing private-completion source and retained output leave all SSN fields before-filing blanks',()=>{
+  const report=JSON.parse(fs.readFileSync(fixtureRoot+'../reports/missing-identifiers.json'));
+  assert.equal(report.assessment.facts.ssn,null);
+  for(const id of ['2.86-2.01.12','2.86-2.01.13','2.86-2.01.14']){
+    const blank=report.blanks.find(b=>b.fieldId===id);assert.equal(blank.requiredBeforeFiling,true);
+    assert.equal(blank.completenessDisposition,'REQUIRED_BEFORE_FILING');assert(blank.reason.includes('privately before filing'));
+    assert(!report.actualWrites.some(w=>w.fieldId===id));
+  }
+  assert.equal(IOWA_MISDEMEANOR_MANUAL_SSN.collectedOnline,false);
+  assert.equal(IOWA_MISDEMEANOR_MANUAL_SSN.requiredBeforeFiling,true);
+  assert(IOWA_MISDEMEANOR_MANUAL_SSN.en.includes('privately before filing'));
+  assert(IOWA_MISDEMEANOR_MANUAL_SSN.en.includes('draft is incomplete'));
+  assert(IOWA_MISDEMEANOR_MANUAL_SSN.es.includes('en privado antes de presentar'));
+  assert(IOWA_MISDEMEANOR_MANUAL_SSN.es.includes('borrador está incompleto'));
 });
 console.log(`${checks}/${checks} IA901C.3 native extraction/transport controls passed. Native writer/source unchanged by exact source comparison; retained artifacts unchanged; no new render, legal adoption, shared integration or commercial proof.`);
