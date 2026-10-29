@@ -88,7 +88,8 @@ export function evaluateAlaskaIdentity(facts: Facts, asOf: Date | string): Alask
     };
     const missing = Object.entries(required).filter(([key, values]) => !values.includes(text(facts[key]))).map(([key]) => key);
     for (const id of ["ak_seal_arrest_or_citation", "ak_seal_prosecutor_referral"]) if (boolean(facts[id]) === undefined) missing.push(id);
-    if (!text(facts.ak_seal_explanation)) missing.push("ak_seal_explanation");
+    const explanation = text(facts.ak_seal_explanation);
+    if (!explanation || /^(unknown|i am not sure|i'm not sure|not sure|unsure|not_sure|no s[eé])$/i.test(explanation)) missing.push("ak_seal_explanation");
     if (missing.length) return result("unknown", "unknown", "The agency, basis, actual disposition and required external-document branches must be established from the participant's facts.", missing);
     if (text(facts.ak_seal_record_holder) === "other_agency") return result("other_record_holding_agency", "guidance", "AS12.62.180 reaches only the records held by the receiving agency. The Alaska DPS form is not a substitute for another agency's separately verified request process.");
     const external = [];
