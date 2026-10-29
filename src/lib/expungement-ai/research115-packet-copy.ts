@@ -17,6 +17,11 @@ export const IOWA_ALCOHOL_COMPONENT_COPY = {
   instructions: ["Participant instructions for completing the actual conviction and two-year history statements before signing and filing", "Instrucciones para completar las declaraciones reales sobre la condena y los antecedentes durante dos años antes de firmar y presentar"]
 } as const;
 
+export const IOWA_7251_COMPONENT_COPY = {
+  form: ["Official Iowa Rule 2.86 Form 5 application, both pages; age item 2 remains for personal review", "Solicitud oficial de Iowa del Formulario 5 de la Regla 2.86, ambas páginas; el punto 2 sobre la edad queda para revisión personal"],
+  instructions: ["Participant instructions, manual completion checklist and optional support resources", "Instrucciones para el participante, lista de comprobación para completar a mano y recursos de apoyo opcionales"]
+} as const;
+
 export const IOWA_ALCOHOL_FILING_NOTICES = [
   { en: "This is draft preparation only. Complete any missing contact details and personally review the official conviction and two-year history statements against your actual records before signing and dating the application. Nothing is signed or filed for you.", es: "Esto es solo la preparación de un borrador. Complete los datos de contacto que falten y revise personalmente las declaraciones oficiales sobre la condena y los antecedentes durante dos años, comparándolas con sus expedientes reales, antes de firmar y fechar la solicitud. No se firma ni presenta nada en su nombre." },
   { en: "For paper filing, provide the required copy to the county attorney and complete the embedded service certification only after actual service. For electronic filing, confirm the actual service procedure. Do not certify an event that did not occur. This packet does not require a DCI request or returned history report.", es: "Si presenta en papel, entregue la copia requerida al fiscal del condado y complete la certificación de entrega incluida solo después de realizar la entrega. Si presenta electrónicamente, confirme el procedimiento real de entrega. No certifique un hecho que no ocurrió. Este paquete no requiere una solicitud al DCI ni un informe de antecedentes recibido." }

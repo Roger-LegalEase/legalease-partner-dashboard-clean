@@ -126,6 +126,7 @@ const outcomes={
  review:['These facts require targeted assistance before this draft can be prepared: resolve the age contradiction, exact-anniversary or leap-day timing, recorded ordinance equivalence, or conviction classification actually at issue. No missing fact or legal determination was supplied.','Estos hechos requieren asistencia específica antes de preparar este borrador: resuelva la contradicción sobre la edad, el cómputo en el aniversario exacto o un día bisiesto, la equivalencia registrada de la ordenanza o la clasificación de la condena que realmente esté en cuestión. No se ha suplido ningún hecho ni determinación jurídica faltante.'],
  capacity:['This intake supports at most 25 subsequent convictions. Do not omit others; obtain assistance with a complete inventory. This is an intake limit, not a statutory exclusion.','Este formulario admite como máximo 25 condenas posteriores. No omita otras; obtenga ayuda para completar el inventario. Es un límite del formulario, no una exclusión legal.']
 };
+export const IOWA_7251_OUTCOME_COPY=Object.freeze(Object.values(outcomes));
 export function evaluateIowa7251Preparation(answers,context){
  const decoded=iowa7251FactsFromAnswers(answers,context);let status='unknown',key='unknown',validation=null;
  if(decoded.refusal==='history_inventory_capacity'){status='needs_review';key='capacity';}

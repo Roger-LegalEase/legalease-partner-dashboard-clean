@@ -1,4 +1,4 @@
-import { RESEARCH115_COMPONENT_COPY, MD_CANNABIS_COMPONENT_COPY, IOWA_MISDEMEANOR_COMPONENT_COPY, IOWA_ALCOHOL_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
+import { RESEARCH115_COMPONENT_COPY, MD_CANNABIS_COMPONENT_COPY, IOWA_MISDEMEANOR_COMPONENT_COPY, IOWA_ALCOHOL_COMPONENT_COPY, IOWA_7251_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
 import type { ProfileQuestion, AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import type { EngineProfile, ScreeningEvaluation, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
@@ -15,10 +15,12 @@ import { IOWA_MISDEMEANOR_ROUTE, IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS, iow
 import { IOWA_ALCOHOL_ROUTES, IOWA_ALCOHOL_EXPLICIT_UNKNOWN_FACT_IDS, iowaAlcoholQuestions, iowaAlcoholFactsFromAnswers, evaluateIowaAlcoholPreparation } from "@/lib/rcap-engine/iowa-alcohol-native.mjs";
 import { ND_NONCONVICTION_ROUTE, ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256, northDakotaNonconvictionFactIds, northDakotaNonconvictionQuestions, evaluateNorthDakotaNonconviction } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import { ND_NONCONVICTION_DOCUMENT_FACT_IDS, northDakotaNonconvictionDocumentQuestions, northDakotaNonconvictionDocumentAnswerKnown } from "@/lib/rcap/documents/north-dakota-nonconviction-document-facts";
+import { IOWA_7251_ROUTE, IOWA_7251_EXPLICIT_UNKNOWN_FACT_IDS, iowa7251Questions, iowa7251FactsFromAnswers, evaluateIowa7251Preparation } from "@/lib/rcap-engine/iowa-7251-native.mjs";
 
 function preparationAnswerComplete(routeKey: string, question: ProfileQuestion, value: unknown, asOf: string): boolean {
   const state = questionAnswerState(question, value, asOf);
   const unknownIds = routeKey === IOWA_MISDEMEANOR_ROUTE ? IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS
+    : routeKey === IOWA_7251_ROUTE ? IOWA_7251_EXPLICIT_UNKNOWN_FACT_IDS
     : Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) ? IOWA_ALCOHOL_EXPLICIT_UNKNOWN_FACT_IDS : [];
   if (unknownIds.includes(question.id)) {
     if (value === null) return true;
@@ -50,6 +52,12 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
     if (!preparationAnswerComplete(routeKey, question, facts[question.id], asOf)) projected[question.id] = undefined;
   }
   if (routeKey === IOWA_MISDEMEANOR_ROUTE) return { ...evaluateIowaMisdemeanorPreparation(projected, { synthetic: false, filingDate: asOf }), reviewId: "HG007" as const };
+  if (routeKey === IOWA_7251_ROUTE) {
+    const { facts: privateFacts, ...preparation } = evaluateIowa7251Preparation(projected, { synthetic: false, filingDate: asOf });
+    // Keep person and contact facts in the owner-only mapper, outside eligibility copy.
+    void privateFacts;
+    return { ...preparation, reviewId: "HG006" as const, routeId: IOWA_7251_ROUTE };
+  }
   if (routeKey === ND_NONCONVICTION_ROUTE) return evaluateNorthDakotaNonconviction(routeKey, projected, asOf);
   if (Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey)) return { ...evaluateIowaAlcoholPreparation(routeKey, projected, { synthetic: false, filingDate: asOf })!, reviewId: routeKey === "IA:public-intoxication-12346" ? "HG008" as const : "HG009" as const };
   if (routeKey === AK_IDENTITY_ROUTE) return evaluateAlaskaIdentity(projected, asOf);
@@ -61,6 +69,7 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
 
 export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
   if (routeKey === IOWA_MISDEMEANOR_ROUTE) return iowaMisdemeanorQuestions(facts, includeInactive).map(q => q.id);
+  if (routeKey === IOWA_7251_ROUTE) return iowa7251Questions(facts, includeInactive).map(q => q.id);
   if (routeKey === ND_NONCONVICTION_ROUTE) return [...northDakotaNonconvictionFactIds(facts, includeInactive),
     ...(includeInactive || evaluateNorthDakotaNonconviction(routeKey, facts, new Date().toISOString().slice(0, 10))?.status === "qualifying" ? ND_NONCONVICTION_DOCUMENT_FACT_IDS : [])];
   if (Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey)) return iowaAlcoholQuestions(routeKey, facts, includeInactive).map(q => q.id);
@@ -80,10 +89,12 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
     : (routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts)
       : routeKey === AK_IDENTITY_ROUTE ? alaskaIdentityQuestions(facts)
       : routeKey === IOWA_MISDEMEANOR_ROUTE ? iowaMisdemeanorQuestions(facts)
+      : routeKey === IOWA_7251_ROUTE ? iowa7251Questions(facts)
       : routeKey === ND_NONCONVICTION_ROUTE ? northDakotaNonconvictionQuestions(facts)
       : Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) ? iowaAlcoholQuestions(routeKey, facts)
       : routeKey === MD_CANNABIS_ROUTE ? marylandCannabisQuestions(facts) : []).map(q => ({
     id: q.id, type: q.type, prompt: q.en, promptEs: q.es,
+    ...("required" in q && typeof q.required === "boolean" ? { required: q.required } : {}),
     options: "options" in q && q.options ? [...q.options] : undefined, optionsEn: "optionsEn" in q && q.optionsEn ? [...q.optionsEn] : undefined, optionsEs: "optionsEs" in q && q.optionsEs ? [...q.optionsEs] : undefined
   }));
   const alaskaDocuments = routeKey === AK_IDENTITY_ROUTE && evaluateAlaskaIdentity(facts, new Date().toISOString().slice(0, 10)).branchId === "dps_initial_request"
@@ -113,7 +124,7 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
   const additions = research115PacketQuestions(routeKey, model.initialAnswers);
   if (!additions.length) return model;
   const later = new Set<string>(routeKey === AK_IDENTITY_ROUTE ? ALASKA_IDENTITY_LATER_INPUT_IDS
-    : Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) ? ["financial_obligations"] : []);
+    : Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) || routeKey === IOWA_7251_ROUTE ? ["financial_obligations"] : []);
   const merge = (prior: ProfileQuestion[]) => [...prior.filter(q => !additions.some(a => a.id === q.id))
     .map(q => later.has(q.id) ? { ...q, required: false, contextOnly: true, lifecyclePhase: "optional_or_later" as const } : q), ...additions];
   const gate = research115Eligibility(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers, new Date().toISOString().slice(0, 10));
@@ -122,7 +133,10 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
     ? iowaMisdemeanorFactsFromAnswers(model.initialAnswers, { synthetic: false, filingDate: new Date().toISOString().slice(0, 10) }).facts : null;
   const alcoholFacts = Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) && gate?.status === "qualifying"
     ? iowaAlcoholFactsFromAnswers(routeKey, model.initialAnswers, { synthetic: false, filingDate: new Date().toISOString().slice(0, 10) }).facts : null;
-  const components = gate?.status !== "qualifying" ? [] : alcoholFacts
+  const form5Facts = routeKey === IOWA_7251_ROUTE && gate?.status === "qualifying"
+    ? iowa7251FactsFromAnswers(model.initialAnswers, { synthetic: false, filingDate: new Date().toISOString().slice(0, 10) }).facts : null;
+  const components = gate?.status !== "qualifying" ? [] : form5Facts
+    ? [IOWA_7251_COMPONENT_COPY.form[0], ...(form5Facts.filingMethod === "paper" ? [IOWA_MISDEMEANOR_COMPONENT_COPY.paperService[0]] : []), IOWA_7251_COMPONENT_COPY.instructions[0]] : alcoholFacts
     ? [IOWA_ALCOHOL_COMPONENT_COPY[routeKey === "IA:public-intoxication-12346" ? "form3" : "form4"][0],
       ...(alcoholFacts.filingMethod === "paper" ? [IOWA_MISDEMEANOR_COMPONENT_COPY.paperService[0]] : []),
       IOWA_ALCOHOL_COMPONENT_COPY.instructions[0]] : iowaFacts

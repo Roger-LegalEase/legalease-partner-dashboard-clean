@@ -1,3 +1,4 @@
+import { IOWA_7251_ROUTE, IOWA_7251_BEFORE_FILING, IOWA_7251_SURVIVOR_SUPPORT } from "@/lib/rcap-engine/iowa-7251-native.mjs";
 import { IOWA_ALCOHOL_ROUTES } from "@/lib/rcap-engine/iowa-alcohol-native.mjs";
 import { IOWA_ALCOHOL_FILING_NOTICES, IOWA_ALCOHOL_FORM4_NOTICE } from "@/lib/expungement-ai/research115-packet-copy";
 import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
@@ -134,6 +135,7 @@ export default async function PacketAccuracyReviewPage({
                 <li><LocalizedRuntimeText text={"The court or agency makes the final decision. Approval is not guaranteed."} /></li>
                 <li><LocalizedRuntimeText text={"Review names, dates, court information, and charges against your records before filing."} /></li>
                 {`${item.jurisdiction}:${item.pathwayId}` === IOWA_MISDEMEANOR_ROUTE ? IOWA_MISDEMEANOR_FILING_NOTICES.map(notice => <li key={notice.en}><LocalizedCopy {...notice} /></li>) : null}
+                {`${item.jurisdiction}:${item.pathwayId}` === IOWA_7251_ROUTE ? <><li><LocalizedCopy {...IOWA_7251_BEFORE_FILING} /></li><li><LocalizedCopy {...IOWA_7251_SURVIVOR_SUPPORT} /> <Link className="underline" href={IOWA_7251_SURVIVOR_SUPPORT.href}><LocalizedCopy en="View resources" es="Ver recursos" /></Link></li></> : null}
                 {Object.hasOwn(IOWA_ALCOHOL_ROUTES, `${item.jurisdiction}:${item.pathwayId}`) ? <>{IOWA_ALCOHOL_FILING_NOTICES.map(notice => <li key={notice.en}><LocalizedCopy {...notice} /></li>)}{item.pathwayId === "underage-alcohol-12347" ? <li><LocalizedCopy {...IOWA_ALCOHOL_FORM4_NOTICE} /></li> : null}</> : null}
                 {mississippiClinicPacket ? <li><LocalizedRuntimeText text={"Stop and get legal help for an ambiguous docket entry, unclear venue, diversion or nonadjudication, a related pending matter, prosecutor refusal, or an immigration concern."} /></li> : null}
               </ul>
