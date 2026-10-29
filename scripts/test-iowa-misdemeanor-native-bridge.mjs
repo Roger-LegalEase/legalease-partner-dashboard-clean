@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {validateFacts, iowaMisdemeanorQuestions, IOWA_MISDEMEANOR_FACT_IDS, IOWA_MISDEMEANOR_MANUAL_SSN, iowaMisdemeanorFactsFromAnswers} from '../src/lib/rcap-engine/iowa-misdemeanor-native.mjs';
+import {validateFacts, iowaMisdemeanorQuestions, IOWA_MISDEMEANOR_FACT_IDS, IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS, IOWA_MISDEMEANOR_MANUAL_SSN, IOWA_MISDEMEANOR_PREPARATION_SCOPE, IOWA_MISDEMEANOR_FILING_TASKS, iowaMisdemeanorFactsFromAnswers, evaluateIowaMisdemeanorPreparation} from '../src/lib/rcap-engine/iowa-misdemeanor-native.mjs';
 
 const modulePath='scripts/rcap-packet-recovery/chat8/ia-901c3.mjs';
 const original=execFileSync('git',['show','b41315541ecfc45a4e9ec7494253d62d0313387b:'+modulePath],{encoding:'utf8'});
@@ -18,9 +18,13 @@ check('all native writer/source/bindings/instructions/fixtures bytes remain unch
   const p=stripped.indexOf('\nexport const FAMILY =');
   assert.equal(actual,stripped.slice(0,p)+'\n'+nativeImport+stripped.slice(p));
 });
-check('extracted native rule source is verbatim, including anniversary and conservative guards',()=>{
+check('extracted native rules change only the confirmed citation-case exclusion bypass',()=>{
   const leaf=fs.readFileSync('src/lib/rcap-engine/iowa-misdemeanor-native.mjs','utf8');
-  assert(leaf.includes(helpers.replace('const fail =','export const fail =')+rules));
+  assert(leaf.includes(helpers.replace('const fail =','export const fail =')));
+  const oldGuard="  if (excludedSections.some(s => f.offense.section === s || f.offense.section.startsWith(s + '(')) || excludedChapters.includes(f.offense.section.split('.')[0]) || /^123\\.47\\(3\\)|^708\\.2\\(3\\)|^716\\.8\\([34]\\)/.test(f.offense.section)) fail('Route stop: excluded or retained conservative source category');\n  if (['123.47','708.2','716.8'].includes(f.offense.section)) fail('offense.section: subsection needed to resolve statutory scope');";
+  const fixedGuard="  // The accepted citation syntax is case-insensitive. Compare the same\n  // canonical spelling against existing guards while preserving the raw fact.\n  const citation = f.offense.section.toUpperCase();\n  if (excludedSections.some(s => citation === s || citation.startsWith(s + '(')) || excludedChapters.includes(citation.split('.')[0]) || /^123\\.47\\(3\\)|^708\\.2\\(3\\)|^716\\.8\\([34]\\)/.test(citation)) fail('Route stop: excluded or retained conservative source category');\n  if (['123.47','708.2','716.8'].includes(citation)) fail('offense.section: subsection needed to resolve statutory scope');";
+  const currentRules=leaf.slice(leaf.indexOf('// These exact statutory exclusions'),leaf.indexOf('/** Transport only:'));
+  assert(currentRules.includes(fixedGuard));assert.equal(currentRules.replace(fixedGuard,oldGuard),rules+'\n');
 });
 check('pure native validation loads without corpus environment or renderer dependencies',()=>{
   const env={...process.env};delete env.MASTER_LIBRARY_SOURCE_DIR;delete env.RCAP_BUNDLE_EXTRACT;
@@ -205,4 +209,95 @@ check('existing private-completion source and retained output leave all SSN fiel
   assert(IOWA_MISDEMEANOR_MANUAL_SSN.es.includes('en privado antes de presentar'));
   assert(IOWA_MISDEMEANOR_MANUAL_SSN.es.includes('borrador está incompleto'));
 });
-console.log(`${checks}/${checks} IA901C.3 native extraction/transport controls passed. Native writer/source unchanged by exact source comparison; retained artifacts unchanged; no new render, legal adoption, shared integration or commercial proof.`);
+const prepare=(a,c=context)=>evaluateIowaMisdemeanorPreparation(a,c);
+check('preparation wrapper actually validates known source facts and only supports an incomplete draft',()=>{
+  const d=prepare(answers);assert.equal(d.status,'qualifying');assert.equal(d.scope,IOWA_MISDEMEANOR_PREPARATION_SCOPE);
+  assert.equal(d.scope,'SUPPORTED_DRAFT_PREPARATION_ONLY');assert.equal(d.filingReady,false);assert.equal(d.externalHistoryIncluded,false);
+  assert.equal(d.manualSsn.collectedOnline,false);assert.equal(d.manualSsn.requiredBeforeFiling,true);
+  assert(d.reason.includes('limited Form 2 draft'));assert(d.reasonEs.includes('borrador limitado'));
+  assert(!Object.hasOwn(d,'facts'));assert(!Object.hasOwn(d,'paymentAllowed'));assert(!Object.hasOwn(d,'legalSignoffStatus'));
+});
+for(const[label,patch,status,en,es]of[
+  ['fewer8years',{conviction_date:'2018-09-08'},'not_yet','fewer than eight years','menos de ocho años'],
+  ['unpaid',{financial_obligations:'No'},'not_yet','paid in full','pago completo'],
+  ['pending',{pending_cases:'Yes'},'not_yet','Pending criminal charges','cargos penales pendientes'],
+  ['prior grant',{ia_901c3_prior_grant:'Yes'},'excluded','previously received','ya recibió'],
+  ['two deferred',{ia_901c3_deferred_count:'2_or_more'},'excluded','two or more','dos o más'],
+  ['wrong disposition',{ia_901c3_deferred_disposition:'Yes'},'excluded','misdemeanor conviction','condena por delito menor'],
+  ['excluded offense',{ia_901c3_offense_section:'708.2A'},'excluded','offense category','categoría del delito'],
+  ['235B20 source hold',{ia_901c3_offense_section:'235B.20'},'attorney_review','form and statutory','formulario oficial'],
+  ['related cases',{ia_901c3_related_cases:'Yes'},'attorney_review','related-case','casos relacionados'],
+  ['multiple convictions',{ia_901c3_other_convictions:'Yes'},'attorney_review','multiple convictions','varias condenas'],
+  ['comparability',{ia_901c3_comparability_uncertain:'Yes'},'attorney_review','comparability','equivalencia'],
+  ['sex offense',{ia_901c3_sex_offense:'Yes'},'attorney_review','sex-offense','delito sexual'],
+  ['representation',{ia_901c3_self_represented:'No'},'attorney_review','self-represented','se representa a sí misma'],
+  ['not reviewed',{ia_901c3_exclusions_reviewed:'No'},'unknown','official Form 2 instructions','instrucciones oficiales'],
+  ['unacknowledged',{ia_901c3_ack_lifetime:'No'},'unknown','acknowledgment','reconocimiento']
+])check('bounded native preparation result '+label,()=>{
+  const d=prepare({...answers,...patch});assert.equal(d.status,status);assert(d.reason.includes(en));assert(d.reasonEs.includes(es));
+  assert.equal(d.filingReady,false);assert.equal(d.externalHistoryIncluded,false);assert.equal(d.scope,'SUPPORTED_DRAFT_PREPARATION_ONLY');
+  assert(!d.reason.includes('Route stop:'));assert(!d.reason.includes('participant confirmation:'));
+});
+check('exact8anniversary only supports draft with native blank-checkbox caution in both languages',()=>{
+  const d=prepare({...answers,conviction_date:'2018-09-07'});assert.equal(d.status,'qualifying');assert.equal(d.exactAnniversary,true);
+  assert(d.reason.includes('item 6 left blank'));assert(d.reason.includes('Wait until after the anniversary'));
+  assert(d.reasonEs.includes('en blanco el punto 6'));assert(d.reasonEs.includes('Espere hasta después del aniversario'));assert.equal(d.filingReady,false);
+});
+check('unknown material facts remain explicit missing IDs rather than a supported draft',()=>{
+  for(const[id,value]of[['financial_obligations',{unknown:true,value:'Yes'}],['ia_901c3_prior_grant','I am not sure'],['conviction_date',null],['ia_901c3_alias_count',undefined]]){
+    const d=prepare({...answers,[id]:value});assert.equal(d.status,'unknown');assert(d.missingFactIds.includes(id));assert.equal(d.filingReady,false);
+  }
+});
+check('technical refusals remain bounded and held without echoing raw values',()=>{
+  for(const a of [{...answers,ia_901c3_first_name:'SECRET'.repeat(20)},{...answers,conviction_date:'PRIVATE INVALID DATE'},{...answers,ia_901c3_filing_method:'PRIVATE INVALID METHOD'}]){
+    const d=prepare(a);assert.equal(d.status,'needs_review');assert(!JSON.stringify(d).includes('PRIVATE'));assert(!JSON.stringify(d).includes('SECRET'));
+    assert(d.reason.includes('could not be safely validated'));assert(d.reasonEs.includes('No se pudo validar'));
+  }
+});
+check('foreign synthetic/date flags cannot establish server context or change preparation',()=>{
+  const legitimate=prepare(answers,{synthetic:false,filingDate:context.filingDate});
+  assert.deepEqual(prepare({...answers,synthetic:true,filingDate:'2099-01-01'},{synthetic:false,filingDate:context.filingDate}),legitimate);
+  const absent=prepare({...answers,synthetic:false,filingDate:context.filingDate},{});assert.equal(absent.status,'needs_review');assert.equal(absent.filingReady,false);
+});
+check('unknown/null permitted metadata is exact and distinct from absence or material uncertainty',()=>{
+  const expected=['ia_901c3_birth_date','ia_901c3_driver_license','ia_901c3_address','ia_901c3_city','ia_901c3_state','ia_901c3_zip','ia_901c3_phone','ia_901c3_email','ia_901c3_history_availability','ia_901c3_history_release_signed','ia_901c3_recipient_known'];
+  assert.deepEqual([...IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS].sort(),expected.sort());
+  for(const q of iowaMisdemeanorQuestions({},true))assert.equal(q.allowsExplicitUnknown,expected.includes(q.id));
+  for(const id of['financial_obligations','pending_cases','ia_901c3_prior_grant','conviction_date','ia_901c3_alias_count','ia_901c3_ssn'])assert(!IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS.includes(id));
+  const a={...answers};delete a.ia_901c3_birth_date;assert(prepare(a).missingFactIds.includes('ia_901c3_birth_date'));
+});
+check('explicit nullable/contact/history/recipient states do not become universal preparation blocks',()=>{
+  const a={...answers};for(const id of IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS)a[id]=null;
+  const d=prepare(a);assert.equal(d.status,'qualifying');assert.equal(d.filingReady,false);assert.equal(d.externalHistoryIncluded,false);
+  const f=decode(a).facts;assert.equal(f.dob,null);assert.equal(f.countyAttorney,null);assert.equal(f.historyReport.availability,'unknown');assert.equal(f.historyReport.releaseSigned,null);
+  for(const h of['requested','not_requested','unknown'])assert.equal(prepare({...answers,ia_901c3_history_availability:h}).status,'qualifying');
+});
+check('source-linked manual instructions preserve lifetime, actualopposition/immigration and filing tasks',()=>{
+  const d=prepare(answers);assert.equal(d.instructions,IOWA_MISDEMEANOR_FILING_TASKS);
+  assert(fs.existsSync(d.instructions.instructionSource));assert.equal(d.instructions.memoTrackId,'ia-901c3');
+  assert.equal(d.instructions.en.length,d.instructions.es.length);
+  for(const phrase of['single-lifetime','items 3, 4 and 8','actual returned DCI','only after actual service','actual opposition','immigration consequences'])assert(d.instructions.en.join(' ').includes(phrase));
+  for(const phrase of['oportunidad durante su vida','puntos 3, 4 y 8','informe DCI real','oposición real','consecuencias migratorias'])assert(d.instructions.es.join(' ').includes(phrase));
+});
+// Independent adopted expectations, not read back from the repaired guard list.
+const adoptedExclusions=JSON.stringify(JSON.parse(fs.readFileSync('data/record-clearing/legal-design-intake/IA.memo.json')).tracks.find(t=>t.trackId==='ia-901c3').exclusions);
+for(const[section,adoptedText,status]of[
+  ['235b.20','235B.20','attorney_review'],['321j.2','321J.2','excluded'],['708.2a','708.2A','excluded'],
+  ['321a.32','321A.32','excluded'],['717c.1','chapter 717C','excluded'],['901a.1','chapter 901A','excluded']
+])check('adopted exclusion survives lowercase citation '+section,()=>{
+  assert(adoptedExclusions.includes(adoptedText));
+  const input={...structuredClone(frozen),offense:{section,title:'Synthetic exclusion-boundary probe'}};
+  assert(outcome(oracle.validateFacts,input).value,'exact baseline accepted lowercase citation before repair');
+  assert.throws(()=>validateFacts(input),/excluded or retained conservative source category/);
+  const uppercase={...input,offense:{...input.offense,section:section.toUpperCase()}};
+  assert.deepEqual(outcome(validateFacts,uppercase),outcome(oracle.validateFacts,uppercase));
+  const d=prepare({...answers,ia_901c3_offense_section:section});assert.equal(d.status,status);assert.equal(d.filingReady,false);
+  if(section==='235b.20'){assert(d.reason.includes('form and statutory'));assert(d.reasonEs.includes('formulario oficial'));}
+});
+check('case guard preserves raw accepted citation instead of rewriting a participant fact',()=>{
+  // Format-preservation probe only, not an assertion that this is a qualifying
+  // court case or a reviewed packet variant.
+  const input={...structuredClone(frozen),offense:{section:'321a.2(1)',title:'Synthetic syntax-preservation probe'}};
+  const v=validateFacts(input);assert.equal(v.facts.offense.section,'321a.2(1)');assert.equal(input.offense.section,'321a.2(1)');
+});
+console.log(`${checks}/${checks} IA901C.3 native extraction/transport/preparation controls passed. Existing validation preserved except the demonstrated citation-case exclusion repair; native writer/official form and retained artifacts unchanged; no new render, legal adoption, shared integration or commercial proof.`);

@@ -1,4 +1,4 @@
-/** Existing Iowa Rule 2.86 Form 2 facts, extracted without changing native validation.
+/** Existing Iowa Rule 2.86 Form 2 facts, with the confirmed citation-case guard repaired.
  * No filesystem, corpus audit, renderer or legal approval side effects. */
 export const fail = m => { throw new Error(m); };
 const own = (o, k) => Object.hasOwn(o, k);
@@ -58,8 +58,11 @@ export function validateFacts(input) {
   if (f.comparabilityUncertain !== false || f.sexOffense !== false) fail('Self-help stop: sex offense or unresolved federal/prior-law comparability');
   exactKeys(f.offense, ['section','title'], 'offense'); text(f.offense.section, 'offense.section'); text(f.offense.title, 'offense.title');
   if (!/^\d+[A-Z]?\.\d+[A-Z]?(\(\d+[a-z]?\))*$/i.test(f.offense.section)) fail('offense.section: exact Iowa Code citation required');
-  if (excludedSections.some(s => f.offense.section === s || f.offense.section.startsWith(s + '(')) || excludedChapters.includes(f.offense.section.split('.')[0]) || /^123\.47\(3\)|^708\.2\(3\)|^716\.8\([34]\)/.test(f.offense.section)) fail('Route stop: excluded or retained conservative source category');
-  if (['123.47','708.2','716.8'].includes(f.offense.section)) fail('offense.section: subsection needed to resolve statutory scope');
+  // The accepted citation syntax is case-insensitive. Compare the same
+  // canonical spelling against existing guards while preserving the raw fact.
+  const citation = f.offense.section.toUpperCase();
+  if (excludedSections.some(s => citation === s || citation.startsWith(s + '(')) || excludedChapters.includes(citation.split('.')[0]) || /^123\.47\(3\)|^708\.2\(3\)|^716\.8\([34]\)/.test(citation)) fail('Route stop: excluded or retained conservative source category');
+  if (['123.47','708.2','716.8'].includes(citation)) fail('offense.section: subsection needed to resolve statutory scope');
   if (!['paper','efile'].includes(f.filingMethod)) fail('filingMethod: paper or efile required');
   if (f.countyAttorney !== null) {
     exactKeys(f.countyAttorney, ['name','address','city','state','zip'], 'countyAttorney');
@@ -108,7 +111,7 @@ const count = v => {
   const x = raw(v), s = typeof x === 'number' ? String(x) : typeof x === 'string' ? x.trim() : '';
   return /^(0|[1-9]\d*)$/.test(s) && +s <= 30 ? +s : undefined;
 };
-/** @typedef {{id:string,type:string,en:string,es:string,nullable?:boolean,options?:string[],optionsEn?:string[],optionsEs?:string[]}} IowaQuestion */
+/** @typedef {{id:string,type:string,en:string,es:string,nullable?:boolean,allowsExplicitUnknown?:boolean,allowsExplicitNull?:boolean,options?:string[],optionsEn?:string[],optionsEs?:string[]}} IowaQuestion */
 /** @returns {IowaQuestion} */
 const q = (id, type, en, es, extra = {}) => ({id,type,en,es,...extra});
 const yes = (id,en,es) => q(id,'yes_no_unknown',en,es);
@@ -170,9 +173,14 @@ export function iowaMisdemeanorQuestions(answers={},includeInactive=false) {
     out.push(yes('ia_901c3_recipient_known','Do you know the county attorney name and address for intended paper service?','¿Conoce el nombre y la dirección del fiscal del condado para la entrega prevista en papel?'));
     if(includeInactive||boolean(answers.ia_901c3_recipient_known)===true)for(const [key,en,es]of[['name','name','nombre'],['address','street address','dirección (calle)'],['city','city','ciudad'],['state','two-letter state','estado (dos letras)'],['zip','ZIP code','código postal']])out.push(q('ia_901c3_recipient_'+key,'text_or_unknown',`What is the intended county attorney recipient's ${en}?`,`¿Cuál es ${es} del fiscal del condado destinatario?`));
   }
-  return out;
+  // These source-native states are valid explicit unknowns, not known answers
+  // and not an excuse to require every external record before preparation.
+  return out.map(question=>({...question,
+    allowsExplicitUnknown:question.nullable===true||['ia_901c3_history_availability','ia_901c3_history_release_signed','ia_901c3_recipient_known'].includes(question.id),
+    allowsExplicitNull:question.nullable===true||['ia_901c3_history_availability','ia_901c3_history_release_signed','ia_901c3_recipient_known'].includes(question.id)}));
 }
 export const IOWA_MISDEMEANOR_FACT_IDS=Object.freeze(iowaMisdemeanorQuestions({},true).map(q=>q.id));
+export const IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS=Object.freeze(iowaMisdemeanorQuestions({},true).filter(q=>q.allowsExplicitUnknown).map(q=>q.id));
 
 /** @param {Readonly<Record<string,unknown>>} answers
  * @param {{synthetic:boolean,filingDate:string}} context
@@ -184,7 +192,7 @@ export function iowaMisdemeanorFactsFromAnswers(answers,context) {
   const facts={synthetic:context.synthetic,filingDate:context.filingDate,ssn:null},missingFactIds=[];
   const take=(id,type='text',nullable=false)=>{
     const v=answers[id];
-    if(nullable&&explicitUnknown(v))return null;
+    if(nullable&&(explicitUnknown(v)||Object.hasOwn(answers,id)&&raw(v)===null))return null;
     let value=type==='bool'?boolean(v):type==='count'?count(v):raw(v);
     if(type!=='bool'&&type!=='count'&&(typeof value!=='string'||!value.trim()||explicitUnknown(v)))value=undefined;
     if(value===undefined){missingFactIds.push(id);return undefined;}return value;
@@ -209,8 +217,90 @@ export function iowaMisdemeanorFactsFromAnswers(answers,context) {
     else if(known===true){facts.countyAttorney={};for(const key of['name','address','city','state','zip'])facts.countyAttorney[key]=take('ia_901c3_recipient_'+key);}
   }
   // 'unknown' is an explicit native availability code, not an invented report.
-  const availability=explicitUnknown(answers.ia_901c3_history_availability)?'unknown':raw(answers.ia_901c3_history_availability);
+  const availability=explicitUnknown(answers.ia_901c3_history_availability)||Object.hasOwn(answers,'ia_901c3_history_availability')&&raw(answers.ia_901c3_history_availability)===null?'unknown':raw(answers.ia_901c3_history_availability);
   if(!['available','requested','not_requested','unknown'].includes(availability))missingFactIds.push('ia_901c3_history_availability');
   facts.historyReport={availability,issuedOn:availability==='available'?take('ia_901c3_history_issued'):null,releaseSigned:take('ia_901c3_history_release_signed','bool',true)};
   return{facts:missingFactIds.length?null:facts,missingFactIds:[...new Set(missingFactIds)],refusal:null};
+}
+
+export const IOWA_MISDEMEANOR_PREPARATION_SCOPE='SUPPORTED_DRAFT_PREPARATION_ONLY';
+export const IOWA_MISDEMEANOR_FILING_TASKS=Object.freeze({
+  instructionSource:'data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/participant-instructions.md',
+  memoTrackId:'ia-901c3',
+  en:[
+    'Before filing, confirm the permanent single-lifetime choice. The court checks its confidential registry; this tool does not file automatically or make a court eligibility finding.',
+    'Personally review the actual related-case, eligibility and deferred-judgment statements in items 3, 4 and 8. Complete private identifiers, the signature election, actual signature and signing date truthfully.',
+    'Obtain and attach the actual returned DCI history report with the required release and a date within 30 days of actual filing. Item 9 remains blank until the report is actually attached and reviewed; LegalEase does not supply or authenticate it.',
+    'For paper filing, complete the embedded service certification only after actual service on the correct county attorney. For electronic filing, confirm the actual service procedure; do not certify service that did not occur.',
+    'Seek legal help for actual opposition, contested eligibility, immigration consequences or other stated self-help stops. Follow court dates and deadlines while seeking help.'
+  ],
+  es:[
+    'Antes de presentar la solicitud, confirme la elección permanente de una sola oportunidad durante su vida. El tribunal consulta su registro confidencial; esta herramienta no presenta la solicitud automáticamente ni determina la elegibilidad ante el tribunal.',
+    'Revise personalmente las declaraciones reales sobre casos relacionados, elegibilidad y sentencias diferidas en los puntos 3, 4 y 8. Complete con veracidad los identificadores privados, la elección de firma, la firma real y la fecha de firma.',
+    'Obtenga y adjunte el informe DCI real recibido, con la autorización requerida y una fecha dentro de los 30 días anteriores a la presentación real. El punto 9 sigue en blanco hasta que el informe se adjunte y revise realmente; LegalEase no lo proporciona ni autentica.',
+    'Si presenta en papel, complete la certificación de entrega incluida solo después de realizar la entrega al fiscal correcto del condado. Si presenta electrónicamente, confirme el procedimiento real de entrega; no certifique una entrega que no ocurrió.',
+    'Busque asistencia legal si hay oposición real, elegibilidad controvertida, consecuencias migratorias u otras condiciones indicadas que impidan continuar por cuenta propia. Cumpla las fechas y los plazos judiciales mientras busca ayuda.'
+  ]
+});
+const preparationCopy={
+  supported:['These answers support preparing a limited Form 2 draft for one case. Court eligibility, your actual statements and signatures, private SSN completion, the actual DCI report and service still require review or completion before filing.','Estas respuestas permiten preparar un borrador limitado del Formulario 2 para un solo caso. La elegibilidad ante el tribunal, sus declaraciones y firmas reales, completar el Seguro Social en privado, el informe DCI real y la entrega de documentos aún requieren revisión o deben completarse antes de presentar la solicitud.'],
+  anniversary:['The intended filing date is the exact eighth anniversary. A limited draft can be prepared, with item 6 left blank. Wait until after the anniversary or obtain court or legal guidance before certifying that more than eight years have passed. The draft remains incomplete for filing.','La fecha prevista de presentación es el octavo aniversario exacto. Se puede preparar un borrador limitado, dejando en blanco el punto 6. Espere hasta después del aniversario u obtenga orientación del tribunal o asistencia legal antes de certificar que han pasado más de ocho años. El borrador sigue incompleto para su presentación.'],
+  unknown:['A required case fact is missing or uncertain. Keep it unknown and check the original record before continuing draft preparation.','Falta un dato necesario del caso o es incierto. Manténgalo como desconocido y consulte el expediente original antes de continuar preparando el borrador.'],
+  timing:['The supplied dates are fewer than eight years after the conviction. This route cannot proceed with draft preparation on those dates.','Según las fechas indicadas, han pasado menos de ocho años desde la condena. Esta vía no puede continuar con la preparación del borrador con esas fechas.'],
+  unpaid:['This route requires all court costs, fees, fines, restitution and other financial obligations in this case to be paid in full. The supplied answer does not confirm full payment.','Esta vía exige el pago completo de las costas, tasas, multas, restitución y demás obligaciones económicas de este caso. La respuesta indicada no confirma el pago completo.'],
+  pending:['Pending criminal charges prevent this supported self-help preparation route from proceeding. Seek legal assistance.','Los cargos penales pendientes impiden continuar con esta vía de preparación por cuenta propia. Busque asistencia legal.'],
+  prior:['This supported draft route does not cover a person who previously received an expungement under section 901C.3. Review the lifetime limitation with legal assistance.','Esta vía de preparación de borradores no cubre a una persona que ya recibió una eliminación de antecedentes conforme a la sección 901C.3. Revise la limitación de una sola vez durante su vida con asistencia legal.'],
+  deferred:['This supported draft route does not cover two or more counted deferred-judgment proceedings. Obtain legal assistance with the actual disposition records.','Esta vía de preparación de borradores no cubre dos o más procedimientos de sentencia diferida computables. Obtenga asistencia legal con los documentos reales de las resoluciones.'],
+  disposition:['Form 2 draft preparation here supports a misdemeanor conviction, rather than a deferred judgment or another disposition. Check the actual disposition record.','La preparación de un borrador del Formulario 2 en esta vía corresponde a una condena por delito menor, en vez de una sentencia diferida u otra resolución. Consulte la resolución real del caso.'],
+  multiple:['Choosing among multiple convictions requires legal assistance under this supported self-help scope. The choice may use the single lifetime opportunity.','Elegir entre varias condenas requiere asistencia legal dentro de este alcance de ayuda por cuenta propia. La elección puede consumir la única oportunidad disponible durante su vida.'],
+  related:['A related-case or same-transaction determination requires legal assistance. This supported draft route does not make that determination or prepare a related-case assertion.','Determinar si hay casos relacionados o un mismo hecho requiere asistencia legal. Esta vía de preparación de borradores no hace esa determinación ni prepara una declaración sobre casos relacionados.'],
+  comparability:['A sex-offense or unresolved federal or prior-law comparability question is outside this supported self-help preparation scope. Obtain legal assistance.','Un delito sexual o una duda sin resolver sobre la equivalencia de un delito federal o de una ley anterior queda fuera de este alcance de preparación por cuenta propia. Obtenga asistencia legal.'],
+  excluded:['The recorded offense category is excluded from this supported Form 2 draft-preparation scope. Check the exact record and obtain legal assistance.','La categoría del delito registrado queda excluida de este alcance de preparación de borradores del Formulario 2. Consulte el expediente exacto y obtenga asistencia legal.'],
+  conservative:['Section 235B.20 remains held because the official form and statutory exclusion list differ. This preparation tool cannot resolve that legal question.','La sección 235B.20 sigue retenida porque el formulario oficial y la lista legal de exclusiones difieren. Esta herramienta de preparación no puede resolver esa cuestión jurídica.'],
+  review:['The supplied information could not be safely validated for this limited draft. Review the original records or seek assistance; preparation remains held.','No se pudo validar de forma segura la información indicada para este borrador limitado. Revise los expedientes originales o busque asistencia; la preparación sigue retenida.'],
+  instructions:['Review the official Form 2 instructions and the requested acknowledgment before continuing. An acknowledgment does not override the exact offense checks or complete any signature or filing.','Revise las instrucciones oficiales del Formulario 2 y el reconocimiento solicitado antes de continuar. Un reconocimiento no anula las comprobaciones del delito exacto ni completa una firma o la presentación.'],
+  representation:['This preparation path supports a self-represented participant. Obtain legal assistance for a represented filing.','Esta vía de preparación corresponde a una persona que se representa a sí misma. Obtenga asistencia legal para una presentación con representación.']
+};
+
+/** @typedef {{routeId:string,scope:'SUPPORTED_DRAFT_PREPARATION_ONLY',status:'qualifying'|'unknown'|'not_yet'|'excluded'|'attorney_review'|'needs_review',reason:string,reasonEs:string,missingFactIds:string[],filingReady:boolean,externalHistoryIncluded:boolean,manualSsn:typeof IOWA_MISDEMEANOR_MANUAL_SSN,exactAnniversary?:boolean,instructions?:typeof IOWA_MISDEMEANOR_FILING_TASKS}} IowaPreparationDecision */
+/** Bounded preparation decision only. The shared native validator also guards
+ * the source builder; its confirmed citation-case exclusion bypass is repaired;
+ * no court finding, legal adoption, payment or filing authorization is inferred.
+ * @param {Readonly<Record<string,unknown>>} answers
+ * @param {{synthetic:boolean,filingDate:string}} context
+ * @returns {IowaPreparationDecision}
+ */
+export function evaluateIowaMisdemeanorPreparation(answers,context) {
+  const decision=(status,copy,missingFactIds=[],extra={})=>({routeId:IOWA_MISDEMEANOR_ROUTE,
+    scope:IOWA_MISDEMEANOR_PREPARATION_SCOPE,status,reason:copy[0],reasonEs:copy[1],missingFactIds,
+    filingReady:false,externalHistoryIncluded:false,manualSsn:IOWA_MISDEMEANOR_MANUAL_SSN,...extra});
+  try{
+    const decoded=iowaMisdemeanorFactsFromAnswers(answers,context);
+    if(decoded.refusal)return decision(decoded.refusal==='Self-help stop: related-case/same-transaction determination requires legal assistance'?'attorney_review':'needs_review',decoded.refusal==='Self-help stop: related-case/same-transaction determination requires legal assistance'?preparationCopy.related:preparationCopy.review);
+    if(!decoded.facts)return decision('unknown',preparationCopy.unknown,decoded.missingFactIds);
+    try{
+      const validated=validateFacts(decoded.facts);
+      return decision('qualifying',validated.exactAnniversary?preparationCopy.anniversary:preparationCopy.supported,[],{exactAnniversary:validated.exactAnniversary,instructions:IOWA_MISDEMEANOR_FILING_TASKS});
+    }catch(error){
+      const message=error instanceof Error?error.message:'';
+      if(message==='Route stop: fewer than eight years since conviction')return decision('not_yet',preparationCopy.timing);
+      if(message==='Missing participant confirmation: financialObligationsPaid')return decision('not_yet',preparationCopy.unpaid);
+      if(message==='Route stop: pending or unknown criminal charges')return decision('not_yet',preparationCopy.pending);
+      if(message==='Route stop: prior or unknown lifetime 901C.3 grant')return decision('excluded',preparationCopy.prior);
+      if(message==='Route stop: two or more or uncertain deferred-judgment proceedings')return decision('excluded',preparationCopy.deferred);
+      if(message==='Route stop: Form 2 requires a misdemeanor conviction, not a deferred judgment')return decision('excluded',preparationCopy.disposition);
+      if(message==='Self-help stop: strategic choice among multiple convictions')return decision('attorney_review',preparationCopy.multiple);
+      if(message==='Self-help stop: related-case/same-transaction determination requires legal assistance')return decision('attorney_review',preparationCopy.related);
+      if(message==='Self-help stop: sex offense or unresolved federal/prior-law comparability')return decision('attorney_review',preparationCopy.comparability);
+      if(message==='Route stop: excluded or retained conservative source category'){
+        const retained=/^235B\.20(?:\(|$)/.test(decoded.facts.offense.section.toUpperCase());
+        return decision(retained?'attorney_review':'excluded',retained?preparationCopy.conservative:preparationCopy.excluded);
+      }
+      if(message==='Missing participant confirmation: exclusionsReviewed')return decision('unknown',preparationCopy.instructions,['ia_901c3_exclusions_reviewed']);
+      if(message==='Missing participant confirmation: selfRepresented')return decision('attorney_review',preparationCopy.representation);
+      const ack=message.match(/^Read-before-signing acknowledgment not supplied: (copy|related|lifetime|confidential)$/);
+      if(ack)return decision('unknown',preparationCopy.instructions,['ia_901c3_ack_'+ack[1]]);
+      return decision('needs_review',preparationCopy.review);
+    }
+  }catch{return decision('needs_review',preparationCopy.review);}
 }
