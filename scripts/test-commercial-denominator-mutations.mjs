@@ -130,6 +130,21 @@ mutation(
   () => verifierRefusal()
 );
 
+for (const [field, value] of [["checkoutState", "open"], ["sponsorshipState", "open"], ["creditConsumptionState", "consumable"], ["checkoutActuallyOpen", true]]) {
+  mutation(
+    `an unproven route reports ${field} as open`,
+    [CENSUS],
+    () => {
+      const census = json(CENSUS);
+      const victim = census.rows.find((row) => !row.gradeAProofValid);
+      if (field === "checkoutActuallyOpen") victim.currentPaymentAuthority[field] = value;
+      else victim[field] = value;
+      save(CENSUS, census);
+    },
+    () => verifierRefusal()
+  );
+}
+
 // 5. A sponsored credit may not be consumable without proven authority, and a
 //    record may not be held by a route whose proofs are incomplete.
 mutation(

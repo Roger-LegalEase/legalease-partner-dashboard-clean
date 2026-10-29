@@ -4,7 +4,7 @@
 
 The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.
 
-**267 commercial routes** — 26 payment-allowed at the evaluator, 20 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
+**267 commercial routes** — 26 payment-allowed at the evaluator, 1 eligible for checkout after canonical channel authority is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record. These are local code-derived channel decisions, not account-specific authorization or production transactions.
 
 **267 intended-paid pathways** are the denominator, read from the sellable pathway closure. 267 carry a census row and 0 are named as census gaps for want of a public witness answer set. A pathway leaves only through a signed reclassification, never through this census.
 
@@ -21,7 +21,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 
 | Route | Family | Result | Checkout | Credit | Provider | Type | Classification |
 |---|---|---|---|---|---|---|---|
-| `AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `AK:executive-pardon-backstop` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `AK:juvenile-record-sealing-as-47-12-300` | — | not_covered_yet | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
@@ -45,7 +45,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `CA:tool-4-arrest-record-sealing` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CO:juvenile-expungement-19-1-306` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CO:petition-based-conviction-sealing-jdf-612-24-72-706` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `CT:absolute-pardon-resulting-in-erasure` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v` | Connecticut § 54-142v petition for erasure of cannabis conviction records | needs_review | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
 | `CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
@@ -69,7 +69,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `HI:deferred-prostitution-three-year` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `HI:dui-under-21-conviction` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `HI:first-time-drug-conviction` | Hawaii First-Time Drug Offender Expungement Order Request under § 706-622.5 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `HI:nonconviction-arrest-expungement` | Hawaii Attorney General Expungement Application under § 831-3.2 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `HI:nonconviction-arrest-expungement` | Hawaii Attorney General Expungement Application under § 831-3.2 | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `IA:minor-prostitution-7251` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `IA:misdemeanor-901c3` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `IA:nonconviction-901c2` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
@@ -139,26 +139,26 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123` | Missouri §§ 610.122-.123 Petition | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MO:first-minor-in-possession-alcohol-expungement-under-311-326` | Missouri § 311.326 Minor-in-Possession Expungement Petition | guidance_only | closed | no | none | none | SOURCE_OR_CONFIGURATION_GATE |
-| `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140` | Missouri § 610.140 Expungement Petition | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MO:stolen-or-mistaken-identity-expungement-under-610-145` | Missouri § 610.145 Identity-Error Expungement Packet | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:additional-justice-court-misdemeanor-relief-9-11-15-3` | Petition under § 9-11-15(3) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` | Petition under § 21-23-7(6) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:eligible-felony-conviction-expungement-99-19-71` | Petition for Expungement of an Eligible Felony Conviction under § 99-19-71(2) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1` | First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:first-offense-controlled-substance-conditional-discharge-relief` | Post-Conditional-Discharge Application under § 41-29-150(d)(2) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:first-offense-dui-expungement` | Circuit Court Petition under § 63-11-30(13) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140` | Missouri § 610.140 Expungement Petition | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MO:stolen-or-mistaken-identity-expungement-under-610-145` | Missouri § 610.145 Identity-Error Expungement Packet | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:additional-justice-court-misdemeanor-relief-9-11-15-3` | Petition under § 9-11-15(3) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` | Petition under § 21-23-7(6) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:eligible-felony-conviction-expungement-99-19-71` | Petition for Expungement of an Eligible Felony Conviction under § 99-19-71(2) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1` | First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:first-offense-controlled-substance-conditional-discharge-relief` | Post-Conditional-Discharge Application under § 41-29-150(d)(2) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:first-offense-dui-expungement` | Circuit Court Petition under § 63-11-30(13) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:human-trafficking-survivor-expungement-97-3-54-6-6` | Petition or Motion to Expunge under § 97-3-54.6(6) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:human-trafficking-survivor-vacatur-97-3-54-6-5` | Motion to Vacate under § 97-3-54.6(5) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | Nonconviction Petition under § 99-19-71(4) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:minor-in-possession-underage-alcohol-expungement` | Petition under § 67-3-70(6) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | Nonconviction Petition under § 99-19-71(4) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:minor-in-possession-underage-alcohol-expungement` | Petition under § 67-3-70(6) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | Nonconviction Petition under current § 99-19-71(4) | packet_ready_with_caution | OPEN | no | rcap_grade_a_composer_v1 | application/pdf | PACKET_CORRECTION_REQUIRED |
-| `MS:nonadjudication-under-99-15-26` | Post-Nonadjudication Petition under § 99-15-26(5) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:pretrial-intervention-or-diversion-expungement` | Petition After Pretrial Intervention under § 99-15-123(3) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | Petition under § 99-15-59 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:nonadjudication-under-99-15-26` | Post-Nonadjudication Petition under § 99-15-26(5) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:pretrial-intervention-or-diversion-expungement` | Petition After Pretrial Intervention under § 99-15-123(3) | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | Petition under § 99-15-59 | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | Petition under § 99-15-59 | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MT:marijuana-related-redesignation-expungement-under-mmrta` | Montana MMRTA Redesignation or Expungement Petition under § 16-12-113 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NC:nonviolent-conviction-expunction-under-g-s-15a-145-5` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes` | North Carolina Petition for Expunction under G.S. 15A-145.8A | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `ND:deferred-imposition-dismissal-and-sealing` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
@@ -194,7 +194,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `NY:conditional-treatment-sealing-under-cpl-160-58` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `OH:adult-non-conviction-sealing-or-expungement-under-2953-33` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OH:adult-non-conviction-sealing-or-expungement-under-2953-33` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `OH:certain-firearm-carry-conviction-expungement-under-2953-35` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `OH:human-trafficking-survivor-conviction-expungement-under-2953-36` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
@@ -257,7 +257,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `UT:path-j-cannabis-possession-petition-without-a-bci-certificate` | Utah Cannabis-Possession Expungement Petition | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `UT:path-l-vacatur-human-trafficking-related-expungement` | Utah Trafficking Vacatur and Expungement Petition | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `UT:path-m-juvenile-expungement` | Utah Juvenile Expungement Petition | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
-| `VA:petition-based-sealing` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VA:petition-based-sealing` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `VA:regime-1-expungement-available-now` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `VT:adult-conviction-expungement-narrow-statutory-route` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `VT:adult-felony-conviction-sealing` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
@@ -297,7 +297,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40
 - **PACKET FAMILY:** none named by any contract
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -310,7 +310,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1317-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1317 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AK:executive-pardon-backstop`
 
@@ -331,7 +331,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `AK:juvenile-record-sealing-as-47-12-300`
 
@@ -352,7 +352,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180`
 
@@ -373,7 +373,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1297-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1297 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
 
@@ -394,7 +394,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_GENERATION_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on ak_12_55_085_e_motion_artifact, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on ak_12_55_085_e_motion_artifact; canonical commercial admission remains separately required.
 
 ### `AL:eligible-conviction-expungement-under-the-redeemer-act`
 
@@ -415,7 +415,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1170-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1170 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AL:human-trafficking-victim-expungement`
 
@@ -436,7 +436,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1016-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1016 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AL:non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a`
 
@@ -457,7 +457,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1165-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1165 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AL:pardoned-felony-expungement-under-ala-code-15-27-2-c`
 
@@ -478,7 +478,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1181-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1181 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AR:situation-a-non-convictions`
 
@@ -499,7 +499,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1034-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1034 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AR:situation-b-misdemeanor-convictions`
 
@@ -520,7 +520,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1018-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1018 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AR:situation-c-felony-convictions`
 
@@ -541,7 +541,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1001-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1001 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051`
 
@@ -562,7 +562,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on az_13_4051_product_scope_classification, az_13_4051_superior_court_filing_configuration, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on az_13_4051_product_scope_classification, az_13_4051_superior_court_filing_configuration; canonical commercial admission remains separately required.
 
 ### `AZ:remedy-1-record-sealing`
 
@@ -583,7 +583,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 903-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 903 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AZ:remedy-2-set-aside-of-a-conviction`
 
@@ -604,7 +604,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 916-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 916 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `AZ:remedy-3-marijuana-expungement`
 
@@ -625,7 +625,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 912-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 912 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a`
 
@@ -646,7 +646,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on ca_1203_4a_official_form_acquisition, ca_1203_4a_county_filing_configuration, ca_1203_4a_artifact_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on ca_1203_4a_official_form_acquisition, ca_1203_4a_county_filing_configuration, ca_1203_4a_artifact_review; canonical commercial admission remains separately required.
 
 ### `CA:prop-64-completed-sentence-application-11361-8`
 
@@ -667,7 +667,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `CA:prop-64-currently-serving-petition-11361-8`
 
@@ -688,7 +688,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `CA:tool-1-dismissal-set-aside`
 
@@ -709,7 +709,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1006-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1006 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `CA:tool-3-petition-based-felony-sealing`
 
@@ -730,7 +730,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `CA:tool-4-arrest-record-sealing`
 
@@ -751,7 +751,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed true is not commercial authority.
 
 ### `CO:juvenile-expungement-19-1-306`
 
@@ -772,7 +772,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `CO:petition-based-conviction-sealing-jdf-612-24-72-706`
 
@@ -793,7 +793,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1197-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1197 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704`
 
@@ -801,7 +801,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** petition-based-non-conviction-sealing-jdf-417-24-72-704
 - **PACKET FAMILY:** none named by any contract
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -814,7 +814,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1214-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1214 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `CT:absolute-pardon-resulting-in-erasure`
 
@@ -835,7 +835,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v`
 
@@ -856,7 +856,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on ct_54_142v_local_filing_configuration, ct_54_142v_artifact_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on ct_54_142v_local_filing_configuration, ct_54_142v_artifact_review; canonical commercial admission remains separately required.
 
 ### `CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202`
 
@@ -877,7 +877,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `DC:dc_actual_innocence_expungement_16_803`
 
@@ -898,7 +898,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1076-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1076 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `DC:dc_motion_seal_felony_conviction_8yr_16_806`
 
@@ -919,7 +919,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1134-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1134 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806`
 
@@ -940,7 +940,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1069-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1069 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `DC:dc_motion_seal_nonconviction_16_806`
 
@@ -961,7 +961,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1008-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1008 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `DE:discretionary-court-expungement-under-11-del-c-4374`
 
@@ -982,7 +982,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1098-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1098 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `DE:juvenile-expungement-under-10-del-c-1017-1019-1017a`
 
@@ -1003,7 +1003,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `DE:pardon-based-discretionary-expungement-under-11-del-c-4375`
 
@@ -1024,7 +1024,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1203-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1203 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `FL:court-ordered-expunction-943-0585`
 
@@ -1045,7 +1045,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 911-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 911 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `FL:court-ordered-sealing-943-059`
 
@@ -1066,7 +1066,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 909-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 909 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `FL:early-juvenile-expunction-943-0515`
 
@@ -1087,7 +1087,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 920 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `FL:human-trafficking-victim-expunction-943-0583`
 
@@ -1108,7 +1108,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 924-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 924 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `GA:non-conviction-record-restriction-through-the-agency-prosecutor-process`
 
@@ -1129,7 +1129,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1144-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1144 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `GA:restriction-and-sealing-of-a-pardoned-felony`
 
@@ -1150,7 +1150,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `GA:retroactive-first-offender-treatment-under-42-8-66`
 
@@ -1171,7 +1171,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_GENERATION_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on ga_42_8_66_petition_family_build, ga_42_8_66_candidate_and_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on ga_42_8_66_petition_family_build, ga_42_8_66_candidate_and_review; canonical commercial admission remains separately required.
 
 ### `GA:sb-288-misdemeanor-conviction-restriction-and-sealing`
 
@@ -1192,7 +1192,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1088-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1088 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `GA:youthful-first-offender-restriction-route`
 
@@ -1213,7 +1213,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 953-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 953 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `HI:deferred-acceptance-one-year`
 
@@ -1234,7 +1234,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 920 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `HI:deferred-prostitution-three-year`
 
@@ -1255,7 +1255,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 924-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 924 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `HI:dui-under-21-conviction`
 
@@ -1276,7 +1276,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 913-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 913 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `HI:first-time-drug-conviction`
 
@@ -1297,7 +1297,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 916-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 916 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `HI:nonconviction-arrest-expungement`
 
@@ -1305,7 +1305,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** nonconviction-arrest-expungement
 - **PACKET FAMILY:** Hawaii Attorney General Expungement Application under § 831-3.2
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -1318,7 +1318,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 948-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 948 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IA:minor-prostitution-7251`
 
@@ -1339,7 +1339,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 911-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 911 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IA:misdemeanor-901c3`
 
@@ -1360,7 +1360,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 903-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 903 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IA:nonconviction-901c2`
 
@@ -1381,7 +1381,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 905-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 905 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IA:public-intoxication-12346`
 
@@ -1402,7 +1402,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1016-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1016 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IA:underage-alcohol-12347`
 
@@ -1423,7 +1423,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1013-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1013 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ID:clean-slate-shielding-under-idaho-code-67-3004-11`
 
@@ -1444,7 +1444,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1036-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1036 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ID:human-trafficking-survivor-vacatur-and-expungement`
 
@@ -1465,7 +1465,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `ID:juvenile-expungement`
 
@@ -1486,7 +1486,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10`
 
@@ -1507,7 +1507,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1081-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1081 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ID:withheld-judgment-idaho-code-19-2604-review-branch`
 
@@ -1528,7 +1528,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `IL:adult-conviction-sealing`
 
@@ -1549,7 +1549,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1812-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1812 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IL:adult-non-conviction-expungement`
 
@@ -1570,7 +1570,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 942-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 942 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IL:cannabis-specific-automatic-or-petition-expungement`
 
@@ -1591,7 +1591,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1596-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1596 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IL:criminal-identity-theft-mistaken-identity-relief`
 
@@ -1612,7 +1612,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 946-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 946 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IL:expungement-after-eligible-supervision-or-qualified-probation`
 
@@ -1633,7 +1633,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1868-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1868 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IL:felony-prostitution-relief`
 
@@ -1654,7 +1654,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1260-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1260 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IL:human-trafficking-survivor-vacatur-and-expungement`
 
@@ -1675,7 +1675,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 971-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 971 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IL:juvenile-automatic-or-petition-expungement`
 
@@ -1696,7 +1696,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1028-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1028 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IN:conviction-expungement-with-records-marked-expunged`
 
@@ -1717,7 +1717,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1006-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1006 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IN:conviction-expungement-with-sealed-confidential-access`
 
@@ -1738,7 +1738,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1011-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1011 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IN:juvenile-allegation-expungement`
 
@@ -1759,7 +1759,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1101-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1101 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `IN:non-conviction-arrest-or-criminal-charge-expungement`
 
@@ -1780,7 +1780,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1053-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1053 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `KS:conviction-or-diversion-216614`
 
@@ -1801,7 +1801,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1371-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1371 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `KS:municipal-arrest-record-expungement-under-12-4516a`
 
@@ -1822,7 +1822,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on ks_12_4516a_local_municipal_instrument, ks_12_4516a_artifact_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on ks_12_4516a_local_municipal_instrument, ks_12_4516a_artifact_review; canonical commercial admission remains separately required.
 
 ### `KS:municipal-conviction-or-diversion-expungement-under-12-4516`
 
@@ -1843,7 +1843,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on ks_12_4516_local_municipal_instrument, ks_12_4516_artifact_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on ks_12_4516_local_municipal_instrument, ks_12_4516_artifact_review; canonical commercial admission remains separately required.
 
 ### `KS:prostitution-coercion`
 
@@ -1864,7 +1864,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1364-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1364 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `KS:specialty-court-accelerated`
 
@@ -1885,7 +1885,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 917-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 917 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `KY:felony-conviction-431073`
 
@@ -1906,7 +1906,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 920 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `KY:misdemeanor-violation-traffic-conviction`
 
@@ -1927,7 +1927,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 940-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 940 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `KY:nonconviction-431076`
 
@@ -1948,7 +1948,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 914-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 914 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276`
 
@@ -1969,7 +1969,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on ky_218a_276_legal_effect_ratification, ky_218a_276_clerk_filing_configuration, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on ky_218a_276_legal_effect_ratification, ky_218a_276_clerk_filing_configuration; canonical commercial admission remains separately required.
 
 ### `LA:expungement-by-redaction-for-multi-person-records`
 
@@ -1990,7 +1990,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on la_985_redaction_supplement_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on la_985_redaction_supplement_review; canonical commercial admission remains separately required.
 
 ### `LA:felony-article-893-e-set-aside-followed-by-expungement`
 
@@ -2011,7 +2011,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1095-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1095 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:felony-ten-year-clean-period-expungement`
 
@@ -2032,7 +2032,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 928-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 928 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:first-offender-pardon-felony-expungement`
 
@@ -2053,7 +2053,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 995-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 995 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:first-offense-marijuana-expungement-after-90-days-art-998`
 
@@ -2074,7 +2074,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
-- **EXACT REMAINING DELTA:** Commercially open while held on la_977d_post_sunset_fee_schedule, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on la_977d_post_sunset_fee_schedule; canonical commercial admission remains separately required.
 
 ### `LA:human-trafficking-survivor-expungement-fee-exempt-route`
 
@@ -2095,7 +2095,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 972-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 972 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:immediate-expungement-after-successful-court-program-completion-art-985-3`
 
@@ -2116,7 +2116,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction`
 
@@ -2137,7 +2137,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1038-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1038 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:misdemeanor-article-894-b-set-aside-followed-by-expungement`
 
@@ -2158,7 +2158,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1085-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1085 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:misdemeanor-five-year-clean-period-expungement`
 
@@ -2179,7 +2179,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 965-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 965 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:non-conviction-arrest-expungement`
 
@@ -2200,7 +2200,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 973-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 973 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MA:adult-conviction-sealing-under-m-g-l-c-276-100a`
 
@@ -2221,7 +2221,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1235-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1235 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c`
 
@@ -2242,7 +2242,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1347-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1347 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MA:juvenile-record-sealing-under-100b`
 
@@ -2263,7 +2263,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1258-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1258 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MA:marijuana-only-expungement`
 
@@ -2284,7 +2284,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k`
 
@@ -2305,7 +2305,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1362-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1362 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MA:time-based-expungement-under-100f-100j`
 
@@ -2326,7 +2326,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1138-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1138 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MD:adult-non-conviction-expungement-under-crim-proc-10-105`
 
@@ -2347,7 +2347,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 986-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 986 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MD:cannabis-specific-expungement`
 
@@ -2368,7 +2368,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1068-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1068 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MD:eligible-conviction-expungement-under-crim-proc-10-110`
 
@@ -2389,7 +2389,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 987-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 987 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MD:juvenile-expungement`
 
@@ -2410,7 +2410,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8`
 
@@ -2431,7 +2431,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1078-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1078 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MD:police-record-expungement-when-no-charge-was-filed-under-10-103`
 
@@ -2452,7 +2452,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `MD:second-chance-act-shielding`
 
@@ -2473,7 +2473,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1487-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1487 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ME:adult-conviction-sealing`
 
@@ -2494,7 +2494,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
-- **EXACT REMAINING DELTA:** Commercially open while held on me_2264_prosecutor_notice_method, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on me_2264_prosecutor_notice_method; canonical commercial admission remains separately required.
 
 ### `ME:juvenile-sealing`
 
@@ -2515,7 +2515,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `ME:pardon-route`
 
@@ -2536,7 +2536,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `ME:sex-trafficking-sexual-exploitation-survivor-sealing`
 
@@ -2557,7 +2557,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
-- **EXACT REMAINING DELTA:** Commercially open while held on me_2264_7_cr308_warning_conflict, me_2264_7_prosecutor_notice_method, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on me_2264_7_cr308_warning_conflict, me_2264_7_prosecutor_notice_method; canonical commercial admission remains separately required.
 
 ### `MI:first-offense-owi-set-aside-by-application`
 
@@ -2578,7 +2578,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1084-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1084 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MI:human-trafficking-related-set-aside-application`
 
@@ -2599,7 +2599,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1208-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1208 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e`
 
@@ -2620,7 +2620,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1301-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1301 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MI:set-aside-by-application-under-mcl-780-621`
 
@@ -2641,7 +2641,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1359-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1359 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06`
 
@@ -2662,7 +2662,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `MN:petition-based-expungement-under-609a-02-03`
 
@@ -2683,7 +2683,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1148-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1148 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025`
 
@@ -2704,7 +2704,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1014-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1014 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123`
 
@@ -2725,7 +2725,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1209-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1209 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130`
 
@@ -2746,7 +2746,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1180-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1180 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MO:first-minor-in-possession-alcohol-expungement-under-311-326`
 
@@ -2767,7 +2767,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
-- **EXACT REMAINING DELTA:** Commercially open while held on mo_311_326_clerk_final_caption, mo_311_326_clerk_filing_code, mo_311_326_clerk_fee, mo_311_326_clerk_service, mo_311_326_clerk_summons, mo_311_326_clerk_division_instructions, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on mo_311_326_clerk_final_caption, mo_311_326_clerk_filing_code, mo_311_326_clerk_fee, mo_311_326_clerk_service, mo_311_326_clerk_summons, mo_311_326_clerk_division_instructions; canonical commercial admission remains separately required.
 
 ### `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140`
 
@@ -2775,7 +2775,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140
 - **PACKET FAMILY:** Missouri § 610.140 Expungement Petition
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2788,7 +2788,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1576-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1576 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MO:stolen-or-mistaken-identity-expungement-under-610-145`
 
@@ -2796,7 +2796,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** stolen-or-mistaken-identity-expungement-under-610-145
 - **PACKET FAMILY:** Missouri § 610.145 Identity-Error Expungement Packet
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2809,7 +2809,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1148-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1148 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:additional-justice-court-misdemeanor-relief-9-11-15-3`
 
@@ -2817,7 +2817,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** additional-justice-court-misdemeanor-relief-9-11-15-3
 - **PACKET FAMILY:** Petition under § 9-11-15(3)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2830,7 +2830,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 976-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 976 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6`
 
@@ -2838,7 +2838,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** additional-municipal-court-misdemeanor-relief-21-23-7-6
 - **PACKET FAMILY:** Petition under § 21-23-7(6)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2851,7 +2851,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 978-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 978 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:eligible-felony-conviction-expungement-99-19-71`
 
@@ -2859,7 +2859,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** eligible-felony-conviction-expungement-99-19-71
 - **PACKET FAMILY:** Petition for Expungement of an Eligible Felony Conviction under § 99-19-71(2)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2872,7 +2872,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 993-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 993 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1`
 
@@ -2880,7 +2880,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1
 - **PACKET FAMILY:** First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2893,7 +2893,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1017-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1017 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:first-offense-controlled-substance-conditional-discharge-relief`
 
@@ -2901,7 +2901,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** first-offense-controlled-substance-conditional-discharge-relief
 - **PACKET FAMILY:** Post-Conditional-Discharge Application under § 41-29-150(d)(2)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2914,7 +2914,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1009-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1009 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:first-offense-dui-expungement`
 
@@ -2922,7 +2922,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** first-offense-dui-expungement
 - **PACKET FAMILY:** Circuit Court Petition under § 63-11-30(13)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2935,7 +2935,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 975-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 975 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:human-trafficking-survivor-expungement-97-3-54-6-6`
 
@@ -2956,7 +2956,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 969-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 969 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:human-trafficking-survivor-vacatur-97-3-54-6-5`
 
@@ -2977,7 +2977,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 965-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 965 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`
 
@@ -2985,7 +2985,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4
 - **PACKET FAMILY:** Nonconviction Petition under § 99-19-71(4)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -2998,7 +2998,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 993-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 993 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:minor-in-possession-underage-alcohol-expungement`
 
@@ -3006,7 +3006,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** minor-in-possession-underage-alcohol-expungement
 - **PACKET FAMILY:** Petition under § 67-3-70(6)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -3019,7 +3019,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 994-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 994 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`
 
@@ -3048,7 +3048,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** nonadjudication-under-99-15-26
 - **PACKET FAMILY:** Post-Nonadjudication Petition under § 99-15-26(5)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -3061,7 +3061,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1097-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1097 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:pretrial-intervention-or-diversion-expungement`
 
@@ -3069,7 +3069,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** pretrial-intervention-or-diversion-expungement
 - **PACKET FAMILY:** Petition After Pretrial Intervention under § 99-15-123(3)
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -3082,7 +3082,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 992-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 992 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59`
 
@@ -3090,7 +3090,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** uncharged-misdemeanor-immediate-dismissal-branch-99-15-59
 - **PACKET FAMILY:** Petition under § 99-15-59
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -3103,7 +3103,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 980-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 980 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`
 
@@ -3145,7 +3145,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1366-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1366 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104`
 
@@ -3166,7 +3166,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1006-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1006 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146`
 
@@ -3174,7 +3174,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** dismissal-and-not-guilty-expunction-under-g-s-15a-146
 - **PACKET FAMILY:** none named by any contract
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -3187,7 +3187,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1228-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1228 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NC:nonviolent-conviction-expunction-under-g-s-15a-145-5`
 
@@ -3208,7 +3208,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1185-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1185 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes`
 
@@ -3229,7 +3229,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1316-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1316 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ND:deferred-imposition-dismissal-and-sealing`
 
@@ -3250,7 +3250,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 981-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 981 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ND:dui-record-sealing-under-the-separate-dui-statute`
 
@@ -3271,7 +3271,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1067-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1067 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ND:first-offense-possession-sealing`
 
@@ -3292,7 +3292,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 936-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 936 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1`
 
@@ -3313,7 +3313,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `ND:marijuana-specific-summary-pardon-or-sealing-relief`
 
@@ -3334,7 +3334,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1054-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1054 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NE:juvenile-petition-backstop`
 
@@ -3355,7 +3355,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NE:law-enforcement-error-expungement`
 
@@ -3376,7 +3376,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NE:pardon-then-seal`
 
@@ -3397,7 +3397,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 912-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 912 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NE:set-aside-incarceration-one-year-or-less`
 
@@ -3418,7 +3418,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 960-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 960 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NE:set-aside-probation-fine-community-service`
 
@@ -3439,7 +3439,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 962-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 962 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NE:trafficking-survivor-set-aside-and-seal`
 
@@ -3460,7 +3460,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1009-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1009 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NH:annulment-after-dismissal-acquittal-or-nonprosecution`
 
@@ -3481,7 +3481,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed true is not commercial authority.
 
 ### `NH:annulment-of-a-vacated-conviction`
 
@@ -3502,7 +3502,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NH:conviction-annulment-under-rsa-651-5`
 
@@ -3523,7 +3523,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 958-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 958 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NH:dwi-dui-annulment`
 
@@ -3544,7 +3544,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 941-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 941 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NH:marijuana-possession-annulment-under-rsa-651-5-b`
 
@@ -3565,7 +3565,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 970-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 970 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6`
 
@@ -3586,7 +3586,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1084-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1084 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3`
 
@@ -3607,7 +3607,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3`
 
@@ -3628,7 +3628,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1058-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1058 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NM:cannabis-sentence-dismissal-incarcerated-person-pathway`
 
@@ -3649,7 +3649,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NM:conviction`
 
@@ -3670,7 +3670,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1230-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1230 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NM:no-conviction-released-without-conviction`
 
@@ -3691,7 +3691,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1603-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1603 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NV:controlled-substance-possession-sealing-under-nrs-453-3365`
 
@@ -3712,7 +3712,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211`
 
@@ -3733,7 +3733,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NV:general-conviction-record-sealing-under-nrs-179-245`
 
@@ -3754,7 +3754,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1051-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1051 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NV:non-conviction-record-sealing`
 
@@ -3775,7 +3775,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 961-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 961 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NV:probation-or-specialty-court-dismissal-set-aside-sealing`
 
@@ -3796,7 +3796,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 964-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 964 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NV:reentry-program-sealing-under-nrs-179-259`
 
@@ -3817,7 +3817,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1046-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1046 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160`
 
@@ -3838,7 +3838,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on nv_179a_160_agency_submission_configuration, nv_179a_160_artifact_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on nv_179a_160_agency_submission_configuration, nv_179a_160_artifact_review; canonical commercial admission remains separately required.
 
 ### `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`
 
@@ -3859,7 +3859,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NY:conditional-treatment-sealing-under-cpl-160-58`
 
@@ -3880,7 +3880,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59`
 
@@ -3901,7 +3901,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1219-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1219 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32`
 
@@ -3922,7 +3922,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 955-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 955 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OH:adult-non-conviction-sealing-or-expungement-under-2953-33`
 
@@ -3930,7 +3930,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** adult-non-conviction-sealing-or-expungement-under-2953-33
 - **PACKET FAMILY:** none named by any contract
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -3943,7 +3943,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 971-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 971 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OH:certain-firearm-carry-conviction-expungement-under-2953-35`
 
@@ -3964,7 +3964,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 992-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 992 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OH:human-trafficking-survivor-conviction-expungement-under-2953-36`
 
@@ -3985,7 +3985,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521`
 
@@ -4006,7 +4006,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `OH:juvenile-sealing-and-expungement`
 
@@ -4027,7 +4027,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `OH:marijuana-hashish-possession-expungement-under-2953-321`
 
@@ -4048,7 +4048,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_GENERATION_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on oh_2953_321_application_artifact, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on oh_2953_321_application_artifact; canonical commercial admission remains separately required.
 
 ### `OK:acquittal-dismissal-or-other-no-conviction-expungement`
 
@@ -4069,7 +4069,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1096-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1096 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:arrest-with-no-charges-filed`
 
@@ -4090,7 +4090,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 964-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 964 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:conviction-reversed-and-case-dismissed`
 
@@ -4111,7 +4111,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 936-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 936 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:deferred-sentence-court-record-expungement-under-991-c`
 
@@ -4132,7 +4132,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1086-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1086 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:dna-factual-innocence-expungement`
 
@@ -4153,7 +4153,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 931-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 931 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:felony-reclassified-as-a-misdemeanor`
 
@@ -4174,7 +4174,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 969-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 969 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:fine-only-misdemeanor-conviction-expungement`
 
@@ -4195,7 +4195,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 980-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 980 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:human-trafficking-survivor-relief`
 
@@ -4216,7 +4216,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `OK:juvenile-record-expungement`
 
@@ -4237,7 +4237,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `OK:misdemeanor-deferred-dismissal-expungement`
 
@@ -4258,7 +4258,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 940-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 940 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:nonviolent-felony-deferred-dismissal-expungement`
 
@@ -4279,7 +4279,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 946-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 946 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:not-more-than-two-eligible-felony-convictions-expungement`
 
@@ -4300,7 +4300,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 955-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 955 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:one-eligible-nonviolent-felony-conviction-expungement`
 
@@ -4321,7 +4321,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 951-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 951 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:other-eligible-misdemeanor-conviction-expungement`
 
@@ -4342,7 +4342,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 947-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 947 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:pardon-based-expungement`
 
@@ -4363,7 +4363,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 920 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:up-to-two-felony-deferred-dismissal-expungement`
 
@@ -4384,7 +4384,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1111-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1111 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OK:victim-protective-order-record-relief`
 
@@ -4405,7 +4405,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 958-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 958 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OR:marijuana-specific-set-aside-redesignation`
 
@@ -4426,7 +4426,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c`
 
@@ -4447,7 +4447,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1187-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1187 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a`
 
@@ -4468,7 +4468,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1168-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1168 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `PA:path-a-non-conviction-expungement`
 
@@ -4489,7 +4489,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 954-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 954 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `RI:path-a-first-offender-conviction-expungement`
 
@@ -4510,7 +4510,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1417-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1417 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `RI:path-b-multiple-misdemeanor-expungement`
 
@@ -4531,7 +4531,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1412-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1412 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `RI:path-c-deferred-sentence-expungement`
 
@@ -4552,7 +4552,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1409-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1409 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `RI:path-d-non-conviction-sealing-expungement`
 
@@ -4573,7 +4573,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1487-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1487 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `RI:path-e-filed-complaint-relief-under-12-10-12`
 
@@ -4594,7 +4594,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `RI:path-h-commercial-sexual-activity-related-expungement`
 
@@ -4615,7 +4615,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `SC:eligible-conviction-expungement`
 
@@ -4636,7 +4636,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 942-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 942 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `SC:general-sessions-non-conviction-expungement`
 
@@ -4657,7 +4657,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 984-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 984 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `SC:human-trafficking-survivor-expungement`
 
@@ -4678,7 +4678,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `SC:juvenile-expungement`
 
@@ -4699,7 +4699,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1198-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1198 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `SC:summary-court-non-conviction-expungement`
 
@@ -4720,7 +4720,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1014-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1014 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `SD:adult-arrest-record-expungement-under-sdcl-23a-3-27`
 
@@ -4741,7 +4741,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1777-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1777 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `SD:controlled-substance-deferred-disposition-route`
 
@@ -4762,7 +4762,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `SD:diversion-expungement`
 
@@ -4783,7 +4783,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `SD:juvenile-delinquency-sealing`
 
@@ -4804,7 +4804,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `SD:juvenile-trafficking-expungement`
 
@@ -4825,7 +4825,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `SD:suspended-imposition-of-sentence-sealing`
 
@@ -4846,7 +4846,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106`
 
@@ -4867,7 +4867,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313`
 
@@ -4888,7 +4888,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1065-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1065 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107`
 
@@ -4909,7 +4909,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1091-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1091 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TN:pathway-4-two-offense-expunction-under-40-32-101-k`
 
@@ -4930,7 +4930,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1057-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1057 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a`
 
@@ -4951,7 +4951,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1132-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1132 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:expunction-after-pardon-or-actual-innocence-relief`
 
@@ -4972,7 +4972,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1035-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1035 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:expunction-after-qualifying-class-c-deferred-disposition`
 
@@ -4993,7 +4993,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 950-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 950 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:expunction-after-qualifying-dismissal-or-quash`
 
@@ -5014,7 +5014,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1089-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1089 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period`
 
@@ -5035,7 +5035,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1059-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1059 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:first-offense-dwi-nondisclosure`
 
@@ -5056,7 +5056,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1193-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1193 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725`
 
@@ -5077,7 +5077,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1316-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1316 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735`
 
@@ -5098,7 +5098,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1319-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1319 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility`
 
@@ -5119,7 +5119,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1053-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1053 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `UT:path-e-petition-based-non-conviction-expungement`
 
@@ -5140,7 +5140,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1030-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1030 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `UT:path-f-petition-based-conviction-expungement`
 
@@ -5161,7 +5161,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1028-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1028 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `UT:path-i-traffic-offense-expungement-or-deletion`
 
@@ -5182,7 +5182,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1054-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1054 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `UT:path-j-cannabis-possession-petition-without-a-bci-certificate`
 
@@ -5203,7 +5203,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1309-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1309 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `UT:path-l-vacatur-human-trafficking-related-expungement`
 
@@ -5224,7 +5224,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `UT:path-m-juvenile-expungement`
 
@@ -5245,7 +5245,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `VA:petition-based-sealing`
 
@@ -5253,7 +5253,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** petition-based-sealing
 - **PACKET FAMILY:** none named by any contract
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -5266,7 +5266,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 930-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 930 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `VA:regime-1-expungement-available-now`
 
@@ -5287,7 +5287,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed true is not commercial authority.
 
 ### `VT:adult-conviction-expungement-narrow-statutory-route`
 
@@ -5308,7 +5308,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 945-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 945 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `VT:adult-felony-conviction-sealing`
 
@@ -5329,7 +5329,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 927-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 927 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `VT:adult-misdemeanor-conviction-sealing`
 
@@ -5350,7 +5350,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 932-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 932 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `VT:dui-sealing`
 
@@ -5371,7 +5371,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1023-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1023 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `VT:juvenile-sealing`
 
@@ -5392,7 +5392,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `VT:non-conviction-sealing`
 
@@ -5413,7 +5413,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 978-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 978 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g`
 
@@ -5434,7 +5434,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1005-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1005 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `VT:young-adult-sealing-for-offenses-committed-at-ages-18-21`
 
@@ -5455,7 +5455,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 978-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 978 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WA:adult-felony-vacation-under-rcw-9-94a-640`
 
@@ -5476,7 +5476,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1380-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1380 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WA:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060`
 
@@ -5497,7 +5497,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1560-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1560 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WA:blake-drug-possession-vacation-and-refund-route`
 
@@ -5518,7 +5518,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 2012-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 2012 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WA:juvenile-record-sealing-under-rcw-13-50-260`
 
@@ -5539,7 +5539,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WA:misdemeanor-cannabis-conviction-vacation`
 
@@ -5560,7 +5560,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1907-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1907 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WA:non-conviction-record-deletion-under-rcw-10-97-060`
 
@@ -5581,7 +5581,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 2331-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 2331 bytes; it does not establish a delivered packet. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WA:victim-survivor-conviction-vacation-route`
 
@@ -5602,7 +5602,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1407-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1407 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WI:adult-conviction-expungement-under-wis-stat-973-015`
 
@@ -5623,7 +5623,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WI:adult-non-conviction-arrest-only-record-correction-or-removal`
 
@@ -5644,7 +5644,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 961-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 961 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WI:executive-pardon-guidance`
 
@@ -5665,7 +5665,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WI:human-trafficking-prostitution-relief-under-973-015-2m`
 
@@ -5686,7 +5686,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m`
 
@@ -5707,7 +5707,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a`
 
@@ -5728,7 +5728,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1021-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1021 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WV:eligible-conviction-expungement-under-w-va-code-61-11-26`
 
@@ -5749,7 +5749,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on wv_61_11_26_sca_c906_artifact_review, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on wv_61_11_26_sca_c906_artifact_review; canonical commercial admission remains separately required.
 
 ### `WV:first-offense-drug-possession-conditional-discharge-relief`
 
@@ -5770,7 +5770,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1041-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1041 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WV:juvenile-record-relief`
 
@@ -5791,7 +5791,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication`
 
@@ -5812,7 +5812,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
-- **EXACT REMAINING DELTA:** Commercially open while held on wv_61_11_25_sca_c903_currency, which should not be possible.
+- **EXACT REMAINING DELTA:** Held on wv_61_11_25_sca_c903_currency; canonical commercial admission remains separately required.
 
 ### `WV:sex-trafficking-victim-vacatur-and-expungement`
 
@@ -5833,7 +5833,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WY:felony-conviction-expungement-w-s-7-13-1502`
 
@@ -5854,7 +5854,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 922-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 922 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `WY:human-trafficking-victim-vacatur-w-s-6-2-708`
 
@@ -5875,7 +5875,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `WY:juvenile-minor-expungement-w-s-14-6-241`
 
@@ -5896,4 +5896,4 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
-- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.

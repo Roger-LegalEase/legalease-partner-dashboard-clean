@@ -155,7 +155,9 @@ for (const pathway of PAID_PATHWAY_DENOMINATOR) {
   const pathwayId = witness.pathwayId;
   const packetRoute = resolvePacketRoute({ state: jurisdiction, pathway: pathwayId, trackId: terminal.selectedTrackId ?? null });
   const evaluatorPaymentAllowed = terminal.paymentAllowed === true;
-  const creditConsumable = packetRoute.creditConsumable === true;
+  const binding = { trackId: composablePacketSpecificationFor(witness.pathwayKey)?.trackId ?? null };
+  const creditConsumable = packetRoute.creditConsumable === true
+    && packetFulfillmentAuthority(jurisdiction, pathwayId, "packet credit consumption", binding).allowed === true;
   /**
    * The denominator is the intended-commercial universe, and a fulfillment
    * record is not part of deciding it.
@@ -186,7 +188,10 @@ for (const pathway of PAID_PATHWAY_DENOMINATOR) {
   const plan = profile ? packetPlanForPathway(profile, pathwayId) : undefined;
   const contract = legalRouteContract(jurisdiction, pathwayId);
   const resolution = resolveRoute({ jurisdiction, pathwayId, facts: {}, on: ON, phase: "FINAL_VERIFICATION" });
-  const checkoutOpen = isConsumerPaymentAllowed(terminal.resultCode, evaluatorPaymentAllowed) && packetRouteCanRender(packetRoute);
+  const checkoutOpen = isConsumerPaymentAllowed(terminal.resultCode, evaluatorPaymentAllowed) && packetRouteCanRender(packetRoute)
+    && packetFulfillmentAuthority(jurisdiction, pathwayId, "checkout creation", binding).allowed === true;
+  const sponsorshipOpen = resolution.sponsorshipAuthority === "open"
+    && packetFulfillmentAuthority(jurisdiction, pathwayId, "sponsored entitlement", binding).allowed === true;
 
   const artifact = plan
     ? sourceDrivenArtifactText(profile.jurisdiction.name, { ...plan, jurisdictionCode: jurisdiction },
@@ -243,18 +248,18 @@ for (const pathway of PAID_PATHWAY_DENOMINATOR) {
     delta = "No packet plan resolves for this route, so nothing can say what it would deliver.";
   } else if (openGates.length > 0 && gateKinds.has("artifact_generation")) {
     classification = "ARTIFACT_GENERATION_REQUIRED";
-    delta = `Commercially open while held on ${openGates.join(", ")}, which should not be possible.`;
+    delta = `Held on ${openGates.join(", ")}; canonical commercial admission remains separately required.`;
   } else if (openGates.length > 0 && gateKinds.has("artifact_legal_review")) {
     classification = "ARTIFACT_REVIEW_REQUIRED";
-    delta = `Commercially open while held on ${openGates.join(", ")}, which should not be possible.`;
+    delta = `Held on ${openGates.join(", ")}; canonical commercial admission remains separately required.`;
   } else if (openGates.length > 0) {
     classification = "SOURCE_OR_CONFIGURATION_GATE";
-    delta = `Commercially open while held on ${openGates.join(", ")}, which should not be possible.`;
+    delta = `Held on ${openGates.join(", ")}; canonical commercial admission remains separately required.`;
   } else if (packetRoute.routeKind === "guidance_only" || (guidanceOutcome && contract?.packetFamily == null)) {
     classification = "GUIDANCE_OR_HANDOFF_NO_PACKET";
     delta = checkoutOpen
       ? `Checkout is OPEN on a route that promises no packet, and the paid path would return a ${artifact ? Buffer.byteLength(artifact) : 0}-byte text/plain summary.`
-      : `The packet route resolver classifies this ${packetRoute.routeKind} and closes checkout, while the evaluator reports paymentAllowed ${evaluatorPaymentAllowed}. The two disagree; only the resolver's answer is closing it.`;
+      : `The packet route resolver classifies this ${packetRoute.routeKind}; checkout remains closed. The evaluator's paymentAllowed ${evaluatorPaymentAllowed} is not commercial authority.`;
   } else if (components.absent.length === 0) {
     // The summary mentions every component name and contains none of them. That
     // is the finding, not a pass.
@@ -265,7 +270,7 @@ for (const pathway of PAID_PATHWAY_DENOMINATOR) {
     delta = `Checkout is OPEN. A participant can pay today and receive a ${Buffer.byteLength(artifact)}-byte text/plain summary. Missing: ${missing}.`;
   } else {
     classification = "PACKET_CORRECTION_REQUIRED";
-    delta = `Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a ${Buffer.byteLength(artifact)}-byte text/plain summary. Missing: ${missing}.`;
+    delta = `Checkout is closed; sponsored packet credit ${creditConsumable ? "is consumable" : "is refused"}. The legacy summary mirror is ${Buffer.byteLength(artifact)} bytes; it does not establish a delivered packet. Missing: ${missing}.`;
   }
 
   // Fulfillment authority, joined onto the fixed universe rather than deciding
@@ -318,7 +323,7 @@ for (const pathway of PAID_PATHWAY_DENOMINATOR) {
     gradeAProofValid: admitted,
     commercialAdmissionState: admitted ? "admitted" : "refused",
     checkoutState: checkoutOpen ? "open" : "refused",
-    sponsorshipState: resolution.sponsorshipAuthority === "open" ? "open" : "refused",
+    sponsorshipState: sponsorshipOpen ? "open" : "refused",
     creditConsumptionState: creditConsumable ? "consumable" : "refused",
     commercialAuthorityRefusedBecause: refusedBecause,
     routeAndLegalWorkPreserved: Boolean(composablePacketSpecificationFor(witness.pathwayKey)),
@@ -527,7 +532,7 @@ const md = [
   "",
   doc.finding,
   "",
-  `**${doc.totals.commercialRoutes} commercial routes** — ${doc.totals.evaluatorPaymentAllowed} payment-allowed at the evaluator, ${doc.totals.checkoutActuallyOpen} with checkout actually open once the packet route resolver is consulted, ${doc.totals.sponsorshipCapable} sponsorship-capable, ${doc.totals.provenByFulfillmentRecord} proven by a fulfillment record.`,
+  `**${doc.totals.commercialRoutes} commercial routes** — ${doc.totals.evaluatorPaymentAllowed} payment-allowed at the evaluator, ${doc.totals.checkoutActuallyOpen} eligible for checkout after canonical channel authority is consulted, ${doc.totals.sponsorshipCapable} sponsorship-capable, ${doc.totals.provenByFulfillmentRecord} proven by a fulfillment record. These are local code-derived channel decisions, not account-specific authorization or production transactions.`,
   "",
   `**${denominatorRoutes.length} intended-paid pathways** are the denominator, read from the sellable pathway closure. ${examined.length} carry a census row and ${gaps.length} are named as census gaps for want of a public witness answer set. A pathway leaves only through a signed reclassification, never through this census.`,
   "",

@@ -141,6 +141,13 @@ ok("every refused route states exactly why",
   census.rows.filter((row) => !row.gradeAProofValid).every((row) =>
     typeof row.commercialAuthorityRefusedBecause === "string" && row.commercialAuthorityRefusedBecause.length > 0));
 
+for (const [field, refused] of [["checkoutState", "refused"], ["sponsorshipState", "refused"], ["creditConsumptionState", "refused"]]) {
+  ok(`no unproven route reports an open ${field}`,
+    census.rows.every((row) => row.gradeAProofValid || row[field] === refused));
+}
+ok("the checkout projection agrees with its canonical channel state",
+  census.rows.every((row) => row.currentPaymentAuthority.checkoutActuallyOpen === (row.checkoutState === "open")));
+
 // 6. A withdrawn record stays traceable, carries no authority, and is not an exit.
 //    Checked in both directions: a loop over the ledger proves nothing when the
 //    ledger is empty, so the two must agree on the count first.
