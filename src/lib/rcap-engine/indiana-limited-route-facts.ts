@@ -45,7 +45,7 @@ export function indianaLimitedRouteFacts(routeKey:string,facts:Facts,asOf:string
    }
   }
   const serious=juvenileType==="chins"?"no":text(facts.in_juvenile_serious_violent_felony_finding);
-  const ids=[...base,...(!["yes","no"].includes(serious??"")?["in_juvenile_serious_violent_felony_finding"]:[]),...(["in_juvenile_original_county","in_juvenile_original_court","in_juvenile_cause_number","in_juvenile_date_of_birth","in_juvenile_allegations_and_adjudications","in_juvenile_charging_agency_if_known","in_juvenile_later_adjudications_and_convictions","in_juvenile_pending_actions","in_juvenile_services_and_current_status","in_juvenile_confidential_identifier_plan"].filter(id=>!text(facts[id])))];
+  const ids=[...base,...(!["yes","no"].includes(serious??"")?["in_juvenile_serious_violent_felony_finding"]:[]),...(["in_juvenile_original_county","in_juvenile_original_court","in_juvenile_cause_number","in_juvenile_date_of_birth","in_juvenile_allegations_and_adjudications","in_juvenile_later_adjudications_and_convictions","in_juvenile_pending_actions","in_juvenile_services_and_current_status","in_juvenile_confidential_identifier_plan"].filter(id=>!text(facts[id])))];
   if(!validDate("in_juvenile_date_of_birth")&&!ids.includes("in_juvenile_date_of_birth"))ids.push("in_juvenile_date_of_birth");
   if(ids.length)return out("unknown","juvenile31_petition",ids);
   const born=validDate("in_juvenile_date_of_birth"),adjudicated=validDate("in_juvenile_adjudication_date"),discharged=validDate("in_juvenile_discharge_date");
@@ -131,7 +131,7 @@ export const IN_LIMITED_ROUTE_QUESTIONS:readonly PublicQuestion[]=[
  q("in_juvenile_original_court","Which juvenile court handled that original action?","¿Qué tribunal juvenil tramitó esa acción original?"),
  q("in_juvenile_cause_number","What is the original juvenile case or cause number?","¿Cuál es el número del caso o causa juvenil original?"),
  q("in_juvenile_allegations_and_adjudications","Identify the actual allegations, disposition and adjudication date if any. Do not invent a finding.","Identifique las alegaciones reales, resolución y fecha de adjudicación, si la hubo. No invente una determinación."),
- q("in_juvenile_charging_agency_if_known","Which agency employed the charging officer, if known? State that it is unknown if you do not know.","¿Qué agencia empleaba al agente que presentó los cargos, si lo sabe? Indique que lo desconoce si no lo sabe."),
+ {...q("in_juvenile_charging_agency_if_known","Which agency employed the charging officer, if known? State that it is unknown if you do not know.","¿Qué agencia empleaba al agente que presentó los cargos, si lo sabe? Indique que lo desconoce si no lo sabe."),required:false,contextOnly:true,lifecyclePhase:"optional_or_later"},
  q("in_juvenile_later_adjudications_and_convictions","List all later juvenile/CHINS adjudications and criminal convictions, or state none if that is true.","Enumere todas las adjudicaciones juveniles o de servicios posteriores y condenas penales, o indique ninguna si es cierto."),
  q("in_juvenile_pending_actions","List all pending delinquency, CHINS and criminal cases, or state none if that is true.","Enumere todos los casos pendientes de delincuencia, servicios y penales, o indique ninguno si es cierto."),
  q("in_juvenile_services_and_current_status","Describe participation in services, later court/law-enforcement contact, current situation and why removal is requested.","Describa la participación en servicios, contacto posterior con tribunales o policía, situación actual y motivo de la solicitud."),
