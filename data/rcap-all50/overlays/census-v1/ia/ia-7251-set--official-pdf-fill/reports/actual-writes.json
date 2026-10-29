@@ -14,9 +14,9 @@
           "factId": "case.filing_county",
           "drawnText": "Polk",
           "rect": {
-            "x": 285,
-            "y": 673,
-            "width": 112,
+            "x": 301,
+            "y": 680,
+            "width": 131,
             "height": 12
           },
           "fontSize": 9
@@ -30,9 +30,9 @@
           "factId": "case.case_number",
           "drawnText": "FECR123456",
           "rect": {
-            "x": 406,
-            "y": 632,
-            "width": 135,
+            "x": 363,
+            "y": 638.5,
+            "width": 172,
             "height": 12
           },
           "fontSize": 9
@@ -47,7 +47,7 @@
           "drawnText": "Jordan Avery Reyes",
           "rect": {
             "x": 72,
-            "y": 569,
+            "y": 582,
             "width": 220,
             "height": 12
           },
@@ -56,47 +56,63 @@
         {
           "fieldId": "Rule 2.86 Form 5:conviction_7251_selected",
           "fieldName": "conviction_7251_selected",
-          "effectiveLabel": "Conviction under Iowa Code section 725.1",
+          "effectiveLabel": "Conviction under section725.1(1)(a) or recorded equivalent",
           "documentId": "Rule 2.86 Form 5",
           "page": 1,
-          "factId": "route.ia_7251_conviction",
+          "factId": "case.checked_conviction_record",
           "drawnText": "X",
           "rect": {
-            "x": 76,
-            "y": 389,
-            "width": 10,
+            "x": 91.5,
+            "y": 392.32,
+            "width": 8,
             "height": 12
           },
           "fontSize": 9
         },
         {
-          "fieldId": "Rule 2.86 Form 5:conviction_date",
-          "fieldName": "conviction_date",
-          "effectiveLabel": "Conviction date",
+          "fieldId": "Rule 2.86 Form 5:conviction_month",
+          "fieldName": "conviction_month",
+          "effectiveLabel": "Conviction month",
           "documentId": "Rule 2.86 Form 5",
           "page": 1,
           "factId": "case.conviction_date",
-          "drawnText": "06/14/2022",
+          "drawnText": "June",
           "rect": {
-            "x": 110,
-            "y": 364,
-            "width": 112,
+            "x": 108,
+            "y": 369,
+            "width": 71,
             "height": 12
           },
           "fontSize": 9
         },
         {
-          "fieldId": "Rule 2.86 Form 5:under_18_selected",
-          "fieldName": "under_18_selected",
-          "effectiveLabel": "Under age 18 at offense",
+          "fieldId": "Rule 2.86 Form 5:conviction_day",
+          "fieldName": "conviction_day",
+          "effectiveLabel": "Conviction day",
           "documentId": "Rule 2.86 Form 5",
           "page": 1,
-          "factId": "route.under_18_at_offense",
-          "drawnText": "X",
+          "factId": "case.conviction_date",
+          "drawnText": "14",
           "rect": {
-            "x": 76,
-            "y": 333,
-            "width": 10,
+            "x": 189,
+            "y": 369,
+            "width": 27,
+            "height": 12
+          },
+          "fontSize": 9
+        },
+        {
+          "fieldId": "Rule 2.86 Form 5:conviction_year",
+          "fieldName": "conviction_year",
+          "effectiveLabel": "Conviction year",
+          "documentId": "Rule 2.86 Form 5",
+          "page": 1,
+          "factId": "case.conviction_date",
+          "drawnText": "2022",
+          "rect": {
+            "x": 225,
+            "y": 369,
+            "width": 40,
             "height": 12
           },
           "fontSize": 9
@@ -104,15 +120,15 @@
         {
           "fieldId": "Rule 2.86 Form 5:no_disqualifying_conviction_selected",
           "fieldName": "no_disqualifying_conviction_selected",
-          "effectiveLabel": "No intervening disqualifying conviction",
+          "effectiveLabel": "No disqualifying conviction in actual two-year window",
           "documentId": "Rule 2.86 Form 5",
           "page": 1,
-          "factId": "route.no_intervening_disqualifying_conviction",
+          "factId": "case.validated_complete_history",
           "drawnText": "X",
           "rect": {
-            "x": 76,
-            "y": 299,
-            "width": 10,
+            "x": 91.5,
+            "y": 302.2,
+            "width": 8,
             "height": 12
           },
           "fontSize": 9
@@ -123,12 +139,12 @@
           "effectiveLabel": "Service acknowledgment",
           "documentId": "Rule 2.86 Form 5",
           "page": 1,
-          "factId": "route.service_acknowledgment",
+          "factId": "participant.ackCopy",
           "drawnText": "X",
           "rect": {
-            "x": 76,
-            "y": 203,
-            "width": 10,
+            "x": 73.5,
+            "y": 207.16,
+            "width": 8,
             "height": 12
           },
           "fontSize": 9
@@ -139,12 +155,12 @@
           "effectiveLabel": "Confidentiality acknowledgment",
           "documentId": "Rule 2.86 Form 5",
           "page": 1,
-          "factId": "route.confidentiality_acknowledgment",
+          "factId": "participant.ackConfidential",
           "drawnText": "X",
           "rect": {
-            "x": 76,
-            "y": 183,
-            "width": 10,
+            "x": 73.5,
+            "y": 187.356,
+            "width": 8,
             "height": 12
           },
           "fontSize": 9
@@ -152,15 +168,15 @@
         {
           "fieldId": "Rule 2.86 Form 5:self_represented_name",
           "fieldName": "self_represented_name",
-          "effectiveLabel": "Self-represented litigant name",
+          "effectiveLabel": "Printed participant name, not a signature",
           "documentId": "Rule 2.86 Form 5",
           "page": 2,
           "factId": "participant.full_legal_name",
           "drawnText": "Jordan Avery Reyes",
           "rect": {
-            "x": 145,
-            "y": 647,
-            "width": 280,
+            "x": 119,
+            "y": 652.6,
+            "width": 198,
             "height": 12
           },
           "fontSize": 9
@@ -171,44 +187,92 @@
           "effectiveLabel": "Mailing address",
           "documentId": "Rule 2.86 Form 5",
           "page": 2,
-          "factId": "participant.street_address",
+          "factId": "participant.address",
           "drawnText": "412 Walnut Street, Apartment 7",
           "rect": {
             "x": 108,
-            "y": 547,
-            "width": 430,
+            "y": 564,
+            "width": 432,
             "height": 12
           },
           "fontSize": 9
         },
         {
-          "fieldId": "Rule 2.86 Form 5:city_state_zip",
-          "fieldName": "city_state_zip",
-          "effectiveLabel": "City, state, ZIP",
+          "fieldId": "Rule 2.86 Form 5:city",
+          "fieldName": "city",
+          "effectiveLabel": "City",
           "documentId": "Rule 2.86 Form 5",
           "page": 2,
-          "factId": "participant.city_state_zip",
-          "drawnText": "Des Moines, IA 50309",
+          "factId": "participant.city",
+          "drawnText": "Des Moines",
           "rect": {
             "x": 108,
-            "y": 527,
-            "width": 430,
+            "y": 533,
+            "width": 187,
             "height": 12
           },
           "fontSize": 9
         },
         {
-          "fieldId": "Rule 2.86 Form 5:phone",
-          "fieldName": "phone",
-          "effectiveLabel": "Phone",
+          "fieldId": "Rule 2.86 Form 5:state",
+          "fieldName": "state",
+          "effectiveLabel": "State",
           "documentId": "Rule 2.86 Form 5",
           "page": 2,
-          "factId": "participant.phone",
-          "drawnText": "515-555-0142",
+          "factId": "participant.state",
+          "drawnText": "IA",
           "rect": {
-            "x": 140,
-            "y": 496,
-            "width": 150,
+            "x": 306,
+            "y": 533,
+            "width": 115,
+            "height": 12
+          },
+          "fontSize": 9
+        },
+        {
+          "fieldId": "Rule 2.86 Form 5:zip",
+          "fieldName": "zip",
+          "effectiveLabel": "ZIP code",
+          "documentId": "Rule 2.86 Form 5",
+          "page": 2,
+          "factId": "participant.zip",
+          "drawnText": "50309",
+          "rect": {
+            "x": 432,
+            "y": 533,
+            "width": 108,
+            "height": 12
+          },
+          "fontSize": 9
+        },
+        {
+          "fieldId": "Rule 2.86 Form 5:phone_area",
+          "fieldName": "phone_area",
+          "effectiveLabel": "Telephone area code",
+          "documentId": "Rule 2.86 Form 5",
+          "page": 2,
+          "factId": "participant.phoneAreaCode",
+          "drawnText": "515",
+          "rect": {
+            "x": 114,
+            "y": 501.3,
+            "width": 23,
+            "height": 12
+          },
+          "fontSize": 9
+        },
+        {
+          "fieldId": "Rule 2.86 Form 5:phone_local",
+          "fieldName": "phone_local",
+          "effectiveLabel": "Telephone local number and supplied extension",
+          "documentId": "Rule 2.86 Form 5",
+          "page": 2,
+          "factId": "participant.phoneLocal",
+          "drawnText": "555-0142",
+          "rect": {
+            "x": 151,
+            "y": 501.3,
+            "width": 144,
             "height": 12
           },
           "fontSize": 9
@@ -216,15 +280,15 @@
         {
           "fieldId": "Rule 2.86 Form 5:email",
           "fieldName": "email",
-          "effectiveLabel": "Email",
+          "effectiveLabel": "Email address",
           "documentId": "Rule 2.86 Form 5",
           "page": 2,
           "factId": "participant.email",
           "drawnText": "jordan.reyes@example.org",
           "rect": {
-            "x": 360,
-            "y": 496,
-            "width": 210,
+            "x": 306,
+            "y": 501.3,
+            "width": 234,
             "height": 12
           },
           "fontSize": 9
@@ -235,15 +299,15 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 14,
-      "addedGlyphsReadFromOutputBytes": 140,
+      "valuesReportedByFinalizer": 18,
+      "addedGlyphsReadFromOutputBytes": 137,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 14,
-      "addedGlyphsReadFromOutputBytes": 251,
+      "valuesReportedByFinalizer": 18,
+      "addedGlyphsReadFromOutputBytes": 249,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []
     }
