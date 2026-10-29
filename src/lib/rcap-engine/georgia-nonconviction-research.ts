@@ -4,7 +4,7 @@ export const GA_NONCONVICTION_ROUTE="GA:non-conviction-record-restriction-throug
 type Facts=Readonly<Record<string,unknown>>;
 const value=(x:unknown):unknown=>x&&typeof x==="object"&&!Array.isArray(x)?(x as {unknown?:unknown}).unknown===true?undefined:"value" in x?(x as {value:unknown}).value:x:x;
 const text=(x:unknown)=>typeof value(x)==="string"?(value(x) as string).trim():"";
-const bool=(x:unknown):boolean|undefined=>value(x)===true||value(x)==="yes"?true:value(x)===false||value(x)==="no"?false:undefined;
+const bool=(x:unknown):boolean|undefined=>value(x)===true||text(x).toLowerCase()==="yes"?true:value(x)===false||text(x).toLowerCase()==="no"?false:undefined;
 const date=(x:unknown)=>{const s=text(x);return /^\d{4}-\d{2}-\d{2}$/.test(s)&&Number.isFinite(Date.parse(s+'T00:00:00Z'))&&new Date(s+'T00:00:00Z').toISOString().slice(0,10)===s?s:undefined;};
 type Question={id:string;type:string;en:string;es:string;options?:string[];optionsEn?:string[];optionsEs?:string[]};
 const input=(id:string,en:string,es:string,type="text"):Question=>({id,type,en,es});

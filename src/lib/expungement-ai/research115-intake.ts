@@ -42,6 +42,7 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
 /** A passing predicate preserves every existing hold; it cannot create packet or payment authority. */
 export function constrainResearch115Evaluation<T extends { evaluation: ScreeningEvaluation }>(result: T, routeKey: string,
   facts: Readonly<Record<string, unknown>>, asOf: string): T {
+  if (result.evaluation.resultCode === "hard_stop") return result;
   const gate = research115Eligibility(routeKey, facts, asOf);
   if (!gate || gate.status === "qualifying") return result;
   const code: ScreeningResultCode = gate.status === "excluded" ? "likely_not_eligible" : gate.status === "not_yet" ? "not_yet"
