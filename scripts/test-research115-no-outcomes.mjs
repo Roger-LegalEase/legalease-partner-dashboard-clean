@@ -7,6 +7,7 @@ register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {RESEARCH115_NO_ROUTES,research115NoRoute}=await import('../src/lib/rcap-engine/research115-no-ordinary-packet.ts');
 const {evaluateScreening}=await import('../src/lib/rcap-engine/evaluator.ts');
 const {legalRouteContract,routePaymentAuthority}=await import('../src/lib/legal-authority/index.ts');
+const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
 const {renderPreflight}=await import('../src/lib/expungement-ai/render-preflight.ts');
 const {buildRenderJobSpec}=await import('../src/lib/rcap/render/job-contract.ts');
 const {admitCommercialAction,COMMERCIAL_ADMISSION_POINTS}=await import('../src/lib/rcap/fulfillment/grade-a-authority.ts');
@@ -24,7 +25,12 @@ for(const[reviewId,key]of identities){const w=witnesses.find(x=>x.pathwayKey===k
  check(reviewId+' actual bilingual result-copy lookup',()=>assert.deepEqual(reviewedResultText(copy.guidance.en),copy.guidance));
  check(reviewId+' suffix cannot borrow exact restriction',()=>assert.equal(research115NoRoute(key+'-different'),null));
  const [state,pathway]=key.split(':');const contract=legalRouteContract(state,pathway);row.legalContract=contract?{decisionId:contract.decisionId,outcomeMode:contract.outcomeMode,paymentAuthority:routePaymentAuthority(contract)}:null;
- if(contract)check(reviewId+' actual contract closes ordinary packet checkout',()=>assert.equal(routePaymentAuthority(contract),'closed'));
+ if(contract){
+  check(reviewId+' actual contract closes ordinary packet checkout',()=>assert.equal(routePaymentAuthority(contract),'closed'));
+  const profile=getProfileByJurisdiction(state);
+  check(reviewId+' compiled authority agrees with closed runtime contract',()=>{const route=profile.pathways.find(p=>p.id===pathway);assert.equal(route.legalAuthority.paymentAuthority,'closed');assert.equal(route.filingRequired,false)});
+  check(reviewId+' compiled plan cannot advertise an ordinary paid packet',()=>assert.equal(profile.packetGenerator.pathways.find(p=>p.pathwayId===pathway).mode,'automatic_relief_verification_and_guidance'));
+ }
  const preflight=renderPreflight({snapshot:{jurisdiction:state,pathwayId:pathway},verificationHash:'synthetic-cannot-authorize',facts:{}});row.preflight=preflight;check(reviewId+' actual preflight denies generation',()=>assert.equal(preflight.ready,false));
  try{const built=buildRenderJobSpec({packetId:'synthetic-no-job',state,pathway,packetFields:{}});row.jobSpec={hasSpec:!!built.spec,routeKind:built.route.routeKind};check(reviewId+' actual job construction supplies no ordinary packet',()=>assert.equal(built.spec,null))}catch(e){row.jobSpec={refused:true,error:e.message};check(reviewId+' actual job construction supplies no ordinary packet',()=>assert(e.message))}
  for(const admissionPoint of COMMERCIAL_ADMISSION_POINTS){const d=admitCommercialAction({admissionPoint,request:{routeId:key,jurisdiction:state,packetFamilyId:'synthetic-cannot-authorize'},record:null,observation:null,context:null});row.admissions.push({admissionPoint,admitted:d.admitted,denialCode:d.denialCode});check(reviewId+' canonical denial '+admissionPoint,()=>assert.equal(d.admitted,false))}

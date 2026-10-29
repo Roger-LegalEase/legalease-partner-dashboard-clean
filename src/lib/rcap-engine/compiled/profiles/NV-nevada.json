@@ -758,7 +758,7 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
+      "filingRequired": false,
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
@@ -786,7 +786,7 @@
         "statute": "Nev. Rev. Stat. § 176.211",
         "stage": "post_completion",
         "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
           "anchorFactId": "discharge_date",
@@ -2042,7 +2042,7 @@
         "timingAnchorFactId": "discharge_date"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -2561,7 +2561,7 @@
       {
         "pathwayId": "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
         "pathwayLabel": "Deferred-judgment dismissal and sealing under NRS 176.211",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

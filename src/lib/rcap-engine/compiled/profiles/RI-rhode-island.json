@@ -1171,7 +1171,7 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
+      "filingRequired": false,
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
@@ -1204,7 +1204,7 @@
         "statute": "R.I. Gen. Laws § 12-10-12",
         "stage": "post_completion",
         "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
           "anchorFactId": "court_requirements_completed",
@@ -3869,7 +3869,7 @@
         "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -4577,7 +4577,7 @@
       {
         "pathwayId": "path-e-filed-complaint-relief-under-12-10-12",
         "pathwayLabel": "Path E — Filed-complaint relief under § 12-10-12",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf",
