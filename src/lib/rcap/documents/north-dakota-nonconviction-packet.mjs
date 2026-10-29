@@ -1,9 +1,9 @@
 import {createHash} from "node:crypto";
 import census from "../../../../data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/field-census.census-v1.json" with {type:"json"};
 import fieldMap from "../../../../data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/production-field-map.json" with {type:"json"};
-import {ND_NONCONVICTION_ROUTE,ND_NONCONVICTION_DOCUMENT_MANIFEST,evaluateNorthDakotaNonconviction} from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
+import {ND_NONCONVICTION_ROUTE,ND_NONCONVICTION_DOCUMENT_MANIFEST,ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256,evaluateNorthDakotaNonconviction} from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import {finalizeOfficialForm} from "../../../../scripts/rcap-official-forms/rcap-official-form-finalize.mjs";
-export const ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256="21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f";
+export {ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256};
 /** Existing official six-page fill only; no composed-pleading fallback or authority grant. */
 export async function renderNorthDakotaNonconvictionPacket(input,sourceBytes){
  if(input.routeId!==ND_NONCONVICTION_ROUTE||evaluateNorthDakotaNonconviction(input.routeId,input.materialScreeningFacts,input.asOf)?.status!=="qualifying")throw new Error("ND initial district-court petition facts remain unresolved");

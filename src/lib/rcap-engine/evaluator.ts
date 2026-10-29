@@ -1,3 +1,4 @@
+import { northDakotaNonconvictionFinancialApplies } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import { iowaFinancialQuestionApplies } from "@/lib/rcap-engine/iowa-court-debt";
 import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
 import { paymentRouteScopeHeld } from "@/lib/rcap-engine/payment-route-scope";
@@ -579,6 +580,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => iowaFinancialQuestionApplies(jurisdiction, preselectedPathway?.id, id))
+    .filter(id => northDakotaNonconvictionFinancialApplies(jurisdiction, preselectedPathway?.id, id))
     // IL1 required questions are conditional and enforced by their route gate.
     .filter(id => !IL_PROGRAM_FACT_IDS.includes(id))
     .filter(id => jurisdiction !== "CA" || caProp64QuestionApplies(answers, id))
@@ -1332,6 +1334,7 @@ function ambiguityReason(
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
     .filter(question => iowaFinancialQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
+    .filter(question => northDakotaNonconvictionFinancialApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter(question => dcGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctAutomaticInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctCannabisGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
@@ -2916,6 +2919,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   // prerequisite on these three conviction applications. Keep the § 901C.3
   // paid-obligations gate and every independent timing/eligibility hold.
   const financialApplies = iowaFinancialQuestionApplies(jurisdiction, pathway.id, "financial_obligations")
+    && northDakotaNonconvictionFinancialApplies(jurisdiction, pathway.id, "financial_obligations")
     && montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && oklahomaCleanSlateFinancialApplies(profile, pathway.id, answers, "financial_obligations")

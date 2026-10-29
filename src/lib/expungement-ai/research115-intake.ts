@@ -1,6 +1,6 @@
 import { RESEARCH115_COMPONENT_COPY, MD_CANNABIS_COMPONENT_COPY, IOWA_MISDEMEANOR_COMPONENT_COPY, IOWA_ALCOHOL_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
 import type { ProfileQuestion, AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
-import type { ScreeningEvaluation, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
+import type { EngineProfile, ScreeningEvaluation, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { evaluateResearchLimitedRoute } from "@/lib/rcap-engine/research115-limited-branches";
 import { AK_IDENTITY_ROUTE, evaluateAlaskaIdentity, alaskaIdentityQuestions } from "@/lib/rcap-engine/alaska-identity-research";
@@ -13,7 +13,7 @@ import { ALASKA_IDENTITY_DOCUMENT_FACT_IDS, ALASKA_IDENTITY_LATER_INPUT_IDS, ala
 import { MARYLAND_CANNABIS_DOCUMENT_FACT_IDS, marylandCannabisDocumentQuestions, marylandCannabisDocumentAnswerKnown } from "@/lib/rcap/documents/maryland-cannabis-document-facts";
 import { IOWA_MISDEMEANOR_ROUTE, IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS, iowaMisdemeanorQuestions, iowaMisdemeanorFactsFromAnswers, evaluateIowaMisdemeanorPreparation } from "@/lib/rcap-engine/iowa-misdemeanor-native.mjs";
 import { IOWA_ALCOHOL_ROUTES, IOWA_ALCOHOL_EXPLICIT_UNKNOWN_FACT_IDS, iowaAlcoholQuestions, iowaAlcoholFactsFromAnswers, evaluateIowaAlcoholPreparation } from "@/lib/rcap-engine/iowa-alcohol-native.mjs";
-import { ND_NONCONVICTION_ROUTE, northDakotaNonconvictionFactIds, northDakotaNonconvictionQuestions, evaluateNorthDakotaNonconviction } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
+import { ND_NONCONVICTION_ROUTE, ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256, northDakotaNonconvictionFactIds, northDakotaNonconvictionQuestions, evaluateNorthDakotaNonconviction } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import { ND_NONCONVICTION_DOCUMENT_FACT_IDS, northDakotaNonconvictionDocumentQuestions, northDakotaNonconvictionDocumentAnswerKnown } from "@/lib/rcap/documents/north-dakota-nonconviction-document-facts";
 
 function preparationAnswerComplete(routeKey: string, question: ProfileQuestion, value: unknown, asOf: string): boolean {
@@ -156,11 +156,28 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
     ...(missing.length ? { stage: "in_progress", reviewedAt: null } : {}) };
 }
 
-/** A passing predicate preserves every existing hold; it cannot create packet or payment authority. */
-export function constrainResearch115Evaluation<T extends { evaluation: ScreeningEvaluation }>(result: T, routeKey: string,
+/** Apply exact held branch plans without granting verification or payment authority. */
+export function constrainResearch115Evaluation<T extends { evaluation: ScreeningEvaluation; profile?: EngineProfile }>(result: T, routeKey: string,
   facts: Readonly<Record<string, unknown>>, asOf: string): T {
   if (result.evaluation.resultCode === "hard_stop") return result;
   const gate = research115Eligibility(routeKey, facts, asOf);
+  const plan = result.evaluation.packetPlan;
+  if (routeKey === ND_NONCONVICTION_ROUTE && gate?.status === "qualifying" && "branchId" in gate
+    && gate.branchId === "pre_effective_date_petition" && result.profile?.jurisdiction.code === "ND"
+    && result.evaluation.pathwayId === ND_NONCONVICTION_ROUTE.slice(3)
+    && result.evaluation.resultCode === "guidance_only"
+    && result.evaluation.reasons.some(reason => reason.code === "nd.guidance_only_no_user_filed_court_petition")
+    && plan?.pathwayId === ND_NONCONVICTION_ROUTE.slice(3) && plan.mode === "automatic_relief_verification_and_guidance"
+    && plan.formMappingStatus === "source_candidate_identified" && plan.sourceFormIds.length === 1
+    && plan.sourceFormIds[0].endsWith(":" + ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256)) {
+    // shortcut: Held preparation only; connect this branch to the existing fulfillment evaluator before release.
+    return { ...result, packetType: "official_pdf_overlay", evaluation: { ...result.evaluation,
+      resultCode: "needs_review", userLabel: "Needs review", paymentAllowed: false,
+      reasons: [{ code: "research115.R053.petition_preparation_held", text: gate.reason }], nextSteps: [gate.reason],
+      packetPlan: { ...plan, mode: "official_form_overlay_or_source_form_set", formMappingStatus: "source_candidate_identified",
+        requiredInputIds: [...northDakotaNonconvictionFactIds(facts), "participant_full_legal_name", "nd_nonconviction_county", "case_identifier"] }
+    } };
+  }
   if (!gate || gate.status === "qualifying") return result;
   const code: ScreeningResultCode = gate.status === "excluded" ? "likely_not_eligible" : gate.status === "not_yet" ? "not_yet"
     : gate.status === "guidance" ? "guidance_only" : gate.status === "unknown" ? "needs_more_info" : "needs_review";

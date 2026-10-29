@@ -1,3 +1,4 @@
+import { ND_NONCONVICTION_ROUTE, ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256, northDakotaNonconvictionFactIds } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import { withResearch115PacketQuestions, constrainResearch115Evaluation, research115PacketFactIds, research115Eligibility } from "@/lib/expungement-ai/research115-intake";
 import { GA_RETROACTIVE_HISTORY_IDS, gaRetroactiveHistoryQuestions } from "@/lib/expungement-ai/georgia-retroactive-history";
 import { VA_PARDON_FOLLOW_UP } from "@/lib/expungement-ai/va-pardon-follow-up-copy";
@@ -2910,7 +2911,7 @@ export function protectedPacketInformationModelFor(
   const factualSuccessor = paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative, verification.status) ?? convictionFallbackHeldSuccessor(snapshot, authoritative, verification.status) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
-    ? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
+    ? northDakotaOfficialDraftSuccessor(snapshot, authoritative, verification.status) ?? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
   if (contractSuccessor) snapshot = contractSuccessor;
   if (!protectedRouteAuthorityMatches(snapshot, authoritative) && ny16059HeldDetailSuccessor(snapshot, authoritative)) {
     // Newly required details may tighten an old held result. Keep all protected
@@ -4745,7 +4746,7 @@ function deriveProtectedPacketDraftSnapshot(
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
-    base = factualPathwayHeldSuccessor(base, currentAuthority, verification.status) ?? convictionFallbackHeldSuccessor(base, currentAuthority, verification.status) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
+    base = northDakotaOfficialDraftSuccessor(base, currentAuthority, verification.status) ?? factualPathwayHeldSuccessor(base, currentAuthority, verification.status) ?? convictionFallbackHeldSuccessor(base, currentAuthority, verification.status) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
   }
   if (factualIds.some(id => explicitChangedIds.has(id) || (mtPreparationIds || caJuvenileIds || mdJuvenileIds) && confirmRecordFacts.includes(id))) {
@@ -4984,6 +4985,38 @@ function georgiaPardonHeldTrackCompatible(snapshot: ProtectedPacketAuthoritySnap
       profileAuthorityFingerprint: profileAuthorityFingerprint(authoritative.profile, snapshot.pathwayId),
       today: new Date().toISOString().slice(0, 10)
     }) !== null;
+}
+
+/** Restore only the observed unverified R053 automatic draft to its source-pinned petition branch. */
+function northDakotaOfficialDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketDraftSnapshot | null {
+  const evaluation = authoritative.evaluation, nextPlan = evaluation.packetPlan, profile = authoritative.profile;
+  if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || `${snapshot.jurisdiction}:${snapshot.pathwayId}` !== ND_NONCONVICTION_ROUTE
+    || snapshot.resultCode !== "guidance_only" || snapshot.packetType !== "guidance_packet" || snapshot.paymentAllowed !== false
+    || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null || snapshot.deferralComponentIds.length !== 0
+    || profile.jurisdiction.code !== "ND" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
+    || evaluation.pathwayId !== snapshot.pathwayId || evaluation.resultCode !== "needs_review" || evaluation.paymentAllowed !== false
+    || authoritative.packetType !== "official_pdf_overlay" || evaluation.reasons.length !== 1
+    || evaluation.reasons[0].code !== "research115.R053.petition_preparation_held"
+    || nextPlan?.mode !== "official_form_overlay_or_source_form_set" || nextPlan.formMappingStatus !== "source_candidate_identified"
+    || nextPlan.sourceFormIds.length !== 1 || !nextPlan.sourceFormIds[0].endsWith(":" + ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256)) return null;
+  const legacy = packetPlanForPathway(profile, snapshot.pathwayId);
+  const sourcePlan = profile.packetGenerator.pathways.find(plan => plan.pathwayId === snapshot.pathwayId);
+  if (!legacy || legacy.mode !== "automatic_relief_verification_and_guidance" || !sourcePlan) return null;
+  const original = { ...legacy, requiredInputIds: [...new Set(sourcePlan.requiredInputIds ?? profile.packetGenerator.requiredInputs ?? [])] };
+  if (!canonicalEqual(snapshot.packetPlan, original) && !canonicalEqual(snapshot.packetPlan, legacy)
+    || !canonicalEqual(snapshot.requiredInputIds, snapshot.packetPlan?.requiredInputIds)
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: legacy.mode, sourceFormIds: legacy.sourceFormIds })) return null;
+  const raw = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
+  if (!canonicalEqual(nextPlan.requiredInputIds, [...northDakotaNonconvictionFactIds(raw), "participant_full_legal_name", "nd_nonconviction_county", "case_identifier"])) return null;
+  const next = { ...snapshot, resultCode: evaluation.resultCode, packetType: authoritative.packetType,
+    packetPlan: nextPlan, requiredInputIds: [...nextPlan.requiredInputIds],
+    packetFamilyIdentifiers: { mode: nextPlan.mode, sourceFormIds: [...nextPlan.sourceFormIds] } };
+  return protectedRouteAuthorityMatches(next, authoritative) ? next : null;
 }
 
 function protectedRouteAuthorityMatches(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>) {

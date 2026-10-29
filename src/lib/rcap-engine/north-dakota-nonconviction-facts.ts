@@ -1,6 +1,13 @@
 /** Exact existing R053 date split/exclusions; no renderer, legal signature or commercial authority. */
 export const ND_NONCONVICTION_ROUTE="ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05";
 export const ND_NONCONVICTION_DATE_SPLIT="2025-08-01";
+export const ND_NONCONVICTION_OFFICIAL_SOURCE_SHA256="21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f";
+
+/** ND.memo eligibility criteria do not require a court-debt balance. */
+export function northDakotaNonconvictionFinancialApplies(jurisdiction: string, pathwayId: string | undefined, questionId: string): boolean {
+ return jurisdiction !== "ND" || pathwayId !== ND_NONCONVICTION_ROUTE.slice(3) || questionId !== "financial_obligations";
+}
+
 type Facts=Readonly<Record<string,unknown>>;
 export const ND_NONCONVICTION_QUESTIONS=[
  {id:"nd_all_charges_nonconviction",type:"yes_no_unknown",en:"Were all criminal charges in this case dismissed, or were you acquitted of every charge?",es:"¿Se desestimaron todos los cargos penales de este caso, o fue absuelto de todos los cargos?"},
