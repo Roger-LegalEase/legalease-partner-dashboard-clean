@@ -14,6 +14,19 @@ import { IOWA_MISDEMEANOR_ROUTE, IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS, iow
 
 function preparationAnswerComplete(routeKey: string, question: ProfileQuestion, value: unknown, asOf: string): boolean {
   const state = questionAnswerState(question, value, asOf);
+  if (routeKey === IOWA_MISDEMEANOR_ROUTE && IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS.includes(question.id)) {
+    if (value === null) return true;
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      const wrapper = value as Record<string, unknown>;
+      const prototype = Object.getPrototypeOf(wrapper);
+      if ((prototype === Object.prototype || prototype === null)
+        && Object.keys(wrapper).every(key => key === "value" || key === "unknown")
+        && (wrapper.unknown === undefined || typeof wrapper.unknown === "boolean")
+        && (wrapper.value === undefined || wrapper.value === null || ["string", "boolean"].includes(typeof wrapper.value)
+          || typeof wrapper.value === "number" && Number.isFinite(wrapper.value))
+        && (wrapper.unknown === true || Object.hasOwn(wrapper, "value") && wrapper.value === null)) return true;
+    }
+  }
   return state === "known_valid" || routeKey === IOWA_MISDEMEANOR_ROUTE
     && IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS.includes(question.id)
     && (state === "uncertain" || state === "unanswered" && value === null);
