@@ -12,6 +12,9 @@ import { sanitizeAndFlatten, scanBytesForActiveContent } from '../../rcap-offici
 import { preserveSourceMetadata, carryDates } from '../../rcap-official-forms/rcap-official-form-finalize.mjs';
 import { extractTextItems } from '../../rcap-official-forms/rcap-pdf-anchor-capture.mjs';
 
+import { fail, text, dateValue, fullName, validateFacts } from '../../../src/lib/rcap-engine/iowa-misdemeanor-native.mjs';
+export { text, dateValue, fullName, validateFacts };
+
 export const FAMILY = 'ia-901c3-set';
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 export const OUTPUT = 'data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill';
@@ -23,31 +26,6 @@ export const INPUT_COMMIT = '9da680c4412a1d551d679c0f425f3c5f96cf1077';
 export const sha256 = b => crypto.createHash('sha256').update(b).digest('hex');
 export const pretty = v => JSON.stringify(v, null, 2) + '\n';
 const STAMP = new Date('2026-09-13T00:00:00Z');
-const fail = m => { throw new Error(m); };
-const own = (o, k) => Object.hasOwn(o, k);
-const exactKeys = (o, keys, where) => {
-  if (!o || typeof o !== 'object' || Array.isArray(o)) fail(`${where}: object required`);
-  for (const k of Object.keys(o)) if (!keys.includes(k)) fail(`${where}: unpermitted input ${k}`);
-  for (const k of keys) if (!own(o, k)) fail(`${where}: missing explicit ${k}`);
-};
-export function text(v, name, max = 200) {
-  if (typeof v !== 'string' || !v.trim() || v.trim() !== v || v.length > max || /[\x00-\x1f\x7f]/.test(v)) fail(`${name}: nonempty trimmed text required`);
-  return v;
-}
-export function dateValue(s) {
-  if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) fail('date: YYYY-MM-DD required');
-  const d = new Date(`${s}T00:00:00Z`);
-  if (!Number.isFinite(+d) || d.toISOString().slice(0, 10) !== s) fail('date: invalid calendar date');
-  return d;
-}
-export const fullName = n => [n.first, n.middle, n.last].filter(Boolean).join(' ');
-function nameValue(n, where) {
-  exactKeys(n, ['first', 'middle', 'last'], where);
-  text(n.first, `${where}.first`, 40); text(n.last, `${where}.last`, 40);
-  // Empty middle explicitly means none; null/absent means unknown and is refused.
-  if (n.middle !== '') text(n.middle, `${where}.middle`, 40);
-  return n;
-}
 export const authorities = {
   form: 'https://www.iowacourts.gov/collections/867/files/1965/embedDocument/',
   statute: 'https://www.legis.iowa.gov/docs/code/2026/901C.3.pdf',
@@ -71,62 +49,6 @@ export const sourceReceipt = {
   ],
   documents: [],
 };
-// These exact statutory exclusions are guards, not a new eligibility engine. The manual
-// item-4 judgment and adopted conservative 235B.20 hold remain. Comparability is not guessed.
-const excludedSections = ['123.46','235B.20','321.218','321A.32','321J.21','321J.2','707.5','708.2A','708.7','708.11','708.12','721.2','721.10','723.1'];
-const excludedChapters = ['717C','719','720','724','726','728','901A'];
-export function validateFacts(input) {
-  const keys = ['synthetic','name','aliases','county','caseNumber','plaintiff','dob','driversLicense','ssn','address','city','state','zip','phone','email','convictionDate','filingDate','offense','misdemeanorConviction','deferredJudgmentDisposition','hasPrior901c3Grant','hasOtherEligibleConvictions','relatedCases','pendingCharges','deferredJudgmentProceedings','financialObligationsPaid','exclusionsReviewed','comparabilityUncertain','sexOffense','selfRepresented','filingMethod','countyAttorney','historyReport','acknowledgments'];
-  exactKeys(input, keys, 'facts'); const f = structuredClone(input);
-  if (typeof f.synthetic !== 'boolean') fail('synthetic: boolean required');
-  nameValue(f.name, 'name'); if (fullName(f.name).length > 60) fail('name exceeds the source full-name limit');
-  if (!Array.isArray(f.aliases) || f.aliases.length > 30) fail('aliases: explicit array, maximum 30');
-  f.aliases.forEach((n, i) => nameValue(n, `aliases[${i}]`));
-  if (new Set(f.aliases.map(fullName)).size !== f.aliases.length || f.aliases.some(n => fullName(n) === fullName(f.name))) fail('aliases: duplicate/current legal name');
-  for (const k of ['county','caseNumber','plaintiff']) text(f[k], k);
-  for (const k of ['driversLicense','address','city','state','zip','phone','email']) if (f[k] !== null) text(f[k], k);
-  if (f.state !== null && !/^[A-Z]{2}$/.test(f.state)) fail('state: postal abbreviation required');
-  if (f.zip !== null && !/^\d{5}(-\d{4})?$/.test(f.zip)) fail('zip: invalid');
-  if (f.phone !== null && !/^\d{10}$/.test(f.phone)) fail('phone: ten digits required');
-  if (f.email !== null && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) fail('email: invalid');
-  if (f.ssn !== null && !/^\d{9}$/.test(f.ssn)) fail('ssn: exactly nine digits or explicit null');
-  const filing = dateValue(f.filingDate), conviction = dateValue(f.convictionDate);
-  if (f.dob !== null && dateValue(f.dob) >= conviction) fail('dob must precede conviction');
-  const anniversary = new Date(conviction); anniversary.setUTCFullYear(anniversary.getUTCFullYear() + 8);
-  if (filing < anniversary) fail('Route stop: fewer than eight years since conviction');
-  if (f.misdemeanorConviction !== true || f.deferredJudgmentDisposition !== false) fail('Route stop: Form 2 requires a misdemeanor conviction, not a deferred judgment');
-  if (f.hasPrior901c3Grant !== false) fail('Route stop: prior or unknown lifetime 901C.3 grant');
-  if (f.hasOtherEligibleConvictions !== false) fail('Self-help stop: strategic choice among multiple convictions');
-  if (!Array.isArray(f.relatedCases) || f.relatedCases.length !== 0) fail('Self-help stop: related-case/same-transaction determination requires legal assistance');
-  if (f.pendingCharges !== false) fail('Route stop: pending or unknown criminal charges');
-  if (![0,1].includes(f.deferredJudgmentProceedings)) fail('Route stop: two or more or uncertain deferred-judgment proceedings');
-  for (const k of ['financialObligationsPaid','exclusionsReviewed','selfRepresented']) if (f[k] !== true) fail(`Missing participant confirmation: ${k}`);
-  if (f.comparabilityUncertain !== false || f.sexOffense !== false) fail('Self-help stop: sex offense or unresolved federal/prior-law comparability');
-  exactKeys(f.offense, ['section','title'], 'offense'); text(f.offense.section, 'offense.section'); text(f.offense.title, 'offense.title');
-  if (!/^\d+[A-Z]?\.\d+[A-Z]?(\(\d+[a-z]?\))*$/i.test(f.offense.section)) fail('offense.section: exact Iowa Code citation required');
-  if (excludedSections.some(s => f.offense.section === s || f.offense.section.startsWith(s + '(')) || excludedChapters.includes(f.offense.section.split('.')[0]) || /^123\.47\(3\)|^708\.2\(3\)|^716\.8\([34]\)/.test(f.offense.section)) fail('Route stop: excluded or retained conservative source category');
-  if (['123.47','708.2','716.8'].includes(f.offense.section)) fail('offense.section: subsection needed to resolve statutory scope');
-  if (!['paper','efile'].includes(f.filingMethod)) fail('filingMethod: paper or efile required');
-  if (f.countyAttorney !== null) {
-    exactKeys(f.countyAttorney, ['name','address','city','state','zip'], 'countyAttorney');
-    for (const [k,v] of Object.entries(f.countyAttorney)) text(v, `countyAttorney.${k}`);
-    if (!/^[A-Z]{2}$/.test(f.countyAttorney.state) || !/^\d{5}(-\d{4})?$/.test(f.countyAttorney.zip)) fail('countyAttorney: invalid address components');
-  }
-  exactKeys(f.historyReport, ['availability','issuedOn','releaseSigned'], 'historyReport');
-  const h = f.historyReport;
-  if (!['available','requested','not_requested','unknown'].includes(h.availability)) fail('historyReport: unrecognized availability');
-  if (![true,false,null].includes(h.releaseSigned)) fail('historyReport.releaseSigned: explicit boolean or null');
-  let reportAgeDays = null;
-  if (h.availability === 'available') {
-    reportAgeDays = (filing - dateValue(h.issuedOn)) / 86400000;
-    if (reportAgeDays < 0) fail('historyReport: issue date cannot postdate intended filing');
-  } else if (h.issuedOn !== null) fail('historyReport: an unreceived report cannot have an asserted issue date');
-  exactKeys(f.acknowledgments, ['copy','related','lifetime','confidential'], 'acknowledgments');
-  for (const [k,v] of Object.entries(f.acknowledgments)) if (v !== true) fail(`Read-before-signing acknowledgment not supplied: ${k}`);
-  const historyReadyByParticipantReport = h.availability === 'available' && reportAgeDays <= 30 && h.releaseSigned === true;
-  return { facts: f, anniversary: anniversary.toISOString().slice(0,10), exactAnniversary: +filing === +anniversary, reportAgeDays, historyReadyByParticipantReport,
-    externalHistoryIncluded: false, reportAvailabilityIsParticipantReported: true, filingReady: false };
-}
 const canonical = {
   synthetic: true, name: {first:'Avery',middle:'Jordan',last:'Example'}, aliases: [], county:'Johnson', caseNumber:'EXAMPLE-901C3-0001', plaintiff:'State of Iowa',
   dob:'1988-04-12', driversLicense:'EXAMPLE0001', ssn:'000120001', address:'100 Example Lane', city:'Iowa City', state:'IA', zip:'52240', phone:'3195550101', email:'avery.example@example.org',
