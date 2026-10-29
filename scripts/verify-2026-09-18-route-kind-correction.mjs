@@ -174,10 +174,23 @@ for (const authorized of decision.routes) {
   ok(`${label}: exactly one blocker cleared`, cleared.length === 1, cleared.join(", "));
   ok(`${label}: the cleared blocker is the stale renderer one`,
     cleared[0] === authorized.clearedBlocker, `${cleared[0]} vs authorized ${authorized.clearedBlocker}`);
-  ok(`${label}: the remaining blockers are exactly the authorized ones`,
-    afterBlockers.join(", ") === [...authorized.remainingBlockers].sort().join(", "),
-    `${afterBlockers.join(", ")} vs authorized ${[...authorized.remainingBlockers].sort().join(", ")}`);
-  ok(`${label}: no blocker was added`, afterBlockers.every((id) => beforeBlockers.includes(id)));
+  // The historical renderer correction did not erase this independently derived,
+  // still-current implementation hold or adopt the native packet's output.
+  const currentAdditional = [];
+  if (key === "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a") {
+    const treatment = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-all50/terminalization-treatments/ca.json"), "utf8"))
+      .treatments.find((entry) => entry.trackId === "ca-1203-4a");
+    ok(`${label}: the additional hold is the exact existing unfinished native treatment`,
+      treatment?.candidateOnly === true && treatment.treatment === "exact_supported_deferral"
+      && treatment.reviewState === "pending_independent_review"
+      && after.classification.evidence.trackTreatments.some((entry) => entry.trackId === "ca-1203-4a" && entry.causation?.cause === "unfinished_implementation"));
+    currentAdditional.push("guidance_substitution");
+  }
+  const expectedCurrent = [...authorized.remainingBlockers, ...currentAdditional].sort();
+  ok(`${label}: authorized remaining holds and only the exact current derived hold persist`,
+    afterBlockers.join(", ") === expectedCurrent.join(", "),
+    `${afterBlockers.join(", ")} vs expected ${expectedCurrent.join(", ")}`);
+  ok(`${label}: no other blocker was added`, afterBlockers.every((id) => beforeBlockers.includes(id) || currentAdditional.includes(id)));
 }
 
 // 15. Nothing participant-facing claims these are buyable or deliverable. The
