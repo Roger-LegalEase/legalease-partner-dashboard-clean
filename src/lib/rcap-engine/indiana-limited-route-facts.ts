@@ -48,6 +48,8 @@ export function indianaLimitedRouteFacts(routeKey:string,facts:Facts,asOf:string
   const ids=[...base,...(!["yes","no"].includes(serious??"")?["in_juvenile_serious_violent_felony_finding"]:[]),...(["in_juvenile_original_county","in_juvenile_original_court","in_juvenile_cause_number","in_juvenile_date_of_birth","in_juvenile_allegations_and_adjudications","in_juvenile_charging_agency_if_known","in_juvenile_later_adjudications_and_convictions","in_juvenile_pending_actions","in_juvenile_services_and_current_status","in_juvenile_confidential_identifier_plan"].filter(id=>!text(facts[id])))];
   if(!validDate("in_juvenile_date_of_birth")&&!ids.includes("in_juvenile_date_of_birth"))ids.push("in_juvenile_date_of_birth");
   if(ids.length)return out("unknown","juvenile31_petition",ids);
+  const born=validDate("in_juvenile_date_of_birth"),adjudicated=validDate("in_juvenile_adjudication_date"),discharged=validDate("in_juvenile_discharge_date");
+  if(juvenileType==="delinquency_adjudication"&&adjudicated&&(born!>adjudicated||!!discharged&&discharged<adjudicated))return out("unknown","juvenile31_petition",["in_juvenile_event_chronology"]);
   return out("petition_candidate",serious==="yes"?"juvenile31_sealing_serious_violent":"juvenile31_removal_petition",[],undefined,null,"petition",IN_JUVENILE31_DOCUMENTS);
  }
  // Section1 includes non-adjudicated juvenile allegations, but never an adjudicated juvenile31 packet.
