@@ -4,9 +4,9 @@
 // - Direct-to-consumer (no ?session=): the result discloses the $50 packet
 //   price, but saves the matter before the later builder/review pay gate.
 // - Partner/session mode (only after the server verifies an active RCAP-benefit
-//   session and supplies the prop): the result must NOT show "$50", must offer
-//   a Briefcase action, and must route to the exact saved matter, never a
-//   consumer payment gate.
+//   session and supplies the prop): the result must NOT show "$50". Both lanes
+//   save a preliminary result; only a successful protected claim creates/binds
+//   the matter. Partner authority does not establish that claim succeeded.
 //
 // Renders the real ScreeningResult and checks the route/flow authority wiring in
 // source so the browser cannot opt itself into sponsored presentation.
@@ -88,21 +88,24 @@ function renderResultWithCode(resultCode, hasScreeningSession, paymentAllowed) {
 
 // Partner result lanes: each result code maps to exactly one forward CTA and never a price.
 const PARTNER_LANES = [
-  { code: "packet_ready", label: "Save to my Briefcase and continue", pay: true },
-  { code: "needs_more_info", label: "Continue to my Briefcase", pay: false },
+  { code: "packet_ready", label: "Save my result and continue", pay: true },
+  { code: "needs_more_info", label: "Save my result and continue", pay: false },
   { code: "guidance_only", label: "View my next steps", pay: false },
-  { code: "not_yet", label: "View my Briefcase", pay: false }
+  { code: "not_yet", label: "Save my result and continue", pay: false }
 ];
 for (const lane of PARTNER_LANES) {
   const partnerHtml = renderResultWithCode(lane.code, true, lane.pay);
   assert(partnerHtml.includes(lane.label), `Partner lane ${lane.code} must render "${lane.label}".`);
   assert(!/\$50|stripe|checkout/i.test(partnerHtml), `Partner lane ${lane.code} must never render price, Stripe, or Checkout copy.`);
   const dtcHtml = renderResultWithCode(lane.code, false, lane.pay);
-  // The partner lane is entered from an authenticated partner or Clinic context,
-  // so naming the Briefcase there is accurate. The DTC lane is anonymous until
-  // the claim transaction wins, so it may never name a matter or a Briefcase --
-  // every DTC lane saves a preliminary result instead.
-  assert(!dtcHtml.includes(lane.label), `DTC must never render the partner-only lane label "${lane.label}".`);
+  // b11726694 already established this boundary for authenticated participants
+  // too. Keep independent expected copy, rather than reading the component map.
+  const dtcLabel = lane.code === "guidance_only" ? "Save this guidance" : "Save my result and continue";
+  assert(dtcHtml.includes(dtcLabel), `DTC ${lane.code} must offer its preliminary-result action.`);
+  for (const oldLabel of ["Save to my Briefcase and continue", "Continue to my Briefcase", "View my Briefcase"]) {
+    assert(!partnerHtml.includes(oldLabel), `Partner ${lane.code} must not promise a matter before the claim: ${oldLabel}.`);
+    assert(!dtcHtml.includes(oldLabel), `DTC ${lane.code} must not promise a matter before the claim: ${oldLabel}.`);
+  }
   if (lane.code === "packet_ready") {
     assert(
       dtcHtml.includes("Save my result and continue"),
@@ -187,7 +190,7 @@ assert(!briefcaseSrc.includes("ConsumerBriefcaseItem"), "Briefcase UI must consu
 // 1) Only a server-verified partner prop renders the sponsored lane.
 const serverVerifiedPartner = renderResult(true);
 assert(!serverVerifiedPartner.includes("$50"), "A server-verified partner session must not render '$50'.");
-assert(serverVerifiedPartner.includes("Save to my Briefcase and continue"), "A server-verified partner session must describe the Briefcase handoff accurately.");
+assert(serverVerifiedPartner.includes("Save my result and continue"), "A server-verified partner session still saves a preliminary result before the protected claim.");
 assert(
   serverVerifiedPartner.includes('data-partner-context="saved">Your partner program information is saved. Packet coverage is confirmed before preparation.</p>'),
   "A server-verified packet-ready partner session must render the exact preparation-coverage helper in the saved partner context."
