@@ -25,7 +25,7 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
     : (routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts)
       : routeKey === AK_IDENTITY_ROUTE ? alaskaIdentityQuestions(facts) : []).map(q => ({
     id: q.id, type: q.type, prompt: q.en, promptEs: q.es,
-    options: q.options, optionsEn: q.optionsEn, optionsEs: q.optionsEs
+    options: "options" in q && q.options ? [...q.options] : undefined, optionsEn: "optionsEn" in q && q.optionsEn ? [...q.optionsEn] : undefined, optionsEs: "optionsEs" in q && q.optionsEs ? [...q.optionsEs] : undefined
   }));
   return definitions
     .map(q => ({ id: q.id, stage: "packet_information", prompt: q.prompt,
