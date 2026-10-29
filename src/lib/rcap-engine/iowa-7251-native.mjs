@@ -103,7 +103,7 @@ export function iowa7251FactsFromAnswers(answers,context){
  facts.offense={kind:take('ia_7251_offense_kind'),citation:take('ia_7251_offense_citation'),equivalentTo:take('ia_7251_equivalent_to'),confirmation:take('ia_7251_offense_checked','bool')};
  facts.under18AtAct=take('ia_7251_under18_at_act','bool');
  const age=answers.ia_7251_age_at_act;
- if(!Object.hasOwn(answers,'ia_7251_age_at_act')||unknown(age)||raw(age)===null)facts.ageAtAct=null;
+ if(!Object.hasOwn(answers,'ia_7251_age_at_act')||unknown(age)||raw(age)===null||typeof raw(age)==='string'&&!raw(age).trim())facts.ageAtAct=null;
  else{const x=raw(age),s=typeof x==='number'?String(x):typeof x==='string'?x.trim():'';if(/^(0|[1-9]\d*)$/.test(s))facts.ageAtAct=+s;else missingFactIds.push('ia_7251_age_at_act');}
  facts.historyComplete=take('ia_7251_history_complete','bool');const n=take('ia_7251_later_count','count');
  const supplied=raw(answers.ia_7251_later_count);if((typeof supplied==='number'||typeof supplied==='string'&&/^[0-9]+$/.test(supplied))&&Number(supplied)>25)return{facts:null,missingFactIds:[],refusal:'history_inventory_capacity'};
