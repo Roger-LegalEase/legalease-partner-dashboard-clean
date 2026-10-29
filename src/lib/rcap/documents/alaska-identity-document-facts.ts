@@ -19,13 +19,18 @@ const FIELDS = [
 export const ALASKA_IDENTITY_DOCUMENT_FACT_IDS = FIELDS.map(([id]) => id);
 export const ALASKA_IDENTITY_REQUIRED_DOCUMENT_FACT_IDS = FIELDS.filter(([, , required]) => required).map(([id]) => id);
 export const ALASKA_IDENTITY_DOCUMENT_CONTEXT_FACT_IDS = ["participant_full_legal_name", "case_identifier", "charge"] as const;
+// The reviewed participant draft leaves these generic fields to optional context or later completion.
+export const ALASKA_IDENTITY_LATER_INPUT_IDS = ["charge", "contact_information", "court", "criminal_history", "disposition_date", "record_type", "residency_or_location"] as const;
 export function alaskaIdentityDocumentQuestions(routeKey: string) {
   return routeKey !== AK_IDENTITY_ROUTE ? [] : [...FIELDS.map(([id, , required, prompt, promptEs]) => ({
     id, type: id.endsWith("_date") || id.endsWith("_birth") ? "date_or_unknown" as const : "text_or_unknown" as const,
     required, prompt, promptEs
   })), { id: "case_identifier", type: "text_or_unknown" as const, required: false,
     prompt: "What trial court case number belongs to this record, if known? Leave blank or unknown for manual completion. Do not enter a police, prosecutor or arrest tracking number in this court-case field.",
-    promptEs: "¿Cuál es el número del caso del tribunal de primera instancia que corresponde a este expediente, si lo conoce? Déjelo en blanco o desconocido para completarlo después. No ingrese un número policial, de fiscalía o de seguimiento del arresto en este campo del caso judicial." }];
+    promptEs: "¿Cuál es el número del caso del tribunal de primera instancia que corresponde a este expediente, si lo conoce? Déjelo en blanco o desconocido para completarlo después. No ingrese un número policial, de fiscalía o de seguimiento del arresto en este campo del caso judicial." },
+  { id: "charge", type: "text_or_unknown" as const, required: false,
+    prompt: "What exact charge description appears in this record, if known? Leave it blank or unknown for completion from the actual record; do not guess a charge.",
+    promptEs: "¿Qué descripción exacta del cargo figura en este expediente, si la conoce? Déjela en blanco o desconocida para completarla con el expediente real; no adivine un cargo." }];
 }
 export class AlaskaIdentityDocumentFactsError extends Error {
   constructor(readonly code: "route_mismatch" | "invalid_snapshot" | "unknown_document_fact" | "conflicting_fact" | "case_not_qualifying" | "invalid_chronology", readonly factIds: string[]) {

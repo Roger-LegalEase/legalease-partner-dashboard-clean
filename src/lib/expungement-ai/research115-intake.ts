@@ -9,7 +9,7 @@ import { GA_NONCONVICTION_ROUTE, georgiaNonconvictionQuestions } from "@/lib/rca
 import { MD_CANNABIS_ROUTE, evaluateMarylandCannabis, marylandCannabisQuestions, marylandCannabisFactIds } from "@/lib/rcap-engine/maryland-cannabis-research";
 import { MASSACHUSETTS_ADULT_SEALING_ROUTE, evaluateMassachusettsAdultSealing, massachusettsAdultSealingQuestions } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
 import { MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS, massachusettsAdultSealingDocumentQuestions, massachusettsAdultSealingDocumentAnswerKnown } from "@/lib/rcap/documents/massachusetts-adult-sealing-document-facts";
-import { ALASKA_IDENTITY_DOCUMENT_FACT_IDS, alaskaIdentityDocumentQuestions, alaskaIdentityDocumentAnswerKnown } from "@/lib/rcap/documents/alaska-identity-document-facts";
+import { ALASKA_IDENTITY_DOCUMENT_FACT_IDS, ALASKA_IDENTITY_LATER_INPUT_IDS, alaskaIdentityDocumentQuestions, alaskaIdentityDocumentAnswerKnown } from "@/lib/rcap/documents/alaska-identity-document-facts";
 
 export function research115Eligibility(routeKey: string, facts: Readonly<Record<string, unknown>>, asOf: string) {
   const projected = { ...facts };
@@ -32,7 +32,7 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
 
 export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
   if (routeKey === AK_IDENTITY_ROUTE) return [...alaskaIdentityQuestions(facts, includeInactive).map(q => q.id),
-    ...(includeInactive || evaluateAlaskaIdentity(facts, new Date().toISOString().slice(0, 10)).branchId === "dps_initial_request" ? [...ALASKA_IDENTITY_DOCUMENT_FACT_IDS, "case_identifier"] : [])];
+    ...(includeInactive || evaluateAlaskaIdentity(facts, new Date().toISOString().slice(0, 10)).branchId === "dps_initial_request" ? [...ALASKA_IDENTITY_DOCUMENT_FACT_IDS, "case_identifier", "charge"] : [])];
   if (routeKey === WEST_VIRGINIA_407_ROUTE) return westVirginia407Questions(routeKey).map(q => q.id);
   if (routeKey === MD_CANNABIS_ROUTE) return marylandCannabisFactIds(facts, includeInactive);
   if (routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE) return [...massachusettsAdultSealingQuestions(routeKey, facts, includeInactive).map(q => q.id), ...MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS];
@@ -71,7 +71,9 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
   const routeKey = `${model.stateCode}:${model.pathwayId ?? ""}`;
   const additions = research115PacketQuestions(routeKey, model.initialAnswers);
   if (!additions.length) return model;
-  const merge = (prior: ProfileQuestion[]) => [...prior.filter(q => !additions.some(a => a.id === q.id)), ...additions];
+  const later = new Set<string>(routeKey === AK_IDENTITY_ROUTE ? ALASKA_IDENTITY_LATER_INPUT_IDS : []);
+  const merge = (prior: ProfileQuestion[]) => [...prior.filter(q => !additions.some(a => a.id === q.id))
+    .map(q => later.has(q.id) ? { ...q, required: false, contextOnly: true, lifecyclePhase: "optional_or_later" as const } : q), ...additions];
   const gate = research115Eligibility(`${model.stateCode}:${model.pathwayId ?? ""}`, model.initialAnswers, new Date().toISOString().slice(0, 10));
   const componentCopy = RESEARCH115_COMPONENT_COPY[`${model.stateCode}:${model.pathwayId ?? ""}` as keyof typeof RESEARCH115_COMPONENT_COPY];
   const components = gate?.status !== "qualifying" ? [] : model.stateCode === "MD" && "documentIds" in gate
@@ -90,7 +92,7 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
   if (documentIds.length && model.questions.some(q => q.id === "participant_full_legal_name" && q.required)
     && !documentAnswerKnown(routeKey, "participant_full_legal_name", model.initialAnswers.participant_full_legal_name, new Date().toISOString().slice(0, 10))) missing.push("participant_full_legal_name");
   return { ...model, questions: merge(model.questions), builderQuestions: merge(model.builderQuestions),
-    missingInputIds: [...new Set([...model.missingInputIds, ...missing])],
+    missingInputIds: [...new Set([...model.missingInputIds.filter(id => !later.has(id)), ...missing])],
     ...(model.expectedComponents && gate ? { expectedComponents: components } : {}),
     ...(missing.length ? { stage: "in_progress", reviewedAt: null } : {}) };
 }
