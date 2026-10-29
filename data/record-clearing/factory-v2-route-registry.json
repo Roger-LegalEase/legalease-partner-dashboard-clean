@@ -8,19 +8,19 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "184444d20e5f78c57a31062e1e0d3624b34c6ebd51c4d040266740b031a40abf"
+      "sha256": "eeaed194f3a99995f5292b90530d06fd323f26776a4c9c09c25b07c425b31f29"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51"
+      "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
     },
     "legalAuthorityRoutes": {
       "path": "src/lib/legal-authority/routes/single-routes.json",
-      "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8"
+      "sha256": "1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd"
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "a30fb0a5ed8819bc3d947d81cd32c1f4afd93ce9ee734d4f43b9cec890ac1022"
+      "sha256": "4b164c9833fa483102141cec8b7541a30e8d03f0c441671c58c51f6fd89f26d5"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
@@ -37,19 +37,19 @@
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
     "intendedPaidPathways": 267,
-    "factoryV2Admitted": 174,
-    "notAdmitted": 93,
+    "factoryV2Admitted": 172,
+    "notAdmitted": 95,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
-      "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
-      "deterministicFixture": 3,
+      "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 32,
+      "deterministicFixture": 4,
       "legacy_generator_owns_this_jurisdiction": 36,
-      "routeNotRetired": 1,
+      "deterministicFixture+routeNotRetired": 1,
       "exactPacketSet+sourceOrApprovedComposedDocument": 1
     },
     "ownerApprovedLegalDesign": 96,
     "paymentAllowedAtTheEvaluator": 26,
-    "publicWitnessReachesItsOwnPathway": 261
+    "publicWitnessReachesItsOwnPathway": 246
   },
   "routes": [
     {
@@ -1236,17 +1236,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -1741,7 +1743,6 @@
         "pathway_id",
         "phone_number",
         "record_type",
-        "residency_or_location",
         "sentence_completion_date"
       ],
       "componentCount": 1,
@@ -2384,6 +2385,7 @@
         "case_outcome",
         "charge",
         "contact_information",
+        "county",
         "court",
         "criminal_history",
         "disposition_date",
@@ -3591,7 +3593,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -3837,17 +3839,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -4932,7 +4936,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -5387,7 +5391,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -5516,7 +5520,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -5540,7 +5544,6 @@
         "case_outcome",
         "charge",
         "contact_information",
-        "court",
         "financial_obligations",
         "identity_error",
         "jurisdiction",
@@ -6872,6 +6875,7 @@
         "disposition_date",
         "identity_error",
         "jurisdiction",
+        "mn_deciding_case_county",
         "offense_category",
         "offense_level",
         "participant_full_legal_name",
@@ -6904,7 +6908,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -6932,6 +6936,9 @@
         "disposition_date",
         "identity_error",
         "jurisdiction",
+        "mn_prosecuted_by",
+        "mn_prosecuted_case_county",
+        "mn_prosecuting_city",
         "offense_category",
         "offense_level",
         "participant_full_legal_name",
@@ -7340,17 +7347,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
@@ -7417,17 +7426,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
@@ -7478,17 +7489,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -7553,17 +7566,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -7624,7 +7639,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
+        "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -7675,17 +7690,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": true,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -7729,21 +7746,22 @@
         "packetSpecification": false,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
       "unmetBuildInputs": [
         "exactPacketSet",
         "packetSpecification",
-        "sourceOrApprovedComposedDocument"
+        "sourceOrApprovedComposedDocument",
+        "deterministicFixture"
       ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
@@ -7792,21 +7810,22 @@
         "packetSpecification": false,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
       "unmetBuildInputs": [
         "exactPacketSet",
         "packetSpecification",
-        "sourceOrApprovedComposedDocument"
+        "sourceOrApprovedComposedDocument",
+        "deterministicFixture"
       ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
@@ -7855,21 +7874,22 @@
         "packetSpecification": false,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
       "unmetBuildInputs": [
         "exactPacketSet",
         "packetSpecification",
-        "sourceOrApprovedComposedDocument"
+        "sourceOrApprovedComposedDocument",
+        "deterministicFixture"
       ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
@@ -7922,17 +7942,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": true,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -8085,7 +8107,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
+        "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -8145,7 +8167,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
+        "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -8190,21 +8212,22 @@
         "packetSpecification": false,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
       "unmetBuildInputs": [
         "exactPacketSet",
         "packetSpecification",
-        "sourceOrApprovedComposedDocument"
+        "sourceOrApprovedComposedDocument",
+        "deterministicFixture"
       ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
@@ -8251,21 +8274,22 @@
         "packetSpecification": false,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
       "unmetBuildInputs": [
         "exactPacketSet",
         "packetSpecification",
-        "sourceOrApprovedComposedDocument"
+        "sourceOrApprovedComposedDocument",
+        "deterministicFixture"
       ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "paymentAllowedAtTheEvaluator": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "renderer_unavailable"
@@ -8628,7 +8652,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -8714,22 +8738,33 @@
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
         "age_at_offense",
-        "case_number",
         "case_outcome",
         "charge",
         "contact_information",
         "court",
         "criminal_history",
+        "date_of_birth",
         "disposition_date",
+        "email_address",
         "financial_obligations",
         "jurisdiction",
-        "nd_charged_quantity",
-        "nd_first_offense_confirmation",
+        "mailing_address",
+        "mjCaseNumber",
+        "mjCounty",
+        "mjCourtType",
+        "mjFirstOffence",
+        "mjJudgmentDate",
+        "mjOffenceDate",
+        "mjOtherCharges",
+        "mjQuantity",
+        "mjSubsequentConviction",
+        "mjSubstance",
         "offense_category",
         "offense_level",
         "pardon_status",
         "participant_full_legal_name",
         "pathway_id",
+        "phone_number",
         "prior_relief",
         "record_type",
         "residency_or_location",
@@ -9139,7 +9174,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -9204,7 +9239,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -12134,10 +12169,11 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": false
       },
       "unmetBuildInputs": [
+        "deterministicFixture",
         "routeNotRetired"
       ],
       "retired": {
@@ -12170,7 +12206,7 @@
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "packet_spec_incomplete",
@@ -12880,12 +12916,8 @@
       "jurisdiction": "SC",
       "pathwayId": "juvenile-expungement",
       "pathwayLabel": "Juvenile expungement",
-      "registryTrackIds": [
-        "sc_17_22_950_summary"
-      ],
-      "packetSetIds": [
-        "sc_17_22_950_summary-set"
-      ],
+      "registryTrackIds": [],
+      "packetSetIds": [],
       "packetFamilies": [],
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
@@ -12909,22 +12941,24 @@
         "sentence_completion_date",
         "trafficking_status"
       ],
-      "componentCount": 4,
-      "officialFormIds": [
-        "SCCA-223E"
-      ],
+      "componentCount": 0,
+      "officialFormIds": [],
       "buildInputs": {
         "authoritativeProfile": true,
         "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
+        "exactPacketSet": false,
+        "packetSpecification": false,
         "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
+        "sourceOrApprovedComposedDocument": false,
         "deterministicFixture": true,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "exactPacketSet",
+        "packetSpecification",
+        "sourceOrApprovedComposedDocument"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
@@ -14101,17 +14135,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "gate_build",
@@ -14412,7 +14448,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -15693,7 +15729,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
@@ -16001,7 +16037,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []

@@ -10,8 +10,8 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 
 | Classification | Routes |
 |---|---:|
-| PACKET_CORRECTION_REQUIRED | 190 |
-| GUIDANCE_OR_HANDOFF_NO_PACKET | 60 |
+| PACKET_CORRECTION_REQUIRED | 188 |
+| GUIDANCE_OR_HANDOFF_NO_PACKET | 62 |
 | ARTIFACT_REVIEW_REQUIRED | 10 |
 | SOURCE_OR_CONFIGURATION_GATE | 4 |
 | ARTIFACT_GENERATION_REQUIRED | 3 |
@@ -40,7 +40,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a` | California CR-180 box 3 petition for dismissal under § 1203.4a | needs_more_info | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
 | `CA:prop-64-completed-sentence-application-11361-8` | — | null | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CA:prop-64-currently-serving-petition-11361-8` | — | null | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
-| `CA:tool-1-dismissal-set-aside` | — | null | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `CA:tool-1-dismissal-set-aside` | — | null | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CA:tool-3-petition-based-felony-sealing` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CA:tool-4-arrest-record-sealing` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CO:juvenile-expungement-19-1-306` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
@@ -230,7 +230,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `SC:eligible-conviction-expungement` | South Carolina Conviction Expungement Application | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `SC:general-sessions-non-conviction-expungement` | South Carolina § 17-1-40 Nonconviction Expungement Application | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `SC:human-trafficking-survivor-expungement` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
-| `SC:juvenile-expungement` | South Carolina Juvenile Expungement Application under § 63-19-2050 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `SC:juvenile-expungement` | South Carolina Juvenile Expungement Application under § 63-19-2050 | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `SC:summary-court-non-conviction-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `SD:adult-arrest-record-expungement-under-sdcl-23a-3-27` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `SD:controlled-substance-deferred-disposition-route` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
@@ -704,12 +704,12 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **ACTUAL COMPONENTS:** none
 - **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
 - **SOURCE HASHES:** CA:LegalEase California /ca-dismissal-sealing-forms.html:bcac0f5884ff22243b424f15dc3fe8c08725c8eeb0ff732f6059c2daad4eed6d
-- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **RENDERER:** none (route kind guidance_only)
 - **ARTIFACT HASH:** eb7eebab6f3613903872e48c879f32a89727b3e6662fdedae1a3c550f4cb07c2 (1006 bytes)
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
-- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1006 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `CA:tool-3-petition-based-felony-sealing`
 
@@ -2825,7 +2825,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **ACTUAL COMPONENTS:** none
 - **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
 - **SOURCE HASHES:** none — the plan names no source form
-- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
 - **ARTIFACT HASH:** 6eed4d9d42c1a0e1922bab0d488373ad9be83e8e23de7d7295ea62df19d389cb (976 bytes)
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
@@ -2846,7 +2846,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **ACTUAL COMPONENTS:** none
 - **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
 - **SOURCE HASHES:** none — the plan names no source form
-- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
 - **ARTIFACT HASH:** 4989e23e2c78e7c80bacfd4e07eddc3651ea2142b57cbf25efd8570886776e13 (978 bytes)
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
@@ -4693,13 +4693,13 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CONTENT TYPE:** none
 - **ACTUAL COMPONENTS:** none
 - **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
-- **SOURCE HASHES:** SC:LegalEase South Carolina /SCCA223E.pdf:668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8; SC:LegalEase South Carolina /SCCA223D1.pdf:988ad4b5f6054d1b47a459358fb409ac4c76b09f281b6a12650ff173f0158776
-- **RENDERER:** packet_document_v1 (route kind factory_v2)
-- **ARTIFACT HASH:** e2ec428c5af60fa57e2f95273286159388d4301dac4ef015e398799d4740bdce (1198 bytes)
+- **SOURCE HASHES:** SC:LegalEase South Carolina /SCCA492.pdf:f3ca97547842f877d288fec3155331684d5a7199283c2b9d27cf34664409652f
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 9c7a0b7fdf65b3b0bfd0fcb4ca306960e79cb33216d04ad639d3ed6ac1746238 (1088 bytes)
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
-- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed; sponsored packet credit is refused. The legacy summary mirror is 1198 bytes; it does not establish a delivered packet. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only; checkout remains closed. The evaluator's paymentAllowed false is not commercial authority.
 
 ### `SC:summary-court-non-conviction-expungement`
 

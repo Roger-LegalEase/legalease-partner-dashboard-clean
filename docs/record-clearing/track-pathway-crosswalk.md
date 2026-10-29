@@ -15,11 +15,11 @@ The registry and the compiled profiles share no identifier space, and no committ
 | Registry tracks represented only by superseded runtime text | 1 |
 | Registry tracks with no compiled pathway | 203 |
 | Registry tracks unresolved (ambiguous candidates) | 1 |
-| Compiled pathways mapped to a registry track | 292 |
+| Compiled pathways mapped to a registry track | 291 |
 | Compiled pathways terminally classified (scoped-out, routing, registry gap) | 43 |
-| Compiled pathways unresolved | 9 |
+| Compiled pathways unresolved | 10 |
 
-**Milestone 1 item 2: blocked.** 9 compiled pathways and 1 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
+**Milestone 1 item 2: blocked.** 10 compiled pathways and 1 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
 
 ## Relationship vocabulary
 
@@ -140,7 +140,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | OR | 5 | 3 | -2 | 3 | 3 | 0 | 0 |
 | PA | 10 | 11 | +1 | 10 | 10 | 0 | 0 |
 | RI | 9 | 8 | -1 | 9 | 8 | 0 | 0 |
-| SC | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
+| SC | 12 | 7 | -5 | 9 | 4 | 0 | 1 |
 | SD | 5 | 8 | +3 | 5 | 5 | 0 | 0 |
 | TN | 13 | 4 | -9 | 4 | 4 | 0 | 0 |
 | TX | 19 | 9 | -10 | 9 | 9 | 0 | 0 |
@@ -151,7 +151,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | WI | 8 | 5 | -3 | 3 | 3 | 0 | 0 |
 | WV | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | WY | 3 | 5 | +2 | 3 | 3 | 2 | 0 |
-| **Total** | **497** | **344** | **-153** | **292** | **292** | **4** | **9** |
+| **Total** | **497** | **344** | **-153** | **292** | **291** | **4** | **10** |
 
 ## What this does not claim
 

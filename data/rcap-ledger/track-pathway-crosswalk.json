@@ -13,7 +13,13 @@
       "data/record-clearing/legal-design-track-registry.json": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
       "data/record-clearing/legal-design-track-source-relationships.json": "8376337488a0e07eb0b476f7623bfbb623272d167ecd15b23c93cbb47922b826"
     },
-    "authorityEdition": null
+    "authorityEdition": null,
+    "successors": [
+      {
+        "path": "data/rcap-ledger/registry-crosswalk-projection-co-2025-successor.json",
+        "sha256": "08d1b441bba7f9b0b2bd65ce74d338fed009db0157bf94780af9f5ceedc7aa6e"
+      }
+    ]
   },
   "compiledSource": {
     "directory": "src/lib/rcap-engine/compiled/profiles",
@@ -249,7 +255,7 @@
     "tracksUnresolvedAmbiguous": 1,
     "tracksMissingFromCompiledRuntime": 203,
     "tracksSupersededRuntimeText": 1,
-    "pathwaysDirect": 253,
+    "pathwaysDirect": 252,
     "pathwaysVariant": 37,
     "pathwaysComposedUnit": 2,
     "pathwaysRoutingOrSupporting": 1,
@@ -258,7 +264,7 @@
     "pathwaysAdjudicated": 256,
     "pathwaysCurrencyFlagged": 1,
     "pathwaysUnresolvedAmbiguous": 2,
-    "pathwaysUnresolvedNoCandidate": 7,
+    "pathwaysUnresolvedNoCandidate": 8,
     "pathwaysCrosswalkTerminalClassified": 5,
     "e4AdjudicationsConsumed": 38,
     "e4CrosswalkTerminalClassifications": 6,
@@ -266,9 +272,9 @@
     "e4OfficialSourceGapAdjudications": 2,
     "e4StillBlocked": 0,
     "tracksWithRuntimeCoverage": 292,
-    "pathwaysMapped": 292,
+    "pathwaysMapped": 291,
     "pathwaysTerminal": 43,
-    "pathwaysUnresolved": 9,
+    "pathwaysUnresolved": 10,
     "milestone1Item2Closed": false
   },
   "unresolvedIds": {
@@ -281,7 +287,8 @@
       "MS:nonadjudication-99-15-26-active-case-admission",
       "MS:nonadjudication-under-99-15-26",
       "MS:pretrial-intervention-active-case-admission",
-      "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+      "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "SC:juvenile-expungement"
     ],
     "registryTracks": [
       "MS:ms-nonadj"
@@ -1099,10 +1106,10 @@
       "compiledPathways": 7,
       "delta": -5,
       "tracksMapped": 9,
-      "pathwaysMapped": 5,
+      "pathwaysMapped": 4,
       "pathwaysScopedOut": 0,
       "pathwaysTerminalOther": 2,
-      "pathwaysUnresolved": 0
+      "pathwaysUnresolved": 1
     },
     {
       "jurisdiction": "SD",
@@ -10233,12 +10240,11 @@
       "compositionMode": "alternative",
       "composedUnitCount": 2,
       "mappedCompiledPathwayIds": [
-        "juvenile-expungement",
         "summary-court-non-conviction-expungement"
       ],
-      "relationshipType": "direct_runtime_representation",
+      "relationshipType": "compiled_variant_of_registry_track",
       "mappingEvidence": [
-        "shared_official_form"
+        "adjudicated_operative_citation_in_pathway"
       ],
       "compiledCoverageDisposition": "represented_by_compiled_variants",
       "candidateCompiledPathwayIds": [],
@@ -14494,7 +14500,7 @@
       "label": "Cannabis-conviction erasure",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
       "routeType": "automatic",
-      "automatic": false,
+      "automatic": true,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
@@ -21331,7 +21337,7 @@
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
       "routeType": "court_filing",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "nv_seal_deferred"
@@ -23649,7 +23655,7 @@
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
       "routeType": "court_filing",
       "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "ri_filed_complaints"
@@ -24041,25 +24047,18 @@
       "routeType": "juvenile",
       "automatic": false,
       "packetMode": "official_form_overlay_or_source_form_set",
-      "registryRelation": "direct_runtime_representation",
-      "mappedRegistryTrackIds": [
-        "sc_17_22_950_summary"
-      ],
-      "mappingEvidence": [
-        "shared_official_form"
-      ],
-      "evidenceDetail": {
-        "sharedStatutoryCitations": [],
-        "sharedOfficialForms": [
-          "scca223d1",
-          "scca223e"
-        ]
-      },
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
       "coMappedPathwayIds": [],
-      "contributesToRuntimeCoverage": true,
+      "contributesToRuntimeCoverage": false,
       "contributesToRegistryDenominator": false,
-      "unresolvedReason": null,
-      "missingEvidence": []
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
     },
     {
       "jurisdiction": "SC",
@@ -26734,5 +26733,5 @@
     }
   },
   "evidenceHash": "6dbc8fc7a5b66006e17b72d77008398b1795ae253a18d14565e56bdfb86a4bc5",
-  "contentHash": "7040af64e9abf09ecd0673d19646cc8e44fda0625704c2cffd4a4a961a812039"
+  "contentHash": "30104857b18f3d6974f72042423d9db6ea30cb7c4e06a23a702cedb5670b6587"
 }

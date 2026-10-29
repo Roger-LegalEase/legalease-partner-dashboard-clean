@@ -28,6 +28,10 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { register } from "node:module";
+
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+const { withSouthCarolinaJuvenileSource } = await import("../src/lib/rcap-engine/south-carolina-juvenile-source.ts");
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const projectionPath = path.join(rootDir, "data/rcap-ledger/registry-crosswalk-projection.json");
@@ -136,7 +140,7 @@ const registryTracks = projection.tracks.map((track) => ({
 
 const compiledPathways = [];
 for (const file of fs.readdirSync(profileDir).filter((f) => f.endsWith(".json")).sort()) {
-  const profile = JSON.parse(fs.readFileSync(path.join(profileDir, file), "utf8"));
+  const profile = withSouthCarolinaJuvenileSource(JSON.parse(fs.readFileSync(path.join(profileDir, file), "utf8")));
   const code = String(profile.jurisdiction?.code || profile.jurisdiction).toUpperCase();
   const generatorByPathway = new Map(
     (profile.packetGenerator?.pathways || []).map((p) => [p.pathwayId, p])

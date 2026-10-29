@@ -9,6 +9,7 @@ const {withSouthCarolinaJuvenileSource:correct,SC_JUVENILE_SOURCE:source,SC_JUVE
 const {getProfileByJurisdiction}=await import("../src/lib/rcap-engine/profile-registry.ts");
 const {projectPublicProfile}=await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const {evaluateScreening}=await import("../src/lib/rcap-engine/evaluator.ts");
+const {factoryV2RouteFor}=await import("../src/lib/rcap/documents/factory-v2-registry.ts");
 const raw=JSON.parse(fs.readFileSync("src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json")),before=JSON.stringify(raw),fixed=correct(raw),id="juvenile-expungement";
 const plan=p=>p.packetGenerator.pathways.find(q=>q.pathwayId===id);
 let checks=0;const check=(label,fn)=>{fn();checks++;console.log("PASS "+label);};
@@ -23,11 +24,16 @@ check("ambiguous duplicate source identity cannot be silently selected",()=>{con
 for(const field of["decisionId","statute","packetFamily"])check("unmatched existing juvenile authority refuses "+field,()=>{const f=structuredClone(raw);f.pathways.find(p=>p.id===id).legalAuthority[field]="forged";assert.throws(()=>correct(f),/exact existing LD-SC-01/)});
 check("unknown profile version cannot receive this source correction",()=>{const f=structuredClone(raw);f.profileVersion="unknown";assert.throws(()=>correct(f),/exact existing LD-SC-01/)});
 check("corrected selection preserves third-party tasks and full official package",()=>{const s=plan(fixed).selectionRule;for(const text of["all three pages","Circuit Solicitor","Family Court","DJJ/SLED","completion proof remains external","not-guilty age/fee exception","does not create a registry track"])assert(s.includes(text),text)});
-const sourcePath=process.env.SC_JUVENILE_SOURCE_PATH??"/workspaces/training-modules-09-10/output/route115-implementation-20261029/limited-routes/official-authority/SC-SCCA492.pdf";
+const sourcePath=process.env.SC_JUVENILE_SOURCE_PATH;
+if(sourcePath){
 const bytes=fs.readFileSync(sourcePath),pdf=await PDFDocument.load(bytes);
 check("actual held official source is all three pages, flat and byte-identical to catalog",()=>{assert.equal(bytes.length,321133);assert.equal(crypto.createHash("sha256").update(bytes).digest("hex"),source.sha256);assert.equal(pdf.getPageCount(),3);assert.equal(pdf.getForm().getFields().length,0)});
 check("actual source face is juvenile and government execution stays original",()=>{const text=execFileSync("pdftotext",["-layout",sourcePath,"-"],{encoding:"utf8"}).replace(/\s+/g," ");for(const expected of["IN THE FAMILY COURT","EXPUNGEMENT OF JUVENILE RECORDS","Circuit Solicitor","DJJ verifies","SLED verifies","FAMILY COURT JUDGE","For SLED internal use only","SCCA 492 (7/2019)"])assert(text.includes(expected),expected)});
+}else console.log("NOT RUN: two physical source-byte/page checks; set SC_JUVENILE_SOURCE_PATH for the separately held official PDF.");
 const profile=getProfileByJurisdiction("SC"),questions=projectPublicProfile(profile).questions,allowed=new Set(questions.map(q=>q.id));
+check("actual runtime profile selects the juvenile source",()=>assert.deepEqual(plan(profile).formCandidates.map(f=>f.fileName),["SCCA492.pdf"]));
+check("generated crosswalk cannot lend the adult summary track to juveniles",()=>{const crosswalk=JSON.parse(fs.readFileSync("data/rcap-ledger/track-pathway-crosswalk.json"));const juvenile=crosswalk.compiledPathways.find(p=>p.jurisdiction==="SC"&&p.compiledPathwayId===id);assert.deepEqual(juvenile.mappedRegistryTrackIds,[]);assert.equal(juvenile.registryRelation,"unresolved_no_candidate");const adult=crosswalk.compiledPathways.find(p=>p.jurisdiction==="SC"&&p.compiledPathwayId==="summary-court-non-conviction-expungement");assert.deepEqual(adult.mappedRegistryTrackIds,["sc_17_22_950_summary"])});
+check("actual factory refuses the missing juvenile bridge and preserves the adult selection",()=>{assert.equal(factoryV2RouteFor("SC",id),null);const adult=factoryV2RouteFor("SC","summary-court-non-conviction-expungement");assert(adult);assert.deepEqual(adult.registryTrackIds,["sc_17_22_950_summary"]);assert(adult.officialFormIds.some(f=>/223E/.test(f)))});
 const witness=JSON.parse(fs.readFileSync("data/rcap-ledger/public-witness-answer-sets.json")).witnesses.find(w=>w.pathwayKey===SC_JUVENILE_ROUTE);
 const answers={...Object.fromEntries(Object.entries(witness.finalAnswers).filter(([id])=>allowed.has(id))),age_at_offense:"17",case_outcome:"Juvenile adjudication or offense committed as a minor"};
 const evaluate=a=>evaluateScreening({jurisdiction:"SC",profileVersion:profile.profileVersion,answers:a});
@@ -35,4 +41,4 @@ const current=evaluate(answers);correct(profile);
 check("coherent juvenile selection preserves current eligibility/payment hold",()=>{const after=evaluate(answers);assert.equal(current.pathwayId,id);assert.equal(after.resultCode,current.resultCode);assert.equal(after.paymentAllowed,false);assert.deepEqual(after.reasons,current.reasons);assert(!["packet_ready","packet_ready_with_caution"].includes(after.resultCode))});
 for(const[label,patch,expected]of[["unknown age",{age_at_offense:"I am not sure"},"needs_review"],["pending charges",{pending_cases:"Yes"},"not_yet"],["ownership excluded",{ownership_scope:"No"},"hard_stop"]])check(label+" keeps actual baseline hold; no source choice creates eligibility",()=>{const r=evaluate({...answers,...patch});assert.equal(r.resultCode,expected);assert.equal(r.paymentAllowed,false);if(expected==="hard_stop")assert.equal(r.packetPlan,undefined)});
 check("adult summary screening remains its own route with no juvenile substitution",()=>{const r=evaluate({...answers,age_at_offense:"30",case_outcome:"Dismissed, no-billed, nolle prosequi, or not prosecuted",possible_pathway_context:"Summary-court non-conviction expungement"});assert.equal(r.pathwayId,"summary-court-non-conviction-expungement");assert.equal(r.paymentAllowed,false)});
-console.log(`${checks}/${checks} R086 source/procedure controls passed. No shared wiring, new predicate, generated packet, family approval or release authority.`);
+console.log(`${checks}/${checks} R086 source/procedure integration controls passed. No new predicate, generated packet, family approval or release authority.`);

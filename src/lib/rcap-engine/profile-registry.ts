@@ -4,6 +4,7 @@ import { withWyoming1401Procedure } from "@/lib/rcap-engine/wyoming-1401-facts";
 import "server-only";
 import { withGeorgiaPardonPresentation } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { withKansasRegistrationProcedure } from "@/lib/rcap-engine/kansas-district-facts";
+import { withSouthCarolinaJuvenileSource } from "@/lib/rcap-engine/south-carolina-juvenile-source";
 
 import fs from "node:fs";
 import path from "node:path";
@@ -27,7 +28,8 @@ export function getAllJurisdictionProfiles() {
       .readdirSync(profilesRoot)
       .filter((file) => file.endsWith(".json"))
       .sort()
-      .map((file) => withMassachusettsAdultSealingProcedure(withWestVirginia407Procedure(withWyoming1501Procedure(withWyoming1401Procedure(withKansasRegistrationProcedure(withGeorgiaPardonPresentation(((profile: EngineProfile) => ["GA", "AK", "MD"].includes(profile.jurisdiction.code) ? withResearchLimitedRouteProcedures(profile) : profile)(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile))))))));
+      .map((file) => withMassachusettsAdultSealingProcedure(withWestVirginia407Procedure(withWyoming1501Procedure(withWyoming1401Procedure(withKansasRegistrationProcedure(withGeorgiaPardonPresentation(((profile: EngineProfile) => ["GA", "AK", "MD"].includes(profile.jurisdiction.code) ? withResearchLimitedRouteProcedures(profile) : profile)(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile))))))))
+      .map(withSouthCarolinaJuvenileSource);
   }
   return profileCache;
 }
