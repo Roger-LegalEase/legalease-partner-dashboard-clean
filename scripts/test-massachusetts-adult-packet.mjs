@@ -25,5 +25,17 @@ const normalized=await render({...input,facts:{...input.facts,ma_100a_latest_fel
 test('renderer shares evaluator date and none normalization',()=>assert.deepEqual(normalized.checksums,en.checksums));
 for(const id of ['ma_100a_whole_record_reviewed','ma_100a_all_record_classifications_confirmed','ma_100a_all_dispositions_description'])for(const value of [undefined,[],{unknown:true,value:input.facts[id]}]){await assert.rejects(()=>render({...input,facts:{...input.facts,[id]:value}},source));checks++;console.log('PASS refuses missing/invalid whole-record fact '+id);}
 const corrupt=Uint8Array.from(source);corrupt[0]^=1;await assert.rejects(()=>render(input,corrupt),/checksum mismatch/);checks++;console.log('PASS changed mandatory official source refuses generation');
+const noReference=structuredClone(input);delete noReference.caseNumber;delete noReference.courtName;
+fs.writeFileSync(path.join(out,'whole-record-no-reference-input.json'),JSON.stringify(noReference,null,2)+'\n');
+for(const locale of ['en','es']){
+ const packet=await render(noReference,source,locale);const file=path.join(out,'whole-record-no-reference-'+locale+'.pdf');fs.writeFileSync(file,packet.fullPacket);
+ const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}).replace(/\s+/g,' ');
+ test('whole-record packet requires no primary case/court '+locale,()=>{assert.equal(packet.checksums.officialRequest,en.checksums.officialRequest);assert.ok(text.includes(locale==='en'?'Casey Bennett. Whole Massachusetts record':'Casey Bennett. Solicitud administrativa de sellado del registro completo'));assert.ok(!/undefined|null|Boston Municipal Court|20-CR-00102/.test(text));assert.ok(text.includes(locale==='en'?'All entries must be considered.':'Deben considerarse todas las entradas.'));});
+}
+for(const [name,reference,expected,absent] of [['case-only',{caseNumber:'20-CR-00102'},'case 20-CR-00102','Boston Municipal Court'],['court-only',{courtName:'Boston Municipal Court'},'Boston Municipal Court','20-CR-00102'],['empty-reference',{caseNumber:'',courtName:'   '},'Casey Bennett. Whole Massachusetts record','20-CR-00102']]){
+ const packet=await render({...noReference,...reference},source);const file=path.join(out,name+'-control.pdf');fs.writeFileSync(file,packet.fullPacket);const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}).replace(/\s+/g,' ');
+ test('optional partial reference '+name,()=>{assert.equal(packet.checksums.officialRequest,en.checksums.officialRequest);assert.ok(text.includes(expected));assert.ok(!text.includes(absent));assert.ok(!/undefined|null/.test(text));});
+}
+await assert.rejects(()=>render({...noReference,facts:{...noReference.facts,ma_100a_latest_misdemeanor_event:{unknown:true,value:'2023-10-29'}}},source));checks++;console.log('PASS no-reference request still refuses unknown material event');
 fs.writeFileSync(path.join(out,'document-manifest.json'),JSON.stringify({manifest:en.manifest,checksums:{en:en.checksums,es:es.checksums,felony:felony.checksums,sex:sex.checksums,mixed:mixed.checksums},frozenInputSha256:en.frozenInputSha256,filingReady:false,level:'LOCAL_GENERATED'},null,2)+'\n');
 console.log(`${checks}/${checks} Massachusetts100A local official packet controls passed; no hosted/production or commercial authority claimed.`);

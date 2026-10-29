@@ -8,8 +8,8 @@ export type MassachusettsAdultMatter = {
   matterId: string;
   verifiedAt: string;
   participant: { firstName: string; middleName?: string; lastName: string; dateOfBirth: string; streetAddress: string; city: string; state: string; zip: string; alias?: string };
-  caseNumber: string;
-  courtName: string;
+  caseNumber?: string;
+  courtName?: string;
   facts: Readonly<Record<string, unknown>>;
 };
 const hash = (bytes: Uint8Array | string) => createHash("sha256").update(bytes).digest("hex");
@@ -22,8 +22,11 @@ export async function renderMassachusettsAdultSealingPacket(matter: Massachusett
   if (hash(source) !== MASSACHUSETTS_SEALING_FORM_SHA256) throw new Error("Massachusetts100B: current official form checksum mismatch");
   const p = m.participant;
   for (const [label, value] of Object.entries({ matterId: m.matterId, firstName: p.firstName, lastName: p.lastName, birth: p.dateOfBirth,
-    street: p.streetAddress, city: p.city, state: p.state, zip: p.zip, caseNumber: m.caseNumber, court: m.courtName })) {
+    street: p.streetAddress, city: p.city, state: p.state, zip: p.zip })) {
     if (typeof value !== "string" || !value.trim() || /\{\{|\}\}|Morgan Sample|Acceptance Consumer|placeholder/i.test(value)) throw new Error(`Massachusetts100B: missing or unresolved ${label}`);
+  }
+  for (const value of [m.caseNumber, m.courtName]) {
+    if (value !== undefined && (typeof value !== "string" || /\{\{|\}\}|Morgan Sample|Acceptance Consumer|placeholder/i.test(value))) throw new Error("Massachusetts100A: unresolved optional reference");
   }
   const asOf = m.verifiedAt.slice(0, 10);
   const birth = new Date(`${p.dateOfBirth}T00:00:00Z`);
@@ -70,15 +73,18 @@ export async function renderMassachusettsAdultSealingPacket(matter: Massachusett
   const instructions = pdf.addPage([612, 792]);
   const fullName = [p.firstName, p.middleName, p.lastName].filter(Boolean).join(" ");
   const title = locale === "es" ? "Instrucciones para el participante - NO PRESENTAR" : "Participant instructions - DO NOT FILE";
+  const hasCourtReference = Boolean(m.courtName?.trim()), hasCaseReference = Boolean(m.caseNumber?.trim());
+  const referencesEn = [hasCourtReference ? m.courtName : "", hasCaseReference ? `case ${m.caseNumber}` : ""].filter(Boolean).join("; ");
+  const referencesEs = [hasCourtReference ? m.courtName : "", hasCaseReference ? `expediente ${m.caseNumber}` : ""].filter(Boolean).join("; ");
   const adultParagraphs = locale === "es" ? [
-    `${fullName}; ${m.courtName}; expediente ${m.caseNumber}. Solicitud administrativa de sellado del registro completo de Massachusetts conforme a la sección 100A. No es eliminación de registros ni petición judicial por caso. La referencia identifica solo una entrada; deben considerarse todas.`,
+    `${fullName}${referencesEs ? `; ${referencesEs}` : ""}. Solicitud administrativa de sellado del registro completo de Massachusetts conforme a la sección 100A. No es eliminación de registros ni petición judicial por caso. ${hasCourtReference && hasCaseReference ? "La referencia identifica solo una entrada; deben considerarse todas." : "Deben considerarse todas las entradas."}`,
     "LegalEase prepara el formulario oficial del Comisionado de Libertad Condicional y selecciona la solicitud y declaración de adulto correspondientes. No se firma por usted ni se completa una decisión oficial. La modalidad juvenil de la sección 100B no está seleccionada.",
     "Revise la solicitud y firme tanto la solicitud como la declaración de adulto bajo pena de perjurio. Complete los datos biográficos adicionales que exija la oficina; los datos desconocidos siguen en blanco. Este flujo no le pide enviar un número de Seguro Social. No escriba bajo la línea de uso oficial.",
     "Los delitos menores usan tres años y los graves siete desde sus propios últimos eventos pertinentes, incluida la custodia. Los delitos sexuales elegibles requieren 15 años o el período mayor del deber de registrarse; una clasificación de nivel 2 o 3 en cualquier momento impide sellar los delitos sexuales. Se aplican las exclusiones de armas e integridad pública y los requisitos separados de antecedentes y encarcelamiento.",
     "Envíe la solicitud al Comisionado de Libertad Condicional, One Ashburton Place, Room 405, Boston, MA 02108, después de confirmar las instrucciones vigentes. No se añade una orden judicial propuesta ni notificación al fiscal. Antes de presentar, obtenga su propio CORI de DCJIS para identificar las entradas determinantes; obtenga expedientes si los necesita. LegalEase no recopila ni inspecciona su CORI ni afirma que esté adjunto.",
     "El trámite público es gratuito y no requiere comprar LegalEase. Cualquier cargo opcional de software es distinto de costos de registros y correo. El borrador requiere su revisión, los datos biográficos necesarios y firmas; no garantiza el resultado."
   ] : [
-    `${fullName}; ${m.courtName}; case ${m.caseNumber}. Whole Massachusetts record administrative sealing request under section 100A, not expungement or a per-case court petition. The case reference identifies one entry only; all entries must be considered.`,
+    `${fullName}${referencesEn ? `; ${referencesEn}` : ""}. Whole Massachusetts record administrative sealing request under section 100A, not expungement or a per-case court petition. ${hasCourtReference && hasCaseReference ? "The case reference identifies one entry only; all entries must be considered." : "All entries must be considered."}`,
     "LegalEase prepares the official Commissioner of Probation form and selects the applicable adult request and adult affidavit. We do not sign for you or complete an official decision. The juvenile section 100B choice is not selected.",
     "Review the request and sign both the request and the adult affidavit under penalties of perjury. Complete any additional biographical information the office requires; unknown values remain blank. This flow does not ask you to submit a Social Security number. Do not write below the official-use line.",
     "Misdemeanors use three years and felonies seven years from their own latest relevant events, including custody. Eligible sex offenses require 15 years or the longer registration duty; an classification as level 2 or level 3 at any time prevents sealing sex offenses. The firearm/public-integrity exclusions and separate history/custody conditions also apply.",
