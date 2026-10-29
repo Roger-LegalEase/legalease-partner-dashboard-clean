@@ -1,3 +1,4 @@
+import { iowaFinancialQuestionApplies } from "@/lib/rcap-engine/iowa-court-debt";
 import { research115NoRoute } from "@/lib/rcap-engine/research115-no-ordinary-packet";
 import { paymentRouteScopeHeld } from "@/lib/rcap-engine/payment-route-scope";
 import { IL_PROGRAM_ROUTE, IL_PROGRAM_FACT_IDS, IL_PROGRAM_SOURCE, IL_PROGRAM_COPY, illinoisProgramFacts, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
@@ -577,6 +578,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => iowaFinancialQuestionApplies(jurisdiction, preselectedPathway?.id, id))
     // IL1 required questions are conditional and enforced by their route gate.
     .filter(id => !IL_PROGRAM_FACT_IDS.includes(id))
     .filter(id => jurisdiction !== "CA" || caProp64QuestionApplies(answers, id))
@@ -1329,6 +1331,7 @@ function ambiguityReason(
     .filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
+    .filter(question => iowaFinancialQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter(question => dcGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctAutomaticInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctCannabisGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
@@ -2912,9 +2915,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   // IA.memo ia-7251/ia-12346/ia-12347, Rule 2.83(3): court debt is not a
   // prerequisite on these three conviction applications. Keep the § 901C.3
   // paid-obligations gate and every independent timing/eligibility hold.
-  const iowaDebtNotRequired = jurisdiction === "IA"
-    && (pathway.id === "minor-prostitution-7251" || pathway.id === "public-intoxication-12346" || pathway.id === "underage-alcohol-12347");
-  const financialApplies = !iowaDebtNotRequired
+  const financialApplies = iowaFinancialQuestionApplies(jurisdiction, pathway.id, "financial_obligations")
     && montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && oklahomaCleanSlateFinancialApplies(profile, pathway.id, answers, "financial_obligations")

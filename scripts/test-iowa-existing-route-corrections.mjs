@@ -9,6 +9,7 @@ const { getCurrentFulfillmentRecord } = await import("../src/lib/rcap/fulfillmen
 const { admitCommercialAction, COMMERCIAL_ADMISSION_POINTS } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
 
 const profile = getProfileByJurisdiction("IA");
+const { iowaFinancialQuestionApplies } = await import("../src/lib/rcap-engine/iowa-court-debt.ts");
 const originalProfile = JSON.stringify(profile);
 const routes = [
   ["minor-prostitution-7251", "Prostitution conviction expungement for conduct while under 18 under Iowa Code § 725.1", "725.1(1)(a)"],
@@ -79,13 +80,19 @@ for (const row of routes) {
   check(id + " explicit unknown debt is preserved for source review", () => {
     const answers = { ...base, financial_obligations: "I am not sure" }, before = structuredClone(answers);
     const e = evaluate(answers); held(e, id); assert.equal(e.resultCode, "needs_review");
-    assert(codes(e).includes("ia.source_fact_unknown")); assert.deepEqual(answers, before);
+    if (id === "misdemeanor-901c3") assert(codes(e).includes("ia.source_fact_unknown"));
+    else assert.deepEqual(e, paid);
+    assert.deepEqual(answers, before);
   });
   check(id + " absent debt is never supplied as paid", () => {
     const answers = { ...base }; delete answers.financial_obligations;
     const e = evaluate(answers); assert.equal(e.paymentAllowed, false);
-    assert.equal(e.resultCode, "needs_more_info");
-    assert(e.missingQuestionIds.includes("financial_obligations"));
+    if (id === "misdemeanor-901c3") {
+      assert.equal(e.resultCode, "needs_more_info"); assert(e.missingQuestionIds.includes("financial_obligations"));
+    } else {
+      held(e, id); assert.deepEqual(e, paid);
+      assert(!e.packetPlan.requiredInputIds.includes("financial_obligations"));
+    }
     assert(!Object.hasOwn(answers, "financial_obligations"));
   });
   for (const [label, patch] of [["pending case", { pending_cases: "Yes" }], ["later conviction", { new_convictions_during_waiting_period: "Yes" }], ["incomplete requirements", { sentence_completion_date: "No" }]]) {
@@ -138,6 +145,15 @@ check("same7251 ID in another jurisdiction gets no Iowa exception", () => {
 check("unknown route spelling cannot inherit the exact7251 exception", () => {
   const p = profile.pathways.find(p => p.id === routes[0][0]);
   assert.equal(isCourtFiledPetitionRoute(profile, { ...p, id: p.id + "-other" }), false);
+});
+check("debt exception does not cover other jurisdictions, unresolved routes or route suffixes", () => {
+  for (const id of ["minor-prostitution-7251", "public-intoxication-12346", "underage-alcohol-12347"]) {
+    assert.equal(iowaFinancialQuestionApplies("ZZ", id, "financial_obligations"), true);
+    assert.equal(iowaFinancialQuestionApplies("IA", id + "-other", "financial_obligations"), true);
+    assert.equal(iowaFinancialQuestionApplies("IA", id, "pending_cases"), true);
+  }
+  assert.equal(iowaFinancialQuestionApplies("IA", undefined, "financial_obligations"), true);
+  assert.equal(iowaFinancialQuestionApplies("IA", "misdemeanor-901c3", "financial_obligations"), true);
 });
 check("all IA profile/source/approval objects remain immutable", () => assert.equal(JSON.stringify(profile), originalProfile));
 console.log(`${checks}/${checks + failures.length} Iowa existing-route controls passed; no full statutory predicate, packet regeneration, approval or production acceptance is asserted.`);

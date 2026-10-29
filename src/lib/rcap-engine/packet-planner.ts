@@ -1,3 +1,4 @@
+import { iowaFinancialQuestionApplies } from "@/lib/rcap-engine/iowa-court-debt";
 import { isNorthDakotaUnmappedCandidateForm } from "@/lib/rcap-engine/north-dakota-plan-forms";
 import { IL_PROGRAM_ROUTE, illinoisProgramContext } from "@/lib/rcap-engine/illinois-program-facts";
 import { illinoisPlanForms, isIllinoisOfficialPlanUninstalled } from "@/lib/rcap-engine/illinois-plan-forms";
@@ -79,7 +80,8 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
       ...(mnTwoCountySourceContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)) ? mnTwoCountyFactIds(pathwayId) : []),
       ...(isCaProp64Pathway(profile.jurisdiction.code, pathwayId) ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS] : []),
       ...(isNy16059Packet(profile.jurisdiction.code, pathwayId) ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS] : [])
-    ])].filter(id => (!isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id))
+    ])].filter(id => iowaFinancialQuestionApplies(profile.jurisdiction.code, pathwayId, id)
+      && (!isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id))
       && (!(marylandAutomaticWithoutCounty || georgiaAgencyWithoutCounty) || id !== "county")
       && (!dcLocationIsContext || id !== DC_LEGACY_LOCATION)),
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
