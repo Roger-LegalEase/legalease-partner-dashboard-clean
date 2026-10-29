@@ -1,3 +1,5 @@
+import compiledAlaska from "@/lib/rcap-engine/compiled/profiles/AK-alaska.json";
+import { withResearchLimitedRouteProcedures } from "@/lib/rcap-engine/research-limited-route-procedures";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import type { RegisteredSpecification } from "@/lib/rcap/grade-a/packet-specification";
@@ -8,6 +10,31 @@ import mistakenIdentityMap from "../../../data/rcap-all50/overlays/census-v1/ak/
 import sisMap from "../../../data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/production-field-map.json";
 import ownerAdoption from "../../../data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json";
 import nationalDecision from "../../../data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json";
+
+const RETAINED_ALASKA_PROFILE_HASH = "7489686e1c7c6ed4b4406cb8d81f712ba199da49b7211dec92be030610da1bc7";
+const IDENTITY_PATHWAY = "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180";
+
+/** Only the independently scoped R001 procedure may differ from the retained Alaska profile. */
+function retainedAlaskaProfile(profile: EngineProfile | undefined): boolean {
+  if (profile?.jurisdiction.code !== "AK" || contactRepresentationHash(compiledAlaska) !== RETAINED_ALASKA_PROFILE_HASH) return false;
+  if (contactRepresentationHash(profile) === RETAINED_ALASKA_PROFILE_HASH) return true;
+  const baseline: EngineProfile = JSON.parse(JSON.stringify(compiledAlaska));
+  let projected: EngineProfile;
+  try { projected = withResearchLimitedRouteProcedures(baseline); }
+  catch { return false; }
+  const baselinePathway = baseline.pathways.find(row => row.id === IDENTITY_PATHWAY);
+  const baselinePlan = baseline.packetGenerator.pathways.find(row => row.pathwayId === IDENTITY_PATHWAY);
+  const pathway = profile.pathways.find(row => row.id === IDENTITY_PATHWAY);
+  const plan = profile.packetGenerator.pathways.find(row => row.pathwayId === IDENTITY_PATHWAY);
+  if (!baselinePathway || !baselinePlan || !pathway || !plan
+    || contactRepresentationHash(pathway) !== contactRepresentationHash(projected.pathways.find(row => row.id === IDENTITY_PATHWAY))
+    || contactRepresentationHash(plan) !== contactRepresentationHash(projected.packetGenerator.pathways.find(row => row.pathwayId === IDENTITY_PATHWAY))) return false;
+  return contactRepresentationHash({ ...profile,
+    pathways: profile.pathways.map(row => row.id === IDENTITY_PATHWAY ? baselinePathway : row),
+    packetGenerator: { ...profile.packetGenerator,
+      pathways: profile.packetGenerator.pathways.map(row => row.pathwayId === IDENTITY_PATHWAY ? baselinePlan : row) }
+  }) === RETAINED_ALASKA_PROFILE_HASH;
+}
 
 export const AK_JUVENILE_CONTEXT_ROUTE = "juvenile-record-sealing-as-47-12-300";
 
@@ -40,7 +67,7 @@ function retainedAlaskaGuidanceSource(profile: EngineProfile | undefined,
   specification: RegisteredSpecification | null | undefined,
   currentMemo: unknown, currentProof: unknown): boolean {
   return profile?.jurisdiction.code === "AK"
-    && contactRepresentationHash(profile) === "7489686e1c7c6ed4b4406cb8d81f712ba199da49b7211dec92be030610da1bc7"
+    && retainedAlaskaProfile(profile)
     && specification == null
     && contactRepresentationHash(currentMemo) === "791dc754b5bca3bd578e9a2f3aac291f762525688567453792ca577a148a4f55"
     && contactRepresentationHash(currentProof) === "2402988858343a37e0a8ed3a911802b2c70124b6f9dc96ff611a4d8609795046";
@@ -92,7 +119,7 @@ export function akAgencyOrSisRecordIsContext(profile: EngineProfile | undefined,
   const agency = pathwayId === AK_MISTAKEN_IDENTITY_CONTEXT_ROUTE;
   if (!agency && pathwayId !== AK_SIS_CONTEXT_ROUTE) return false;
   return profile?.jurisdiction.code === "AK" && specification == null
-    && contactRepresentationHash(profile) === "7489686e1c7c6ed4b4406cb8d81f712ba199da49b7211dec92be030610da1bc7"
+    && retainedAlaskaProfile(profile)
     && contactRepresentationHash(current.memo === undefined ? memo : current.memo) === "791dc754b5bca3bd578e9a2f3aac291f762525688567453792ca577a148a4f55"
     && contactRepresentationHash(current.fieldMap === undefined ? (agency ? mistakenIdentityMap : sisMap) : current.fieldMap)
       === (agency ? "3426bac335a57169b238c6c1262d4b081bd4376027ffe718b2a0d7621b3eda84" : "8bf9a49c17e7567844d31c69b8a9869a688b2b19d665c41a9b758058944b64e5")

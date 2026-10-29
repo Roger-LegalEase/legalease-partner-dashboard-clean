@@ -9,9 +9,32 @@ const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-re
 const {packetSpecificationFor}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
 const profile=getProfileByJurisdiction('AK');
 const routes=[H.AK_MISTAKEN_IDENTITY_CONTEXT_ROUTE,H.AK_SIS_CONTEXT_ROUTE];
+const baseline=read('src/lib/rcap-engine/compiled/profiles/AK-alaska.json');
+const allContexts=[
+ [H.AK_PARDON_CONTEXT_ROUTE,H.akPardonRecordIsContext],
+ [H.AK_JUVENILE_CONTEXT_ROUTE,H.akJuvenileRecordIsContext],
+ [H.AK_SIS_CONTEXT_ROUTE,H.akAgencyOrSisRecordIsContext],
+ [H.AK_MISTAKEN_IDENTITY_CONTEXT_ROUTE,H.akAgencyOrSisRecordIsContext]
+];
+
 const options=['Arrest or charge','Court case','Conviction','Juvenile matter','I am not sure'];
 const question={id:'record_type',stage:'packet_information',type:'single_choice',required:true,prompt:'What type of record is this?',options,translations:{es:{prompt:'¿Qué tipo de registro es este?'}}};
 let checks=0;const check=(label,fn)=>{try{fn();checks++;}catch(e){e.message=label+': '+e.message;throw e;}};
+for(const [route,accept]of allContexts){
+ check('original compiled source and exact R001-only projection retain context '+route,()=>{assert(accept(baseline,route,null));assert(accept(profile,route,null));});
+ for(const [label,mutate]of [
+  ['R001pathway',p=>p.pathways.find(r=>r.id===H.AK_MISTAKEN_IDENTITY_CONTEXT_ROUTE).summary+=' unreviewed'],
+  ['R001plan',p=>{const r=p.packetGenerator.pathways.find(r=>r.pathwayId===H.AK_MISTAKEN_IDENTITY_CONTEXT_ROUTE);r.requiredInputIds=[...(r.requiredInputIds??[]),'unreviewed'];}],
+  ['siblingpathway',p=>p.pathways.find(r=>r.id===H.AK_PARDON_CONTEXT_ROUTE).summary+=' unreviewed'],
+  ['siblingplan',p=>{const r=p.packetGenerator.pathways.find(r=>r.pathwayId===H.AK_SIS_CONTEXT_ROUTE);r.requiredInputIds=[...(r.requiredInputIds??[]),'unreviewed'];}],
+  ['otherquestion',p=>p.questions[0].prompt+=' unreviewed'],
+  ['source',p=>p.source.sourceCorpusSha256='unreviewed'],
+  ['top-level',p=>p.unreviewed=true],
+  ['duplicatedR001pathway',p=>p.pathways.push(structuredClone(p.pathways.find(r=>r.id===H.AK_MISTAKEN_IDENTITY_CONTEXT_ROUTE)))],
+  ['duplicatedR001plan',p=>p.packetGenerator.pathways.push(structuredClone(p.packetGenerator.pathways.find(r=>r.pathwayId===H.AK_MISTAKEN_IDENTITY_CONTEXT_ROUTE)))],
+  ['removedsibling',p=>p.pathways=p.pathways.filter(r=>r.id!==H.AK_PARDON_CONTEXT_ROUTE)]
+ ])check('projection cannot hide '+label+' drift for '+route,()=>{const p=structuredClone(profile);mutate(p);assert(!accept(p,route,null));});
+}
 const maps=[
  'data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/production-field-map.json',
  'data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/production-field-map.json'
