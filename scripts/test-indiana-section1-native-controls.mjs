@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import crypto from 'node:crypto';import{execFileSync}from'node:child_process';
+import{PDFDocument}from'pdf-lib';
+import{finalizeOfficialForm}from'./rcap-official-forms/rcap-official-form-finalize.mjs';
+import{APPEARANCE_DISPOSITION}from'./rcap-official-forms/rcap-appearance-semantics.mjs';
+import{settledIndianaSection1ParticipantSelections as select}from'./lib/indiana-cca-section1-route-selections.mjs';
+import{enrichIndianaSection1Fixture,applyIndianaSection1OccurrencePlan}from'./lib/indiana-cca-section1-occurrence-repair.mjs';
+const sourceRoot=process.env.IN_SECTION1_SOURCE_ROOT??'private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1';
+const source=path.join(sourceRoot,'STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf');
+assert(fs.existsSync(source),'BLOCKED_SOURCE: supply the existing verified IN_SECTION1_SOURCE_ROOT; no source substitution');
+const raw=fs.readFileSync(source),sha=b=>crypto.createHash('sha256').update(b).digest('hex');assert.equal(sha(raw),'65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707');
+const frozenBytes=fs.readFileSync('scripts/fixtures/indiana-section1-native-selection.json'),frozen=JSON.parse(frozenBytes),facts=enrichIndianaSection1Fixture(frozen,'in_section1_petition');
+const choices=select({trackId:'in_section1_petition',dispositions:['all_charges_dismissed'],facts});
+// Independent source-bound expectations: FACTS participant boxes17,19,25; never court FINDINGS page3.
+assert.deepEqual(Object.keys(choices).sort(),['Check Box17','Check Box19','Check Box25'].sort());
+const document=await PDFDocument.load(raw),form=document.getForm();
+const courtBoxes=['Check Box16','Check Box18','Check Box20','Check Box22','Check Box24','Check Box27','Check Box28','Check Box30'];
+const baselineCourt=Object.fromEntries(courtBoxes.map(name=>[name,form.getCheckBox(name).isChecked()]));
+for(const field of Object.keys(choices))form.getCheckBox(field).check();
+const roundTrip=await PDFDocument.load(await document.save({useObjectStreams:false}));
+for(const field of ['Check Box17','Check Box19','Check Box25'])assert.equal(roundTrip.getForm().getCheckBox(field).isChecked(),true);
+for(const field of ['Check Box15','Check Box21','Check Box23','Check Box26'])assert.equal(roundTrip.getForm().getCheckBox(field).isChecked(),false);
+for(const field of courtBoxes)assert.equal(roundTrip.getForm().getCheckBox(field).isChecked(),baselineCourt[field]);
+const census=JSON.parse(fs.readFileSync('data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/field-census.census-v1.json')).documents.find(d=>d.documentId==='IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS');
+assert(census);const selected=await finalizeOfficialForm({sourceBytes:raw,expectedSha256:sha(raw),census:census.fields,facts,explicitMappings:{},selectionsFromHeldFacts:choices,unwritableFields:courtBoxes.map(field=>({field,class:'court_owned'})),documentTextLines:census.documentTextLines,appearanceDispositions:new Map(census.fields.filter(f=>f.type==='dropdown'||f.type==='optionlist').map(f=>[f.name,APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE])),preserveUnwrittenChoiceAppearances:true});
+for(const field of ['Check Box17','Check Box19','Check Box25'])assert(selected.report.written.some(w=>w.field===field&&w.kind==='selection_settled_from_held_facts'),'production finalizer must actually write '+field);
+const actual=await applyIndianaSection1OccurrencePlan({bytes:selected.bytes,docKey:'inserts',census,facts,trackId:'in_section1_petition',officialSourceSha256:sha(raw)});
+const out=process.argv.includes('--out')?process.argv[process.argv.indexOf('--out')+1]:fs.mkdtempSync(path.join(os.tmpdir(),'in-native-controls-'));
+assert(out&&path.isAbsolute(out)&&out.startsWith('/tmp/'));fs.mkdirSync(out,{recursive:true});const pdf=path.join(out,'native-insert-control.pdf');fs.writeFileSync(pdf,actual.bytes);
+const text=execFileSync('pdftotext',['-layout',pdf,'-'],{encoding:'utf8'}),pages=text.split('\f').filter(s=>s.trim());assert.equal(pages.length,4);
+// Values are manually specified rather than extracted to construct their own expected result.
+for(const value of ['Lena Stone','01/07/1995','01/01/2020','01/02/2020','49D01-2001-CM-001234','Criminal trespass','10/28/2026'])assert(text.includes(value),'missing frozen value '+value);
+for(const name of ['Jordan Avery Reyes','Morgan Sample','Acceptance Consumer','Alexandrina-Katharine'])assert(!text.includes(name));
+assert(!actual.occurrenceWrites.some(w=>w.page===3),'no participant overlay writes on judicial FINDINGS');
+assert.equal(sha(fs.readFileSync(source)),sha(raw),'source remained immutable');
+const report={status:'PASS_NATIVE_IN_SECTION1_CONTROLS',sourceSha256:sha(raw),frozenInputSha256:sha(frozenBytes),artifactSha256:sha(actual.bytes),pageCount:4,participantChoices:['Check Box17','Check Box19','Check Box25'],courtChoicesUntouched:true,shorterWaitNotInvented:true,independentCaseFactsPresent:true,priorParticipantAbsent:true,participantWritesExcludeCourtFindingsPage:true,sourceUnchanged:true,completePacket:false,scope:'Focused native required-form control and occurrence regression, not a family rebuild, complete packet, approval, checkout, hosted or production proof',output:out};fs.writeFileSync(path.join(out,'verification.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
