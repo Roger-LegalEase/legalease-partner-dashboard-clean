@@ -1,0 +1,1059 @@
+{
+  "predecessorCommit": "c4588beaf68136541bb285f5f42eda96f64e5ad0",
+  "predecessorSourceSha256": "58730b7177dc908c5eeb5845ed98fd178bb4ad27770674dd9f90089d90d6ab44",
+  "purpose": "Exact extraction continuity only; independent expected statuses remain in test",
+  "cases": [
+    {
+      "name": "3year inclusive anniversary",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The supported administrative100A request uses the official Commissioner form and applicable adult affidavit. A former felony now a misdemeanor uses the misdemeanor clock; protective-order violations specified by statute use the felony clock. This is sealing, not expungement.",
+        "reasonEs": "La solicitud administrativa100A usa el formulario oficial del Comisionado y la declaración jurada de adulto aplicable. Un delito antes grave que ahora es menor usa el plazo de delito menor; las infracciones de órdenes de protección especificadas por la ley usan el plazo de delito grave. Este procedimiento sella el registro; no lo elimina.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "day before misdemeanor anniversary",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-28",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The applicable3/7/15-year period has not elapsed for every record sought to be sealed. Each class uses its own statutory event anchor.",
+        "reasonEs": "No ha transcurrido el plazo aplicable de3,7o15años para cada registro que se desea sellar. Cada categoría usa el evento inicial previsto por la ley.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "7year felony inclusive anniversary",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "none",
+        "ma_100a_latest_felony_event": "2019-10-29",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The supported administrative100A request uses the official Commissioner form and applicable adult affidavit. A former felony now a misdemeanor uses the misdemeanor clock; protective-order violations specified by statute use the felony clock. This is sealing, not expungement.",
+        "reasonEs": "La solicitud administrativa100A usa el formulario oficial del Comisionado y la declaración jurada de adulto aplicable. Un delito antes grave que ahora es menor usa el plazo de delito menor; las infracciones de órdenes de protección especificadas por la ley usan el plazo de delito grave. Este procedimiento sella el registro; no lo elimina.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "day before felony anniversary",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "none",
+        "ma_100a_latest_felony_event": "2019-10-29",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-28",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The applicable3/7/15-year period has not elapsed for every record sought to be sealed. Each class uses its own statutory event anchor.",
+        "reasonEs": "No ha transcurrido el plazo aplicable de3,7o15años para cada registro que se desea sellar. Cada categoría usa el evento inicial previsto por la ley.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "sex15year plus national history",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "none",
+        "ma_100a_latest_felony_event": "2011-10-29",
+        "ma_100a_latest_sex_offense_completion": "2011-10-29",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false,
+        "ma_100a_ever_sex_level_two_or_three": false,
+        "ma_100a_sex_registration_duty": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The supported administrative100A request uses the official Commissioner form and applicable adult affidavit. A former felony now a misdemeanor uses the misdemeanor clock; protective-order violations specified by statute use the felony clock. This is sealing, not expungement.",
+        "reasonEs": "La solicitud administrativa100A usa el formulario oficial del Comisionado y la declaración jurada de adulto aplicable. Un delito antes grave que ahora es menor usa el plazo de delito menor; las infracciones de órdenes de protección especificadas por la ley usan el plazo de delito grave. Este procedimiento sella el registro; no lo elimina.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "sex15year day before",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "none",
+        "ma_100a_latest_felony_event": "2011-10-29",
+        "ma_100a_latest_sex_offense_completion": "2011-10-29",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false,
+        "ma_100a_ever_sex_level_two_or_three": false,
+        "ma_100a_sex_registration_duty": false
+      },
+      "asOf": "2026-10-28",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The applicable3/7/15-year period has not elapsed for every record sought to be sealed. Each class uses its own statutory event anchor.",
+        "reasonEs": "No ha transcurrido el plazo aplicable de3,7o15años para cada registro que se desea sellar. Cada categoría usa el evento inicial previsto por la ley.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "firearm/publicintegrity exclusion",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": "Yes",
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "excluded",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Section100A excludes the specified firearms and public-integrity convictions, with the resisting-arrest exception. Do not substitute ordinary expungement.",
+        "reasonEs": "La sección100A excluye las condenas indicadas de armas e integridad pública, con la excepción de resistencia al arresto. No sustituya este procedimiento por una eliminación ordinaria.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "canonical No answers qualify",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": "No",
+        "ma_100a_recent_finding_three_years": "No",
+        "ma_100a_recent_custody_three_years": "No",
+        "ma_100a_recent_finding_seven_years": "No",
+        "ma_100a_recent_custody_seven_years": "No"
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The supported administrative100A request uses the official Commissioner form and applicable adult affidavit. A former felony now a misdemeanor uses the misdemeanor clock; protective-order violations specified by statute use the felony clock. This is sealing, not expungement.",
+        "reasonEs": "La solicitud administrativa100A usa el formulario oficial del Comisionado y la declaración jurada de adulto aplicable. Un delito antes grave que ahora es menor usa el plazo de delito menor; las infracciones de órdenes de protección especificadas por la ley usan el plazo de delito grave. Este procedimiento sella el registro; no lo elimina.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "recent finding",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": "Yes",
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The applicable 3-year clean-history/custody period is not satisfied. The maximum-$50-fine motor-vehicle exception applies only where stated.",
+        "reasonEs": "No se cumple el período aplicable de3años sin antecedentes ni encarcelamiento. La excepción de tránsito de multa máxima de$50se aplica únicamente donde se indica.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "custody clock uses actual latest event",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2025-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The applicable3/7/15-year period has not elapsed for every record sought to be sealed. Each class uses its own statutory event anchor.",
+        "reasonEs": "No ha transcurrido el plazo aplicable de3,7o15años para cada registro que se desea sellar. Cada categoría usa el evento inicial previsto por la ley.",
+        "missingFactIds": [],
+        "eligibleOn": "2028-10-29"
+      }
+    },
+    {
+      "name": "unknown event not none",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "unknown",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_felony_event"
+        ]
+      }
+    },
+    {
+      "name": "Spanish unknown not none",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "no sé",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_felony_event"
+        ]
+      }
+    },
+    {
+      "name": "canonical Spanish none",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "no se aplicó",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The supported administrative100A request uses the official Commissioner form and applicable adult affidavit. A former felony now a misdemeanor uses the misdemeanor clock; protective-order violations specified by statute use the felony clock. This is sealing, not expungement.",
+        "reasonEs": "La solicitud administrativa100A usa el formulario oficial del Comisionado y la declaración jurada de adulto aplicable. Un delito antes grave que ahora es menor usa el plazo de delito menor; las infracciones de órdenes de protección especificadas por la ley usan el plazo de delito grave. Este procedimiento sella el registro; no lo elimina.",
+        "missingFactIds": [],
+        "eligibleOn": "2026-10-29"
+      }
+    },
+    {
+      "name": "explicit empty record",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "none",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "needs_review",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "No adult record was identified for this request; choose the actual record mechanism rather than generate an empty application.",
+        "reasonEs": "No se identificó ningún registro de adulto para esta solicitud; seleccione el procedimiento que corresponda al registro real antes de preparar una solicitud.",
+        "missingFactIds": []
+      }
+    },
+    {
+      "name": "contradictory 3year/7year histories",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "2019-01-01",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": true,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The three-year and seven-year history answers contradict each other. Correct the actual record; a more recent event is also within the longer period.",
+        "reasonEs": "Las respuestas de antecedentes de tres y siete años se contradicen. Corrija el registro real; un evento más reciente también está dentro del plazo más largo.",
+        "missingFactIds": [
+          "ma_100a_recent_finding_three_years",
+          "ma_100a_recent_finding_seven_years",
+          "ma_100a_recent_custody_three_years",
+          "ma_100a_recent_custody_seven_years"
+        ]
+      }
+    },
+    {
+      "name": "future completion",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2027-01-01",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "A reported completed event is in the future. Confirm actual completion dates.",
+        "reasonEs": "Un evento declarado como concluido tiene fecha futura. Confirme las fechas reales de cumplimiento.",
+        "missingFactIds": [
+          "ma_100a_latest_misdemeanor_event"
+        ]
+      }
+    },
+    {
+      "name": "UTC leap rollover prior day",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2024-02-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2027-02-28",
+      "expected": {
+        "status": "not_yet",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The applicable3/7/15-year period has not elapsed for every record sought to be sealed. Each class uses its own statutory event anchor.",
+        "reasonEs": "No ha transcurrido el plazo aplicable de3,7o15años para cada registro que se desea sellar. Cada categoría usa el evento inicial previsto por la ley.",
+        "missingFactIds": [],
+        "eligibleOn": "2027-03-01"
+      }
+    },
+    {
+      "name": "UTC leap rollover anniversary",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2024-02-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2027-03-01",
+      "expected": {
+        "status": "qualifying",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "The supported administrative100A request uses the official Commissioner form and applicable adult affidavit. A former felony now a misdemeanor uses the misdemeanor clock; protective-order violations specified by statute use the felony clock. This is sealing, not expungement.",
+        "reasonEs": "La solicitud administrativa100A usa el formulario oficial del Comisionado y la declaración jurada de adulto aplicable. Un delito antes grave que ahora es menor usa el plazo de delito menor; las infracciones de órdenes de protección especificadas por la ley usan el plazo de delito grave. Este procedimiento sella el registro; no lo elimina.",
+        "missingFactIds": [],
+        "eligibleOn": "2027-03-01"
+      }
+    },
+    {
+      "name": "ma_100a_latest_misdemeanor_event materialunknown undefined",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_misdemeanor_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_misdemeanor_event materialunknown \"Unsure\"",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "Unsure",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_misdemeanor_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_misdemeanor_event materialunknown []",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": [],
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_misdemeanor_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_misdemeanor_event materialunknown {\"unknown\":true,\"value\":\"2023-10-29\"}",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": {
+          "unknown": true,
+          "value": "2023-10-29"
+        },
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_misdemeanor_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_felony_event materialunknown undefined",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_felony_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_felony_event materialunknown \"Unsure\"",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "Unsure",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_felony_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_felony_event materialunknown []",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": [],
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_felony_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_felony_event materialunknown {\"unknown\":true,\"value\":\"none\"}",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": {
+          "unknown": true,
+          "value": "none"
+        },
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_felony_event"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_sex_offense_completion materialunknown undefined",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_sex_offense_completion"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_sex_offense_completion materialunknown \"Unsure\"",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "Unsure",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_sex_offense_completion"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_sex_offense_completion materialunknown []",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": [],
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_sex_offense_completion"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_latest_sex_offense_completion materialunknown {\"unknown\":true,\"value\":\"none\"}",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": {
+          "unknown": true,
+          "value": "none"
+        },
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_latest_sex_offense_completion"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_excluded_firearms_or_public_integrity_record materialunknown undefined",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_excluded_firearms_or_public_integrity_record"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_excluded_firearms_or_public_integrity_record materialunknown \"Unsure\"",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": "Unsure",
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_excluded_firearms_or_public_integrity_record"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_excluded_firearms_or_public_integrity_record materialunknown []",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": [],
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_excluded_firearms_or_public_integrity_record"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_excluded_firearms_or_public_integrity_record materialunknown {\"unknown\":true,\"value\":false}",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": {
+          "unknown": true,
+          "value": false
+        },
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_excluded_firearms_or_public_integrity_record"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_finding_three_years materialunknown undefined",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_finding_three_years"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_finding_three_years materialunknown \"Unsure\"",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": "Unsure",
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_finding_three_years"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_finding_three_years materialunknown []",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": [],
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_finding_three_years"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_finding_three_years materialunknown {\"unknown\":true,\"value\":false}",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": {
+          "unknown": true,
+          "value": false
+        },
+        "ma_100a_recent_custody_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_finding_three_years"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_custody_three_years materialunknown undefined",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_custody_three_years"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_custody_three_years materialunknown \"Unsure\"",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": "Unsure",
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_custody_three_years"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_custody_three_years materialunknown []",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": [],
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_custody_three_years"
+        ]
+      }
+    },
+    {
+      "name": "ma_100a_recent_custody_three_years materialunknown {\"unknown\":true,\"value\":false}",
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "facts": {
+        "ma_100a_latest_misdemeanor_event": "2023-10-29",
+        "ma_100a_latest_felony_event": "none",
+        "ma_100a_latest_sex_offense_completion": "none",
+        "ma_100a_excluded_firearms_or_public_integrity_record": false,
+        "ma_100a_recent_finding_three_years": false,
+        "ma_100a_recent_custody_three_years": {
+          "unknown": true,
+          "value": false
+        },
+        "ma_100a_recent_finding_seven_years": false,
+        "ma_100a_recent_custody_seven_years": false
+      },
+      "asOf": "2026-10-29",
+      "expected": {
+        "status": "unknown",
+        "reviewId": "R038",
+        "branchId": "R038:participant_application",
+        "reason": "Establish every record class's exact latest event, applicable history and any sex-offense classification/registration; an unknown event is not no event.",
+        "reasonEs": "Confirme el último evento exacto de cada categoría de registro, los antecedentes aplicables y cualquier clasificación o deber de registro por delito sexual; un evento desconocido no equivale a que no haya ocurrido.",
+        "missingFactIds": [
+          "ma_100a_recent_custody_three_years"
+        ]
+      }
+    }
+  ]
+}
