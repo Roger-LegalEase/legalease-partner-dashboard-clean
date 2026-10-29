@@ -1,3 +1,4 @@
+import { northDakotaNonconvictionAutomaticDeadline, ND_NONCONVICTION_AUTOMATIC_TIMING_COPY } from "@/lib/rcap-engine/north-dakota-nonconviction-deadline.mjs";
 /** Exact existing R053 date split/exclusions; no renderer, legal signature or commercial authority. */
 export const ND_NONCONVICTION_ROUTE="ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05";
 export const ND_NONCONVICTION_DATE_SPLIT="2025-08-01";
@@ -28,7 +29,7 @@ export const ND_NONCONVICTION_REASON_COPY=[
  ["A valid matter evaluation date is required.","Se necesita una fecha válida para evaluar el asunto."],
  ["This section requires dismissal or acquittal of every criminal charge in the case.","Esta sección exige la desestimación o absolución de todos los cargos penales del caso."],
  ["The complete nonconviction and each statutory exception must be established; no answer is inferred from an omission.","Se debe establecer que no hubo condena en ninguno de los cargos y comprobar cada excepción legal; no se deducen respuestas a partir de datos omitidos."],
- ["Court closure follows 61 complete days after the order. Verify on day 62 or the next court business day. No ordinary participant petition is needed; agency criminal-history errors use a separate correction process.","El cierre judicial se produce después de 61 días completos desde la orden. Verifíquelo el día 62 o el siguiente día hábil judicial. No se necesita una petición ordinaria del participante; los errores en antecedentes de agencias usan un procedimiento de corrección separado."],
+ ND_NONCONVICTION_AUTOMATIC_TIMING_COPY,
  ["The municipal-court caption/form question remains unresolved for this exact branch; do not use the district-court packet for a municipal case.","La cuestión del encabezado y formulario del tribunal municipal sigue sin resolverse para esta rama; no use el paquete del tribunal de distrito para un caso municipal."],
  ["The actual district or municipal court must be established before choosing a packet.","Se debe establecer si el tribunal real es de distrito o municipal antes de elegir un paquete."],
  ["The pre-August 1, 2025 district-court branch permits a petition to close the court record; no court filing fee is charged under this section. Actual record verification, artifact authority and delivery remain separate.","La rama del tribunal de distrito anterior al 1 de agosto de 2025 permite pedir el cierre del expediente judicial; esta sección no impone una tasa judicial por presentar la petición. La verificación del expediente real, la autorización del documento y la entrega siguen siendo requisitos separados."]
@@ -56,7 +57,12 @@ export function evaluateNorthDakotaNonconviction(routeKey:string,facts:Facts,asO
  if(bool(facts.nd_all_charges_nonconviction)===false)return result("not_all_charges_nonconviction","excluded",1);
  const missing=["nd_all_charges_nonconviction",...EXCLUSIONS.map(([id])=>id)].filter(id=>bool(facts[id])===undefined),day=date(facts.nd_qualifying_disposition_date);
  if(!day||day>today)missing.push("nd_qualifying_disposition_date");if(missing.length)return result("unknown","unknown",2,missing);
- if(day!>=ND_NONCONVICTION_DATE_SPLIT){const at=new Date(`${day}T00:00:00Z`);at.setUTCDate(at.getUTCDate()+62);return{...result("post_effective_date_automatic","guidance",3),verificationOn:at.toISOString().slice(0,10)};}
+ if(day!>=ND_NONCONVICTION_DATE_SPLIT){
+  const deadline=northDakotaNonconvictionAutomaticDeadline(day);
+  return {...result("post_effective_date_automatic","guidance",3),
+   ...(deadline.eligible?{verificationOn:deadline.firstAdministrativeCheckDate,calendarStatus:"verified_calendar" as const}
+    :{calendarStatus:"verified_calendar_required" as const,calendarDependencyCode:deadline.code})};
+ }
  if(text(facts.nd_nonconviction_court_type)==="municipal")return result("municipal_form_review","attorney_review",4);
  if(text(facts.nd_nonconviction_court_type)!=="district")return result("unknown","unknown",5,["nd_nonconviction_court_type"]);
  return result("pre_effective_date_petition","qualifying",6);

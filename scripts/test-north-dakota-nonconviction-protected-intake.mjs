@@ -154,4 +154,15 @@ for(const[label,mutate]of[
 const hashTamper=structuredClone(oldBase);snap(hashTamper).packetAnswers.nd_nonconviction_county='Burleigh';
 check('legacy successor rejects raw mutation with unchanged draft hash',()=>assert.equal(model(hashTamper),null));
 
+check('automatic calendar uncertainty keeps nonpaid guidance without an invented exact date',()=>{
+ const g=I.research115Eligibility(route,{...caseFacts,nd_qualifying_disposition_date:'2025-08-04'},asOf);
+ assert.equal(g.status,'guidance');assert.equal(g.calendarStatus,'verified_calendar_required');
+ assert.equal(Object.hasOwn(g,'verificationOn'),false);assert.equal(g.calendarDependencyCode,'MISSING_VERIFIED_CALENDAR_OR_DEADLINES');
+ assert.deepEqual(g.documentIds,[]);assert.match(g.reason,/adjusted period expires/);assert.match(resolveRuntimeText('es',g.reason),/plazo ajustado/);
+});
+check('pre2025 petition scope does not acquire an automatic-calendar requirement',()=>{
+ const g=I.research115Eligibility(route,{...caseFacts,...courtFacts},asOf);
+ assert.equal(g.status,'qualifying');assert.equal(Object.hasOwn(g,'calendarStatus'),false);assert.equal(Object.hasOwn(g,'verificationOn'),false);
+});
+
 console.log(checks+'/'+checks+' actual R053 protected intake controls passed; pure in-process model/save tests only, no authentication/download/transaction or production proof.');
