@@ -29,8 +29,8 @@ assert(statusForResultCode("guidance_only") === "guidance_saved", "guidance_only
 assert(statusForResultCode("not_yet") === "waiting", "not_yet must map to waiting.");
 assert(statusForResultCode("likely_not_eligible") === "not_eligible", "likely_not_eligible must map to not_eligible.");
 
-// 2) RCAP partner sessions never carry a payment gate; DTC keeps the engine's value.
-assert(resolveSavePaymentAllowed(true, true) === false, "Partner session must force paymentAllowed false (no Stripe).");
+// 2) The caller supplies true only for server-confirmed sponsored funding.
+assert(resolveSavePaymentAllowed(true, true) === false, "Confirmed sponsorship must force paymentAllowed false (no Stripe).");
 assert(resolveSavePaymentAllowed(false, true) === true, "DTC must keep the engine paymentAllowed (the $50 path).");
 
 // 3) packet_ready on a partner session saves without Stripe.
@@ -125,6 +125,17 @@ assert(
   "Negative control failed: bypassing the server-verified pending claim was not detected."
 );
 
+const unconfirmedPartnerFunding = {
+  ...sources,
+  claimService: sources.claimService.replace('getProgramPacketFunding(row.partner_slug!,row.jurisdiction)==="sponsored"', 'true')
+};
+assert(persistenceWiringViolations(unconfirmedPartnerFunding).some(failure => failure.includes("server-confirmed program funding")), "Negative control failed: partner attribution alone was treated as sponsorship.");
+const attributionOnlyPaymentClamp = {
+  ...sources,
+  claimService: sources.claimService.replace('{ isPartnerSession:sponsored }', '{ isPartnerSession }')
+};
+assert(persistenceWiringViolations(attributionOnlyPaymentClamp).some(failure => failure.includes("save-input construction")), "Negative control failed: unconfirmed partner attribution entered the sponsored payment clamp.");
+
 const rawPresentationFallback = {
   ...sources,
   documents: `${sources.documents}\npacketCompletionActionFor(item)`,
@@ -149,7 +160,7 @@ if (failures.length) {
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log("verify-rcap-briefcase-result-persistence: OK (server-authoritative claim persists; dedup; guidance_saved; partner packet has no Stripe; DTC $50 preserved)");
+console.log("verify-rcap-briefcase-result-persistence: OK (server-authoritative claim persists; dedup; guidance_saved; confirmed sponsorship has no Stripe; DTC $50 preserved)");
 console.log("Negative controls detected restoration of browser-result persistence, loss of the authoritative writer, bypass of the verified claim, raw presentation fallback, and direct Checkout on review.");
 
 function persistenceWiringViolations(input) {
@@ -179,7 +190,10 @@ function persistenceWiringViolations(input) {
   require(input.claimService.includes('supabase.rpc("claim_pending_screening_result"'), "Pending claims must use the server-authoritative writer.");
   require(input.claimService.includes("clampAuthoritativeMatterInput"), "Pending claims must apply the server-authoritative matter clamps.");
   require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Only a server-validated partner session may receive sponsored persistence posture.");
-  require(input.claimService.includes("buildSaveInput") && input.claimService.includes("{ isPartnerSession }"), "The verified partner posture must clamp payment during save-input construction.");
+  require(/const sponsored\s*=\s*isPartnerSession\s*&&\s*await getProgramPacketFunding\(\s*row\.partner_slug!\s*,\s*row\.jurisdiction\s*\)\s*===\s*"sponsored"/.test(input.claimService), "Sponsorship must require server-confirmed program funding, not partner attribution alone.");
+  const saveStart = input.claimService.indexOf("const saveInput ="), saveEnd = input.claimService.indexOf("saveInput.artifactRefs", saveStart);
+  const saveConstruction = saveStart >= 0 && saveEnd > saveStart ? input.claimService.slice(saveStart, saveEnd) : "";
+  require(saveConstruction.includes("buildSaveInput") && /\},\s*\{\s*isPartnerSession:\s*sponsored\s*\}\s*\)/.test(saveConstruction), "The server-confirmed sponsorship must clamp payment during save-input construction.");
   require(input.claimService.includes('stage: "not_started"') && input.claimService.includes("requiredInputIds"), "Packet-ready saves must attach the prepayment packet-information model.");
   require(input.claimService.includes("exactMatterPath(matterId)"), "Pending claims must return the exact saved Briefcase matter.");
   require(!input.pendingClaim.includes("createConsumerPacketCheckout") && !input.pendingClaim.includes("stripe"), "Pending claims must not create Checkout or call Stripe.");
