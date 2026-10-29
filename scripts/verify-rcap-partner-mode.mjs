@@ -8,6 +8,9 @@ import { PGlite } from "@electric-sql/pglite";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
 let rcapPaymentRoutingStatus = "pending-on-prompt-3";
+const contextCall = 'resolveRcapPartnerIntakeContext(partnerSlug, typeof search.jurisdiction';
+const claimCall = 'claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, requestId })';
+const verifiedActionCall = 'packetVerificationActions({ verified, packetReady, mode, commercialActions: allowedActions })';
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -58,7 +61,7 @@ if (failures.length) {
 }
 
 console.log("RCAP partner mode verification passed.");
-console.log("1. DTC free-Briefcase, final-review Checkout, payment confirmation, and packet routing verified unchanged.");
+console.log("1. DTC free-Briefcase, final-review Checkout, payment confirmation, and packet source wiring verified; no production payment or delivery executed.");
 console.log(`2. RCAP payment-skip routing: ${rcapPaymentRoutingStatus}.`);
 console.log("3. Identical answers produce identical evaluation results across DTC/RCAP modes.");
 console.log("4. Unknown/inactive partner fails closed with no session or slot consumption.");
@@ -72,6 +75,7 @@ console.log("11. Partner packet generation consumes packet cap exactly once.");
 console.log("12. Partner usage event payload is aggregate-only and contains no PII.");
 console.log("13. DTC save/resume and pay/packet boundaries remain intact.");
 console.log("14. Scope guard allowlist remains centralized.");
+console.log("SQL/RLS and capacity tests use local legacy-RPC fixtures. The current request-ID service path is source-verified here, not an executed hosted claim.");
 
 function verifySourceWiring() {
   const intakePage = read("src/app/intake/[partnerSlug]/page.tsx");
@@ -104,16 +108,20 @@ function verifySourceWiring() {
   const lifecycle = read("src/lib/expungement-ai/rcap-slot-lifecycle.ts");
   const migration = read("supabase/phase-39-rcap-partner-packet-cap.sql");
 
-  assert(intakePage.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake must resolve context on load.");
+  assert(intakePage.includes(contextCall), "Partner intake must resolve context and the explicit jurisdiction on load.");
   assert(intakePage.includes("form action={startRcapPartnerScreening}"), "Partner intake start must be explicit.");
-  assert(intakePage.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })"), "Partner intake start must call the RPC wrapper.");
+  assert(intakePage.includes(claimCall), "Partner intake start must pass the displayed request ID to the RPC wrapper.");
+  assert(intakePage.includes('name="requestId" value={requestId}') && intakePage.includes('const requestId=String(formData.get("requestId")??"")'), "The same request ID must pass from the form to its action.");
   assert(intakePage.includes("This link is not active right now"), "Inactive link copy missing.");
-  assert(intakePage.includes("This program is currently full"), "Program-full headline copy missing.");
-  assert(intakePage.includes("Please check back later or contact the organization that shared this link."), "Program-full body copy missing.");
+  const fullState = intakePage.slice(intakePage.indexOf("function ProgramFullState("), intakePage.indexOf("function InactiveLinkState("));
+  assert(fullState.includes("This program has reached its screening capacity"), "Program-full capacity headline missing.");
+  assert(fullState.includes("Program entry does not grant packet funding.") && fullState.includes('href={consumerUrl}') && fullState.includes("Continue with standard consumer service"), "The free consumer continuation must be an explicit choice without program funding.");
+  assert(!fullState.includes("<form") && !fullState.includes("claimRcapPartnerScreeningSession"), "Viewing capacity guidance must not consume a slot.");
   assert(!intakePage.includes("/expungement-ai/start"), "Partner intake must not fall back to DTC start.");
   assert(!intakePage.includes("/expungement-ai/pay"), "Partner intake must not route to pay.");
-  assert(indexOf(intakePage, "claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })") > indexOf(intakePage, "async function startRcapPartnerScreening"), "Claim RPC must only be called in the explicit start action.");
+  assert(indexOf(intakePage, claimCall) > indexOf(intakePage, "async function startRcapPartnerScreening"), "Claim RPC must only be called in the explicit start action.");
   assert(intakeLib.includes('.rpc("claim_rcap_screening_session"'), "RPC wrapper must call claim_rcap_screening_session.");
+  assert(intakeLib.includes('input.requestId ? await supabase.rpc("rcap_service_claim_program_screening"') && intakeLib.includes('p_request_hash:screeningEntryRequestHash(input.requestId,input.participantUserId)'), "Request-ID claims must use the service RPC and participant-bound request hash.");
   assert(!intakeLib.includes(".from(\"screening_sessions\").insert"), "No app-level insert flow allowed.");
   assert(!intakeLib.includes("screenings_used + 1"), "No app-level entitlement increment allowed.");
 
@@ -160,24 +168,24 @@ function verifySourceWiring() {
   const rcapPaymentRoutingStatus = "pass";
 
   assert(resultPanel.includes('href={`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.briefcaseItemId ?? "")}`'), "DTC result panel must still route packet-ready results to pay.");
-  assert(screeningResult.includes("showPacketAction = isPaymentAllowed(evaluation);"), "Screening result must still clamp packet-price disclosure to paymentAllowed.");
+  assert(screeningResult.includes("showPacketAction = packetAvailable && isPaymentAllowed(evaluation);"), "Screening result must clamp packet-price disclosure to both availability and paymentAllowed.");
   // Partner mode renders one of four lane CTAs without a price. DTC saves the
   // result first and owns Checkout only from the exact matter's final review.
   assert(screeningResult.includes("PARTNER_RESULT_LANES[evaluation.resultCode].key"), "Partner-covered result CTA must use the four result-lane labels.");
-  assert(screeningResult.includes('"result.save_briefcase_continue"') && screeningResult.includes('"Save to my Briefcase and continue"'), "Partner packet-ready lane must accurately say the result is saved to the Briefcase first.");
+  assert(screeningResult.includes('"result.save_matter_continue"') && screeningResult.includes('"Save my result and continue"'), "Partner packet-ready action must save the preliminary result through the claim boundary.");
   const partnerCtaBranch = screeningResult.slice(
     screeningResult.indexOf("{hasScreeningSession ? ("),
     screeningResult.indexOf(") : (", screeningResult.indexOf("{hasScreeningSession ? ("))
   );
   assert(partnerCtaBranch.length > 0 && !partnerCtaBranch.includes("$50"), "Partner result CTA branch must never render the $50 label.");
-  assert(screeningResult.includes("Your packet is covered by your partner program.")
+  assert(screeningResult.includes("Your partner program information is saved. Packet coverage is confirmed before preparation.")
     && screeningResult.includes("Your saved result and next steps are covered by your partner program."), "Partner result must visibly explain verified program coverage without consumer commercial copy.");
   assert(screeningResult.includes('fallback: "Save my result and continue"'), "DTC result CTA must save the exact matter before payment.");
   assert(screeningResult.includes("$50 one time when you are ready to generate this packet"), "DTC packet-ready result must retain its matter-level $50 disclosure.");
   assert(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate post-verification generation and Checkout decisions to PacketVerificationAction.");
-  assert(verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+  assert(verificationAction.includes(verifiedActionCall)
     && verificationAction.includes("{nextActions.checkout ? (")
-    && verificationAction.includes('<ConsumerCheckoutButton briefcaseItemId={itemId} label="Pay $50 and generate my packet"'), "DTC Checkout must remain reachable only through the verified action branch.");
+    && verificationAction.slice(verificationAction.indexOf("{nextActions.checkout ? (")).includes('<ConsumerCheckoutButton briefcaseItemId={itemId} label={copy("Pay $50 and generate my packet", "Pagar $50 y generar mi paquete")}'), "DTC Checkout must remain reachable only through verified commercial actions with its bilingual label.");
   assert(payPage.includes("Compatibility route") && payPage.includes("/review"), "Legacy pay links must redirect the exact matter to final review.");
   assert(packetReadyPage.includes("Compatibility return") && !packetReadyPage.includes("recordConsumerPaymentConfirmation"), "Legacy packet-ready return must not write payment or authorize generation.");
   assert(dtcStartPage.includes('fallback="Check my options"'), "DTC start page must retain the approved primary CTA.");
@@ -186,6 +194,7 @@ function verifySourceWiring() {
   assert(paymentConfirmRoute.includes("recordConsumerPaymentConfirmation"), "Payment confirm route must invoke payment confirmation.");
   assert(pendingCreateRoute.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending create must persist server-resolved DTC/partner source attribution.");
   assert(pendingCreateRoute.includes("resolveScreeningAttribution") && claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Pending claim must grant sponsored posture only to a validated partner session.");
+  assert(claimService.includes('const sponsored = isPartnerSession && await getProgramPacketFunding(row.partner_slug!,row.jurisdiction)==="sponsored"') && /isPartnerSession:\s*sponsored/.test(claimService), "Partner attribution alone must not grant sponsorship; saved funding must use the server-confirmed program decision.");
   assert(claimService.includes("exactMatterPath(matterId)"), "Pending claim must send every result to its exact free Briefcase matter.");
   assert(!pendingClaimRoute.includes('/expungement-ai/pay?briefcaseItemId='), "Pending claim must not skip packet information and final review.");
   assert(packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation route must invoke paid packet generation.");
@@ -235,7 +244,7 @@ function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pe
   require(claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs server-side.");
   require(claimService.includes("exactMatterPath(matterId)"), "Pending claims must route to the exact saved matter.");
   require(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate payment and generation until explicit verification.");
-  require(verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+  require(verificationAction.includes(verifiedActionCall)
     && verificationAction.includes("{nextActions.checkout ? (")
     && verificationAction.includes("{nextActions.generation?.mode"), "PacketVerificationAction must own all post-verification Checkout and generation branches.");
   return issues;
@@ -343,9 +352,9 @@ async function verifyRpcRollbackOnInsertFailure(db) {
 
 async function verifyPageLoadDoesNotClaim() {
   const intakePage = read("src/app/intake/[partnerSlug]/page.tsx");
-  assert(intakePage.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Page load must resolve partner context.");
+  assert(intakePage.includes(contextCall), "Page load must resolve partner context and jurisdiction.");
   assert(!intakePage.includes(".rpc(\"claim_rcap_screening_session\""), "Page load must not call the claim RPC.");
-  assert(indexOf(intakePage, "resolveRcapPartnerIntakeContext(partnerSlug)") < indexOf(intakePage, "async function startRcapPartnerScreening"), "Claim RPC must only appear in the explicit start action.");
+  assert(indexOf(intakePage, contextCall) < indexOf(intakePage, "async function startRcapPartnerScreening"), "Context resolution must precede the explicit claim action.");
 }
 
 async function verifyReleaseOnExpiry(db) {
