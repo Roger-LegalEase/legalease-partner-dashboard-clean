@@ -18,7 +18,7 @@ import { evaluatorRouteSet } from "./lib/route-ratification.mjs";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
+const { evaluateScreening, InvalidAnswerError } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
@@ -167,7 +167,18 @@ const fixtures = JSON.parse(
   fs.readFileSync(path.join(rootDir, "data/expungement-ai/fixtures/maryland-pardon-evaluation-fixtures.json"), "utf8")
 );
 assert(fixtures.pathwayId === PATHWAY_ID, "fixtures are bound to the canonical pathway id");
+assert(publicProfile.questions.find(question => question.id === "state_exclusion_categories")?.type === "multi_select", "Exclusions use the actual multi-select answer contract.");
+const completeFixture = fixtures.cases.find(candidate => candidate.id === "within-deadline-opens-caution-packet-and-payment");
+let scalarExclusionRejected = false;
+try {
+  evaluateScreening({ jurisdiction: fixtures.jurisdiction, profileVersion: fixtures.profileVersion,
+    matterId: "verify-invalid-exclusion-wire", answers: { ...completeFixture.answers, state_exclusion_categories: "None of these" } });
+} catch (error) {
+  scalarExclusionRejected = error instanceof InvalidAnswerError && error.invalidQuestionIds.includes("state_exclusion_categories");
+}
+assert(scalarExclusionRejected, "The former scalar fixture wire must remain refused; do not loosen production validation.");
 for (const fixtureCase of fixtures.cases) {
+  assert(!Object.hasOwn(fixtureCase.answers, "state_exclusion_categories") || Array.isArray(fixtureCase.answers.state_exclusion_categories), `${fixtureCase.id}: preserve the actual exclusion fact using its array wire.`);
   let evaluation;
   try {
     evaluation = evaluateScreening({

@@ -117,24 +117,26 @@ const authoritative = witness && evaluateAuthoritativeScreeningResult({
   jurisdiction: "MS", profileVersion: profile.profileVersion,
   matterId: "ms-99-15-59-proof", answers: witness.finalAnswers
 });
-/**
- * The matter is eligible AND the closure now holds it.
- *
- * Both halves matter. If it were not eligible, the closure would be
- * unnecessary and the proof would be about nothing; if the closure were not in
- * force, an eligible matter would still reach the summary. The recorded
- * artifact hash was measured before the closure and is history, not a current
- * state — asserting it against a closed route would require the closure not to
- * work.
- */
-ok("the deterministic matter lands on its own pathway",
-  authoritative?.evaluation.pathwayId === PATHWAY_ID, authoritative?.evaluation.pathwayId);
-ok("and the closure holds it at needs_review with no payment",
-  authoritative?.evaluation.resultCode === "needs_review" && authoritative?.evaluation.paymentAllowed !== true,
-  `${authoritative?.evaluation.resultCode} / ${authoritative?.evaluation.paymentAllowed}`);
-ok("for the recorded reason, not an unrelated one",
-  (authoritative?.evaluation.reasons ?? []).some((entry) => entry.code.endsWith(".packet_correction_required")),
-  (authoritative?.evaluation.reasons ?? []).map((entry) => entry.code).join(", "));
+// This retained witness is a dismissal and already records that it did not land
+// on section99-15-59. The adopted factual selector takes precedence over its old
+// route hint. The explicit section99 closure above remains independently tested.
+const NONCONVICTION = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+ok("the retained witness records its actual dismissal and original non-match",
+  witness?.finalAnswers.case_outcome === "Dismissed, no-billed, nolle prosequi, or not prosecuted" && witness.landedOnThisPathway === false);
+ok("the actual dismissal selects its factual nonconviction pathway",
+  authoritative?.evaluation.pathwayId === NONCONVICTION, authoritative?.evaluation.pathwayId);
+ok("the section99 correction never leaks onto the different factual route",
+  !(authoritative?.evaluation.reasons ?? []).some(entry => entry.code.endsWith(".packet_correction_required")));
+for (const hint of [undefined, profile.pathways.find(pathway => pathway.id === NONCONVICTION)?.label]) {
+  const answers = { ...witness.finalAnswers };
+  if (hint === undefined) delete answers.possible_pathway_context;
+  else answers.possible_pathway_context = hint;
+  const selected = evaluateAuthoritativeScreeningResult({ jurisdiction: "MS", profileVersion: profile.profileVersion,
+    matterId: "ms-99-15-59-proof", answers });
+  ok("removing or correcting the old hint preserves factual selection",
+    selected.evaluation.pathwayId === NONCONVICTION && selected.evaluation.resultCode === authoritative.evaluation.resultCode
+      && selected.evaluation.paymentAllowed === authoritative.evaluation.paymentAllowed && selected.selectedTrackId === authoritative.selectedTrackId);
+}
 
 const plan = packetPlanForPathway(profile, PATHWAY_ID);
 const seed = authoritative && protectedPacketDraftSeedFromAuthoritative({
