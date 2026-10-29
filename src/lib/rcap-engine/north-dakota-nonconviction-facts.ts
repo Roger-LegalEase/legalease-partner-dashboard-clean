@@ -10,7 +10,7 @@ export const ND_NONCONVICTION_QUESTIONS=[
  {id:"nd_lack_of_criminal_responsibility",type:"yes_no_unknown",en:"Was the not-guilty verdict based on lack of criminal responsibility?",es:"¿Se basó el veredicto de no culpabilidad en la falta de responsabilidad penal?"},
  {id:"nd_case_appealed",type:"yes_no_unknown",en:"Was this case appealed?",es:"¿Se apeló este caso?"}
 ]as const;
-const COURT_QUESTION={id:"nd_nonconviction_court_type",type:"single_choice",options:["district","municipal","unknown"],optionsEn:["District Court","Municipal Court","I am not sure"],optionsEs:["Tribunal de distrito","Tribunal municipal","No estoy seguro/a"],en:"Was this criminal case filed in a District Court or Municipal Court? The existing district-court packet does not resolve the municipal form question.",es:"¿Se presentó este caso penal en un tribunal de distrito o municipal? El paquete existente del tribunal de distrito no resuelve qué formulario usar en un tribunal municipal."};
+const COURT_QUESTION={id:"nd_nonconviction_court_type",type:"single_choice" as const,options:["district","municipal","unknown"],optionsEn:["District Court","Municipal Court","I am not sure"],optionsEs:["Tribunal de distrito","Tribunal municipal","No estoy seguro/a"],en:"Was this criminal case filed in a District Court or Municipal Court? The existing district-court packet does not resolve the municipal form question.",es:"¿Se presentó este caso penal en un tribunal de distrito o municipal? El paquete existente del tribunal de distrito no resuelve qué formulario usar en un tribunal municipal."};
 const EXCLUSIONS=[
  ["nd_dismissal_part_of_plea_agreement","The dismissal was part of a plea agreement involving conviction on another offense.","La desestimación formó parte de un acuerdo de culpabilidad con condena por otro delito."],
  ["nd_not_fit_to_proceed","The dismissal was due to a finding that the person was not fit to proceed.","La desestimación se debió a que se determinó que la persona no era apta para continuar el proceso."],
@@ -53,4 +53,11 @@ export function evaluateNorthDakotaNonconviction(routeKey:string,facts:Facts,asO
  if(text(facts.nd_nonconviction_court_type)==="municipal")return result("municipal_form_review","attorney_review",4);
  if(text(facts.nd_nonconviction_court_type)!=="district")return result("unknown","unknown",5,["nd_nonconviction_court_type"]);
  return result("pre_effective_date_petition","qualifying",6);
+}
+
+export function northDakotaNonconvictionOutcomeSpanish(reason: string): string | null {
+ const copy = ND_NONCONVICTION_REASON_COPY.find(([en]) => en === reason);
+ if (copy) return copy[1];
+ const matched = EXCLUSIONS.filter(([, en]) => reason.includes(en));
+ return matched.length && matched.map(([, en]) => en).join(" ") === reason ? matched.map(([, , es]) => es).join(" ") : null;
 }

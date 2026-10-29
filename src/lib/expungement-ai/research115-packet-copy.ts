@@ -2,6 +2,7 @@ import { AK_IDENTITY_ROUTE } from "@/lib/rcap-engine/alaska-identity-research";
 import { GA_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/georgia-nonconviction-research";
 import { WEST_VIRGINIA_407_ROUTE } from "@/lib/rcap-engine/west-virginia-407-facts";
 import { MASSACHUSETTS_ADULT_SEALING_ROUTE } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
+import { ND_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 
 export const IOWA_MISDEMEANOR_COMPONENT_COPY = {
   form: ["Official Iowa Rule 2.86 Form 2 application, all three pages", "Solicitud oficial de Iowa del Formulario 2 de la Regla 2.86, las tres páginas"],
@@ -22,6 +23,11 @@ export const IOWA_ALCOHOL_FILING_NOTICES = [
 ] as const;
 
 export const RESEARCH115_COMPONENT_COPY = {
+  [ND_NONCONVICTION_ROUTE]: [
+    ["Official North Dakota court-record closure instructions, both pages", "Instrucciones oficiales de Dakota del Norte para cerrar el expediente judicial, ambas páginas"],
+    ["Official Petition to Close Nonconviction Records, both pages", "Petición oficial para cerrar expedientes sin condena, ambas páginas"],
+    ["Official proposed Order to Close Nonconviction Records, both pages; judicial decisions and execution remain blank", "Propuesta oficial de orden para cerrar expedientes sin condena, ambas páginas; las decisiones y la firma judicial quedan en blanco"]
+  ],
   [MASSACHUSETTS_ADULT_SEALING_ROUTE]: [
     ["Official Commissioner of Probation section100A sealing request", "Solicitud oficial de sellado de la sección100A al Comisionado de Libertad Condicional"],
     ["Applicable adult declaration with participant signature left blank", "Declaración de adulto aplicable con la firma del participante en blanco"],

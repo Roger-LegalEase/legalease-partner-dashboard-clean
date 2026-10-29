@@ -2,6 +2,7 @@ import { AK_IDENTITY_REASON_COPY } from "@/lib/rcap-engine/alaska-identity-resea
 import { IOWA_MISDEMEANOR_OUTCOME_COPY } from "@/lib/rcap-engine/iowa-misdemeanor-native.mjs";
 import { RESEARCH115_COMPONENT_COPY, MD_CANNABIS_COMPONENT_COPY, IOWA_MISDEMEANOR_COMPONENT_COPY, IOWA_ALCOHOL_COMPONENT_COPY } from "@/lib/expungement-ai/research115-packet-copy";
 import { IOWA_ALCOHOL_OUTCOME_COPY } from "@/lib/rcap-engine/iowa-alcohol-native.mjs";
+import { northDakotaNonconvictionOutcomeSpanish } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
 import { massachusettsAdultSealingOutcomeSpanish } from "@/lib/rcap-engine/massachusetts-adult-sealing-facts";
 import { marylandCannabisOutcomeSpanish } from "@/lib/rcap-engine/maryland-cannabis-outcome-copy";
 import { westVirginia407OutcomeSpanish } from "@/lib/rcap-engine/west-virginia-407-facts";
@@ -1267,6 +1268,8 @@ export function resolveRuntimeText(locale: Locale, text: string, options?: { key
   if (componentCopy) return componentCopy[1];
   const iowaCopy = locale === "es" ? [...IOWA_MISDEMEANOR_OUTCOME_COPY, ...IOWA_ALCOHOL_OUTCOME_COPY].find(([en]) => en === text) : undefined;
   if (iowaCopy) return iowaCopy[1];
+  const ndNonconvictionCopy = locale === "es" ? northDakotaNonconvictionOutcomeSpanish(text) : null;
+  if (ndNonconvictionCopy) return ndNonconvictionCopy;
   const ma100aCopy = locale === "es" ? massachusettsAdultSealingOutcomeSpanish(text) : null;
   if (ma100aCopy) return ma100aCopy;
   const mdCannabisCopy = locale === "es" ? marylandCannabisOutcomeSpanish(text) : null;

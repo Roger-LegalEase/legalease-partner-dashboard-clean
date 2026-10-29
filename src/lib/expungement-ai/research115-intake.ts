@@ -13,6 +13,8 @@ import { ALASKA_IDENTITY_DOCUMENT_FACT_IDS, ALASKA_IDENTITY_LATER_INPUT_IDS, ala
 import { MARYLAND_CANNABIS_DOCUMENT_FACT_IDS, marylandCannabisDocumentQuestions, marylandCannabisDocumentAnswerKnown } from "@/lib/rcap/documents/maryland-cannabis-document-facts";
 import { IOWA_MISDEMEANOR_ROUTE, IOWA_MISDEMEANOR_EXPLICIT_UNKNOWN_FACT_IDS, iowaMisdemeanorQuestions, iowaMisdemeanorFactsFromAnswers, evaluateIowaMisdemeanorPreparation } from "@/lib/rcap-engine/iowa-misdemeanor-native.mjs";
 import { IOWA_ALCOHOL_ROUTES, IOWA_ALCOHOL_EXPLICIT_UNKNOWN_FACT_IDS, iowaAlcoholQuestions, iowaAlcoholFactsFromAnswers, evaluateIowaAlcoholPreparation } from "@/lib/rcap-engine/iowa-alcohol-native.mjs";
+import { ND_NONCONVICTION_ROUTE, northDakotaNonconvictionFactIds, northDakotaNonconvictionQuestions, evaluateNorthDakotaNonconviction } from "@/lib/rcap-engine/north-dakota-nonconviction-facts";
+import { ND_NONCONVICTION_DOCUMENT_FACT_IDS, northDakotaNonconvictionDocumentQuestions, northDakotaNonconvictionDocumentAnswerKnown } from "@/lib/rcap/documents/north-dakota-nonconviction-document-facts";
 
 function preparationAnswerComplete(routeKey: string, question: ProfileQuestion, value: unknown, asOf: string): boolean {
   const state = questionAnswerState(question, value, asOf);
@@ -48,6 +50,7 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
     if (!preparationAnswerComplete(routeKey, question, facts[question.id], asOf)) projected[question.id] = undefined;
   }
   if (routeKey === IOWA_MISDEMEANOR_ROUTE) return { ...evaluateIowaMisdemeanorPreparation(projected, { synthetic: false, filingDate: asOf }), reviewId: "HG007" as const };
+  if (routeKey === ND_NONCONVICTION_ROUTE) return evaluateNorthDakotaNonconviction(routeKey, projected, asOf);
   if (Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey)) return { ...evaluateIowaAlcoholPreparation(routeKey, projected, { synthetic: false, filingDate: asOf })!, reviewId: routeKey === "IA:public-intoxication-12346" ? "HG008" as const : "HG009" as const };
   if (routeKey === AK_IDENTITY_ROUTE) return evaluateAlaskaIdentity(projected, asOf);
   if (routeKey === WEST_VIRGINIA_407_ROUTE) return evaluateWestVirginia407(routeKey, projected, asOf);
@@ -58,6 +61,8 @@ export function research115Eligibility(routeKey: string, facts: Readonly<Record<
 
 export function research115PacketFactIds(routeKey: string, facts: Readonly<Record<string, unknown>>, includeInactive = false): string[] {
   if (routeKey === IOWA_MISDEMEANOR_ROUTE) return iowaMisdemeanorQuestions(facts, includeInactive).map(q => q.id);
+  if (routeKey === ND_NONCONVICTION_ROUTE) return [...northDakotaNonconvictionFactIds(facts, includeInactive),
+    ...(includeInactive || evaluateNorthDakotaNonconviction(routeKey, facts, new Date().toISOString().slice(0, 10))?.status === "qualifying" ? ND_NONCONVICTION_DOCUMENT_FACT_IDS : [])];
   if (Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey)) return iowaAlcoholQuestions(routeKey, facts, includeInactive).map(q => q.id);
   if (routeKey === AK_IDENTITY_ROUTE) return [...alaskaIdentityQuestions(facts, includeInactive).map(q => q.id),
     ...(includeInactive || evaluateAlaskaIdentity(facts, new Date().toISOString().slice(0, 10)).branchId === "dps_initial_request" ? [...ALASKA_IDENTITY_DOCUMENT_FACT_IDS, "case_identifier", "charge"] : [])];
@@ -75,6 +80,7 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
     : (routeKey === GA_NONCONVICTION_ROUTE ? georgiaNonconvictionQuestions(facts)
       : routeKey === AK_IDENTITY_ROUTE ? alaskaIdentityQuestions(facts)
       : routeKey === IOWA_MISDEMEANOR_ROUTE ? iowaMisdemeanorQuestions(facts)
+      : routeKey === ND_NONCONVICTION_ROUTE ? northDakotaNonconvictionQuestions(facts)
       : Object.hasOwn(IOWA_ALCOHOL_ROUTES, routeKey) ? iowaAlcoholQuestions(routeKey, facts)
       : routeKey === MD_CANNABIS_ROUTE ? marylandCannabisQuestions(facts) : []).map(q => ({
     id: q.id, type: q.type, prompt: q.en, promptEs: q.es,
@@ -84,7 +90,9 @@ export function research115PacketQuestions(routeKey: string, facts: Readonly<Rec
     ? alaskaIdentityDocumentQuestions(routeKey).map(q => ({ ...q, options: undefined, optionsEn: undefined, optionsEs: undefined })) : [];
   const marylandDocuments = routeKey === MD_CANNABIS_ROUTE && evaluateMarylandCannabis(facts, new Date().toISOString().slice(0, 10)).status === "qualifying"
     ? marylandCannabisDocumentQuestions(routeKey) : [];
-  return [...definitions, ...alaskaDocuments, ...marylandDocuments]
+  const northDakotaDocuments = routeKey === ND_NONCONVICTION_ROUTE && evaluateNorthDakotaNonconviction(routeKey, facts, new Date().toISOString().slice(0, 10))?.status === "qualifying"
+    ? northDakotaNonconvictionDocumentQuestions(routeKey).map(q => ({ ...q, options: undefined, optionsEn: undefined, optionsEs: undefined })) : [];
+  return [...definitions, ...alaskaDocuments, ...marylandDocuments, ...northDakotaDocuments]
     .map(q => ({ id: q.id, stage: "packet_information", prompt: q.prompt,
       type: q.type === "yes_no_unknown" ? "yes_no_unsure" : q.type === "number" ? "text" : q.type,
       required: !("required" in q && q.required === false), contextOnly: false,
@@ -127,10 +135,12 @@ export function withResearch115PacketQuestions<T extends PacketQuestionModel>(mo
       if (!copy) throw new Error("Unsupported Maryland packet component: " + id);
       return copy[0];
     }) : componentCopy?.map(([en]) => en) ?? [];
-  const documentIds = routeKey === MD_CANNABIS_ROUTE && gate?.status === "qualifying" ? MARYLAND_CANNABIS_DOCUMENT_FACT_IDS
+  const documentIds = routeKey === ND_NONCONVICTION_ROUTE && gate?.status === "qualifying" ? ND_NONCONVICTION_DOCUMENT_FACT_IDS
+    : routeKey === MD_CANNABIS_ROUTE && gate?.status === "qualifying" ? MARYLAND_CANNABIS_DOCUMENT_FACT_IDS
     : routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? MASSACHUSETTS_ADULT_DOCUMENT_FACT_IDS
     : routeKey === AK_IDENTITY_ROUTE && gate?.status === "qualifying" ? ALASKA_IDENTITY_DOCUMENT_FACT_IDS : [];
-  const documentAnswerKnown = routeKey === MD_CANNABIS_ROUTE ? marylandCannabisDocumentAnswerKnown
+  const documentAnswerKnown = routeKey === ND_NONCONVICTION_ROUTE ? northDakotaNonconvictionDocumentAnswerKnown
+    : routeKey === MD_CANNABIS_ROUTE ? marylandCannabisDocumentAnswerKnown
     : routeKey === MASSACHUSETTS_ADULT_SEALING_ROUTE ? massachusettsAdultSealingDocumentAnswerKnown : alaskaIdentityDocumentAnswerKnown;
   const missing = additions.filter(q => q.required && (!preparationAnswerComplete(routeKey, q, model.initialAnswers[q.id], new Date().toISOString().slice(0, 10))
     || documentIds.some(id => id === q.id)
