@@ -167,8 +167,12 @@ const fixtures = JSON.parse(
   fs.readFileSync(path.join(rootDir, "data/expungement-ai/fixtures/maryland-pardon-evaluation-fixtures.json"), "utf8")
 );
 assert(fixtures.pathwayId === PATHWAY_ID, "fixtures are bound to the canonical pathway id");
+// Retain the historical raw-wire fixture for its separate source-stage comparison.
+// Only this routing proof adapts its known exclusion answer to the current array wire.
+const routingCases = fixtures.cases.map(row => ({ ...row, answers: row.answers.state_exclusion_categories === "None of these"
+  ? { ...row.answers, state_exclusion_categories: ["None of these"] } : row.answers }));
 assert(publicProfile.questions.find(question => question.id === "state_exclusion_categories")?.type === "multi_select", "Exclusions use the actual multi-select answer contract.");
-const completeFixture = fixtures.cases.find(candidate => candidate.id === "within-deadline-opens-caution-packet-and-payment");
+const completeFixture = routingCases.find(candidate => candidate.id === "within-deadline-opens-caution-packet-and-payment");
 let scalarExclusionRejected = false;
 try {
   evaluateScreening({ jurisdiction: fixtures.jurisdiction, profileVersion: fixtures.profileVersion,
@@ -177,7 +181,7 @@ try {
   scalarExclusionRejected = error instanceof InvalidAnswerError && error.invalidQuestionIds.includes("state_exclusion_categories");
 }
 assert(scalarExclusionRejected, "The former scalar fixture wire must remain refused; do not loosen production validation.");
-for (const fixtureCase of fixtures.cases) {
+for (const fixtureCase of routingCases) {
   assert(!Object.hasOwn(fixtureCase.answers, "state_exclusion_categories") || Array.isArray(fixtureCase.answers.state_exclusion_categories), `${fixtureCase.id}: preserve the actual exclusion fact using its array wire.`);
   let evaluation;
   try {
@@ -216,14 +220,14 @@ for (const fixtureCase of fixtures.cases) {
     );
   }
 }
-const paymentDirections = fixtures.cases.map((c) => c.expect.paymentAllowed);
+const paymentDirections = routingCases.map((c) => c.expect.paymentAllowed);
 assert(
   paymentDirections.includes(true) && paymentDirections.includes(false),
   "both-direction payment proof: at least one fixture opens payment and at least one keeps it shut"
 );
 
 const freeSource = {
-  ...fixtures.cases.find((candidate) => candidate.id === "within-deadline-opens-caution-packet-and-payment")?.answers,
+  ...routingCases.find((candidate) => candidate.id === "within-deadline-opens-caution-packet-and-payment")?.answers,
   possible_pathway_context: pathway.label
 };
 delete freeSource.pardon_signed_date;
