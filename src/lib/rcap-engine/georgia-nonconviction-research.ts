@@ -54,7 +54,7 @@ export function evaluateGeorgiaNonconviction(facts:Facts,asOf:Date|string):Resea
  if(text(facts.ga_nc_basis)==='other'||text(facts.ga_nc_history_presence)==='neither')return result('excluded','This exact pre2013 initial application does not cover the supplied disposition or an arrest absent from both Georgia and FBI history.');
  for(const id of ['ga_nc_same_incident_plea','ga_nc_subsection_i_exclusion'])if(bool(facts[id])===true)return result('excluded','The supplied same-incident plea or statutory exclusion prevents this nonconviction application.');
  for(const id of ['ga_nc_immigration_advice','ga_nc_denied_or_returned','ga_nc_civil_action'])if(bool(facts[id])===true)return result('attorney_review','This is an advice, denial or civil-action branch outside the initial agency request; preserve the actual record for counsel.');
- if(bool(facts.ga_nc_program_completed)===false)return result('not_yet','Actual program completion is required for this selected program disposition.');
+ if(/16_13_2|3_3_23_1|drug_mental_health/.test(text(facts.ga_nc_basis))&&bool(facts.ga_nc_program_completed)===false)return result('not_yet','Actual program completion is required for this selected program disposition.');
  const ended=date(facts.disposition_date);if(ended&&ended>today)return result('unknown','A future disposition is not an actual completed outcome.',['disposition_date']);
  try{
   const evaluated=validateGa(georgiaNonconvictionNativeFacts(facts,today));
