@@ -20,9 +20,9 @@ export type MassachusettsAdultSealingQuestion = {
   optionsEn?: string[];
 };
 
-export function massachusettsAdultSealingQuestions(routeKey: string): readonly MassachusettsAdultSealingQuestion[] {
+export function massachusettsAdultSealingQuestions(routeKey: string, facts?: Answers, includeInactive = false): readonly MassachusettsAdultSealingQuestion[] {
   if (routeKey !== MASSACHUSETTS_ADULT_SEALING_ROUTE) return [];
-  return [
+  const questions: MassachusettsAdultSealingQuestion[] = [
       { id: "ma_100a_whole_record_reviewed", type: "yes_no_unsure", prompt: "Have you considered every Massachusetts court entry, not only one case, for this whole-record administrative request? Do not upload your CORI. Later not-guilty, dismissed-for-want-of-prosecution, dismissed-at-complainant-request, nol-prossed and no-bill entries do not interrupt the statutory period.", promptEs: "¿Consideró todas las entradas judiciales de Massachusetts, no solo un caso, para esta solicitud administrativa del registro completo? No cargue su CORI. Las entradas posteriores de no culpable, desestimación por falta de prosecución o a petición del denunciante, nol prossed y no bill no interrumpen el plazo legal." },
       { id: "ma_100a_all_dispositions_description", type: "text", prompt: "List every Massachusetts court entry, its disposition and offense classification, including dismissals and continuances without a finding. Identify which entries control each date below. Do not send the underlying CORI or a Social Security number.", promptEs: "Enumere todas las entradas judiciales de Massachusetts, su resolución y categoría del delito, incluidas las desestimaciones y continuaciones sin determinación de culpabilidad. Identifique qué entradas determinan cada fecha siguiente. No envíe el CORI ni un número de Seguro Social." },
       { id: "ma_100a_all_record_classifications_confirmed", type: "yes_no_unsure", prompt: "Can you establish the actual misdemeanor/felony classification of every entry and which latest events control? If a classification or controlling entry is unclear, this self-help preparation stops for review; do not guess a misdemeanor default.", promptEs: "¿Puede establecer la categoría real de delito menor o grave de cada entrada y cuáles son los últimos eventos determinantes? Si una categoría o entrada determinante no está clara, esta preparación de autoayuda se detiene para revisión; no suponga que es delito menor." },
@@ -39,6 +39,19 @@ export function massachusettsAdultSealingQuestions(routeKey: string): readonly M
         ["ma_100a_sex_registration_duty", "If sealing a sex offense, are you still required to register in Massachusetts, where you reside, or if you resided in Massachusetts?", "Si desea sellar un delito sexual, ¿todavía debe registrarse en Massachusetts, en su lugar de residencia o si residiera en Massachusetts?"]
       ].map(([id,prompt,promptEs])=>({id,type:"yes_no_unsure" as const,prompt,promptEs}))
     ];
+  if (facts === undefined || includeInactive) return questions;
+  const hasFelony = Boolean(date(facts, "ma_100a_latest_felony_event"));
+  const hasSex = Boolean(date(facts, "ma_100a_latest_sex_offense_completion"));
+  return questions.filter(question => {
+    if (["ma_100a_ever_sex_level_two_or_three", "ma_100a_sex_registration_duty"].includes(question.id)) return hasSex;
+    if (["ma_100a_recent_finding_seven_years", "ma_100a_recent_custody_seven_years"].includes(question.id)) return hasFelony;
+    // Retained short-period contradictions remain correctable without asking unrelated inactive facts.
+    if (question.id === "ma_100a_recent_finding_three_years") return !hasFelony
+      || yesNo(facts, question.id) === true && yesNo(facts, "ma_100a_recent_finding_seven_years") === false;
+    if (question.id === "ma_100a_recent_custody_three_years") return !hasFelony
+      || yesNo(facts, question.id) === true && yesNo(facts, "ma_100a_recent_custody_seven_years") === false;
+    return true;
+  });
 }
 function answer(facts: Answers, id: string): unknown {
   const value = facts[id];
