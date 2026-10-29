@@ -2919,7 +2919,7 @@ export function protectedPacketInformationModelFor(
   }
   if (verification.status !== "verified" && snapshot.jurisdiction === "GA"
     && snapshot.pathwayId === "non-conviction-record-restriction-through-the-agency-prosecutor-process"
-    && ["guidance_only", "needs_review", "needs_more_info"].includes(snapshot.resultCode)
+    && ["guidance_only", "needs_review", "needs_more_info"].includes(snapshot.resultCode ?? "")
     && snapshot.paymentAllowed === false && evaluation.paymentAllowed === false
     && evaluation.resultCode === "needs_more_info"
     && evaluation.reasons.length > 0 && evaluation.reasons.every(reason => reason.code === "research115.R020.unknown")
