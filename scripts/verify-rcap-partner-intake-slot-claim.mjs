@@ -38,7 +38,7 @@ if (failures.length) {
 
 console.log("RCAP partner intake slot-claim verification passed.");
 console.log("Page-load behavior: source verified to resolve context without calling the claim RPC.");
-console.log("Persistence: active, unknown, inactive, capacity-full, hard-cap, rollback/no-stranded-slot, and one-slot concurrency verified in PGlite.");
+console.log("Legacy fallback RPC: active, unknown, inactive, capacity-full, hard-cap, rollback/no-stranded-slot, and one-slot concurrency verified in PGlite. The current request-ID service path is source-verified here, not an executed production claim.");
 console.log("DTC defaults remain dtc/null/null, and ScreeningFlow source has no partner branding branch.");
 
 function verifySourceWiring() {
@@ -50,18 +50,25 @@ function verifySourceWiring() {
 
   assert(page.includes("resolveRcapPartnerIntakeContext(partnerSlug, typeof search.jurisdiction"), "Partner intake page must resolve partner context on load.");
   assert(page.includes("form action={startRcapPartnerScreening}"), "Partner intake start must require an explicit form action.");
-  assert(page.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })"), "Start action must call the RPC wrapper.");
+  const claimCall = "claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, requestId })";
+  assert(page.includes(claimCall), "Start action must call the RPC wrapper with the existing request ID.");
+  assert(page.includes('name="requestId" value={requestId}') && page.includes('const requestId=String(formData.get("requestId")??"")'), "The displayed request ID must reach the explicit action without being regenerated.");
   assert(page.includes("This link is not active right now"), "Inactive-link copy is missing.");
-  assert(page.includes("This program is currently full"), "Program-full headline copy is missing.");
-  assert(page.includes("Please check back later or contact the organization that shared this link."), "Program-full body copy is missing.");
+  const fullState = page.slice(page.indexOf("function ProgramFullState("), page.indexOf("function InactiveLinkState("));
+  assert(fullState.includes("This program has reached its screening capacity"), "Program-full capacity headline is missing.");
+  assert(fullState.includes("Ask the organization about availability, or continue with free screening through the standard consumer service. Program entry does not grant packet funding."), "Program-full copy must preserve the existing free option and no-funding disclosure.");
+  assert(fullState.includes('href={consumerUrl}') && fullState.includes("Continue with standard consumer service"), "Consumer continuation must remain an explicit participant choice.");
+  assert(!fullState.includes("<form") && !fullState.includes("claimRcapPartnerScreeningSession"), "Viewing the full-program choice must not claim or consume another slot.");
   assert(!page.includes("RcapWilmaIntakeChat"), "Partner intake must not use the old Wilma intake chat path.");
   assert(!page.includes("/expungement-ai/start"), "Partner intake must not fall back to DTC start.");
 
-  const claimCallIndex = page.indexOf("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })");
+  const claimCallIndex = page.indexOf(claimCall);
   const actionIndex = page.indexOf("async function startRcapPartnerScreening");
   assert(actionIndex >= 0 && claimCallIndex > actionIndex, "Claim RPC must only be called inside the explicit start action.");
 
   assert(intakeLib.includes('.rpc("claim_rcap_screening_session"'), "Partner intake helper must call claim_rcap_screening_session RPC.");
+  assert(intakeLib.includes('input.requestId ? await supabase.rpc("rcap_service_claim_program_screening"'), "Request-ID claims must use the existing idempotent service RPC.");
+  assert(intakeLib.includes('p_request_hash:screeningEntryRequestHash(input.requestId,input.participantUserId)'), "The service request hash must bind the submitted request ID and participant identity.");
   for (const forbidden of [
     '.from("partner_entitlement")',
     ".from('partner_entitlement')",
