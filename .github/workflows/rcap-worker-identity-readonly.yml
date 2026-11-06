@@ -1,0 +1,30 @@
+name: RCAP worker read-only identity
+
+# GitHub requires this path on the default branch to expose manual dispatch.
+# Select captain-release in Run workflow to execute the reviewed implementation.
+# This registration file does not access the repository or any secrets.
+on:
+  workflow_dispatch:
+    inputs:
+      qualified_readiness:
+        description: "Capture reviewed effective WWT/queue/rollback facts only; never deploy"
+        type: boolean
+        required: false
+        default: false
+      handoff_history:
+        description: "Recover only actual old exit history for admitted406283 transition; never deploy"
+        type: boolean
+        required: false
+        default: false
+
+permissions: {}
+
+jobs:
+  select-release-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Select the branch containing the identity implementation
+        shell: bash
+        run: |
+          echo "::error::This is the default-branch registration only. Select captain-release in Run workflow and leave qualified_readiness and handoff_history unchecked for the requested identity read."
+          exit 1
