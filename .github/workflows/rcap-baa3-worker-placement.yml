@@ -1,0 +1,98 @@
+name: Place the accepted BAA3 worker without rebuilding
+
+on:
+  workflow_call:
+    secrets:
+      FLY_API_TOKEN:
+        required: true
+      SUPABASE_ACCESS_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: deploy-rcap-render-worker-production
+  cancel-in-progress: false
+
+jobs:
+  place:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      W: baa3c993136ebb11f40ad565a01a9f28983d3b6a
+      D: sha256:dfe65f3cb99335888fb14306a1f0b68d2fa2bcf4e2c335a6cb43ef110ef4f0e2
+      IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+      FLY_APP_NAME: legalease-rcap-render-worker
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Require the reviewed execution context and unchanged reused guards
+        run: |
+          set -euo pipefail
+          [ "$GITHUB_REPOSITORY" = Roger-LegalEase/legalease-partner-dashboard-clean ]
+          [ "$GITHUB_REF" = refs/heads/captain-release ]
+          [ "$GITHUB_RUN_ATTEMPT" = 1 ]
+          [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ]
+          [ -z "$(git status --porcelain)" ]
+          printf '%s  %s\n' bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs | sha256sum -c -
+      - name: Only the new bounded placement controls
+        run: node --test scripts/acceptance/place-baa3-worker.test.mjs
+      - name: Pull the actual published digest through the existing selected Read channel
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          export DOCKER_CONFIG="$(mktemp -d "$RUNNER_TEMP/baa3-docker.XXXXXX")"
+          chmod 700 "$DOCKER_CONFIG"
+          echo "DOCKER_CONFIG=$DOCKER_CONFIG" >> "$GITHUB_ENV"
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin >/dev/null
+          docker pull "$IMAGE_REPOSITORY@$D" >/dev/null
+          node --input-type=module <<'JS'
+          import {execFileSync} from 'node:child_process';
+          import {requireImage} from './scripts/acceptance/place-baa3-worker.mjs';
+          const [image]=JSON.parse(execFileSync('docker',['image','inspect',`${process.env.IMAGE_REPOSITORY}@${process.env.D}`],{encoding:'utf8'}));
+          requireImage(image);
+          JS
+      - name: Reuse the established Fly registry authentication route
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Mirror the exact accepted config and rootfs into the same app registry
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          flyctl auth docker >/dev/null
+          MIRROR="registry.fly.io/$FLY_APP_NAME:$W-$GITHUB_RUN_ID"
+          docker tag "$IMAGE_REPOSITORY@$D" "$MIRROR"
+          docker push "$MIRROR" >/dev/null
+          export MIRROR
+          MIRROR_DIGEST="$(node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {execFileSync} from 'node:child_process';
+          const [image]=JSON.parse(execFileSync('docker',['image','inspect',process.env.MIRROR],{encoding:'utf8'}));
+          const prefix=`registry.fly.io/${process.env.FLY_APP_NAME}@`;
+          const refs=[...new Set((image.RepoDigests??[]).filter(v=>v.startsWith(prefix)))];
+          assert.equal(refs.length,1);const digest=refs[0].slice(prefix.length);assert.match(digest,/^sha256:[a-f0-9]{64}$/);process.stdout.write(digest);
+          JS
+          )"
+          docker pull "registry.fly.io/$FLY_APP_NAME@$MIRROR_DIGEST" >/dev/null
+          echo "RCAP_FLY_IMAGE_DIGEST=$MIRROR_DIGEST" >> "$GITHUB_ENV"
+      - name: One leased version-bound update with preserved unrelated machine config
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/acceptance/place-baa3-worker.mjs
+      - name: Keep nonsecret actual outcome and rollback custody even on refusal
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: baa3-worker-placement-${{ github.run_id }}
+          path: baa3-worker-placement-evidence/
+          if-no-files-found: warn
