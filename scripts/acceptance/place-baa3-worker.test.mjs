@@ -51,15 +51,14 @@ test('denied or lost update is one consumed attempt without retry or rollback',a
 test('lease version mismatch performs zero machine updates and releases only own lease',async()=>{
  const h=harness({leaseVersion:true});try{const r=await placeWorker(h);assert.equal(r.runtimeQualified,false);assert.equal(r.updateAttempts,0);assert.equal(r.leaseReleased,true);assert.equal(h.calls.filter(c=>c.method==='POST'&&c.url.endsWith('/'+T.machine)).length,0);}finally{h.close();}
 });
-test('only the accepted BAA3 workflow route is wired; no build, old deployment or retry',()=>{
+test('the consumed BAA3 workflow route is verification-only; no build, second deployment or retry',()=>{
  const root=new URL('../../',import.meta.url);
  const workflow=fs.readFileSync(new URL('.github/workflows/rcap-baa3-worker-placement.yml',root),'utf8');
- for(const value of [T.source,T.digest,'refs/heads/captain-release','GITHUB_RUN_ATTEMPT','node scripts/acceptance/place-baa3-worker.mjs','permissions:','packages: read','cancel-in-progress: false'])assert(workflow.includes(value));
+ for(const value of [T.source,T.digest,'refs/heads/captain-release','GITHUB_RUN_ATTEMPT','node scripts/acceptance/reconcile-baa3-worker.mjs','permissions:','contents: read','cancel-in-progress: false'])assert(workflow.includes(value));
  for(const forbidden of ['docker build','docker pull','docker load','docker tag','docker push','image inspect','flyctl deploy','npm ci','--force','--retry'])assert(!workflow.includes(forbidden));
- assert(workflow.includes('skopeo copy --authfile "$DOCKER_CONFIG/config.json" --preserve-digests --digestfile'));
- assert(workflow.includes('[ "$MIRROR_DIGEST" = "$D" ]'));
+ for(const forbidden of ['skopeo copy','flyctl','node scripts/acceptance/place-baa3-worker.mjs'])assert(!workflow.includes(forbidden));
  assert(workflow.includes('registry-image.test.mjs'));
- assert(workflow.includes('baa3-registry-evidence/'));
+ assert(workflow.includes('worker-identity-evidence/'));
  const dispatcher=fs.readFileSync(new URL('.github/workflows/rcap-f1-ephemeral-staging.yml',root),'utf8');assert(dispatcher.includes("if: inputs.mode == 'baa3_worker_deploy'"));assert(dispatcher.includes('uses: ./.github/workflows/rcap-baa3-worker-placement.yml'));
 });
 
@@ -93,6 +92,14 @@ test('unexpected CLI custody failure never relabels a possibly consumed update a
 test('retained handoff proof carries its exact applied timestamp cutoff',()=>{
  const m=before(),planned=planUpdate(m,mirror);const proof=requirePoststate(post(planned.body),m,planned.body,mirror,1000);
  assert.equal(proof.notBeforeEpochMs,1000);assert(proof.handoff.exitAt>=proof.notBeforeEpochMs);assert(proof.handoff.startAt>=proof.handoff.exitAt);
+});
+
+test('an earlier clean stop cannot hide a later failed exit or pair across a crash',()=>{
+ const m=before(),planned=planUpdate(m,mirror),after=post(planned.body);
+ const clean=structuredClone(after.events[0]);clean.timestamp=1500;
+ const failed=structuredClone(clean);failed.timestamp=2000;failed.request.exit_event.oom_killed=true;failed.request.exit_event.signal=9;
+ for(const events of [[clean,{type:'start',timestamp:1600},failed,{type:'start',timestamp:2500}],[{type:'start',timestamp:2500},failed,{type:'start',timestamp:1600},clean],[clean,{type:'start',timestamp:1600},failed]]){after.events=events;assert.throws(()=>requirePoststate(after,m,planned.body,mirror,1000),/native_clean_handoff_unproven/);}
+ const later=structuredClone(clean);later.timestamp=2000;after.events=[{type:'start',timestamp:2500},later,{type:'start',timestamp:1600},clean];const proof=requirePoststate(after,m,planned.body,mirror,1000);assert.equal(proof.handoff.exitAt,2000);assert.equal(proof.handoff.startAt,2500);
 });
 
 test('both registries are inspected at the accepted digest before any machine request',async()=>{

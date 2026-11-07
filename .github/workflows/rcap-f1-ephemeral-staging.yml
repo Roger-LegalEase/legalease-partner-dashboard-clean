@@ -851,7 +851,7 @@ jobs:
           supabase stop --no-backup || true
 
   baa3_worker_deploy:
-    name: Exact BAA3 worker update without rebuilding
+    name: Verify the applied BAA3 worker without redeployment
     if: inputs.mode == 'baa3_worker_deploy'
     uses: ./.github/workflows/rcap-baa3-worker-placement.yml
     secrets:

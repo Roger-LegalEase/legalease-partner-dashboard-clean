@@ -1,4 +1,4 @@
-name: Place the accepted BAA3 worker without rebuilding
+name: Verify the applied BAA3 worker without redeployment
 
 on:
   workflow_call:
@@ -10,21 +10,18 @@ on:
 
 permissions:
   contents: read
-  packages: read
 
 concurrency:
   group: deploy-rcap-render-worker-production
   cancel-in-progress: false
 
 jobs:
-  place:
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
       W: baa3c993136ebb11f40ad565a01a9f28983d3b6a
       D: sha256:dfe65f3cb99335888fb14306a1f0b68d2fa2bcf4e2c335a6cb43ef110ef4f0e2
-      IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-      FLY_APP_NAME: legalease-rcap-render-worker
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,64 +40,17 @@ jobs:
           [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ]
           [ -z "$(git status --porcelain)" ]
           printf '%s  %s\n' bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs | sha256sum -c -
-      - name: Only the new bounded placement controls
-        run: node --test scripts/acceptance/place-baa3-worker.test.mjs scripts/acceptance/registry-image.test.mjs
-      - name: Verify the published image directly through the existing selected Read channel
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          umask 077
-          mkdir baa3-registry-evidence
-          trap 'status=$?; printf "{\"stage\":\"source_inspection\",\"exitCode\":%s,\"machineUpdateAttempts\":0}\n" "$status" > baa3-registry-evidence/source-step.json' EXIT
-          if ! command -v skopeo >/dev/null; then
-            sudo apt-get update -qq
-            sudo apt-get install -y --no-install-recommends skopeo
-          fi
-          skopeo --version
-          export DOCKER_CONFIG="$(mktemp -d "$RUNNER_TEMP/baa3-docker.XXXXXX")"
-          chmod 700 "$DOCKER_CONFIG"
-          echo "DOCKER_CONFIG=$DOCKER_CONFIG" >> "$GITHUB_ENV"
-          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin >/dev/null
-          node --input-type=module <<'JS'
-          import fs from 'node:fs';
-          import {inspectAcceptedImage} from './scripts/acceptance/place-baa3-worker.mjs';
-          const image=inspectAcceptedImage(`${process.env.IMAGE_REPOSITORY}@${process.env.D}`);
-          fs.writeFileSync('baa3-registry-evidence/source-image.json',JSON.stringify(image,null,2)+'\n',{flag:'wx',mode:0o600});
-          JS
-      - name: Reuse the established Fly registry authentication route
-        uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Mirror the exact accepted config and rootfs into the same app registry
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: |
-          set -euo pipefail
-          umask 077
-          trap 'status=$?; printf "{\"stage\":\"copy_and_verify\",\"exitCode\":%s,\"machineUpdateAttempts\":0}\n" "$status" > baa3-registry-evidence/mirror-step.json' EXIT
-          flyctl auth docker >/dev/null
-          MIRROR="registry.fly.io/$FLY_APP_NAME:$W-$GITHUB_RUN_ID"
-          skopeo copy --authfile "$DOCKER_CONFIG/config.json" --preserve-digests --digestfile "$RUNNER_TEMP/baa3-mirror-digest.txt" "docker://$IMAGE_REPOSITORY@$D" "docker://$MIRROR"
-          MIRROR_DIGEST="$(cat "$RUNNER_TEMP/baa3-mirror-digest.txt")"
-          [ "$MIRROR_DIGEST" = "$D" ]
-          export RCAP_FLY_IMAGE_DIGEST="$MIRROR_DIGEST"
-          node --input-type=module <<'JS'
-          import fs from 'node:fs';
-          import {inspectAcceptedImage} from './scripts/acceptance/place-baa3-worker.mjs';
-          const image=inspectAcceptedImage(`registry.fly.io/${process.env.FLY_APP_NAME}@${process.env.RCAP_FLY_IMAGE_DIGEST}`);
-          fs.writeFileSync('baa3-registry-evidence/mirror-image.json',JSON.stringify(image,null,2)+'\n',{flag:'wx',mode:0o600});
-          JS
-          echo "RCAP_FLY_IMAGE_DIGEST=$MIRROR_DIGEST" >> "$GITHUB_ENV"
-      - name: One leased version-bound update with preserved unrelated machine config
+      - name: Check native event parsing and the read-only continuation
+        run: node --test scripts/acceptance/place-baa3-worker.test.mjs scripts/acceptance/registry-image.test.mjs scripts/acceptance/fly-handoff-events.test.mjs scripts/acceptance/reconcile-baa3-worker.test.mjs
+      - name: Read the applied worker and shutdown history with zero deployment attempts
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: node scripts/acceptance/place-baa3-worker.mjs
-      - name: Keep nonsecret actual outcome and rollback custody even on refusal
+        run: node scripts/acceptance/reconcile-baa3-worker.mjs
+      - name: Keep current worker and native event evidence even if verification fails
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: baa3-worker-placement-${{ github.run_id }}
-          path: |
-            baa3-worker-placement-evidence/
-            baa3-registry-evidence/
-          if-no-files-found: warn
+          name: baa3-worker-reconciliation-${{ github.run_id }}
+          path: worker-identity-evidence/
+          if-no-files-found: error

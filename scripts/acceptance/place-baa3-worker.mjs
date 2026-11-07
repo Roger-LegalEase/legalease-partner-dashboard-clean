@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {inspectRegistryImage} from './registry-image.mjs';
+import {cleanNativeExit} from './fly-handoff-events.mjs';
 import {nonsecretRollbackCapsule, validateQueueCapture, READINESS_QUEUE_SQL, effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
 
 export const TARGET = Object.freeze({
@@ -57,10 +58,12 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
   check(machine.image_ref?.digest === mirror && machine.image_ref?.labels?.['org.opencontainers.image.revision'] === TARGET.source, 'new_image_binding_unproven');
   check(same(machine.config, body.config), 'unrelated_config_drift');
   const events = (machine.events ?? []).filter(e => Number.isSafeInteger(e.timestamp) && e.timestamp >= startedAt);
-  const exited = events.find(e => e.type === 'exit' && e.request?.exit_event?.requested_stop === true && e.request.exit_event.exit_code === 0 && e.request.exit_event.guest_exit_code === 0 && e.request.exit_event.guest_signal !== 9 && e.request.exit_event.signal !== 9 && e.request.exit_event.oom_killed === false);
-  check(exited && events.some(e => e.type === 'start' && e.timestamp >= exited.timestamp), 'native_clean_handoff_unproven');
-  const start = events.find(e => e.type === 'start' && e.timestamp >= exited.timestamp);
-  return {notBeforeEpochMs: startedAt, machineId: machine.id, beforeVersion: before.instance_id, afterVersion: machine.instance_id, state: machine.state, flyMirrorDigest: machine.image_ref.digest, ociRevision: machine.image_ref.labels['org.opencontainers.image.revision'], acceptedDigestMarker: machine.config.env.RCAP_WORKER_CONTAINER_DIGEST, handoff: {requestedStop: exited.request.exit_event.requested_stop, exitCode: exited.request.exit_event.exit_code, guestExitCode: exited.request.exit_event.guest_exit_code, guestSignal: exited.request.exit_event.guest_signal ?? null, signal: exited.request.exit_event.signal ?? null, oomKilled: exited.request.exit_event.oom_killed, exitAt: exited.timestamp, startAt: start.timestamp}};
+  const exits = events.filter(e => e.type === 'exit').sort((a, b) => a.timestamp - b.timestamp);
+  const starts = events.filter(e => e.type === 'start').sort((a, b) => a.timestamp - b.timestamp);
+  const exited = exits.at(-1), start = starts.at(-1);
+  check(exited && start && start.timestamp >= exited.timestamp && exits.every(e => cleanNativeExit(e)), 'native_clean_handoff_unproven');
+  const exit = cleanNativeExit(exited);
+  return {notBeforeEpochMs: startedAt, machineId: machine.id, beforeVersion: before.instance_id, afterVersion: machine.instance_id, state: machine.state, flyMirrorDigest: machine.image_ref.digest, ociRevision: machine.image_ref.labels['org.opencontainers.image.revision'], acceptedDigestMarker: machine.config.env.RCAP_WORKER_CONTAINER_DIGEST, handoff: {requestedStop: exit.requested_stop, exitCode: exit.exit_code, guestExitCode: exit.guest_exit_code, guestSignal: exit.guest_signal, signal: exit.signal, oomKilled: exit.oom_killed, exitAt: exited.timestamp, startAt: start.timestamp, nativePayloads: exit.payloads}};
 }
 
 export async function placeWorker({env = process.env, request = fetch, command = execFileSync, inspectImage = inspectAcceptedImage, root = process.cwd(), now = Date.now, sleep = ms => new Promise(r => setTimeout(r, ms))} = {}) {
