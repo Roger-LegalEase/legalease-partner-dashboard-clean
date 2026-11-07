@@ -4,9 +4,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {TARGET as T, planUpdate, requirePoststate, requireImage, requireIdleQueue, placeWorker} from './place-baa3-worker.mjs';
-const mirror = 'sha256:' + 'a'.repeat(64);
+const mirror = T.digest;
 const before = () => ({id:T.machine, state:'started', instance_id:'01OLDINSTANCE0000', image_ref:{digest:T.oldMirror,labels:{'org.opencontainers.image.revision':T.oldSource}}, config:{image:`registry.fly.io/${T.app}@${T.oldMirror}`,env:{RCAP_WORKER_CONTAINER_DIGEST:T.oldDigest,ENABLE_SUPABASE_PARTNER_DATA:'true',NODE_ENV:'production'},restart:{policy:'always'},guest:{memory_mb:1024,cpus:1,cpu_kind:'shared'},services:[],stop_config:{signal:'SIGTERM',timeout:'30s'},init:{cmd:['node','scripts/rcap-render-worker.mjs','--loop']},metadata:{fly_process_group:'app'}}});
-const image = () => ({Id:T.config, Os:'linux', Architecture:'amd64',Config:{Labels:{'org.opencontainers.image.revision':T.source}},RootFS:{Layers:Array(153).fill('sha256:'+'b'.repeat(64))}});
+const image = () => ({Id:T.config, Os:'linux', Architecture:'amd64',Config:{Labels:{'org.opencontainers.image.revision':T.source}},RootFS:{Layers:Array(153).fill('sha256:'+'b'.repeat(64))},ManifestDigest:T.digest});
 const queue = () => ({current_user:'postgres',session_user:'postgres',transaction_read_only:'on',status_counts:{},...Object.fromEntries(['queued','claimed','rendering','validating','live_leases','expired_leases','missing_leases','eligible_queued','scheduled_queued','retryable_failed','terminal_failed','exposure_group_count'].map(k=>[k,0])),exposed_work:[]});
 const post = (body) => ({...before(),instance_id:'01NEWINSTANCE0000',config:structuredClone(body.config),image_ref:{digest:mirror,labels:{'org.opencontainers.image.revision':T.source}},events:[{type:'exit',timestamp:1001,request:{exit_event:{requested_stop:true,exit_code:0,guest_exit_code:0,guest_signal:0,signal:0,oom_killed:false}}},{type:'start',timestamp:1002}]});
 test('update changes only image and accepted digest; preserves native version and rollback',()=>{
@@ -40,7 +40,7 @@ function harness({lost=false,deny=false,drift=false,leaseVersion=false}={}){
   if(options.method==='POST'){body=JSON.parse(options.body);if(lost)throw Error('SYNTHETIC transport');if(deny)return response({},403);return response(post(body));}
   const value=body?post(body):structuredClone(m);if(drift&&body)value.config.guest.memory_mb=2048;return response(value);
  };
- return{root,calls,env,request,command:()=>JSON.stringify([image()]),now:()=>1000,sleep:async()=>{},close:()=>fs.rmSync(root,{recursive:true})};
+ return{root,calls,env,request,inspectImage:()=>image(),now:()=>1000,sleep:async()=>{},close:()=>fs.rmSync(root,{recursive:true})};
 }
 test('one complete simulated update binds lease/version, effective role and zero queue with no extra mutation',async()=>{
  const h=harness();try{const r=await placeWorker(h);assert.equal(r.runtimeQualified,true);assert.equal(r.updateAttempts,1);assert.equal(r.leaseReleased,true);const writes=h.calls.filter(c=>c.method==='POST'&&c.url.endsWith('/'+T.machine));assert.equal(writes.length,1);assert.equal(JSON.parse(writes[0].body).current_version,before().instance_id);assert.equal(h.calls.filter(c=>c.method==='DELETE').length,1);assert.equal(fs.readFileSync(path.join(h.root,'baa3-worker-placement-evidence/result.json'),'utf8').includes('SYNTHETIC_TEST_ONLY'),false);}finally{h.close();}
@@ -55,7 +55,11 @@ test('only the accepted BAA3 workflow route is wired; no build, old deployment o
  const root=new URL('../../',import.meta.url);
  const workflow=fs.readFileSync(new URL('.github/workflows/rcap-baa3-worker-placement.yml',root),'utf8');
  for(const value of [T.source,T.digest,'refs/heads/captain-release','GITHUB_RUN_ATTEMPT','node scripts/acceptance/place-baa3-worker.mjs','permissions:','packages: read','cancel-in-progress: false'])assert(workflow.includes(value));
- for(const forbidden of ['docker build','flyctl deploy','npm ci','--force','--retry'])assert(!workflow.includes(forbidden));
+ for(const forbidden of ['docker build','docker pull','docker load','docker tag','docker push','image inspect','flyctl deploy','npm ci','--force','--retry'])assert(!workflow.includes(forbidden));
+ assert(workflow.includes('skopeo copy --authfile "$DOCKER_CONFIG/config.json" --preserve-digests --digestfile'));
+ assert(workflow.includes('[ "$MIRROR_DIGEST" = "$D" ]'));
+ assert(workflow.includes('registry-image.test.mjs'));
+ assert(workflow.includes('baa3-registry-evidence/'));
  const dispatcher=fs.readFileSync(new URL('.github/workflows/rcap-f1-ephemeral-staging.yml',root),'utf8');assert(dispatcher.includes("if: inputs.mode == 'baa3_worker_deploy'"));assert(dispatcher.includes('uses: ./.github/workflows/rcap-baa3-worker-placement.yml'));
 });
 
@@ -89,4 +93,25 @@ test('unexpected CLI custody failure never relabels a possibly consumed update a
 test('retained handoff proof carries its exact applied timestamp cutoff',()=>{
  const m=before(),planned=planUpdate(m,mirror);const proof=requirePoststate(post(planned.body),m,planned.body,mirror,1000);
  assert.equal(proof.notBeforeEpochMs,1000);assert(proof.handoff.exitAt>=proof.notBeforeEpochMs);assert(proof.handoff.startAt>=proof.handoff.exitAt);
+});
+
+test('both registries are inspected at the accepted digest before any machine request',async()=>{
+ const h=harness(),seen=[];h.inspectImage=(ref)=>{seen.push(ref);assert.equal(h.calls.length,0);return image();};
+ try{const r=await placeWorker(h);assert.equal(r.runtimeQualified,true);assert.deepEqual(seen,[`ghcr.io/roger-legalease/rcap-render-worker@${T.digest}`,`registry.fly.io/${T.app}@${T.digest}`]);
+ const evidence=JSON.parse(fs.readFileSync(path.join(h.root,'baa3-worker-placement-evidence/registry-images.json')));assert.deepEqual(evidence,{source:image(),mirror:image()});}finally{h.close();}
+});
+
+test('changed mirror, config identity, manifest identity or registry inspection failure cannot touch a machine',async()=>{
+ for(const fault of ['mirror','config','manifest','source_cli','mirror_cli']){
+  const h=harness();let inspected=0;
+  if(fault==='mirror')h.env.RCAP_FLY_IMAGE_DIGEST='sha256:'+'e'.repeat(64);
+  h.inspectImage=()=>{inspected++;if((fault==='source_cli'&&inspected===1)||(fault==='mirror_cli'&&inspected===2))throw Error('registry_inspection_failed');const value=image();if(inspected===2&&fault==='config')value.Id='sha256:'+'e'.repeat(64);if(inspected===2&&fault==='manifest')value.ManifestDigest='sha256:'+'e'.repeat(64);return value;};
+  try{const r=await placeWorker(h);assert.equal(r.runtimeQualified,false);assert.equal(r.updateAttempts,0);assert.equal(h.calls.length,0);if(fault==='mirror')assert.equal(inspected,0);}finally{h.close();}
+ }
+});
+
+test('production registry inspector uses the accepted pins and refuses synthetic bytes before machine access',async()=>{
+ const h=harness();delete h.inspectImage;h.env.DOCKER_CONFIG='/synthetic/auth';const calls=[];
+ h.command=(name,args,options)=>{calls.push({name,args,options});return Buffer.from('{}');};
+ try{const r=await placeWorker(h);assert.equal(r.refusalCode,'registry_manifest_digest_mismatch');assert.equal(r.updateAttempts,0);assert.equal(h.calls.length,0);assert.equal(calls.length,2);for(const call of calls){assert.equal(call.name,'skopeo');assert(call.args.includes('--raw'));assert(call.args.includes('/synthetic/auth/config.json'));assert.equal(call.options.encoding,null);assert.equal(call.args.at(-1),`docker://ghcr.io/roger-legalease/rcap-render-worker@${T.digest}`);}assert(calls[1].args.includes('--config'));}finally{h.close();}
 });

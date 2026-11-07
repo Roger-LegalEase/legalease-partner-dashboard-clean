@@ -3,6 +3,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {inspectRegistryImage} from './registry-image.mjs';
 import {nonsecretRollbackCapsule, validateQueueCapture, READINESS_QUEUE_SQL, effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
 
 export const TARGET = Object.freeze({
@@ -32,6 +33,12 @@ export function requireImage(image) {
   check(image.Config?.Labels?.['org.opencontainers.image.revision'] === TARGET.source, 'image_source_mismatch');
   check(image.RootFS?.Layers?.length === 153 && image.RootFS.Layers.every(digest), 'image_diffids_mismatch');
 }
+export function inspectAcceptedImage(reference, {env = process.env, command = execFileSync} = {}) {
+  check(typeof env.DOCKER_CONFIG === 'string' && path.isAbsolute(env.DOCKER_CONFIG), 'registry_authfile_reference_required');
+  const image = inspectRegistryImage(reference, {...TARGET, layers: 153}, {authFile: path.join(env.DOCKER_CONFIG, 'config.json'), command, env});
+  requireImage(image);
+  return image;
+}
 export function planUpdate(machine, mirror) {
   check(digest(mirror), 'mirror_digest_invalid');
   check(machine?.id === TARGET.machine && machine.state === 'started' && /^[A-Za-z0-9]{10,50}$/.test(machine.instance_id ?? ''), 'machine_identity_or_state_mismatch');
@@ -56,7 +63,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
   return {notBeforeEpochMs: startedAt, machineId: machine.id, beforeVersion: before.instance_id, afterVersion: machine.instance_id, state: machine.state, flyMirrorDigest: machine.image_ref.digest, ociRevision: machine.image_ref.labels['org.opencontainers.image.revision'], acceptedDigestMarker: machine.config.env.RCAP_WORKER_CONTAINER_DIGEST, handoff: {requestedStop: exited.request.exit_event.requested_stop, exitCode: exited.request.exit_event.exit_code, guestExitCode: exited.request.exit_event.guest_exit_code, guestSignal: exited.request.exit_event.guest_signal ?? null, signal: exited.request.exit_event.signal ?? null, oomKilled: exited.request.exit_event.oom_killed, exitAt: exited.timestamp, startAt: start.timestamp}};
 }
 
-export async function placeWorker({env = process.env, request = fetch, command = execFileSync, root = process.cwd(), now = Date.now, sleep = ms => new Promise(r => setTimeout(r, ms))} = {}) {
+export async function placeWorker({env = process.env, request = fetch, command = execFileSync, inspectImage = inspectAcceptedImage, root = process.cwd(), now = Date.now, sleep = ms => new Promise(r => setTimeout(r, ms))} = {}) {
   check(env.GITHUB_REPOSITORY?.toLowerCase() === 'roger-legalease/legalease-partner-dashboard-clean' && env.GITHUB_REF === 'refs/heads/captain-release' && env.GITHUB_RUN_ATTEMPT === '1', 'execution_context_refused');
   check(env.FLY_API_TOKEN && env.SUPABASE_ACCESS_TOKEN && digest(env.RCAP_FLY_IMAGE_DIGEST), 'existing_credential_reference_or_mirror_absent');
   const directory = path.join(root, 'baa3-worker-placement-evidence');
@@ -78,10 +85,6 @@ export async function placeWorker({env = process.env, request = fetch, command =
     check(response.ok, `request_HTTP_${response.status}`);
     return response.json();
   };
-  const inspectImage = ref => {
-    const output = command('docker', ['image', 'inspect', ref], {encoding: 'utf8', env, stdio: ['ignore', 'pipe', 'pipe']});
-    const images = JSON.parse(output); check(images.length === 1, 'image_inventory_mismatch'); requireImage(images[0]);
-  };
   const queue = async () => {
     const rows = await json(`https://api.supabase.com/v1/projects/${TARGET.project}/database/query`, {method: 'POST', headers: {Authorization: `Bearer ${env.SUPABASE_ACCESS_TOKEN}`, 'Content-Type': 'application/json'}, body: JSON.stringify({query: READINESS_QUEUE_SQL, read_only: false})});
     const proof = validateQueueCapture(rows); requireIdleQueue(proof); return proof;
@@ -94,8 +97,13 @@ export async function placeWorker({env = process.env, request = fetch, command =
     return Object.fromEntries(['schemaVersion', 'machineId', 'projectRef', 'passed', 'roleProven', 'queueHeadStatus', 'secretValuesIncluded', 'customerRowsRead'].map(k => [k, proof[k]]));
   };
   try {
-    inspectImage(`ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`);
-    inspectImage(`registry.fly.io/${TARGET.app}@${env.RCAP_FLY_IMAGE_DIGEST}`);
+    check(env.RCAP_FLY_IMAGE_DIGEST === TARGET.digest, 'mirror_digest_not_preserved');
+    const images = [
+      inspectImage(`ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, {env, command}),
+      inspectImage(`registry.fly.io/${TARGET.app}@${env.RCAP_FLY_IMAGE_DIGEST}`, {env, command}),
+    ];
+    for (const image of images) { requireImage(image); check(image.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch'); }
+    write('registry-images.json', {source: images[0], mirror: images[1]});
     const inventory = await json(BASE, {method: 'GET', headers: auth});
     check(Array.isArray(inventory) && inventory.length === 1 && inventory[0].id === TARGET.machine, 'machine_inventory_drift');
     const before = await json(`${BASE}/${TARGET.machine}`, {method: 'GET', headers: auth});
