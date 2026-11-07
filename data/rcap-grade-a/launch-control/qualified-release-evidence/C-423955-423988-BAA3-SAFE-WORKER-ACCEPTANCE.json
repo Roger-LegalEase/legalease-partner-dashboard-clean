@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "qualified-production-safe-matching-worker-transition-original-scope-independent-acceptance/v1",
+  "authority": "CHATGPT_INDEPENDENT_ENGINEERING_REVIEW",
+  "at": "2026-11-07T18:12:21.805Z",
+  "decision": "ACCEPT_CURRENT_BAA3_SAFE_MATCHING_WORKER_TRANSITION_UNDER_EXISTING_OWNER_CRITERION",
+  "accepted": true,
+  "closedOutcome": "The accepted BAA3 worker is deployed; its observed identity, configuration and effective database binding are verified.",
+  "actualAssessment": {
+    "criterion": {
+      "path": "data/rcap-grade-a/launch-control/qualified-release-evidence/C-406283-406313-SAFE-WORKER-ACCEPTANCE.json",
+      "sha256": "01ed18aea807d2ef726676749958d129a795b575ad6a5e3fff65c97354299bee"
+    },
+    "evidence": {
+      "path": "scripts/acceptance/evidence/baa3-transition-423955-423988.json",
+      "sha256": "4e0bb5d95c2822f42a8dd147ae8b82758c97241ef67ae8be0d8975a76b6ed178"
+    },
+    "placementRunId": 42395572844,
+    "readbackRunId": 42398847137,
+    "placementArtifactSha256": "a288281005595806ffa4f080ce6b1209dc491f31e28346f1c8ea959167db70a8",
+    "readbackArtifactSha256": "6da123340994f9978ebc48424259207fbbffc645886011e4d3f56381a5854d97",
+    "observedStepWindow": {
+      "from": "2026-11-07T17:22:10.409526Z",
+      "to": "2026-11-07T17:22:55.643176Z",
+      "provenance": "Actual placement-step start and result lines in job128472110690; not the unrecorded exact POST cutoff"
+    },
+    "currentCaptureAt": "2026-11-07T17:58:43.022Z",
+    "machine": {
+      "machineId": "d8de5e4f759278",
+      "instanceId": "01M6VGGKD7Q5TACPZN8W84F8KN",
+      "source": "baa3c993136ebb11f40ad565a01a9f28983d3b6a",
+      "imageDigest": "sha256:dfe65f3cb99335888fb14306a1f0b68d2fa2bcf4e2c335a6cb43ef110ef4f0e2",
+      "configSha256": "89ae68a288f0982c7a509cbf8c05c57aa99c52f68017b5ec83b12ec3371fc02f",
+      "effectiveProject": "wwtwtsmywnckfkdaqqeg",
+      "capturedAt": "2026-11-07T17:58:43.022Z"
+    },
+    "safeMatchingWorkerTransitionAccepted": true,
+    "currentWorkerIdentityAndBindingAccepted": true,
+    "historicalCleanExitObserved": false,
+    "oldExitEventObserved": false,
+    "strictPostGuardPassed": false,
+    "originalWorkflowConclusions": [
+      "failure",
+      "failure"
+    ],
+    "hostedAccepted": false,
+    "postCaptureIsImmediate": false,
+    "continuousQueueObservationClaimed": false,
+    "loadedHandoffAccepted": false
+  },
+  "acceptanceBasis": "Current 42395572844/42398847137 native evidence independently reviewed against the already-adopted no-exposed-work criterion. The old acceptance supplies the criterion, not a verdict for this new worker.",
+  "review": {
+    "artifactZipDigestsVerified": true,
+    "retainedFileHashesVerified": true,
+    "actualPreAndLeasedQueueReviewed": true,
+    "actualLaterQueueReviewed": true,
+    "exactCurrentConfigurationCompared": true,
+    "onlyImageAndDigestMarkerChanged": true,
+    "effectiveWorkerProcessAndDatabaseCapabilityReviewed": true,
+    "protectedRecordMutationAbsentFromReviewedPaths": true,
+    "rollbackAndLeaseReleaseVerified": true,
+    "skippedPoststateIdentityChecksReproducedOffline": true,
+    "independentReviews": 2,
+    "newProviderRequestsPerformed": false,
+    "newExecutionOrDeploymentPerformed": false
+  },
+  "originalOperationSources": {
+    "placement": "3bfd0c4824ed2d8e374da44ea4220269f64513f8",
+    "readback": "670b558e258b84b50b36d47b465b94527e9e5d1f",
+    "paths": [
+      "scripts/acceptance/place-baa3-worker.mjs",
+      "scripts/acceptance/reconcile-baa3-worker.mjs",
+      "scripts/qualified-worker-readonly-capture.mjs"
+    ]
+  },
+  "observations": {
+    "preUpdate": "Original pre-queue and leased-queue captures both show an empty complete job table, with all twelve counts zero.",
+    "postUpdate": "The later current-worker capture at 2026-11-07T17:58:43.022Z has the same complete empty-job result. This is not an immediate post-update or continuous observation.",
+    "currentWorker": "One actual worker process, correct source and digest, canonical production project, authenticated service-role HEAD 200, exact expected configuration and stable instance.",
+    "historicalExit": "No exit event was returned. Both original workflow failures and strict guard failures remain unchanged."
+  },
+  "noFurtherWorkerRunRequiredForThisAcceptance": true,
+  "additionalHistoricalForensicsRequired": false,
+  "repeatWorkerPlacementRequired": false,
+  "limitations": [
+    "This acceptance covers the observed no-exposed-work BAA3 transition only; it does not approve loaded handoffs or another machine version.",
+    "Historical clean-exit telemetry remains unobserved. Empty queues do not manufacture an exit event.",
+    "Customer render, payment, document delivery and hosted acceptance are not established by the metadata and zero-row access checks.",
+    "The later queue observation is not proof of continuous emptiness between captures.",
+    "The old application/release tuple and its earlier activation are not reassigned to this BAA3 worker."
+  ],
+  "nextOwnedOutcome": "Bind this accepted BAA3 worker to the actual current application candidate and complete its existing hosted customer-delivery acceptance. Preserve the historical application/release binding.",
+  "hostedAccepted": false,
+  "productionLaunchVerified": false,
+  "newApplicationActivationPerformed": false
+}

@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {TARGET, requirePoststate, requireIdleQueue} from './place-baa3-worker.mjs';
 import {projectNativeEvents} from './fly-handoff-events.mjs';
 import {captureQualifiedWorkerReadiness, nonsecretRollbackCapsule, READINESS_QUEUE_SQL, effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
+import {BAA3_TRANSITION_REFS, readAcceptedBaa3Transition, requireAcceptedBaa3CurrentState} from './baa3-safe-transition.mjs';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const check = (ok, code) => { if (!ok) throw Error(code); };
@@ -66,6 +67,9 @@ export async function reconcileWorker({env = process.env, root = process.cwd(), 
     check(execFileSync('git', ['status', '--porcelain'], {cwd: root, encoding: 'utf8'}).trim() === '', 'execution_checkout_dirty');
   }
   const prior = readConsumedPlacement(root), readOnly = readOnlyTransport(request);
+  // Use the actual independently reviewed acceptance for this exact transition.
+  // Missing historical telemetry must not reopen its superseded diagnostic hold.
+  const accepted = fs.existsSync(path.join(root,BAA3_TRANSITION_REFS.acceptance.path)) ? readAcceptedBaa3Transition(root,prior) : null;
   const directory = path.join(root, 'worker-identity-evidence');
   const write = (name, value, raw = false) => {
     fs.mkdirSync(directory, {recursive: true, mode: 0o700});
@@ -87,14 +91,30 @@ export async function reconcileWorker({env = process.env, root = process.cwd(), 
     result.currentReadinessStatus = readiness.status;
     const before = await get(MACHINE);
     result.currentBefore = write('baa3-current-before.json', {state: /^[a-z_]{1,32}$/.test(before.state ?? '') ? before.state : 'invalid', ...JSON.parse(nonsecretRollbackCapsule(before).bytes)});
-    const events = projectNativeEvents(await get(`${MACHINE}/events?limit=50`));
-    result.nativeEvents = write('baa3-native-events.json', {actualPlacementRunId: prior.input.runId, observedStepWindow: prior.input.window, projection: 'Allowlisted native values with missing fields preserved; no default values inserted', events});
+    let events;
+    if (!accepted) {
+      events = projectNativeEvents(await get(`${MACHINE}/events?limit=50`));
+      result.nativeEvents = write('baa3-native-events.json', {actualPlacementRunId: prior.input.runId, observedStepWindow: prior.input.window, projection: 'Allowlisted native values with missing fields preserved; no default values inserted', events});
+    }
     const after = await get(MACHINE);
     result.currentAfter = write('baa3-current-after.json', {state: /^[a-z_]{1,32}$/.test(after.state ?? '') ? after.state : 'invalid', ...JSON.parse(nonsecretRollbackCapsule(after).bytes)});
     // Classification happens only after all observed machine/event evidence is retained.
-    const proof = reconcileObservedPlacement(prior, before, after, events, readiness);
-    result.proof = write('baa3-reconciled-handoff.json', proof);
-    result.runtimeQualified = true; result.handoffProven = true; result.outcome = 'EXISTING_BAA3_UPDATE_AND_CURRENT_READINESS_VERIFIED';
+    if (accepted) {
+      const current = requireAcceptedBaa3CurrentState(prior,before,after,readiness);
+      result.proof = write('baa3-accepted-current-readiness.json', {acceptedTransition:accepted,current,historicalExitCapturePerformed:false});
+      result.safeMatchingWorkerTransitionAccepted = true;
+      result.currentWorkerIdentityAndBindingAccepted = true;
+      result.strictPostGuardPassed = false;
+      result.historicalCleanExitObserved = false;
+      result.outcome = 'ACCEPTED_BAA3_TRANSITION_AND_CURRENT_READINESS_VERIFIED';
+      // handoffProven remains false: no clean-exit telemetry was invented.
+    } else {
+      const proof = reconcileObservedPlacement(prior, before, after, events, readiness);
+      result.proof = write('baa3-reconciled-handoff.json', proof);
+      result.handoffProven = true;
+      result.outcome = 'EXISTING_BAA3_UPDATE_AND_CURRENT_READINESS_VERIFIED';
+    }
+    result.runtimeQualified = true;
     result.afterVersion = after.instance_id;
   } catch (error) {
     result.refusalCode = /^(?:[a-z][a-z0-9_]+|request_HTTP_[0-9]{3})$/.test(error?.message ?? '') ? error.message : 'read_only_capture_or_classification_unproven';
