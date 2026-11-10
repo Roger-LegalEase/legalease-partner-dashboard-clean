@@ -1,40 +1,47 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { claimHandoffPath, isTerminalClaimFailure, readClaimTokenFromUrl, submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
 
 /**
- * Completes a server-verified pending-result claim after sign-in. Browser-
- * stashed result payloads are intentionally not replayed: current persistence
- * always re-evaluates stored screening inputs before writing route identity.
+ * Completes a claim that arrived here rather than at the sign-in form -- an
+ * email verification opened on a second device, an OAuth callback, or a
+ * bookmarked handoff link followed while already signed in.
+ *
+ * Contract §15: landing on an empty Briefcase is a release-blocking failure, so
+ * a token that reaches this page is claimed and the participant is moved to the
+ * exact matter. Browser-stashed result payloads are never replayed: the server
+ * re-evaluates the stored answers before any matter exists.
  */
 export function BriefcaseSaveIntent() {
   const router = useRouter();
+  const [retryToken, setRetryToken] = useState("");
+  const [failed, setFailed] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  async function finishClaim(token: string, isCurrent: () => boolean = () => true) {
+    setSaving(true);
+    const claim = await submitClaim(token);
+    if (!isCurrent()) return;
+    setSaving(false);
+    if (claim.ok) return router.replace(claim.redirectTo);
+    if (claim.status === 401) return router.replace(claimHandoffPath(token, "signin"));
+    setRetryToken(isTerminalClaimFailure(claim.status) ? "" : token);
+    setFailed(true);
+  }
 
   useEffect(() => {
-    const pendingId = new URLSearchParams(window.location.search).get("pending");
-    if (!pendingId) return;
+    const claimToken = readClaimTokenFromUrl();
+    if (!claimToken) return;
     let cancelled = false;
-    (async () => {
-      try {
-        const response = await fetch("/api/expungement-ai/screening/pending/claim", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pendingId, next: "/briefcase" })
-        });
-        const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-        if (!cancelled && response.ok && payload?.redirectTo) {
-          router.replace(payload.redirectTo);
-        }
-      } catch {
-        // Best effort for old pending query links. The primary sign-in handoff
-        // keeps failures visible and retryable before navigating here.
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+    void finishClaim(claimToken, () => !cancelled);
+    return () => { cancelled = true; };
   }, [router]);
 
-  return null;
+  if (!failed) return null;
+  return <div role="alert" className="rounded-md border p-4">
+    <p>{retryToken ? "Your result has not been confirmed saved. Retry saving it to your Briefcase." : "This result link is no longer available. Open a saved matter below or start a new screening."}</p>
+    {retryToken ? <button type="button" disabled={saving} onClick={() => void finishClaim(retryToken)} className="min-h-11 underline">{saving ? "Saving…" : "Retry saving my result"}</button> : <a href="/expungement-ai/screening" className="inline-flex min-h-11 items-center underline">Start a new screening</a>}
+  </div>;
 }

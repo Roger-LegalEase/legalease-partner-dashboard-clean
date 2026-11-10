@@ -1,5 +1,7 @@
 "use client";
 
+import { submitClaim, isWellFormedClaimTokenValue, claimHandoffPath } from "@/lib/expungement-ai/claim/claim-handoff";
+
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { KeyRound } from "lucide-react";
@@ -231,7 +233,8 @@ export default function SetPasswordPage() {
     if (isFirstAdminSetup) {
       window.location.assign(safeAppRedirectPath(redirectPath));
     } else {
-      window.location.assign(safeAppRedirectPath(nextPath));
+      const destination = isExpungementNext(nextPath) ? await claimExpungementPending(nextPath) : safeAppRedirectPath(nextPath);
+      window.location.assign(destination);
     }
   }
 
@@ -456,8 +459,8 @@ function defaultNextPath() {
 function scrubAuthUrl(nextPath: string) {
   const search = new URLSearchParams(window.location.search);
   const cleanParams = new URLSearchParams({ next: safeAppRedirectPath(nextPath) });
-  const pending = search.get("pending");
-  if (pending && /^[0-9a-f-]{36}$/i.test(pending)) cleanParams.set("pending", pending);
+  const claimToken = search.get("claim");
+  if (isWellFormedClaimTokenValue(claimToken)) cleanParams.set("claim", claimToken);
   window.history.replaceState({}, document.title, `${window.location.pathname}?${cleanParams.toString()}`);
 }
 
@@ -466,18 +469,9 @@ function isExpungementNext(nextPath: string) {
 }
 
 async function claimExpungementPending(nextPath: string) {
-  const params = new URLSearchParams(window.location.search);
-  const pendingId = params.get("pending");
-  if (!pendingId || !/^[0-9a-f-]{36}$/i.test(pendingId)) return safeAppRedirectPath(nextPath, "/briefcase");
-  try {
-    const response = await fetch("/api/expungement-ai/screening/pending/claim", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pendingId, next: nextPath })
-    });
-    const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-    return safeAppRedirectPath(payload?.redirectTo, safeAppRedirectPath(nextPath, "/briefcase"));
-  } catch {
-    return safeAppRedirectPath(nextPath, "/briefcase");
-  }
+  const token = new URLSearchParams(window.location.search).get("claim");
+  if (!isWellFormedClaimTokenValue(token)) return safeAppRedirectPath(nextPath, "/briefcase");
+  const claim = await submitClaim(token);
+  if (claim.ok) return claim.redirectTo;
+  return `${claimHandoffPath(token, "signin")}&claimRetry=1`;
 }

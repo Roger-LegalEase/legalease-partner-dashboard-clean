@@ -9,6 +9,7 @@ export type ServerAuthState =
       isAuthenticated: true;
       userId: string;
       email?: string;
+      isVerified: boolean;
     }
   | {
       isAuthenticated: false;
@@ -49,6 +50,7 @@ export async function getServerAuthState(): Promise<ServerAuthState> {
   return {
     isAuthenticated: true,
     userId: data.user.id,
-    email: data.user.email ?? undefined
+    email: data.user.email ?? undefined,
+    isVerified: Boolean(data.user.email_confirmed_at ?? data.user.phone_confirmed_at ?? data.user.confirmed_at)
   };
 }

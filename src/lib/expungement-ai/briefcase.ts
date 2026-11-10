@@ -80,7 +80,7 @@ export async function saveAuthoritativeScreeningResultToBriefcase(input: {
     throw new AuthoritativeBriefcasePersistenceError("authoritative screening persistence requires a source-bound result");
   }
 
-  const clamped = clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(input.item)));
+  const clamped = clampAuthoritativeMatterInput(input.item);
   const fallbackItem = fallbackItemFromCreateInput(clamped);
   const supabase = getSupabaseAdminClient();
 
@@ -256,6 +256,11 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
 
+// Atomic claims use the same existing release clamps as the authoritative writer.
+export function clampAuthoritativeMatterInput(input: CreateConsumerBriefcaseItemInput): CreateConsumerBriefcaseItemInput {
+  return clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(input)));
+}
+
 /**
  * The Briefcase-side exact-deferral clamp.
  *
@@ -404,7 +409,7 @@ function clampTerminalTreatment(input: CreateConsumerBriefcaseItemInput): Create
 }
 
 export async function createBriefcaseItem(rawInput: CreateConsumerBriefcaseItemInput): Promise<ConsumerBriefcaseItem> {
-  const input = clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(rawInput)));
+  const input = clampAuthoritativeMatterInput(rawInput);
   const fallbackItem = fallbackItemFromCreateInput(input);
   if (isCompletelyUnconfiguredSupabase()) {
     rememberFallbackItem(input.userId, fallbackItem);

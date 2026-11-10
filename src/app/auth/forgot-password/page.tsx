@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { isWellFormedClaimTokenValue, claimHandoffPath } from "@/lib/expungement-ai/claim/claim-handoff";
+import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import { FormEvent, useState } from "react";
 import { KeyRound } from "lucide-react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
@@ -102,7 +104,7 @@ export default function ForgotPasswordPage() {
           </form>
 
           <div className="mt-5 text-center">
-            <Link href="/sign-in?next=/partner/dashboard" className="text-sm font-semibold text-teal hover:text-navy">
+            <Link href={signInReturnPath()} className="text-sm font-semibold text-teal hover:text-navy">
               Back to sign in
             </Link>
           </div>
@@ -114,10 +116,16 @@ export default function ForgotPasswordPage() {
 
 function passwordResetRedirectTo() {
   const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
-  return passwordResetRedirectUrl({
+  const destination = passwordResetRedirectUrl({
     product: params.get("product"),
     hostname: typeof window !== "undefined" ? window.location.hostname : null
   });
+  if (params.get("product") !== "expungement") return destination;
+  const url = new URL(destination);
+  url.searchParams.set("next", safeAppRedirectPath(params.get("next"), "/briefcase"));
+  const token = params.get("claim");
+  if (isWellFormedClaimTokenValue(token)) url.searchParams.set("claim", token);
+  return url.href;
 }
 
 function isValidEmail(email: string) {
@@ -132,4 +140,12 @@ function isCaptchaError(error: unknown) {
   const message = "message" in error && typeof error.message === "string" ? error.message.toLowerCase() : "";
   const code = "code" in error && typeof error.code === "string" ? error.code.toLowerCase() : "";
   return message.includes("captcha") || code.includes("captcha");
+}
+
+function signInReturnPath() {
+  if (typeof window === "undefined") return "/sign-in?next=/partner/dashboard";
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("product") !== "expungement") return "/sign-in?next=/partner/dashboard";
+  const token = params.get("claim");
+  return claimHandoffPath(isWellFormedClaimTokenValue(token) ? token : "", "signin");
 }

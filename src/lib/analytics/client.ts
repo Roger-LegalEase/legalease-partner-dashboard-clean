@@ -7,7 +7,7 @@
 
 import { isProductSurface, productSurfaceForHost, type ProductSurface } from "@/lib/analytics/product-surface";
 import { PAGEVIEW_EVENT, type WebAnalyticsEventName } from "@/lib/analytics/event-names";
-import { sanitizeEventMeta } from "@/lib/analytics/sanitize";
+import { sanitizeEventMeta, sanitizeQueryString, sanitizeReferrerUrl } from "@/lib/analytics/sanitize";
 
 const ENDPOINT = "/api/analytics/web";
 const VISITOR_KEY = "le_vid";
@@ -129,6 +129,8 @@ function currentSurface(): ProductSurface | null {
 }
 
 function post(body: Record<string, unknown>) {
+  // The browser Referer can carry a claim capability even when the event body is sanitized.
+  if (new URLSearchParams(window.location.search).has("claim")) return;
   const payload = JSON.stringify(body);
   try {
     if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
@@ -171,9 +173,9 @@ export function trackPageview(extra?: { path?: string; title?: string }) {
       ...baseEnvelope(),
       event_name: PAGEVIEW_EVENT,
       path: extra?.path ?? window.location.pathname,
-      query: window.location.search,
+      query: sanitizeQueryString(window.location.search),
       page_title: (extra?.title ?? document.title ?? "").slice(0, 190),
-      referrer: document.referrer || undefined
+      referrer: sanitizeReferrerUrl(document.referrer)
     });
   } catch {
     /* swallow */

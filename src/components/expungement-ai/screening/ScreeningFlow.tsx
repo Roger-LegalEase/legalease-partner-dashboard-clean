@@ -17,6 +17,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { claimHandoffPath, submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
 
 import type {
   AnswerValue,
@@ -78,7 +79,7 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
 
 export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
-  const { t: translate } = useLocalization();
+  const { locale, t: translate } = useLocalization();
   // Only the server-validated active-benefit session prop enables partner
   // presentation. A syntactically valid UUID in the URL is not authority.
   const effectiveInitialSessionId = initialSessionId;
@@ -90,8 +91,12 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [error, setError] = useState<string | null>(null);
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
+  const [evaluatedAnswers, setEvaluatedAnswers] = useState<Record<string, AnswerValue> | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
   const [packetActionError, setPacketActionError] = useState<string | null>(null);
+  const [savingResult, setSavingResult] = useState(false);
+  const savingResultRef = useRef(false);
+  const pendingClaimRef = useRef<{ resultKey: string; claimToken: string } | null>(null);
   const [sessionId, setSessionId] = useState<string | undefined>(effectiveInitialSessionId);
   const [saveOpen, setSaveOpen] = useState(false);
   const [saveEmail, setSaveEmail] = useState("");
@@ -226,6 +231,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   }
 
   async function runEvaluation() {
+    const answerSnapshot = answers;
     setPhase("evaluating");
     setEvalError(null);
     // The engine evaluates; we only send the collected answers (converted to the wire shape).
@@ -234,10 +240,11 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       jurisdiction: profile.jurisdiction.code,
       profileVersion: profile.profileVersion,
       matterId: matterIdRef.current,
-      answers: toScreeningAnswers(answers)
+      answers: toScreeningAnswers(answerSnapshot)
     });
     if (result.ok) {
       void markScreeningSessionCompleted(sessionId);
+      setEvaluatedAnswers(answerSnapshot);
       setEvaluation(result.data);
       setPhase("result");
     } else {
@@ -250,45 +257,52 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   // route or payment identity. The pending endpoint re-evaluates those inputs;
   // the authenticated claim does it again and lands on the exact saved matter.
   async function handlePacketAction() {
-    if (!evaluation) return;
+    if (!evaluation || savingResultRef.current) return;
+    savingResultRef.current = true;
+    setSavingResult(true);
     setPacketActionError(null);
+    const screeningAnswers = toScreeningAnswers(evaluatedAnswers ?? answers);
+    const resultKey = JSON.stringify([profile.jurisdiction.code, profile.profileVersion, matterIdRef.current, screeningAnswers]);
 
-    const pendingResponse = await fetch("/api/expungement-ai/screening/pending", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
-        jurisdiction: profile.jurisdiction.code,
-        answers: toScreeningAnswers(answers),
-        profileVersion: profile.profileVersion,
-        matterId: matterIdRef.current,
-        sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined
-      })
-    }).catch(() => null);
-    const pending = await pendingResponse?.json().catch(() => null) as { pendingId?: string } | null;
-    if (!pendingResponse?.ok || !pending?.pendingId) {
-      setPacketActionError(SAVE_RESULT_ERROR);
-      return;
-    }
+    try {
+      // A lost claim response must retry the same atomic claim, not create another matter.
+      if (pendingClaimRef.current?.resultKey !== resultKey) {
+        const pendingResponse = await fetch("/api/expungement-ai/screening/pending", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            jurisdiction: profile.jurisdiction.code,
+            answers: screeningAnswers,
+            profileVersion: profile.profileVersion,
+            screeningCorrelationId: matterIdRef.current,
+            anonymousSessionId: sessionId ?? effectiveInitialSessionId,
+            locale
+          })
+        }).catch(() => null);
+        const pending = await pendingResponse?.json().catch(() => null) as { claimToken?: string; error?: string } | null;
+        if (!pendingResponse?.ok || !pending?.claimToken) {
+          setPacketActionError(SAVE_RESULT_ERROR);
+          return;
+        }
+        pendingClaimRef.current = { resultKey, claimToken: pending.claimToken };
+      }
 
-    const claimResponse = await fetch("/api/expungement-ai/screening/pending/claim", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })
-    }).catch(() => null);
-    const claimed = await claimResponse?.json().catch(() => null) as { redirectTo?: string } | null;
-    if (claimResponse?.ok && claimed?.redirectTo) {
-      router.push(claimed.redirectTo);
-      return;
-    }
-    if (claimResponse?.status !== 401) {
-      setPacketActionError(SAVE_RESULT_ERROR);
-      return;
-    }
+      const claim = await submitClaim(pendingClaimRef.current.claimToken);
+      if (claim.ok) {
+        router.push(claim.redirectTo);
+        return;
+      }
+      if (claim.status !== 401) {
+        if ([400, 404, 410, 422].includes(claim.status)) pendingClaimRef.current = null;
+        setPacketActionError(SAVE_RESULT_ERROR);
+        return;
+      }
 
-    const params = new URLSearchParams({ mode: "create", next: "/briefcase" });
-    params.set("pending", pending.pendingId);
-    router.push(`/expungement-ai/sign-in?${params.toString()}`);
+      router.push(claimHandoffPath(pendingClaimRef.current.claimToken, "create"));
+    } finally {
+      savingResultRef.current = false;
+      setSavingResult(false);
+    }
   }
 
   function handleContinue() {
@@ -319,6 +333,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     setEvalError(null);
     setPacketActionError(null);
     setEvaluation(null);
+    setEvaluatedAnswers(null);
     if (focusQuestionId) {
       const targetIndex = screens.findIndex((screen) => screen.id === focusQuestionId);
       if (targetIndex >= 0) setCurrentIndex(targetIndex);
@@ -394,6 +409,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             onEditAnswers={goToQuestions}
             onPacketAction={() => void handlePacketAction()}
             actionError={packetActionError}
+            savingResult={savingResult}
             hasScreeningSession={isPartnerSession}
           />
         </div>
@@ -481,7 +497,7 @@ function SaveProgressDialog({
   onClose: () => void;
   onSave: () => void;
 }) {
-  const { t: translate } = useLocalization();
+  const { locale, t: translate } = useLocalization();
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-[#0B1320]/50 px-4">
       <div className="w-full max-w-md rounded-2xl border border-[#ECEFF4] bg-white p-5 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="save-progress-title">
@@ -551,7 +567,7 @@ function FlowFrame({
 }
 
 function LoadingState() {
-  const { t: translate } = useLocalization();
+  const { locale, t: translate } = useLocalization();
   return (
     <FlowFrame>
       <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm" aria-busy="true" aria-live="polite">
@@ -569,7 +585,7 @@ function LoadingState() {
 }
 
 function MissingProfileState({ state, onPick }: { state: string; onPick: () => void }) {
-  const { t: translate } = useLocalization();
+  const { locale, t: translate } = useLocalization();
   return (
     <FlowFrame>
       <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm">
@@ -590,7 +606,7 @@ function MissingProfileState({ state, onPick }: { state: string; onPick: () => v
 }
 
 function MalformedProfileState({ onRetry, onPick }: { onRetry: () => void; onPick: () => void }) {
-  const { t: translate } = useLocalization();
+  const { locale, t: translate } = useLocalization();
   return (
     <FlowFrame>
       <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm">

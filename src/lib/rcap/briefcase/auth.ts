@@ -1,5 +1,6 @@
 export type RcapBriefcaseAuthState = {
   isAuthenticated: boolean;
+  isVerified?: boolean;
   userId?: string;
   userEmail?: string;
   mode: "supabase";
@@ -20,6 +21,7 @@ export async function getRcapBriefcaseAuthState(): Promise<RcapBriefcaseAuthStat
     isAuthenticated: true,
     userId: auth.userId,
     userEmail: auth.email,
+    isVerified: auth.isVerified,
     mode: "supabase"
   };
 }

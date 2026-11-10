@@ -1,9 +1,12 @@
+import { claimTokenHash, isWellFormedClaimToken } from "@/lib/expungement-ai/claim/claim-token";
+import { exactMatterPath } from "@/lib/expungement-ai/claim/matter-path";
+import type { CreateConsumerBriefcaseItemInput } from "@/lib/expungement-ai/types";
 import { NextResponse } from "next/server";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import {
   isRcapPartnerScreeningSession,
-  saveAuthoritativeScreeningResultToBriefcase
+  clampAuthoritativeMatterInput
 } from "@/lib/expungement-ai/briefcase";
 import { recordScreeningEligibilityResult } from "@/lib/expungement-ai/rcap-screening-analytics";
 import { buildSaveInput } from "@/lib/expungement-ai/save-result-policy";
@@ -25,8 +28,8 @@ type PendingRow = {
   jurisdiction: string;
   screening_answers: Record<string, ScreeningAnswerValue>;
   profile_version: string | null;
-  matter_id: string | null;
-  source_session_id: string | null;
+  screening_correlation_id: string | null;
+  anonymous_session_id: string | null;
 };
 
 export async function POST(request: Request) {
@@ -36,34 +39,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "auth_required" }, { status: 401 });
   }
 
-  const body = await request.json().catch(() => null) as { pendingId?: string; next?: string } | null;
-  const pendingId = body?.pendingId?.trim() ?? "";
-  if (!uuidPattern.test(pendingId)) {
-    return NextResponse.json({ ok: false, error: "invalid_pending" }, { status: 400 });
+  if (auth.isVerified !== true) {
+    return NextResponse.json({ ok: false, error: "account_not_verified" }, { status: 403 });
   }
-
+  const body = await request.json().catch(() => null) as { claimToken?: unknown } | null;
+  const claimToken = typeof body?.claimToken === "string" ? body.claimToken.trim() : "";
+  if (!isWellFormedClaimToken(claimToken)) {
+    return NextResponse.json({ ok: false, error: "claim_rejected" }, { status: 404 });
+  }
   const supabase = getSupabaseAdminClient();
-  if (!supabase) {
-    return NextResponse.json({ ok: false, error: "pending_storage_unavailable" }, { status: 503 });
-  }
-
+  if (!supabase) return NextResponse.json({ ok: false, error: "claim_unavailable" }, { status: 503 });
   const { data, error } = await supabase
     .from("consumer_pending_screening_results")
-    .select("pending_id, claimed_user_id, expires_at, product, jurisdiction, screening_answers, profile_version, matter_id, source_session_id")
-    .eq("pending_id", pendingId)
+    .select("pending_id, claimed_user_id, expires_at, product, jurisdiction, screening_answers, profile_version, screening_correlation_id, anonymous_session_id")
+    .eq("claim_token_hash", claimTokenHash(claimToken))
     .maybeSingle<PendingRow>();
-
-  if (error || !data) {
-    return NextResponse.json({ ok: false, error: "pending_not_found" }, { status: 404 });
-  }
-  if (data.claimed_user_id && data.claimed_user_id !== auth.userId) {
-    return NextResponse.json({ ok: false, error: "pending_claimed" }, { status: 403 });
-  }
-  if (new Date(data.expires_at).getTime() <= Date.now()) {
-    return NextResponse.json({ ok: false, error: "pending_expired" }, { status: 410 });
-  }
-  if (!data.profile_version || !data.matter_id) {
-    return NextResponse.json({ ok: false, error: "pending_incomplete" }, { status: 409 });
+  if (error) return NextResponse.json({ ok: false, error: "claim_unavailable" }, { status: 503 });
+  if (!data) return NextResponse.json({ ok: false, error: "claim_rejected" }, { status: 404 });
+  if (!data.profile_version || !data.screening_correlation_id) {
+    return NextResponse.json({ ok: false, error: "result_could_not_be_verified" }, { status: 409 });
   }
 
   // Re-evaluate from the stored inputs. The coarse result fields saved during
@@ -74,7 +68,7 @@ export async function POST(request: Request) {
     authoritative = evaluateAuthoritativeScreeningResult({
       jurisdiction: data.jurisdiction,
       profileVersion: data.profile_version,
-      matterId: data.matter_id,
+      matterId: data.screening_correlation_id,
       answers: data.screening_answers ?? {}
     });
   } catch {
@@ -83,11 +77,11 @@ export async function POST(request: Request) {
 
   const { evaluation, pathwayLabel, packetType, selectedTrackId } = authoritative;
   const isPartnerSession = data.product === "rcap_partner"
-    && Boolean(data.source_session_id)
-    && await isRcapPartnerScreeningSession(data.source_session_id ?? "");
-  const sourceSessionId = isPartnerSession ? data.source_session_id ?? undefined : data.pending_id;
+    && Boolean(data.anonymous_session_id)
+    && await isRcapPartnerScreeningSession(data.anonymous_session_id ?? "");
+  const sourceSessionId = isPartnerSession ? data.anonymous_session_id ?? undefined : data.pending_id;
 
-  const saveInput = buildSaveInput({
+  const saveInput = clampAuthoritativeMatterInput(buildSaveInput({
     userId: auth.userId,
     jurisdiction: evaluation.jurisdiction,
     resultCode: evaluation.resultCode,
@@ -100,7 +94,7 @@ export async function POST(request: Request) {
     selectedTrackId,
     treatmentClassification: evaluation.treatmentClassification ?? null,
     deferralComponentIds: evaluation.deferralComponentIds ?? []
-  }, { isPartnerSession });
+  }, { isPartnerSession }));
 
   saveInput.artifactRefs = {
     ...(saveInput.artifactRefs ?? {}),
@@ -115,65 +109,27 @@ export async function POST(request: Request) {
     })
   };
 
-  let item;
-  try {
-    item = await saveAuthoritativeScreeningResultToBriefcase({
-      authenticatedUserId: auth.userId,
-      item: saveInput
-    });
-  } catch {
-    // The pending result remains unclaimed so the authenticated user can retry.
-    // Never report an in-memory item when a configured database rejected the
-    // server-authoritative route/payment insert.
-    return NextResponse.json({ ok: false, error: "briefcase_persistence_failed" }, { status: 503 });
-  }
-
-  // The null-to-user transition is the stable idempotency gate for result
-  // analytics. Persistence happens first. Exactly one successful claimant can
-  // win this update, so retries and Briefcase refreshes cannot emit again.
-  const claim = await supabase
-    .from("consumer_pending_screening_results")
-    .update({ claimed_at: new Date().toISOString(), claimed_user_id: auth.userId })
-    .eq("pending_id", pendingId)
-    .is("claimed_user_id", null)
-    .select("pending_id")
-    .maybeSingle<{ pending_id: string }>();
-
+  const claim = await supabase.rpc("claim_pending_screening_result", {
+    p_claim_token: claimToken,
+    p_user_id: auth.userId,
+    p_matter: matterPayload(saveInput, data.product),
+    p_request_id: requestId
+  });
   if (claim.error) {
-    // The case is already durable. Keep the successful participant response;
-    // the unclaimed pending row remains available for a later safe retry.
-    logSecurityError({
-      event: "rcap screening result claim marker failed",
-      route,
-      outcome: "claim_marker_failed",
-      requestId,
-      error: claim.error
-    });
+    return NextResponse.json({ ok: false, error: "claim_unavailable" }, { status: 503 });
   }
-
-  if (claim.data && isPartnerSession && data.source_session_id) {
-    const analytics = await recordScreeningEligibilityResult(
-      data.source_session_id,
-      evaluation.resultCode
-    );
-    if (!analytics.ok) {
-      // Analytics is secondary to the persisted case. The claimed pending row,
-      // exact Briefcase matter, and source session retain stable reconciliation
-      // identity without exposing provider errors to the participant.
-      logSecurityError({
-        event: "rcap screening result analytics failed",
-        route,
-        outcome: analytics.reason,
-        requestId
-      });
+  const returned = Array.isArray(claim.data) ? claim.data[0] : claim.data;
+  if (!["claimed", "idempotent_replay"].includes(returned?.outcome) || !returned?.matter_id) {
+    return NextResponse.json({ ok: false, error: "claim_rejected" }, { status: 404 });
+  }
+  if (returned.outcome === "claimed" && isPartnerSession && data.anonymous_session_id) {
+    try {
+      await recordScreeningEligibilityResult(data.anonymous_session_id, evaluation.resultCode);
+    } catch {
+      logSecurityError({ event: "screening result analytics failed after claim", route, outcome: "analytics_failed", requestId });
     }
   }
-
-  return NextResponse.json({
-    ok: true,
-    itemId: item.id,
-    redirectTo: `/briefcase/${encodeURIComponent(item.id)}`
-  });
+  return NextResponse.json({ ok: true, matterId: returned.matter_id, redirectTo: exactMatterPath(returned.matter_id) });
 }
 
 function initialCommercialFlow(input: {
@@ -224,4 +180,18 @@ function initialCommercialFlow(input: {
 
 function isPacketResult(resultCode: string) {
   return resultCode === "packet_ready" || resultCode === "packet_ready_with_caution";
+}
+
+function matterPayload(input: CreateConsumerBriefcaseItemInput, product: PendingRow["product"]) {
+  return {
+    product, item_type: input.itemType, jurisdiction: input.jurisdiction,
+    pathway_label: input.pathwayLabel ?? null, result_code: input.resultCode ?? null,
+    packet_type: input.packetType ?? null, payment_allowed: input.paymentAllowed,
+    status: input.status, summary_json: { text: input.summary }, next_steps_json: input.nextSteps,
+    artifact_refs_json: input.artifactRefs ?? {},
+    payment_status: input.paymentAllowed ? "unpaid" : "not_applicable",
+    amount_cents: input.paymentAllowed ? 5000 : null,
+    packet_status: input.packetStatus ?? "not_started", reminder_at: input.reminderAt ?? null,
+    source_session_id: input.sourceSessionId ?? null
+  };
 }

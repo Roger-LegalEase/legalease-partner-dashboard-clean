@@ -131,6 +131,7 @@ export function ScreeningResult({
   onEditAnswers,
   onPacketAction,
   actionError,
+  savingResult = false,
   hasScreeningSession = false
 }: {
   evaluation: ScreeningEvaluation;
@@ -139,6 +140,7 @@ export function ScreeningResult({
   onEditAnswers: (focusQuestionId?: string) => void;
   onPacketAction: () => void;
   actionError?: string | null;
+  savingResult?: boolean;
   // Partner/session mode: the screening was started through a partner program (a screening
   // session already exists). In that mode the consumer pay-and-generate flow does not apply —
   // the packet action saves to Briefcase and no $50 charge is shown here.
@@ -263,6 +265,8 @@ export function ScreeningResult({
           <button
             type="button"
             onClick={onPacketAction}
+            disabled={savingResult}
+            aria-busy={savingResult}
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
@@ -273,6 +277,8 @@ export function ScreeningResult({
           <button
             type="button"
             onClick={onPacketAction}
+            disabled={savingResult}
+            aria-busy={savingResult}
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />

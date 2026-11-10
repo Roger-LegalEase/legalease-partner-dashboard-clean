@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
+import { submitClaim, isTerminalClaimFailure, isWellFormedClaimTokenValue } from "@/lib/expungement-ai/claim/claim-handoff";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -21,19 +22,23 @@ export function ConsumerSignInForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pendingClaimFailed, setPendingClaimFailed] = useState(false);
+  const [pendingClaimFailed, setPendingClaimFailed] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("claimRetry") === "1");
   const [captchaToken, setCaptchaToken] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { pendingId } = readAuthRequestContext();
+  const { claimToken } = readAuthRequestContext();
+  const displayedError = errorMessage || (pendingClaimFailed ? translate("signin.pending_claim_error", pendingClaimError) : "");
 
   async function finishPendingClaim() {
     const requestContext = readAuthRequestContext();
     setIsSubmitting(true);
     setErrorMessage("");
-    const claimed = await claimPendingResult(requestContext.pendingId, requestContext.nextPath);
+    const claimed = await claimPendingResult(requestContext.claimToken, requestContext.nextPath);
     if (!claimed.ok) {
-      setPendingClaimFailed(true);
-      setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
+      const terminal = isTerminalClaimFailure(claimed.status);
+      setPendingClaimFailed(!terminal);
+      setErrorMessage(terminal
+        ? translate("signin.claim_unavailable", "This result link is no longer available. Open your Briefcase or start a new screening.")
+        : translate("signin.pending_claim_error", pendingClaimError));
       setIsSubmitting(false);
       return;
     }
@@ -74,7 +79,7 @@ export function ConsumerSignInForm() {
         password,
         options: {
           ...captchaOptions(captchaToken),
-          emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.pendingId)
+          emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)
         }
       })
       : await supabase.auth.signInWithPassword({ email, password, options: captchaOptions(captchaToken) });
@@ -97,7 +102,7 @@ export function ConsumerSignInForm() {
       return;
     }
 
-    if (requestContext.pendingId) {
+    if (requestContext.claimToken) {
       await finishPendingClaim();
       return;
     }
@@ -121,10 +126,10 @@ export function ConsumerSignInForm() {
         </p>
       </div>
 
-      {errorMessage ? (
+      {displayedError ? (
         <div className="mt-6 rounded-md border border-[#FF3B00]/30 bg-[#FF3B00]/10 px-4 py-3 text-sm font-semibold text-[#FF3B00]">
-          {errorMessage}
-          {pendingClaimFailed && pendingId ? (
+          {displayedError}
+          {pendingClaimFailed && claimToken ? (
             <button
               className="mt-3 block min-h-10 rounded-md bg-[#FF3B00] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
               data-pending-claim-retry="true"
@@ -207,7 +212,7 @@ export function ConsumerSignInForm() {
             ? translate("signin.switch_to_signin", "Already have an account? Sign in")
             : translate("signin.switch_to_create", "New here? Create account")}
         </button>
-        {!createMode ? <Link href="/auth/forgot-password?product=expungement" className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
+        {!createMode ? <Link href={forgotPasswordPath()} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
       </div>
@@ -215,33 +220,13 @@ export function ConsumerSignInForm() {
   );
 }
 
-async function claimPendingResult(
-  pendingId: string,
-  fallbackNext: string
-): Promise<{ ok: true; redirectTo: string } | { ok: false }> {
-  try {
-    const response = await fetch("/api/expungement-ai/screening/pending/claim", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pendingId, next: fallbackNext })
-    });
-    const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-    if (!response.ok || !payload?.redirectTo) return { ok: false };
-    const redirectTo = safeAppRedirectPath(payload.redirectTo, "");
-    if (!isExactBriefcaseMatterPath(redirectTo)) return { ok: false };
-    return { ok: true, redirectTo };
-  } catch {
-    return { ok: false };
-  }
+async function claimPendingResult(claimToken: string, _fallbackNext: string) {
+  return submitClaim(claimToken);
 }
 
-function isExactBriefcaseMatterPath(value: string) {
-  return /^\/briefcase\/[^/?#]+$/.test(value);
-}
-
-function expungementAuthRedirectTo(nextPath: string, pendingId: string) {
+function expungementAuthRedirectTo(nextPath: string, claimToken: string) {
   const params = new URLSearchParams({ next: safeAppRedirectPath(nextPath, "/briefcase") });
-  if (pendingId) params.set("pending", pendingId);
+  if (claimToken) params.set("claim", claimToken);
   const path = `/auth/set-password?${params.toString()}`;
   if (typeof window !== "undefined" && isExpungementHost(window.location.hostname)) {
     return `${window.location.origin}${path}`;
@@ -253,18 +238,18 @@ function isExpungementHost(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app") || hostname === "expungement.ai" || hostname === "www.expungement.ai";
 }
 
-function safePendingId(value: string | null) {
-  return value && /^[0-9a-f-]{36}$/i.test(value) ? value : "";
+function safeClaimToken(value: string | null) {
+  return isWellFormedClaimTokenValue(value) ? value : "";
 }
 
 function readAuthRequestContext() {
   if (typeof window === "undefined") {
-    return { nextPath: "/briefcase", pendingId: "" };
+    return { nextPath: "/briefcase", claimToken: "" };
   }
   const params = new URLSearchParams(window.location.search);
   return {
     nextPath: safeAppRedirectPath(params.get("next"), "/briefcase"),
-    pendingId: safePendingId(params.get("pending"))
+    claimToken: safeClaimToken(params.get("claim"))
   };
 }
 
@@ -291,4 +276,11 @@ function isCaptchaError(error: unknown) {
   const message = "message" in error && typeof error.message === "string" ? error.message.toLowerCase() : "";
   const code = "code" in error && typeof error.code === "string" ? error.code.toLowerCase() : "";
   return message.includes("captcha") || code.includes("captcha");
+}
+
+function forgotPasswordPath() {
+  const context = readAuthRequestContext();
+  const params = new URLSearchParams({ product: "expungement", next: context.nextPath });
+  if (context.claimToken) params.set("claim", context.claimToken);
+  return `/auth/forgot-password?${params.toString()}`;
 }

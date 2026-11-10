@@ -1,3 +1,5 @@
+import { claimTokenHash, mintClaimToken } from "@/lib/expungement-ai/claim/claim-token";
+import { resolveScreeningAttribution } from "@/lib/expungement-ai/claim/screening-attribution";
 import { NextResponse } from "next/server";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -21,7 +23,7 @@ export async function POST(request: Request) {
   const body = parsed.value;
   if (typeof body.jurisdiction !== "string"
     || typeof body.profileVersion !== "string"
-    || typeof body.matterId !== "string"
+    || typeof body.screeningCorrelationId !== "string"
     || !isScreeningAnswers(body.answers)) {
     return NextResponse.json({ ok: false, error: "invalid_request" }, { status: 400 });
   }
@@ -31,7 +33,7 @@ export async function POST(request: Request) {
     authoritative = evaluateAuthoritativeScreeningResult({
       jurisdiction: body.jurisdiction,
       profileVersion: body.profileVersion,
-      matterId: body.matterId,
+      matterId: body.screeningCorrelationId,
       answers: body.answers
     });
   } catch (error) {
@@ -62,10 +64,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "pending_storage_unavailable" }, { status: 503 });
   }
 
-  const { data, error } = await supabase
+  const anonymousSessionId = typeof body.anonymousSessionId === "string" && uuidPattern.test(body.anonymousSessionId) ? body.anonymousSessionId : null;
+  const attribution = await resolveScreeningAttribution(anonymousSessionId);
+  const claimToken = mintClaimToken();
+  const { error } = await supabase
     .from("consumer_pending_screening_results")
     .insert({
-      product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc",
+      status: "PENDING",
+      claim_token_hash: claimTokenHash(claimToken),
+      product: attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
       jurisdiction: evaluation.jurisdiction.slice(0, 120),
       result_code: evaluation.resultCode,
       pathway_label: pathwayLabel?.slice(0, 200) ?? null,
@@ -76,29 +83,32 @@ export async function POST(request: Request) {
       screening_answers: body.answers,
       result_payload: evaluation,
       profile_version: evaluation.profileVersion.slice(0, 120),
-      matter_id: evaluation.matterId.slice(0, 120),
+      screening_correlation_id: evaluation.matterId.slice(0, 120),
       packet_plan: evaluation.packetPlan ?? {},
-      source_session_id: typeof body.sourceSessionId === "string" && uuidPattern.test(body.sourceSessionId)
-        ? body.sourceSessionId
-        : null
-    })
-    .select("pending_id")
-    .single<{ pending_id: string }>();
+      anonymous_session_id: anonymousSessionId,
+      locale: typeof body.locale === "string" && /^[a-z]{2}(-[A-Za-z0-9]{2,8})?$/.test(body.locale) ? body.locale : null,
+      partner_slug: attribution.partnerSlug,
+      program_id: attribution.programId,
+      event_id: attribution.eventId,
+      campaign_name: attribution.campaignName,
+      access_code_id: attribution.accessCodeId,
+      consent_grant_id: attribution.consentGrantId
+    });
 
-  if (error || !data?.pending_id) {
+  if (error) {
     return NextResponse.json({ ok: false, error: "pending_storage_failed" }, { status: 503 });
   }
 
-  return NextResponse.json({ ok: true, pendingId: data.pending_id });
+  return NextResponse.json({ ok: true, claimToken });
 }
 
 type PendingCreateBody = {
-  product?: unknown;
   jurisdiction?: unknown;
   answers?: Record<string, ScreeningAnswerValue>;
   profileVersion?: unknown;
-  matterId?: unknown;
-  sourceSessionId?: unknown;
+  screeningCorrelationId?: unknown;
+  anonymousSessionId?: unknown;
+  locale?: unknown;
 };
 
 async function readJson(request: Request): Promise<{ ok: true; value: PendingCreateBody } | { ok: false }> {
