@@ -1536,6 +1536,18 @@ export const HELD_PACKET_COPY_SOURCE_SHA256 = '3065590c3a6eda4ba808ddc20527355fe
 export function assertHeldPacketCopySourceSuccession(readBytes) {
   return heldPacketCopySourceSuccessionChain(readBytes).record;
 }
+// PR #276 changes only this companion CTA; restore its exact predecessor for the historical copy proof.
+export function briefcaseWilmaCtaPredecessor(bytes) {
+  insist(sha(bytes)==='e3c8f4eec15078482aa715257130920858dc9c04a380e512242ba7fb55d25825','stale output input: src/app/briefcase/[packetId]/page.tsx; exact held packet copy companion succession');
+  const suffix='>\n        <MessageCircle className="h-4 w-4" aria-hidden="true" /> <LocalizedRuntimeText text={"Ask Wilma to explain this"} />';
+  const after='href="#ask-wilma"'+suffix;
+  const before='href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}'+suffix;
+  const source=bytes.toString('utf8');
+  insist(source.split(after).length===2,'Wilma CTA successor must replace exactly one guidance link');
+  const predecessor=source.replace(after,before);
+  insist(sha(predecessor)==='023ec211357b2fbc55694f84a60b07a7e498827d63c5cfb8a81e400c7f0edc66','Wilma CTA successor changes more than the guidance link');
+  return predecessor;
+}
 function heldPacketCopySourceSuccessionChain(readBytes) {
   const bytes=readBytes(HELD_PACKET_COPY_SOURCE_PATH);
   insist(sha(bytes)===HELD_PACKET_COPY_SOURCE_SHA256,'held packet copy source succession record bytes changed');
@@ -1560,7 +1572,11 @@ function heldPacketCopySourceSuccessionChain(readBytes) {
   for(const row of record.additionalRuntimeSources)insist(sha(readBytes(row.file))===row.sha256,`stale output input: ${row.file}; exact held packet copy runtime succession`);
   // The page accompanies the accepted copy; it was never an observed historical render input.
   insist(equal(record.companionSourceTransitions.map(row=>row.file),['src/app/briefcase/[packetId]/page.tsx']),'held packet copy companion inventory');
-  for(const row of record.companionSourceTransitions)insist(sha(readBytes(row.file))===row.afterSha256,`stale output input: ${row.file}; exact held packet copy companion succession`);
+  for(const row of record.companionSourceTransitions){
+    const current=readBytes(row.file);
+    const predecessor=sha(current)===row.afterSha256?current:briefcaseWilmaCtaPredecessor(current);
+    insist(sha(predecessor)===row.afterSha256,`stale output input: ${row.file}; exact held packet copy companion succession`);
+  }
   return {record,prior,intervention};
 }
 
