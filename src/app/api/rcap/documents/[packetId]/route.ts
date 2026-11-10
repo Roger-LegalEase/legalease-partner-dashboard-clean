@@ -1,18 +1,11 @@
 import { NextResponse } from "next/server";
-import { getRcapDocumentPacket } from "@/lib/rcap/documents/source-repository";
 
-export async function GET(
-  _request: Request,
-  {
-    params
-  }: {
-    params: Promise<{ packetId: string }>;
-  }
-) {
-  const { packetId } = await params;
-  const packet = await getRcapDocumentPacket(packetId);
-  if (!packet) {
-    return NextResponse.json({ error: "Document packet not found." }, { status: 404 });
-  }
-  return NextResponse.json({ packet });
+export const dynamic = "force-dynamic";
+
+// Temporary containment: the legacy store has no qualified participant/consent access boundary.
+export async function GET() {
+  return NextResponse.json(
+    { error: "This legacy document endpoint is temporarily unavailable. Open your authenticated Briefcase for saved documents.", code: "legacy_document_access_unavailable" },
+    { status: 503, headers: { "Cache-Control": "private, no-store", "Vary": "Cookie" } }
+  );
 }
