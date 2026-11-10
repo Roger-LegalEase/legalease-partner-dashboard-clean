@@ -1,9 +1,15 @@
-import { NextResponse } from "next/server";
+import { getBriefcaseItem, partnerSlugForPacketItem } from "@/lib/expungement-ai/briefcase";
+import { resolveSourceDocumentAccess, type ConsumerPacketBinding } from "@/lib/rcap/documents/source-repository";
+import { NextResponse, type NextRequest } from "next/server";
+import { assertSameOrigin } from "@/lib/partners/onboarding/request-security";
 import { createMississippiDocumentPacket } from "@/lib/rcap/documents/source-repository";
 import type { MississippiDocumentPacketInput } from "@/lib/rcap/documents/types";
 import { verifyRcapCaptchaToken } from "@/lib/security/rcap-captcha";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  try { assertSameOrigin(request); } catch { return NextResponse.json({ error: "This request could not be verified." }, { status: 403 }); }
+  const session = await resolveSourceDocumentAccess();
+  if (!session.ok) return NextResponse.json({ error: session.error }, { status: session.status });
   const body = await safeJson(request);
   const captcha = await verifyRcapCaptchaToken(body.turnstileToken);
   if (!captcha.ok) {
@@ -11,7 +17,14 @@ export async function POST(request: Request) {
   }
   const partnerSlug = typeof body.partnerSlug === "string" ? body.partnerSlug.trim() : "";
   const intakeSessionId = typeof body.intakeSessionId === "string" ? body.intakeSessionId.trim() : undefined;
-  const result = await createMississippiDocumentPacket({ ...readDocumentInput(body), partnerSlug, intakeSessionId, state: "MS" });
+  let consumerBinding: ConsumerPacketBinding | undefined;
+  if (body.consumerBriefcaseItemId !== undefined) {
+    const target = typeof body.consumerBriefcaseItemId === "string" ? body.consumerBriefcaseItemId.trim() : "";
+    const item = target ? await getBriefcaseItem(session.access.userId, target) : null;
+    if (!item || await partnerSlugForPacketItem(item) !== partnerSlug) return NextResponse.json({ error: "This packet cannot be linked to that matter." }, { status: 403 });
+    consumerBinding = { consumerAuthUserId: session.access.userId, consumerBriefcaseItemId: item.id };
+  }
+  const result = await createMississippiDocumentPacket({ ...readDocumentInput(body), partnerSlug, intakeSessionId, state: "MS" }, consumerBinding);
 
   if (!result.ok) {
     return NextResponse.json({ error: result.error }, { status: 400 });

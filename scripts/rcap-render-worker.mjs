@@ -22,7 +22,7 @@ const { runWorkerCycle, localContainerDigest } = await import("../src/lib/rcap/r
 const queue = await import("../src/lib/rcap/render/job-queue.ts");
 const { getPacketArtifactStorage } = await import("../src/lib/rcap/render/artifact-storage.ts");
 const { renderRcapPacketPdf } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
-const { getRcapDocumentPacket } = await import("../src/lib/rcap/documents/source-repository.ts");
+const { getRcapDocumentPacketForRenderClaim } = await import("../src/lib/rcap/documents/source-repository.ts");
 const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { PACKET_RENDERER_KIND } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
 
@@ -56,9 +56,12 @@ const deps = {
   storage,
   renderer: {
     async render(claim) {
-      const packet = await getRcapDocumentPacket(claim.packetId);
+      const packet = await getRcapDocumentPacketForRenderClaim(claim);
       if (!packet) throw new Error(`packet ${claim.packetId} not found`);
-      return renderRcapPacketPdf(packet, "full");
+      const bytes = await renderRcapPacketPdf(packet, "full");
+      const current = await getRcapDocumentPacketForRenderClaim(claim);
+      if (!current || current.updatedAt !== packet.updatedAt) throw new Error("Source access changed during render");
+      return bytes;
     }
   },
   allowlists: {

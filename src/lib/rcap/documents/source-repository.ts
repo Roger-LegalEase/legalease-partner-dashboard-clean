@@ -1,3 +1,5 @@
+import { resolveSourceDocumentAccess, sourceDocumentAccessIsCurrent, sourceAccessOwnsPacket, sourceMatterIsCurrent, type SourceDocumentAccess } from "@/lib/rcap/documents/source-document-access";
+export { resolveSourceDocumentAccess, type SourceDocumentAccess } from "@/lib/rcap/documents/source-document-access";
 import "server-only";
 
 import type {
@@ -12,16 +14,31 @@ import type {
 } from "@/lib/rcap/documents/types";
 import { rcapReliefOutcomeValues } from "@/lib/rcap/documents/types";
 import { getPartnerRepositoryMode } from "@/lib/partners/partner-repository";
-import { getRcapPersonOutcomeSummary, resolveRcapPersonId } from "@/lib/rcap/person-identity";
+import { getRcapPersonOutcomeSummary, deriveRcapPersonMatchKey } from "@/lib/rcap/person-identity";
 import { buildFilingNextStepsPacket } from "@/lib/rcap/documents/filing-next-steps";
+import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
+import { isParticipantAccountBlocked } from "@/lib/expungement-ai/privacy/account-status";
+import type { RenderJobClaim } from "@/lib/rcap/render/job-contract";
 import { getSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
 const packets = new Map<string, RcapDocumentPacket>();
 let fallbackWarningLogged = false;
 
+
+const packetCacheKey = (userId: string, packetId: string) => JSON.stringify([userId, packetId]);
+function forgetPacket(packetId: string) {
+  for (const [key, packet] of packets) if (packet.id === packetId) packets.delete(key);
+}
+function rememberPacket(packet: RcapDocumentPacket, persisted: boolean) {
+  forgetPacket(packet.id);
+  if (!persisted && packet.userId) packets.set(packetCacheKey(packet.userId, packet.id), packet);
+}
+
 type PacketResult = Promise<{ ok: true; packet: RcapDocumentPacket; persisted: boolean } | { ok: false; error: string }>;
+export type ConsumerPacketBinding = { consumerAuthUserId: string; consumerBriefcaseItemId: string };
+export const CONSUMER_BINDING_ORIGIN = "2026-11-04T04:40:14Z";
 type PacketAuditEvent =
-  | { eventType: "created"; fromStatus?: null; toStatus: RcapDocumentPacket["status"] }
+  | { eventType: "created"; fromStatus?: null; toStatus: RcapDocumentPacket["status"]; consumerBinding?: ConsumerPacketBinding }
   | { eventType: "status_changed"; fromStatus: RcapDocumentPacket["status"]; toStatus: RcapDocumentPacket["status"] };
 type SourceDocumentClassification = {
   state: string;
@@ -41,8 +58,8 @@ export type RcapReliefOutcomeAdminRow = {
   createdAt?: string;
 };
 
-export async function createMississippiDocumentPacket(input: MississippiDocumentPacketInput): PacketResult {
-  return createSourceDocumentPacket({ ...input, state: "MS" });
+export async function createMississippiDocumentPacket(input: MississippiDocumentPacketInput, consumerBinding?: ConsumerPacketBinding): PacketResult {
+  return createSourceDocumentPacket({ ...input, state: "MS" }, consumerBinding);
 }
 
 export async function createIllinoisDocumentPacket(input: IllinoisDocumentPacketInput): PacketResult {
@@ -61,32 +78,68 @@ export async function createTexasHarrisDocumentPacket(input: TexasHarrisDocument
   return createSourceDocumentPacket({ ...input, state: "TX", county: "Harris" });
 }
 
-export async function getRcapDocumentPacket(packetId: string) {
-  const cached = packets.get(packetId);
-  if (cached) return cached;
-
+export async function getRcapDocumentPacket(packetId: string, access: SourceDocumentAccess) {
+  if (!(await sourceAccessOwnsPacket(packetId, access))) return null;
   const mode = await sourcePacketPersistenceMode();
-  if (mode.kind !== "supabase") return null;
+  if (mode.kind === "supabase") {
+    // Primary existence and erasure are authoritative; no process cache serves persisted packets.
+    forgetPacket(packetId);
+    return readPersistedSourceDocumentPacket(packetId, access.userId, access);
+  }
+  if (mode.kind !== "fallback") return null;
+  const packet = packets.get(packetCacheKey(access.userId, packetId));
+  return packet?.userId === access.userId ? packet : null;
+}
 
-  const packet = await readPersistedSourceDocumentPacket(packetId);
-  if (packet) packets.set(packet.id, packet);
+const SOURCE_INTAKE_STATES = new Set(["MS", "IL", "DC", "PA", "TX"]);
+export async function getSourceIntakeDocumentPacketForSession(packetId: string, access: SourceDocumentAccess) {
+  const packet = await getRcapDocumentPacket(packetId, access);
+  if (!packet || packet.partnerSlug === "expungement-ai-consumer" || !SOURCE_INTAKE_STATES.has(packet.state)) return null;
+  const binding = await readSourcePacketConsumerBinding(packet);
+  if (binding.kind === "unavailable") return null;
+  if (binding.kind === "bound" && (binding.binding.consumerAuthUserId !== packet.userId || !await sourceMatterIsCurrent(packet.userId!, binding.binding.consumerBriefcaseItemId))) return null;
   return packet;
 }
 
-export async function generateSavedMississippiDocumentPacket(packetId: string): PacketResult {
-  return generateSavedSourceDocumentPacket(packetId);
+/** Worker-only read: validate the live fencing/owner binding before touching participant packets. */
+export async function getRcapDocumentPacketForRenderClaim(claim: RenderJobClaim) {
+  if (!claim?.id || !claim.packetId || !claim.fencingToken) return null;
+  const db = getSupabaseAdminClient();
+  if (!db) return null;
+  const { data: job, error } = await db.from("packet_render_jobs")
+    .select("packet_id,consumer_auth_user_id,consumer_briefcase_item_id,sponsored_consumer_auth_user_id,sponsored_consumer_briefcase_item_id")
+    .eq("id", claim.id).eq("packet_id", claim.packetId).eq("route_id", claim.routeId)
+    .eq("input_hash", claim.inputHash).eq("fencing_token", claim.fencingToken)
+    .eq("status", "rendering").gt("claim_expires_at", new Date().toISOString()).maybeSingle();
+  if (error || !job) return null;
+  if (job.consumer_auth_user_id && job.sponsored_consumer_auth_user_id && job.consumer_auth_user_id !== job.sponsored_consumer_auth_user_id) return null;
+  if (job.consumer_briefcase_item_id && job.sponsored_consumer_briefcase_item_id && job.consumer_briefcase_item_id !== job.sponsored_consumer_briefcase_item_id) return null;
+  const owner = job.consumer_auth_user_id || job.sponsored_consumer_auth_user_id;
+  const matter = job.consumer_briefcase_item_id || job.sponsored_consumer_briefcase_item_id;
+  if (typeof owner !== "string" || !owner || await isParticipantAccountBlocked(owner)) return null;
+  if (matter && !await sourceMatterIsCurrent(owner, matter)) return null;
+  const packet = await readPersistedSourceDocumentPacket(claim.packetId, owner, undefined, claim);
+  if (!packet) return null;
+  const binding = await readSourcePacketConsumerBinding(packet);
+  if (binding.kind === "unavailable" || (matter && binding.kind !== "bound")) return null;
+  if (binding.kind === "bound" && (binding.binding.consumerAuthUserId !== owner || binding.binding.consumerBriefcaseItemId !== matter || binding.binding.partnerSlug !== packet.partnerSlug)) return null;
+  return packet;
 }
 
-export async function generateSavedDcDocumentPacket(packetId: string): PacketResult {
-  return generateSavedSourceDocumentPacket(packetId);
+export async function generateSavedMississippiDocumentPacket(packetId: string, access: SourceDocumentAccess): PacketResult {
+  return generateSavedSourceDocumentPacket(packetId, access);
 }
 
-export async function saveMississippiDocumentPacketInputs(packetId: string, input: Partial<MississippiDocumentPacketInput>): PacketResult {
-  return saveSourceDocumentPacketInputs(packetId, input);
+export async function generateSavedDcDocumentPacket(packetId: string, access: SourceDocumentAccess): PacketResult {
+  return generateSavedSourceDocumentPacket(packetId, access);
 }
 
-export async function saveDcDocumentPacketInputs(packetId: string, input: Partial<DcDocumentPacketInput>): PacketResult {
-  return saveSourceDocumentPacketInputs(packetId, input);
+export async function saveMississippiDocumentPacketInputs(packetId: string, input: Partial<MississippiDocumentPacketInput>, access: SourceDocumentAccess): PacketResult {
+  return saveSourceDocumentPacketInputs(packetId, input, access);
+}
+
+export async function saveDcDocumentPacketInputs(packetId: string, input: Partial<DcDocumentPacketInput>, access: SourceDocumentAccess): PacketResult {
+  return saveSourceDocumentPacketInputs(packetId, input, access);
 }
 
 export async function getPartnerDocumentActivitySummary(partnerSlug?: string) {
@@ -190,8 +243,7 @@ export async function setRcapDocumentPacketReliefOutcome(input: {
     .single();
   if (updateError) return { ok: false, error: updateError.message };
   const packet = adminRowFromReliefOutcomeRow(updated as ReliefOutcomePacketRow);
-  const cached = packets.get(packet.id);
-  if (cached) packets.set(packet.id, { ...cached, reliefOutcome: packet.reliefOutcome, updatedAt: packet.updatedAt });
+  forgetPacket(packet.id);
   return { ok: true, packet, changed: true };
 }
 
@@ -308,47 +360,57 @@ function resolveDcDocumentClassification(input: SourceDocumentPacketInput): Sour
   };
 }
 
-async function createSourceDocumentPacket(input: SourceDocumentPacketInput): PacketResult {
+async function createSourceDocumentPacket(input: SourceDocumentPacketInput, consumerBinding?: ConsumerPacketBinding): PacketResult {
   if (!input.partnerSlug) return { ok: false, error: "A partner slug is required." };
-  const packet = packetFromInput(input);
-  packets.set(packet.id, packet);
+  const session = await resolveSourceDocumentAccess();
+  if (!session.ok) return { ok: false, error: session.error };
+  if (input.userId && input.userId !== session.access.userId) return { ok: false, error: "Document owner mismatch." };
+  if (input.intakeSessionId || input.briefcaseId || input.personId) return { ok: false, error: "Owner-bound legacy source links could not be verified." };
+  if (consumerBinding && (consumerBinding.consumerAuthUserId !== session.access.userId
+    || !await sourceMatterIsCurrent(consumerBinding.consumerAuthUserId, consumerBinding.consumerBriefcaseItemId))) return { ok: false, error: "Packet matter binding could not be verified." };
+  const packet = packetFromInput({ ...input, userId: session.access.userId });
   const persisted = await persistOrFallback(packet, input, {
     eventType: "created",
-    toStatus: packet.status
-  });
+    toStatus: packet.status, consumerBinding
+  }, session.access);
   if (!persisted.ok) return persisted;
+  rememberPacket(packet, persisted.persisted);
   return { ok: true, packet, persisted: persisted.persisted };
 }
 
-async function generateSavedSourceDocumentPacket(packetId: string): PacketResult {
-  const packet = await getRcapDocumentPacket(packetId);
+async function generateSavedSourceDocumentPacket(packetId: string, access: SourceDocumentAccess): PacketResult {
+  const packet = await getSourceIntakeDocumentPacketForSession(packetId, access);
   if (!packet) return { ok: false, error: "Document packet not found." };
   const generated = {
     ...packet,
     status: "preview_generated" as const,
     completedAt: new Date().toISOString()
   };
-  packets.set(packetId, generated);
   const persisted = await persistOrFallback(generated, undefined, {
     eventType: "status_changed",
     fromStatus: packet.status,
     toStatus: generated.status
-  });
+  }, access);
   if (!persisted.ok) return persisted;
+  rememberPacket(generated, persisted.persisted);
   return { ok: true, packet: generated, persisted: persisted.persisted };
 }
 
-async function saveSourceDocumentPacketInputs(packetId: string, input: Partial<SourceDocumentPacketInput>): PacketResult {
-  const packet = await getRcapDocumentPacket(packetId);
+async function saveSourceDocumentPacketInputs(packetId: string, input: Partial<SourceDocumentPacketInput>, access: SourceDocumentAccess): PacketResult {
+  const packet = await getSourceIntakeDocumentPacketForSession(packetId, access);
   if (!packet) return { ok: false, error: "Document packet not found." };
+  if (["userId", "partnerSlug", "intakeSessionId", "briefcaseId", "personId"].some((key) => input[key] !== undefined && input[key] !== packet[key as keyof RcapDocumentPacket])) return { ok: false, error: "Document identity cannot be changed." };
   const updated = packetFromInput({
     ...packet,
     ...input,
     partnerSlug: packet.partnerSlug,
-    state: packet.state
+    state: packet.state,
+    userId: packet.userId,
+    briefcaseId: packet.briefcaseId,
+    intakeSessionId: packet.intakeSessionId,
+    personId: packet.personId
   });
-  packets.set(packetId, { ...updated, id: packetId });
-  const savedPacket = packets.get(packetId) as RcapDocumentPacket;
+  const savedPacket = { ...updated, id: packetId, createdAt: packet.createdAt ?? updated.createdAt };
   const persisted = await persistOrFallback(
     savedPacket,
     input,
@@ -358,17 +420,58 @@ async function saveSourceDocumentPacketInputs(packetId: string, input: Partial<S
           eventType: "status_changed",
           fromStatus: packet.status,
           toStatus: savedPacket.status
-        }
+        },
+    access
   );
   if (!persisted.ok) return persisted;
+  rememberPacket(savedPacket, persisted.persisted);
   return { ok: true, packet: savedPacket, persisted: persisted.persisted };
+}
+
+export type SourcePacketConsumerBindingRead =
+  | { kind: "bound"; binding: ConsumerPacketBinding & { partnerSlug: string } }
+  | { kind: "unbound" }
+  | { kind: "unavailable" };
+
+/**
+ * The binding (and partner) recorded on a packet's single created event. "unbound" is a created
+ * event with no consumer keys, no event for a packet stored before CONSUMER_BINDING_ORIGIN, or no
+ * persistence; anything unreadable, ambiguous, lost or undatable is "unavailable" and refuses.
+ */
+export async function readSourcePacketConsumerBinding(packet: Pick<RcapDocumentPacket, "id" | "createdAt">): Promise<SourcePacketConsumerBindingRead> {
+  const packetId = packet.id;
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { kind: "unbound" };
+  const { data, error } = await supabase
+    .from("rcap_record_events")
+    .select("partner_slug, metadata")
+    .eq("record_type", "document_packet")
+    .eq("record_id", packetId)
+    .eq("event_type", "created")
+    .limit(2);
+  if (error || !data) return { kind: "unavailable" };
+  if (data.length === 0) {
+    const createdAt = Date.parse(packet.createdAt ?? "");
+    return Number.isFinite(createdAt) && createdAt < Date.parse(CONSUMER_BINDING_ORIGIN) ? { kind: "unbound" } : { kind: "unavailable" };
+  }
+  if (data.length !== 1) return { kind: "unavailable" };
+  const { partner_slug: partnerSlug, metadata } = data[0] as { partner_slug: string; metadata: Record<string, unknown> | null };
+  const consumerAuthUserId = metadata?.consumer_auth_user_id;
+  const consumerBriefcaseItemId = metadata?.consumer_briefcase_item_id;
+  if (consumerAuthUserId === undefined && consumerBriefcaseItemId === undefined) return { kind: "unbound" };
+  return metadata?.source === "rcap_document_packet_repository"
+    && typeof consumerAuthUserId === "string" && consumerAuthUserId && typeof consumerBriefcaseItemId === "string" && consumerBriefcaseItemId
+    ? { kind: "bound", binding: { consumerAuthUserId, consumerBriefcaseItemId, partnerSlug } }
+    : { kind: "unavailable" };
 }
 
 async function persistOrFallback(
   packet: RcapDocumentPacket,
-  inputPayload?: Partial<SourceDocumentPacketInput>,
-  auditEvent?: PacketAuditEvent
+  inputPayload: Partial<SourceDocumentPacketInput> | undefined,
+  auditEvent: PacketAuditEvent | undefined,
+  access: SourceDocumentAccess
 ): Promise<{ ok: true; persisted: boolean } | { ok: false; error: string }> {
+  if (!(await sourceDocumentAccessIsCurrent(access)) || packet.userId !== access.userId) return { ok: false, error: "Document access could not be verified." };
   const mode = await sourcePacketPersistenceMode();
   if (mode.kind === "blocked") return { ok: false, error: mode.error };
   if (mode.kind === "fallback") {
@@ -379,35 +482,15 @@ async function persistOrFallback(
   const supabase = getSupabaseAdminClient();
   if (!supabase) return { ok: false, error: "Supabase is not configured for RCAP document packet persistence." };
 
-  const person = await resolvePacketPersonId(supabase, packet);
-  if ("error" in person) return { ok: false, error: person.error };
-  const packetForPersistence = person.personId ? { ...packet, personId: person.personId } : packet;
-  if (person.personId) packets.set(packet.id, packetForPersistence);
-
-  const { error: packetError } = await supabase
-    .from("rcap_document_packets")
-    .upsert(packetRow(packetForPersistence), { onConflict: "id" });
-  if (packetError) return { ok: false, error: packetError.message };
-
-  if (auditEvent) {
-    const { error: eventError } = await supabase.from("rcap_record_events").insert(packetAuditEventRow(packetForPersistence, auditEvent));
-    if (eventError) return { ok: false, error: eventError.message };
-  }
-
-  if (inputPayload) {
-    const { error: inputError } = await supabase
-      .from("rcap_document_packet_inputs")
-      .upsert(packetInputRow(packetForPersistence, inputPayload), { onConflict: "document_packet_id" });
-    if (inputError) return { ok: false, error: inputError.message };
-  }
-
-  if (packetForPersistence.briefcaseId) {
-    const { error: briefcaseError } = await supabase
-      .from("rcap_briefcase_items")
-      .upsert(briefcaseItemRow(packetForPersistence), { onConflict: "document_packet_id" });
-    if (briefcaseError) return { ok: false, error: briefcaseError.message };
-  }
-
+  const { data, error } = await supabase.rpc("persist_authorized_source_document_packet", {
+    p_actor_user_id: access.actorUserId, p_clinic_case_id: access.clinicCaseId ?? null,
+    p_packet: packetRow(packet),
+    p_person_match_key: packet.personId ? null : deriveRcapPersonMatchKey({ partnerSlug: packet.partnerSlug, firstName: packet.petitionerFirstName, lastName: packet.petitionerLastName }),
+    p_input: inputPayload ? packetInputRow(packet, inputPayload) : null,
+    p_event: auditEvent ? packetAuditEventRow(packet, auditEvent) : null,
+    p_briefcase: packet.briefcaseId ? briefcaseItemRow(packet) : null
+  });
+  if (error || data !== true) return { ok: false, error: "Atomic document persistence could not be verified." };
   return { ok: true, persisted: true };
 }
 
@@ -439,15 +522,14 @@ function logPersistenceFallback(reason: string) {
   console.warn(`RCAP document packet persistence fallback active; packets are in-memory only. ${reason}`);
 }
 
-async function readPersistedSourceDocumentPacket(packetId: string): Promise<RcapDocumentPacket | null> {
+async function readPersistedSourceDocumentPacket(packetId: string, userId: string, access?: SourceDocumentAccess, claim?: RenderJobClaim): Promise<RcapDocumentPacket | null> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) return null;
-  const { data, error } = await supabase
-    .from("rcap_document_packets")
-    .select("*")
-    .eq("id", packetId)
-    .maybeSingle();
-  if (error || !data) return null;
+  const { data, error } = await supabase.rpc("read_authorized_source_document_packet", {
+    p_packet_id: packetId, p_actor_user_id: claim ? null : access?.actorUserId ?? null,
+    p_clinic_case_id: claim ? null : access?.clinicCaseId ?? null, p_job_claim: claim ?? null
+  });
+  if (error || !data || data.user_id !== userId) return null;
   return packetFromRow(data as SourceDocumentPacketRow);
 }
 
@@ -628,6 +710,7 @@ function packetAuditEventRow(packet: RcapDocumentPacket, event: PacketAuditEvent
       document_type: packet.documentType ?? null,
       pathway: packet.pathway,
       has_briefcase_item: Boolean(packet.briefcaseId),
+      ...(event.eventType === "created" && event.consumerBinding ? { consumer_auth_user_id: event.consumerBinding.consumerAuthUserId, consumer_briefcase_item_id: event.consumerBinding.consumerBriefcaseItemId } : {}),
       source: "rcap_document_packet_repository"
     }
   };
@@ -831,54 +914,6 @@ function personOutcomeSummaryFromPackets(packetsForSummary: DocumentActivityPack
   };
 }
 
-async function resolvePacketPersonId(
-  supabase: NonNullable<ReturnType<typeof getSupabaseAdminClient>>,
-  packet: RcapDocumentPacket
-): Promise<{ personId?: string } | { error: string }> {
-  if (packet.personId) return { personId: packet.personId };
-
-  if (packet.intakeSessionId) {
-    const { data, error } = await supabase
-      .from("rcap_intake_sessions")
-      .select("person_id, user_email, user_first_name, user_last_name")
-      .eq("id", packet.intakeSessionId)
-      .maybeSingle();
-    if (error) return { error: error.message };
-    const row = data as { person_id: string | null; user_email: string | null; user_first_name: string | null; user_last_name: string | null } | null;
-    if (row?.person_id) return { personId: row.person_id };
-    if (row?.user_email || row?.user_first_name || row?.user_last_name) {
-      return resolveRcapPersonId(supabase, {
-        partnerSlug: packet.partnerSlug,
-        email: row.user_email,
-        firstName: row.user_first_name,
-        lastName: row.user_last_name
-      });
-    }
-  }
-
-  if (packet.userId) {
-    const { data, error } = await supabase
-      .from("rcap_user_profiles")
-      .select("email, display_name")
-      .eq("id", packet.userId)
-      .maybeSingle();
-    if (error) return { error: error.message };
-    const row = data as { email: string | null; display_name: string | null } | null;
-    if (row?.email || row?.display_name) {
-      return resolveRcapPersonId(supabase, {
-        partnerSlug: packet.partnerSlug,
-        email: row.email,
-        displayName: row.display_name
-      });
-    }
-  }
-
-  return resolveRcapPersonId(supabase, {
-    partnerSlug: packet.partnerSlug,
-    firstName: packet.petitionerFirstName,
-    lastName: packet.petitionerLastName
-  });
-}
 
 function isRcapReliefOutcome(value: unknown): value is RcapReliefOutcome {
   return typeof value === "string" && rcapReliefOutcomeValues.includes(value as RcapReliefOutcome);

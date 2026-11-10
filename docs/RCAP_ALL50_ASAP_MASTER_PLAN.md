@@ -4,7 +4,7 @@
 
 Build RCAP state coverage for all 50 states plus DC as fast as safely possible from `private/Nationwide Record Clearing/`. The sprint produces state inventories, state-pack drafts, official PDF overlay drafts, custom pleading drafts, guidance fallback packets, internal previews, sample packets, manifests, verifiers, and QA/attorney review artifacts.
 
-This sprint does not build the new Expungement.ai UI.
+This is the retained construction plan, not the current product-completion boundary. Roger’s 2026-11-10 full-product direction and current Mission Lock include the required Expungement.ai UI and all 346 existing family customer paths. Preserve existing construction results; do not rerun these loops by default.
 
 ## Source Of Truth
 
@@ -80,7 +80,7 @@ For pleading-suitable states/tracks, draft custom pleading packets from Nationwi
 
 ### guidance_packet_loop
 
-Every state gets a guidance fallback packet. If official PDF or pleading output is incomplete, guidance packets keep the state buildable and reviewable.
+Guidance drafts keep internal construction reviewable. Only an adopted guidance/no-filing treatment may reach customers as guidance; missing required forms must not silently fall back to generic guidance.
 
 ### packet_render_qa_loop
 
@@ -106,19 +106,19 @@ Do not ask Roger for ordinary build work. Diagnose, fix, rerun checks, and conti
 
 ## Roger Approval Required
 
+Reuse an applicable existing target-specific grant and later owner amendments.
+The following list applies when that authority is absent; no repeated generic
+approval is required.
+
 Ask Roger before production deployment, direct push to main, live Supabase migrations, Supabase RLS/auth/session logic changes, Stripe live-mode behavior changes, production env/secret changes, destructive or irreversible changes, major system deletion, editing another agent's active worktree, or changes that would break existing live legacy generators.
 
-## Preserved Legacy Generators
+## Preserved Legacy Assets and Decisions
 
-The live legacy generators remain preserved:
-
-- Mississippi
-- Illinois
-- District of Columbia
-- Pennsylvania
-- Texas-Harris
-
-They can be read as flow/output references but should not be broken or retired during this sprint.
+Preserve the existing Mississippi, Illinois, DC, Pennsylvania and Texas-Harris
+sources, field maps, text, historical artifacts and authorized access. The adopted
+2026-08-28 retirement decision and ADR-0004 govern runtime/commercial authority;
+construction preservation is not permission to revive retired live fallbacks.
+Use exact route/family fulfillment authority and current target-specific grants.
 
 ## Definition Of Built
 
@@ -133,4 +133,4 @@ A state is build-complete for this sprint when it has:
 - build status at `state_built`
 - review statuses tracked separately
 
-`state_built` is not approval for live use.
+`state_built` is a construction result only. Source acceptance, coherent integration, observed deployment identity and actual required customer packet/download behavior are separate outcomes in the existing records. Full-product completion retains all 346 families and applicable channels.

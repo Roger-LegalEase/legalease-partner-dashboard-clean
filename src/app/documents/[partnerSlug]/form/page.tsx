@@ -3,7 +3,8 @@ import { ArrowLeft, Briefcase } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
-import { getRcapIntakeSession } from "@/lib/rcap-intake/repository";
+import { resolveSourceDocumentAccess } from "@/lib/rcap/documents/source-document-access";
+import { getBriefcaseItem, partnerSlugForPacketItem } from "@/lib/expungement-ai/briefcase";
 import { DcMotionInformationForm } from "./DcMotionInformationForm";
 import { IllinoisPetitionInformationForm } from "./IllinoisPetitionInformationForm";
 import { MississippiPetitionInformationForm } from "./MississippiPetitionInformationForm";
@@ -18,10 +19,16 @@ export default async function MississippiPetitionInformationFormPage({
   searchParams: Promise<{ session?: string | string[]; briefcaseItemId?: string | string[] }>;
 }) {
   const [{ partnerSlug }, search] = await Promise.all([params, searchParams]);
-  const partner = await getPartnerRecordBySlug(partnerSlug);
   const sessionId = typeof search.session === "string" ? search.session : undefined;
   const briefcaseItemId = typeof search.briefcaseItemId === "string" ? search.briefcaseItemId : undefined;
-  const persistedSession = sessionId ? await getRcapIntakeSession(sessionId) : undefined;
+  const access = await resolveSourceDocumentAccess();
+  if (!access.ok) return <Card className="rounded-md p-6">{access.error}</Card>;
+  // A legacy intake locator is not authenticated ownership; never load its answers here.
+  if (sessionId || !briefcaseItemId) return <Card className="rounded-md p-6">This intake link cannot be verified. Continue from your Briefcase.</Card>;
+  const item = await getBriefcaseItem(access.access.userId, briefcaseItemId);
+  if (!item || await partnerSlugForPacketItem(item) !== partnerSlug) return <Card className="rounded-md p-6">This matter is not available.</Card>;
+  const partner = await getPartnerRecordBySlug(partnerSlug);
+  const persistedSession = undefined;
   const isWeMustVote = partnerSlug === "we-must-vote";
   const state = isWeMustVote ? "MS" : partner?.targetState ?? partner?.state;
   const session = persistedSession ?? (briefcaseItemId && partner ? {
