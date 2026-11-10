@@ -255,7 +255,13 @@ function pickNextStep(matters: ConsumerBriefcaseItem[], sponsoredItemIds: Set<st
       case "completed":
         return { headline: "Packet ready", body: `Your packet for ${item.title} is ready with filing next steps.`, ctaLabel: "Download my packet", href };
       case "waiting":
-        return { headline: "Your case is with the court", body: `${item.title} is filed and waiting on a decision. There's nothing to do right now. We'll help you keep track.`, ctaLabel: "See your matter", href };
+        if (humanMatterState(item) === "Decision received") {
+          return { headline: "Decision recorded", body: `You recorded a court decision for ${item.title}. Open the matter to review it.`, ctaLabel: "See your matter", href };
+        }
+        if (humanMatterState(item) === "Filed" || humanMatterState(item) === "Waiting on the court") {
+          return { headline: "Filing recorded", body: `You recorded that ${item.title} was filed. Check the court's instructions for any next steps.`, ctaLabel: "See your matter", href };
+        }
+        return { headline: "A waiting period may apply", body: `${item.title} is saved. Review the waiting-period guidance and any information still needed before taking the next step.`, ctaLabel: "Review next steps", href };
       case "guidance_only":
         return { headline: "Your next steps are saved", body: `We saved step-by-step guidance for ${item.title}. Open it whenever you're ready.`, ctaLabel: "View next steps", href };
       case "saved":
@@ -283,7 +289,7 @@ export function BriefcaseOverview({ items, userEmail, sponsoredItemIds = [] }: {
 
   const name = firstName(userEmail);
   const inProgress = matters.filter((m) => IN_PROGRESS_STATES.has(matterCareState(m)));
-  const readyToFile = matters.filter((m) => ["packet_ready", "completed"].includes(matterCareState(m)));
+  const preparedPackets = matters.filter((m) => (m.packetStatus === "ready" || m.packetStatus === "downloaded") && packetArtifactFor(m) !== null);
   const documents = matters.filter((m) => packetArtifactFor(m) !== null);
   const sponsoredIds = new Set(sponsoredItemIds);
   const next = pickNextStep(matters, sponsoredIds);
@@ -317,7 +323,7 @@ export function BriefcaseOverview({ items, userEmail, sponsoredItemIds = [] }: {
 
       <div className="mt-4 grid grid-cols-2 gap-3.5 lg:grid-cols-4">
         <StatCard label="In progress" value={inProgress.length} sub="Active records" />
-        <StatCard label="Ready to file" value={readyToFile.length} sub="Action needed" teal />
+        <StatCard label="Packets prepared" value={preparedPackets.length} sub="Review before filing" teal />
         <StatCard label="Documents" value={documents.length} sub="Prepared for you" />
         <StatCard label="Cleared" value={0} sub="So far" />
       </div>

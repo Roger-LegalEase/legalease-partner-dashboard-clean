@@ -97,6 +97,12 @@ function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
     return NextResponse.json({ error: "Payment confirmation is required before packet generation." }, { status: 402 });
   }
   if (error instanceof ConsumerPacketNotAllowedError) {
+    if (error.resultCode === "packet_not_deliverable") {
+      return NextResponse.json({
+        error: "The required documents for this route are not available for generation yet. Your matter and answers are saved. No new payment or packet credit has been taken.",
+        resultCode: "packet_not_deliverable"
+      }, { status: 409, headers: { "Cache-Control": "private, no-store" } });
+    }
     return NextResponse.json({ error: "We can’t prepare a packet for these answers. Your information is still saved. Return to your Briefcase to review the next step." }, { status: 403 });
   }
   if (error instanceof ConsumerPacketGenerationError) {

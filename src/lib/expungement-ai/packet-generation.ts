@@ -1,5 +1,7 @@
 import "server-only";
 
+import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
+
 import {
   getBriefcaseItem,
   getBriefcaseItemForWebhook,
@@ -78,11 +80,22 @@ export async function generatePaidConsumerPacket({
   const item = webhookMode
     ? await requireWebhookOwnedPacketItem(userId, briefcaseItemId)
     : await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
+  const paymentRequired = !(await isPartnerSponsoredPacketItem(item));
+  assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired });
 
   const existing = artifactRefsFor(item);
   if (item.packetStatus === "ready" && existing) {
     return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
+  }
+
+  // Shadow factory metadata is not authority to deliver the promised form set.
+  const route = resolvePacketRoute({
+    state: item.state,
+    pathway: item.pathwayLabel ?? null,
+    trackId: item.selectedTrackId ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null)
+  });
+  if (!packetRouteCanRender(route) || !(paymentRequired ? route.sellable : route.creditConsumable)) {
+    throw new ConsumerPacketNotAllowedError("packet_not_deliverable");
   }
 
   await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "pending" } });

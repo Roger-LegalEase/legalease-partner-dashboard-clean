@@ -79,11 +79,12 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
   // ratified route in a jurisdiction with no certified renderer saw a $50 offer
   // for a packet the download route would refuse with a 409. Guidance is not
   // sold, and neither is a packet we cannot produce.
-  const canDeliver = packetRouteCanRender(resolvePacketRoute({
+  const route = resolvePacketRoute({
     state: result.state,
     pathway: result.pathwayLabel ?? null,
     trackId: result.selectedTrackId ?? null
-  }));
+  });
+  const canDeliver = packetRouteCanRender(route) && route.sellable;
   const enabled = !deferred && canDeliver && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
@@ -507,7 +508,7 @@ export function assertPacketRouteCanDeliver(item: ConsumerBriefcaseItem) {
     pathway: item.pathwayLabel ?? null,
     trackId: item.selectedTrackId ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null)
   });
-  if (!packetRouteCanRender(route)) {
+  if (!packetRouteCanRender(route) || !route.sellable) {
     throw new ConsumerPacketNotDeliverableError(route.routeKind);
   }
 }

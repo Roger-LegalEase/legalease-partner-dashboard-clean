@@ -22,7 +22,7 @@ export default async function BriefcasePacketPage({
   params: Promise<{ packetId: string }>;
 }) {
   const { packetId } = await params;
-  const auth = await requireConsumerBriefcaseSession();
+  const auth = await requireConsumerBriefcaseSession(`/briefcase/${encodeURIComponent(packetId)}`);
   const item = await getBriefcaseItem(auth.userId, packetId);
   const sponsored = item ? await isPartnerSponsoredPacketItem(item) : false;
   const artifact = item ? packetArtifactFor(item) : null;

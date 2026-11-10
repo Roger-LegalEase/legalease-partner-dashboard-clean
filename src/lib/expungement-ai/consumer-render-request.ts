@@ -338,6 +338,9 @@ async function requestConsumerPacketRenderInternal(input: {
     };
   }
   if (!built.spec) return { status: "route_not_renderable", reason: built.route.reason };
+  if (!built.route.sellable) {
+    return { status: "route_contract_unverifiable", reason: "The required jurisdiction-specific packet is not yet qualified for delivery." };
+  }
 
   const person = await resolveConsumerPersonId(authUserId);
   if (!person.ok) return { status: "identity_unresolved", reason: person.reason };

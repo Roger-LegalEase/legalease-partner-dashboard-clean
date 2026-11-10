@@ -512,6 +512,18 @@ function resolveSpanishPattern(text: string, vars?: Record<string, string | numb
   const readyPacket = normalized.match(/^Your packet for (.+) is ready\. We'll show you exactly where to take it and what to expect\.$/);
   if (readyPacket) return `Su paquete para ${readyPacket[1]} está listo. Le mostraremos exactamente dónde llevarlo y qué esperar.`;
   if (normalized === "Show me how to file") return "Mostrar cómo presentar";
+  if (normalized === "Decision recorded") return "Decisión registrada";
+  const recordedDecision = normalized.match(/^You recorded a court decision for (.+)\. Open the matter to review it\.$/);
+  if (recordedDecision) return `Usted registró una decisión judicial para ${recordedDecision[1]}. Abra el asunto para revisarla.`;
+  if (normalized === "Filing recorded") return "Presentación registrada";
+  const recordedFiling = normalized.match(/^You recorded that (.+) was filed\. Check the court's instructions for any next steps\.$/);
+  if (recordedFiling) return `Usted registró que ${recordedFiling[1]} se presentó ante el tribunal. Consulte las instrucciones del tribunal para conocer los próximos pasos.`;
+  if (normalized === "A waiting period may apply") return "Es posible que deba cumplirse un período de espera";
+  const eligibilityWait = normalized.match(/^(.+) is saved\. Review the waiting-period guidance and any information still needed before taking the next step\.$/);
+  if (eligibilityWait) return `El asunto ${eligibilityWait[1]} está guardado. Revise la orientación sobre el período de espera y cualquier información que falte antes de dar el próximo paso.`;
+  if (normalized === "Review next steps") return "Revisar próximos pasos";
+  if (normalized === "Packets prepared") return "Paquetes preparados";
+  if (normalized === "Review before filing") return "Revise antes de presentar";
   if (normalized === "Your case is with the court") return "Su caso está con el tribunal";
   const filed = normalized.match(/^(.+) is filed and waiting on a decision\. There's nothing to do right now\. We'll help you keep track\.$/);
   if (filed) return `${filed[1]} fue presentado y está esperando una decisión. No tiene que hacer nada ahora. Le ayudaremos a darle seguimiento.`;
