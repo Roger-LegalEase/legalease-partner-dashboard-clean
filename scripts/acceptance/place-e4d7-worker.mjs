@@ -139,7 +139,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
 
 // Only these fields may leave the job. Configuration, capsules, queue captures and hashes do not.
 export function publicResult(result) {
-  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'transportFailure', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
+  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'currentRuntimeObserved', 'currentInstanceId', 'currentProviderVersion', 'newInstanceProven', 'currentConfigurationPredicatesProven', 'approvedPrivateProfileComparisonAvailable', 'approvedPrivateProfileEqualityProven', 'configStableDuringCapture', 'historicalExactBeforeComparisonProven', 'historicalBeforeDictRetained', 'originalStartedAtRetained', 'handoffWindowProvenance', 'writerWindowOutcome', 'observationFailures', 'transportFailure', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
   return Object.fromEntries(keys.filter(key => Object.hasOwn(result, key)).map(key => [key, result[key]]));
 }
 export function requireExecutionContext(env) {
@@ -467,6 +467,93 @@ export async function diagnoseEffectiveExec({env = process.env, request = fetch,
     try { fs.fchmodSync(fd, 0o600); fs.writeFileSync(fd, bytes); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
     check(hash(fs.readFileSync(file)) === hash(bytes), 'custody_readback_failed');
     const directoryFD = fs.openSync(directory, 'r'); try { fs.fsyncSync(directoryFD); } finally { fs.closeSync(directoryFD); }
+  }
+  return publicResult(result);
+}
+
+// Public consumed-update identity and bounded observation window; no private profile operand.
+const POSTUPDATE = Object.freeze({"writerRunId":43147583947,"beforeVersion":"01M6VGGKD7Q5TACPZN8W84F8KN","writerStepStartMs":1794453727339,"writerResultLoggedMs":1794453802849,"firstAppliedIdentityMs":1794454148038});
+
+export function requireObservedConfiguration(machine) {
+  nonsecretRollbackCapsule(machine);
+  check(machine.id === TARGET.machine && machine.state === 'started', 'observed_machine_state_unproven');
+  check(machine.image_ref?.digest === TARGET.digest && machine.image_ref?.labels?.['org.opencontainers.image.revision'] === TARGET.source, 'observed_image_identity_unproven');
+  check(machine.config?.image === `registry.fly.io/${TARGET.app}@${TARGET.digest}` && machine.config.env?.RCAP_WORKER_CONTAINER_DIGEST === TARGET.digest, 'observed_image_marker_unproven');
+}
+export function requireObservedHandoff(machine, window) {
+  const events = (machine.events ?? []).filter(e => Number.isSafeInteger(e.timestamp) && e.timestamp >= window.writerStepStartMs && e.timestamp <= window.firstAppliedIdentityMs);
+  const exits = events.filter(e => e.type === 'exit'), starts = events.filter(e => e.type === 'start');
+  check(exits.length === 1 && starts.length === 1 && starts[0].timestamp >= exits[0].timestamp, 'bounded_native_handoff_pair_unproven');
+  const exit = cleanNativeExit(exits[0]); check(exit, 'native_clean_handoff_unproven');
+  return {exitAt: exits[0].timestamp, startAt: starts[0].timestamp, requestedStop: exit.requested_stop, exitCode: exit.exit_code, guestExitCode: exit.guest_exit_code, guestSignal: exit.guest_signal, signal: exit.signal, oomKilled: exit.oom_killed, nativePayloads: exit.payloads};
+}
+
+// Fixed postupdate observer: no registry, lease, update, worker launch or rollback operation.
+export async function observeAppliedWorker({env = process.env, request = fetch, command = execFileSync, root = process.cwd(), now = Date.now} = {}) {
+  requireExecutionContext(env);
+  check(env.RCAP_WORKER_REGISTRY_READONLY === 'false' && env.FLY_API_TOKEN && env.SUPABASE_ACCESS_TOKEN, 'postupdate_observer_context_refused');
+  const directory = path.join(root, 'e4d7-worker-placement-evidence'); fs.mkdirSync(directory, {mode: 0o700}); fs.chmodSync(directory, 0o700);
+  const result = {W: TARGET.source, D: TARGET.digest, machine: TARGET.machine, runId: Number(env.GITHUB_RUN_ID), executionSha: env.GITHUB_SHA, operation: 'APPLIED_E4D7_READONLY_POSTUPDATE_OBSERVER', mirrorAttempts: 0, leaseAttempts: 0, updateAttempts: 0, runtimeQualified: false, hostedAccepted: false, automaticRetry: false, automaticRollback: false, beforeVersion: POSTUPDATE.beforeVersion, currentRuntimeObserved: false, approvedPrivateProfileComparisonAvailable: false, approvedPrivateProfileEqualityProven: false, historicalBeforeDictRetained: false, historicalExactBeforeComparisonProven: false, originalStartedAtRetained: false, handoffWindowProvenance: 'WRITER_STEP_START_THROUGH_FIRST_APPLIED_IDENTITY', observationFailures: [], outcome: 'POSTUPDATE_OBSERVATION_INCOMPLETE', effectClassification: 'READ_ONLY_NO_PROVIDER_WRITES'};
+  const auth = {Authorization: `Bearer ${env.FLY_API_TOKEN}`, 'Content-Type': 'application/json'};
+  const operations = new Set(['FLY_MACHINE_INVENTORY_READ','FLY_MACHINE_READ','FLY_MACHINE_EFFECTIVE_EXEC','SUPABASE_QUEUE_READONLY_QUERY']);
+  const safeCode = error => /^(?:[a-z][a-z0-9_]+|request_HTTP_[0-9]{3})$/.test(error?.message ?? '') ? error.message : 'postupdate_observation_refused_details_withheld';
+  const json = async (operation, url, options) => {
+    check(operations.has(operation), 'readonly_request_operation_refused');
+    const started = now(), failure = code => Object.assign(new Error(code), {requestOperation: operation});
+    let response; try { response = await request(url, {...options, redirect:'error', signal:AbortSignal.timeout(20000)}); } catch { throw failure('request_transport_or_timeout_indeterminate'); }
+    if (!response.ok) {
+      const error = failure(`request_HTTP_${response.status}`);
+      if (operation === 'FLY_MACHINE_EFFECTIVE_EXEC') error.execFailure = {...await boundedExecFailure(response), phase:'POSTUPDATE_NO_OWN_LEASE', elapsedMs:Math.max(0,Math.min(86400000,Math.round(now()-started)))};
+      throw error;
+    }
+    const reader = response.body.getReader(), chunks = []; let size = 0;
+    try { for (;;) { const {done,value} = await reader.read(); if (done) break; size += value.byteLength; if (size > 1048576) { await reader.cancel(); throw failure('readonly_response_too_large'); } chunks.push(Buffer.from(value)); } }
+    finally { reader.releaseLock(); }
+    try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { throw failure('readonly_response_json_refused'); }
+  };
+  const queue = async () => {
+    const rows = await json('SUPABASE_QUEUE_READONLY_QUERY', `https://api.supabase.com/v1/projects/${TARGET.project}/database/query`, {method:'POST',headers:{Authorization:`Bearer ${env.SUPABASE_ACCESS_TOKEN}`,'Content-Type':'application/json'},body:JSON.stringify({query:READINESS_QUEUE_SQL,read_only:false})});
+    const proof = validateQueueCapture(rows); requireIdleQueue(proof);
+  };
+  try {
+    const names = secretNames({env,command});
+    const inventory = await json('FLY_MACHINE_INVENTORY_READ', BASE, {method:'GET',headers:auth});
+    check(Array.isArray(inventory) && inventory.length === 1 && inventory[0].id === TARGET.machine, 'machine_inventory_drift');
+    const before = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method:'GET',headers:auth});
+    check(before.id === TARGET.machine && before.state === 'started' && before.image_ref?.digest === TARGET.digest && before.image_ref?.labels?.['org.opencontainers.image.revision'] === TARGET.source && before.config?.image === `registry.fly.io/${TARGET.app}@${TARGET.digest}` && before.config.env?.RCAP_WORKER_CONTAINER_DIGEST === TARGET.digest, 'observed_current_subject_unproven');
+    const version = value => /^[A-Za-z0-9]{10,50}$/.test(value ?? '') ? value : null;
+    result.currentInstanceId = version(before.instance_id); result.currentProviderVersion = version(before.version);
+    result.newInstanceProven = result.currentInstanceId !== null && result.currentInstanceId !== POSTUPDATE.beforeVersion;
+    if (!result.newInstanceProven) result.observationFailures.push('new_machine_version_unproven');
+    try { requireObservedConfiguration(before); result.currentConfigurationPredicatesProven = true; } catch (error) { result.currentConfigurationPredicatesProven = false; result.observationFailures.push(safeCode(error)); }
+    try {
+      result.handoff = requireObservedHandoff(before, POSTUPDATE); result.nativeHandoffProven = true;
+      result.writerWindowOutcome = result.handoff.startAt > POSTUPDATE.writerResultLoggedMs ? 'NATIVE_START_AFTER_WRITER_RESULT' : 'ORIGINAL_POLL_STOP_CAUSE_NOT_RETAINED';
+    } catch (error) { result.nativeHandoffProven = false; result.observationFailures.push(safeCode(error)); }
+    await queue();
+    const raw = await json('FLY_MACHINE_EFFECTIVE_EXEC', `${BASE}/${TARGET.machine}/exec`, {method:'POST',headers:auth,body:JSON.stringify({command:configuredEffectiveProbeCommand(),timeout:15})});
+    check((raw.exit_code === undefined || raw.exit_code === 0) && (raw.exit_signal === undefined || raw.exit_signal === 0) && !raw.stderr && typeof raw.stdout === 'string' && raw.stdout.length < 2000, 'effective_binding_exec_refused');
+    let proof; try { proof = JSON.parse(raw.stdout); } catch { throw new Error('effective_binding_proof_json_refused'); }
+    check(proof.schemaVersion === 'qualified-worker-effective-binding/v1' && proof.machineId === TARGET.machine && proof.projectRef === TARGET.project && proof.passed === true && proof.roleProven === true && proof.secretValuesIncluded === false && proof.customerRowsRead === false && [200,206].includes(proof.queueHeadStatus), 'effective_binding_unproven');
+    check(proof.configuredUserProven === true, 'configured_nonroot_runtime_unproven');
+    result.effectiveBindingProven = true; result.configuredNonrootProven = true;
+    await queue(); result.queueWindowProven = true;
+    const after = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method:'GET',headers:auth});
+    check(after.id === before.id && after.state === 'started' && after.instance_id === before.instance_id && after.version === before.version && same(after.config,before.config) && same(after.image_ref,before.image_ref), 'postupdate_capture_state_or_configuration_drift');
+    result.configStableDuringCapture = true;
+    check(same(secretNames({env,command}),names), 'secret_reference_names_drift'); result.secretNamesStable = true;
+    result.currentRuntimeObserved = result.observationFailures.length === 0;
+    if (result.currentRuntimeObserved) result.outcome = 'CURRENT_RUNTIME_OBSERVED_REQUIRES_ROOT_ACTUAL_REVIEW';
+  } catch (error) {
+    result.refusalCode = safeCode(error); result.observationFailures.push(result.refusalCode);
+    if (operations.has(error.requestOperation)) result.requestFailureOperation = error.requestOperation;
+    if (error.execFailure) result.execFailure = error.execFailure;
+  } finally {
+    const bytes = Buffer.from(JSON.stringify(publicResult(result),null,2)+'\n'); check(bytes.length <= 16384, 'public_observer_result_too_large');
+    const file = path.join(directory,'result.public.json'), fd = fs.openSync(file,'wx',0o600);
+    try { fs.fchmodSync(fd,0o600); fs.writeFileSync(fd,bytes); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+    check(hash(fs.readFileSync(file)) === hash(bytes), 'custody_readback_failed');
+    const directoryFD = fs.openSync(directory,'r'); try { fs.fsyncSync(directoryFD); } finally { fs.closeSync(directoryFD); }
   }
   return publicResult(result);
 }

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import {execFileSync as checkQuotedArgv} from 'node:child_process';
 import path from 'node:path';
-import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry, diagnoseEffectiveExec, classifyExecFailure} from './place-e4d7-worker.mjs';
+import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry, diagnoseEffectiveExec, classifyExecFailure, requireObservedConfiguration, requireObservedHandoff, observeAppliedWorker} from './place-e4d7-worker.mjs';
 
 import {effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
 
@@ -414,5 +414,65 @@ test('held lease SSH correction: interface lease queue and config guards fail cl
   for(const fault of ['post-config-drift','update-indeterminate','release-error']) {
     const s=await scenario(fault);assert.equal(s.updates,1);assert.equal(s.releases,1);assert.equal(s.result.runtimeQualified,false);
     assert.equal(s.result.automaticRetry,false);assert.equal(s.result.automaticRollback,false);assert.equal(s.mirrorCopies,0);
+  }
+});
+
+
+test('applied worker observer: current config predicates do not claim private profile equality', () => {
+  const machine=beforeMachine();machine.config.image=`registry.fly.io/${TARGET.app}@${TARGET.digest}`;machine.config.env.RCAP_WORKER_CONTAINER_DIGEST=TARGET.digest;
+  machine.image_ref={digest:TARGET.digest,labels:{'org.opencontainers.image.revision':TARGET.source}};
+  assert.doesNotThrow(()=>requireObservedConfiguration(machine));
+  const otherValidConfig=structuredClone(machine);otherValidConfig.config.guest.cpus=2;
+  assert.doesNotThrow(()=>requireObservedConfiguration(otherValidConfig));
+  for(const mutate of [m=>m.image_ref.digest=TARGET.oldDigest,m=>m.image_ref.labels['org.opencontainers.image.revision']=TARGET.oldSource,m=>m.config.env.RCAP_WORKER_CONTAINER_DIGEST=TARGET.oldDigest,m=>m.state='stopped',m=>m.config.env.SUPABASE_SERVICE_ROLE_KEY='PRIVATE_LITERAL_SENTINEL']){
+    const bad=structuredClone(machine);mutate(bad);assert.throws(()=>requireObservedConfiguration(bad));
+  }
+});
+test('applied worker observer: one native clean pair must belong to this bounded new transition', () => {
+  const window={writerStepStartMs:1000,writerResultLoggedMs:2000,firstAppliedIdentityMs:5000};
+  const events=[{type:'exit',timestamp:2200,request:{exit_event:{requested_stop:true}}},{type:'start',timestamp:2500}];
+  assert.equal(requireObservedHandoff({events},window).startAt,2500);
+  for(const bad of [[],events.map(e=>({...e,timestamp:e.timestamp-5000})),[...events,{type:'start',timestamp:3000}],[{...events[0],request:{exit_event:{requested_stop:false,exit_code:1}}},events[1]]])assert.throws(()=>requireObservedHandoff({events:bad},window));
+});
+test('applied worker observer: public projection keeps explicit historical gaps and excludes private capture operands', () => {
+  const r=publicResult({W:TARGET.source,D:TARGET.digest,currentRuntimeObserved:true,historicalExactBeforeComparisonProven:false,originalStartedAtRetained:false,rawConfig:beforeMachine().config,expectedConfigCommitment:'PRIVATE_HASH',fullBeforeMachine:'PRIVATE_CAPTURE',secretNames:['PRIVATE_REFERENCE']});
+  assert.equal(r.currentRuntimeObserved,true);assert.equal(r.historicalExactBeforeComparisonProven,false);assert.equal(r.originalStartedAtRetained,false);
+  assert(!JSON.stringify(r).includes('PRIVATE_'));assert(!observeAppliedWorker.toString().includes('mirrorImage('));assert(!observeAppliedWorker.toString().includes('FLY_MACHINE_LEASE_ACQUIRE'));assert(!observeAppliedWorker.toString().includes('FLY_MACHINE_UPDATE'));
+});
+
+
+test('applied worker observer: public confidentiality excludes any private profile operand or comparison dependency', () => {
+  const source=fs.readFileSync(new URL('./place-e4d7-worker.mjs',import.meta.url),'utf8');
+  const postupdate=JSON.parse(source.match(/const POSTUPDATE = Object.freeze\((\{[^\n]+\})\);/)[1]);
+  assert.deepEqual(Object.keys(postupdate),['writerRunId','beforeVersion','writerStepStartMs','writerResultLoggedMs','firstAppliedIdentityMs']);
+  assert(!/expectedConfigCommitment|expectedCommitment|configMatchesApprovedDelta|approved_current_configuration_mismatch/.test(source));
+  assert.equal(requireObservedConfiguration.length,1);
+  const projected=publicResult({currentConfigurationPredicatesProven:true,approvedPrivateProfileComparisonAvailable:false,approvedPrivateProfileEqualityProven:false,currentRuntimeObserved:true,historicalBeforeDictRetained:false,historicalExactBeforeComparisonProven:false,rawConfig:'PRIVATE_FIXTURE',approvedProfile:'PRIVATE_FIXTURE'});
+  assert.deepEqual(projected,{currentRuntimeObserved:true,currentConfigurationPredicatesProven:true,approvedPrivateProfileComparisonAvailable:false,approvedPrivateProfileEqualityProven:false,historicalExactBeforeComparisonProven:false,historicalBeforeDictRetained:false});
+  assert(!JSON.stringify(projected).includes('PRIVATE_FIXTURE'));
+});
+test('applied worker observer: current runtime separates unavailable private and historical equality from full config stability', async () => {
+  for(const drift of [false,true]) {
+    const root=fs.mkdtempSync(path.join(os.tmpdir(),'e4d7-observer-config-fields-'));let gets=0,execs=0,queries=0,metadata=0;
+    const machine=()=>{const m=beforeMachine();m.instance_id=nextVersion;m.version='SYNTHETICPROVIDER001';m.config.image=`registry.fly.io/${TARGET.app}@${TARGET.digest}`;m.config.env.RCAP_WORKER_CONTAINER_DIGEST=TARGET.digest;m.config.guest.cpus=2;m.image_ref={digest:TARGET.digest,labels:{'org.opencontainers.image.revision':TARGET.source}};m.events=[{type:'exit',timestamp:Date.parse('2026-11-12T03:23:25Z'),request:{exit_event:{requested_stop:true}}},{type:'start',timestamp:Date.parse('2026-11-12T03:23:40Z')}];return m;};
+    const request=async(url,options)=>{
+      assert.equal(options.redirect,'error');assert(!Object.hasOwn(options.headers,'fly-machine-lease-nonce'));assert(!url.includes('/lease'));
+      const reply=v=>new Response(JSON.stringify(v),{status:200});
+      if(url.endsWith('/database/query')){queries++;assert.equal(options.method,'POST');assert(JSON.parse(options.body).query.startsWith('BEGIN READ ONLY;'));return reply([queueRow()]);}
+      if(url.endsWith('/exec')){execs++;assert.equal(options.method,'POST');assert.deepEqual(JSON.parse(options.body),{command:configuredEffectiveProbeCommand(),timeout:15});return reply({exit_code:0,exit_signal:0,stderr:'',stdout:JSON.stringify(effective())});}
+      assert.equal(options.method,'GET');if(url.endsWith('/machines'))return reply([{id:TARGET.machine}]);
+      assert.equal(url,`https://api.machines.dev/v1/apps/${TARGET.app}/machines/${TARGET.machine}`);gets++;const m=machine();if(drift&&gets===2)m.config.guest.cpus=3;return reply(m);
+    };
+    const command=(tool,args)=>{assert.equal(tool,'flyctl');assert.deepEqual(args,['secrets','list','--app',TARGET.app,'--json']);metadata++;return JSON.stringify(names.map(Name=>({Name})));};
+    try {
+      const result=await observeAppliedWorker({env,request,command,root});
+      assert.equal(result.currentConfigurationPredicatesProven,true);assert.equal(result.approvedPrivateProfileComparisonAvailable,false);assert.equal(result.approvedPrivateProfileEqualityProven,false);
+      assert.equal(result.currentRuntimeObserved,!drift);assert.equal(result.runtimeQualified,false);assert.equal(result.hostedAccepted,false);
+      assert.equal(result.historicalBeforeDictRetained,false);assert.equal(result.historicalExactBeforeComparisonProven,false);assert.equal(result.originalStartedAtRetained,false);
+      assert.deepEqual([result.mirrorAttempts,result.leaseAttempts,result.updateAttempts],[0,0,0]);
+      assert.deepEqual([gets,execs,queries,metadata],[2,1,2,drift?1:2]);
+      if(drift)assert.equal(result.refusalCode,'postupdate_capture_state_or_configuration_drift');else assert.equal(result.configStableDuringCapture,true);
+      const bytes=fs.readFileSync(path.join(root,'e4d7-worker-placement-evidence/result.public.json'),'utf8');assert.deepEqual(JSON.parse(bytes),result);assert(!bytes.includes('PRIVATE_'));assert(!Object.hasOwn(result,'configMatchesApprovedDelta'));
+    } finally {fs.rmSync(root,{recursive:true});}
   }
 });

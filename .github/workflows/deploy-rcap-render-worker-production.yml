@@ -257,7 +257,7 @@ jobs:
           if-no-files-found: warn
 
   deploy_e4d7:
-    name: Exact E4D7 zero-copy transition with held-lease SSH proof
+    name: Applied E4D7 read-only postupdate qualification
     if: ${{ inputs.worker_source_sha == 'e4d7faef0960c8b453bb88f2bf56456d3220567f' && inputs.worker_digest == 'sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -283,11 +283,11 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-e4d7-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            ae5ef6a33f31e382cfa4eac6887fcdfaf1c9680f97df3487ae8ad5cdbc4382db scripts/acceptance/place-e4d7-worker.mjs \
+            7bd4eec2ce76e696fe0237fda1c7db1cf1e21d3ad345cbc603de90d89d8137af scripts/acceptance/place-e4d7-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            375eac173a9d5593aa1aa13463782911debd6649782bd7925458ffd00cc7f63d scripts/acceptance/place-e4d7-worker.test.mjs \
+            07f461659078528c9a38cbf8f56118d7c021362eaf658e32132844cb974ffe9b scripts/acceptance/place-e4d7-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
@@ -296,7 +296,7 @@ jobs:
           if [ "$RCAP_WORKER_REGISTRY_READONLY" = true ]; then
             node --test --test-name-pattern='safe registry diagnostic (Skopeo-format|preserves only structural)' scripts/acceptance/place-e4d7-worker.test.mjs
           else
-            node --test --test-name-pattern='held lease SSH correction:' scripts/acceptance/place-e4d7-worker.test.mjs
+            node --test --test-name-pattern='applied worker observer:' scripts/acceptance/place-e4d7-worker.test.mjs
           fi
       - name: Set up the existing Fly CLI interface
         uses: superfly/flyctl-actions/setup-flyctl@master
@@ -321,17 +321,6 @@ jobs:
           for (const {available, writes} of devices.values()) if (available < writes + 268435456n + 2147483648n) throw Error('remaining_stream_writes_and_emergency_buffer_unavailable');
           console.log('remaining_write_budget_and_emergency_reserve_proven');
           JS
-      - name: Bind existing registry credential references without reading their bodies
-        if: ${{ !inputs.worker_registry_readonly }}
-        env:
-          GHCR_READ_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: |
-          set -euo pipefail
-          umask 077
-          mkdir -m 700 "$DOCKER_CONFIG"
-          printf '%s' "$GHCR_READ_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin >/dev/null 2>&1 || { echo '::error::existing_registry_login_refused'; exit 1; }
-          flyctl auth docker >/dev/null 2>&1 || { echo '::error::existing_fly_registry_auth_refused'; exit 1; }
       - name: Bind only the existing Fly registry reference for read-only diagnosis
         if: ${{ inputs.worker_registry_readonly }}
         env:
@@ -355,12 +344,23 @@ jobs:
             process.exitCode = 1;
           }
           JS
-      - name: Execute the exact guarded transition once
+      - name: Observe the already applied E4D7 transition without any provider write
         if: ${{ !inputs.worker_registry_readonly }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: node scripts/acceptance/place-e4d7-worker.mjs
+        run: |
+          node --input-type=module <<'JS'
+          import {observeAppliedWorker} from './scripts/acceptance/place-e4d7-worker.mjs';
+          try {
+            const result = await observeAppliedWorker();
+            console.log(JSON.stringify(result));
+            if (!result.currentRuntimeObserved) process.exitCode = 1;
+          } catch {
+            console.error('postupdate_observer_control_or_custody_refused');
+            process.exitCode = 1;
+          }
+          JS
       - name: Retain only the approved public result projection
         if: always()
         uses: actions/upload-artifact@v4
