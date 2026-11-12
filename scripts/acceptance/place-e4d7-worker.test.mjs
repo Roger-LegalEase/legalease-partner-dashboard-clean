@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
+import {execFileSync as checkQuotedArgv} from 'node:child_process';
 import path from 'node:path';
 import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry, diagnoseEffectiveExec, classifyExecFailure} from './place-e4d7-worker.mjs';
 
@@ -25,12 +26,14 @@ const queueRow = () => ({current_user: 'postgres', session_user: 'postgres', tra
 const effective = () => ({schemaVersion: 'qualified-worker-effective-binding/v1', machineId: TARGET.machine, projectRef: TARGET.project, passed: true, roleProven: true, secretValuesIncluded: false, customerRowsRead: false, queueHeadStatus: 200, configuredUserProven: true});
 async function scenario(fault = '', writer = placeWorker) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'e4d7-writer-test-'));
-  const original = beforeMachine(), calls = [], commands = [], files = {}, inspections = [];
+  const original = beforeMachine(), calls = [], commands = [], files = {}, inspections = [], sshCalls = [];
   let after, updates = 0, leases = 0, releases = 0, mirrorCopies = 0, nameCalls = 0;
   const command = (tool, args, options) => {
     commands.push({tool, args});
     assert.equal(options.env, actualEnv);
     if (tool === 'flyctl') {
+      if (args[0] === 'version') return fault === 'ssh-version' ? 'flyctl v0.0.1' : 'flyctl v0.5.8 linux/amd64';
+      if (args[0] === 'ssh') { assert.deepEqual(args,['ssh','console','--help']); return fault === 'ssh-interface' ? '--app --command --quiet --pty --user' : '--machine --app --command --quiet --pty --user'; }
       assert.deepEqual(args, ['secrets','list','--app',TARGET.app,'--json']);
       nameCalls++;
       return JSON.stringify((fault === 'secret-missing' ? names.slice(1) : fault === 'secret-drift' && nameCalls > 1 ? [...names, 'ADDED_REFERENCE'] : names).map(Name => ({Name, Digest: 'PRIVATE_SECRET_DIGEST_SENTINEL'})));
@@ -68,7 +71,7 @@ async function scenario(fault = '', writer = placeWorker) {
       assert.equal(nonceAttached, false); assert.equal(options.headers.Authorization, `Bearer ${actualEnv.SUPABASE_ACCESS_TOKEN}`);
       if (fault === 'postlease-queue-http' && liveLease && !updates) return {ok:false, status:409};
       const body = JSON.parse(options.body); assert(body.query.startsWith('BEGIN READ ONLY;')); assert(!/insert|update|delete/i.test(body.query));
-      const q = queueRow(); if (fault === 'queue-busy') q.claimed = 1;
+      const q = queueRow(); if (fault === 'queue-busy' || (fault === 'postlease-queue-busy' && liveLease)) q.claimed = 1;
       return response([q]);
     }
     assert(url === `https://api.machines.dev/v1/apps/${TARGET.app}/machines` || url.startsWith(`https://api.machines.dev/v1/apps/${TARGET.app}/machines/${TARGET.machine}`));
@@ -106,25 +109,49 @@ async function scenario(fault = '', writer = placeWorker) {
       return response(after);
     }
     const current = structuredClone(after ?? original);
+    if (fault === 'prelease-config-drift' && calls.filter(c => c.url.endsWith('/'+TARGET.machine) && c.method === 'GET').length > 1) current.config.guest.cpus = 2;
     if (fault === 'mount-override') current.config.mounts = [{path: '/app', volume: 'SYNTHETIC_OVERRIDE'}];
     if (fault === 'old-digest') current.image_ref.digest = 'sha256:'+'f'.repeat(64);
     if (fault === 'private-config-field') current.config.env.SUPABASE_SERVICE_ROLE_KEY = 'PRIVATE_LITERAL_SENTINEL';
     return response(current);
   };
+  const ssh = (tool, args, options) => {
+    assert.equal(tool,'flyctl');
+    assert.deepEqual(args.slice(0,-1),['ssh','console','--app',TARGET.app,'--machine',TARGET.machine,'--user','root','--quiet','--pty=false','--command']);
+    assert.equal(options.shell,false); assert.deepEqual(options.stdio,['ignore','pipe','pipe']);
+    assert.equal(options.timeout,20000); assert.equal(options.killSignal,'SIGKILL'); assert.equal(options.maxBuffer,8192);
+    assert.equal(options.env.FLY_API_TOKEN, actualEnv.FLY_API_TOKEN);
+    for (const key of ['SUPABASE_ACCESS_TOKEN','GH_TOKEN','GITHUB_TOKEN','GHCR_READ_TOKEN','DOCKER_CONFIG']) assert.equal(options.env[key],undefined);
+    assert(!args.join(' ').includes('SYNTHETIC_NONCE')); assert.equal(leases,1); assert.equal(releases,0);
+    // Parse the actual SSH command with the kernel shell; set/printf never execute the probe.
+    const parsed = checkQuotedArgv('/bin/sh',['-c',`set -- ${args.at(-1)}; printf '%s\\0' "$@"`],{stdio:['ignore','pipe','pipe'],timeout:2000,maxBuffer:32768}).toString().split('\0').slice(0,-1);
+    assert.deepEqual(parsed, configuredEffectiveProbeCommand());
+    sshCalls.push({updatesBefore:updates,configuredProof:true});
+    if (fault === 'ssh-denied') return {status:1,signal:null,stdout:'PRIVATE_SSH_STDOUT_SENTINEL',stderr:'create ssh certificate: permission denied PRIVATE_SSH_STDERR_SENTINEL'};
+    if (fault === 'ssh-timeout') return {status:null,signal:'SIGKILL',error:{code:'ETIMEDOUT'},stdout:'PRIVATE_SSH_STDOUT_SENTINEL',stderr:'PRIVATE_SSH_STDERR_SENTINEL'};
+    if (fault === 'ssh-state') return {status:1,signal:null,stdout:'',stderr:'machine d8de5e4f759278 is not started PRIVATE_SSH_STDERR_SENTINEL'};
+    if (fault === 'ssh-stderr') return {status:0,signal:null,stdout:JSON.stringify(effective()),stderr:'PRIVATE_SSH_STDERR_SENTINEL'};
+    const proof=effective();
+    if (fault === 'root-user') proof.configuredUserProven=false;
+    if (fault === 'ssh-project') proof.projectRef='wrongproject';
+    if (fault === 'ssh-role') proof.roleProven=false;
+    if (fault === 'ssh-machine') proof.machineId='wrongmachine';
+    return {status:0,signal:null,stdout:fault === 'ssh-json' ? 'PRIVATE_SSH_STDOUT_SENTINEL' : JSON.stringify(proof),stderr:''};
+  };
   const actualEnv = {...env, ...(fault === 'wrong-actor' ? {GITHUB_ACTOR_ID: '999'} : {})};
   try {
     let result, refusal;
-    try { result = await writer({env: actualEnv, request, command, inspectImage, root, now: () => 1000, sleep: async () => { throw Error('unnecessary_poll'); }}); }
+    try { result = await writer({env: actualEnv, request, command, inspectImage, ssh, root, now: () => 1000, sleep: async () => { throw Error('unnecessary_poll'); }}); }
     catch (error) { refusal = error.message; }
     const directory = path.join(root, 'e4d7-worker-placement-evidence');
     if (fs.existsSync(directory)) for (const name of fs.readdirSync(directory)) {
       const f = path.join(directory, name); assert.equal(fs.statSync(f).mode & 0o777, 0o600); files[name] = JSON.parse(fs.readFileSync(f));
     }
     const serialized = JSON.stringify({result, files});
-    for (const privateValue of ['PRIVATE_SERVER_ERROR_SENTINEL','PRIVATE_STATUS_SENTINEL','PRIVATE_METADATA_SENTINEL','PRIVATE_SECRET_NAME_SENTINEL','PRIVATE_SECRET_DIGEST_SENTINEL','PRIVATE_LITERAL_SENTINEL','PRIVATE_TRANSPORT_ERROR_SENTINEL','PRIVATE_AUTH_ERROR_SENTINEL','SYNTHETIC_NONCE','SYNTHETIC_FLY_ONLY','SYNTHETIC_DB_ONLY','configSha256','configCapsule','pre-queue','rollback-config','projectRef']) assert(!serialized.includes(privateValue), privateValue);
+    for (const privateValue of ['PRIVATE_SSH_STDOUT_SENTINEL','PRIVATE_SSH_STDERR_SENTINEL','PRIVATE_SERVER_ERROR_SENTINEL','PRIVATE_STATUS_SENTINEL','PRIVATE_METADATA_SENTINEL','PRIVATE_SECRET_NAME_SENTINEL','PRIVATE_SECRET_DIGEST_SENTINEL','PRIVATE_LITERAL_SENTINEL','PRIVATE_TRANSPORT_ERROR_SENTINEL','PRIVATE_AUTH_ERROR_SENTINEL','SYNTHETIC_NONCE','SYNTHETIC_FLY_ONLY','SYNTHETIC_DB_ONLY','configSha256','configCapsule','pre-queue','rollback-config','projectRef']) assert(!serialized.includes(privateValue), privateValue);
     assert(Object.keys(files).every(name => ['result.public.json','attempt.json'].includes(name)));
     if (result) assert.deepEqual(files['result.public.json'], result);
-    return {result, refusal, updates, leases, releases, mirrorCopies, calls, files, inspections};
+    return {result, refusal, updates, leases, releases, mirrorCopies, calls, files, inspections, sshCalls};
   } finally { fs.rmSync(root, {recursive: true}); }
 }
 
@@ -132,7 +159,7 @@ test('owned lease request contract: exact retained mirror, scoped nonce and one 
   const s = await scenario(); assert.equal(s.result.runtimeQualified, true); assert.equal(s.updates, 1); assert.equal(s.leases, 1); assert.equal(s.releases, 1); assert.equal(s.mirrorCopies, 0);
   assert.equal(s.result.mirrorAttempts, 0); assert.equal(s.result.registryIdentityProven, true);
   assert.deepEqual(s.inspections, [`ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, `registry.fly.io/${TARGET.app}@${TARGET.digest}`]);
-  assert(s.calls.some(c => c.liveLease && c.url.endsWith('/exec') && c.nonceAttached));
+  assert.equal(s.sshCalls.length, 2);
   assert(s.calls.some(c => c.liveLease && c.method === 'GET' && c.nonceAttached));
   assert(s.calls.filter(c => !c.liveLease || c.url.includes('/database/query')).every(c => !c.nonceAttached));
   assert.equal(s.result.configUnchangedExceptImageFields, true); assert.equal(s.result.hostedAccepted, false); assert.equal(s.result.automaticRetry, false); assert.equal(s.result.automaticRollback, false); assert.equal(s.result.handoff.requestedStop, true);
@@ -154,7 +181,7 @@ test('lease version drift releases only its own nonce and never updates', async 
   const s=await scenario('lease-drift'); assert.equal(s.result.refusalCode,'lease_version_unproven'); assert.equal(s.leases,1); assert.equal(s.releases,1); assert.equal(s.updates,0);
 });
 test('indeterminate first update and poststate drift remain consumed; no retry/rollback', async () => {
-  for (const fault of ['update-indeterminate','post-config-drift','root-user']) { const s=await scenario(fault); assert.equal(s.result.runtimeQualified,false); assert.equal(s.updates,1); assert.equal(s.result.updateAttempts,1); assert.equal(s.releases,1); assert.equal(s.result.automaticRetry,false); assert.equal(s.result.automaticRollback,false); }
+  for (const fault of ['update-indeterminate','post-config-drift']) { const s=await scenario(fault); assert.equal(s.result.runtimeQualified,false); assert.equal(s.updates,1); assert.equal(s.result.updateAttempts,1); assert.equal(s.releases,1); assert.equal(s.result.automaticRetry,false); assert.equal(s.result.automaticRollback,false); }
 });
 test('own lease-release failure cannot report a qualified runtime', async () => {
   const s=await scenario('release-error'); assert.equal(s.result.runtimeQualified,false); assert.equal(s.result.leaseReleased,false); assert.equal(s.updates,1); assert.equal(s.releases,1);
@@ -280,8 +307,8 @@ test('safe registry diagnostic Skopeo-format classes retain facts without exposi
 test('owned lease request contract: safe operation attribution and consumed first failures preserve privacy', async () => {
   for (const [fault, operation, updates, code] of [
     ['postlease-queue-http', 'SUPABASE_QUEUE_READONLY_QUERY', 0, 'request_HTTP_409'],
-    ['postlease-exec-http', 'FLY_MACHINE_EFFECTIVE_EXEC', 0, 'request_HTTP_409'],
-    ['postlease-exec-transport', 'FLY_MACHINE_EFFECTIVE_EXEC', 0, 'request_transport_or_timeout_indeterminate'],
+    ['ssh-denied', 'FLY_MACHINE_EFFECTIVE_SSH', 0, 'effective_ssh_transport_refused'],
+    ['ssh-timeout', 'FLY_MACHINE_EFFECTIVE_SSH', 0, 'effective_ssh_transport_refused'],
     ['postupdate-read-http', 'FLY_MACHINE_READ', 1, 'request_HTTP_409'],
   ]) {
     const s = await scenario(fault);
@@ -347,4 +374,45 @@ test('exec refusal diagnostic: classifier emits only fixed semantic labels and u
   }
   assert.equal(classifyExecFailure(409,'not JSON PRIVATE_SERVER_ERROR_SENTINEL').bodyState,'NON_JSON');
   assert.equal(classifyExecFailure(409,'[]').bodyState,'JSON_OTHER');
+});
+
+
+test('held lease SSH correction: fixed command proves configured UID and binding before and after one zero-copy CAS', async () => {
+  const s=await scenario();
+  assert.equal(s.result.runtimeQualified,true); assert.equal(s.result.configuredNonrootProven,true);
+  assert.equal(s.result.registryIdentityProven,true); assert.equal(s.mirrorCopies,0); assert.equal(s.result.mirrorAttempts,0);
+  assert.equal(s.updates,1); assert.equal(s.leases,1); assert.equal(s.releases,1); assert.equal(s.result.leaseReleased,true);
+  assert.deepEqual(s.sshCalls.map(c=>c.updatesBefore),[0,1]);
+  assert.equal(s.calls.filter(c=>c.url.endsWith('/exec')).length,1);
+  assert(s.calls.filter(c=>c.url.endsWith('/exec')).every(c=>!c.liveLease));
+  assert.equal(s.result.configUnchangedExceptImageFields,true); assert.equal(s.result.nativeHandoffProven,true);
+  assert.equal(s.result.hostedAccepted,false); assert.equal(s.result.automaticRetry,false); assert.equal(s.result.automaticRollback,false);
+});
+test('held lease SSH correction: transport state parse UID role and target failures release own lease before any update', async () => {
+  for (const [fault, code] of [
+    ['ssh-denied','effective_ssh_transport_refused'], ['ssh-timeout','effective_ssh_transport_refused'],
+    ['ssh-state','effective_ssh_transport_refused'], ['ssh-stderr','effective_ssh_transport_refused'],
+    ['ssh-json','effective_binding_proof_json_refused'], ['root-user','configured_nonroot_runtime_unproven'],
+    ['ssh-project','effective_binding_unproven'], ['ssh-role','effective_binding_unproven'], ['ssh-machine','effective_binding_unproven'],
+  ]) {
+    const s=await scenario(fault); assert.equal(s.result.refusalCode,code);
+    assert.equal(s.result.requestFailureOperation,'FLY_MACHINE_EFFECTIVE_SSH');
+    assert.equal(s.updates,0); assert.equal(s.mirrorCopies,0); assert.equal(s.leases,1); assert.equal(s.releases,1); assert.equal(s.result.leaseReleased,true);
+    assert.equal(s.result.runtimeQualified,false); assert.equal(s.sshCalls.length,1);
+    if(fault==='ssh-denied') assert.equal(s.result.transportFailure.reportedReason,'SSH_CAPABILITY_REFUSED_REPORTED');
+    if(fault==='ssh-timeout') {assert.equal(s.result.transportFailure.code,'ETIMEDOUT');assert.equal(s.result.transportFailure.timeout,true);assert.equal(s.result.transportFailure.signal,'SIGKILL');}
+    if(fault==='ssh-state') assert.equal(s.result.transportFailure.reportedReason,'TARGET_NOT_STARTED_REPORTED');
+  }
+});
+test('held lease SSH correction: interface lease queue and config guards fail closed; consumed failures never retry', async () => {
+  for(const fault of ['ssh-version','ssh-interface','lease-drift','postlease-queue-busy','prelease-config-drift']) {
+    const s=await scenario(fault);assert.equal(s.updates,0);assert.equal(s.mirrorCopies,0);assert.equal(s.result.runtimeQualified,false);
+    assert.equal(s.sshCalls.length,0);
+    if(['lease-drift','postlease-queue-busy'].includes(fault)){assert.equal(s.leases,1);assert.equal(s.releases,1);assert.equal(s.result.leaseReleased,true);}
+    else assert.equal(s.leases,0);
+  }
+  for(const fault of ['post-config-drift','update-indeterminate','release-error']) {
+    const s=await scenario(fault);assert.equal(s.updates,1);assert.equal(s.releases,1);assert.equal(s.result.runtimeQualified,false);
+    assert.equal(s.result.automaticRetry,false);assert.equal(s.result.automaticRollback,false);assert.equal(s.mirrorCopies,0);
+  }
 });

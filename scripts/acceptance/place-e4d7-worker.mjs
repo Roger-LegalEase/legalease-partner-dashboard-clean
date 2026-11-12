@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
+import {execFileSync, spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {inspectRegistryImage} from './registry-image.mjs';
 import {cleanNativeExit} from './fly-handoff-events.mjs';
@@ -139,7 +139,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
 
 // Only these fields may leave the job. Configuration, capsules, queue captures and hashes do not.
 export function publicResult(result) {
-  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
+  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'transportFailure', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
   return Object.fromEntries(keys.filter(key => Object.hasOwn(result, key)).map(key => [key, result[key]]));
 }
 export function requireExecutionContext(env) {
@@ -174,7 +174,45 @@ export function mirrorImage({env, command}) {
   registryChild('mirror_copy', ['copy', '--preserve-digests', '--authfile', path.join(env.DOCKER_CONFIG, 'config.json'), `docker://ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, `docker://registry.fly.io/${TARGET.app}:${TARGET.source}`], {env, stdio: ['ignore', 'pipe', 'pipe'], timeout: 180000}, command);
 }
 
-export async function placeWorker({env = process.env, request = fetch, command = execFileSync, inspectImage = inspectAcceptedImage, root = process.cwd(), now = Date.now, sleep = ms => new Promise(r => setTimeout(r, ms))} = {}) {
+// Pin the inspected CLI interface before a lease can be attempted.
+function requireHeldLeaseSshInterface({env, command}) {
+  let version, help;
+  try {
+    const options = {env, encoding: 'utf8', stdio: ['ignore','pipe','pipe'], timeout: 10000, maxBuffer: 32768};
+    version = command('flyctl', ['version'], options);
+    help = command('flyctl', ['ssh','console','--help'], options);
+  } catch { throw new Error('fly_ssh_interface_unavailable'); }
+  check(/\bflyctl v0\.5\.8(?:\s|$)/.test(version), 'fly_ssh_version_unqualified');
+  check(['--machine','--app','--command','--quiet','--pty','--user'].every(flag => help.includes(flag)), 'fly_ssh_fixed_selection_interface_absent');
+}
+function heldLeaseEffectiveProbe(requireConfiguredUser, {env, ssh, now}) {
+  const argv = requireConfiguredUser ? configuredEffectiveProbeCommand() : effectiveProbeCommand(TARGET.machine);
+  const quoted = argv.map(value => "'" + value.replaceAll("'", "'\\''") + "'").join(' ');
+  const childEnv = {...env};
+  for (const key of ['SUPABASE_ACCESS_TOKEN','GH_TOKEN','GITHUB_TOKEN','GHCR_READ_TOKEN','DOCKER_CONFIG']) delete childEnv[key];
+  const started = now(); let child;
+  try {
+    child = ssh('flyctl', ['ssh','console','--app',TARGET.app,'--machine',TARGET.machine,'--user','root','--quiet','--pty=false','--command',quoted], {env: childEnv, encoding: 'utf8', shell: false, stdio: ['ignore','pipe','pipe'], timeout: 20000, killSignal: 'SIGKILL', maxBuffer: 8192});
+  } catch { child = {}; }
+  if (child.error || child.status !== 0 || child.signal || typeof child.stdout !== 'string' || child.stdout.length >= 2000 || child.stderr !== '') {
+    const stderr = typeof child.stderr === 'string' ? child.stderr.slice(0,8192) : '';
+    const error = new Error('effective_ssh_transport_refused');
+    error.requestOperation = 'FLY_MACHINE_EFFECTIVE_SSH';
+    error.transportFailure = {
+      operation: 'FLY_MACHINE_EFFECTIVE_SSH',
+      code: ['ETIMEDOUT','ENOENT','EACCES','EPERM','ENOBUFS','ERR_CHILD_PROCESS_STDIO_MAXBUFFER'].includes(child.error?.code) ? child.error.code : null,
+      status: Number.isInteger(child.status) && child.status >= 0 && child.status <= 255 ? child.status : null,
+      signal: ['SIGTERM','SIGKILL','SIGINT','SIGPIPE','SIGABRT'].includes(child.signal) ? child.signal : null,
+      timeout: child.error?.code === 'ETIMEDOUT',
+      elapsedMs: Math.max(0, Math.min(86400000, Math.round(now() - started))),
+      reportedReason: child.error?.code === 'ETIMEDOUT' ? 'TIMEOUT' : /permission denied|not authorized|unauthenticated|create ssh certificate/i.test(stderr) ? 'SSH_CAPABILITY_REFUSED_REPORTED' : /machine[^\r\n]{0,40}not started|no started VMs/i.test(stderr) ? 'TARGET_NOT_STARTED_REPORTED' : /unknown flag|executable file not found|command not found/i.test(stderr) || child.error?.code === 'ENOENT' ? 'SSH_INTERFACE_REFUSED_REPORTED' : child.status === 0 && child.stderr ? 'UNEXPECTED_STDERR' : 'SSH_TRANSPORT_UNPROVEN',
+    };
+    throw error;
+  }
+  return {exit_code: 0, exit_signal: 0, stdout: child.stdout, stderr: ''};
+}
+
+export async function placeWorker({env = process.env, request = fetch, command = execFileSync, inspectImage = inspectAcceptedImage, ssh = spawnSync, root = process.cwd(), now = Date.now, sleep = ms => new Promise(r => setTimeout(r, ms))} = {}) {
   requireExecutionContext(env);
   check(env.RCAP_WORKER_REGISTRY_READONLY !== 'true', 'readonly_mode_refuses_writer');
   check(env.FLY_API_TOKEN && env.SUPABASE_ACCESS_TOKEN && digest(env.RCAP_FLY_IMAGE_DIGEST), 'existing_credential_reference_or_mirror_absent');
@@ -193,7 +231,7 @@ export async function placeWorker({env = process.env, request = fetch, command =
   const auth = {Authorization: `Bearer ${env.FLY_API_TOKEN}`, 'Content-Type': 'application/json'};
   let nonce;
   const machineAuth = () => nonce ? {...auth, 'fly-machine-lease-nonce': nonce} : auth;
-  const operations = new Set(['SUPABASE_QUEUE_READONLY_QUERY', 'FLY_MACHINE_EFFECTIVE_EXEC', 'FLY_MACHINE_INVENTORY_READ', 'FLY_MACHINE_READ', 'FLY_MACHINE_LEASE_ACQUIRE', 'FLY_MACHINE_UPDATE', 'FLY_MACHINE_LEASE_RELEASE']);
+  const operations = new Set(['SUPABASE_QUEUE_READONLY_QUERY', 'FLY_MACHINE_EFFECTIVE_EXEC', 'FLY_MACHINE_EFFECTIVE_SSH', 'FLY_MACHINE_INVENTORY_READ', 'FLY_MACHINE_READ', 'FLY_MACHINE_LEASE_ACQUIRE', 'FLY_MACHINE_UPDATE', 'FLY_MACHINE_LEASE_RELEASE']);
   const json = async (operation, url, options) => {
     check(operations.has(operation), 'request_operation_refused');
     const failure = code => Object.assign(new Error(code), {requestOperation: operation});
@@ -207,14 +245,17 @@ export async function placeWorker({env = process.env, request = fetch, command =
     const proof = validateQueueCapture(rows); requireIdleQueue(proof); return proof;
   };
   const effective = async (requireConfiguredUser = false) => {
-    const raw = await json('FLY_MACHINE_EFFECTIVE_EXEC', `${BASE}/${TARGET.machine}/exec`, {method: 'POST', headers: machineAuth(), body: JSON.stringify({command: requireConfiguredUser ? configuredEffectiveProbeCommand() : effectiveProbeCommand(TARGET.machine), timeout: 15})});
+    try {
+    const raw = nonce ? heldLeaseEffectiveProbe(requireConfiguredUser, {env, ssh, now}) : await json('FLY_MACHINE_EFFECTIVE_EXEC', `${BASE}/${TARGET.machine}/exec`, {method: 'POST', headers: machineAuth(), body: JSON.stringify({command: requireConfiguredUser ? configuredEffectiveProbeCommand() : effectiveProbeCommand(TARGET.machine), timeout: 15})});
     check((raw.exit_code === undefined || raw.exit_code === 0) && (raw.exit_signal === undefined || raw.exit_signal === 0) && !raw.stderr && typeof raw.stdout === 'string' && raw.stdout.length < 2000, 'effective_binding_exec_refused');
-    const proof = JSON.parse(raw.stdout);
+    let proof; try { proof = JSON.parse(raw.stdout); } catch { throw new Error('effective_binding_proof_json_refused'); }
     check(proof.schemaVersion === 'qualified-worker-effective-binding/v1' && proof.machineId === TARGET.machine && proof.projectRef === TARGET.project && proof.passed === true && proof.roleProven === true && proof.secretValuesIncluded === false && proof.customerRowsRead === false && [200,206].includes(proof.queueHeadStatus), 'effective_binding_unproven');
     if (requireConfiguredUser) check(proof.configuredUserProven === true, 'configured_nonroot_runtime_unproven');
     return Object.fromEntries(['schemaVersion', 'machineId', 'projectRef', 'passed', 'roleProven', 'queueHeadStatus', 'secretValuesIncluded', 'customerRowsRead'].map(k => [k, proof[k]]));
+    } catch (error) { if (nonce) error.requestOperation = 'FLY_MACHINE_EFFECTIVE_SSH'; throw error; }
   };
   try {
+    try { requireHeldLeaseSshInterface({env, command}); } catch (error) { error.requestOperation = 'FLY_MACHINE_EFFECTIVE_SSH'; throw error; }
     check(env.RCAP_FLY_IMAGE_DIGEST === TARGET.digest, 'mirror_digest_not_preserved');
     const source = inspectImage(`ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, {env, command});
     requireImage(source); check(source.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch');
@@ -238,7 +279,7 @@ export async function placeWorker({env = process.env, request = fetch, command =
     const lease = await json('FLY_MACHINE_LEASE_ACQUIRE', `${BASE}/${TARGET.machine}/lease`, {method: 'POST', headers: auth, body: JSON.stringify({description: `e4d7-${env.GITHUB_RUN_ID}`, ttl: 300})});
     nonce = lease.data?.nonce;
     check(typeof nonce === 'string' && nonce.length > 0 && lease.data?.version === before.instance_id, 'lease_version_unproven');
-    await queue(); await effective();
+    await queue(); await effective(true);
     check(same(secretNames({env, command}), names), 'secret_reference_names_drift');
     result.beforeVersion = before.instance_id;
     const startedAt = now(); result.updateAttempts = 1; result.outcome = 'UPDATE_ATTEMPTED_POSTSTATE_UNPROVEN'; write('attempt.json', result);
@@ -264,6 +305,7 @@ export async function placeWorker({env = process.env, request = fetch, command =
   } catch (error) {
     result.refusalCode = /^(?:[a-z][a-z0-9_]+|request_HTTP_[0-9]{3})$/.test(error?.message ?? '') ? error.message : 'guard_or_command_refused_details_withheld';
     if (error.childFailure) result.childFailure = error.childFailure;
+    if (error.transportFailure) result.transportFailure = error.transportFailure;
     if (operations.has(error.requestOperation)) result.requestFailureOperation = error.requestOperation;
     // Arbitrary exception text and private custody field names never leave this job.
   } finally {
