@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync, spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {inspectRegistryImage} from './registry-image.mjs';
-import {cleanNativeExit} from './fly-handoff-events.mjs';
+import {cleanNativeExit, nativeExit, projectNativeEvents} from './fly-handoff-events.mjs';
 import {nonsecretRollbackCapsule, validateQueueCapture, READINESS_QUEUE_SQL, effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
 
 export const TARGET = Object.freeze({
@@ -139,7 +139,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
 
 // Only these fields may leave the job. Configuration, capsules, queue captures and hashes do not.
 export function publicResult(result) {
-  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'currentRuntimeObserved', 'currentInstanceId', 'currentProviderVersion', 'newInstanceProven', 'currentConfigurationPredicatesProven', 'approvedPrivateProfileComparisonAvailable', 'approvedPrivateProfileEqualityProven', 'configStableDuringCapture', 'historicalExactBeforeComparisonProven', 'historicalBeforeDictRetained', 'originalStartedAtRetained', 'handoffWindowProvenance', 'writerWindowOutcome', 'observationFailures', 'transportFailure', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
+  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'currentRuntimeObserved', 'currentInstanceId', 'currentProviderVersion', 'newInstanceProven', 'currentConfigurationPredicatesProven', 'approvedPrivateProfileComparisonAvailable', 'approvedPrivateProfileEqualityProven', 'configStableDuringCapture', 'historicalExactBeforeComparisonProven', 'historicalBeforeDictRetained', 'originalStartedAtRetained', 'handoffWindowProvenance', 'writerWindowOutcome', 'observationFailures', 'transportFailure', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'execAttempts', 'databaseCalls', 'preservedRuntimeObserverRunId', 'nativeEventEvidence', 'eventTargetStable', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
   return Object.fromEntries(keys.filter(key => Object.hasOwn(result, key)).map(key => [key, result[key]]));
 }
 export function requireExecutionContext(env) {
@@ -554,6 +554,77 @@ export async function observeAppliedWorker({env = process.env, request = fetch, 
     try { fs.fchmodSync(fd,0o600); fs.writeFileSync(fd,bytes); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
     check(hash(fs.readFileSync(file)) === hash(bytes), 'custody_readback_failed');
     const directoryFD = fs.openSync(directory,'r'); try { fs.fsyncSync(directoryFD); } finally { fs.closeSync(directoryFD); }
+  }
+  return publicResult(result);
+}
+
+const APPLIED_EVENT_VERSION = '01M76WE6AKSD7FHTW8NAM1NK13';
+
+export function summarizeAppliedEvents(events) {
+  const kind = value => value === undefined ? 'missing' : value === null ? 'null' : Array.isArray(value) ? 'array' : typeof value;
+  const summary = {collectionType:kind(events),eventCount:Array.isArray(events)?events.length:null,projectionComplete:false,historyCompletenessProven:false,timestampTransformationQualified:false,historyLimitReached:Array.isArray(events)&&events.length===50,records:[]};
+  if (!Array.isArray(events) || events.length>50) { summary.shapeRefusal=Array.isArray(events)?'native_event_collection_over_limit':'native_event_collection_not_array'; return summary; }
+  const types=['launch','start','stop','exit','restart','update','suspension','cancel_suspension','migration','metadata_update','archive','destroy'];
+  const statuses=['created','starting','started','stopping','stopped','suspended','destroying','destroyed','failed','replacing'];
+  const sources=['user','flyd','proxy'];
+  const inWindow = value => Number.isSafeInteger(value)&&value>=POSTUPDATE.writerStepStartMs&&value<=POSTUPDATE.firstAppliedIdentityMs;
+  const projected=projectNativeEvents(events);
+  summary.typeCounts=Object.fromEntries([...types,'OTHER'].map(type=>[type,0]));summary.windowCounts={exit:0,start:0,other:0};summary.timestampTypes={};
+  for (let index=0;index<events.length;index++) {
+    const event=events[index],safe=projected[index],type=types.includes(event?.type)?event.type:'OTHER',timestamp=Number.isSafeInteger(event?.timestamp)?event.timestamp:null;
+    summary.typeCounts[type]++;const timestampType=kind(event?.timestamp);summary.timestampTypes[timestampType]=(summary.timestampTypes[timestampType]??0)+1;
+    let interpretation='UNRECOGNIZED',interpretedMs=null;
+    if(timestamp!==null){interpretation='INTEGER_AS_DOCUMENTED_UNIX_MS';interpretedMs=timestamp;if(!inWindow(timestamp)&&inWindow(timestamp*1000)){interpretation='SECONDS_WINDOW_CANDIDATE';interpretedMs=timestamp*1000;}else if(!inWindow(timestamp)&&inWindow(timestamp/1000)){interpretation='MICROSECONDS_WINDOW_CANDIDATE';interpretedMs=timestamp/1000;}}
+    else if(typeof event?.timestamp==='string'&&/^\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|[+-]\d{2}:\d{2})$/.test(event.timestamp)&&Number.isSafeInteger(Date.parse(event.timestamp))){interpretation='RFC3339_DIAGNOSTIC_ONLY';interpretedMs=Date.parse(event.timestamp);}
+    const position=timestamp===null?'UNUSABLE_FOR_STRICT_WINDOW':timestamp<POSTUPDATE.writerStepStartMs?'BEFORE_WINDOW':timestamp>POSTUPDATE.firstAppliedIdentityMs?'AFTER_WINDOW':'IN_WINDOW';
+    if(position==='IN_WINDOW')summary.windowCounts[type==='exit'||type==='start'?type:'other']++;
+    const parsed=type==='exit'?nativeExit(event):null;
+    const nativeFieldTypes={};for(const [path,payload] of [['request.exit_event',event?.request?.exit_event],['request.MonitorEvent.exit_event',event?.request?.MonitorEvent?.exit_event]])if(payload&&typeof payload==='object'&&!Array.isArray(payload))nativeFieldTypes[path]=Object.fromEntries(['exit_code','guest_exit_code','guest_signal','signal','oom_killed','requested_stop','restarting','exited_at'].filter(key=>Object.hasOwn(payload,key)).map(key=>[key,kind(payload[key])]));
+    const versionReferences={};for(const key of ['version','instance_id','current_version'])if(event?.request&&Object.hasOwn(event.request,key))versionReferences[key]={type:kind(event.request[key]),matchesRecordedBefore:event.request[key]===POSTUPDATE.beforeVersion,matchesCurrent:event.request[key]===APPLIED_EVENT_VERSION};
+    summary.records.push({index,type,eventTypeType:kind(event?.type),status:statuses.includes(event?.status)?event.status:'OTHER_OR_MISSING',source:sources.includes(event?.source)?event.source:'OTHER_OR_MISSING',timestamp,timestampType,windowPosition:position,timestampInterpretation:interpretation,interpretedMs,versionReferences,nativeFieldTypes,requestShape:{requestFieldCount:event?.request&&typeof event.request==='object'&&!Array.isArray(event.request)?Object.keys(event.request).length:null,request:kind(event?.request),exit_event:kind(event?.request?.exit_event),MonitorEvent:kind(event?.request?.MonitorEvent),monitor_exit_event:kind(event?.request?.MonitorEvent?.exit_event)},...(safe.request?{request:safe.request}:{}),nativeExitStatus:type!=='exit'?'NOT_EXIT':!parsed?'NATIVE_EXIT_SHAPE_UNPROVEN':cleanNativeExit(event)?'PARSED_CLEAN':'PARSED_UNCLEAN',...(parsed?{nativeExit:parsed}:{})});
+  }
+  const timestamps=summary.records.map(r=>r.timestamp).filter(Number.isSafeInteger);summary.earliestTimestamp=timestamps.length?Math.min(...timestamps):null;summary.latestTimestamp=timestamps.length?Math.max(...timestamps):null;
+  summary.windowPrecedesReturnedRange=summary.earliestTimestamp===null?null:summary.earliestTimestamp>POSTUPDATE.firstAppliedIdentityMs;
+  try { check(events.every(e=>e!==null&&typeof e==='object'&&!Array.isArray(e)),'native_event_entry_shape_unproven');summary.strictHandoff={proven:true,handoff:requireObservedHandoff({events},POSTUPDATE)}; }
+  catch(error){summary.strictHandoff={proven:false,refusalCode:['native_event_entry_shape_unproven','bounded_native_handoff_pair_unproven','native_clean_handoff_unproven'].includes(error.message)?error.message:'native_event_shape_unproven'};}
+  summary.projectionComplete=true;return summary;
+}
+
+// Only this consumed transition's current metadata and bounded native history; no workload or mutable API.
+export async function diagnoseAppliedHandoffEvents({env=process.env,request=fetch,root=process.cwd()}={}) {
+  requireExecutionContext(env);check(env.RCAP_WORKER_REGISTRY_READONLY==='false'&&env.FLY_API_TOKEN,'native_event_context_refused');
+  const directory=path.join(root,'e4d7-worker-placement-evidence');fs.mkdirSync(directory,{mode:0o700});fs.chmodSync(directory,0o700);
+  const result={W:TARGET.source,D:TARGET.digest,machine:TARGET.machine,runId:Number(env.GITHUB_RUN_ID),executionSha:env.GITHUB_SHA,operation:'APPLIED_E4D7_NATIVE_EVENT_HISTORY_DIAGNOSTIC',preservedRuntimeObserverRunId:43155172763,mirrorAttempts:0,leaseAttempts:0,updateAttempts:0,execAttempts:0,databaseCalls:0,automaticRetry:false,automaticRollback:false,runtimeQualified:false,hostedAccepted:false,currentRuntimeObserved:false,historicalBeforeDictRetained:false,historicalExactBeforeComparisonProven:false,originalStartedAtRetained:false,effectClassification:'READ_ONLY_NATIVE_EVENTS_NO_WORKLOAD',diagnosticComplete:false,outcome:'NATIVE_EVENT_DIAGNOSTIC_INCOMPLETE'};
+  const auth={Authorization:`Bearer ${env.FLY_API_TOKEN}`};
+  const read=async operation=>{
+    check(['FLY_MACHINE_EVENT_TARGET_READ','FLY_MACHINE_EVENT_HISTORY_READ'].includes(operation),'native_event_operation_refused');
+    const url=`${BASE}/${TARGET.machine}`+(operation==='FLY_MACHINE_EVENT_HISTORY_READ'?'/events?limit=50':'');
+    const failure=code=>Object.assign(new Error(code),{requestOperation:operation});
+    let response;try{response=await request(url,{method:'GET',headers:auth,redirect:'error',signal:AbortSignal.timeout(20000)});}catch{throw failure('native_event_transport_or_timeout_indeterminate');}
+    if(!response.ok)throw failure(`request_HTTP_${response.status}`);
+    const reader=response.body.getReader(),chunks=[];let size=0;
+    try{for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>1048576){await reader.cancel();throw failure('native_event_response_too_large');}chunks.push(Buffer.from(value));}}finally{reader.releaseLock();}
+    try{return JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{throw failure('native_event_response_json_refused');}
+  };
+  const target=machine=>check(machine?.id===TARGET.machine&&machine.state==='started'&&machine.instance_id===APPLIED_EVENT_VERSION&&machine.version===APPLIED_EVENT_VERSION&&machine.image_ref?.digest===TARGET.digest&&machine.image_ref?.labels?.['org.opencontainers.image.revision']===TARGET.source&&machine.config?.image===`registry.fly.io/${TARGET.app}@${TARGET.digest}`&&machine.config.env?.RCAP_WORKER_CONTAINER_DIGEST===TARGET.digest,'native_event_exact_current_subject_unproven');
+  try {
+    const before=await read('FLY_MACHINE_EVENT_TARGET_READ');target(before);
+    result.currentInstanceId=APPLIED_EVENT_VERSION;result.currentProviderVersion=APPLIED_EVENT_VERSION;
+    result.nativeEventEvidence={window:{writerStepStartMs:POSTUPDATE.writerStepStartMs,writerResultLoggedMs:POSTUPDATE.writerResultLoggedMs,firstAppliedIdentityMs:POSTUPDATE.firstAppliedIdentityMs,provenance:'BOUNDED_WRITER_STEP_THROUGH_FIRST_APPLIED_IDENTITY_NOT_EXACT_CAS'},currentSnapshotBefore:summarizeAppliedEvents(before.events),historyLimit:50,absenceDoesNotProveCleanOrUncleanHandoff:true,providerRetentionCompletenessProven:false};
+    result.nativeEventEvidence.history=summarizeAppliedEvents(await read('FLY_MACHINE_EVENT_HISTORY_READ'));
+    const after=await read('FLY_MACHINE_EVENT_TARGET_READ');target(after);check(same(after.image_ref,before.image_ref)&&same(after.config,before.config),'native_event_target_changed_during_capture');
+    result.eventTargetStable=true;result.nativeEventEvidence.currentSnapshotAfter=summarizeAppliedEvents(after.events);
+    delete result.nativeEventEvidence.currentSnapshotAfter.records;
+    const evidence=result.nativeEventEvidence;
+    evidence.historyPairAbsentFromCurrentSnapshot=evidence.history.strictHandoff?.proven===true&&evidence.currentSnapshotBefore.strictHandoff?.proven!==true;
+    result.diagnosticComplete=evidence.history.projectionComplete;
+    result.outcome=result.diagnosticComplete?'BOUNDED_NATIVE_EVENT_EVIDENCE_CAPTURED_REQUIRES_ROOT_REVIEW':'NATIVE_EVENT_HISTORY_SHAPE_CAPTURED_UNPROVEN';
+  }catch(error){result.refusalCode=['native_event_operation_refused','native_event_transport_or_timeout_indeterminate','native_event_response_too_large','native_event_response_json_refused','native_event_exact_current_subject_unproven','native_event_target_changed_during_capture'].includes(error?.message)||/^request_HTTP_[1-5][0-9]{2}$/.test(error?.message??'')?error.message:'native_event_diagnostic_refused_details_withheld';if(['FLY_MACHINE_EVENT_TARGET_READ','FLY_MACHINE_EVENT_HISTORY_READ'].includes(error.requestOperation))result.requestFailureOperation=error.requestOperation;}
+  finally {
+    const bytes=Buffer.from(JSON.stringify(publicResult(result))+'\n');check(bytes.length<=262144,'public_native_event_result_too_large');
+    const file=path.join(directory,'result.public.json'),fd=fs.openSync(file,'wx',0o600);
+    try{fs.fchmodSync(fd,0o600);fs.writeFileSync(fd,bytes);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
+    check(hash(fs.readFileSync(file))===hash(bytes),'custody_readback_failed');const fdDir=fs.openSync(directory,'r');try{fs.fsyncSync(fdDir);}finally{fs.closeSync(fdDir);}
   }
   return publicResult(result);
 }

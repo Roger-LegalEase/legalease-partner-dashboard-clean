@@ -257,7 +257,7 @@ jobs:
           if-no-files-found: warn
 
   deploy_e4d7:
-    name: Applied E4D7 read-only postupdate qualification
+    name: Applied E4D7 bounded native-event history diagnosis
     if: ${{ inputs.worker_source_sha == 'e4d7faef0960c8b453bb88f2bf56456d3220567f' && inputs.worker_digest == 'sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -283,11 +283,11 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-e4d7-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            7bd4eec2ce76e696fe0237fda1c7db1cf1e21d3ad345cbc603de90d89d8137af scripts/acceptance/place-e4d7-worker.mjs \
+            884e2a290a533f76ec82b42c361240066fd67c16793fff93416f13327a2574af scripts/acceptance/place-e4d7-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            07f461659078528c9a38cbf8f56118d7c021362eaf658e32132844cb974ffe9b scripts/acceptance/place-e4d7-worker.test.mjs \
+            c96657210f56389e49a886e8ad258e742cd437c42687fde56a552b486fe88298 scripts/acceptance/place-e4d7-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
@@ -296,9 +296,10 @@ jobs:
           if [ "$RCAP_WORKER_REGISTRY_READONLY" = true ]; then
             node --test --test-name-pattern='safe registry diagnostic (Skopeo-format|preserves only structural)' scripts/acceptance/place-e4d7-worker.test.mjs
           else
-            node --test --test-name-pattern='applied worker observer:' scripts/acceptance/place-e4d7-worker.test.mjs
+            node --test --test-name-pattern='native event diagnostic:' scripts/acceptance/place-e4d7-worker.test.mjs
           fi
       - name: Set up the existing Fly CLI interface
+        if: ${{ inputs.worker_registry_readonly }}
         uses: superfly/flyctl-actions/setup-flyctl@master
         with:
           version: 0.5.8
@@ -344,20 +345,19 @@ jobs:
             process.exitCode = 1;
           }
           JS
-      - name: Observe the already applied E4D7 transition without any provider write
+      - name: Read only the exact applied transition native-event history
         if: ${{ !inputs.worker_registry_readonly }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: |
           node --input-type=module <<'JS'
-          import {observeAppliedWorker} from './scripts/acceptance/place-e4d7-worker.mjs';
+          import {diagnoseAppliedHandoffEvents} from './scripts/acceptance/place-e4d7-worker.mjs';
           try {
-            const result = await observeAppliedWorker();
+            const result = await diagnoseAppliedHandoffEvents();
             console.log(JSON.stringify(result));
-            if (!result.currentRuntimeObserved) process.exitCode = 1;
+            if (!result.diagnosticComplete) process.exitCode = 1;
           } catch {
-            console.error('postupdate_observer_control_or_custody_refused');
+            console.error('native_event_diagnostic_control_or_custody_refused');
             process.exitCode = 1;
           }
           JS

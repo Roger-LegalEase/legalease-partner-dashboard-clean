@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import {execFileSync as checkQuotedArgv} from 'node:child_process';
 import path from 'node:path';
-import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry, diagnoseEffectiveExec, classifyExecFailure, requireObservedConfiguration, requireObservedHandoff, observeAppliedWorker} from './place-e4d7-worker.mjs';
+import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry, diagnoseEffectiveExec, classifyExecFailure, requireObservedConfiguration, requireObservedHandoff, observeAppliedWorker, summarizeAppliedEvents, diagnoseAppliedHandoffEvents} from './place-e4d7-worker.mjs';
 
 import {effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
 
@@ -476,3 +476,43 @@ test('applied worker observer: current runtime separates unavailable private and
     } finally {fs.rmSync(root,{recursive:true});}
   }
 });
+
+
+const nativeWindowEvents=()=>[{type:'exit',status:'stopped',source:'flyd',timestamp:Date.parse('2026-11-12T03:23:25Z'),request:{exit_event:{requested_stop:true}}},{type:'start',status:'started',source:'flyd',timestamp:Date.parse('2026-11-12T03:23:40Z')}];
+test('native event diagnostic: exact window pair, snapshot omission and evidence limits remain distinct',()=>{
+  const pair=summarizeAppliedEvents(nativeWindowEvents());assert.equal(pair.strictHandoff.proven,true);assert.deepEqual(pair.windowCounts,{exit:1,start:1,other:0});
+  const missing=summarizeAppliedEvents([nativeWindowEvents()[1]]);assert.equal(missing.strictHandoff.proven,false);assert.equal(missing.windowCounts.exit,0);
+  assert.equal(pair.historyCompletenessProven,false);assert.equal(pair.timestampTransformationQualified,false);
+  const outside=summarizeAppliedEvents(nativeWindowEvents().map(e=>({...e,timestamp:e.timestamp+3600000})));assert.equal(outside.strictHandoff.proven,false);assert.equal(outside.windowPrecedesReturnedRange,true);
+  const unclean=nativeWindowEvents();unclean[0].request.exit_event={requested_stop:false,exit_code:1};const u=summarizeAppliedEvents(unclean);assert.equal(u.strictHandoff.refusalCode,'native_clean_handoff_unproven');assert.equal(u.records[0].nativeExitStatus,'PARSED_UNCLEAN');
+  assert.equal(summarizeAppliedEvents([...nativeWindowEvents(),nativeWindowEvents()[1]]).strictHandoff.proven,false);
+  assert.equal(summarizeAppliedEvents(undefined).collectionType,'missing');assert.equal(summarizeAppliedEvents(Array(51).fill({})).shapeRefusal,'native_event_collection_over_limit');
+});
+test('native event diagnostic: timestamp shapes and private unknown payloads cannot become a clean proof or public text',()=>{
+  for(const transform of [n=>n/1000,n=>n*1000,n=>new Date(n).toISOString()]) {
+    const r=summarizeAppliedEvents(nativeWindowEvents().map(e=>({...e,timestamp:transform(e.timestamp)})));assert.equal(r.strictHandoff.proven,false);assert.equal(r.timestampTransformationQualified,false);assert(r.records.every(e=>e.timestampInterpretation!=='UNRECOGNIZED'));
+  }
+  const events=nativeWindowEvents();events[0].request={exit_event:{requested_stop:true,exit_code:'PRIVATE_PAYLOAD_SENTINEL',arbitrary:'PRIVATE_PAYLOAD_SENTINEL'},password:'PRIVATE_PAYLOAD_SENTINEL'};events.push({type:'PRIVATE_PAYLOAD_SENTINEL',source:'PRIVATE_PAYLOAD_SENTINEL',status:'PRIVATE_PAYLOAD_SENTINEL',timestamp:'PRIVATE_PAYLOAD_SENTINEL',request:{token:'PRIVATE_PAYLOAD_SENTINEL'}});
+  const r=summarizeAppliedEvents(events);assert(!JSON.stringify(r).includes('PRIVATE_PAYLOAD_SENTINEL'));assert.equal(r.records[0].nativeExitStatus,'NATIVE_EXIT_SHAPE_UNPROVEN');assert.equal(r.records[0].nativeFieldTypes['request.exit_event'].exit_code,'string');assert.equal(r.records[2].type,'OTHER');assert.equal(r.records[2].timestampType,'string');
+  assert.equal(summarizeAppliedEvents([null]).strictHandoff.refusalCode,'native_event_entry_shape_unproven');
+});
+const maxNativeEvent=()=>({type:'exit',status:'stopped',source:'flyd',timestamp:Date.parse('2026-11-12T03:23:25Z'),request:{version:'01M76WE6AKSD7FHTW8NAM1NK13',instance_id:'01M76WE6AKSD7FHTW8NAM1NK13',current_version:'01M6VGGKD7Q5TACPZN8W84F8KN',exit_event:{exit_code:9007199254740991,guest_exit_code:9007199254740991,guest_signal:9007199254740991,signal:9007199254740991,oom_killed:false,requested_stop:true,restarting:false,exited_at:'2026-11-12T03:23:25.000Z'},MonitorEvent:{exit_event:{exit_code:9007199254740991,guest_exit_code:9007199254740991,guest_signal:9007199254740991,signal:9007199254740991,oom_killed:false,requested_stop:true,restarting:false,exited_at:'2026-11-12T03:23:25.000Z'}}}});
+async function nativeDiagnosticScenario(fault='') {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'e4d7-native-events-'));let calls=[];let gets=0;
+  const machine=()=>{const m=beforeMachine();m.instance_id='01M76WE6AKSD7FHTW8NAM1NK13';m.version=m.instance_id;m.config.image=`registry.fly.io/${TARGET.app}@${TARGET.digest}`;m.config.env.RCAP_WORKER_CONTAINER_DIGEST=TARGET.digest;m.image_ref={digest:TARGET.digest,labels:{'org.opencontainers.image.revision':TARGET.source}};m.events=fault==='max-history'?Array.from({length:50},()=>maxNativeEvent()):[nativeWindowEvents()[1]];return m;};
+  const request=async(url,options)=>{
+    calls.push({url,method:options.method});assert.equal(options.method,'GET');assert.equal(options.redirect,'error');assert(!Object.hasOwn(options.headers,'fly-machine-lease-nonce'));assert.deepEqual(Object.keys(options.headers),['Authorization']);
+    if(url.endsWith('/events?limit=50')){if(fault==='http')return new Response('PRIVATE_SERVER_BODY',{status:403});if(fault==='bad-json')return new Response('PRIVATE_SERVER_BODY',{status:200});if(fault==='oversize')return new Response('x'.repeat(1048577),{status:200});if(fault==='missing')return new Response(JSON.stringify([nativeWindowEvents()[1]]));if(fault==='max-history')return new Response(JSON.stringify(Array.from({length:50},()=>maxNativeEvent())));return new Response(JSON.stringify(nativeWindowEvents()));}
+    assert.equal(url,`https://api.machines.dev/v1/apps/${TARGET.app}/machines/${TARGET.machine}`);gets++;const m=machine();if(fault==='wrong-version')m.version='SYNTHETICWRONG001';if(fault==='wrong-image')m.image_ref.digest=TARGET.oldDigest;if(fault==='drift'&&gets===2)m.config.guest.cpus=2;return new Response(JSON.stringify(m));
+  };
+  try{const result=await diagnoseAppliedHandoffEvents({env:{...env,SUPABASE_ACCESS_TOKEN:undefined},request,root});const p=path.join(root,'e4d7-worker-placement-evidence/result.public.json');assert.equal(fs.statSync(p).mode&0o777,0o600);assert.deepEqual(JSON.parse(fs.readFileSync(p)),result);assert(!JSON.stringify(result).includes('PRIVATE_'));assert.deepEqual([result.mirrorAttempts,result.leaseAttempts,result.updateAttempts,result.execAttempts,result.databaseCalls],[0,0,0,0,0]);assert.equal(result.preservedRuntimeObserverRunId,43155172763);assert.equal(result.runtimeQualified,false);assert.equal(result.hostedAccepted,false);assert.equal(result.historicalExactBeforeComparisonProven,false);return {result,calls};}finally{fs.rmSync(root,{recursive:true});}
+}
+test('native event diagnostic: fixed three GETs recover history without rerunning any passed runtime component',async()=>{
+  const {result,calls}=await nativeDiagnosticScenario();assert.equal(calls.length,3);assert.equal(result.diagnosticComplete,true);assert.equal(result.eventTargetStable,true);assert.equal(result.nativeEventEvidence.history.strictHandoff.proven,true);assert.equal(result.nativeEventEvidence.historyPairAbsentFromCurrentSnapshot,true);assert.equal(result.currentRuntimeObserved,false);
+  const missing=await nativeDiagnosticScenario('missing');assert.equal(missing.result.diagnosticComplete,true);assert.equal(missing.result.nativeEventEvidence.history.strictHandoff.proven,false);assert.equal(missing.result.nativeEventEvidence.absenceDoesNotProveCleanOrUncleanHandoff,true);
+});
+test('native event diagnostic: target, HTTP, parse, response-bound and capture drift refuse without another effect',async()=>{
+  for(const fault of ['wrong-version','wrong-image','http','bad-json','oversize','drift']){const {result,calls}=await nativeDiagnosticScenario(fault);assert.equal(result.diagnosticComplete,false);assert(result.refusalCode);assert(calls.length<=3);if(fault.startsWith('wrong'))assert.equal(calls.length,1);if(fault==='http'){assert.equal(result.nativeEventEvidence.currentSnapshotBefore.eventCount,1);assert(!Object.hasOwn(result.nativeEventEvidence,'history'));assert.equal(result.refusalCode,'request_HTTP_403');assert.equal(result.requestFailureOperation,'FLY_MACHINE_EVENT_HISTORY_READ');}}
+});
+
+test('native event diagnostic: maximum native projection stays bounded and preserves evidence without a false clean pair',async()=>{const {result}=await nativeDiagnosticScenario('max-history');assert.equal(result.diagnosticComplete,true);assert.equal(result.nativeEventEvidence.history.eventCount,50);assert.equal(result.nativeEventEvidence.history.historyLimitReached,true);assert.equal(result.nativeEventEvidence.history.strictHandoff.proven,false);assert.equal(result.nativeEventEvidence.history.records[0].versionReferences.current_version.matchesRecordedBefore,true);assert.equal(result.nativeEventEvidence.history.records[0].versionReferences.version.matchesCurrent,true);assert(Buffer.byteLength(JSON.stringify(result)+'\n')<=262144);});
