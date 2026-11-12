@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand} from './place-e4d7-worker.mjs';
+import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry} from './place-e4d7-worker.mjs';
 
 // Synthetic transport and credentials only. This imports the actual module; no provider is contacted.
 const env = {
@@ -147,4 +147,75 @@ test('configured actual-worker UID and both traversal roots are required by the 
   assert.equal(configuredUserState({...proc,readFileSync:()=> 'Uid: 0 0 0 0\n'},42),false);
   assert.equal(configuredUserState({...proc,statSync:()=>({mode:0o40754})},42),false);
   const command=configuredEffectiveProbeCommand(); assert.deepEqual(command.slice(0,2),['node','-e']); assert(command[2].includes('inspectEffectiveWorker')); assert(command[2].includes('configuredUserProven')); new Function(command[2]);
+});
+
+
+test('safe registry diagnostic preserves only structural child facts and recognized HTTP/missing reports', () => {
+  const raw = Object.assign(new Error('PRIVATE_DIAGNOSTIC_MARKER headers/config'), {code:'ETIMEDOUT', status:null, signal:'SIGTERM', killed:true, stdout:Buffer.from('PRIVATE_DIAGNOSTIC_MARKER'), stderr:Buffer.from('status code: 403 PRIVATE_DIAGNOSTIC_MARKER')});
+  const facts=safeRegistryFailure(raw,'mirror_copy',180003);
+  assert.deepEqual(facts,{stage:'mirror_copy',code:'ETIMEDOUT',status:null,signal:'SIGTERM',killed:true,timeout:true,elapsedMs:180003,httpStatus:403,httpClass:'AUTH_4XX',manifestMissingReported:false,authenticationRefusedReported:false});
+  assert(!JSON.stringify(facts).includes('PRIVATE_DIAGNOSTIC_MARKER'));
+  const unknown=safeRegistryFailure({code:'PRIVATE_DIAGNOSTIC_MARKER',signal:'PRIVATE_DIAGNOSTIC_MARKER',status:'403',stderr:'https://private.invalid/403 PRIVATE_DIAGNOSTIC_MARKER'},'PRIVATE_DIAGNOSTIC_MARKER',-1);
+  assert.equal(unknown.code,null);assert.equal(unknown.signal,null);assert.equal(unknown.status,null);assert.equal(unknown.httpStatus,null);assert.equal(unknown.elapsedMs,null);assert.equal(unknown.timeout,null);assert.equal(unknown.manifestMissingReported,false);assert(!JSON.stringify(unknown).includes('PRIVATE_DIAGNOSTIC_MARKER'));
+  const missing=safeRegistryFailure({status:1,stderr:'manifest unknown: manifest unknown'},'fly_manifest',7);assert.equal(missing.manifestMissingReported,true);assert.equal(missing.httpStatus,null);
+  const ambiguous=safeRegistryFailure({stderr:'status code: 401\nstatus code: 404'},'fly_manifest',7);assert.equal(ambiguous.httpStatus,null);assert.equal(ambiguous.manifestMissingReported,false);
+});
+test('safe registry diagnostic survives unchanged helper redaction and distinguishes manifest/config stages', () => {
+  for(const config of [false,true]) {
+    let seen=[];const command=(tool,args,options)=>{seen.push(args);assert.equal(tool,'skopeo');assert.equal(options.timeout,30000);assert.equal(options.maxBuffer,1048576);
+      if(config&&!args.includes('--config'))return Buffer.from('{}');
+      throw Object.assign(Error('PRIVATE_DIAGNOSTIC_MARKER'),{code:'ETIMEDOUT',status:null,signal:'SIGTERM',stderr:Buffer.from('PRIVATE_DIAGNOSTIC_MARKER')});
+    };
+    assert.throws(()=>inspectAcceptedImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`,{env,command}),error=>{
+      assert.equal(error.message,'registry_inspection_failed');assert.equal(error.childFailure.stage,config?'fly_config':'fly_manifest');assert.equal(error.childFailure.timeout,true);assert(!JSON.stringify(error.childFailure).includes('PRIVATE_DIAGNOSTIC_MARKER'));return true;
+    });assert.equal(seen.length,config?2:1);
+  }
+});
+function diagnosticHarness(fault='') {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'e4d7-diagnostic-test-'));fs.chmodSync(root,0o700);
+  const auth=path.join(root,'auth');fs.mkdirSync(auth,{mode:0o700});fs.chmodSync(auth,0o700);
+  const fd=fs.openSync(path.join(auth,'config.json'),'wx',0o600);try{fs.fchmodSync(fd,0o600);fs.writeFileSync(fd,'SYNTHETIC_PRIVATE_AUTH_NOT_READ');fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
+  const actualEnv={...env,DOCKER_CONFIG:auth,RCAP_WORKER_REGISTRY_READONLY:'true'}, calls=[],inspections=[];
+  const failure=(text,status=1)=>Object.assign(Error('PRIVATE_DIAGNOSTIC_MARKER'),{status,stderr:Buffer.from(text)});
+  const inspectImage=ref=>{
+    inspections.push(ref);assert.equal(ref,`registry.fly.io/${TARGET.app}@${TARGET.digest}`);
+    if(['missing','denied','unknown404','timedout-missing'].includes(fault)) {
+      const native=failure(fault==='missing'?'manifest unknown: manifest unknown':fault==='denied'?'status code: 403 PRIVATE_DIAGNOSTIC_MARKER':'status code: 404 PRIVATE_DIAGNOSTIC_MARKER');
+      if(fault==='timedout-missing')Object.assign(native,{code:'ETIMEDOUT',status:null,signal:'SIGTERM',stderr:Buffer.from('manifest unknown: manifest unknown')});
+      const error=Error('registry_inspection_failed');error.childFailure=safeRegistryFailure(native,'fly_manifest',3);throw error;
+    }
+    const accepted=image();if(fault==='wrong-config')accepted.Id='sha256:'+'0'.repeat(64);return accepted;
+  };
+  const command=(tool,args,options)=>{
+    calls.push({tool,args});assert.equal(tool,'skopeo');assert.equal(args[0],'inspect');assert(!args.includes('copy'));assert(args.includes('--raw'));assert.equal(args.at(-1),`docker://registry.fly.io/${TARGET.app}:${TARGET.source}`);assert.equal(options.timeout,30000);
+    if(fault==='different-tag')return Buffer.from('SYNTHETIC_DIFFERENT_MANIFEST_NOT_EXPORTED');
+    throw failure('manifest unknown: manifest unknown PRIVATE_DIAGNOSTIC_MARKER');
+  };
+  return {root,actualEnv,calls,inspections,run:()=>probeDestinationRegistry({env:actualEnv,command,inspectImage,root}),cleanup:()=>fs.rmSync(root,{recursive:true})};
+}
+function requireDiagnosticPrivacy(h,result) {
+  const text=fs.readFileSync(path.join(h.root,'e4d7-worker-placement-evidence/result.public.json'),'utf8');assert.deepEqual(JSON.parse(text),result);
+  for(const value of ['PRIVATE_DIAGNOSTIC_MARKER','SYNTHETIC_PRIVATE_AUTH_NOT_READ','SYNTHETIC_DIFFERENT_MANIFEST_NOT_EXPORTED','SYNTHETIC_FLY_ONLY','SYNTHETIC_DB_ONLY','authFile','stderr','stdout','registryAuth','configSha256'])assert(!text.includes(value),value);
+  assert.equal(fs.statSync(path.join(h.root,'e4d7-worker-placement-evidence/result.public.json')).mode&0o777,0o600);
+  assert.equal(result.mirrorAttempts,0);assert.equal(result.leaseAttempts,0);assert.equal(result.updateAttempts,0);assert.equal(result.runtimeQualified,false);assert.equal(result.hostedAccepted,false);assert.equal(result.copyWriteCapabilityTested,false);assert.equal(result.effectClassification,'READ_ONLY_NO_PROVIDER_WRITES');
+}
+test('destination registry diagnostic accepts exact digest reuse while reporting missing known W tag with zero effects',()=>{
+  const h=diagnosticHarness();try{const result=h.run();requireDiagnosticPrivacy(h,result);assert.equal(result.acceptedDigestReusable,true);assert.equal(result.destinationDigest.state,'EXACT');assert.equal(result.destinationTag.state,'MISSING_REPORTED');assert.equal(result.diagnosticComplete,true);assert.equal(h.calls.length,1);assert.equal(h.inspections.length,1);assert.throws(()=>h.run(),/EEXIST/);}finally{h.cleanup();}
+});
+test('destination registry diagnostic distinguishes named missing references from an unproven authorization-masked404',()=>{
+  for(const fault of ['missing','unknown404','timedout-missing']){const h=diagnosticHarness(fault);try{const result=h.run();requireDiagnosticPrivacy(h,result);assert.equal(result.acceptedDigestReusable,false);assert.equal(result.diagnosticComplete,fault==='missing');assert.equal(h.calls.length,fault==='missing'?1:0);assert.equal(result.destinationDigest.state,fault==='missing'?'MISSING_REPORTED':'FAILED');}finally{h.cleanup();}}
+});
+test('destination registry diagnostic stops after auth or identity refusal without trying another reference',()=>{
+  for(const fault of ['denied','wrong-config']){const h=diagnosticHarness(fault);try{const result=h.run();requireDiagnosticPrivacy(h,result);assert.equal(result.diagnosticComplete,false);assert.equal(result.acceptedDigestReusable,false);assert.equal(h.calls.length,0);assert.equal(result.destinationTag.state,'NOT_ATTEMPTED_AFTER_REFUSAL');}finally{h.cleanup();}}
+});
+test('destination registry diagnostic refuses a different tag digest without exposing its body/hash or recopying',()=>{
+  const h=diagnosticHarness('different-tag');try{const result=h.run();requireDiagnosticPrivacy(h,result);assert.equal(result.destinationTag.state,'OTHER_DIGEST_REFUSED');assert.equal(result.acceptedDigestReusable,true);assert.equal(result.diagnosticComplete,true);}finally{h.cleanup();}
+});
+test('destination registry diagnostic requires real context/private modes and cannot enter the writer',async()=>{
+  const h=diagnosticHarness();try{
+    assert.throws(()=>probeDestinationRegistry({env:{...h.actualEnv,GITHUB_ACTOR_ID:'999'},command:()=>{throw Error('forbidden');},root:h.root}),/execution_context_refused/);
+    assert.throws(()=>probeDestinationRegistry({env:{...h.actualEnv,RCAP_WORKER_REGISTRY_READONLY:'false'},command:()=>{throw Error('forbidden');},root:h.root}),/readonly_diagnostic_mode_required/);
+    await assert.rejects(placeWorker({env:h.actualEnv,root:h.root}),/readonly_mode_refuses_writer/);
+    fs.chmodSync(path.join(h.actualEnv.DOCKER_CONFIG,'config.json'),0o644);assert.throws(()=>h.run(),/private_registry_auth_modes_refused/);assert.equal(h.calls.length,0);assert.equal(h.inspections.length,0);
+  }finally{h.cleanup();}
 });

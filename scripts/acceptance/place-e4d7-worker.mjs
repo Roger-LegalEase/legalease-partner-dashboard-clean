@@ -34,11 +34,49 @@ export function requireImage(image) {
   check(image.Config?.Labels?.['org.opencontainers.image.revision'] === TARGET.source, 'image_source_mismatch');
   check(image.RootFS?.Layers?.length === 250 && image.RootFS.Layers.every(digest), 'image_diffids_mismatch');
 }
+// Only structural facts and recognized registry error classes leave a failed child.
+export function safeRegistryFailure(error, stage, elapsedMs) {
+  const codes = new Set(['ETIMEDOUT','ENOENT','EACCES','EPERM','ECONNREFUSED','ECONNRESET','ENETUNREACH','EHOSTUNREACH','ENOTFOUND','EAI_AGAIN','ENOBUFS','ENOSPC','ENOMEM','EPIPE','ERR_CHILD_PROCESS_STDIO_MAXBUFFER']);
+  const signals = new Set(['SIGTERM','SIGKILL','SIGINT','SIGABRT','SIGPIPE','SIGSEGV','SIGHUP']);
+  const stderr = Buffer.isBuffer(error?.stderr) ? error.stderr.subarray(0,8192).toString('utf8') : typeof error?.stderr === 'string' ? error.stderr.slice(0,8192) : '';
+  const statuses = [...new Set([...stderr.matchAll(/\b(?:unexpected HTTP status(?: code)?|HTTP status(?: code)?|unexpected status code|status code)\s*:?\s*(401|403|404|405|408|409|413|415|429|500|502|503|504)\b/gi)].map(match => Number(match[1])))];
+  const httpStatus = statuses.length === 1 ? statuses[0] : null;
+  return {
+    stage: ['source_manifest','source_config','fly_manifest','fly_config','fly_tag_manifest','mirror_copy'].includes(stage) ? stage : 'unknown_registry_stage',
+    code: codes.has(error?.code) ? error.code : null,
+    status: Number.isInteger(error?.status) && error.status >= 0 && error.status <= 255 ? error.status : null,
+    signal: signals.has(error?.signal) ? error.signal : null,
+    killed: typeof error?.killed === 'boolean' ? error.killed : null,
+    timeout: error?.code === 'ETIMEDOUT' ? true : Number.isInteger(error?.status) && error.status >= 0 && error.signal == null ? false : null,
+    elapsedMs: Number.isFinite(elapsedMs) && elapsedMs >= 0 && elapsedMs <= 86400000 ? Math.round(elapsedMs) : null,
+    httpStatus,
+    httpClass: httpStatus === null ? null : [401,403].includes(httpStatus) ? 'AUTH_4XX' : httpStatus === 404 ? 'NOT_FOUND_4XX' : httpStatus === 429 ? 'THROTTLE_4XX' : httpStatus >= 500 ? 'SERVER_5XX' : 'CLIENT_4XX',
+    manifestMissingReported: /\bMANIFEST_UNKNOWN\b|\bmanifest unknown: manifest unknown\b/i.test(stderr),
+    authenticationRefusedReported: /\bunauthorized: authentication required\b|\bdenied: requested access to the resource is denied\b/i.test(stderr),
+  };
+}
+function registryChild(stage, args, options, command, now = Date.now) {
+  const started = now();
+  try { return command('skopeo', args, {...options, stdio: ['ignore','pipe','pipe'], maxBuffer: 1024 * 1024}); }
+  catch (error) {
+    const failure = new Error('registry_child_failed');
+    failure.childFailure = safeRegistryFailure(error, stage, now() - started);
+    throw failure;
+  }
+}
 export function inspectAcceptedImage(reference, {env = process.env, command = execFileSync} = {}) {
   check(typeof env.DOCKER_CONFIG === 'string' && path.isAbsolute(env.DOCKER_CONFIG), 'registry_authfile_reference_required');
-  const image = inspectRegistryImage(reference, {...TARGET, layers: 250}, {authFile: path.join(env.DOCKER_CONFIG, 'config.json'), command, env});
-  requireImage(image);
-  return image;
+  let childFailure;
+  const boundedCommand = (_tool, args, options) => {
+    const stage = (reference.startsWith('registry.fly.io/') ? 'fly_' : 'source_') + (args.includes('--config') ? 'config' : 'manifest');
+    try { return registryChild(stage, args, {...options, timeout: 30000}, command); }
+    catch (error) { childFailure = error.childFailure; throw error; }
+  };
+  try {
+    const image = inspectRegistryImage(reference, {...TARGET, layers: 250}, {authFile: path.join(env.DOCKER_CONFIG, 'config.json'), command: boundedCommand, env});
+    requireImage(image);
+    return image;
+  } catch (error) { if (childFailure) error.childFailure = childFailure; throw error; }
 }
 // The inverse changes only the two reviewed fields; all other configuration stays provider-owned.
 export function inverseConfig(config) {
@@ -85,7 +123,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
 
 // Only these fields may leave the job. Configuration, capsules, queue captures and hashes do not.
 export function publicResult(result) {
-  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification'];
+  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
   return Object.fromEntries(keys.filter(key => Object.hasOwn(result, key)).map(key => [key, result[key]]));
 }
 export function requireExecutionContext(env) {
@@ -117,11 +155,12 @@ export function configuredEffectiveProbeCommand() {
 }
 export function mirrorImage({env, command}) {
   check(typeof env.DOCKER_CONFIG === 'string' && path.isAbsolute(env.DOCKER_CONFIG), 'registry_authfile_reference_required');
-  command('skopeo', ['copy', '--preserve-digests', '--authfile', path.join(env.DOCKER_CONFIG, 'config.json'), `docker://ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, `docker://registry.fly.io/${TARGET.app}:${TARGET.source}`], {env, stdio: ['ignore', 'pipe', 'pipe'], timeout: 180000, maxBuffer: 1024 * 1024});
+  registryChild('mirror_copy', ['copy', '--preserve-digests', '--authfile', path.join(env.DOCKER_CONFIG, 'config.json'), `docker://ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, `docker://registry.fly.io/${TARGET.app}:${TARGET.source}`], {env, stdio: ['ignore', 'pipe', 'pipe'], timeout: 180000}, command);
 }
 
 export async function placeWorker({env = process.env, request = fetch, command = execFileSync, inspectImage = inspectAcceptedImage, root = process.cwd(), now = Date.now, sleep = ms => new Promise(r => setTimeout(r, ms))} = {}) {
   requireExecutionContext(env);
+  check(env.RCAP_WORKER_REGISTRY_READONLY !== 'true', 'readonly_mode_refuses_writer');
   check(env.FLY_API_TOKEN && env.SUPABASE_ACCESS_TOKEN && digest(env.RCAP_FLY_IMAGE_DIGEST), 'existing_credential_reference_or_mirror_absent');
   const directory = path.join(root, 'e4d7-worker-placement-evidence');
   fs.mkdirSync(directory, {recursive: false, mode: 0o700});
@@ -205,6 +244,7 @@ export async function placeWorker({env = process.env, request = fetch, command =
     result.beforeVersion = before.instance_id; result.afterVersion = after.instance_id;
   } catch (error) {
     result.refusalCode = /^(?:[a-z][a-z0-9_]+|request_HTTP_[0-9]{3})$/.test(error?.message ?? '') ? error.message : 'guard_or_command_refused_details_withheld';
+    if (error.childFailure) result.childFailure = error.childFailure;
     // Arbitrary exception text and private custody field names never leave this job.
   } finally {
     if (nonce) {
@@ -216,6 +256,42 @@ export async function placeWorker({env = process.env, request = fetch, command =
   }
   return publicResult(result);
 }
+
+export function probeDestinationRegistry({env = process.env, command = execFileSync, inspectImage = inspectAcceptedImage, root = process.cwd()} = {}) {
+  requireExecutionContext(env);
+  check(env.RCAP_WORKER_REGISTRY_READONLY === 'true', 'readonly_diagnostic_mode_required');
+  check(typeof env.DOCKER_CONFIG === 'string' && env.DOCKER_CONFIG.startsWith('/tmp/') && fs.realpathSync(env.DOCKER_CONFIG) === env.DOCKER_CONFIG, 'private_registry_auth_directory_refused');
+  const authDirectory = fs.lstatSync(env.DOCKER_CONFIG), authFile = fs.lstatSync(path.join(env.DOCKER_CONFIG, 'config.json'));
+  check(authDirectory.isDirectory() && authDirectory.uid === process.getuid() && (authDirectory.mode & 0o777) === 0o700 && authFile.isFile() && authFile.nlink === 1 && authFile.uid === process.getuid() && (authFile.mode & 0o777) === 0o600, 'private_registry_auth_modes_refused');
+  const directory = path.join(root, 'e4d7-worker-placement-evidence');
+  fs.mkdirSync(directory, {mode: 0o700}); fs.chmodSync(directory, 0o700);
+  const result = {W: TARGET.source, D: TARGET.digest, machine: TARGET.machine, runId: Number(env.GITHUB_RUN_ID), executionSha: env.GITHUB_SHA, operation: 'DESTINATION_REGISTRY_READONLY', mirrorAttempts: 0, leaseAttempts: 0, updateAttempts: 0, outcome: 'DESTINATION_READ_UNPROVEN', runtimeQualified: false, hostedAccepted: false, automaticRetry: false, automaticRollback: false, effectClassification: 'READ_ONLY_NO_PROVIDER_WRITES', diagnosticComplete: false, acceptedDigestReusable: false, copyWriteCapabilityTested: false, layerBodiesRead: false};
+  const missing = failure => failure?.manifestMissingReported === true && failure.status > 0 && failure.code === null && failure.signal === null && failure.timeout === false && failure.killed !== true && ![401,403].includes(failure.httpStatus) && !failure.authenticationRefusedReported;
+  const refusal = error => ({state: missing(error.childFailure) ? 'MISSING_REPORTED' : 'FAILED', refusalCode: /^(?:registry|image)_[a-z0-9_]+$/.test(error?.message ?? '') ? error.message : 'registry_diagnostic_refused', ...(error.childFailure ? {childFailure: error.childFailure} : {})});
+  try {
+    const image = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command});
+    requireImage(image); check(image.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch');
+    result.destinationDigest = {state: 'EXACT', sourceConfigPlatform250Verified: true};
+    result.acceptedDigestReusable = true;
+  } catch (error) { result.destinationDigest = refusal(error); }
+  if (result.acceptedDigestReusable || result.destinationDigest.state === 'MISSING_REPORTED') {
+    try {
+      const bytes = registryChild('fly_tag_manifest', ['inspect','--authfile',path.join(env.DOCKER_CONFIG,'config.json'),'--raw',`docker://registry.fly.io/${TARGET.app}:${TARGET.source}`], {env, encoding: null, timeout: 30000}, command);
+      check(Buffer.isBuffer(bytes), 'registry_raw_bytes_required');
+      result.destinationTag = {state: `sha256:${hash(bytes)}` === TARGET.digest ? 'MATCHES_ACCEPTED_DIGEST' : 'OTHER_DIGEST_REFUSED'};
+    } catch (error) { result.destinationTag = refusal(error); }
+  } else result.destinationTag = {state: 'NOT_ATTEMPTED_AFTER_REFUSAL'};
+  result.diagnosticComplete = (result.destinationDigest.state === 'EXACT' || result.destinationDigest.state === 'MISSING_REPORTED') && ['MATCHES_ACCEPTED_DIGEST','OTHER_DIGEST_REFUSED','MISSING_REPORTED'].includes(result.destinationTag.state);
+  result.outcome = result.acceptedDigestReusable ? 'EXACT_DESTINATION_MANIFEST_AND_CONFIG_AVAILABLE' : result.diagnosticComplete ? 'DESTINATION_NAMED_REFERENCE_STATE_REPORTED_NO_COPY_AUTHORIZED' : 'DESTINATION_READ_UNPROVEN';
+  const bytes = Buffer.from(JSON.stringify(publicResult(result), null, 2) + '\n');
+  check(bytes.length <= 16384, 'public_diagnostic_result_too_large');
+  const file = path.join(directory, 'result.public.json'), fd = fs.openSync(file, 'wx', 0o600);
+  try { fs.fchmodSync(fd, 0o600); fs.writeFileSync(fd, bytes); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+  check(hash(fs.readFileSync(file)) === hash(bytes), 'custody_readback_failed');
+  const directoryFD = fs.openSync(directory, 'r'); try { fs.fsyncSync(directoryFD); } finally { fs.closeSync(directoryFD); }
+  return publicResult(result);
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   placeWorker().then(result => { console.log(JSON.stringify(result)); if (!result.runtimeQualified) process.exitCode = 1; })
     .catch(() => { console.error('Bounded E4D7 execution or custody failed; an update may already be consumed. Inspect the consumed run and bounded public result; no automatic retry.'); process.exitCode = 1; });

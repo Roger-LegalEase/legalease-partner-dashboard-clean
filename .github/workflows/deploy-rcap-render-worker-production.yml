@@ -24,6 +24,11 @@ name: Deploy RCAP render worker to production
 on:
   workflow_dispatch:
     inputs:
+      worker_registry_readonly:
+        description: "Inspect only the exact E4D7 destination digest and known W tag; no copy or machine/DB operation"
+        required: false
+        type: boolean
+        default: false
       worker_source_sha:
         description: "Exact 40-character worker source SHA (must equal the frozen candidate)"
         required: true
@@ -37,6 +42,11 @@ on:
   # the default branch, which this release never updates directly.
   workflow_call:
     inputs:
+      worker_registry_readonly:
+        description: "Inspect only the exact E4D7 destination digest and known W tag; no copy or machine/DB operation"
+        required: false
+        type: boolean
+        default: false
       worker_source_sha:
         required: true
         type: string
@@ -65,7 +75,7 @@ env:
 
 jobs:
   deploy:
-    if: ${{ !(inputs.worker_source_sha == 'e4d7faef0960c8b453bb88f2bf56456d3220567f' && inputs.worker_digest == 'sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d') }}
+    if: ${{ !inputs.worker_registry_readonly && !(inputs.worker_source_sha == 'e4d7faef0960c8b453bb88f2bf56456d3220567f' && inputs.worker_digest == 'sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d') }}
     name: Exact worker onto the production execution target
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -256,6 +266,7 @@ jobs:
       INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
       RCAP_FLY_IMAGE_DIGEST: sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d
       DOCKER_CONFIG: /tmp/e4d7-registry-auth
+      RCAP_WORKER_REGISTRY_READONLY: ${{ inputs.worker_registry_readonly }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -272,16 +283,21 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-e4d7-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            958cc1bf1d7e2d80103eea8ad40269e9d1089771c802a13bc559c7330c97207e scripts/acceptance/place-e4d7-worker.mjs \
+            7aeb0828007fdbb267ab61436f57bb92f25506bc230f064d10d976c83b0f0194 scripts/acceptance/place-e4d7-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            cef55293fd94cccbd80a1f634cfc91efe01f594a44802517d87492b6e5a35025 scripts/acceptance/place-e4d7-worker.test.mjs \
+            90dd97a0bfc56c720e9fcfde8a69ab226faba80c4d7fb247d7163006b5f5e674 scripts/acceptance/place-e4d7-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
       - name: Check only the affected E4D7 module and before-effect refusals
-        run: node --test scripts/acceptance/place-e4d7-worker.test.mjs
+        run: |
+          if [ "$RCAP_WORKER_REGISTRY_READONLY" = true ]; then
+            node --test --test-name-pattern='safe registry diagnostic|destination registry diagnostic' scripts/acceptance/place-e4d7-worker.test.mjs
+          else
+            node --test scripts/acceptance/place-e4d7-worker.test.mjs
+          fi
       - name: Set up the existing Fly CLI interface
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Check remaining streaming writes and the physical emergency reserve
@@ -290,8 +306,9 @@ jobs:
           import fs from 'node:fs';
           import os from 'node:os';
           const devices = new Map();
-          // The held OCI bounds one complete compressed-image transfer; no unpack or new image build.
-          for (const [directory, writes] of [[process.cwd(), 1048576n], [os.tmpdir(), 303041024n]]) {
+          // Read-only diagnosis holds bounded metadata; the existing copy path retains its OCI bound.
+          const registryWrites = process.env.RCAP_WORKER_REGISTRY_READONLY === 'true' ? 1048576n : 303041024n;
+          for (const [directory, writes] of [[process.cwd(), 1048576n], [os.tmpdir(), registryWrites]]) {
             const device = String(fs.statSync(directory).dev);
             const stat = fs.statfsSync(directory, {bigint: true});
             const entry = devices.get(device) ?? {available: stat.bavail * stat.bsize, writes: 0n};
@@ -303,6 +320,7 @@ jobs:
           console.log('remaining_write_budget_and_emergency_reserve_proven');
           JS
       - name: Bind existing registry credential references without reading their bodies
+        if: ${{ !inputs.worker_registry_readonly }}
         env:
           GHCR_READ_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -312,7 +330,31 @@ jobs:
           mkdir -m 700 "$DOCKER_CONFIG"
           printf '%s' "$GHCR_READ_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin >/dev/null 2>&1 || { echo '::error::existing_registry_login_refused'; exit 1; }
           flyctl auth docker >/dev/null 2>&1 || { echo '::error::existing_fly_registry_auth_refused'; exit 1; }
+      - name: Bind only the existing Fly registry reference for read-only diagnosis
+        if: ${{ inputs.worker_registry_readonly }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -m 700 "$DOCKER_CONFIG"
+          flyctl auth docker >/dev/null 2>&1 || { echo '::error::existing_fly_registry_auth_refused'; exit 1; }
+      - name: Inspect only the accepted destination digest and known W tag
+        if: ${{ inputs.worker_registry_readonly }}
+        run: |
+          node --input-type=module <<'JS'
+          import {probeDestinationRegistry} from './scripts/acceptance/place-e4d7-worker.mjs';
+          try {
+            const result = probeDestinationRegistry();
+            console.log(JSON.stringify(result));
+            if (!result.diagnosticComplete) process.exitCode = 1;
+          } catch (error) {
+            console.error(/^[a-z][a-z0-9_]{1,100}$/.test(error?.message ?? '') ? error.message : 'destination_registry_preflight_or_custody_refused');
+            process.exitCode = 1;
+          }
+          JS
       - name: Execute the exact guarded transition once
+        if: ${{ !inputs.worker_registry_readonly }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}

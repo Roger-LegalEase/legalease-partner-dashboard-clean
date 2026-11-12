@@ -92,6 +92,11 @@ on:
         description: "Exact final application SHA supplied by Lane A"
         required: true
         type: string
+      worker_registry_readonly:
+        description: "Inspect only the exact E4D7 destination digest and known W tag; no copy or machine/DB operation"
+        required: false
+        type: boolean
+        default: false
       worker_source_sha:
         description: "Pinned worker source freeze SHA (must equal the authorized value)"
         required: true
@@ -256,6 +261,7 @@ jobs:
     with:
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}
+      worker_registry_readonly: ${{ inputs.worker_registry_readonly }}
     secrets:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
