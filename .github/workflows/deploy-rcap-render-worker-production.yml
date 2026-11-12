@@ -255,7 +255,7 @@ jobs:
       INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
       INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
       RCAP_FLY_IMAGE_DIGEST: sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d
-      DOCKER_CONFIG: ${{ runner.temp }}/e4d7-registry-auth
+      DOCKER_CONFIG: /tmp/e4d7-registry-auth
     steps:
       - uses: actions/checkout@v4
         with:
