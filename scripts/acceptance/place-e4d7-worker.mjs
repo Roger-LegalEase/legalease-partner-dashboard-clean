@@ -39,8 +39,23 @@ export function safeRegistryFailure(error, stage, elapsedMs) {
   const codes = new Set(['ETIMEDOUT','ENOENT','EACCES','EPERM','ECONNREFUSED','ECONNRESET','ENETUNREACH','EHOSTUNREACH','ENOTFOUND','EAI_AGAIN','ENOBUFS','ENOSPC','ENOMEM','EPIPE','ERR_CHILD_PROCESS_STDIO_MAXBUFFER']);
   const signals = new Set(['SIGTERM','SIGKILL','SIGINT','SIGABRT','SIGPIPE','SIGSEGV','SIGHUP']);
   const stderr = Buffer.isBuffer(error?.stderr) ? error.stderr.subarray(0,8192).toString('utf8') : typeof error?.stderr === 'string' ? error.stderr.slice(0,8192) : '';
-  const statuses = [...new Set([...stderr.matchAll(/\b(?:unexpected HTTP status(?: code)?|HTTP status(?: code)?|unexpected status code|status code)\s*:?\s*(401|403|404|405|408|409|413|415|429|500|502|503|504)\b/gi)].map(match => Number(match[1])))];
+  const statuses = [...new Set([...stderr.matchAll(/\b(?:unexpected HTTP status(?: code)?|HTTP status(?: code)?|unexpected status code|invalid status code from registry|status\s*code)\s*:?\s*(401|403|404|405|408|409|413|415|429|500|502|503|504)\b/gi)].map(match => Number(match[1])))];
   const httpStatus = statuses.length === 1 ? statuses[0] : null;
+  const reasons = [
+    ['CREDENTIAL_HELPER_FAILURE', /error getting credentials|docker-credential-[^\s:]+[^\r\n]*(?:not found|not installed)/i],
+    ['AUTHFILE_FORMAT_FAILURE', /(?:decoding|parsing|reading)[^\r\n]{0,80}(?:auth file|authfile|docker config)|invalid[^\r\n]{0,40}auth[^\r\n]{0,40}(?:format|base64)/i],
+    ['TOOL_INTERFACE_REFUSED', /unknown flag:|unknown shorthand flag:|unrecognized option/i],
+    ['TLS_VERIFICATION_OR_HANDSHAKE_FAILURE', /x509:|TLS handshake|remote error: tls/i],
+    ['DNS_LOOKUP_FAILURE', /lookup [^\r\n]{1,260}(?:no such host|server misbehaving)/i],
+    ['NETWORK_CONNECTION_FAILURE', /connection refused|network is unreachable|i\/o timeout|connection reset by peer/i],
+    ['MANIFEST_UNKNOWN_REPORTED', /\bMANIFEST_UNKNOWN\b|\bmanifest unknown\b/i],
+    ['REPOSITORY_UNKNOWN_REPORTED', /\bNAME_UNKNOWN\b|\bname unknown\b/i],
+    ['AUTHENTICATION_REFUSED_REPORTED', /\bunauthorized\b|\bdenied: requested access to the resource is denied\b/i],
+    ['MANIFEST_MEDIA_TYPE_REFUSED', /unsupported manifest (?:MIME|media) type|unrecognized manifest type|unsupported media type/i],
+    ['TOKEN_EXCHANGE_FAILURE', /requesting bearer token:/i],
+    ['REGISTRY_PING_FAILURE', /pinging (?:container|docker) registry/i],
+  ];
+  const reportedReason = reasons.find(([, pattern]) => pattern.test(stderr))?.[0] ?? (statuses.length > 1 ? 'MULTIPLE_HTTP_STATUSES_REPORTED' : httpStatus !== null ? 'HTTP_STATUS_REPORTED' : 'UNCLASSIFIED');
   return {
     stage: ['source_manifest','source_config','fly_manifest','fly_config','fly_tag_manifest','mirror_copy'].includes(stage) ? stage : 'unknown_registry_stage',
     code: codes.has(error?.code) ? error.code : null,
@@ -50,9 +65,10 @@ export function safeRegistryFailure(error, stage, elapsedMs) {
     timeout: error?.code === 'ETIMEDOUT' ? true : Number.isInteger(error?.status) && error.status >= 0 && error.signal == null ? false : null,
     elapsedMs: Number.isFinite(elapsedMs) && elapsedMs >= 0 && elapsedMs <= 86400000 ? Math.round(elapsedMs) : null,
     httpStatus,
+    reportedReason,
     httpClass: httpStatus === null ? null : [401,403].includes(httpStatus) ? 'AUTH_4XX' : httpStatus === 404 ? 'NOT_FOUND_4XX' : httpStatus === 429 ? 'THROTTLE_4XX' : httpStatus >= 500 ? 'SERVER_5XX' : 'CLIENT_4XX',
-    manifestMissingReported: /\bMANIFEST_UNKNOWN\b|\bmanifest unknown: manifest unknown\b/i.test(stderr),
-    authenticationRefusedReported: /\bunauthorized: authentication required\b|\bdenied: requested access to the resource is denied\b/i.test(stderr),
+    manifestMissingReported: /\bMANIFEST_UNKNOWN\b|\bmanifest unknown\b/i.test(stderr),
+    authenticationRefusedReported: /\bunauthorized\b|\bdenied: requested access to the resource is denied\b/i.test(stderr),
   };
 }
 function registryChild(stage, args, options, command, now = Date.now) {

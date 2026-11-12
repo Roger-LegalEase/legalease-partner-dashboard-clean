@@ -153,7 +153,7 @@ test('configured actual-worker UID and both traversal roots are required by the 
 test('safe registry diagnostic preserves only structural child facts and recognized HTTP/missing reports', () => {
   const raw = Object.assign(new Error('PRIVATE_DIAGNOSTIC_MARKER headers/config'), {code:'ETIMEDOUT', status:null, signal:'SIGTERM', killed:true, stdout:Buffer.from('PRIVATE_DIAGNOSTIC_MARKER'), stderr:Buffer.from('status code: 403 PRIVATE_DIAGNOSTIC_MARKER')});
   const facts=safeRegistryFailure(raw,'mirror_copy',180003);
-  assert.deepEqual(facts,{stage:'mirror_copy',code:'ETIMEDOUT',status:null,signal:'SIGTERM',killed:true,timeout:true,elapsedMs:180003,httpStatus:403,httpClass:'AUTH_4XX',manifestMissingReported:false,authenticationRefusedReported:false});
+  assert.deepEqual(facts,{stage:'mirror_copy',code:'ETIMEDOUT',status:null,signal:'SIGTERM',killed:true,timeout:true,elapsedMs:180003,httpStatus:403,reportedReason:'HTTP_STATUS_REPORTED',httpClass:'AUTH_4XX',manifestMissingReported:false,authenticationRefusedReported:false});
   assert(!JSON.stringify(facts).includes('PRIVATE_DIAGNOSTIC_MARKER'));
   const unknown=safeRegistryFailure({code:'PRIVATE_DIAGNOSTIC_MARKER',signal:'PRIVATE_DIAGNOSTIC_MARKER',status:'403',stderr:'https://private.invalid/403 PRIVATE_DIAGNOSTIC_MARKER'},'PRIVATE_DIAGNOSTIC_MARKER',-1);
   assert.equal(unknown.code,null);assert.equal(unknown.signal,null);assert.equal(unknown.status,null);assert.equal(unknown.httpStatus,null);assert.equal(unknown.elapsedMs,null);assert.equal(unknown.timeout,null);assert.equal(unknown.manifestMissingReported,false);assert(!JSON.stringify(unknown).includes('PRIVATE_DIAGNOSTIC_MARKER'));
@@ -218,4 +218,30 @@ test('destination registry diagnostic requires real context/private modes and ca
     await assert.rejects(placeWorker({env:h.actualEnv,root:h.root}),/readonly_mode_refuses_writer/);
     fs.chmodSync(path.join(h.actualEnv.DOCKER_CONFIG,'config.json'),0o644);assert.throws(()=>h.run(),/private_registry_auth_modes_refused/);assert.equal(h.calls.length,0);assert.equal(h.inspections.length,0);
   }finally{h.cleanup();}
+});
+
+
+test('safe registry diagnostic Skopeo-format classes retain facts without exposing native output', () => {
+  const cases = [
+    ['Requesting bearer token: invalid status code from registry 403 (Forbidden)',403,'TOKEN_EXCHANGE_FAILURE',false],
+    ['Error pinging docker registry registry.fly.io: StatusCode: 404, body withheld',404,'REGISTRY_PING_FAILURE',false],
+    ['reading manifest sha256:example: manifest unknown',null,'MANIFEST_UNKNOWN_REPORTED',true],
+    ['name unknown: repository not found',null,'REPOSITORY_UNKNOWN_REPORTED',false],
+    ['unauthorized',null,'AUTHENTICATION_REFUSED_REPORTED',false],
+    ['x509: certificate signed by unknown authority',null,'TLS_VERIFICATION_OR_HANDSHAKE_FAILURE',false],
+    ['dial tcp: lookup registry.fly.io: no such host',null,'DNS_LOOKUP_FAILURE',false],
+    ['dial tcp: connection refused',null,'NETWORK_CONNECTION_FAILURE',false],
+    ['error getting credentials - err: exec: docker-credential-example: executable file not found',null,'CREDENTIAL_HELPER_FAILURE',false],
+    ['invalid auth format base64',null,'AUTHFILE_FORMAT_FAILURE',false],
+    ['unknown flag: --authfile',null,'TOOL_INTERFACE_REFUSED',false],
+    ['unsupported manifest MIME type',null,'MANIFEST_MEDIA_TYPE_REFUSED',false],
+    ['status code: 401\nStatusCode: 404',null,'MULTIPLE_HTTP_STATUSES_REPORTED',false],
+    ['Unrecognized native reason https://credential@example.invalid/403',null,'UNCLASSIFIED',false],
+  ];
+  for (const [text,http,reason,missing] of cases) {
+    const error=Object.assign(Error('PRIVATE_DIAGNOSTIC_SECRET_MARKER'),{status:1,signal:null,stderr:Buffer.from(text+' PRIVATE_DIAGNOSTIC_SECRET_MARKER'),stdout:Buffer.from('PRIVATE_DIAGNOSTIC_SECRET_MARKER')});
+    const facts=safeRegistryFailure(error,'fly_manifest',764);assert.equal(facts.status,1);assert.equal(facts.timeout,false);assert.equal(facts.elapsedMs,764);assert.equal(facts.httpStatus,http,text);assert.equal(facts.reportedReason,reason,text);assert.equal(facts.manifestMissingReported,missing,text);
+    const encoded=JSON.stringify(facts);for(const value of ['PRIVATE_DIAGNOSTIC_SECRET_MARKER','credential@example','docker-credential-example','stderr','stdout','authfile'])assert(!encoded.includes(value),value);
+    assert.equal(facts.code,null);assert.equal(facts.signal,null);assert.equal(facts.killed,null);
+  }
 });

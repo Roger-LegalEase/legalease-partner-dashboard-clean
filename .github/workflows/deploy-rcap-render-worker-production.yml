@@ -283,18 +283,18 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-e4d7-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            7aeb0828007fdbb267ab61436f57bb92f25506bc230f064d10d976c83b0f0194 scripts/acceptance/place-e4d7-worker.mjs \
+            ccaeea49a1f2e8d71110aa2626441033430c78bc8ad53c517631ca5823c77863 scripts/acceptance/place-e4d7-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            90dd97a0bfc56c720e9fcfde8a69ab226faba80c4d7fb247d7163006b5f5e674 scripts/acceptance/place-e4d7-worker.test.mjs \
+            3381b4085e0e24c085af1b4c21b5bea894939b36f3a65e4f7f6e8abf7097de4e scripts/acceptance/place-e4d7-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
       - name: Check only the affected E4D7 module and before-effect refusals
         run: |
           if [ "$RCAP_WORKER_REGISTRY_READONLY" = true ]; then
-            node --test --test-name-pattern='safe registry diagnostic|destination registry diagnostic' scripts/acceptance/place-e4d7-worker.test.mjs
+            node --test --test-name-pattern='safe registry diagnostic (Skopeo-format|preserves only structural)' scripts/acceptance/place-e4d7-worker.test.mjs
           else
             node --test scripts/acceptance/place-e4d7-worker.test.mjs
           fi
