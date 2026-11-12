@@ -3,14 +3,16 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry} from './place-e4d7-worker.mjs';
+import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredUserState, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, probeDestinationRegistry, diagnoseEffectiveExec, classifyExecFailure} from './place-e4d7-worker.mjs';
+
+import {effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
 
 // Synthetic transport and credentials only. This imports the actual module; no provider is contacted.
 const env = {
   GITHUB_ACTIONS: 'true', GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_JOB: 'deploy_e4d7', GITHUB_WORKFLOW_REF: 'Roger-LegalEase/legalease-partner-dashboard-clean/.github/workflows/rcap-f1-ephemeral-staging.yml@refs/heads/captain-release', GITHUB_REPOSITORY_ID: '1248656766', GITHUB_ACTOR_ID: '287531360',
   GITHUB_REPOSITORY: 'Roger-LegalEase/legalease-partner-dashboard-clean', GITHUB_REF: 'refs/heads/captain-release', GITHUB_RUN_ATTEMPT: '1',
   GITHUB_SHA: '1'.repeat(40), GITHUB_RUN_ID: '123456789', INPUT_WORKER_SOURCE_SHA: TARGET.source, INPUT_WORKER_DIGEST: TARGET.digest,
-  FLY_API_TOKEN: 'SYNTHETIC_FLY_ONLY', SUPABASE_ACCESS_TOKEN: 'SYNTHETIC_DB_ONLY', RCAP_FLY_IMAGE_DIGEST: TARGET.digest, DOCKER_CONFIG: '/tmp/synthetic-auth-reference',
+  RCAP_WORKER_REGISTRY_READONLY: 'false', FLY_API_TOKEN: 'SYNTHETIC_FLY_ONLY', SUPABASE_ACCESS_TOKEN: 'SYNTHETIC_DB_ONLY', RCAP_FLY_IMAGE_DIGEST: TARGET.digest, DOCKER_CONFIG: '/tmp/synthetic-auth-reference',
 };
 const version = 'SYNTHETICBEFORE001', nextVersion = 'SYNTHETICAFTER0001';
 const beforeMachine = () => ({id: TARGET.machine, state: 'started', instance_id: version,
@@ -74,11 +76,14 @@ async function scenario(fault = '', writer = placeWorker) {
     if (liveLease) {
       if (options.headers['fly-machine-lease-nonce'] !== 'SYNTHETIC_NONCE') return {ok:false, status:409};
     } else assert.equal(nonceAttached, false);
-    if (fault === 'postlease-exec-http' && liveLease && url.endsWith('/exec')) return {ok:false, status:409};
+    if (fault === 'postlease-exec-http' && liveLease && url.endsWith('/exec')) return new Response(JSON.stringify({error:'machine lease currently held by PRIVATE_SERVER_ERROR_SENTINEL', status:'conflict'}), {status:409});
+    if (fault === 'postlease-exec-unknown' && liveLease && url.endsWith('/exec')) return new Response(JSON.stringify({error:'PRIVATE_SERVER_ERROR_SENTINEL', status:'PRIVATE_STATUS_SENTINEL'}), {status:409});
+    if (fault === 'postlease-exec-oversized' && liveLease && url.endsWith('/exec')) return new Response('PRIVATE_SERVER_ERROR_SENTINEL'.repeat(1024), {status:409});
     if (fault === 'postlease-exec-transport' && liveLease && url.endsWith('/exec')) throw Error('PRIVATE_TRANSPORT_ERROR_SENTINEL');
     if (fault === 'postupdate-read-http' && updates && options.method === 'GET') return {ok:false, status:409};
     if (url.endsWith('/exec')) {
       const body = JSON.parse(options.body); assert.equal(body.command[0], 'node'); assert.equal(body.timeout, 15);
+      if (writer === diagnoseEffectiveExec) { assert.deepEqual(Object.keys(body).sort(), ['command','timeout']); assert.deepEqual(body.command, effectiveProbeCommand(TARGET.machine)); }
       const proof = effective(); if (fault === 'wrong-project') proof.projectRef = 'wrongproject'; if (fault === 'root-user' && body.command[2].includes('configuredUserProven')) proof.configuredUserProven = false;
       return response({exit_code: 0, stdout: JSON.stringify(proof), stderr: ''});
     }
@@ -116,7 +121,7 @@ async function scenario(fault = '', writer = placeWorker) {
       const f = path.join(directory, name); assert.equal(fs.statSync(f).mode & 0o777, 0o600); files[name] = JSON.parse(fs.readFileSync(f));
     }
     const serialized = JSON.stringify({result, files});
-    for (const privateValue of ['PRIVATE_METADATA_SENTINEL','PRIVATE_SECRET_NAME_SENTINEL','PRIVATE_SECRET_DIGEST_SENTINEL','PRIVATE_LITERAL_SENTINEL','PRIVATE_TRANSPORT_ERROR_SENTINEL','PRIVATE_AUTH_ERROR_SENTINEL','SYNTHETIC_NONCE','SYNTHETIC_FLY_ONLY','SYNTHETIC_DB_ONLY','configSha256','configCapsule','pre-queue','rollback-config','projectRef']) assert(!serialized.includes(privateValue), privateValue);
+    for (const privateValue of ['PRIVATE_SERVER_ERROR_SENTINEL','PRIVATE_STATUS_SENTINEL','PRIVATE_METADATA_SENTINEL','PRIVATE_SECRET_NAME_SENTINEL','PRIVATE_SECRET_DIGEST_SENTINEL','PRIVATE_LITERAL_SENTINEL','PRIVATE_TRANSPORT_ERROR_SENTINEL','PRIVATE_AUTH_ERROR_SENTINEL','SYNTHETIC_NONCE','SYNTHETIC_FLY_ONLY','SYNTHETIC_DB_ONLY','configSha256','configCapsule','pre-queue','rollback-config','projectRef']) assert(!serialized.includes(privateValue), privateValue);
     assert(Object.keys(files).every(name => ['result.public.json','attempt.json'].includes(name)));
     if (result) assert.deepEqual(files['result.public.json'], result);
     return {result, refusal, updates, leases, releases, mirrorCopies, calls, files, inspections};
@@ -290,4 +295,56 @@ test('owned lease request contract: safe operation attribution and consumed firs
   assert.equal(release.result.runtimeQualified, false); assert.equal(release.result.leaseReleased, false);
   assert.equal(release.result.releaseFailureOperation, 'FLY_MACHINE_LEASE_RELEASE');
   assert.equal(release.updates, 1); assert.equal(release.releases, 1); assert.equal(release.mirrorCopies, 0);
+});
+
+
+test('exec refusal diagnostic: exact existing probe under own lease has zero image or machine update calls', async () => {
+  const s = await scenario('', diagnoseEffectiveExec);
+  assert.equal(s.result.operation, 'OWNED_LEASE_EFFECTIVE_EXEC_DIAGNOSTIC');
+  assert.equal(s.result.execProbePassed, true); assert.equal(s.result.diagnosticComplete, true);
+  assert.equal(s.result.runtimeQualified, false); assert.equal(s.result.hostedAccepted, false);
+  assert.equal(s.updates, 0); assert.equal(s.mirrorCopies, 0); assert.equal(s.inspections.length, 0);
+  assert.equal(s.leases, 1); assert.equal(s.releases, 1); assert.equal(s.result.leaseReleased, true);
+  assert.equal(s.result.machineUnchangedDuringDiagnostic, true);
+  assert.equal(s.calls.filter(c => c.url.endsWith('/exec')).length, 2);
+  assert(s.calls.some(c => c.liveLease && c.url.endsWith('/exec') && c.nonceAttached));
+});
+test('exec refusal diagnostic: bounded actual response classification preserves original HTTP and private output', async () => {
+  for (const [fault, state, reasons] of [
+    ['postlease-exec-http','JSON_OBJECT',['LEASE_CONFLICT_REPORTED']],
+    ['postlease-exec-unknown','JSON_OBJECT',['UNCLASSIFIED']],
+    ['postlease-exec-oversized','TOO_LARGE',['UNCLASSIFIED']],
+  ]) {
+    const s = await scenario(fault, diagnoseEffectiveExec);
+    assert.equal(s.result.refusalCode, 'request_HTTP_409'); assert.equal(s.result.requestFailureOperation, 'FLY_MACHINE_EFFECTIVE_EXEC');
+    assert.equal(s.result.execFailure.httpStatus, 409); assert.equal(s.result.execFailure.phase, 'UNDER_OWN_LEASE');
+    assert.equal(s.result.execFailure.bodyState, state); assert.deepEqual(s.result.execFailure.reportedReasons, reasons);
+    assert.equal(s.result.diagnosticComplete, true); assert.equal(s.result.runtimeQualified, false);
+    assert.equal(s.updates, 0); assert.equal(s.mirrorCopies, 0); assert.equal(s.inspections.length, 0);
+    assert.equal(s.leases, 1); assert.equal(s.releases, 1); assert.equal(s.result.leaseReleased, true);
+  }
+});
+test('exec refusal diagnostic: existing queue role actor version and cleanup refusals cannot become an update', async () => {
+  for (const fault of ['queue-busy','wrong-project','wrong-actor','lease-drift','release-error']) {
+    const s = await scenario(fault, diagnoseEffectiveExec);
+    assert.equal(s.updates, 0); assert.equal(s.mirrorCopies, 0); assert.equal(s.inspections.length, 0);
+    if (s.result) { assert.equal(s.result.diagnosticComplete, false); assert.equal(s.result.runtimeQualified, false); assert.equal(s.result.effectClassification, s.leases ? 'LEASE_ATTEMPTED_NO_MACHINE_UPDATE' : 'NO_WRITES_ATTEMPTED'); }
+    if (fault === 'lease-drift') { assert.equal(s.result.refusalCode, 'lease_version_unproven'); assert.equal(s.releases, 1); assert(!s.calls.some(c => c.liveLease && c.url.endsWith('/exec'))); }
+    if (fault === 'release-error') { assert.equal(s.result.leaseReleased, false); assert.equal(s.releases, 1); }
+  }
+});
+test('exec refusal diagnostic: classifier emits only fixed semantic labels and unknown stays unknown', () => {
+  for (const [error, expected] of [
+    ['invalid command request', 'REQUEST_SCHEMA_REPORTED'], ['machine is not running', 'STATE_CONFLICT_REPORTED'],
+    ['current version mismatch', 'VERSION_CONFLICT_REPORTED'], ['another exec in progress', 'EXEC_BUSY_REPORTED'],
+    ['permission denied', 'PERMISSION_REFUSAL_REPORTED'], ['exec not supported', 'EXEC_UNSUPPORTED_REPORTED'],
+    ['connection refused', 'EXEC_TRANSPORT_REPORTED'], ['deadline exceeded', 'EXEC_DEADLINE_REPORTED'],
+    ['PRIVATE_SERVER_ERROR_SENTINEL', 'UNCLASSIFIED'],
+  ]) {
+    const r = classifyExecFailure(409, JSON.stringify({error, message:'PRIVATE_SERVER_ERROR_SENTINEL', status:'PRIVATE_STATUS_SENTINEL', nonce:'PRIVATE_NONCE_SENTINEL', config:{token:'PRIVATE_TOKEN_SENTINEL'}}));
+    assert(r.reportedReasons.includes(expected)); assert.equal(r.httpStatus,409); assert.deepEqual(r.statusCodes,[]);
+    for (const value of ['PRIVATE_', 'nonce', 'config', 'token']) assert(!JSON.stringify(r).includes(value));
+  }
+  assert.equal(classifyExecFailure(409,'not JSON PRIVATE_SERVER_ERROR_SENTINEL').bodyState,'NON_JSON');
+  assert.equal(classifyExecFailure(409,'[]').bodyState,'JSON_OTHER');
 });

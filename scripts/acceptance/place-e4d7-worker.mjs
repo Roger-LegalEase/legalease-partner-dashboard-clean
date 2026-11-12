@@ -139,7 +139,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
 
 // Only these fields may leave the job. Configuration, capsules, queue captures and hashes do not.
 export function publicResult(result) {
-  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
+  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
   return Object.fromEntries(keys.filter(key => Object.hasOwn(result, key)).map(key => [key, result[key]]));
 }
 export function requireExecutionContext(env) {
@@ -309,6 +309,123 @@ export function probeDestinationRegistry({env = process.env, command = execFileS
   try { fs.fchmodSync(fd, 0o600); fs.writeFileSync(fd, bytes); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
   check(hash(fs.readFileSync(file)) === hash(bytes), 'custody_readback_failed');
   const directoryFD = fs.openSync(directory, 'r'); try { fs.fsyncSync(directoryFD); } finally { fs.closeSync(directoryFD); }
+  return publicResult(result);
+}
+
+// Classify only bounded JSON error fields. Unknown provider text never leaves memory.
+export function classifyExecFailure(httpStatus, text, bodyState = 'READ') {
+  let body, state = bodyState;
+  if (state === 'READ') {
+    try { body = JSON.parse(text); state = body && typeof body === 'object' && !Array.isArray(body) ? 'JSON_OBJECT' : 'JSON_OTHER'; }
+    catch { state = 'NON_JSON'; }
+  }
+  const codes = new Set(['conflict', 'invalid', 'failed_precondition', 'aborted', 'unavailable', 'deadline_exceeded', 'permission_denied', 'unauthenticated', 'not_found', 'exec_request_too_large', 'exec_output_too_large']);
+  const statusCodes = state === 'JSON_OBJECT' ? [...new Set([body.status, body.code].filter(v => codes.has(v)))] : [];
+  const message = state === 'JSON_OBJECT' ? [body.error, body.message].filter(v => typeof v === 'string').join('\n').slice(0,8192) : '';
+  const reasons = [
+    ['LEASE_CONFLICT_REPORTED', /(?:machine|lease)[^\r\n]{0,100}(?:currently held|already held|already leased|currently leased|lease conflict|lease mismatch)|lease[^\r\n]{0,80}(?:nonce|locked|held by)/i],
+    ['STATE_CONFLICT_REPORTED', /machine[^\r\n]{0,80}(?:not running|not started|stopped|suspended|starting|restarting|migrating|not ready)|invalid machine state/i],
+    ['VERSION_CONFLICT_REPORTED', /(?:machine|instance|current)[^\r\n]{0,40}version[^\r\n]{0,40}(?:mismatch|conflict|changed)|stale[^\r\n]{0,30}version/i],
+    ['EXEC_BUSY_REPORTED', /exec[^\r\n]{0,60}(?:already running|in progress|busy)|another[^\r\n]{0,40}(?:exec|operation)[^\r\n]{0,30}(?:running|progress)/i],
+    ['REQUEST_SCHEMA_REPORTED', /invalid[^\r\n]{0,40}(?:command|request|timeout)|(?:command|cmd)[^\r\n]{0,30}(?:required|missing|empty)|cannot unmarshal|unknown field/i],
+    ['PERMISSION_REFUSAL_REPORTED', /permission denied|unauthenticated|not authorized|access denied|insufficient permission/i],
+    ['EXEC_UNSUPPORTED_REPORTED', /exec[^\r\n]{0,40}(?:not supported|unsupported|disabled)|(?:container|namespace)[^\r\n]{0,40}(?:not found|not supported)/i],
+    ['EXEC_TRANSPORT_REPORTED', /connection refused|connection reset|no route to host|host unreachable|failed to connect|transport[^\r\n]{0,30}(?:error|closed)/i],
+    ['EXEC_DEADLINE_REPORTED', /deadline exceeded|context deadline|timed out|timeout exceeded/i],
+  ].filter(([, pattern]) => pattern.test(message)).map(([reason]) => reason);
+  return {httpStatus: Number.isInteger(httpStatus) && httpStatus >= 100 && httpStatus <= 599 ? httpStatus : null, bodyState: ['JSON_OBJECT','JSON_OTHER','NON_JSON','TOO_LARGE','UNREADABLE'].includes(state) ? state : 'UNREADABLE', statusCodes, reportedReasons: reasons.length ? reasons : ['UNCLASSIFIED']};
+}
+async function boundedExecFailure(response) {
+  const chunks = []; let bytes = 0;
+  try {
+    if (!response.body?.getReader) return classifyExecFailure(response.status, '', 'UNREADABLE');
+    const reader = response.body.getReader();
+    try {
+      for (;;) {
+        const {done, value} = await reader.read(); if (done) break;
+        bytes += value.byteLength;
+        if (bytes > 8192) { await reader.cancel(); return classifyExecFailure(response.status, '', 'TOO_LARGE'); }
+        chunks.push(Buffer.from(value));
+      }
+    } finally { reader.releaseLock(); }
+    return classifyExecFailure(response.status, Buffer.concat(chunks).toString('utf8'));
+  } catch { return classifyExecFailure(response.status, '', 'UNREADABLE'); }
+}
+
+// This fixed operation reproduces the held-lease probe and has no image or update call.
+export async function diagnoseEffectiveExec({env = process.env, request = fetch, command = execFileSync, root = process.cwd(), now = Date.now} = {}) {
+  requireExecutionContext(env);
+  check(env.RCAP_WORKER_REGISTRY_READONLY === 'false' && env.FLY_API_TOKEN && env.SUPABASE_ACCESS_TOKEN, 'exec_diagnostic_context_refused');
+  const directory = path.join(root, 'e4d7-worker-placement-evidence');
+  fs.mkdirSync(directory, {mode: 0o700}); fs.chmodSync(directory, 0o700);
+  const result = {W: TARGET.source, D: TARGET.digest, machine: TARGET.machine, runId: Number(env.GITHUB_RUN_ID), executionSha: env.GITHUB_SHA, operation: 'OWNED_LEASE_EFFECTIVE_EXEC_DIAGNOSTIC', mirrorAttempts: 0, leaseAttempts: 0, updateAttempts: 0, runtimeQualified: false, hostedAccepted: false, automaticRetry: false, automaticRollback: false, diagnosticComplete: false, outcome: 'EXEC_DIAGNOSTIC_UNPROVEN', machineUnchangedDuringDiagnostic: false};
+  const auth = {Authorization: `Bearer ${env.FLY_API_TOKEN}`, 'Content-Type': 'application/json'};
+  let nonce, before, names, phase = 'BEFORE_OWN_LEASE';
+  const machineAuth = () => nonce ? {...auth, 'fly-machine-lease-nonce': nonce} : auth;
+  const operations = new Set(['SUPABASE_QUEUE_READONLY_QUERY', 'FLY_MACHINE_EFFECTIVE_EXEC', 'FLY_MACHINE_INVENTORY_READ', 'FLY_MACHINE_READ', 'FLY_MACHINE_LEASE_ACQUIRE', 'FLY_MACHINE_LEASE_RELEASE']);
+  const json = async (operation, url, options) => {
+    check(operations.has(operation), 'request_operation_refused');
+    const started = now(), failure = code => Object.assign(new Error(code), {requestOperation: operation});
+    let response; try { response = await request(url, {...options, redirect: 'error', signal: AbortSignal.timeout(20000)}); }
+    catch { throw failure('request_transport_or_timeout_indeterminate'); }
+    if (!response.ok) {
+      const error = failure(`request_HTTP_${response.status}`);
+      if (operation === 'FLY_MACHINE_EFFECTIVE_EXEC') {
+        error.execFailure = {...await boundedExecFailure(response), phase, elapsedMs: Math.max(0, Math.min(86400000, Math.round(now() - started)))};
+      }
+      throw error;
+    }
+    return response.json();
+  };
+  const queue = async () => {
+    const rows = await json('SUPABASE_QUEUE_READONLY_QUERY', `https://api.supabase.com/v1/projects/${TARGET.project}/database/query`, {method: 'POST', headers: {Authorization: `Bearer ${env.SUPABASE_ACCESS_TOKEN}`, 'Content-Type': 'application/json'}, body: JSON.stringify({query: READINESS_QUEUE_SQL, read_only: false})});
+    const proof = validateQueueCapture(rows); requireIdleQueue(proof);
+  };
+  const effective = async () => {
+    const raw = await json('FLY_MACHINE_EFFECTIVE_EXEC', `${BASE}/${TARGET.machine}/exec`, {method: 'POST', headers: machineAuth(), body: JSON.stringify({command: effectiveProbeCommand(TARGET.machine), timeout: 15})});
+    check((raw.exit_code === undefined || raw.exit_code === 0) && (raw.exit_signal === undefined || raw.exit_signal === 0) && !raw.stderr && typeof raw.stdout === 'string' && raw.stdout.length < 2000, 'effective_binding_exec_refused');
+    const proof = JSON.parse(raw.stdout);
+    check(proof.schemaVersion === 'qualified-worker-effective-binding/v1' && proof.machineId === TARGET.machine && proof.projectRef === TARGET.project && proof.passed === true && proof.roleProven === true && proof.secretValuesIncluded === false && proof.customerRowsRead === false && [200,206].includes(proof.queueHeadStatus), 'effective_binding_unproven');
+  };
+  try {
+    names = secretNames({env, command});
+    const inventory = await json('FLY_MACHINE_INVENTORY_READ', BASE, {method: 'GET', headers: auth});
+    check(Array.isArray(inventory) && inventory.length === 1 && inventory[0].id === TARGET.machine, 'machine_inventory_drift');
+    before = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
+    planUpdate(before, TARGET.digest); result.rollbackInverseValidated = true;
+    await queue(); await effective();
+    const fresh = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
+    check(fresh.instance_id === before.instance_id && same(fresh.config, before.config) && fresh.state === 'started' && fresh.image_ref?.digest === before.image_ref.digest, 'pre_effect_machine_drift');
+    check(same(secretNames({env, command}), names), 'secret_reference_names_drift');
+    result.leaseAttempts = 1;
+    const lease = await json('FLY_MACHINE_LEASE_ACQUIRE', `${BASE}/${TARGET.machine}/lease`, {method: 'POST', headers: auth, body: JSON.stringify({description: `e4d7-${env.GITHUB_RUN_ID}`, ttl: 300})});
+    check(typeof lease.data?.nonce === 'string' && lease.data.nonce.length > 0, 'lease_nonce_unproven');
+    nonce = lease.data.nonce; check(lease.data?.version === before.instance_id, 'lease_version_unproven');
+    phase = 'UNDER_OWN_LEASE'; await queue(); await effective();
+    result.execProbePassed = true; result.outcome = 'OWNED_LEASE_EXEC_PROBE_PASSED_NO_UPDATE';
+  } catch (error) {
+    result.refusalCode = /^(?:[a-z][a-z0-9_]+|request_HTTP_[0-9]{3})$/.test(error?.message ?? '') ? error.message : 'exec_diagnostic_refused_details_withheld';
+    if (operations.has(error.requestOperation)) result.requestFailureOperation = error.requestOperation;
+    if (error.execFailure) { result.execFailure = error.execFailure; result.outcome = 'EXEC_REFUSAL_CLASSIFICATION_CAPTURED_NO_UPDATE'; }
+  } finally {
+    if (nonce) {
+      try {
+        const after = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
+        check(after.instance_id === before.instance_id && same(after.config, before.config) && after.state === 'started' && same(after.image_ref, before.image_ref), 'diagnostic_machine_changed');
+        check(same(secretNames({env, command}), names), 'secret_reference_names_drift');
+        result.machineUnchangedDuringDiagnostic = true; result.secretNamesStable = true;
+      } catch { result.machineUnchangedDuringDiagnostic = false; }
+      try { await json('FLY_MACHINE_LEASE_RELEASE', `${BASE}/${TARGET.machine}/lease`, {method: 'DELETE', headers: machineAuth()}); result.leaseReleased = true; }
+      catch { result.leaseReleased = false; result.releaseFailure = 'own_lease_release_unproven_no_retry'; result.releaseFailureOperation = 'FLY_MACHINE_LEASE_RELEASE'; }
+    }
+    result.diagnosticComplete = result.machineUnchangedDuringDiagnostic && result.leaseReleased === true && (result.execProbePassed === true || Boolean(result.execFailure));
+    result.effectClassification = result.leaseAttempts ? 'LEASE_ATTEMPTED_NO_MACHINE_UPDATE' : 'NO_WRITES_ATTEMPTED';
+    const bytes = Buffer.from(JSON.stringify(publicResult(result), null, 2) + '\n'); check(bytes.length <= 16384, 'public_diagnostic_result_too_large');
+    const file = path.join(directory, 'result.public.json'), fd = fs.openSync(file, 'wx', 0o600);
+    try { fs.fchmodSync(fd, 0o600); fs.writeFileSync(fd, bytes); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+    check(hash(fs.readFileSync(file)) === hash(bytes), 'custody_readback_failed');
+    const directoryFD = fs.openSync(directory, 'r'); try { fs.fsyncSync(directoryFD); } finally { fs.closeSync(directoryFD); }
+  }
   return publicResult(result);
 }
 
