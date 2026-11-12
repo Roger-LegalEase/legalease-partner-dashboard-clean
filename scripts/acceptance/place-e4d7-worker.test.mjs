@@ -21,9 +21,9 @@ const image = () => ({Id: TARGET.config, Os: 'linux', Architecture: 'amd64', Con
 const names = ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'];
 const queueRow = () => ({current_user: 'postgres', session_user: 'postgres', transaction_read_only: 'on', status_counts: {}, ...Object.fromEntries(['queued','claimed','rendering','validating','live_leases','expired_leases','missing_leases','eligible_queued','scheduled_queued','retryable_failed','terminal_failed','exposure_group_count'].map(k => [k, 0])), exposed_work: []});
 const effective = () => ({schemaVersion: 'qualified-worker-effective-binding/v1', machineId: TARGET.machine, projectRef: TARGET.project, passed: true, roleProven: true, secretValuesIncluded: false, customerRowsRead: false, queueHeadStatus: 200, configuredUserProven: true});
-async function scenario(fault = '') {
+async function scenario(fault = '', writer = placeWorker) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'e4d7-writer-test-'));
-  const original = beforeMachine(), calls = [], commands = [], files = {};
+  const original = beforeMachine(), calls = [], commands = [], files = {}, inspections = [];
   let after, updates = 0, leases = 0, releases = 0, mirrorCopies = 0, nameCalls = 0;
   const command = (tool, args, options) => {
     commands.push({tool, args});
@@ -41,22 +41,42 @@ async function scenario(fault = '') {
     return '';
   };
   const inspectImage = ref => {
+    inspections.push(ref);
+    assert.equal(leases, 0); assert.equal(updates, 0);
+    if (ref.startsWith('registry.fly.io/')) {
+      assert.equal(ref, `registry.fly.io/${TARGET.app}@${TARGET.digest}`);
+      if (fault === 'destination-missing') throw Object.assign(Error('registry_child_failed'), {childFailure: safeRegistryFailure({status:1, stderr:'manifest unknown'}, 'fly_manifest', 10)});
+    }
     if (fault === 'registry-denied') throw Error('request_HTTP_403');
     const r = image();
     if (fault === 'wrong-layers') r.RootFS.Layers.pop();
+    if (fault === 'destination-config' && ref.startsWith('registry.fly.io/')) r.Id = 'sha256:'+'0'.repeat(64);
+    if (fault === 'destination-layers' && ref.startsWith('registry.fly.io/')) r.RootFS.Layers.pop();
     if (fault === 'wrong-config') r.Id = 'sha256:'+'0'.repeat(64);
     if (fault === 'mirror-digest' && ref.startsWith('registry.fly.io/')) r.ManifestDigest = 'sha256:'+'b'.repeat(64);
     return r;
   };
   const request = async (url, options) => {
-    calls.push({url, method: options.method});
+    const liveLease = leases > releases, nonceAttached = Object.hasOwn(options.headers, 'fly-machine-lease-nonce');
+    calls.push({url, method: options.method, liveLease, nonceAttached});
     assert.equal(options.redirect, 'error');
     const response = value => ({ok: true, status: 200, json: async () => structuredClone(value)});
     if (url.includes('/database/query')) {
+      assert.equal(url, `https://api.supabase.com/v1/projects/${TARGET.project}/database/query`);
+      assert.equal(nonceAttached, false); assert.equal(options.headers.Authorization, `Bearer ${actualEnv.SUPABASE_ACCESS_TOKEN}`);
+      if (fault === 'postlease-queue-http' && liveLease && !updates) return {ok:false, status:409};
       const body = JSON.parse(options.body); assert(body.query.startsWith('BEGIN READ ONLY;')); assert(!/insert|update|delete/i.test(body.query));
       const q = queueRow(); if (fault === 'queue-busy') q.claimed = 1;
       return response([q]);
     }
+    assert(url === `https://api.machines.dev/v1/apps/${TARGET.app}/machines` || url.startsWith(`https://api.machines.dev/v1/apps/${TARGET.app}/machines/${TARGET.machine}`));
+    assert.equal(options.headers.Authorization, `Bearer ${actualEnv.FLY_API_TOKEN}`);
+    if (liveLease) {
+      if (options.headers['fly-machine-lease-nonce'] !== 'SYNTHETIC_NONCE') return {ok:false, status:409};
+    } else assert.equal(nonceAttached, false);
+    if (fault === 'postlease-exec-http' && liveLease && url.endsWith('/exec')) return {ok:false, status:409};
+    if (fault === 'postlease-exec-transport' && liveLease && url.endsWith('/exec')) throw Error('PRIVATE_TRANSPORT_ERROR_SENTINEL');
+    if (fault === 'postupdate-read-http' && updates && options.method === 'GET') return {ok:false, status:409};
     if (url.endsWith('/exec')) {
       const body = JSON.parse(options.body); assert.equal(body.command[0], 'node'); assert.equal(body.timeout, 15);
       const proof = effective(); if (fault === 'wrong-project') proof.projectRef = 'wrongproject'; if (fault === 'root-user' && body.command[2].includes('configuredUserProven')) proof.configuredUserProven = false;
@@ -89,7 +109,7 @@ async function scenario(fault = '') {
   const actualEnv = {...env, ...(fault === 'wrong-actor' ? {GITHUB_ACTOR_ID: '999'} : {})};
   try {
     let result, refusal;
-    try { result = await placeWorker({env: actualEnv, request, command, inspectImage, root, now: () => 1000, sleep: async () => { throw Error('unnecessary_poll'); }}); }
+    try { result = await writer({env: actualEnv, request, command, inspectImage, root, now: () => 1000, sleep: async () => { throw Error('unnecessary_poll'); }}); }
     catch (error) { refusal = error.message; }
     const directory = path.join(root, 'e4d7-worker-placement-evidence');
     if (fs.existsSync(directory)) for (const name of fs.readdirSync(directory)) {
@@ -99,12 +119,17 @@ async function scenario(fault = '') {
     for (const privateValue of ['PRIVATE_METADATA_SENTINEL','PRIVATE_SECRET_NAME_SENTINEL','PRIVATE_SECRET_DIGEST_SENTINEL','PRIVATE_LITERAL_SENTINEL','PRIVATE_TRANSPORT_ERROR_SENTINEL','PRIVATE_AUTH_ERROR_SENTINEL','SYNTHETIC_NONCE','SYNTHETIC_FLY_ONLY','SYNTHETIC_DB_ONLY','configSha256','configCapsule','pre-queue','rollback-config','projectRef']) assert(!serialized.includes(privateValue), privateValue);
     assert(Object.keys(files).every(name => ['result.public.json','attempt.json'].includes(name)));
     if (result) assert.deepEqual(files['result.public.json'], result);
-    return {result, refusal, updates, leases, releases, mirrorCopies, calls, files};
+    return {result, refusal, updates, leases, releases, mirrorCopies, calls, files, inspections};
   } finally { fs.rmSync(root, {recursive: true}); }
 }
 
-test('exact module: one mirror, own lease/CAS update, stable guards and bounded public result', async () => {
-  const s = await scenario(); assert.equal(s.result.runtimeQualified, true); assert.equal(s.updates, 1); assert.equal(s.leases, 1); assert.equal(s.releases, 1); assert.equal(s.mirrorCopies, 1);
+test('owned lease request contract: exact retained mirror, scoped nonce and one guarded update', async () => {
+  const s = await scenario(); assert.equal(s.result.runtimeQualified, true); assert.equal(s.updates, 1); assert.equal(s.leases, 1); assert.equal(s.releases, 1); assert.equal(s.mirrorCopies, 0);
+  assert.equal(s.result.mirrorAttempts, 0); assert.equal(s.result.registryIdentityProven, true);
+  assert.deepEqual(s.inspections, [`ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, `registry.fly.io/${TARGET.app}@${TARGET.digest}`]);
+  assert(s.calls.some(c => c.liveLease && c.url.endsWith('/exec') && c.nonceAttached));
+  assert(s.calls.some(c => c.liveLease && c.method === 'GET' && c.nonceAttached));
+  assert(s.calls.filter(c => !c.liveLease || c.url.includes('/database/query')).every(c => !c.nonceAttached));
   assert.equal(s.result.configUnchangedExceptImageFields, true); assert.equal(s.result.hostedAccepted, false); assert.equal(s.result.automaticRetry, false); assert.equal(s.result.automaticRollback, false); assert.equal(s.result.handoff.requestedStop, true);
 });
 test('actual context and tuple checks refuse forks, other actors, reruns and old/partial subjects', async () => {
@@ -117,8 +142,8 @@ test('registry denial and wrong image config/layers stop before any Fly read or 
 test('old target, secret names, busy queue, wrong effective project and private config refuse before mirror/lease/update', async () => {
   for (const fault of ['old-digest','secret-missing','queue-busy','wrong-project','private-config-field','mount-override']) { const s=await scenario(fault); assert.equal(s.result.runtimeQualified,false); assert.equal(s.mirrorCopies,0); assert.equal(s.leases,0); assert.equal(s.updates,0); }
 });
-test('mirror refusal/digest drift and secret drift cannot reach the machine lease/update', async () => {
-  for (const fault of ['mirror-error','mirror-digest','secret-drift']) { const s=await scenario(fault); assert.equal(s.result.runtimeQualified,false); assert.equal(s.mirrorCopies,1); assert.equal(s.leases,0); assert.equal(s.updates,0); }
+test('owned lease request contract: absent or mismatched retained mirror refuses without a copy or lease', async () => {
+  for (const fault of ['destination-missing','destination-config','destination-layers','mirror-digest','secret-drift']) { const s=await scenario(fault); assert.equal(s.result.runtimeQualified,false); assert.equal(s.result.mirrorAttempts,0); assert.equal(s.mirrorCopies,0); assert.equal(s.leases,0); assert.equal(s.updates,0); assert.equal(s.result.registryIdentityProven ?? false, fault === 'secret-drift'); }
 });
 test('lease version drift releases only its own nonce and never updates', async () => {
   const s=await scenario('lease-drift'); assert.equal(s.result.refusalCode,'lease_version_unproven'); assert.equal(s.leases,1); assert.equal(s.releases,1); assert.equal(s.updates,0);
@@ -244,4 +269,25 @@ test('safe registry diagnostic Skopeo-format classes retain facts without exposi
     const encoded=JSON.stringify(facts);for(const value of ['PRIVATE_DIAGNOSTIC_SECRET_MARKER','credential@example','docker-credential-example','stderr','stdout','authfile'])assert(!encoded.includes(value),value);
     assert.equal(facts.code,null);assert.equal(facts.signal,null);assert.equal(facts.killed,null);
   }
+});
+
+
+test('owned lease request contract: safe operation attribution and consumed first failures preserve privacy', async () => {
+  for (const [fault, operation, updates, code] of [
+    ['postlease-queue-http', 'SUPABASE_QUEUE_READONLY_QUERY', 0, 'request_HTTP_409'],
+    ['postlease-exec-http', 'FLY_MACHINE_EFFECTIVE_EXEC', 0, 'request_HTTP_409'],
+    ['postlease-exec-transport', 'FLY_MACHINE_EFFECTIVE_EXEC', 0, 'request_transport_or_timeout_indeterminate'],
+    ['postupdate-read-http', 'FLY_MACHINE_READ', 1, 'request_HTTP_409'],
+  ]) {
+    const s = await scenario(fault);
+    assert.equal(s.result.refusalCode, code); assert.equal(s.result.requestFailureOperation, operation);
+    assert.equal(s.result.runtimeQualified, false); assert.equal(s.result.mirrorAttempts, 0); assert.equal(s.mirrorCopies, 0);
+    assert.equal(s.updates, updates); assert.equal(s.leases, 1); assert.equal(s.releases, 1); assert.equal(s.result.leaseReleased, true);
+    assert.equal(s.result.automaticRetry, false); assert.equal(s.result.automaticRollback, false);
+    assert.equal(s.result.effectClassification, updates ? 'MACHINE_UPDATE_ATTEMPTED_EFFECT_UNPROVEN' : 'LEASE_ATTEMPTED_NO_MACHINE_UPDATE');
+  }
+  const release = await scenario('release-error');
+  assert.equal(release.result.runtimeQualified, false); assert.equal(release.result.leaseReleased, false);
+  assert.equal(release.result.releaseFailureOperation, 'FLY_MACHINE_LEASE_RELEASE');
+  assert.equal(release.updates, 1); assert.equal(release.releases, 1); assert.equal(release.mirrorCopies, 0);
 });

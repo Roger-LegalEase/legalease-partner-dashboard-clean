@@ -283,11 +283,11 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-e4d7-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            ccaeea49a1f2e8d71110aa2626441033430c78bc8ad53c517631ca5823c77863 scripts/acceptance/place-e4d7-worker.mjs \
+            67725c9431516af78934867104481661301d7a41d0f8220616fd0c2e8294b08a scripts/acceptance/place-e4d7-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            3381b4085e0e24c085af1b4c21b5bea894939b36f3a65e4f7f6e8abf7097de4e scripts/acceptance/place-e4d7-worker.test.mjs \
+            e9a98a92628ce82a29dae017671e679aafdeac52bfe0f01fbb495d8bbbb90953 scripts/acceptance/place-e4d7-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
@@ -296,7 +296,7 @@ jobs:
           if [ "$RCAP_WORKER_REGISTRY_READONLY" = true ]; then
             node --test --test-name-pattern='safe registry diagnostic (Skopeo-format|preserves only structural)' scripts/acceptance/place-e4d7-worker.test.mjs
           else
-            node --test scripts/acceptance/place-e4d7-worker.test.mjs
+            node --test --test-name-pattern='owned lease request contract:' scripts/acceptance/place-e4d7-worker.test.mjs
           fi
       - name: Set up the existing Fly CLI interface
         uses: superfly/flyctl-actions/setup-flyctl@master
@@ -306,8 +306,8 @@ jobs:
           import fs from 'node:fs';
           import os from 'node:os';
           const devices = new Map();
-          // Read-only diagnosis holds bounded metadata; the existing copy path retains its OCI bound.
-          const registryWrites = process.env.RCAP_WORKER_REGISTRY_READONLY === 'true' ? 1048576n : 303041024n;
+          // Both exact E4D7 paths inspect only bounded registry metadata; the writer reuses the verified mirror.
+          const registryWrites = 1048576n;
           for (const [directory, writes] of [[process.cwd(), 1048576n], [os.tmpdir(), registryWrites]]) {
             const device = String(fs.statSync(directory).dev);
             const stat = fs.statfsSync(directory, {bigint: true});

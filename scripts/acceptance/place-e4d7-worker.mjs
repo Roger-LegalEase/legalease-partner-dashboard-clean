@@ -139,7 +139,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
 
 // Only these fields may leave the job. Configuration, capsules, queue captures and hashes do not.
 export function publicResult(result) {
-  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
+  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'releaseFailureOperation', 'childFailure', 'operation', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
   return Object.fromEntries(keys.filter(key => Object.hasOwn(result, key)).map(key => [key, result[key]]));
 }
 export function requireExecutionContext(env) {
@@ -192,18 +192,22 @@ export async function placeWorker({env = process.env, request = fetch, command =
   const result = {W: TARGET.source, D: TARGET.digest, machine: TARGET.machine, runId: Number(env.GITHUB_RUN_ID), executionSha: env.GITHUB_SHA, mirrorAttempts: 0, leaseAttempts: 0, updateAttempts: 0, outcome: 'NOT_ATTEMPTED', runtimeQualified: false, hostedAccepted: false, automaticRetry: false, automaticRollback: false};
   const auth = {Authorization: `Bearer ${env.FLY_API_TOKEN}`, 'Content-Type': 'application/json'};
   let nonce;
-  const json = async (url, options) => {
+  const machineAuth = () => nonce ? {...auth, 'fly-machine-lease-nonce': nonce} : auth;
+  const operations = new Set(['SUPABASE_QUEUE_READONLY_QUERY', 'FLY_MACHINE_EFFECTIVE_EXEC', 'FLY_MACHINE_INVENTORY_READ', 'FLY_MACHINE_READ', 'FLY_MACHINE_LEASE_ACQUIRE', 'FLY_MACHINE_UPDATE', 'FLY_MACHINE_LEASE_RELEASE']);
+  const json = async (operation, url, options) => {
+    check(operations.has(operation), 'request_operation_refused');
+    const failure = code => Object.assign(new Error(code), {requestOperation: operation});
     let response; try { response = await request(url, {...options, redirect: 'error', signal: AbortSignal.timeout(20000)}); }
-    catch { throw new Error('request_transport_or_timeout_indeterminate'); }
-    check(response.ok, `request_HTTP_${response.status}`);
+    catch { throw failure('request_transport_or_timeout_indeterminate'); }
+    if (!response.ok) throw failure(`request_HTTP_${response.status}`);
     return response.json();
   };
   const queue = async () => {
-    const rows = await json(`https://api.supabase.com/v1/projects/${TARGET.project}/database/query`, {method: 'POST', headers: {Authorization: `Bearer ${env.SUPABASE_ACCESS_TOKEN}`, 'Content-Type': 'application/json'}, body: JSON.stringify({query: READINESS_QUEUE_SQL, read_only: false})});
+    const rows = await json('SUPABASE_QUEUE_READONLY_QUERY', `https://api.supabase.com/v1/projects/${TARGET.project}/database/query`, {method: 'POST', headers: {Authorization: `Bearer ${env.SUPABASE_ACCESS_TOKEN}`, 'Content-Type': 'application/json'}, body: JSON.stringify({query: READINESS_QUEUE_SQL, read_only: false})});
     const proof = validateQueueCapture(rows); requireIdleQueue(proof); return proof;
   };
   const effective = async (requireConfiguredUser = false) => {
-    const raw = await json(`${BASE}/${TARGET.machine}/exec`, {method: 'POST', headers: auth, body: JSON.stringify({command: requireConfiguredUser ? configuredEffectiveProbeCommand() : effectiveProbeCommand(TARGET.machine), timeout: 15})});
+    const raw = await json('FLY_MACHINE_EFFECTIVE_EXEC', `${BASE}/${TARGET.machine}/exec`, {method: 'POST', headers: machineAuth(), body: JSON.stringify({command: requireConfiguredUser ? configuredEffectiveProbeCommand() : effectiveProbeCommand(TARGET.machine), timeout: 15})});
     check((raw.exit_code === undefined || raw.exit_code === 0) && (raw.exit_signal === undefined || raw.exit_signal === 0) && !raw.stderr && typeof raw.stdout === 'string' && raw.stdout.length < 2000, 'effective_binding_exec_refused');
     const proof = JSON.parse(raw.stdout);
     check(proof.schemaVersion === 'qualified-worker-effective-binding/v1' && proof.machineId === TARGET.machine && proof.projectRef === TARGET.project && proof.passed === true && proof.roleProven === true && proof.secretValuesIncluded === false && proof.customerRowsRead === false && [200,206].includes(proof.queueHeadStatus), 'effective_binding_unproven');
@@ -215,34 +219,33 @@ export async function placeWorker({env = process.env, request = fetch, command =
     const source = inspectImage(`ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, {env, command});
     requireImage(source); check(source.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch');
     const names = secretNames({env, command});
-    const inventory = await json(BASE, {method: 'GET', headers: auth});
+    const inventory = await json('FLY_MACHINE_INVENTORY_READ', BASE, {method: 'GET', headers: auth});
     check(Array.isArray(inventory) && inventory.length === 1 && inventory[0].id === TARGET.machine, 'machine_inventory_drift');
-    const before = await json(`${BASE}/${TARGET.machine}`, {method: 'GET', headers: auth});
+    const before = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
     const planned = planUpdate(before, env.RCAP_FLY_IMAGE_DIGEST);
     result.rollbackInverseValidated = true;
     await queue(); await effective();
-    const fresh = await json(`${BASE}/${TARGET.machine}`, {method: 'GET', headers: auth});
+    const fresh = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
     check(fresh.instance_id === before.instance_id && same(fresh.config, before.config) && fresh.state === 'started' && fresh.image_ref?.digest === before.image_ref.digest, 'pre_effect_machine_drift');
-    result.mirrorAttempts = 1;
-    mirrorImage({env, command});
+    // The previous commissioned run verified this mirror; require it again without copying.
     const mirror = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command});
     requireImage(mirror); check(mirror.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch');
     result.registryIdentityProven = true;
     check(same(secretNames({env, command}), names), 'secret_reference_names_drift');
-    const preLease = await json(`${BASE}/${TARGET.machine}`, {method: 'GET', headers: auth});
+    const preLease = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
     check(preLease.instance_id === before.instance_id && same(preLease.config, before.config) && preLease.state === 'started' && preLease.image_ref?.digest === before.image_ref.digest, 'pre_effect_machine_drift');
     result.leaseAttempts = 1;
-    const lease = await json(`${BASE}/${TARGET.machine}/lease`, {method: 'POST', headers: auth, body: JSON.stringify({description: `e4d7-${env.GITHUB_RUN_ID}`, ttl: 300})});
+    const lease = await json('FLY_MACHINE_LEASE_ACQUIRE', `${BASE}/${TARGET.machine}/lease`, {method: 'POST', headers: auth, body: JSON.stringify({description: `e4d7-${env.GITHUB_RUN_ID}`, ttl: 300})});
     nonce = lease.data?.nonce;
     check(typeof nonce === 'string' && nonce.length > 0 && lease.data?.version === before.instance_id, 'lease_version_unproven');
     await queue(); await effective();
     check(same(secretNames({env, command}), names), 'secret_reference_names_drift');
     result.beforeVersion = before.instance_id;
     const startedAt = now(); result.updateAttempts = 1; result.outcome = 'UPDATE_ATTEMPTED_POSTSTATE_UNPROVEN'; write('attempt.json', result);
-    await json(`${BASE}/${TARGET.machine}`, {method: 'POST', headers: {...auth, 'fly-machine-lease-nonce': nonce}, body: JSON.stringify(planned.body)});
+    await json('FLY_MACHINE_UPDATE', `${BASE}/${TARGET.machine}`, {method: 'POST', headers: machineAuth(), body: JSON.stringify(planned.body)});
     let after;
     for (let i = 0; i < 30; i++) {
-      after = await json(`${BASE}/${TARGET.machine}`, {method: 'GET', headers: auth});
+      after = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
       if (after.state === 'started' && after.instance_id !== before.instance_id) break;
       await sleep(2000);
     }
@@ -250,7 +253,7 @@ export async function placeWorker({env = process.env, request = fetch, command =
     await queue(); await effective(true);
     check(same(secretNames({env, command}), names), 'secret_reference_names_drift');
     result.queueWindowProven = true; result.effectiveBindingProven = true; result.configuredNonrootProven = true; result.secretNamesStable = true;
-    const final = await json(`${BASE}/${TARGET.machine}`, {method: 'GET', headers: auth});
+    const final = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
     check(final.instance_id === after.instance_id, 'post_capture_version_drift');
     const postProof = requirePoststate(final, before, planned.body, env.RCAP_FLY_IMAGE_DIGEST, startedAt);
     const postCapsule = nonsecretRollbackCapsule(final);
@@ -261,11 +264,12 @@ export async function placeWorker({env = process.env, request = fetch, command =
   } catch (error) {
     result.refusalCode = /^(?:[a-z][a-z0-9_]+|request_HTTP_[0-9]{3})$/.test(error?.message ?? '') ? error.message : 'guard_or_command_refused_details_withheld';
     if (error.childFailure) result.childFailure = error.childFailure;
+    if (operations.has(error.requestOperation)) result.requestFailureOperation = error.requestOperation;
     // Arbitrary exception text and private custody field names never leave this job.
   } finally {
     if (nonce) {
-      try { await json(`${BASE}/${TARGET.machine}/lease`, {method: 'DELETE', headers: {...auth, 'fly-machine-lease-nonce': nonce}}); result.leaseReleased = true; }
-      catch { result.leaseReleased = false; result.runtimeQualified = false; result.releaseFailure = 'own_lease_release_unproven_no_retry'; }
+      try { await json('FLY_MACHINE_LEASE_RELEASE', `${BASE}/${TARGET.machine}/lease`, {method: 'DELETE', headers: machineAuth()}); result.leaseReleased = true; }
+      catch { result.leaseReleased = false; result.runtimeQualified = false; result.releaseFailure = 'own_lease_release_unproven_no_retry'; result.releaseFailureOperation = 'FLY_MACHINE_LEASE_RELEASE'; }
     }
     result.effectClassification = result.updateAttempts === 1 ? (result.runtimeQualified ? 'MACHINE_UPDATE_PROVEN' : result.nativeHandoffProven ? 'MACHINE_POSTSTATE_PROVEN_LEASE_RELEASE_UNPROVEN' : 'MACHINE_UPDATE_ATTEMPTED_EFFECT_UNPROVEN') : result.leaseAttempts === 1 ? 'LEASE_ATTEMPTED_NO_MACHINE_UPDATE' : result.mirrorAttempts === 1 ? 'MIRROR_ATTEMPTED_NO_MACHINE_UPDATE' : 'NO_WRITES_ATTEMPTED';
     write('result.public.json', result);
