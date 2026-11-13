@@ -75,7 +75,7 @@ env:
 
 jobs:
   deploy:
-    if: ${{ !inputs.worker_registry_readonly && !(inputs.worker_source_sha == 'e4d7faef0960c8b453bb88f2bf56456d3220567f' && inputs.worker_digest == 'sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d') && !(inputs.worker_source_sha == '144dad959ee7fb9e1387d693bbcc16767edc6620' && inputs.worker_digest == 'sha256:18941445ab0bca954eaeb592353fb3350d3b615d8d3e4830841e38901f5efa87') }}
+    if: ${{ !inputs.worker_registry_readonly && !(inputs.worker_source_sha == 'e4d7faef0960c8b453bb88f2bf56456d3220567f' && inputs.worker_digest == 'sha256:1858985f511a74725c9d45dea1cb7881f53b0b66422e2786615799dcb8e6d31d') && !(inputs.worker_source_sha == '144dad959ee7fb9e1387d693bbcc16767edc6620' && inputs.worker_digest == 'sha256:18941445ab0bca954eaeb592353fb3350d3b615d8d3e4830841e38901f5efa87') && !(inputs.worker_source_sha == 'a9a525726730a3220204ebdc3533a75fcf09b7db' && inputs.worker_digest == 'sha256:e874f00331dd903504731ac175e93239379dce4c3996b34ae020e8d494cca2b1') }}
     name: Exact worker onto the production execution target
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -475,4 +475,112 @@ jobs:
         with:
           name: 144d-worker-result-${{ github.run_id }}
           path: 144d-worker-placement-evidence/result.public.json
+          if-no-files-found: warn
+
+  deploy_a9a525:
+    name: Exact A9A525 successor with held-lease SSH proof
+    if: ${{ inputs.worker_source_sha == 'a9a525726730a3220204ebdc3533a75fcf09b7db' && inputs.worker_digest == 'sha256:e874f00331dd903504731ac175e93239379dce4c3996b34ae020e8d494cca2b1' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+      INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
+      RCAP_FLY_IMAGE_DIGEST: sha256:e874f00331dd903504731ac175e93239379dce4c3996b34ae020e8d494cca2b1
+      DOCKER_CONFIG: /tmp/a9a525-registry-auth
+      RCAP_WORKER_REGISTRY_READONLY: ${{ inputs.worker_registry_readonly }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Require the commissioned target and exact control closure
+        run: |
+          set -euo pipefail
+          [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ]
+          [ -z "$(git status --porcelain)" ]
+          node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-a9a525-worker.mjs"; requireExecutionContext(process.env)'
+          printf '%s  %s\n' \
+            8d29a138e3d9487c4b7fd55abad8686799aceeec84b0aa293d6f6c79c25bac4b scripts/acceptance/place-a9a525-worker.mjs \
+            e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
+            5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
+            bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
+            218713ac2c2685946db1d75c9baeac3394ff5138a7c261fa73c71c5719ddec4d scripts/acceptance/place-a9a525-worker.test.mjs \
+            | sha256sum -c -
+          command -v skopeo >/dev/null
+          skopeo --version
+      - name: Check only the affected A9A525 binding and before-effect refusals
+        run: node --test --test-name-pattern='a9a525 successor:' scripts/acceptance/place-a9a525-worker.test.mjs
+      - name: Set up the existing Fly CLI interface
+        uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          version: 0.5.8
+      - name: Check remaining streaming writes and the physical emergency reserve
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import os from 'node:os';
+          const devices = new Map();
+          // Bound every accepted encoded layer once, plus exact config/manifest and small control writes.
+          const registryWrites = 495625903n;
+          for (const [directory, writes] of [[process.cwd(), 1048576n], [os.tmpdir(), registryWrites]]) {
+            const device = String(fs.statSync(directory).dev);
+            const stat = fs.statfsSync(directory, {bigint: true});
+            const entry = devices.get(device) ?? {available: stat.bavail * stat.bsize, writes: 0n};
+            entry.available = entry.available < stat.bavail * stat.bsize ? entry.available : stat.bavail * stat.bsize;
+            entry.writes += writes;
+            devices.set(device, entry);
+          }
+          for (const {available, writes} of devices.values()) if (available < writes + 268435456n + 2147483648n) throw Error('remaining_stream_writes_and_emergency_buffer_unavailable');
+          console.log('remaining_write_budget_and_emergency_reserve_proven');
+          JS
+      - name: Bind existing registry credential references without reading their bodies
+        if: ${{ !inputs.worker_registry_readonly }}
+        env:
+          GHCR_READ_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -m 700 "$DOCKER_CONFIG"
+          printf '%s' "$GHCR_READ_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin >/dev/null 2>&1 || { echo '::error::existing_registry_login_refused'; exit 1; }
+          flyctl auth docker >/dev/null 2>&1 || { echo '::error::existing_fly_registry_auth_refused'; exit 1; }
+      - name: Bind only the existing Fly registry reference for the current read-only observation
+        if: ${{ inputs.worker_registry_readonly }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -m 700 "$DOCKER_CONFIG"
+          flyctl auth docker >/dev/null 2>&1 || { echo '::error::existing_fly_registry_auth_refused'; exit 1; }
+      - name: Observe only the current immutable destination manifest and config
+        if: ${{ inputs.worker_registry_readonly }}
+        run: |
+          node --input-type=module <<'JS'
+          import {observeDestinationRegistry} from './scripts/acceptance/place-a9a525-worker.mjs';
+          try {
+            const result = await observeDestinationRegistry();
+            console.log(JSON.stringify(result));
+            if (!result.diagnosticComplete) process.exitCode = 1;
+          } catch {
+            console.error('current_registry_observation_or_custody_refused');
+            process.exitCode = 1;
+          }
+          JS
+      - name: Execute the exact guarded transition once
+        if: ${{ !inputs.worker_registry_readonly }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/acceptance/place-a9a525-worker.mjs
+      - name: Retain only the approved public result projection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a9a525-worker-result-${{ github.run_id }}
+          path: a9a525-worker-placement-evidence/result.public.json
           if-no-files-found: warn
