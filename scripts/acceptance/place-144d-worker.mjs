@@ -174,7 +174,7 @@ export function configuredEffectiveProbeCommand() {
 }
 export function mirrorImage({env, command}) {
   check(typeof env.DOCKER_CONFIG === 'string' && path.isAbsolute(env.DOCKER_CONFIG), 'registry_authfile_reference_required');
-  registryChild('mirror_copy', ['copy', '--preserve-digests', '--authfile', path.join(env.DOCKER_CONFIG, 'config.json'), `docker://ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, `docker://registry.fly.io/${TARGET.app}:${TARGET.source}`], {env, stdio: ['ignore', 'pipe', 'pipe'], timeout: 180000}, command);
+  registryChild('mirror_copy', ['copy', '--preserve-digests', '--authfile', path.join(env.DOCKER_CONFIG, 'config.json'), `docker://ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`, `docker://registry.fly.io/${TARGET.app}:${TARGET.source}`], {env, stdio: ['ignore', 'pipe', 'pipe'], timeout: 900000}, command);
 }
 
 // Pin the inspected CLI interface before a lease can be attempted.
@@ -423,6 +423,42 @@ export async function placeWorker({env = process.env, request = fetch, command =
     }
     result.effectClassification = result.updateAttempts === 1 ? (result.runtimeQualified ? 'MACHINE_UPDATE_PROVEN' : result.nativeHandoffProven ? 'MACHINE_POSTSTATE_PROVEN_LEASE_RELEASE_UNPROVEN' : 'MACHINE_UPDATE_ATTEMPTED_EFFECT_UNPROVEN') : result.leaseAttempts === 1 ? 'LEASE_ATTEMPTED_NO_MACHINE_UPDATE' : result.mirrorAttempts === 1 ? 'MIRROR_ATTEMPTED_NO_MACHINE_UPDATE' : 'NO_WRITES_ATTEMPTED';
     write('result.public.json', result);
+  }
+  return publicResult(result);
+}
+
+// This existing-flag operation observes only the named destination and never calls the writer.
+export async function observeDestinationRegistry({env = process.env, request = fetch, command = execFileSync, inspectImage = inspectAcceptedImage, root = process.cwd()} = {}) {
+  requireExecutionContext(env);
+  check(env.RCAP_WORKER_REGISTRY_READONLY === 'true', 'readonly_registry_mode_required');
+  const directory = path.join(root, '144d-worker-placement-evidence');
+  fs.mkdirSync(directory, {mode: 0o700}); fs.chmodSync(directory, 0o700);
+  const result = {W: TARGET.source, D: TARGET.digest, machine: TARGET.machine, runId: Number(env.GITHUB_RUN_ID), executionSha: env.GITHUB_SHA, operation: 'DESTINATION_REGISTRY_READONLY', mirrorAttempts: 0, leaseAttempts: 0, updateAttempts: 0, outcome: 'DESTINATION_OBSERVATION_UNPROVEN', runtimeQualified: false, hostedAccepted: false, automaticRetry: false, automaticRollback: false, registryIdentityProven: false, diagnosticComplete: false, effectClassification: 'READ_ONLY_NO_PROVIDER_WRITES'};
+  const inspect = () => {
+    const image = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command});
+    requireImage(image); check(image.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch');
+  };
+  try {
+    try { inspect(); result.registryIdentityProven = true; }
+    catch (error) {
+      const failure = error.childFailure;
+      if (!(failure?.stage === 'fly_manifest' && [null,404].includes(failure.httpStatus) && failure.manifestMissingReported === true && failure.status > 0 && failure.code === null && failure.signal === null && failure.timeout === false && failure.killed !== true && !failure.authenticationRefusedReported)) throw error;
+      result.destinationHttpProof = await readDestinationManifestResponse({env, request});
+      check(result.destinationHttpProof.diagnosticComplete && (result.destinationHttpProof.manifestExact || result.destinationHttpProof.typedMissingProven), 'destination_http_proof_unproven_no_copy');
+      if (result.destinationHttpProof.manifestExact) { inspect(); result.registryIdentityProven = true; }
+    }
+    result.diagnosticComplete = true;
+    result.outcome = result.registryIdentityProven ? 'EXACT_DESTINATION_MANIFEST_CONFIG_303_PROVEN_NO_COPY' : 'DESTINATION_404_MANIFEST_UNKNOWN_PROVEN_NO_COPY';
+  } catch (error) {
+    result.refusalCode = /^(?:registry|image|destination|private_registry)_[a-z0-9_]+$/.test(error?.message ?? '') ? error.message : 'destination_registry_observation_refused';
+    if (error.childFailure) result.childFailure = error.childFailure;
+  } finally {
+    const bytes = Buffer.from(JSON.stringify(publicResult(result), null, 2) + '\n');
+    check(bytes.length <= 16384, 'public_registry_result_too_large');
+    const file = path.join(directory, 'result.public.json'), fd = fs.openSync(file, 'wx', 0o600);
+    try { fs.fchmodSync(fd, 0o600); fs.writeFileSync(fd, bytes); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
+    check(hash(fs.readFileSync(file)) === hash(bytes), 'custody_readback_failed');
+    const directoryFD = fs.openSync(directory, 'r'); try { fs.fsyncSync(directoryFD); } finally { fs.closeSync(directoryFD); }
   }
   return publicResult(result);
 }

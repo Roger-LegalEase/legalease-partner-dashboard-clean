@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import {execFileSync as checkQuotedArgv} from 'node:child_process';
 import path from 'node:path';
-import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, readDestinationManifestResponse} from './place-144d-worker.mjs';
+import {TARGET, placeWorker, requireExecutionContext, planUpdate, planRollback, publicResult, configuredEffectiveProbeCommand, safeRegistryFailure, inspectAcceptedImage, readDestinationManifestResponse, mirrorImage, observeDestinationRegistry} from './place-144d-worker.mjs';
 
 import {effectiveProbeCommand} from '../qualified-worker-readonly-capture.mjs';
 
@@ -289,4 +289,60 @@ test('typed HTTP provenance: copied image identity or consumed copy failure neve
     const s=await scenario(fault);assert.deepEqual([s.registryGets,s.mirrorCopies,s.leases,s.updates],[1,1,0,0]);
     assert.equal(s.result.mirrorAttempts,1);assert.equal(s.result.runtimeQualified,false);assert.equal(s.result.automaticRetry,false);
   }
+});
+
+test('mirror budget: one fixed immutable copy has measured 900s allowance, no command retry or operand drift',()=>{
+  let calls=0;
+  const command=(tool,args,options)=>{
+    calls++;assert.equal(tool,'skopeo');
+    assert.deepEqual(args,['copy','--preserve-digests','--authfile',path.join(env.DOCKER_CONFIG,'config.json'),`docker://ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`,`docker://registry.fly.io/${TARGET.app}:${TARGET.source}`]);
+    assert.equal(options.timeout,900000);assert.equal(options.env,env);assert.deepEqual(options.stdio,['ignore','pipe','pipe']);assert.equal(options.maxBuffer,1048576);
+    return '';
+  };
+  mirrorImage({env,command});assert.equal(calls,1);
+  let failures=0;
+  assert.throws(()=>mirrorImage({env,command:()=>{failures++;throw Object.assign(Error('PRIVATE_CHILD_SENTINEL'),{code:'ETIMEDOUT',signal:'SIGTERM'});}}),e=>e.message==='registry_child_failed'&&e.childFailure.stage==='mirror_copy'&&e.childFailure.timeout===true);
+  assert.equal(failures,1);
+});
+
+async function currentRegistryReadonly(fault='') {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'144d-registry-readonly-'));fs.chmodSync(root,0o700);
+  const auth=path.join(root,'auth');fs.mkdirSync(auth,{mode:0o700});
+  const fd=fs.openSync(path.join(auth,'config.json'),'wx',0o600);
+  try{fs.fchmodSync(fd,0o600);fs.writeFileSync(fd,JSON.stringify({auths:{'registry.fly.io':{auth:Buffer.from('x:SYNTHETIC_REGISTRY_ONLY').toString('base64')}}}));}finally{fs.closeSync(fd);}
+  let inspections=0,requests=0;
+  const inspectImage=reference=>{
+    inspections++;assert.equal(reference,`registry.fly.io/${TARGET.app}@${TARGET.digest}`);
+    if(['missing','401','500','malformed','redirect'].includes(fault))throw Object.assign(Error('registry_inspection_failed'),{childFailure:safeRegistryFailure({status:1,stderr:'manifest unknown'},'fly_manifest',603)});
+    const i=image();if(fault==='config')i.Id='sha256:'+'b'.repeat(64);if(fault==='layers')i.RootFS.Layers.pop();if(fault==='digest')i.ManifestDigest='sha256:'+'b'.repeat(64);return i;
+  };
+  const request=async(url,options)=>{
+    requests++;assert.equal(url,`https://registry.fly.io/v2/${TARGET.app}/manifests/${TARGET.digest}`);assert.equal(options.method,'GET');assert.equal(options.redirect,'manual');
+    assert.deepEqual(Object.keys(options.headers).sort(),['Accept','Authorization']);
+    const status=fault==='401'?401:fault==='500'?500:fault==='redirect'?307:404;
+    const response=new Response(fault==='malformed'?'PRIVATE_SERVER_SENTINEL':JSON.stringify({errors:[{code:'MANIFEST_UNKNOWN',message:'PRIVATE_SERVER_SENTINEL'}]}),{status,headers:{'content-type':'application/json'}});
+    Object.defineProperty(response,'url',{value:url});return response;
+  };
+  try {
+    const r=await observeDestinationRegistry({env:{...env,DOCKER_CONFIG:auth,RCAP_WORKER_REGISTRY_READONLY:'true'},request,inspectImage,command:()=>{throw Error('forbidden command');},root});
+    assert.deepEqual([r.mirrorAttempts,r.leaseAttempts,r.updateAttempts],[0,0,0]);assert.equal(r.operation,'DESTINATION_REGISTRY_READONLY');
+    assert.equal(r.runtimeQualified,false);assert.equal(r.hostedAccepted,false);assert.equal(r.automaticRetry,false);assert.equal(r.automaticRollback,false);
+    const file=path.join(root,'144d-worker-placement-evidence/result.public.json');assert.equal(fs.statSync(file).mode&0o777,0o600);assert.deepEqual(JSON.parse(fs.readFileSync(file)),r);
+    assert(!JSON.stringify(r).includes('PRIVATE_'));return {r,inspections,requests};
+  } finally {fs.rmSync(root,{recursive:true});}
+}
+test('current registry readonly: exact complete destination requires303 config and no HTTP or copy fallback',async()=>{
+  const {r,inspections,requests}=await currentRegistryReadonly();assert.equal(r.diagnosticComplete,true);assert.equal(r.registryIdentityProven,true);assert.equal(inspections,1);assert.equal(requests,0);
+  for(const fault of ['config','layers','digest']){const s=await currentRegistryReadonly(fault);assert.equal(s.r.diagnosticComplete,false);assert.equal(s.r.registryIdentityProven,false);assert.equal(s.requests,0);}
+});
+test('current registry readonly: fresh404 is observational while auth/server/malformed/redirect remain unqualified zero-effect',async()=>{
+  const s=await currentRegistryReadonly('missing');assert.equal(s.r.diagnosticComplete,true);assert.equal(s.r.destinationHttpProof.typedMissingProven,true);assert.equal(s.r.registryIdentityProven,false);assert.equal(s.requests,1);
+  for(const fault of ['401','500','malformed','redirect']){const x=await currentRegistryReadonly(fault);assert.equal(x.r.diagnosticComplete,false);assert.equal(x.r.registryIdentityProven,false);assert.equal(x.requests,1);}
+});
+test('current registry readonly: fixed actor and opposite-mode guards refuse before any transport or writer effect',async()=>{
+  let called=0;const options={request:()=>{called++;throw Error('not called');},inspectImage:()=>{called++;throw Error('not called');},command:()=>{called++;throw Error('not called');}};
+  await assert.rejects(()=>observeDestinationRegistry({...options,env}),/readonly_registry_mode_required/);
+  await assert.rejects(()=>observeDestinationRegistry({...options,env:{...env,RCAP_WORKER_REGISTRY_READONLY:'true',GITHUB_ACTOR_ID:'999'}}),/execution_context_refused/);
+  await assert.rejects(()=>placeWorker({...options,env:{...env,RCAP_WORKER_REGISTRY_READONLY:'true'}}),/readonly_mode_refuses_writer/);
+  assert.equal(called,0);
 });

@@ -371,15 +371,15 @@ jobs:
 
   deploy_144d:
     name: Exact 144D successor with held-lease SSH proof
-    if: ${{ !inputs.worker_registry_readonly && inputs.worker_source_sha == '144dad959ee7fb9e1387d693bbcc16767edc6620' && inputs.worker_digest == 'sha256:18941445ab0bca954eaeb592353fb3350d3b615d8d3e4830841e38901f5efa87' }}
+    if: ${{ inputs.worker_source_sha == '144dad959ee7fb9e1387d693bbcc16767edc6620' && inputs.worker_digest == 'sha256:18941445ab0bca954eaeb592353fb3350d3b615d8d3e4830841e38901f5efa87' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
       INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
       RCAP_FLY_IMAGE_DIGEST: sha256:18941445ab0bca954eaeb592353fb3350d3b615d8d3e4830841e38901f5efa87
       DOCKER_CONFIG: /tmp/144d-registry-auth
-      RCAP_WORKER_REGISTRY_READONLY: 'false'
+      RCAP_WORKER_REGISTRY_READONLY: ${{ inputs.worker_registry_readonly }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -396,16 +396,16 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-144d-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            59e576df0fb5e689edbfc62ac65b21df4d36ace507a145f614cc788b19ab37de scripts/acceptance/place-144d-worker.mjs \
+            e874eb9c1e89bc7d13d6eaad619d5ac3beb0e3f052044a67e67dce1fb51087e8 scripts/acceptance/place-144d-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            452b81409fbc769a18a50c5e8bfd35e52274eb9983f8696ae31c79e84738d471 scripts/acceptance/place-144d-worker.test.mjs \
+            a75e6066c908f7b54c3184570d9e9b5df6edfc017376b000d48b180d08b038ee scripts/acceptance/place-144d-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
       - name: Check only the affected 144D binding and before-effect refusals
-        run: node --test --test-name-pattern='typed HTTP provenance:' scripts/acceptance/place-144d-worker.test.mjs
+        run: node --test --test-name-pattern='mirror budget:|current registry readonly:' scripts/acceptance/place-144d-worker.test.mjs
       - name: Set up the existing Fly CLI interface
         uses: superfly/flyctl-actions/setup-flyctl@master
         with:
@@ -430,6 +430,7 @@ jobs:
           console.log('remaining_write_budget_and_emergency_reserve_proven');
           JS
       - name: Bind existing registry credential references without reading their bodies
+        if: ${{ !inputs.worker_registry_readonly }}
         env:
           GHCR_READ_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -439,7 +440,31 @@ jobs:
           mkdir -m 700 "$DOCKER_CONFIG"
           printf '%s' "$GHCR_READ_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin >/dev/null 2>&1 || { echo '::error::existing_registry_login_refused'; exit 1; }
           flyctl auth docker >/dev/null 2>&1 || { echo '::error::existing_fly_registry_auth_refused'; exit 1; }
+      - name: Bind only the existing Fly registry reference for the current read-only observation
+        if: ${{ inputs.worker_registry_readonly }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -m 700 "$DOCKER_CONFIG"
+          flyctl auth docker >/dev/null 2>&1 || { echo '::error::existing_fly_registry_auth_refused'; exit 1; }
+      - name: Observe only the current immutable destination manifest and config
+        if: ${{ inputs.worker_registry_readonly }}
+        run: |
+          node --input-type=module <<'JS'
+          import {observeDestinationRegistry} from './scripts/acceptance/place-144d-worker.mjs';
+          try {
+            const result = await observeDestinationRegistry();
+            console.log(JSON.stringify(result));
+            if (!result.diagnosticComplete) process.exitCode = 1;
+          } catch {
+            console.error('current_registry_observation_or_custody_refused');
+            process.exitCode = 1;
+          }
+          JS
       - name: Execute the exact guarded transition once
+        if: ${{ !inputs.worker_registry_readonly }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
