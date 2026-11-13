@@ -162,3 +162,42 @@ export async function observeCurrentAppliedWorker({env = process.env, request = 
 }
 
 
+
+// Same qualified history transport; the previous transition's reader stays unchanged.
+export function requireCurrentHandoffHistoryContext(env) {
+  check(env.GITHUB_ACTIONS === 'true' && env.GITHUB_EVENT_NAME === 'workflow_dispatch' && env.GITHUB_WORKFLOW_REF === 'Roger-LegalEase/legalease-partner-dashboard-clean/.github/workflows/rcap-worker-identity-readonly.yml@refs/heads/captain-release' && env.GITHUB_JOB === 'identity' && env.GITHUB_REPOSITORY_ID === '1248656766' && env.GITHUB_ACTOR_ID === '287531360' && env.GITHUB_REPOSITORY?.toLowerCase() === 'roger-legalease/legalease-partner-dashboard-clean' && env.GITHUB_REF === 'refs/heads/captain-release' && env.GITHUB_RUN_ATTEMPT === '1' && /^[a-f0-9]{40}$/.test(env.GITHUB_SHA ?? '') && /^[1-9][0-9]*$/.test(env.GITHUB_RUN_ID ?? ''), 'current_history_execution_context_refused');
+  check(env.RCAP_WORKER_HANDOFF_HISTORY === '1' && env.RCAP_QUALIFIED_WORKER_READINESS !== '1' && env.INPUT_WORKER_SOURCE_SHA === TARGET.source && env.INPUT_WORKER_DIGEST === TARGET.digest, 'current_history_subject_or_mode_refused');
+}
+const CURRENT_HISTORY = Object.freeze({version:'01M7AVQ3YP9QSSTZQCRX8QXJCF',startAt:1794587292939,knownStartRunId:43471533487,knownStartResultSha256:'17f51075a7114f749df308502321f0bc2d9aec140ef405420d84857ba69ccdf5'});
+const publicHistoryResult = value => ({...publicCurrentResult(value),...Object.fromEntries(['historyOnly','historyEvidence','knownStartSource','oldExitBinding','preservedCurrentRuntimeRunId','machineUnchangedDuringHistoryRead'].filter(k=>Object.hasOwn(value,k)).map(k=>[k,value[k]]))});
+export async function observeCurrentHandoffHistory({env=process.env,request=fetch,root=process.cwd()}={}) {
+  requireCurrentHandoffHistoryContext(env);
+  check(env.FLY_API_TOKEN, 'current_history_credential_reference_unavailable');
+  const directory=path.join(root,'worker-identity-evidence');fs.mkdirSync(directory,{mode:0o700});fs.chmodSync(directory,0o700);
+  const result={W:TARGET.source,D:TARGET.digest,machine:TARGET.machine,runId:Number(env.GITHUB_RUN_ID),executionSha:env.GITHUB_SHA,operation:'APPLIED_144D_NATIVE_HANDOFF_HISTORY_ONLY',historyOnly:true,mirrorAttempts:0,leaseAttempts:0,updateAttempts:0,execAttempts:0,databaseCalls:0,runtimeQualified:false,hostedAccepted:false,automaticRetry:false,automaticRollback:false,nativeHandoffProven:false,beforeVersion:CURRENT_POSTUPDATE.beforeVersion,preservedCurrentRuntimeRunId:43471533487,knownStartSource:{runId:CURRENT_HISTORY.knownStartRunId,resultSha256:CURRENT_HISTORY.knownStartResultSha256,timestamp:CURRENT_HISTORY.startAt},oldExitBinding:'FIXED_MACHINE_AND_CAPTURED_TRANSITION_WINDOW_ONLY',historicalBeforeDictRetained:false,historicalExactBeforeComparisonProven:false,approvedPrivateProfileComparisonAvailable:false,approvedPrivateProfileEqualityProven:false,outcome:'HOLD_NATIVE_HANDOFF_HISTORY_UNPROVEN',effectClassification:'READ_ONLY_NO_PROVIDER_WRITES'};
+  const endpoint=`${BASE}/${TARGET.machine}`;
+  const get=async url=>{
+    check(url===endpoint||url===`${endpoint}/events?limit=50`,'current_history_destination_refused');
+    let response;try{response=await request(url,{method:'GET',headers:{Authorization:`Bearer ${env.FLY_API_TOKEN}`,Accept:'application/json'},redirect:'error',signal:AbortSignal.timeout(20000)});}catch{throw new Error('current_history_transport_or_timeout_indeterminate');}
+    check(response.status===200,`request_HTTP_${response.status}`);
+    const reader=response.body.getReader(),chunks=[];let size=0;
+    try{for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>1048576){await reader.cancel();throw new Error('current_history_response_too_large');}chunks.push(Buffer.from(value));}}finally{reader.releaseLock();}
+    try{return JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{throw new Error('current_history_response_json_refused');}
+  };
+  const requireCurrent=machine=>{requireCurrentObservedConfiguration(machine);const versions=observedMachineVersions(machine);check(versions.canonicalVersionProven&&versions.providerVersion===CURRENT_HISTORY.version,'current_history_version_drift');return versions;};
+  try{
+    const before=await get(endpoint);result.versionFieldEvidence=requireCurrent(before);result.currentProviderVersion=before.version;
+    const history=await get(`${endpoint}/events?limit=50`);check(Array.isArray(history)&&history.length<=50,'native_event_history_shape_invalid');
+    const window=history.filter(e=>Number.isSafeInteger(e?.timestamp)&&e.timestamp>=CURRENT_POSTUPDATE.writerStepStartMs&&e.timestamp<=CURRENT_POSTUPDATE.firstAppliedIdentityMs);
+    result.historyEvidence={returnedCount:history.length,windowCount:window.length,exitCount:window.filter(e=>e.type==='exit').length,startCount:window.filter(e=>e.type==='start').length,historyCompleteness:'UNKNOWN',window:{from:CURRENT_POSTUPDATE.writerStepStartMs,to:CURRENT_POSTUPDATE.firstAppliedIdentityMs},records:projectNativeEvents(window)};
+    const combined=window.slice();if(!combined.some(e=>e.type==='start'&&e.timestamp===CURRENT_HISTORY.startAt))combined.push({type:'start',timestamp:CURRENT_HISTORY.startAt});
+    let handoff,refusal;try{handoff=requireCurrentObservedHandoff({events:combined},CURRENT_POSTUPDATE);}catch(error){refusal=error;}
+    const after=await get(endpoint);requireCurrent(after);check(after.id===before.id&&same(observedMachineVersions(after),result.versionFieldEvidence)&&same(after.config,before.config)&&same(after.image_ref,before.image_ref),'current_history_machine_or_config_drift');result.machineUnchangedDuringHistoryRead=true;result.configStableDuringCapture=true;
+    if(refusal)throw refusal;
+    result.handoff=handoff;result.nativeHandoffProven=true;result.outcome='NATIVE_HANDOFF_HISTORY_OBSERVED_REQUIRES_ROOT_ACTUAL_REVIEW';
+  }catch(error){result.refusalCode=/^(?:[a-z][a-z0-9_]+|request_HTTP_[0-9]{3})$/.test(error?.message??'')?error.message:'current_history_refused_details_withheld';}
+  finally{
+    const bytes=Buffer.from(JSON.stringify(publicHistoryResult(result),null,2)+'\n');check(bytes.length<=16384,'public_history_result_too_large');const file=path.join(directory,'result.public.json'),fd=fs.openSync(file,'wx',0o600);try{fs.fchmodSync(fd,0o600);fs.writeFileSync(fd,bytes);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}check(hash(fs.readFileSync(file))===hash(bytes),'custody_readback_failed');const dir=fs.openSync(directory,'r');try{fs.fsyncSync(dir);}finally{fs.closeSync(dir);}
+  }
+  return publicHistoryResult(result);
+}

@@ -88,3 +88,41 @@ test('current applied qualifier: exact registered purpose subject actor and mode
   for(const patch of [{GITHUB_JOB:'deploy_144d'},{GITHUB_ACTOR_ID:'999'},{GITHUB_RUN_ATTEMPT:'2'},{RCAP_WORKER_HANDOFF_HISTORY:'1'},{RCAP_QUALIFIED_WORKER_READINESS:''},{INPUT_WORKER_SOURCE_SHA:TARGET.oldSource},{INPUT_WORKER_DIGEST:TARGET.oldDigest}])assert.throws(()=>requireCurrentReadinessContext({...currentQualifierEnv,...patch}));
   let calls=0;await assert.rejects(()=>observeCurrentAppliedWorker({env:{...currentQualifierEnv,GITHUB_ACTOR_ID:'999'},request:()=>{calls++;},command:()=>{calls++;}}));assert.equal(calls,0);
 });
+
+import {observeCurrentHandoffHistory,requireCurrentHandoffHistoryContext} from './current-144d-applied-runtime-readonly.mjs';
+const historyEnv={...currentQualifierEnv,RCAP_QUALIFIED_WORKER_READINESS:'',RCAP_WORKER_HANDOFF_HISTORY:'1'};
+const actualHistoryVersion='01M7AVQ3YP9QSSTZQCRX8QXJCF',actualKnownStart=1794587292939;
+async function historyOnlyScenario(fault='') {
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'144d-current-history-'));fs.chmodSync(root,0o700);const calls=[];let gets=0;
+  const current=()=>{const m=beforeMachine();m.instance_id=actualHistoryVersion;m.version=actualHistoryVersion;m.image_ref={digest:TARGET.digest,labels:{'org.opencontainers.image.revision':TARGET.source}};m.config.image=`registry.fly.io/${TARGET.app}@${TARGET.digest}`;m.config.env.RCAP_WORKER_CONTAINER_DIGEST=TARGET.digest;return m;};
+  const endpoint=`https://api.machines.dev/v1/apps/${TARGET.app}/machines/${TARGET.machine}`;
+  const request=async(url,options)=>{
+    calls.push(url);assert([endpoint,endpoint+'/events?limit=50'].includes(url));assert.equal(options.method,'GET');assert.equal(options.redirect,'error');assert(!options.body);assert(!Object.hasOwn(options.headers,'fly-machine-lease-nonce'));assert(!url.includes('/exec'));assert(!url.includes('supabase'));assert(!url.includes('/lease'));
+    if(url.endsWith('/events?limit=50')){
+      if(fault==='http')return new Response('PRIVATE_SERVER_TEXT_SENTINEL',{status:409});
+      if(fault==='oversize')return new Response('x'.repeat(1048577));
+      const exit={type:'exit',timestamp:currentWindowStart+1000,request:{command:'PRIVATE_COMMAND_SENTINEL',exit_event:{requested_stop:true,exit_code:0,guest_exit_code:0,privateValue:'PRIVATE_PAYLOAD_SENTINEL'}}};
+      if(fault==='dirty')exit.request.exit_event.exit_code=137;
+      if(fault==='missing-payload')delete exit.request.exit_event;
+      if(fault==='outside-window')exit.timestamp=currentWindowStart-1;
+      const events=fault==='no-exit'?[]:[exit];
+      if(fault==='conflicting-start')events.push({type:'start',timestamp:actualKnownStart-1000});
+      if(fault==='unbounded')while(events.length<51)events.push({type:'launch',timestamp:0});
+      return new Response(JSON.stringify(events));
+    }
+    gets++;const m=current();if(fault==='source')m.image_ref.labels['org.opencontainers.image.revision']=TARGET.oldSource;if(fault==='old-version')m.version=m.instance_id=currentBeforeVersion;if(gets===2&&fault==='config-drift')m.config.guest.cpus=2;if(gets===2&&fault==='version-drift')m.version=m.instance_id='SYNTHETICCHANGED001';return new Response(JSON.stringify(m));
+  };
+  try {
+    const r=await observeCurrentHandoffHistory({env:historyEnv,root,request});assert.deepEqual([r.mirrorAttempts,r.leaseAttempts,r.updateAttempts,r.execAttempts,r.databaseCalls],[0,0,0,0,0]);assert.equal(r.runtimeQualified,false);assert.equal(r.hostedAccepted,false);assert.equal(r.automaticRetry,false);assert.equal(r.automaticRollback,false);assert.equal(r.preservedCurrentRuntimeRunId,43471533487);assert.equal(r.historicalBeforeDictRetained,false);assert.equal(r.historicalExactBeforeComparisonProven,false);assert.equal(r.approvedPrivateProfileEqualityProven,false);assert(!JSON.stringify(r).includes('PRIVATE_'));const file=path.join(root,'worker-identity-evidence/result.public.json');assert.equal(fs.statSync(file).mode&0o777,0o600);assert.deepEqual(JSON.parse(fs.readFileSync(file)),r);return{r,calls};
+  }finally{fs.rmSync(root,{recursive:true});}
+}
+test('current history only: exact existing threeGET mechanism, pinned actual start, strict clean exit and safe private custody',async()=>{
+  const s=await historyOnlyScenario();assert.equal(s.calls.length,3);assert.equal(s.calls.filter(x=>x.endsWith('/events?limit=50')).length,1);assert.equal(s.r.nativeHandoffProven,true);assert.equal(s.r.machineUnchangedDuringHistoryRead,true);assert.equal(s.r.configStableDuringCapture,true);assert.equal(s.r.knownStartSource.runId,43471533487);assert.equal(s.r.handoff.startAt,actualKnownStart);assert.equal(s.r.historyEvidence.startCount,0);assert.equal(s.r.historyEvidence.exitCount,1);assert.equal(s.r.historyEvidence.historyCompleteness,'UNKNOWN');assert.equal(s.r.oldExitBinding,'FIXED_MACHINE_AND_CAPTURED_TRANSITION_WINDOW_ONLY');
+});
+test('current history only: absent dirty ambiguous oldexit HTTP boundedness subject version and fullconfig drift refuse',async()=>{
+  for(const fault of ['no-exit','dirty','missing-payload','outside-window','conflicting-start','http','oversize','unbounded','source','old-version','config-drift','version-drift']){const s=await historyOnlyScenario(fault);assert.equal(s.r.nativeHandoffProven,false,fault);assert(s.r.refusalCode,fault);if(fault==='no-exit'){assert.equal(s.calls.length,3);assert.equal(s.r.machineUnchangedDuringHistoryRead,true);assert.equal(s.r.historyEvidence.exitCount,0);assert.equal(s.r.refusalCode,'bounded_native_handoff_pair_unproven');}if(fault==='http')assert.equal(s.r.refusalCode,'request_HTTP_409');if(fault==='config-drift')assert.equal(s.r.refusalCode,'current_history_machine_or_config_drift');}
+});
+test('current history only: exact purpose and currenthistory-only modes refuse before transport; oldobserver bytes remain untouched',async()=>{
+  for(const patch of [{GITHUB_JOB:'deploy_144d'},{GITHUB_ACTOR_ID:'999'},{GITHUB_RUN_ATTEMPT:'2'},{RCAP_WORKER_HANDOFF_HISTORY:''},{RCAP_QUALIFIED_WORKER_READINESS:'1'},{INPUT_WORKER_SOURCE_SHA:TARGET.oldSource},{INPUT_WORKER_DIGEST:TARGET.oldDigest}])assert.throws(()=>requireCurrentHandoffHistoryContext({...historyEnv,...patch}));
+  let calls=0;await assert.rejects(()=>observeCurrentHandoffHistory({env:{...historyEnv,RCAP_WORKER_HANDOFF_HISTORY:''},request:()=>{calls++;}}));assert.equal(calls,0);
+});
