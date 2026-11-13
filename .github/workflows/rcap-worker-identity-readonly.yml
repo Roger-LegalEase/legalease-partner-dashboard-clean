@@ -2,6 +2,16 @@ name: RCAP worker read-only identity
 on:
   workflow_dispatch:
     inputs:
+      worker_source_sha:
+        description: "Optional exact current-worker subject; only the reviewed 144d pair selects its qualified observer"
+        type: string
+        required: false
+        default: ""
+      worker_digest:
+        description: "Optional exact immutable digest paired with worker_source_sha; never an arbitrary target"
+        type: string
+        required: false
+        default: ""
       qualified_readiness:
         description: "Capture reviewed effective WWT/queue/rollback facts only; never deploy"
         type: boolean
@@ -24,23 +34,54 @@ jobs:
           fetch-depth: ${{ inputs.handoff_history && 3 || 1 }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ inputs.worker_source_sha != '' && '22' || '20' }}
       - name: Verify the bounded read-only identity controls
         env:
           HANDOFF_HISTORY: ${{ inputs.handoff_history && '1' || '' }}
+          RCAP_WORKER_HANDOFF_HISTORY: ${{ inputs.handoff_history && '1' || '' }}
+          RCAP_QUALIFIED_WORKER_READINESS: ${{ inputs.qualified_readiness && '1' || '' }}
+          INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
         run: |
-          if [ "$HANDOFF_HISTORY" = 1 ]; then
+          if [ -n "$INPUT_WORKER_SOURCE_SHA$INPUT_WORKER_DIGEST" ]; then
+            set -euo pipefail
+            node --input-type=module -e 'import {requireCurrentReadinessContext} from "./scripts/acceptance/current-144d-applied-runtime-readonly.mjs"; requireCurrentReadinessContext(process.env)'
+            printf '%s  %s\n' afeb4a213fd7a9264441b281603d4425c6ad4b9f7833b8319ea25b43b7b47836 scripts/acceptance/current-144d-applied-runtime-readonly.mjs 3321939b1d8cfa421bde86e90d68a3b22b52f4fd96c90f99531889f2752b54f9 scripts/acceptance/current-144d-applied-runtime-readonly.test.mjs e874eb9c1e89bc7d13d6eaad619d5ac3beb0e3f052044a67e67dce1fb51087e8 scripts/acceptance/place-144d-worker.mjs e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs 5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs | sha256sum -c -
+            node --test --test-name-pattern='current applied qualifier:' scripts/acceptance/current-144d-applied-runtime-readonly.test.mjs
+          elif [ "$HANDOFF_HISTORY" = 1 ]; then
             node --test scripts/worker-handoff-history-readonly.test.mjs
           else
             node --test scripts/rcap-worker-identity-readonly.test.mjs scripts/qualified-worker-readonly-capture.test.mjs
           fi
+      - name: Set up the existing Fly CLI for current-worker secret-name reads
+        if: ${{ inputs.worker_source_sha != '' || inputs.worker_digest != '' }}
+        uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          version: 0.5.8
       - name: Capture sanitized existing Fly worker facts
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ inputs.qualified_readiness && secrets.SUPABASE_ACCESS_TOKEN || '' }}
           RCAP_QUALIFIED_WORKER_READINESS: ${{ inputs.qualified_readiness && '1' || '' }}
           RCAP_WORKER_HANDOFF_HISTORY: ${{ inputs.handoff_history && '1' || '' }}
-        run: node scripts/rcap-worker-identity-readonly.mjs
+          INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
+        run: |
+          if [ -n "$INPUT_WORKER_SOURCE_SHA$INPUT_WORKER_DIGEST" ]; then
+            node --input-type=module <<'JS'
+          import {observeCurrentAppliedWorker} from './scripts/acceptance/current-144d-applied-runtime-readonly.mjs';
+          try {
+            const result = await observeCurrentAppliedWorker();
+            console.log(JSON.stringify(result));
+            if (!result.currentRuntimeObserved) process.exitCode = 1;
+          } catch {
+            console.error('current_applied_readiness_or_custody_refused');
+            process.exitCode = 1;
+          }
+          JS
+          else
+            node scripts/rcap-worker-identity-readonly.mjs
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
