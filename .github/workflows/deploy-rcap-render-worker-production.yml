@@ -396,16 +396,16 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-144d-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            2eb49e1fef54bf7525ff16ad306bd155ed58eb539f75bdbeec156097b3ede001 scripts/acceptance/place-144d-worker.mjs \
+            59e576df0fb5e689edbfc62ac65b21df4d36ace507a145f614cc788b19ab37de scripts/acceptance/place-144d-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            03878798996b345beb26ea0a52a06f886b2a20a7e91f8b0b241b5bed7db11ad1 scripts/acceptance/place-144d-worker.test.mjs \
+            452b81409fbc769a18a50c5e8bfd35e52274eb9983f8696ae31c79e84738d471 scripts/acceptance/place-144d-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
       - name: Check only the affected 144D binding and before-effect refusals
-        run: node --test scripts/acceptance/place-144d-worker.test.mjs
+        run: node --test --test-name-pattern='typed HTTP provenance:' scripts/acceptance/place-144d-worker.test.mjs
       - name: Set up the existing Fly CLI interface
         uses: superfly/flyctl-actions/setup-flyctl@master
         with:

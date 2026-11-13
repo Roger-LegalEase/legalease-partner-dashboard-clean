@@ -142,7 +142,7 @@ export function requirePoststate(machine, before, body, mirror, startedAt) {
 
 // Only these fields may leave the job. Configuration, capsules, queue captures and hashes do not.
 export function publicResult(result) {
-  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'currentRuntimeObserved', 'currentInstanceId', 'currentProviderVersion', 'newInstanceProven', 'currentConfigurationPredicatesProven', 'approvedPrivateProfileComparisonAvailable', 'approvedPrivateProfileEqualityProven', 'configStableDuringCapture', 'historicalExactBeforeComparisonProven', 'historicalBeforeDictRetained', 'originalStartedAtRetained', 'handoffWindowProvenance', 'writerWindowOutcome', 'observationFailures', 'transportFailure', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'operation', 'execAttempts', 'databaseCalls', 'preservedRuntimeObserverRunId', 'nativeEventEvidence', 'eventTargetStable', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
+  const keys = ['W', 'D', 'machine', 'runId', 'executionSha', 'updateAttempts', 'mirrorAttempts', 'leaseAttempts', 'outcome', 'runtimeQualified', 'hostedAccepted', 'automaticRetry', 'automaticRollback', 'registryIdentityProven', 'secretNamesStable', 'rollbackInverseValidated', 'beforeVersion', 'afterVersion', 'configUnchangedExceptImageFields', 'effectiveBindingProven', 'configuredNonrootProven', 'queueWindowProven', 'nativeHandoffProven', 'handoff', 'leaseReleased', 'refusalCode', 'releaseFailure', 'effectClassification', 'requestFailureOperation', 'currentRuntimeObserved', 'currentInstanceId', 'currentProviderVersion', 'newInstanceProven', 'currentConfigurationPredicatesProven', 'approvedPrivateProfileComparisonAvailable', 'approvedPrivateProfileEqualityProven', 'configStableDuringCapture', 'historicalExactBeforeComparisonProven', 'historicalBeforeDictRetained', 'originalStartedAtRetained', 'handoffWindowProvenance', 'writerWindowOutcome', 'observationFailures', 'transportFailure', 'execFailure', 'execProbePassed', 'machineUnchangedDuringDiagnostic', 'releaseFailureOperation', 'childFailure', 'destinationHttpProof', 'operation', 'execAttempts', 'databaseCalls', 'preservedRuntimeObserverRunId', 'nativeEventEvidence', 'eventTargetStable', 'diagnosticComplete', 'acceptedDigestReusable', 'destinationDigest', 'destinationTag', 'copyWriteCapabilityTested', 'layerBodiesRead'];
   return Object.fromEntries(keys.filter(key => Object.hasOwn(result, key)).map(key => [key, result[key]]));
 }
 export function requireExecutionContext(env) {
@@ -215,6 +215,98 @@ function heldLeaseEffectiveProbe(requireConfiguredUser, {env, ssh, now}) {
   return {exit_code: 0, exit_signal: 0, stdout: child.stdout, stderr: ''};
 }
 
+// A fixed metadata GET consumes the existing app-registry reference only in memory.
+export async function readDestinationManifestResponse({env = process.env, request = fetch} = {}) {
+  const url = `https://registry.fly.io/v2/${TARGET.app}/manifests/${TARGET.digest}`;
+  const proof = {httpStatus: null, errorCodes: [], authenticationChallenge: 'NONE', responseShape: 'UNREAD', responseBytes: 0, diagnosticComplete: false, manifestExact: false, typedMissingProven: false, redirectsFollowed: 0, requestAttempts: 0};
+  let fd, authorization, authPath, before;
+  try {
+    check(typeof env.DOCKER_CONFIG === 'string' && env.DOCKER_CONFIG.startsWith('/tmp/') && fs.realpathSync(env.DOCKER_CONFIG) === env.DOCKER_CONFIG, 'private_registry_auth_directory_refused');
+    const directory = fs.lstatSync(env.DOCKER_CONFIG);
+    check(directory.isDirectory() && directory.uid === process.getuid() && (directory.mode & 0o777) === 0o700, 'private_registry_auth_modes_refused');
+    authPath = path.join(env.DOCKER_CONFIG, 'config.json');
+    fd = fs.openSync(authPath, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW);
+    before = fs.fstatSync(fd);
+    check(before.isFile() && before.uid === process.getuid() && before.nlink === 1 && (before.mode & 0o777) === 0o600 && before.size > 0 && before.size <= 65536, 'private_registry_auth_modes_refused');
+    const authBytes = Buffer.alloc(65537);
+    let document;
+    try {
+      const read = fs.readSync(fd, authBytes, 0, authBytes.length, 0);
+      check(read === before.size && read <= 65536, 'private_registry_auth_size_drift');
+      document = JSON.parse(authBytes.subarray(0, read));
+    } finally { authBytes.fill(0); }
+    check(!document.credsStore && !document.credHelpers?.['registry.fly.io'], 'private_registry_auth_interface_refused');
+    const encoded = document.auths?.['registry.fly.io']?.auth;
+    check(typeof encoded === 'string' && encoded.length <= 32768 && /^[A-Za-z0-9+/_-]+={0,2}$/.test(encoded), 'private_registry_auth_interface_refused');
+    const decoded = Buffer.from(encoded, 'base64');
+    try {
+      check(decoded.length > 2 && decoded.length <= 16384 && decoded.subarray(0,2).toString() === 'x:' && !/[\x00-\x1f\x7f]/.test(decoded.toString()) && decoded.toString('base64').replace(/=+$/,'') === encoded.replace(/-/g,'+').replace(/_/g,'/').replace(/=+$/,''), 'private_registry_auth_interface_refused');
+      authorization = 'Basic ' + decoded.toString('base64');
+    } finally { decoded.fill(0); }
+  } catch {
+    if (fd !== undefined) fs.closeSync(fd);
+    proof.responseShape = 'AUTH_REFERENCE_UNPROVEN';
+    return proof;
+  }
+  let response;
+  try {
+    proof.requestAttempts = 1;
+    response = await request(url, {method: 'GET', redirect: 'manual', signal: AbortSignal.timeout(30000), headers: {Authorization: authorization, Accept: 'application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json'}});
+    if (!Number.isInteger(response?.status) || response.status < 100 || response.status > 599 || typeof response.headers?.get !== 'function') {
+      proof.responseShape = 'INVALID_RESPONSE'; return proof;
+    }
+    proof.httpStatus = response.status;
+    const challenge = response.headers.get('www-authenticate');
+    proof.authenticationChallenge = challenge === null ? 'NONE' : /^\s*Basic(?:\s|$)/i.test(challenge) ? 'BASIC' : /^\s*Bearer(?:\s|$)/i.test(challenge) ? 'BEARER' : 'OTHER';
+    if (response.redirected !== false || response.url !== url || (response.status >= 300 && response.status < 400)) {
+      proof.responseShape = 'REDIRECT_REFUSED'; return proof;
+    }
+    if (typeof response.body?.getReader !== 'function') { proof.responseShape = 'BODY_UNREADABLE'; return proof; }
+    const reader = response.body.getReader(), parts = [], limit = response.status === 200 ? 1048576 : 8192;
+    try {
+      for (;;) {
+        const {done, value} = await reader.read(); if (done) break;
+        if (!(value instanceof Uint8Array)) { proof.responseShape = 'BODY_UNREADABLE'; return proof; }
+        proof.responseBytes = Math.min(limit + 1, proof.responseBytes + value.length);
+        if (proof.responseBytes > limit) { proof.responseShape = 'BODY_TOO_LARGE'; return proof; }
+        parts.push(Buffer.from(value));
+      }
+    } finally {
+      try { await reader.cancel(); } catch {}
+      try { reader.releaseLock(); } catch {}
+    }
+    const bytes = Buffer.concat(parts);
+    let body;
+    try { body = JSON.parse(bytes); } catch { proof.responseShape = 'NON_JSON'; proof.diagnosticComplete = true; return proof; }
+    proof.responseShape = 'JSON_OTHER';
+    const type = (response.headers.get('content-type') ?? '').split(';',1)[0].trim().toLowerCase();
+    const codes = new Set(['MANIFEST_UNKNOWN','UNAUTHORIZED','DENIED','NAME_UNKNOWN','BLOB_UNKNOWN','UNSUPPORTED','TOOMANYREQUESTS','UNKNOWN']);
+    if (Array.isArray(body?.errors) && body.errors.length > 0 && body.errors.length <= 8 && body.errors.every(e => e && typeof e === 'object' && !Array.isArray(e) && typeof e.code === 'string')) {
+      proof.responseShape = 'REGISTRY_ERROR_JSON';
+      proof.errorCodes = body.errors.map(e => codes.has(e.code) ? e.code : 'OTHER');
+      proof.typedMissingProven = response.status === 404 && type === 'application/json' && proof.authenticationChallenge === 'NONE' && proof.errorCodes.length === 1 && proof.errorCodes[0] === 'MANIFEST_UNKNOWN';
+    }
+    if (response.status === 200 && ['application/vnd.oci.image.manifest.v1+json','application/vnd.docker.distribution.manifest.v2+json'].includes(type) && `sha256:${hash(bytes)}` === TARGET.digest && body?.schemaVersion === 2 && body.config?.digest === TARGET.config && body.layers?.length === 303) {
+      proof.manifestExact = true; proof.responseShape = 'ACCEPTED_MANIFEST';
+    }
+    proof.diagnosticComplete = true;
+    return proof;
+  } catch {
+    proof.responseShape = response ? 'BODY_UNREADABLE' : 'NETWORK_OR_TIMEOUT_UNPROVEN';
+    return proof;
+  } finally {
+    authorization = undefined;
+    try { await response?.body?.cancel(); } catch {}
+    try {
+      const final = fs.fstatSync(fd), named = fs.lstatSync(authPath), directory = fs.lstatSync(env.DOCKER_CONFIG);
+      if (!directory.isDirectory() || directory.uid !== process.getuid() || (directory.mode & 0o777) !== 0o700 || fs.realpathSync(env.DOCKER_CONFIG) !== env.DOCKER_CONFIG || ![final,named].every(s => s.dev === before.dev && s.ino === before.ino && s.size === before.size && s.mtimeMs === before.mtimeMs && s.uid === before.uid && s.nlink === 1 && (s.mode & 0o777) === 0o600)) {
+        proof.diagnosticComplete = false; proof.manifestExact = false; proof.typedMissingProven = false; proof.responseShape = 'AUTH_REFERENCE_DRIFT';
+      }
+    } catch { proof.diagnosticComplete = false; proof.manifestExact = false; proof.typedMissingProven = false; proof.responseShape = 'AUTH_REFERENCE_DRIFT'; }
+    fs.closeSync(fd);
+  }
+}
+
 export async function placeWorker({env = process.env, request = fetch, command = execFileSync, inspectImage = inspectAcceptedImage, ssh = spawnSync, root = process.cwd(), now = Date.now, sleep = ms => new Promise(r => setTimeout(r, ms))} = {}) {
   requireExecutionContext(env);
   check(env.RCAP_WORKER_REGISTRY_READONLY !== 'true', 'readonly_mode_refuses_writer');
@@ -276,9 +368,14 @@ export async function placeWorker({env = process.env, request = fetch, command =
     try { mirror = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command}); }
     catch (error) {
       const failure = error.childFailure;
-      if (!(failure?.stage === 'fly_manifest' && failure.httpStatus === 404 && failure.manifestMissingReported === true && failure.status > 0 && failure.code === null && failure.signal === null && failure.timeout === false && failure.killed !== true && !failure.authenticationRefusedReported)) throw error;
-      result.mirrorAttempts = 1; write('mirror-attempt.public.json', result);
-      mirrorImage({env, command});
+      if (!(failure?.stage === 'fly_manifest' && [null,404].includes(failure.httpStatus) && failure.manifestMissingReported === true && failure.status > 0 && failure.code === null && failure.signal === null && failure.timeout === false && failure.killed !== true && !failure.authenticationRefusedReported)) throw error;
+      // A missing CLI error is insufficient: require fresh typed HTTP proof before any copy.
+      result.destinationHttpProof = await readDestinationManifestResponse({env, request});
+      check(result.destinationHttpProof.diagnosticComplete && (result.destinationHttpProof.manifestExact || result.destinationHttpProof.typedMissingProven), 'destination_http_proof_unproven_no_copy');
+      if (!result.destinationHttpProof.manifestExact) {
+        result.mirrorAttempts = 1; write('mirror-attempt.public.json', result);
+        mirrorImage({env, command});
+      }
       mirror = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command});
     }
     requireImage(mirror); check(mirror.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch');
