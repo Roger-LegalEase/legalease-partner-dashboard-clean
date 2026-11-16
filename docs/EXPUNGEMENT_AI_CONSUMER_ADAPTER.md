@@ -91,6 +91,20 @@ The production-ready path uses the request-scoped Supabase auth client and the `
 
 The base Briefcase migration is staged in `supabase/phase-26-consumer-briefcase-items.sql`. Checkout metadata is staged in `supabase/phase-27-consumer-checkout-metadata.sql`. Neither migration has been applied by this branch.
 
+### Filing checklist and Reminders
+
+Each result matter that has next steps (packet-ready, guidance, needs-info, needs-review and not-yet results; never hard stops or likely-not-eligible results) shows an interactive filing checklist on its matter page:
+
+- **From your result**: the engine's saved `nextSteps`, unchanged. Each step's id is a hash of its normalized text, so reordering keeps progress.
+- **Get your packet ready / File it / Serve and follow up**: standard steps added only once a packet has been generated. Their wording is conditional ("if your court requires it"), and the packet's own filing instructions take priority.
+- **Your own steps**: steps the consumer adds, capped at 30.
+
+Consumers can check steps off and give any step a date. `/briefcase/reminders` (now in the Briefcase nav) lists every dated open step across matters, plus any `reminder_at` check-back date, grouped as overdue, next 7 days and later in the viewer's local time zone. It also shows each matter's checklist progress. Reminders appear in the Briefcase only; no reminder emails are sent.
+
+Storage: only progress and custom steps are stored, under `artifact_refs_json.filingChecklist`, through the existing owner-scoped `mergeBriefcaseArtifactRefs` writer. No new table, column, migration, grant or RLS change is involved. `POST /api/expungement-ai/briefcase/[itemId]/checklist` accepts only JSON (`set_step`, `add_step`, `remove_step`). It resolves the matter for the request user and writes nested, step-keyed patches, so concurrent render, webhook or packet-information writes are never overwritten. It never reads or writes eligibility, payment, packet or delivery state.
+
+Model: `src/lib/expungement-ai/filing-checklist.ts`. UI: `FilingChecklist.tsx` and `ReminderList.tsx`. Verifier: `npm run expungement:verify-filing-checklist`.
+
 ## Consumer Checkout Boundary
 
 `src/lib/expungement-ai/payment-adapter.ts` now exposes isolated consumer checkout plumbing:

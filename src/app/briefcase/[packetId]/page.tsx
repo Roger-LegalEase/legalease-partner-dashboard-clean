@@ -7,11 +7,13 @@ import {
   MatterStepper,
   packetArtifactFor
 } from "@/components/expungement-ai/BriefcaseViews";
+import { FilingChecklist } from "@/components/expungement-ai/FilingChecklist";
 import { PacketGenerateButton } from "@/components/expungement-ai/PacketGenerateButton";
 import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import { humanMatterState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
+import { buildFilingChecklist, matterHasFilingChecklist, type FilingChecklist as FilingChecklistModel } from "@/lib/expungement-ai/filing-checklist";
 import { expectedPacketComponents, packetInformationModelFor } from "@/lib/expungement-ai/packet-information";
 
 export const dynamic = "force-dynamic";
@@ -28,6 +30,7 @@ export default async function BriefcasePacketPage({
   const artifact = item ? packetArtifactFor(item) : null;
   const packetMatter = item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution";
   const model = item && packetMatter ? packetInformationModelFor(item) : null;
+  const checklist = item && matterHasFilingChecklist(item) ? buildFilingChecklist(item) : null;
 
   return (
     <BriefcaseShell
@@ -51,7 +54,7 @@ export default async function BriefcasePacketPage({
           {packetMatter ? <MatterStepper item={item} className="mt-6 max-w-[680px]" sponsored={sponsored} /> : null}
 
           {!packetMatter ? (
-            <SavedResultValue item={item} />
+            <SavedResultValue item={item} checklist={checklist} />
           ) : (
             <>
               <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
@@ -85,7 +88,7 @@ export default async function BriefcasePacketPage({
                 </div>
               </div>
 
-              {artifact ? <ReadyPacket itemId={item.id} artifact={artifact} nextSteps={item.nextSteps} /> : null}
+              {artifact ? <ReadyPacket itemId={item.id} artifact={artifact} nextSteps={item.nextSteps} checklist={checklist} /> : null}
             </>
           )}
         </section>
@@ -101,35 +104,50 @@ export default async function BriefcasePacketPage({
   );
 }
 
-function SavedResultValue({ item }: { item: NonNullable<Awaited<ReturnType<typeof getBriefcaseItem>>> }) {
+function SavedResultValue({
+  item,
+  checklist
+}: {
+  item: NonNullable<Awaited<ReturnType<typeof getBriefcaseItem>>>;
+  checklist: FilingChecklistModel | null;
+}) {
   return (
-    <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6" data-briefcase-guidance-state={humanMatterState(item)}>
-      <h2 className="text-lg font-extrabold text-[#0B1320]">{humanMatterState(item)}</h2>
-      <p className="mt-2 text-sm leading-6 text-[#5A6275]">We saved this result and its state-specific next steps in your free Briefcase. You can return anytime as you gather information or follow the guidance below.</p>
-      <h3 className="mt-5 text-sm font-bold text-[#0B1320]">Your next steps</h3>
-      <ol className="mt-3 space-y-3">
-        {item.nextSteps.map((step, index) => (
-          <li className="flex gap-3 text-sm leading-6 text-[#5A6275]" key={`${step}-${index}`}>
-            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 border-[#00A99D] text-xs font-bold text-[#00A99D]">{index + 1}</span>
-            <LocalizedRuntimeText text={step} />
-          </li>
-        ))}
-      </ol>
-      <Link className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
-        <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma to explain this
-      </Link>
-    </div>
+    <>
+      <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6" data-briefcase-guidance-state={humanMatterState(item)}>
+        <h2 className="text-lg font-extrabold text-[#0B1320]">{humanMatterState(item)}</h2>
+        <p className="mt-2 text-sm leading-6 text-[#5A6275]">We saved this result and its state-specific next steps in your free Briefcase. You can return anytime as you gather information or follow the guidance below.</p>
+        {checklist ? null : (
+          <>
+            <h3 className="mt-5 text-sm font-bold text-[#0B1320]">Your next steps</h3>
+            <ol className="mt-3 space-y-3">
+              {item.nextSteps.map((step, index) => (
+                <li className="flex gap-3 text-sm leading-6 text-[#5A6275]" key={`${step}-${index}`}>
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 border-[#00A99D] text-xs font-bold text-[#00A99D]">{index + 1}</span>
+                  <LocalizedRuntimeText text={step} />
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+        <Link className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
+          <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma to explain this
+        </Link>
+      </div>
+      {checklist ? <FilingChecklist initial={checklist} /> : null}
+    </>
   );
 }
 
 function ReadyPacket({
   itemId,
   artifact,
-  nextSteps
+  nextSteps,
+  checklist
 }: {
   itemId: string;
   artifact: { generatedAt: string; downloadPath: string; fileName: string };
   nextSteps: string[];
+  checklist: FilingChecklistModel | null;
 }) {
   return (
     <>
@@ -141,7 +159,9 @@ function ReadyPacket({
         </Link>
         <Link href={`/briefcase/${itemId}/review`} className="ml-3 mt-5 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]">Review packet information</Link>
       </div>
-      {nextSteps.length > 0 ? (
+      {checklist ? (
+        <FilingChecklist initial={checklist} />
+      ) : nextSteps.length > 0 ? (
         <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
           <h2 className="text-lg font-extrabold text-[#0B1320]">Filing next steps</h2>
           <ol className="mt-4 space-y-3">

@@ -236,9 +236,68 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.so_far": { en: "So far", es: "Hasta ahora" },
   "briefcase.reminders": { en: "Reminders", es: "Recordatorios" },
   "briefcase.reminders_body": {
-    en: "Waiting-period reminders and filing follow-ups are saved here when the engine recommends them. You will never miss a window without a heads-up.",
-    es: "Los recordatorios de períodos de espera y seguimientos de presentación se guardan aquí cuando el motor los recomienda. Le avisaremos para que no se le pase una fecha importante."
+    en: "Dates you add to a matter's filing checklist show up here, soonest first. Check a step off here or inside the matter.",
+    es: "Las fechas que agregue a la lista de presentación de un asunto aparecen aquí, de la más próxima a la más lejana. Marque un paso aquí o dentro del asunto."
   },
+  "briefcase.reminders.overdue": { en: "Overdue", es: "Vencidos" },
+  "briefcase.reminders.upcoming": { en: "Today and the next 7 days", es: "Hoy y los próximos 7 días" },
+  "briefcase.reminders.later": { en: "Later", es: "Más adelante" },
+  "briefcase.reminders.checklists": { en: "Filing checklists", es: "Listas de presentación" },
+  "briefcase.reminders.check_back": { en: "Check back on this matter", es: "Vuelva a revisar este asunto" },
+  "briefcase.reminders.empty_title": { en: "No reminders yet", es: "Todavía no hay recordatorios" },
+  "briefcase.reminders.empty_body": {
+    en: "Open a matter and add a date to any checklist step, like your filing day or a hearing. It will show up here.",
+    es: "Abra un asunto y agregue una fecha a cualquier paso de la lista, como el día de presentación o una audiencia. Aparecerá aquí."
+  },
+  "briefcase.checklist.title": { en: "Your filing checklist", es: "Su lista de presentación" },
+  "briefcase.checklist.body_packet": {
+    en: "Check off each step as you go and add dates so they show up in your reminders. Your packet's filing instructions come first if anything here differs.",
+    es: "Marque cada paso a medida que avanza y agregue fechas para verlas en sus recordatorios. Si algo aquí es diferente, siga primero las instrucciones de su paquete."
+  },
+  "briefcase.checklist.body_guidance": {
+    en: "Check off each step as you go and add dates so they show up in your reminders. Filing steps are added here once your packet is generated.",
+    es: "Marque cada paso a medida que avanza y agregue fechas para verlas en sus recordatorios. Los pasos de presentación se agregan aquí cuando se genera su paquete."
+  },
+  "briefcase.checklist.progress": { en: "{done} of {total} done", es: "{done} de {total} listos" },
+  "briefcase.checklist.progress_label": { en: "Checklist progress", es: "Progreso de la lista" },
+  "briefcase.checklist.mark_done": { en: "Mark as done", es: "Marcar como listo" },
+  "briefcase.checklist.mark_not_done": { en: "Mark as not done", es: "Marcar como pendiente" },
+  "briefcase.checklist.due": { en: "Due", es: "Para el" },
+  "briefcase.checklist.due_today": { en: "Due today", es: "Para hoy" },
+  "briefcase.checklist.overdue": { en: "Overdue", es: "Vencido" },
+  "briefcase.checklist.due_date": { en: "Due date", es: "Fecha" },
+  "briefcase.checklist.due_date_optional": { en: "Due date (optional)", es: "Fecha (opcional)" },
+  "briefcase.checklist.add_date": { en: "Add date", es: "Agregar fecha" },
+  "briefcase.checklist.change_date": { en: "Change date", es: "Cambiar fecha" },
+  "briefcase.checklist.clear_date": { en: "Clear date", es: "Quitar fecha" },
+  "briefcase.checklist.remove": { en: "Remove step", es: "Quitar paso" },
+  "briefcase.checklist.add": { en: "Add", es: "Agregar" },
+  "briefcase.checklist.add_placeholder": { en: "Add a step", es: "Agregar un paso" },
+  "briefcase.checklist.custom_empty": {
+    en: "Add anything else you need to remember, like calling the clerk or a hearing date.",
+    es: "Agregue cualquier otra cosa que necesite recordar, como llamar al secretario o la fecha de una audiencia."
+  },
+  "briefcase.checklist.save_failed": {
+    en: "We couldn't save that change. Check your connection and try again.",
+    es: "No pudimos guardar ese cambio. Revise su conexión e intente de nuevo."
+  },
+  "briefcase.checklist.disclaimer": {
+    en: "This checklist helps you keep track. It is not legal advice, and court approval is not guaranteed. Follow your packet's filing instructions and your court's rules.",
+    es: "Esta lista le ayuda a llevar el control. No es asesoría legal y la aprobación del tribunal no está garantizada. Siga las instrucciones de presentación de su paquete y las reglas de su tribunal."
+  },
+  "briefcase.checklist.group.result": { en: "From your result", es: "De su resultado" },
+  "briefcase.checklist.group.prepare": { en: "Get your packet ready", es: "Prepare su paquete" },
+  "briefcase.checklist.group.file": { en: "File it", es: "Preséntelo" },
+  "briefcase.checklist.group.follow_up": { en: "Serve and follow up", es: "Notifique y dé seguimiento" },
+  "briefcase.checklist.group.custom": { en: "Your own steps", es: "Sus propios pasos" },
+  "briefcase.checklist.step.std-review-packet": { en: "Read your whole packet once, start to finish", es: "Lea su paquete completo una vez, de principio a fin" },
+  "briefcase.checklist.step.std-sign": { en: "Sign where the forms indicate", es: "Firme donde lo indiquen los formularios" },
+  "briefcase.checklist.step.std-notarize": { en: "Get it notarized if your court requires it", es: "Notarícelo si su tribunal lo requiere" },
+  "briefcase.checklist.step.std-copies": { en: "Make copies for your records", es: "Haga copias para sus archivos" },
+  "briefcase.checklist.step.std-file": { en: "File with the clerk or court named in your instructions", es: "Preséntelo ante el secretario o tribunal indicado en sus instrucciones" },
+  "briefcase.checklist.step.std-fee": { en: "Pay the filing fee or ask for a fee waiver", es: "Pague la tarifa de presentación o solicite una exención" },
+  "briefcase.checklist.step.std-serve": { en: "Serve the prosecutor or agency if your instructions say to", es: "Notifique a la fiscalía o agencia si sus instrucciones lo indican" },
+  "briefcase.checklist.step.std-track": { en: "Watch for the court's response or a hearing date", es: "Esté pendiente de la respuesta del tribunal o de una fecha de audiencia" },
   "briefcase.payment_history": { en: "Payment history", es: "Historial de pagos" },
   "briefcase.packet_label": { en: "Packet", es: "Paquete" },
   "briefcase.receipt": { en: "Receipt", es: "Recibo" },
@@ -282,6 +341,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   },
   "briefcase.nav.briefcase": { en: "Briefcase", es: "Maletín" },
   "briefcase.nav.my_matters": { en: "My matters", es: "Mis asuntos" },
+  "briefcase.nav.reminders": { en: "Reminders", es: "Recordatorios" },
   "briefcase.nav.documents": { en: "Documents", es: "Documentos" },
   "briefcase.nav.profile": { en: "Profile", es: "Perfil" },
   "briefcase.nav.settings": { en: "Settings", es: "Configuración" },

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowRight, Check, CreditCard, Download, LifeBuoy } from "lucide-react";
 import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
+import { ReminderList } from "@/components/expungement-ai/ReminderList";
+import type { BriefcaseReminder } from "@/lib/expungement-ai/filing-checklist";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { humanMatterState, matterCareState, type MatterCareState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
 import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
@@ -410,11 +412,38 @@ export function DocumentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
   );
 }
 
-export function RemindersView() {
+export function RemindersView({
+  reminders = [],
+  checklistProgress = []
+}: {
+  reminders?: BriefcaseReminder[];
+  checklistProgress?: Array<{ itemId: string; title: string; state: string; done: number; total: number }>;
+}) {
   return (
-    <section className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
-      <h1 className="text-[22px] font-extrabold text-[#0B1320]"><LocalizedText k="briefcase.reminders" fallback="Reminders" /></h1>
-      <p className="mt-3 text-[14px] leading-6 text-[#5A6275]"><LocalizedText k="briefcase.reminders_body" fallback="Waiting-period reminders and filing follow-ups are saved here when the engine recommends them. You will never miss a window without a heads-up." /></p>
+    <section>
+      <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedText k="briefcase.reminders" fallback="Reminders" /></h1>
+      <p className="mt-1 max-w-[640px] text-[13px] leading-6 text-[#8A93A6]"><LocalizedText k="briefcase.reminders_body" fallback="Dates you add to a matter's filing checklist show up here, soonest first. Check a step off here or inside the matter." /></p>
+      <ReminderList reminders={reminders} />
+      {checklistProgress.length ? (
+        <div className="mt-8">
+          <h2 className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#8A93A6]"><LocalizedText k="briefcase.reminders.checklists" fallback="Filing checklists" /></h2>
+          <ul className="mt-2 grid gap-3 md:grid-cols-2">
+            {checklistProgress.map((matter) => {
+              const pct = matter.total ? Math.round((matter.done / matter.total) * 100) : 0;
+              return (
+                <li key={matter.itemId}>
+                  <Link href={`/briefcase/matters/${encodeURIComponent(matter.itemId)}`} className="block rounded-[14px] border border-[#ECEFF4] bg-white p-4 hover:border-[#00A99D]" data-checklist-progress={matter.itemId}>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#00A99D]">{matter.state}</p>
+                    <p className="mt-1 truncate text-[14px] font-bold text-[#0B1320]">{matter.title}</p>
+                    <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#ECEFF4]"><div className="h-full rounded-full bg-[#00A99D]" style={{ width: `${pct}%` }} /></div>
+                    <p className="mt-2 text-[12px] text-[#5A6275]"><LocalizedText k="briefcase.checklist.progress" fallback="{done} of {total} done" vars={{ done: matter.done, total: matter.total }} /></p>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
     </section>
   );
 }

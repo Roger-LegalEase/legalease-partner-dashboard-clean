@@ -8,11 +8,12 @@ import { ExpungementWordmark } from "@/components/expungement-ai/ExpungementWord
 
 const sora = Sora({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 
-export type BriefcaseNavKey = "briefcase" | "matters" | "documents" | "settings";
+export type BriefcaseNavKey = "briefcase" | "matters" | "reminders" | "documents" | "settings";
 
 const PRIMARY_NAV: Array<{ key: BriefcaseNavKey; href: string; label: string; Icon: typeof LayoutGrid }> = [
   { key: "briefcase", href: "/briefcase", label: "Briefcase", Icon: LayoutGrid },
   { key: "matters", href: "/briefcase/matters", label: "My matters", Icon: Layers },
+  { key: "reminders", href: "/briefcase/reminders", label: "Reminders", Icon: Bell },
   { key: "documents", href: "/briefcase/documents", label: "Documents", Icon: FileText }
 ];
 
@@ -126,7 +127,7 @@ export function BriefcaseShell({
       </div>
 
       {/* Bottom tab bar (mobile) */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-white/10 bg-[#0B1326] md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-white/10 bg-[#0B1326] md:hidden">
         {[...PRIMARY_NAV, { key: "settings" as const, href: "/briefcase/settings", label: "Settings", Icon: Settings }].map(
           ({ key, href, label, Icon }) => (
             <Link
@@ -137,7 +138,9 @@ export function BriefcaseShell({
               }`}
             >
               <Icon className="h-5 w-5" aria-hidden="true" />
-              <LocalizedText k={`briefcase.nav.${label.toLowerCase().replace(/\s+/g, "_")}`} fallback={label} />
+              <span className="block w-full truncate px-0.5 text-center">
+                <LocalizedText k={`briefcase.nav.${label.toLowerCase().replace(/\s+/g, "_")}`} fallback={label} />
+              </span>
             </Link>
           )
         )}
