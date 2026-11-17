@@ -1154,16 +1154,16 @@ jobs:
           [ -z "$(git status --porcelain)" ]
           node --input-type=module -e 'import {requireExecutionContext} from "./scripts/acceptance/place-840a-worker.mjs"; requireExecutionContext(process.env)'
           printf '%s  %s\n' \
-            6b678ad3d0e24219b5db7ca1ee4b7eba5d053fb0d9af177b3f87f98f8babdc5d scripts/acceptance/place-840a-worker.mjs \
+            7a6168a5089c9bec3f66d53160934295fde8262381853cf62b1e712861bbefd7 scripts/acceptance/place-840a-worker.mjs \
             e092bfbd8d8335b6d7d444a28f06014a5b3d93139ee0288499da16dd2cc360aa scripts/acceptance/registry-image.mjs \
             5a184100854833ebaac42f1239e1cf210be24d7e4c4441b2c212c6988a9e649e scripts/acceptance/fly-handoff-events.mjs \
             bb3b85b405fa1a0c571f0b3c5b6bb7537d6634b4cde066cd176f387f98fad483 scripts/qualified-worker-readonly-capture.mjs \
-            bcc58d0c0bdc01ba5801523cafd02937acf7bdc30c1d84a7b5edb94aea1cca44 scripts/acceptance/place-840a-worker.test.mjs \
+            3dc5b226fa5c5826d702c1d37b581d0ffac0b609265b91f2d604a73e1a404424 scripts/acceptance/place-840a-worker.test.mjs \
             | sha256sum -c -
           command -v skopeo >/dev/null
           skopeo --version
-      - name: Check only the affected 840A binding and before-effect refusals
-        run: node --test --test-name-pattern='840a successor:' scripts/acceptance/place-840a-worker.test.mjs
+      - name: Check only exact mirrored-digest reuse and before-effect refusals
+        run: node --test --test-name-pattern='840a mirror reuse:' scripts/acceptance/place-840a-worker.test.mjs
       - name: Set up the existing Fly CLI interface
         uses: superfly/flyctl-actions/setup-flyctl@master
         with:
@@ -1174,8 +1174,8 @@ jobs:
           import fs from 'node:fs';
           import os from 'node:os';
           const devices = new Map();
-          // Bound every accepted encoded layer once, plus exact config/manifest and small control writes.
-          const registryWrites = 339542389n;
+          // Bound source/destination manifest/config metadata and small control writes; no layer copy.
+          const registryWrites = 1443664n;
           for (const [directory, writes] of [[process.cwd(), 1048576n], [os.tmpdir(), registryWrites]]) {
             const device = String(fs.statSync(directory).dev);
             const stat = fs.statfsSync(directory, {bigint: true});

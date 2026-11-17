@@ -118,6 +118,11 @@ async function scenario(fault = '', writer = placeWorker) {
     if (fault === 'postlease-exec-unknown' && liveLease && url.endsWith('/exec')) return new Response(JSON.stringify({error:'PRIVATE_SERVER_ERROR_SENTINEL', status:'PRIVATE_STATUS_SENTINEL'}), {status:409});
     if (fault === 'postlease-exec-oversized' && liveLease && url.endsWith('/exec')) return new Response('PRIVATE_SERVER_ERROR_SENTINEL'.repeat(1024), {status:409});
     if (fault === 'postlease-exec-transport' && liveLease && url.endsWith('/exec')) throw Error('PRIVATE_TRANSPORT_ERROR_SENTINEL');
+    if (fault.startsWith('prelease-read-transport') && destinationReads === 1 && !leases && options.method === 'GET' && url.endsWith('/'+TARGET.machine)) {
+      const error = Object.assign(new TypeError('PRIVATE_TRANSPORT_MESSAGE_SENTINEL'), {cause: {code: 'UND_ERR_CONNECT_TIMEOUT', message: 'PRIVATE_TRANSPORT_CAUSE_SENTINEL'}});
+      if(fault.endsWith('-unknown')){error.name='PRIVATE_TRANSPORT_NAME_SENTINEL';error.code='PRIVATE_TRANSPORT_CODE_SENTINEL';error.cause.code='PRIVATE_TRANSPORT_CAUSE_CODE_SENTINEL';}
+      throw error;
+    }
     if (fault === 'postupdate-read-http' && updates && options.method === 'GET') return {ok:false, status:409};
     if (url.endsWith('/exec')) {
       const body = JSON.parse(options.body); assert.equal(body.command[0], 'node'); assert.equal(body.timeout, 15);
@@ -209,4 +214,15 @@ test('840a successor: deadline failure retains safe aftertuple and releases only
 test('840a successor: missing native exit remains strictfalse after all actualcurrent proofs; UID queue config failures remain fatal',async()=>{
   const s=await scenario('missing-exit');assert.equal(s.result.runtimeQualified,false);assert.equal(s.result.refusalCode,'native_clean_handoff_unproven');assert.equal(s.result.currentRuntimeObserved,true);assert.equal(s.result.afterVersion,nextVersion);assert.notEqual(s.result.nativeHandoffProven,true);assert.equal(s.result.leaseReleased,true);assert.equal(s.result.configUnchangedExceptImageFields,true);assert.equal(s.result.effectiveBindingProven,true);assert.equal(s.result.configuredNonrootProven,true);assert.equal(s.result.queueWindowProven,true);assert.equal(s.result.secretNamesStable,true);assert.deepEqual(s.sshCalls.map(x=>x.updatesBefore),[0,1]);
   for(const fault of ['post-config-drift','root-user','postlease-queue-busy','ssh-role','ssh-project','release-error']){const f=await scenario(fault);assert.equal(f.result.runtimeQualified,false,fault);assert(f.result.refusalCode||f.result.releaseFailure,fault);assert(f.updates<=1&&f.leases<=1&&f.releases<=1,fault);}
+});
+
+test('840a mirror reuse: exact destination proceeds with zero copies and the unchanged guarded transition',async()=>{
+  const s=await scenario();assert.equal(s.result.runtimeQualified,true);assert.equal(s.result.registryIdentityProven,true);assert.deepEqual([s.mirrorCopies,s.leases,s.updates,s.releases],[0,1,1,1]);assert.deepEqual(s.inspections,[`ghcr.io/roger-legalease/rcap-render-worker@${TARGET.digest}`,`registry.fly.io/${TARGET.app}@${TARGET.digest}`]);assert.equal(s.result.automaticRetry,false);assert.equal(s.result.automaticRollback,false);
+});
+test('840a mirror reuse: missing denied or indeterminate destination refuses before copy lease update',async()=>{
+  for(const fault of ['destination-missing','destination-denied','destination-unknown','destination-config-missing','destination-http-null','destination-http-500']){const s=await scenario(fault);assert.equal(s.result.runtimeQualified,false,fault);assert.equal(s.result.registryIdentityProven,undefined,fault);assert.deepEqual([s.mirrorCopies,s.leases,s.updates,s.releases],[0,0,0,0],fault);assert.equal(s.registryGets,0,fault);assert(s.result.refusalCode,fault);}
+});
+
+test('840a mirror reuse: prelease transport cause is safely attributed and unknown fields stay private',async()=>{
+  for(const fault of ['prelease-read-transport','prelease-read-transport-unknown']){const s=await scenario(fault);assert.equal(s.result.refusalCode,'request_transport_or_timeout_indeterminate');assert.equal(s.result.requestFailureOperation,'FLY_MACHINE_READ');assert.equal(s.result.registryIdentityProven,true);assert.deepEqual([s.mirrorCopies,s.leases,s.updates,s.releases],[0,0,0,0]);const p=s.result.transportFailure;assert.equal(p.operation,'FLY_MACHINE_READ');assert.equal(p.errorName,fault.endsWith('-unknown')?null:'TypeError');assert.equal(p.code,null);assert.equal(p.causeCode,fault.endsWith('-unknown')?null:'UND_ERR_CONNECT_TIMEOUT');assert.equal(p.configuredTimeoutMs,20000);assert.equal(p.elapsedMs,0);assert.equal(p.abortSignalAborted,false);assert.equal(p.abortReasonName,null);assert.equal(p.httpStatusObserved,false);assert(!JSON.stringify(s.result).includes('PRIVATE_TRANSPORT_'));assert.equal(s.result.automaticRetry,false);assert.equal(s.result.automaticRollback,false);}
 });

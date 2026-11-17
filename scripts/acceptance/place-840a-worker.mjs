@@ -333,8 +333,17 @@ export async function placeWorker({env = process.env, request = fetch, command =
   const json = async (operation, url, options) => {
     check(operations.has(operation), 'request_operation_refused');
     const failure = code => Object.assign(new Error(code), {requestOperation: operation});
-    let response; try { response = await request(url, {...options, redirect: 'error', signal: AbortSignal.timeout(20000)}); }
-    catch { throw failure('request_transport_or_timeout_indeterminate'); }
+    const started = now(), signal = AbortSignal.timeout(20000);
+    let response;
+    try { response = await request(url, {...options, redirect: 'error', signal}); }
+    catch (error) {
+      const refused = failure('request_transport_or_timeout_indeterminate');
+      const names = new Set(['Error','TypeError','AbortError','TimeoutError']);
+      const codes = new Set(['ABORT_ERR','ETIMEDOUT','ECONNREFUSED','ECONNRESET','ENETUNREACH','EHOSTUNREACH','ENOTFOUND','EAI_AGAIN','EPIPE','UND_ERR_CONNECT_TIMEOUT','UND_ERR_HEADERS_TIMEOUT','UND_ERR_BODY_TIMEOUT','UND_ERR_SOCKET']);
+      const elapsed = now() - started;
+      refused.transportFailure = {operation, errorName: names.has(error?.name) ? error.name : null, code: codes.has(error?.code) ? error.code : null, causeCode: codes.has(error?.cause?.code) ? error.cause.code : null, configuredTimeoutMs: 20000, elapsedMs: Number.isFinite(elapsed) ? Math.max(0, Math.min(86400000, Math.round(elapsed))) : null, abortSignalAborted: signal.aborted, abortReasonName: names.has(signal.reason?.name) ? signal.reason.name : null, httpStatusObserved: false};
+      throw refused;
+    }
     if (!response.ok) throw failure(`request_HTTP_${response.status}`);
     return response.json();
   };
@@ -366,21 +375,8 @@ export async function placeWorker({env = process.env, request = fetch, command =
     await queue(); await effective();
     const fresh = await json('FLY_MACHINE_READ', `${BASE}/${TARGET.machine}`, {method: 'GET', headers: machineAuth()});
     check(fresh.instance_id === before.instance_id && same(fresh.config, before.config) && fresh.state === 'started' && fresh.image_ref?.digest === before.image_ref.digest, 'pre_effect_machine_drift');
-    // Reuse an exact destination; only a typed missing manifest permits this job's one copy.
-    let mirror;
-    try { mirror = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command}); }
-    catch (error) {
-      const failure = error.childFailure;
-      if (!(failure?.stage === 'fly_manifest' && [null,404].includes(failure.httpStatus) && failure.manifestMissingReported === true && failure.status > 0 && failure.code === null && failure.signal === null && failure.timeout === false && failure.killed !== true && !failure.authenticationRefusedReported)) throw error;
-      // A missing CLI error is insufficient: require fresh typed HTTP proof before any copy.
-      result.destinationHttpProof = await readDestinationManifestResponse({env, request});
-      check(result.destinationHttpProof.diagnosticComplete && (result.destinationHttpProof.manifestExact || result.destinationHttpProof.typedMissingProven), 'destination_http_proof_unproven_no_copy');
-      if (!result.destinationHttpProof.manifestExact) {
-        result.mirrorAttempts = 1; write('mirror-attempt.public.json', result);
-        mirrorImage({env, command});
-      }
-      mirror = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command});
-    }
+    // The accepted digest is already mirrored; missing or ambiguous custody refuses before any lease.
+    const mirror = inspectImage(`registry.fly.io/${TARGET.app}@${TARGET.digest}`, {env, command});
     requireImage(mirror); check(mirror.ManifestDigest === TARGET.digest, 'registry_manifest_digest_mismatch');
     result.registryIdentityProven = true;
     check(same(secretNames({env, command}), names), 'secret_reference_names_drift');
