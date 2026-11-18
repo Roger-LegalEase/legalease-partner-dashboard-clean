@@ -1,0 +1,898 @@
+[
+  {
+    "name": "campaign-admin",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "A-T01",
+      "A-T03",
+      "A-T04",
+      "A-T06",
+      "A-T07",
+      "A-T13",
+      "A-T23",
+      "A-T27",
+      "A-T29",
+      "A-T30",
+      "A-T15",
+      "A-T14",
+      "A-T10",
+      "A-T28",
+      "A-T22",
+      "A-T31",
+      "A-T32",
+      "A-T34",
+      "A-T02"
+    ],
+    "log": "logs/campaign-admin.log",
+    "startedAt": "2026-10-10T23:11:11.710Z",
+    "finishedAt": "2026-10-10T23:11:43.366Z",
+    "logSha256": "32aa103aa4cee1d8f863e9b0e4fa12efdc07705584b9a7ddc7f6320912e21ecc"
+  },
+  {
+    "name": "campaign-scale",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-scale.log",
+    "startedAt": "2026-10-10T23:11:43.367Z",
+    "finishedAt": "2026-10-10T23:12:17.316Z",
+    "logSha256": "93df0f53dfba55e0a709591809fa5837f3b43e3de028d1fd3c05d8acfc6ede02"
+  },
+  {
+    "name": "check-partner-transition",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "P-T04",
+      "P-T09",
+      "P-T11",
+      "P-T12"
+    ],
+    "log": "logs/check-partner-transition.log",
+    "startedAt": "2026-10-10T23:12:17.316Z",
+    "finishedAt": "2026-10-10T23:12:26.753Z",
+    "logSha256": "5449f8925b6fd668cdba495633796b549ecd4ee973050fe2878ea539cc330f72"
+  },
+  {
+    "name": "check-clinic-integration",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "C-T01",
+      "C-T03",
+      "C-T04",
+      "C-T05",
+      "C-T07",
+      "C-T09",
+      "C-T12",
+      "C-T14",
+      "C-T17",
+      "C-T18"
+    ],
+    "log": "logs/check-clinic-integration.log",
+    "startedAt": "2026-10-10T23:12:26.754Z",
+    "finishedAt": "2026-10-10T23:12:45.815Z",
+    "logSha256": "306ab3272d8371ee5800aba6e51c26820cdb9f7dee79f23491f676e6fa7e8490"
+  },
+  {
+    "name": "check-clinic-queue-reset",
+    "result": "FAIL",
+    "exitCode": 1,
+    "dependencies": [
+      "check-clinic-integration"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "C-T06",
+      "C-T19",
+      "C-T20",
+      "C-T21",
+      "C-T22",
+      "U-T22",
+      "U-T23"
+    ],
+    "log": "logs/check-clinic-queue-reset.log",
+    "startedAt": "2026-10-10T23:12:45.815Z",
+    "finishedAt": "2026-10-10T23:12:50.844Z",
+    "logSha256": "66a24533344fa04595d8f7cf299eb87a677a62b3b8cddcb76c5020c3eeede97e"
+  },
+  {
+    "name": "campaign-clinic-lifecycle",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "check-clinic-queue-reset"
+    ],
+    "failedDependency": "check-clinic-queue-reset",
+    "caseIds": [
+      "C-T13",
+      "C-T08",
+      "C-T10",
+      "C-T02"
+    ],
+    "log": "logs/campaign-clinic-lifecycle.log",
+    "startedAt": "2026-10-10T23:12:50.846Z",
+    "finishedAt": "2026-10-10T23:12:50.846Z",
+    "logSha256": "5ad6f5fb5f134b9b0c260c794a71de3d11ebc72611c9fda1c39183ae4129bb1c"
+  },
+  {
+    "name": "campaign-clinic-boundaries",
+    "result": "FAIL",
+    "exitCode": 1,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "C-T11",
+      "C-T15",
+      "C-T16",
+      "C-T23"
+    ],
+    "log": "logs/campaign-clinic-boundaries.log",
+    "startedAt": "2026-10-10T23:12:50.848Z",
+    "finishedAt": "2026-10-10T23:13:39.991Z",
+    "logSha256": "e6218101ca46f8ef191bf8c80965dce260f6695ef59b5728a8bb243cbc72e1d8"
+  },
+  {
+    "name": "campaign-clinic-optional-mode",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "C-T23"
+    ],
+    "log": "logs/campaign-clinic-optional-mode.log",
+    "startedAt": "2026-10-10T23:13:39.994Z",
+    "finishedAt": "2026-10-10T23:13:41.658Z",
+    "logSha256": "0ff97c60c1c590b73f6b2294c0d24385870de0c994d27f2f513adedb1c503836"
+  },
+  {
+    "name": "campaign-invitation-recovery",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "check-clinic-integration"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "P-T03",
+      "P-T02",
+      "A-T38",
+      "P-T01",
+      "A-T09"
+    ],
+    "log": "logs/campaign-invitation-recovery.log",
+    "startedAt": "2026-10-10T23:13:41.659Z",
+    "finishedAt": "2026-10-10T23:13:51.772Z",
+    "logSha256": "3b56552095254974c8cdf33e2758c1b0bfc75e433ea242d50987ebf546d18ec7"
+  },
+  {
+    "name": "campaign-spanish-failures",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "A-T16",
+      "A-T17",
+      "A-T18",
+      "A-T19",
+      "A-T20",
+      "A-T24",
+      "A-T21"
+    ],
+    "log": "logs/campaign-spanish-failures.log",
+    "startedAt": "2026-10-10T23:13:51.773Z",
+    "finishedAt": "2026-10-10T23:14:00.764Z",
+    "logSha256": "21e069b2f21d578cdb5ec226049a05b72d3fcf2427d940f5b3e407685c44e7f1"
+  },
+  {
+    "name": "campaign-spanish-update",
+    "result": "FAIL",
+    "exitCode": 1,
+    "dependencies": [
+      "campaign-spanish-failures"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "A-T25",
+      "A-T26"
+    ],
+    "log": "logs/campaign-spanish-update.log",
+    "startedAt": "2026-10-10T23:14:00.764Z",
+    "finishedAt": "2026-10-10T23:14:02.927Z",
+    "logSha256": "6e69d48f61c1e2fa7a2ecb7015db61e68c50e1f8c0b5459f2286bcc79220f26c"
+  },
+  {
+    "name": "campaign-partner-spanish",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "campaign-invitation-recovery"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "P-T08"
+    ],
+    "log": "logs/campaign-partner-spanish.log",
+    "startedAt": "2026-10-10T23:14:02.929Z",
+    "finishedAt": "2026-10-10T23:15:54.243Z",
+    "logSha256": "1f608d59a5dce64dff15fe4eff0d8b667672729bd900870819646b90d888b1a7"
+  },
+  {
+    "name": "campaign-partner-scope-codes",
+    "result": "FAIL",
+    "exitCode": 1,
+    "dependencies": [
+      "campaign-invitation-recovery"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "P-T06",
+      "P-T07",
+      "P-T18"
+    ],
+    "log": "logs/campaign-partner-scope-codes.log",
+    "startedAt": "2026-10-10T23:15:54.243Z",
+    "finishedAt": "2026-10-10T23:16:41.203Z",
+    "logSha256": "29bbaf3997751e46e8c2b4c904e7e824149cefab97b2d8f92a2084a58efc6a3c"
+  },
+  {
+    "name": "campaign-partner-staff",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "check-partner-transition"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "P-T10"
+    ],
+    "log": "logs/campaign-partner-staff.log",
+    "startedAt": "2026-10-10T23:16:41.205Z",
+    "finishedAt": "2026-10-10T23:16:44.739Z",
+    "logSha256": "f1c8c9fe7f74e30b0f7ff4b3fcebae05a12adec2005caee3f74de0d8de7303c1"
+  },
+  {
+    "name": "campaign-partner-delegation",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-partner-spanish",
+      "campaign-partner-scope-codes"
+    ],
+    "failedDependency": "campaign-partner-scope-codes",
+    "caseIds": [
+      "P-T13",
+      "P-T15",
+      "P-T18"
+    ],
+    "log": "logs/campaign-partner-delegation.log",
+    "startedAt": "2026-10-10T23:16:44.740Z",
+    "finishedAt": "2026-10-10T23:16:44.740Z",
+    "logSha256": "56bace6c066c54b86b2f7ec6e5f5d70dede934fd09b2818f1860ae45fde199a6"
+  },
+  {
+    "name": "campaign-partner-navigation",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "check-partner-transition",
+      "campaign-admin"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "P-T17",
+      "P-T16",
+      "P-T05",
+      "P-T19",
+      "P-T14"
+    ],
+    "log": "logs/campaign-partner-navigation.log",
+    "startedAt": "2026-10-10T23:16:44.742Z",
+    "finishedAt": "2026-10-10T23:16:53.836Z",
+    "logSha256": "5e81f6890f5cdff368bdc0d241fc893ae79f070d50f23886ce02d12b6e153ea0"
+  },
+  {
+    "name": "campaign-admin-boundaries",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "campaign-scale"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "A-T12",
+      "A-T11",
+      "A-T08"
+    ],
+    "log": "logs/campaign-admin-boundaries.log",
+    "startedAt": "2026-10-10T23:16:53.837Z",
+    "finishedAt": "2026-10-10T23:17:00.253Z",
+    "logSha256": "646c2e2dc376b1d962dfd744cab5bf4d07250c96578964145f089f2a7749ef90"
+  },
+  {
+    "name": "campaign-admin-diagnostics",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "campaign-scale"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "A-T05",
+      "A-T35",
+      "A-T36",
+      "A-T37"
+    ],
+    "log": "logs/campaign-admin-diagnostics.log",
+    "startedAt": "2026-10-10T23:17:00.253Z",
+    "finishedAt": "2026-10-10T23:17:04.495Z",
+    "logSha256": "196b79f5ea879fe092c56c5b20353ca644ba4789c44fdc9b47a6efd9fafe567d"
+  },
+  {
+    "name": "campaign-launch-authority-denial",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "check-partner-transition"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "P-T14",
+      "A-T33"
+    ],
+    "log": "logs/campaign-launch-authority-denial.log",
+    "startedAt": "2026-10-10T23:17:04.496Z",
+    "finishedAt": "2026-10-10T23:17:10.924Z",
+    "logSha256": "487ba13136a9bd06759ae8c73b182b8485c11b6249625a9ba3d8c7bf5f66cf08"
+  },
+  {
+    "name": "campaign-public-boundaries",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-spanish-update",
+      "campaign-scale"
+    ],
+    "failedDependency": "campaign-spanish-update",
+    "caseIds": [
+      "U-T01",
+      "U-T02",
+      "U-T03",
+      "U-T04"
+    ],
+    "log": "logs/campaign-public-boundaries.log",
+    "startedAt": "2026-10-10T23:17:10.924Z",
+    "finishedAt": "2026-10-10T23:17:10.924Z",
+    "logSha256": "86ccf45941e4dda650d967101ba24dc41fa8858590b3becbe025281c42b2af9e"
+  },
+  {
+    "name": "campaign-access-code-claim",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "U-T05",
+      "U-T06"
+    ],
+    "log": "logs/campaign-access-code-claim.log",
+    "startedAt": "2026-10-10T23:17:10.926Z",
+    "finishedAt": "2026-10-10T23:17:32.091Z",
+    "logSha256": "a11a7ef2f440e1b8b796221e5a7cfde31c528e16c7cdf52ad34b2992a2ab5d32"
+  },
+  {
+    "name": "campaign-account-claim",
+    "result": "FAIL",
+    "exitCode": 1,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [
+      "U-T08",
+      "U-T10"
+    ],
+    "log": "logs/campaign-account-claim.log",
+    "startedAt": "2026-10-10T23:17:32.092Z",
+    "finishedAt": "2026-10-10T23:17:36.608Z",
+    "logSha256": "96096d472218a8fac0213f06b656e5d4cc8f827169181e5f96e15438922916a9"
+  },
+  {
+    "name": "campaign-account-claim-readback",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim"
+    ],
+    "failedDependency": "campaign-account-claim",
+    "caseIds": [
+      "U-T08",
+      "U-T10"
+    ],
+    "log": "logs/campaign-account-claim-readback.log",
+    "startedAt": "2026-10-10T23:17:36.610Z",
+    "finishedAt": "2026-10-10T23:17:36.610Z",
+    "logSha256": "d4b39f6c72bc5b11a97aee80b554b8f9fd236805ee2f6ee65eaaccd3bbb14200"
+  },
+  {
+    "name": "campaign-participant-boundaries",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [
+      "U-T16",
+      "U-T15"
+    ],
+    "log": "logs/campaign-participant-boundaries.log",
+    "startedAt": "2026-10-10T23:17:36.613Z",
+    "finishedAt": "2026-10-10T23:17:36.613Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "campaign-participant-packet",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "campaign-scale"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "U-T07",
+      "U-T09",
+      "U-T11",
+      "U-T13"
+    ],
+    "log": "logs/campaign-participant-packet.log",
+    "startedAt": "2026-10-10T23:17:36.615Z",
+    "finishedAt": "2026-10-10T23:17:49.065Z",
+    "logSha256": "783f113e9191478343f683fc096c20c7c452e12acdd8670ec692b8c22d5a31aa"
+  },
+  {
+    "name": "campaign-payment",
+    "result": "FAIL",
+    "exitCode": 1,
+    "dependencies": [
+      "campaign-participant-packet"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "U-T18",
+      "U-T19"
+    ],
+    "log": "logs/campaign-payment.log",
+    "startedAt": "2026-10-10T23:17:49.065Z",
+    "finishedAt": "2026-10-10T23:18:16.068Z",
+    "logSha256": "187b1d0fc3d7d649f0f04bbe45c96f7113a8bb577bb497a14c47453428fa9b39"
+  },
+  {
+    "name": "campaign-render-recovery",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-payment"
+    ],
+    "failedDependency": "campaign-payment",
+    "caseIds": [
+      "U-T20",
+      "U-T14"
+    ],
+    "log": "logs/campaign-render-recovery.log",
+    "startedAt": "2026-10-10T23:18:16.070Z",
+    "finishedAt": "2026-10-10T23:18:16.070Z",
+    "logSha256": "57dff88d8b3b2d75e611f84183fab21d5ce9eabb264eae821f281a2218c8681b"
+  },
+  {
+    "name": "campaign-packet-delivery",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-render-recovery"
+    ],
+    "failedDependency": "campaign-render-recovery",
+    "caseIds": [
+      "U-T12",
+      "U-T21"
+    ],
+    "log": "logs/campaign-packet-delivery.log",
+    "startedAt": "2026-10-10T23:18:16.072Z",
+    "finishedAt": "2026-10-10T23:18:16.072Z",
+    "logSha256": "577e56b7fe376cdcd15258a1e81724dc528a83783e972ca3ceb9fe1d059effe7"
+  },
+  {
+    "name": "campaign-funding-dependency",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "check-partner-transition"
+    ],
+    "failedDependency": null,
+    "caseIds": [
+      "U-T17"
+    ],
+    "log": "logs/campaign-funding-dependency.log",
+    "startedAt": "2026-10-10T23:18:16.074Z",
+    "finishedAt": "2026-10-10T23:18:18.325Z",
+    "logSha256": "33b5f03401d1ae0ad24ebca801b7d508803537029056526997d8a2ec8dc5ff5d"
+  },
+  {
+    "name": "campaign-navigation-controls",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "campaign-admin"
+    ],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-navigation-controls.log",
+    "startedAt": "2026-10-10T23:18:18.325Z",
+    "finishedAt": "2026-10-10T23:18:29.643Z",
+    "logSha256": "a5a129e0f4834f072049c4af25a20c2c6a2e2586cdd41a4317a78119593ba8be"
+  },
+  {
+    "name": "campaign-configuration-controls",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "campaign-scale"
+    ],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-configuration-controls.log",
+    "startedAt": "2026-10-10T23:18:29.644Z",
+    "finishedAt": "2026-10-10T23:18:33.541Z",
+    "logSha256": "b30eee5ef83f38e336f1aa7f7f7d282422202a152db635824416b3c7eaa796d1"
+  },
+  {
+    "name": "campaign-admin-remaining-controls",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [
+      "campaign-scale"
+    ],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-admin-remaining-controls.log",
+    "startedAt": "2026-10-10T23:18:33.542Z",
+    "finishedAt": "2026-10-10T23:18:43.657Z",
+    "logSha256": "5190c56e1ce1c0284dc217026f8e60e13de2d0a356c2b2d95c31ebd8d3c47a18"
+  },
+  {
+    "name": "campaign-operational-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-partner-delegation"
+    ],
+    "failedDependency": "campaign-partner-delegation",
+    "caseIds": [],
+    "log": "logs/campaign-operational-controls.log",
+    "startedAt": "2026-10-10T23:18:43.658Z",
+    "finishedAt": "2026-10-10T23:18:43.658Z",
+    "logSha256": "bc0457414bc7dc63214efb82f0291729c5717651f601e7c6d353f8e3cc8c80bb"
+  },
+  {
+    "name": "campaign-partner-field-controls",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-partner-field-controls.log",
+    "startedAt": "2026-10-10T23:18:43.660Z",
+    "finishedAt": "2026-10-10T23:18:50.951Z",
+    "logSha256": "5190c56e1ce1c0284dc217026f8e60e13de2d0a356c2b2d95c31ebd8d3c47a18"
+  },
+  {
+    "name": "campaign-preview-contact-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-partner-delegation"
+    ],
+    "failedDependency": "campaign-partner-delegation",
+    "caseIds": [],
+    "log": "logs/campaign-preview-contact-controls.log",
+    "startedAt": "2026-10-10T23:18:50.952Z",
+    "finishedAt": "2026-10-10T23:18:50.952Z",
+    "logSha256": "bc0457414bc7dc63214efb82f0291729c5717651f601e7c6d353f8e3cc8c80bb"
+  },
+  {
+    "name": "campaign-clinic-control-audit",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-clinic-control-audit.log",
+    "startedAt": "2026-10-10T23:18:50.954Z",
+    "finishedAt": "2026-10-10T23:18:53.704Z",
+    "logSha256": "f1c22f7253f26074fd8ed24a298208f11b192d67d0d31e395719f3ef5a0a289d"
+  },
+  {
+    "name": "campaign-clinic-capacity-controls",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-clinic-capacity-controls.log",
+    "startedAt": "2026-10-10T23:18:53.705Z",
+    "finishedAt": "2026-10-10T23:19:11.678Z",
+    "logSha256": "f1c22f7253f26074fd8ed24a298208f11b192d67d0d31e395719f3ef5a0a289d"
+  },
+  {
+    "name": "campaign-clinic-empty-team-controls",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-clinic-empty-team-controls.log",
+    "startedAt": "2026-10-10T23:19:11.679Z",
+    "finishedAt": "2026-10-10T23:19:13.784Z",
+    "logSha256": "5c6fe804405f69334abfbf11b5c72b045ce692934af26a438f72b074ff1b6910"
+  },
+  {
+    "name": "campaign-account-recovery-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [],
+    "log": "logs/campaign-account-recovery-controls.log",
+    "startedAt": "2026-10-10T23:19:13.785Z",
+    "finishedAt": "2026-10-10T23:19:13.785Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "campaign-consumer-support-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [],
+    "log": "logs/campaign-consumer-support-controls.log",
+    "startedAt": "2026-10-10T23:19:13.787Z",
+    "finishedAt": "2026-10-10T23:19:13.787Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "campaign-consumer-global-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [],
+    "log": "logs/campaign-consumer-global-controls.log",
+    "startedAt": "2026-10-10T23:19:13.789Z",
+    "finishedAt": "2026-10-10T23:19:13.789Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "campaign-public-control-audit",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-partner-delegation"
+    ],
+    "failedDependency": "campaign-partner-delegation",
+    "caseIds": [],
+    "log": "logs/campaign-public-control-audit.log",
+    "startedAt": "2026-10-10T23:19:13.791Z",
+    "finishedAt": "2026-10-10T23:19:13.791Z",
+    "logSha256": "bc0457414bc7dc63214efb82f0291729c5717651f601e7c6d353f8e3cc8c80bb"
+  },
+  {
+    "name": "campaign-launch-response-recovery",
+    "result": "FAIL",
+    "exitCode": 1,
+    "dependencies": [
+      "campaign-scale"
+    ],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-launch-response-recovery.log",
+    "startedAt": "2026-10-10T23:19:13.793Z",
+    "finishedAt": "2026-10-10T23:19:15.565Z",
+    "logSha256": "3df05ef24203714423de01c3fa882119242a295a2067c9a9986a860a552cde17"
+  },
+  {
+    "name": "campaign-terminal-claim-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [],
+    "log": "logs/campaign-terminal-claim-controls.log",
+    "startedAt": "2026-10-10T23:19:15.568Z",
+    "finishedAt": "2026-10-10T23:19:15.568Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "campaign-legacy-upgrade-controls",
+    "result": "PASS",
+    "exitCode": 0,
+    "dependencies": [],
+    "failedDependency": null,
+    "caseIds": [],
+    "log": "logs/campaign-legacy-upgrade-controls.log",
+    "startedAt": "2026-10-10T23:19:15.570Z",
+    "finishedAt": "2026-10-10T23:19:17.400Z",
+    "logSha256": "1674f4b447c33ae5fd2a5ffcfdfa10f8c4aeedfe075e2d02ae534c4079c5919d"
+  },
+  {
+    "name": "campaign-wilma-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [],
+    "log": "logs/campaign-wilma-controls.log",
+    "startedAt": "2026-10-10T23:19:17.401Z",
+    "finishedAt": "2026-10-10T23:19:17.401Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "campaign-wilma-matter-link",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [],
+    "log": "logs/campaign-wilma-matter-link.log",
+    "startedAt": "2026-10-10T23:19:17.403Z",
+    "finishedAt": "2026-10-10T23:19:17.403Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "campaign-packet-question-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-account-claim-readback",
+    "caseIds": [],
+    "log": "logs/campaign-packet-question-controls.log",
+    "startedAt": "2026-10-10T23:19:17.405Z",
+    "finishedAt": "2026-10-10T23:19:17.405Z",
+    "logSha256": "1755d5c504ee995e27097370eb4f629ed06325c3576c25fdd869671110636a35"
+  },
+  {
+    "name": "census-retained-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-partner-delegation",
+      "campaign-account-claim-readback"
+    ],
+    "failedDependency": "campaign-partner-delegation",
+    "caseIds": [],
+    "log": "logs/census-retained-controls.log",
+    "startedAt": "2026-10-10T23:19:17.407Z",
+    "finishedAt": "2026-10-10T23:19:17.407Z",
+    "logSha256": "bc0457414bc7dc63214efb82f0291729c5717651f601e7c6d353f8e3cc8c80bb"
+  },
+  {
+    "name": "audit-extra-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "census-retained-controls"
+    ],
+    "failedDependency": "census-retained-controls",
+    "caseIds": [],
+    "log": "logs/audit-extra-controls.log",
+    "startedAt": "2026-10-10T23:19:17.409Z",
+    "finishedAt": "2026-10-10T23:19:17.409Z",
+    "logSha256": "e265acb284a9c428393a6d01e67c45439ea9a20b4fb138101c9793632d55b63c"
+  },
+  {
+    "name": "campaign-extra-navigation",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "audit-extra-controls"
+    ],
+    "failedDependency": "audit-extra-controls",
+    "caseIds": [],
+    "log": "logs/campaign-extra-navigation.log",
+    "startedAt": "2026-10-10T23:19:17.411Z",
+    "finishedAt": "2026-10-10T23:19:17.411Z",
+    "logSha256": "325a9428843243161642bd6e3ae52f45b98b41544ac5ce8b9f7870d96d3dd8f0"
+  },
+  {
+    "name": "campaign-extra-inputs",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "audit-extra-controls"
+    ],
+    "failedDependency": "audit-extra-controls",
+    "caseIds": [],
+    "log": "logs/campaign-extra-inputs.log",
+    "startedAt": "2026-10-10T23:19:17.413Z",
+    "finishedAt": "2026-10-10T23:19:17.414Z",
+    "logSha256": "325a9428843243161642bd6e3ae52f45b98b41544ac5ce8b9f7870d96d3dd8f0"
+  },
+  {
+    "name": "campaign-extra-disclosures",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "audit-extra-controls"
+    ],
+    "failedDependency": "audit-extra-controls",
+    "caseIds": [],
+    "log": "logs/campaign-extra-disclosures.log",
+    "startedAt": "2026-10-10T23:19:17.415Z",
+    "finishedAt": "2026-10-10T23:19:17.415Z",
+    "logSha256": "325a9428843243161642bd6e3ae52f45b98b41544ac5ce8b9f7870d96d3dd8f0"
+  },
+  {
+    "name": "campaign-program-capacity-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-partner-delegation"
+    ],
+    "failedDependency": "campaign-partner-delegation",
+    "caseIds": [],
+    "log": "logs/campaign-program-capacity-controls.log",
+    "startedAt": "2026-10-10T23:19:17.417Z",
+    "finishedAt": "2026-10-10T23:19:17.417Z",
+    "logSha256": "bc0457414bc7dc63214efb82f0291729c5717651f601e7c6d353f8e3cc8c80bb"
+  },
+  {
+    "name": "campaign-diagnostic-revocation-controls",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-partner-delegation"
+    ],
+    "failedDependency": "campaign-partner-delegation",
+    "caseIds": [],
+    "log": "logs/campaign-diagnostic-revocation-controls.log",
+    "startedAt": "2026-10-10T23:19:17.420Z",
+    "finishedAt": "2026-10-10T23:19:17.420Z",
+    "logSha256": "bc0457414bc7dc63214efb82f0291729c5717651f601e7c6d353f8e3cc8c80bb"
+  },
+  {
+    "name": "campaign-extra-admin-actions",
+    "result": "BLOCKED",
+    "exitCode": null,
+    "dependencies": [
+      "campaign-diagnostic-revocation-controls"
+    ],
+    "failedDependency": "campaign-diagnostic-revocation-controls",
+    "caseIds": [],
+    "log": "logs/campaign-extra-admin-actions.log",
+    "startedAt": "2026-10-10T23:19:17.421Z",
+    "finishedAt": "2026-10-10T23:19:17.421Z",
+    "logSha256": "9267f21bc9ff171e4872f1c86c05afe5540dfcaf4631245ca3638f14efb0016e"
+  }
+]

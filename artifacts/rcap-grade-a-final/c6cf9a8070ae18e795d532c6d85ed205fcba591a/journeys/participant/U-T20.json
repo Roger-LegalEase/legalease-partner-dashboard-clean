@@ -1,0 +1,153 @@
+{
+  "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+  "sourceIdentity": {
+    "baseSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+    "trackedWorktreeDeltaSha256": "d88b573b6c5c7dd3561d1321d5662a1940bf3fa4c4d437100647ce6bd93d3eb9",
+    "cleanTrackedApplication": false
+  },
+  "time": "2026-10-10T21:29:41.264Z",
+  "role": "participant",
+  "browser": "chromium",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "route": "/briefcase/4d1672bf-9d80-44b9-9700-019aa777d4e2",
+  "actions": [
+    "Recover the existing failed paid job through Retry packet preparation",
+    "Real worker renders and finalizes the same job after backoff",
+    "Browser polling automatically displays its download (prior capture)",
+    "Refresh the completed matter"
+  ],
+  "observed": "The same failed job recovered on attempt two, with a validated private PDF, automatic browser refresh and the original payment preserved.",
+  "readback": {
+    "fixture": "4d1672bf-9d80-44b9-9700-019aa777d4e2",
+    "payment": {
+      "id": "4d1672bf-9d80-44b9-9700-019aa777d4e2",
+      "payment_status": "paid",
+      "amount_cents": 5000,
+      "checkout_session_id": "cs_test_b1LquhhEXyKWDeWUXNkEzav13ov52qbV7nyms0HTJDmidkqB4ceiohMimQ",
+      "payment_intent_id": "pi_3UP7Q6RWROAHlAKy1ts0A7M0"
+    },
+    "job": {
+      "id": "9f9df90f-c560-44f8-903c-8d0471e0346b",
+      "status": "artifact_validated",
+      "attempt_count": 2,
+      "output_sha256": "c03d57e17b30bc54d02e3c37ff789130fa0c02143b79b6d0b44aa262dfc54a4d",
+      "delivery_eligibility": "eligible",
+      "accounting_result": "zero_charge",
+      "retry_reconciliation_history": [
+        {
+          "at": "2026-10-10T21:29:08.592564+00:00",
+          "reason": "canonical_retry_due",
+          "authority": "requeue_retryable_packet_render_jobs",
+          "claimed_at": "2026-10-10T21:22:55.855566+00:00",
+          "claimed_by": "codespaces-366b1c-665492",
+          "max_attempts": 5,
+          "prior_status": "failed",
+          "attempt_count": 1,
+          "next_attempt_at": "2026-10-10T21:23:55.88349+00:00",
+          "prior_error_code": "render_failed",
+          "prior_failure_disposition": "retryable"
+        }
+      ]
+    },
+    "priorBrowserCapture": "server/render-recovery-error.json",
+    "failureInjection": "DETERMINISTIC_RENDERER_FAILURE; actual queue and successful renderer"
+  },
+  "status": "PASS",
+  "controls": [
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Expungement.ai home",
+      "href": "/briefcase",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Briefcase",
+      "href": "/briefcase",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "My matters",
+      "href": "/briefcase/matters",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Documents",
+      "href": "/briefcase/documents",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Profile",
+      "href": "/briefcase/settings#profile",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Settings",
+      "href": "/briefcase/settings",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Ask Wilma",
+      "href": "#ask-wilma",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Contact support",
+      "href": "/expungement-ai/support",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "My matters",
+      "href": "/briefcase/matters",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Ask Wilma about next steps",
+      "href": "/expungement-ai/support?briefcaseItemId=4d1672bf-9d80-44b9-9700-019aa777d4e2",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Download record-clearing-packet.pdf",
+      "href": "/api/expungement-ai/packet/download-link?briefcaseItemId=4d1672bf-9d80-44b9-9700-019aa777d4e2",
+      "disabled": false
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "name": "Review packet information",
+      "href": "/briefcase/4d1672bf-9d80-44b9-9700-019aa777d4e2/review",
+      "disabled": false
+    },
+    {
+      "tag": "BUTTON",
+      "type": "button",
+      "name": "Ask Wilma",
+      "href": null,
+      "disabled": false
+    }
+  ],
+  "browserErrors": []
+}

@@ -16,6 +16,18 @@ Make the answers observable in the existing work item: the required outcome, exi
 
 ## 2. Requirements, instructions and permissions
 
+Current owner amendment (2026-11-10): finish all 51 jurisdictions and all 346
+existing families across applicable consumer, sponsored and Clinic-assisted
+experiences. The construction baseline stays credited; it does not establish
+released customer delivery. Root owns integration through the customer outcome.
+Source acceptance, coherent integration, observed deployment and customer
+verification are distinct in the existing records. Use current target-specific
+release authority and later domain/sequence exceptions; no extra generic
+approval or replacement acceptance programme is introduced here. Scoped safe
+repairs may ship under existing authorization while other requirements remain
+open, without claiming full Grade A completion.
+
+
 The Product Contract defines behavior; current authoritative sources and applicable adopted decisions establish legal/document requirements; the Final QA Package defines acceptance; this plan assigns execution. The audit describes implementation, not permission or acceptance. Dated status statements inside any document remain historical observations.
 
 Roger controls product scope and execution authorization. An owner preference or agent conclusion cannot establish a statutory requirement, replace a mandatory court form, create professional approval, or waive an applicable legal requirement. Keep product choices, such as an adopted additional verification requirement, distinct from claims about what the law requires. Resolve a real source conflict at the exact affected requirement through the required qualified review.

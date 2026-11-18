@@ -1,0 +1,12 @@
+Opening a Platform Admin workspace now exposes the exact current Program Summary and Participant Page immediately, with versioned previews and keyboard-accessible View actions at the top of the workspace. Saving points directly to Preview; one Generate/Update Materials action appears only when required documents are missing or stale.
+
+Final Review & Start Program follows the current documents. Confirmation is bound to the saved version, scope and material identities, and is cleared on edits or refreshed server state. The existing backend launch decision controls availability; genuine blockers show a resolution action instead of a redundant disabled Start placeholder. The protected publication transaction, permissions, fingerprints and generation services are preserved.
+
+Validation:
+- Actual sign-in through the existing isolated application using existing programs and current materials. Fresh loads, refreshes and both View actions made no generation request.
+- A saved headline edit invalidated only the Participant Page. One update retained Program Summary v1 and its approval state while producing Participant Page v2.
+- One real final confirmation completed publication operation `b819fdee-fdbd-47bf-98f3-c90fbe5e8a34` through prepared → publication_staged → public_verified → complete. Replaying the request reused that operation; agreements, payment evidence and packet allocations were unchanged.
+- Missing-material launch refusal, partner-admin isolation, Spanish preview switching, jurisdiction boundaries, Clinic navigation, dashboard navigation and document keyboard focus passed against the real application.
+- All 37 onboarding verifiers and launch-readiness verification passed, including the SQL authorization, tenant, Clinic and financial regression tests. Typecheck and the credential-free production build passed. Changed-file and application lint passed (application lint excludes only preserved, untracked marketing captures that fail unrelated lint rules).
+
+Based on current `captain-release`, preserving PR #263. No migration or Production deployment, routing, rollback or participant-record changes are included.

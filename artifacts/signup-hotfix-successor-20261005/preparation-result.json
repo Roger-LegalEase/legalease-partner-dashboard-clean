@@ -1,0 +1,61 @@
+{
+  "status": "BLOCKED BEFORE PUBLICATION",
+  "applicationSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "proposedWorkerSource": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "workerDigest": null,
+  "workerInputFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+  "toolingReference": "121c889e15ac872e8dfbdeff18256551d15642aa",
+  "toolingBoundToolsSha": "c2f217f243f18b50c04ce1d61f8f150bf77c3023",
+  "releaseRecordCommits": [],
+  "publicationRun": null,
+  "acceptanceRun": null,
+  "currentProduction": {
+    "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+    "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "ready": true,
+    "rollbackAvailable": true
+  },
+  "productionWorker": {
+    "app": "legalease-rcap-render-worker",
+    "actualImage": "NOT VERIFIED: no Fly connector, CLI, or Fly credential available",
+    "historicalAcceptedSource": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+    "historicalAcceptedDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+    "rollbackTarget": "NOT VERIFIED"
+  },
+  "limitations": [
+    {
+      "file": ".github/workflows/publish-rcap-render-worker.yml",
+      "lines": [
+        143,
+        160
+      ],
+      "control": "Source must be contained in main OR captain-release. Exact hotfix is contained in neither current tip; dedicated branch alone is rejected. Authorized preparation permits dedicated branch pushes, not changing shared integration history."
+    },
+    {
+      "file": "scripts/grade-a-launch-control/verify-pending-worker-successor.mjs",
+      "lines": [
+        14,
+        18,
+        36,
+        41,
+        149,
+        163,
+        178,
+        184
+      ],
+      "control": "Without releaseBaseSha the pending verifier hardcodes dc5124f99565baac004f1260e351209a4518ccf1 parent, historical 6ebacdc worker, and prior three runtime paths. With releaseBaseSha generation verification requires an already committed, accepted publication and unchanged worker inputs; it cannot describe this new awaiting-publication successor solely by release-record changes."
+    }
+  ],
+  "materialDrift": {
+    "dockerfile": "unchanged node:22-slim mutable base tag",
+    "resolvedSuccessorMaterials": "NOT MEASURED: no build or publication attempted",
+    "approvedUpgrade": false
+  },
+  "baselineVerifiers": "All three remain FAILED with preserved identical production-baseline comparisons. No waiver or repair.",
+  "changes": "Evidence files only; application candidate, existing tooling, records, workflows, fingerprint algorithms, Docker files, and all original worktrees untouched.",
+  "remoteWrites": false,
+  "productionActivation": false,
+  "workerReplacement": false,
+  "priorAuthorizationConsumed": false,
+  "nextRequiredDecision": "Authorize narrowly scoped changes to the existing publication containment mechanism and successor pending-state/evidence reader so this exact dedicated-branch source can be represented and published without changing canonical inputs, source pins, or proof requirements. Also provide an authorized current Fly image readback to verify worker rollback. Per instruction, no verifier/workflow changes made before reporting this limitation."
+}

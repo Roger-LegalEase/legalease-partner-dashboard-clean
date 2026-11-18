@@ -1,0 +1,17 @@
+{
+  "kind": "ENGINEERING_REGRESSION_NOT_FINAL_ACCEPTANCE",
+  "target": "docker:legalease-hotfix-local-db-1/rcap:55432",
+  "command": "psql -v ON_ERROR_STOP=1 < scripts/rcap-grade-a/test-jurisdiction-scope.sql",
+  "result": "PASS",
+  "assertions": [
+    "partner narrowing",
+    "restore permitted set",
+    "canonical expansion denial",
+    "retained section expansion denial",
+    "denied requests leave configuration unchanged",
+    "RPC unavailable to anon/authenticated",
+    "explicit admin scope replaces bound"
+  ],
+  "cleanup": "ROLLBACK",
+  "productionWrites": 0
+}

@@ -1,0 +1,436 @@
+{
+  "decision": {
+    "live": false,
+    "role": "internal_admin",
+    "actor": "5ddd55e0-634f-4a5e-ab98-c790d6bf1df8",
+    "action": "publish_partner_page",
+    "status": "commercially_blocked",
+    "allowed": false,
+    "blockers": [
+      {
+        "key": "commercial_gate_cleared",
+        "label": "Confirm LegalEase operating authority with Start Program",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic",
+          "issue_sponsored_packet"
+        ],
+        "next_action": "LegalEase is finalizing your program terms",
+        "dependencies": [
+          "commercial"
+        ],
+        "owner_domain": "finance_truth",
+        "classification": "REQUIRES_ACTUAL_AUTHORITY",
+        "dependency_hash": "1cff1fed5d7c2dc5e4fd70441b5941215f509b7b5496a2239864cdec9c2b35d5",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "LegalEase is finalizing your program terms",
+        "invalidation_triggers": [
+          "commercial"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "access_model_and_capacity_present",
+        "label": "Authorize the configured screening access with Start Program",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "next_action": "Reconcile the authorized access and screening allowance",
+        "dependencies": [
+          "commercial",
+          "access_sponsorship_capacity.participant_access_model",
+          "screening_capacity"
+        ],
+        "owner_domain": "finance_truth",
+        "classification": "REQUIRES_ACTUAL_AUTHORITY",
+        "dependency_hash": "33b80b50d845904b92ff0322d6bbc5a9fab25e2d845cd6de588b8882ea1c97d7",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Reconcile the authorized access and screening allowance",
+        "invalidation_triggers": [
+          "commercial",
+          "access_sponsorship_capacity.participant_access_model",
+          "screening_capacity"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "legalease_final_review_complete",
+        "label": "LegalEase must authorize program start",
+        "actions": [
+          "publish_partner_page"
+        ],
+        "next_action": "LegalEase must authorize program start",
+        "dependencies": [
+          "launch_scope"
+        ],
+        "owner_domain": "third_party_contract",
+        "classification": "REQUIRES_ACTUAL_AUTHORITY",
+        "dependency_hash": "3453efcd1631ff565e3325a1de1ebecd578999510e2fb6d36c155e134cea3f17",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "LegalEase must authorize program start",
+        "invalidation_triggers": [
+          "launch_scope"
+        ],
+        "permitted_alternative": null
+      }
+    ],
+    "delegated": false,
+    "scopeHash": "b140ee3f40a6bbb22dd92ba8d79b4004277a2db9ecc285c8d5c9c5624080afa4",
+    "authorityId": null,
+    "partnerSlug": "practice-create-chromium-mv17z3pa",
+    "serviceMode": "screening_only",
+    "workspaceId": "c722f9db-9653-4db7-8c97-ac0e7906e09a",
+    "requirements": [
+      {
+        "key": "organization_facts",
+        "label": "Complete your organization information",
+        "actions": [
+          "complete_setup",
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Complete your organization information",
+        "dependencies": [
+          "organization_contacts.legal_organization_name",
+          "organization_contacts.public_organization_name",
+          "organization_contacts.public_program_name"
+        ],
+        "exception_id": null,
+        "owner_domain": "legal",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "77c3082ab7064e8669de81b85a420496bfb5fe856d5eaaf390dd6d99dd8f3804",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Complete your organization information",
+        "invalidation_triggers": [
+          "organization_contacts.legal_organization_name",
+          "organization_contacts.public_organization_name",
+          "organization_contacts.public_program_name"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "program_scope",
+        "label": "Choose the service area and participation settings",
+        "actions": [
+          "complete_setup",
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Choose the service area and participation settings",
+        "dependencies": [
+          "geography_audience_language_accessibility",
+          "access_sponsorship_capacity.participant_access_model",
+          "program_goals.participation_mode"
+        ],
+        "exception_id": null,
+        "owner_domain": "legal",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "8c6836cd9ec4bc49528cf09fe229ea98a4bd8d99523a7bebdc69b01ebbcbe410",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Choose the service area and participation settings",
+        "invalidation_triggers": [
+          "geography_audience_language_accessibility",
+          "access_sponsorship_capacity.participant_access_model",
+          "program_goals.participation_mode"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "support_and_referral_contacts_configured",
+        "label": "Confirm the support and escalation route",
+        "actions": [
+          "complete_setup",
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Confirm the support and escalation route",
+        "dependencies": [
+          "support_referrals_reporting.referral_arrangement",
+          "support_referrals_reporting.participant_support_email",
+          "support_referrals_reporting.contested_matter_procedure"
+        ],
+        "exception_id": null,
+        "owner_domain": "legal",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "6ca2ceae00b294ab73936942245e68b57916fb9fbfd14cbee27351db20ab54e2",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Confirm the support and escalation route",
+        "invalidation_triggers": [
+          "support_referrals_reporting.referral_arrangement",
+          "support_referrals_reporting.participant_support_email",
+          "support_referrals_reporting.contested_matter_procedure"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "commercial_gate_cleared",
+        "label": "Confirm LegalEase operating authority with Start Program",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic",
+          "issue_sponsored_packet"
+        ],
+        "passing": false,
+        "effective": false,
+        "next_action": "LegalEase is finalizing your program terms",
+        "dependencies": [
+          "commercial"
+        ],
+        "exception_id": null,
+        "owner_domain": "finance_truth",
+        "classification": "REQUIRES_ACTUAL_AUTHORITY",
+        "default_applied": false,
+        "dependency_hash": "1cff1fed5d7c2dc5e4fd70441b5941215f509b7b5496a2239864cdec9c2b35d5",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "LegalEase is finalizing your program terms",
+        "invalidation_triggers": [
+          "commercial"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "agreements_and_procurement_recorded",
+        "label": "External agreement applicability matches genuine operating responsibility",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic",
+          "issue_sponsored_packet"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Record the actual agreement or authorized limited-service basis",
+        "dependencies": [
+          "commercial",
+          "agreements"
+        ],
+        "exception_id": null,
+        "owner_domain": "third_party_contract",
+        "classification": "REQUIRES_ACTUAL_AUTHORITY",
+        "default_applied": false,
+        "dependency_hash": "d98b59eae117733324be30858e8193f3ec49e4b6f66218922523a9bafd20e745",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Record the actual agreement or authorized limited-service basis",
+        "invalidation_triggers": [
+          "commercial",
+          "agreements"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "access_model_and_capacity_present",
+        "label": "Authorize the configured screening access with Start Program",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": false,
+        "effective": false,
+        "next_action": "Reconcile the authorized access and screening allowance",
+        "dependencies": [
+          "commercial",
+          "access_sponsorship_capacity.participant_access_model",
+          "screening_capacity"
+        ],
+        "exception_id": null,
+        "owner_domain": "finance_truth",
+        "classification": "REQUIRES_ACTUAL_AUTHORITY",
+        "default_applied": false,
+        "dependency_hash": "33b80b50d845904b92ff0322d6bbc5a9fab25e2d845cd6de588b8882ea1c97d7",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Reconcile the authorized access and screening allowance",
+        "invalidation_triggers": [
+          "commercial",
+          "access_sponsorship_capacity.participant_access_model",
+          "screening_capacity"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "artifact_versions_current",
+        "label": "Review the updated program materials",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Review the updated program materials",
+        "dependencies": [
+          "materials"
+        ],
+        "exception_id": null,
+        "owner_domain": "legal",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "926ae2a99b909f15a5a284b074f1de911de36f1f0487433a945f059df50fe86b",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Review the updated program materials",
+        "invalidation_triggers": [
+          "materials"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "partner_launch_approval_received",
+        "label": "Current program materials ready for Platform Admin confirmation",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Review your program",
+        "dependencies": [
+          "materials",
+          "partner_confirmation"
+        ],
+        "exception_id": null,
+        "owner_domain": "legalease_business",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "888a6378aca578f316440350c6157563fff2d068863926a904eb85177f46c9d3",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Review your program",
+        "invalidation_triggers": [
+          "materials",
+          "partner_confirmation"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "legalease_final_review_complete",
+        "label": "LegalEase must authorize program start",
+        "actions": [
+          "publish_partner_page"
+        ],
+        "passing": false,
+        "effective": false,
+        "next_action": "LegalEase must authorize program start",
+        "dependencies": [
+          "launch_scope"
+        ],
+        "exception_id": null,
+        "owner_domain": "third_party_contract",
+        "classification": "REQUIRES_ACTUAL_AUTHORITY",
+        "default_applied": false,
+        "dependency_hash": "3453efcd1631ff565e3325a1de1ebecd578999510e2fb6d36c155e134cea3f17",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "LegalEase must authorize program start",
+        "invalidation_triggers": [
+          "launch_scope"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "required_logo_present",
+        "label": "Use an approved logo or the RCAP text identity",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": false,
+        "effective": true,
+        "next_action": "Use an approved logo or the RCAP text identity",
+        "dependencies": [
+          "brand_public_page"
+        ],
+        "exception_id": null,
+        "owner_domain": "legalease_business",
+        "classification": "EXCEPTION_ELIGIBLE",
+        "default_applied": true,
+        "dependency_hash": "f6af2beb3429cd41136c6963cff4e4961d9a3364e64584343bd2378eb61f8e25",
+        "exception_effects": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "permitted_default": "RCAP text identity",
+        "required_evidence": "Use an approved logo or the RCAP text identity",
+        "invalidation_triggers": [
+          "brand_public_page"
+        ],
+        "permitted_alternative": "Recorded scoped Platform Admin business decision"
+      },
+      {
+        "key": "communications_approved",
+        "label": "Outreach scheduling",
+        "actions": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": false,
+        "effective": true,
+        "next_action": "Outreach scheduling",
+        "dependencies": [
+          "program_goals.outreach_channels"
+        ],
+        "exception_id": null,
+        "owner_domain": "legalease_business",
+        "classification": "EXCEPTION_ELIGIBLE",
+        "default_applied": true,
+        "dependency_hash": "171b458cb81bea2aa772458f9f4562a8e3c1a5058883a4aef731d86b5edccec1",
+        "exception_effects": [
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "permitted_default": "No separate campaign approval",
+        "required_evidence": "Outreach scheduling",
+        "invalidation_triggers": [
+          "program_goals.outreach_channels"
+        ],
+        "permitted_alternative": "Recorded scoped Platform Admin business decision"
+      }
+    ],
+    "jurisdictions": [
+      "DC",
+      "MD",
+      "VA"
+    ],
+    "materialsHash": "926ae2a99b909f15a5a284b074f1de911de36f1f0487433a945f059df50fe86b",
+    "policyVersion": "rcap2.2",
+    "setupComplete": false,
+    "sourceVersion": 14,
+    "operatingModel": "legalease_managed",
+    "activeExceptions": [],
+    "canAuthorizeStart": true,
+    "primaryNextAction": "Confirm LegalEase operating authority with Start Program",
+    "configurationComplete": true
+  },
+  "preflight": "Confirm LegalEase operating authority with Start Program",
+  "issues": []
+}

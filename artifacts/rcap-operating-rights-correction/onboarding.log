@@ -1,0 +1,59 @@
+
+> legalease-partner-dashboard-clean@0.1.0 partners:verify-onboarding-all
+> node scripts/verify-onboarding-all.mjs
+
+RCAP onboarding verification — group "local" (37 verifiers)
+
+  ok    verify-rcap-partner-onboarding.mjs  (4253ms)
+  ok    verify-rcap-partner-onboarding-domain.mjs  (625ms)
+  ok    verify-rcap-partner-onboarding-service.mjs  (3450ms)
+  ok    verify-rcap-partner-onboarding-security.mjs  (622ms)
+  ok    verify-rcap-partner-onboarding-ui.mjs  (1484ms)
+  ok    verify-rcap-partner-onboarding-phase1-database.mjs  (2750ms)
+  ok    verify-rcap-onboarding-artifact-domain.mjs  (658ms)
+  ok    verify-rcap-onboarding-artifact-security.mjs  (53ms)
+  ok    verify-rcap-onboarding-artifact-database.mjs  (2502ms)
+  ok    verify-rcap-onboarding-registry-extension.mjs  (840ms)
+  ok    verify-rcap-onboarding-document-generators.mjs  (646ms)
+  ok    verify-rcap-onboarding-page-configuration.mjs  (811ms)
+  ok    verify-rcap-onboarding-launch-readiness.mjs  (564ms)
+  ok    verify-rcap-onboarding-launch-kit.mjs  (647ms)
+  ok    verify-rcap-onboarding-launch-database.mjs  (2579ms)
+  ok    verify-rcap-onboarding-prefill-domain.mjs  (725ms)
+  ok    verify-rcap-onboarding-prefill-service.mjs  (39ms)
+  ok    verify-rcap-onboarding-prefill-security.mjs  (38ms)
+  ok    verify-rcap-onboarding-prefill-ui.mjs  (39ms)
+  ok    verify-rcap-onboarding-partner-labels.mjs  (284ms)
+  ok    verify-rcap-onboarding-implementation-center.mjs  (588ms)
+  FAIL  verify-rcap-partner-copy.mjs  (669ms)
+  ok    verify-rcap-onboarding-guided-experience.mjs  (880ms)
+  ok    verify-rcap-onboarding-review-layout.mjs  (928ms)
+  ok    verify-rcap-onboarding-internal-review-panel.mjs  (1928ms)
+  ok    verify-rcap-onboarding-task3b.mjs  (832ms)
+  ok    verify-rcap-onboarding-support-contact.mjs  (288ms)
+  ok    verify-first-admin-provisioning.mjs  (461ms)
+  ok    verify-first-admin-first-impressions.mjs  (330ms)
+  ok    verify-launch-readiness.mjs  (380ms)
+  ok    test-rcap-hotfix-containment.mjs  (917ms)
+  ok    test-rcap-hotfix-readiness.mjs  (1023ms)
+  ok    test-rcap-hotfix-exceptions.mjs  (553ms)
+  ok    test-rcap-hotfix-launch-denials.mjs  (1236ms)
+  ok    test-rcap-signed-agreement-security.mjs  (772ms)
+  ok    test-rcap-real-launch-authority.mjs  (430ms)
+  ok    test-rcap-real-launch-database.mjs  (7222ms)
+
+1 of 37 onboarding verifiers failed.
+
+--- verify-rcap-partner-copy.mjs ---
+partner-facing copy gate
+  files scanned      90
+  strings inspected  1963
+  violations         1
+    em-dash            1
+  required copy missing 0
+
+  first 40 violations:
+    src/components/partners/onboarding/ManagedProgramEditor.tsx:101  [em-dash]  Not Required — no external partner agreement applies
+
+FAIL
+

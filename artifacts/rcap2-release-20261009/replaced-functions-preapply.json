@@ -1,0 +1,72 @@
+[
+  {
+    "proname": "clinic_create_event",
+    "args": "p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer",
+    "definition_md5": "1953f7a9388f369fe70d87d5b94960db",
+    "prosecdef": true,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "clinic_create_event",
+    "args": "p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer, p_jurisdiction text",
+    "definition_md5": "07073e97def4710e753b096a22c8d979",
+    "prosecdef": true,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "clinic_set_event_status",
+    "args": "p_event_id uuid, p_actor_user_id uuid, p_status text",
+    "definition_md5": "e6cf6281d786b3faa9640a3f187ba1e0",
+    "prosecdef": true,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "rcap_guard_commercial_authorization",
+    "args": "",
+    "definition_md5": "ac38d2ecf4caa01b6661bb8fb1bf183a",
+    "prosecdef": false,
+    "proacl": "{=X/postgres,postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "rcap_guard_launch_authority_event",
+    "args": "",
+    "definition_md5": "31a5a50ba358ec50ad0253f403847f1c",
+    "prosecdef": false,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "rcap_partner_activation_for_launch",
+    "args": "p_slug text",
+    "definition_md5": "dbce32d5e640d0278ffaf3f95b21c9a8",
+    "prosecdef": false,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "rcap_require_documented_real_agreement",
+    "args": "",
+    "definition_md5": "fcf4a05df143c90635e05ca7f8cea540",
+    "prosecdef": false,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "rcap_service_generate_onboarding_artifact_version",
+    "args": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_artifact_type text, p_request_id uuid, p_source_workspace_version bigint, p_source_section_revisions jsonb, p_source_asset_versions jsonb, p_normalized_snapshot jsonb, p_snapshot_hash text, p_generator_version text, p_rendered_content jsonb, p_generation_status text, p_generation_error_code text",
+    "definition_md5": "f7ffcc69784bb087251b3cd5c7f77e40",
+    "prosecdef": false,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "rcap_service_save_onboarding_section",
+    "args": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_section_key text, p_expected_revision bigint, p_expected_workspace_version bigint, p_response_data jsonb, p_collections jsonb, p_mode text, p_section_completion integer, p_missing_required_keys text[], p_workspace_completion integer, p_blocker_code text, p_next_action_code text, p_next_action_owner text, p_request_id uuid, p_payload_hash text",
+    "definition_md5": "ef1290a8e59f34357933863a95e41a64",
+    "prosecdef": false,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  },
+  {
+    "proname": "rcap_service_stage_real_launch",
+    "args": "p_slug text, p_actor uuid, p_operation uuid, p_version bigint, p_hash text, p_versions jsonb, p_authority uuid",
+    "definition_md5": "253bfc140affd2779ff75ea1669d445a",
+    "prosecdef": false,
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+  }
+]

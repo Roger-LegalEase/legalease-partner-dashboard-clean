@@ -1,0 +1,24 @@
+{"cases":["C-T11"],"result":"PASS","observed":"Staff navigation matches current event permissions and its destinations load under the authenticated assignment."}
+{"cases":["C-T15"],"result":"PASS","observed":"Declining consent grants no staff assistance; the shared-device End clinic session action remains available."}
+{"cases":["C-T16"],"result":"PASS","observed":"Event scope remains California. Another parent-program state cannot be used to start this event’s assisted session."}
+{"cases":["C-T23"],"result":"CONDITIONAL_NOT_OFFERED","observed":"Legal-aid registration is not offered to this standard RCAP program and the backend refuses its setup route."}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok((await reset).ok())
+
+    at file:///workspaces/legalease-partner-dashboard-clean/artifacts/rcap-grade-a-final/847f73053896b48fcd6d0c176907bd302c1a45cb/recovery/campaign-clinic-boundaries.mjs:18:191
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:541:9) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

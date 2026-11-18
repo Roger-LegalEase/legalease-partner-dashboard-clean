@@ -1,0 +1,147 @@
+{
+  "outcome": "BLOCKED BEFORE ACTIVATION",
+  "applicationSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
+  "workerFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+  "captainReleaseAndAcceptanceEvidenceSha": "f04c7779322f1dc9df56db1dbf62f98ae820fb3e",
+  "reviewedToolingSha": "bede772e9cf55b8ae2730a461f93e5ee8ae0a60b",
+  "newControlCommits": [],
+  "runtimeAccepted": true,
+  "productionAuthorized": false,
+  "publicationAndAcceptanceReused": true,
+  "reachabilityModuleCount": 139,
+  "unresolvedRuntimeImports": 0,
+  "normalizeLocaleImplementationUnchanged": true,
+  "materialComparison": {
+    "baseDigest": "sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c",
+    "baseLayersIdentical": true,
+    "nativeNodeVersion": "22.23.3",
+    "installedDependencyEntriesCompared": 24177,
+    "dependencyByteModeOwnershipSymlinkDrift": false,
+    "workerEntrypointScriptsLibAndRuntimeDataDrift": false,
+    "sourceImageDelta": [
+      "app/src/components/expungement-ai/ConsumerSignInForm.tsx",
+      "app/src/lib/expungement-ai/localization.ts"
+    ],
+    "otherImageDelta": {
+      "readOnly": true,
+      "passwordValuesRecorded": false,
+      "changedFields": [
+        {
+          "account": "rcapworker",
+          "changedFields": [
+            "lastChangeDate"
+          ]
+        }
+      ],
+      "finding": "Only rcapworker last-change-date metadata from the unchanged useradd build step differs; password field, UID/GID-related COPY metadata and remaining shadow fields are unchanged. This is not a dependency upgrade or production secret/configuration change."
+    },
+    "archiveMtimesExcludedFromFileContentComparison": true
+  },
+  "isolatedParticipantAssemblyRegression": {
+    "passed": true,
+    "failed": 0,
+    "configuration": "PATH and NODE_ENV=test only; no service credentials",
+    "log": "isolated-participant-assembly-20261006.log",
+    "scope": "Source fixture regression, not provider image replay, real delivery or production queue evidence"
+  },
+  "applicationLocalBrowserEvidence": "Exact e3ac signup/component/type/lint and mocked-auth EN/ES mobile/desktop evidence reused; unchanged four-file +195/-11 application delta.",
+  "productionApplicationFreshReadback": {
+    "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "sourceSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+    "state": "READY",
+    "target": "production",
+    "rollbackDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "aliases": [
+      {
+        "alias": "www.expungement.ai",
+        "redirect": "expungement.ai"
+      },
+      {
+        "alias": "legalease.com",
+        "redirect": null
+      },
+      {
+        "alias": "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app",
+        "redirect": null
+      },
+      {
+        "alias": "legalease-partner-dashboard-clean.vercel.app",
+        "redirect": null
+      },
+      {
+        "alias": "legaleasepartner.com",
+        "redirect": null
+      },
+      {
+        "alias": "expungement.ai",
+        "redirect": null
+      },
+      {
+        "alias": "www.legaleasepartner.com",
+        "redirect": null
+      },
+      {
+        "alias": "legalease-partner-dashboard-clean-roger947s-projects.vercel.app",
+        "redirect": null
+      }
+    ]
+  },
+  "workerRollbackUsable": "NOT PROVEN; last observed identity retained without claiming fresh currentness",
+  "candidateDeploymentId": null,
+  "blockers": [
+    {
+      "area": "Provider / fulfillment compatibility",
+      "failingControl": "Existing canonical worker-input equivalence rejects changed copied src; requested unchanged worker-reachable-byte condition also fails. Existing generator --check exits 1: fulfillment-authority-registry.json and fulfillment-observation-snapshot.json need regeneration.",
+      "evidence": [
+        "worker-runtime-reachability-20261006.json",
+        "reachable-locale-export-20261006.json",
+        "provider-regeneration-check-20261006.log",
+        "fixed-application-authority-inputs-20261006.json"
+      ],
+      "finding": "Localization is runtime-loaded through personalized-packet.ts; normalizeLocale is the only imported export and its implementation is unchanged, but the loaded module bytes differ. No existing byte-equivalence carry-forward can truthfully claim unchanged reachable modules. The generator can derive successor records, but generated authority/publication are actual application inputs pinned by e3ac. Shipping regenerated records would change the fixed application input identity. No observations were relabeled as newly executed.",
+      "requiresRoger": "A scope/identity decision is required if regenerated authority must ship: permit a narrowly reviewed authority-only successor application input revision, or retain the fixed candidate held. Local/isolated checks were already authorized and completed; no new product-code permission requested."
+    },
+    {
+      "area": "Release admission",
+      "failingControl": "verifyReleaseCandidateBinding returns current=false with bindingVerified=true; requireCurrentReleaseCandidate refuses. Pinned lifecycle returns held for accepted successor and has no hosted/resume release-authorizing forward state.",
+      "evidence": [
+        "accepted-release-gates-37396800845.json",
+        "scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs: final verifyPinnedBinding return",
+        "scripts/rcap-application-inputs.mjs: generated authority included; no release-evidence exclusions permitted"
+      ],
+      "finding": "Acceptance/source/digest/fingerprint are current. Historical predecessor still validates CURRENT in its own committed context. Fresh hosted/admission evidence is not present for this tuple; old authorization is consumed/historical and cannot be inherited. Regenerating runtime authority while asserting unchanged e3ac application inputs would violate the controlling manifest.",
+      "requiresRoger": "No permission is needed merely to run authorized nonproduction checks. Admission cannot be represented under the unchanged fixed application-input constraint; linked scope decision above is necessary before freezing an executable release tuple."
+    },
+    {
+      "area": "Worker rollback",
+      "failingControl": "Current Fly GET-only identity and immutable Fly/GHCR config equivalence / restore availability not freshly verified.",
+      "evidence": [
+        "fly-identity-37393401639/identity.json",
+        "registry-materials-readback-20261006.json"
+      ],
+      "finding": "Last inspector remains run 37393401639 at 2026-10-06T00:20:52.944Z: started machine d8de5e4f759278, source 5e04eafd7eaed7e71722862e651fb787ebbd296d, Fly image registry.fly.io/legalease-rcap-render-worker@sha256:490576906cba2f4f710372c39f81cdff0cfaabc684eb25e9a738b680957d34ea. Current authenticated GHCR manifest/config and worker-layer reads succeed for the predecessor; its config ID is sha256:a28c83c1296f0bd186d1e889e179d11b87573a69bc61609cf95f07bddcf38556. This is not proof of Fly mirror equivalence or a fresh machine state.",
+      "requiresRoger": "An operator must supply access to an existing authorized Actions-write runner/session; no local FLY_API_TOKEN or flyctl, no stored alternative gh session, and previous Actions dispatch returned 403. No retry, deployment invocation or secret retrieval was used. No manual Fly dashboard inspection requested."
+    },
+    {
+      "area": "Application candidate staging",
+      "failingControl": "No safe production-equivalent deployment creation path is callable with current authenticated interfaces.",
+      "evidence": [
+        "candidate-environment-metadata-20261006.json",
+        "scripts/rcap-production-canary.mjs: createStagedProduction",
+        "Vercel connector create_deployment request schema"
+      ],
+      "finding": "Existing REST staging mechanism supports target=production with autoAssignCustomDomains=false. The authenticated connector cannot express that required property; local Vercel CLI/token are absent and the GitHub runner cannot be dispatched from this session. Plain preview uses a different variable set including missing production-only runtime keys, and cannot establish production equivalence. No preview substitution, unsupported-field production request, environment copying, speculative build, public alias assignment or candidate deployment was attempted.",
+      "requiresRoger": "Existing authenticated runner/session access is required to invoke the safe established transport after its release-admission prerequisites pass. Vercel itself supports safe staging; this is an execution-interface limitation, not a claim that the platform cannot stage."
+    }
+  ],
+  "smallestDecision": "Resolve the fixed-application-input constraint for authority-only supersession; do not approve activation. An existing authorized Actions-write execution session is needed for one eventual consolidated nonproduction run. No manual workflow click is requested before prerequisites are satisfied.",
+  "baselineDisposition": "Three baseline signup verifier failures remain explicitly failed and unwaived, proven against e312 production base; not enforced by completed publication/image acceptance. Three older untouched tooling fixture failures remain separately documented. Later mandatory controls are not waived.",
+  "productionWritesPerformed": false,
+  "imageBuildPublicationAcceptanceRerunPerformed": false,
+  "credentialsValuesPrintedCopiedOrChanged": false,
+  "applicationCandidateModified": false,
+  "realProductionEmailDelivery": "UNVERIFIED",
+  "activationAuthorizationPrompt": null
+}

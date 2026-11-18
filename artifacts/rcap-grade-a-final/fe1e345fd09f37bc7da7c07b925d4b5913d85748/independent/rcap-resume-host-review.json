@@ -1,0 +1,22 @@
+{
+  "reviewed_utc": "2026-10-11T01:43:43.991220+00:00",
+  "source_sha": "b117266944d8834bb67d923f3d3244526dd517e3",
+  "status": "FAIL_RELEASE_BOUNDARY_PENDING_NARROW_ROUTING_FIX",
+  "priority": "P1",
+  "finding": "RCAP saved-progress email is routed to unchanged DTC deployment under RCAP-only cutover.",
+  "independent_source_basis": [
+    "screening-resume-email.ts screeningResumeUrl always uses absoluteExpungementAiUrl(/screening/resume).",
+    "app-url.ts consumer canonical production origin is expungement.ai; partner canonical is legaleasepartner.com.",
+    "Candidate new RCAP confirm route/cookie/destination behavior exists only on candidate deployment. Parent confirms expungement.ai remains on prior deployment; reviewer did not mutate or independently query live aliases.",
+    "proxy.ts explicit /expungement-ai/* path is passthrough on partner origin; no new route or domain is required."
+  ],
+  "smallest_responsible_fix": "Use trusted canonical partner origin and explicit /expungement-ai/screening/resume path when the persisted session flow_mode is rcap. Preserve current DTC URL. Propagate stored flow through existing session storage mapping; never trust submitted flow hint or arbitrary request Host to choose token destination.",
+  "affected_calls": [
+    "saveScreeningResumeLink initial email",
+    "confirmScreeningResume rotated resumeUrl",
+    "requestFreshScreeningResumeLink resend email",
+    "sendScreeningDropPointNudge resume link"
+  ],
+  "scope": "No new schema, legal rules, auth model, alias expansion, DTC deployment change, or broad walkthrough required. Focused source/host-routing validation needed.",
+  "prior_evidence": "Earlier local browser refresh and copy PASS remains valid for those behaviors. Previous local email mount rewrite cannot prove RCAP-only production host continuation."
+}

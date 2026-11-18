@@ -1,0 +1,24 @@
+{
+  "moduleReachable": true,
+  "moduleBytesIdentical": false,
+  "normalizeLocaleImplementationIdentical": true,
+  "implementationSha256": [
+    "16527cd11245c83282cbd57c354864e1422a2acd348b91aa76b48a8058e63f18",
+    "16527cd11245c83282cbd57c354864e1422a2acd348b91aa76b48a8058e63f18"
+  ],
+  "incoming": [
+    {
+      "from": "src/lib/rcap/render/personalized-packet.ts",
+      "importStatements": [
+        "import { normalizeLocale } from \"@/lib/expungement-ai/localization\";"
+      ]
+    },
+    {
+      "from": "src/lib/rcap/render/participant-packet-assembly.ts",
+      "importStatements": [
+        "import { normalizeLocale } from \"@/lib/expungement-ai/localization\";"
+      ]
+    }
+  ],
+  "conclusion": "Worker consumers import normalizeLocale, whose implementation is identical and independent of the changed copy dictionary. This is useful behavioral evidence, but does not satisfy the requested unchanged-reachable-module-byte carry-forward condition or grant provider authority."
+}

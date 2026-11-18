@@ -1,0 +1,52 @@
+ok   the registry binds at least one route (10)
+ok   every registered binding resolves
+ok   every route served by another route's guide says why (1 such binding)
+ok   every registered guide names a file that exists
+ok   every guide on disk is registered for production (9)
+ok   every specification that retires a component in favour of the guide has one registered
+ok   CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202: a route with no guide renders byte-identically to the bare Grade-A render
+ok   CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202: and reports no guide rather than an empty one
+ok   CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202: and reports that none was assembled
+ok   DC:dc_actual_innocence_expungement_16_803: a full packet assembles the guide
+ok   DC:dc_actual_innocence_expungement_16_803: a court-only packet assembles no guide
+ok   DC:dc_actual_innocence_expungement_16_803: the full packet is longer than the court-only one (10 vs 4)
+ok   DC:dc_actual_innocence_expungement_16_803: the specification does retire a component (1)
+ok   DC:dc_actual_innocence_expungement_16_803: the retired page is not in the full packet beside the guide (full 10, bare-with-retired-page 7, court-only 4)
+ok   DC:dc_actual_innocence_expungement_16_803: the court-only packet drops the participant guidance the full one replaces (4 vs 7)
+ok   a guide-required route with no registered guide refuses
+ok   and the refusal says what is missing: "ZZ:no-such-route: the specification retires a component in favour of the shared …"
+ok   a court-only packet assembles on a guide-required route with no registered guide
+ok   and it has court-facing pages rather than being empty
+ok   POSITIVE control: the same route without the supersession assembles guide-free
+ok   DC:dc_actual_innocence_expungement_16_803: the route has a guide identity
+ok   DC:dc_actual_innocence_expungement_16_803: the identity's digest is the digest of the guide's content
+ok   DC:dc_actual_innocence_expungement_16_803: changing one guide sentence changes the digest the identity carries
+ok   DC:dc_actual_innocence_expungement_16_803: the assembly reports the identity the registry holds
+ok   DC:dc_actual_innocence_expungement_16_803: every consequential entry is translated, and the Spanish assembly succeeds
+ok   a durable en or es attribution resolves to that language
+ok   a regioned tag resolves by its primary subtag rather than being read as English
+ok   new generation refuses an unsupported language rather than choosing English
+ok   new generation refuses no attribution at all rather than choosing English
+ok   new generation refuses no artifact refs rather than choosing English
+ok   new generation refuses a non-string locale rather than choosing English
+ok   new generation refuses an empty locale rather than choosing English
+ok   a recorded artifact reports the locale it was RENDERED in, not the matter's current one
+ok   an artifact predating packetLocale replays as English, which is what it was rendered in
+ok   the cover date is a readable date in each language, not an ISO timestamp
+ok   and it reads the calendar date in UTC, so a late-evening instant does not roll to the next day
+ok   an absent or unparseable instant yields no date rather than a wrong one
+ok   DC:dc_actual_innocence_expungement_16_803: omitting the locale refuses instead of silently rendering English
+ok   the route declares which fact holds its case identifier (case_number)
+ok   a matter carrying two case-shaped facts takes the declared one (got "2024-MC-001234")
+ok   an undeclared case-shaped fact is not used (got null)
+ok   a route declaring no case identifier yields none rather than a found value
+ok   each language takes its own reviewed route label
+ok   the Spanish label exists and is not the English one repeated
+ok   a route with no Spanish label yields none rather than falling back to English
+ok   DC:dc_actual_innocence_expungement_16_803: assembling the same packet four times produces the same bytes
+ok   POSITIVE control: a different verification time does produce different bytes
+ok   the brand asset exists in the repository (data/record-clearing/brand/legalease-logo.png)
+ok   DC:dc_actual_innocence_expungement_16_803: the assembled full packet carries an embedded image, not the text wordmark fallback
+ok   POSITIVE control: the court-only packet carries no image, so the check above is reading the guide's logo
+
+PASS — 0 failing check(s)

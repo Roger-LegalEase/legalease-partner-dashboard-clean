@@ -1,0 +1,11 @@
+BEGIN
+        set_config         
+---------------------------
+ operating-rights-mv23jjo8
+(1 row)
+
+CREATE FUNCTION
+ERROR:  Finalized agreement asset must be an approved asset in this workspace
+CONTEXT:  PL/pgSQL function public.rcap_onboarding_validate_agreement_asset() line 11 at RAISE
+SQL statement "update public.partner_onboarding_agreements set finalized_asset_id=asset where id=agreement"
+PL/pgSQL function inline_code_block line 35 at SQL statement

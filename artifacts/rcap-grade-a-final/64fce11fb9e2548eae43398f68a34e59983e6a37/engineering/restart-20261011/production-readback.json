@@ -1,0 +1,1726 @@
+{
+  "checkedAt": "2026-10-11T03:13:40.511Z",
+  "productionWrites": 0,
+  "project": {
+    "id": "wwtwtsmywnckfkdaqqeg",
+    "ref": "wwtwtsmywnckfkdaqqeg",
+    "organization_id": "fogprwizelfcmahyukhb",
+    "organization_slug": "fogprwizelfcmahyukhb",
+    "name": "legalease-partner-journey-os",
+    "region": "us-east-1",
+    "status": "ACTIVE_HEALTHY",
+    "database": {
+      "host": "db.wwtwtsmywnckfkdaqqeg.supabase.co",
+      "version": "17.6.1.127",
+      "postgres_engine": "17",
+      "release_channel": "ga"
+    },
+    "created_at": "2026-05-25T18:58:53.209454Z"
+  },
+  "migrationLedger": {
+    "migrations": [
+      {
+        "version": "20260728213131",
+        "name": "remote_schema"
+      },
+      {
+        "version": "20260818200000",
+        "name": "rcap_upgrade_00_roles"
+      },
+      {
+        "version": "20260818201000",
+        "name": "rcap_upgrade_01_tables_and_columns"
+      },
+      {
+        "version": "20260818202000",
+        "name": "rcap_upgrade_02_functions"
+      },
+      {
+        "version": "20260818203000",
+        "name": "rcap_upgrade_03_constraints_and_indexes"
+      },
+      {
+        "version": "20260818204000",
+        "name": "rcap_upgrade_04_views"
+      },
+      {
+        "version": "20260818205000",
+        "name": "rcap_upgrade_05_triggers"
+      },
+      {
+        "version": "20260818206000",
+        "name": "rcap_upgrade_06_rls_and_policies"
+      },
+      {
+        "version": "20260818207000",
+        "name": "rcap_upgrade_07_grants"
+      },
+      {
+        "version": "20260818208000",
+        "name": "rcap_upgrade_08_storage_buckets"
+      },
+      {
+        "version": "20260818209000",
+        "name": "rcap_upgrade_09_security_hardening"
+      },
+      {
+        "version": "20260819120000",
+        "name": "rcap_partner_provisioning"
+      },
+      {
+        "version": "20260823171000",
+        "name": "internal_admin_authority_hardening"
+      },
+      {
+        "version": "20260828100000",
+        "name": "shared_pending_result_and_atomic_claim"
+      },
+      {
+        "version": "20260830120000",
+        "name": "participant_data_rights"
+      },
+      {
+        "version": "20260901115000",
+        "name": "consumer_packet_artifact_provenance"
+      },
+      {
+        "version": "20260901120000",
+        "name": "dtc_consumer_launch_rails"
+      },
+      {
+        "version": "20260901130000",
+        "name": "consumer_private_delivery"
+      },
+      {
+        "version": "20260901140000",
+        "name": "tighten_consumer_artifact_authorization"
+      },
+      {
+        "version": "20260903120000",
+        "name": "clinic_event_jurisdiction_lock"
+      },
+      {
+        "version": "20260903130000",
+        "name": "atomic_sponsored_packet_finalization"
+      },
+      {
+        "version": "20260906120000",
+        "name": "sponsored_route_render_transaction"
+      },
+      {
+        "version": "20260906130000",
+        "name": "verified_artifact_regeneration"
+      },
+      {
+        "version": "20260917090000",
+        "name": "consumer_promotion_codes"
+      },
+      {
+        "version": "20260917200000",
+        "name": "consumer_checkout_session_replacement"
+      },
+      {
+        "version": "20261007034510",
+        "name": "onboarding_review_conflict_transport"
+      },
+      {
+        "version": "20261008200230",
+        "name": "rcap_launch_package_20261008"
+      },
+      {
+        "version": "20261008200234",
+        "name": "rcap_launch_authority_20261008"
+      },
+      {
+        "version": "20261008200238",
+        "name": "rcap_real_launch_20261008"
+      },
+      {
+        "version": "20261008232412",
+        "name": "rcap_signed_agreement_alignment_20261008"
+      },
+      {
+        "version": "20261009193143",
+        "name": "rcap_affected_launch_checks_20261009"
+      },
+      {
+        "version": "20261009231248",
+        "name": "rcap2_program_policy_and_start"
+      },
+      {
+        "version": "20261010002925",
+        "name": "rcap_prefill_lineage_compatibility"
+      },
+      {
+        "version": "20261010015708",
+        "name": "rcap_canonical_program_configuration"
+      },
+      {
+        "version": "20261010035909",
+        "name": "rcap_operating_authority"
+      },
+      {
+        "version": "20261010144221",
+        "name": "rcap_operating_responsibility_rights"
+      },
+      {
+        "version": "20261010164957",
+        "name": "rcap_spanish_material_preparation"
+      }
+    ]
+  },
+  "baselineFunctionReadback": [
+    {
+      "signature": "claim_partner_screening_session(text,text,text,timestamp with time zone)",
+      "expected_sha256": "8a3d6ac401dd320082e895e36ac725313d465b7e8496cc2fce6189d910a41a49",
+      "exists": true,
+      "actual_sha256": "8a3d6ac401dd320082e895e36ac725313d465b7e8496cc2fce6189d910a41a49",
+      "arguments": "p_partner_slug text, p_jurisdiction text, p_code_hash text DEFAULT NULL::text, p_now timestamp with time zone DEFAULT now()",
+      "result": "TABLE(ok boolean, session_id uuid, reason text, benefit_active boolean, attribution_source text, campaign_name text, access_mode text, code_id uuid)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "claim_rcap_screening_session(text,text,text)",
+      "expected_sha256": "c8ec6d820ae54d06ca42caf4a5c9074d166e2a3bf41889db82eebbcbdc43cf12",
+      "exists": true,
+      "actual_sha256": "c8ec6d820ae54d06ca42caf4a5c9074d166e2a3bf41889db82eebbcbdc43cf12",
+      "arguments": "p_partner_slug text, p_jurisdiction text, p_clinic_redemption text",
+      "result": "TABLE(ok boolean, session_id uuid, reason text, screenings_used integer, screenings_allowed integer)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "claim_rcap_screening_session(text,text)",
+      "expected_sha256": "333173b7cfcc5684f50d35abebd906818d5820cefe0ffe160b134a1616833dae",
+      "exists": true,
+      "actual_sha256": "333173b7cfcc5684f50d35abebd906818d5820cefe0ffe160b134a1616833dae",
+      "arguments": "p_partner_slug text, p_jurisdiction text",
+      "result": "TABLE(ok boolean, session_id uuid, reason text, screenings_used integer, screenings_allowed integer)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_actor_can_event(uuid,uuid,text)",
+      "expected_sha256": "e6f304df7f1a2046ec73d14b681829c493297fbab60e1eeb884ec19aa7bce417",
+      "exists": true,
+      "actual_sha256": "e6f304df7f1a2046ec73d14b681829c493297fbab60e1eeb884ec19aa7bce417",
+      "arguments": "p_event_id uuid, p_actor_user_id uuid, p_permission text",
+      "result": "boolean",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_create_access_code(uuid,uuid,text,text,integer,timestamp with time zone,timestamp with time zone)",
+      "expected_sha256": "6f770a120448231671a060b10446759236f6e3a98b5fdafc768b4839f1ed0910",
+      "exists": true,
+      "actual_sha256": "6f770a120448231671a060b10446759236f6e3a98b5fdafc768b4839f1ed0910",
+      "arguments": "p_actor_user_id uuid, p_event_id uuid, p_code_hash text, p_code_hint text, p_max_uses integer, p_starts_at timestamp with time zone DEFAULT NULL::timestamp with time zone, p_expires_at timestamp with time zone DEFAULT NULL::timestamp with time zone",
+      "result": "uuid",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)",
+      "expected_sha256": "74a92cfd56b83abc172dd91f68dd5489b8a517a414a34fddadeb3f88f1c3e1e0",
+      "exists": true,
+      "actual_sha256": "74a92cfd56b83abc172dd91f68dd5489b8a517a414a34fddadeb3f88f1c3e1e0",
+      "arguments": "p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer, p_jurisdiction text",
+      "result": "uuid",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer)",
+      "expected_sha256": "e70dfae1a5b8a6d9e3e3c1ac057cf8096cb961e3bbfbf22408175416e805b8c1",
+      "exists": true,
+      "actual_sha256": "e70dfae1a5b8a6d9e3e3c1ac057cf8096cb961e3bbfbf22408175416e805b8c1",
+      "arguments": "p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer DEFAULT NULL::integer",
+      "result": "uuid",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_get_follow_ups(uuid,uuid)",
+      "expected_sha256": "1be51417f349f935d66a1ca1a99c030ebc86fbfff2ff1df185e72624ee342055",
+      "exists": true,
+      "actual_sha256": "1be51417f349f935d66a1ca1a99c030ebc86fbfff2ff1df185e72624ee342055",
+      "arguments": "p_event_id uuid, p_actor_user_id uuid",
+      "result": "TABLE(id uuid, clinic_case_id uuid, owner_event_staff_id uuid, jurisdiction text, due_at timestamp with time zone, status text, communication_state text, participant_safe_message text, internal_notes text, updated_at timestamp with time zone)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_packet_dtc_authorized(uuid,uuid)",
+      "expected_sha256": "5a233da780465ad855299d3cae2bcd0f33ff99bfe71d86dabf56dbc3fcf224af",
+      "exists": true,
+      "actual_sha256": "5a233da780465ad855299d3cae2bcd0f33ff99bfe71d86dabf56dbc3fcf224af",
+      "arguments": "p_item uuid, p_owner uuid",
+      "result": "boolean",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_redeem_event_code(text,text,text)",
+      "expected_sha256": "a3cf34fc4267a1826d635e1e20e2dc33bfb289255f3f0252d38665ef59fa740d",
+      "exists": true,
+      "actual_sha256": "a3cf34fc4267a1826d635e1e20e2dc33bfb289255f3f0252d38665ef59fa740d",
+      "arguments": "p_public_slug text, p_code_hash text, p_redemption_nonce_hash text",
+      "result": "TABLE(outcome text, event_id uuid, partner_slug text)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_set_event_status(uuid,uuid,text)",
+      "expected_sha256": "1b76e137a2c1bb07e4146fd95cced0e6e018e6fb8c9de82f3cf02c5fb5df0b33",
+      "exists": true,
+      "actual_sha256": "1b76e137a2c1bb07e4146fd95cced0e6e018e6fb8c9de82f3cf02c5fb5df0b33",
+      "arguments": "p_event_id uuid, p_actor_user_id uuid, p_status text",
+      "result": "text",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_start_assisted_session(uuid,uuid,uuid,uuid,text,text,text,timestamp with time zone,integer)",
+      "expected_sha256": "4403e65411600391dad65243fe18d970bdcd85751378806211e2492e40e23019",
+      "exists": true,
+      "actual_sha256": "4403e65411600391dad65243fe18d970bdcd85751378806211e2492e40e23019",
+      "arguments": "p_event_id uuid, p_event_staff_id uuid, p_participant_user_id uuid, p_screening_session_id uuid, p_handoff_token_hash text, p_device_nonce_hash text, p_consent_version text, p_consented_at timestamp with time zone, p_ttl_minutes integer DEFAULT 30",
+      "result": "uuid",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_transition_case(uuid,uuid,text,uuid,timestamp with time zone)",
+      "expected_sha256": "b3b73a0e4f614d8681a9d6d3e84c6f3a5df5e73defeac05434892ebb2b89db0d",
+      "exists": true,
+      "actual_sha256": "b3b73a0e4f614d8681a9d6d3e84c6f3a5df5e73defeac05434892ebb2b89db0d",
+      "arguments": "p_case_id uuid, p_actor_user_id uuid, p_queue_status text, p_follow_up_owner_staff_id uuid DEFAULT NULL::uuid, p_follow_up_due_at timestamp with time zone DEFAULT NULL::timestamp with time zone",
+      "result": "text",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "clinic_upsert_follow_up(uuid,uuid,uuid,uuid,timestamp with time zone,text,text,text,text)",
+      "expected_sha256": "39150d26548a04a6fd8576b506a9319093af1c255caa38e1bdb08d85165975f7",
+      "exists": true,
+      "actual_sha256": "39150d26548a04a6fd8576b506a9319093af1c255caa38e1bdb08d85165975f7",
+      "arguments": "p_follow_up_id uuid, p_case_id uuid, p_actor_user_id uuid, p_owner_event_staff_id uuid, p_due_at timestamp with time zone, p_status text, p_communication_state text, p_participant_safe_message text, p_internal_notes text",
+      "result": "uuid",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "consumer_matter_id_for_briefcase_item(uuid)",
+      "expected_sha256": "a94a2ff5911d9f6efac4fc8131bd5e8c85e0ea691ed10572047c577199cd93c8",
+      "exists": true,
+      "actual_sha256": "a94a2ff5911d9f6efac4fc8131bd5e8c85e0ea691ed10572047c577199cd93c8",
+      "arguments": "p_item_id uuid",
+      "result": "uuid",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_partner_activation_for_launch(text)",
+      "expected_sha256": "c53dd21db86d2719393d5e01ef68915d370e69873ffb1bca618dbca9519689d6",
+      "exists": true,
+      "actual_sha256": "c53dd21db86d2719393d5e01ef68915d370e69873ffb1bca618dbca9519689d6",
+      "arguments": "p_slug text",
+      "result": "boolean",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_partner_page_configuration_id(text)",
+      "expected_sha256": "22b079e795888622219f2add524c4826e0f228af2446e55e14f909386d721c1a",
+      "exists": true,
+      "actual_sha256": "22b079e795888622219f2add524c4826e0f228af2446e55e14f909386d721c1a",
+      "arguments": "p_partner_slug text",
+      "result": "uuid",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_program_external_rights_evidence(uuid)",
+      "expected_sha256": "d710af2f6fc0f4453392ba3f7f5ffed2c1a58724a8d1ccf082d1b2e7c5abe618",
+      "exists": true,
+      "actual_sha256": "d710af2f6fc0f4453392ba3f7f5ffed2c1a58724a8d1ccf082d1b2e7c5abe618",
+      "arguments": "p_workspace uuid",
+      "result": "jsonb",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_program_launch_scope(uuid)",
+      "expected_sha256": "fa9108ef3f6b334ec0442f72a6c203b48004cfe98bfbad83ca06c6ffb6e22200",
+      "exists": true,
+      "actual_sha256": "fa9108ef3f6b334ec0442f72a6c203b48004cfe98bfbad83ca06c6ffb6e22200",
+      "arguments": "p_workspace uuid",
+      "result": "text",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_program_material_scope(uuid,text)",
+      "expected_sha256": "8fc9c8becf1801e6d7148db3c63fcd6c8bf51e0ec47c5fd4ed8d4b45f23b4294",
+      "exists": true,
+      "actual_sha256": "8fc9c8becf1801e6d7148db3c63fcd6c8bf51e0ec47c5fd4ed8d4b45f23b4294",
+      "arguments": "p_workspace uuid, p_type text",
+      "result": "text",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_program_policy_source(uuid)",
+      "expected_sha256": "df5067ff2899d443c741aa4aefdc83513a052c8e50d10771460b1cb34ff18a8c",
+      "exists": true,
+      "actual_sha256": "df5067ff2899d443c741aa4aefdc83513a052c8e50d10771460b1cb34ff18a8c",
+      "arguments": "p_workspace uuid",
+      "result": "jsonb",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_program_screening_jurisdictions(text)",
+      "expected_sha256": "405e366e133e03b00e5a5be90156992822d315b2c75240774ed8ba82d15d9c24",
+      "exists": true,
+      "actual_sha256": "405e366e133e03b00e5a5be90156992822d315b2c75240774ed8ba82d15d9c24",
+      "arguments": "p_slug text",
+      "result": "text[]",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_assert_internal_actor(uuid)",
+      "expected_sha256": "e375bcebac28feded155bc071d0d8bb72bf2bf6fad6fb27615f5183b586d788f",
+      "exists": true,
+      "actual_sha256": "e375bcebac28feded155bc071d0d8bb72bf2bf6fad6fb27615f5183b586d788f",
+      "arguments": "p_actor_user_id uuid",
+      "result": "void",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_enable_program_policy(text,uuid)",
+      "expected_sha256": "fc6a48a15da46c0d5a606d5ab52679d9f880b93a09510a469b6a55b04ddd2def",
+      "exists": true,
+      "actual_sha256": "fc6a48a15da46c0d5a606d5ab52679d9f880b93a09510a469b6a55b04ddd2def",
+      "arguments": "p_slug text, p_actor uuid",
+      "result": "bigint",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_evaluate_program(text,uuid,text)",
+      "expected_sha256": "8b722e4d3bdd913de52cac8f08bb7edef9668643d36b3e47263b0c65b3847cba",
+      "exists": true,
+      "actual_sha256": "8b722e4d3bdd913de52cac8f08bb7edef9668643d36b3e47263b0c65b3847cba",
+      "arguments": "p_slug text, p_actor uuid, p_action text",
+      "result": "jsonb",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_get_program_configuration(text,uuid)",
+      "expected_sha256": "080de3749fcb35621c5e656825a69545d25fb66e5f41aa5ac336491f78a77b45",
+      "exists": true,
+      "actual_sha256": "080de3749fcb35621c5e656825a69545d25fb66e5f41aa5ac336491f78a77b45",
+      "arguments": "p_slug text, p_actor uuid",
+      "result": "jsonb",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_provision_partner(text,text,text,text,text,text,text,text,uuid,uuid,text,text)",
+      "expected_sha256": "22cece4184b183915843dfdcc18680db0d169a0959b0ca80e9e600502441b6f3",
+      "exists": true,
+      "actual_sha256": "22cece4184b183915843dfdcc18680db0d169a0959b0ca80e9e600502441b6f3",
+      "arguments": "p_partner_slug text, p_organization_name text, p_legal_organization_name text, p_program_name text, p_program_purpose text, p_administrator_name text, p_administrator_email text, p_clearance_reason text, p_actor_user_id uuid, p_request_id uuid, p_schema_version text, p_payload_hash text",
+      "result": "TABLE(partner_record_id uuid, workspace_id uuid, workspace_status text, section_count integer, milestone_count integer, page_configuration_id uuid, created boolean)",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_record_onboarding_asset(text,uuid,uuid,uuid,bigint,text,text,text,text,text,text,bigint,integer,integer,text,text,integer,text,text,text,uuid)",
+      "expected_sha256": "d74f5c5c4971587f96aecd7229a9aa5408062a9ef5113965b72143b3b09541d6",
+      "exists": true,
+      "actual_sha256": "d74f5c5c4971587f96aecd7229a9aa5408062a9ef5113965b72143b3b09541d6",
+      "arguments": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_asset_id uuid, p_expected_workspace_version bigint, p_category text, p_object_path text, p_original_filename text, p_safe_filename text, p_media_type text, p_file_extension text, p_byte_size bigint, p_width_pixels integer, p_height_pixels integer, p_sha256_hex text, p_payload_hash text, p_workspace_completion integer, p_blocker_code text, p_next_action_code text, p_next_action_owner text, p_request_id uuid",
+      "result": "TABLE(asset_id uuid, superseded_object_path text, workspace_aggregate_version bigint, duplicate boolean)",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_save_onboarding_section(text,uuid,uuid,text,bigint,bigint,jsonb,jsonb,text,integer,text[],integer,text,text,text,uuid,text)",
+      "expected_sha256": "a1f82470aa8e01ea89ed54c0c64cd0c4c1db091eb65d3e45fe17b0477d9011bb",
+      "exists": true,
+      "actual_sha256": "a1f82470aa8e01ea89ed54c0c64cd0c4c1db091eb65d3e45fe17b0477d9011bb",
+      "arguments": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_section_key text, p_expected_revision bigint, p_expected_workspace_version bigint, p_response_data jsonb, p_collections jsonb, p_mode text, p_section_completion integer, p_missing_required_keys text[], p_workspace_completion integer, p_blocker_code text, p_next_action_code text, p_next_action_owner text, p_request_id uuid, p_payload_hash text",
+      "result": "TABLE(section_revision bigint, workspace_aggregate_version bigint, section_status text, duplicate boolean)",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "rcap_service_save_program_configuration(text,uuid,bigint,jsonb,uuid)",
+      "expected_sha256": "3eb320d1c1d2e98091634811d683ba2546a3e3577bc8ada497a9c221cf002b2f",
+      "exists": true,
+      "actual_sha256": "3eb320d1c1d2e98091634811d683ba2546a3e3577bc8ada497a9c221cf002b2f",
+      "arguments": "p_slug text, p_actor uuid, p_version bigint, p_changes jsonb, p_request uuid",
+      "result": "jsonb",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "record_consumer_packet_payment(uuid,text,integer,integer,integer,text,text,text,text,text,text,text,text,text,uuid,uuid,text)",
+      "expected_sha256": "6b4197c5d8b240161527c56756d7572ebb1e5d4fd68ddc968a579e9e69c96de9",
+      "exists": true,
+      "actual_sha256": "6b4197c5d8b240161527c56756d7572ebb1e5d4fd68ddc968a579e9e69c96de9",
+      "arguments": "p_briefcase_item_id uuid, p_payment_status text, p_amount_cents integer, p_regular_price_cents integer, p_discount_cents integer, p_currency text, p_payment_provider text, p_provider_event_id text, p_checkout_session_id text, p_payment_intent_id text, p_receipt_url text, p_authority text, p_recorded_by text, p_product_id text, p_person_id uuid, p_matter_id uuid, p_expected_verification_hash text",
+      "result": "TABLE(outcome text, briefcase_item_id uuid, provider_event_id text)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "record_consumer_packet_payment(uuid,text,integer,integer,integer,text,text,text,text,text,text,text,text,text,uuid,uuid)",
+      "expected_sha256": "e6024c395243bedd9fd68fa68f1c21b382c741d78aaea32b9c00f70d6e036e82",
+      "exists": true,
+      "actual_sha256": "e6024c395243bedd9fd68fa68f1c21b382c741d78aaea32b9c00f70d6e036e82",
+      "arguments": "p_briefcase_item_id uuid, p_payment_status text, p_amount_cents integer, p_regular_price_cents integer, p_discount_cents integer, p_currency text, p_payment_provider text, p_provider_event_id text, p_checkout_session_id text, p_payment_intent_id text, p_receipt_url text, p_authority text, p_recorded_by text, p_product_id text, p_person_id uuid, p_matter_id uuid",
+      "result": "TABLE(outcome text, briefcase_item_id uuid, provider_event_id text)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "record_consumer_packet_payment(uuid,text,integer,text,text,text,text,text,text,text,text,text,uuid,uuid,text)",
+      "expected_sha256": "70fd9399725d6e34935047119a267ae96cba70435a59ccdb5a736ecfce08b7a9",
+      "exists": true,
+      "actual_sha256": "70fd9399725d6e34935047119a267ae96cba70435a59ccdb5a736ecfce08b7a9",
+      "arguments": "p_briefcase_item_id uuid, p_payment_status text, p_amount_cents integer, p_currency text, p_payment_provider text, p_provider_event_id text, p_checkout_session_id text, p_payment_intent_id text, p_receipt_url text, p_authority text, p_recorded_by text, p_product_id text, p_person_id uuid, p_matter_id uuid, p_expected_verification_hash text",
+      "result": "TABLE(outcome text, briefcase_item_id uuid, provider_event_id text)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    },
+    {
+      "signature": "record_consumer_packet_payment(uuid,text,integer,text,text,text,text,text,text,text,text,text,uuid,uuid)",
+      "expected_sha256": "357b7bab40b10bc7ff57827e0fc00f11f0e0a4d7fc1eae04f6be6a8e12a94540",
+      "exists": true,
+      "actual_sha256": "357b7bab40b10bc7ff57827e0fc00f11f0e0a4d7fc1eae04f6be6a8e12a94540",
+      "arguments": "p_briefcase_item_id uuid, p_payment_status text, p_amount_cents integer, p_currency text, p_payment_provider text, p_provider_event_id text, p_checkout_session_id text, p_payment_intent_id text, p_receipt_url text, p_authority text, p_recorded_by text, p_product_id text, p_person_id uuid, p_matter_id uuid",
+      "result": "TABLE(outcome text, briefcase_item_id uuid, provider_event_id text)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "acl": "{postgres=X/postgres,service_role=X/postgres}"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "legalease-rcap-7a8c6a4da102-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_4V9wdb5h1HF6kuRay7ZK4eP1VEgM",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-77cca2-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_3eHKTP8vNdNCP7wYxg9Vj7Q5VUKA",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-14f03c-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-e312a5efa7b4-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_7heA1zUcZ7zs7CciZg8LLdwGiKwT",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-5e04eafd7eae-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_AyiMCz5VNrtaenAGx27ZGH8rtURk",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-0cc670-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_AyiMCz5VNrtaenAGx27ZGH8rtURk",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-clinic-af638b61cc4b-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-dabf89-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-clinic-6ebacdcde8af-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_EopdPGhnhjk8JqwdiAqi9RYmATpB",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-391d6a-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_EopdPGhnhjk8JqwdiAqi9RYmATpB",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-clinic-525e16ea64ed-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_HFXj8CBukFS8jypToh1yNsSZwWqx",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-410077-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_HFXj8CBukFS8jypToh1yNsSZwWqx",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-ea7a84-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-910c39-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-f6769ad15e2a-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9x5vjTDyE3nMCG1b8GXXmaf3Wc4q",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-73ff7e-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9x5vjTDyE3nMCG1b8GXXmaf3Wc4q",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-4f7d209de112-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-527ad3-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-5592ab2bd80f-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-07c891-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-f9116800db2f-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Cnjck8y2PLEFsaQXY86mXCyq3SMm",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-d78b02-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_A3oZKE695eiPCVUMcNB7SE9jWymU",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-fe2457a71dd9-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_4YeP2aARNfr4syc1TVKdbMBW6SRN",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-4e6c56-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_4YeP2aARNfr4syc1TVKdbMBW6SRN",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-884ad51d0ad5-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_7fS5R3jKGRYeCCyuvafkoMfrkgpe",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-d2a761-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_7fS5R3jKGRYeCCyuvafkoMfrkgpe",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-8682bd00731e-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_4Tj8mcsdkLZwQbCwc3uWct6quaKF",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-2b81bb-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-1f9e1e9a8654-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_3Yz43xWgbgFmrbMc8XgFBeQqYtU3",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-e6e0ca-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-7c883693830c-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_AbvdvR2gk57Mbhr9v3rZCpKCZBKV",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-6e360e-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-44ed5e395818-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_8bvnd8AHB4Wm9s2NmeV5n2CWmuKm",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-d14220-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-b06831f96624-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_5i5wtSfrmzgSaMvJDobmQRGYdUrC",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-0c4a5f-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_ErubjYD68nUNcBjku4hyhYCiNPuo",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-e52628aa4206-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Ao6kGihX2RPY2dTx1ibpjh1pAiG2",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-29cff6-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_4rwbPYsHvj92tfZr4rWqZWBF4M9C",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-8517a9b0ecf1-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_33LqnGJMj6zE6zoQcqzL5tTMCRMu",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-178282-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-62425c837b5e-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_5dZTG4SeKKnbJEXF5FSUCWCihoCm",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-001e79-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-ce840cc67e2e-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Ea5D88MQMC56X8ugm2GVMyGj8DT5",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-6029df-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Ea5D88MQMC56X8ugm2GVMyGj8DT5",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-4e16d6d8ebe9-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-aad240-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-0fee79bd127e-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_4VJ9SwLKsdiCSAy5T85tcab48698",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-b655a3-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-8d9382b93ada-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9dQDQbSXmEuJGvCmP7n7KFaiQZ42",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-7b3af2-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9dQDQbSXmEuJGvCmP7n7KFaiQZ42",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-1cdbccfa2aca-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_HkPSNJkSBN9CGYrNuG1BhkTVcfv5",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-4f60b3-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_HkPSNJkSBN9CGYrNuG1BhkTVcfv5",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-3e3a528b5762-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_61UovtFFUvxa7ehabzzA9sPyyXUn",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-c6368e-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_61UovtFFUvxa7ehabzzA9sPyyXUn",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-436520e4a99f-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_DYp7qmhbDanxurUBZZvyei8STrUx",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-c6c26d-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_DYp7qmhbDanxurUBZZvyei8STrUx",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-61a2f018a9a4-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_AV3Mq1oeH2nXf8PH5AQJQh7DKb2p",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-55b786-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-cc4d8275cca6-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_Hdmt31K5hx8ysFmDnqyFvSPBmQZ5",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-a19099-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_543iNjEW9FvMmju8MNU2W5GVsYZJ",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-300a0edbf0a7-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-c2cc03-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_7xuijzEubTC3tunGE3c8JZ34Y6Yr",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-7e7e95-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_A9wFw7P7gWHFJDKSyBpz6DY9GnBZ",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-rcap-441ee3188ee5-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_9ygomDGFAXSLHENBfc6Undtyknjf",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "www.legaleasepartner.com",
+      "deploymentId": "dpl_Hbb5dbyk3HLB1oXyLG6ZsQwEi1Es",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease.com",
+      "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "www.expungement.ai",
+      "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "expungement.ai",
+      "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legaleasepartner.com",
+      "deploymentId": "dpl_Hbb5dbyk3HLB1oXyLG6ZsQwEi1Es",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-roger947-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_B8uvSAsog4ssUT96fLwJbWAcfQ8h",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean.vercel.app",
+      "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    }
+  ],
+  "currentDeployment": {
+    "result": {
+      "deployment": {
+        "id": "dpl_Hbb5dbyk3HLB1oXyLG6ZsQwEi1Es",
+        "name": "legalease-partner-dashboard-clean",
+        "url": "legalease-partner-dashboard-clean-1fvioa9qj-roger947s-projects.vercel.app",
+        "type": "LAMBDAS",
+        "state": "READY",
+        "createdAt": 1791656221454,
+        "creator": {
+          "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+          "username": "roger947"
+        },
+        "project": {
+          "id": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+          "name": "legalease-partner-dashboard-clean",
+          "framework": "nextjs"
+        },
+        "meta": {
+          "githubCommitRef": "captain-release",
+          "githubCommitSha": "ba81792225d6d82ef57c104061e9d5eb9d7db395"
+        },
+        "alias": [],
+        "target": "production",
+        "regions": [
+          "iad1"
+        ],
+        "buildingAt": 1791656222759,
+        "ready": 1791656354090,
+        "readyState": "READY",
+        "source": "cli",
+        "aliasError": null
+      }
+    }
+  },
+  "rollbackDeployment": {
+    "result": {
+      "deployment": {
+        "id": "dpl_GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+        "name": "legalease-partner-dashboard-clean",
+        "url": "legalease-partner-dashboard-clean-89v7gfb4b-roger947s-projects.vercel.app",
+        "type": "LAMBDAS",
+        "state": "READY",
+        "createdAt": 1791651139547,
+        "creator": {
+          "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+          "username": "roger947"
+        },
+        "project": {
+          "id": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+          "name": "legalease-partner-dashboard-clean",
+          "framework": "nextjs"
+        },
+        "meta": {
+          "githubCommitRef": "captain-release",
+          "githubCommitSha": "a9015b66d6600f4e9df7375ac0914d94ab2f4bd8",
+          "githubRepo": "legalease-partner-dashboard-clean",
+          "githubOrg": "Roger-LegalEase"
+        },
+        "alias": [],
+        "target": "production",
+        "regions": [
+          "iad1"
+        ],
+        "buildingAt": 1791651140538,
+        "ready": 1791651271893,
+        "readyState": "READY",
+        "source": "cli",
+        "aliasError": null
+      }
+    }
+  },
+  "productionDeployments": {
+    "result": {
+      "deployments": {
+        "pagination": {
+          "count": 8,
+          "next": 1791592276996,
+          "prev": 1791656221454
+        },
+        "deployments": [
+          {
+            "id": "dpl_Hbb5dbyk3HLB1oXyLG6ZsQwEi1Es",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-1fvioa9qj-roger947s-projects.vercel.app",
+            "created": 1791656221454,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "captain-release",
+              "githubCommitSha": "ba81792225d6d82ef57c104061e9d5eb9d7db395"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/Hbb5dbyk3HLB1oXyLG6ZsQwEi1Es",
+            "isRollbackCandidate": true
+          },
+          {
+            "id": "dpl_GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-89v7gfb4b-roger947s-projects.vercel.app",
+            "created": 1791651139547,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "captain-release",
+              "githubCommitSha": "a9015b66d6600f4e9df7375ac0914d94ab2f4bd8",
+              "githubRepo": "legalease-partner-dashboard-clean",
+              "githubOrg": "Roger-LegalEase"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+            "isRollbackCandidate": true
+          },
+          {
+            "id": "dpl_CLs2pM9yG7QKGPHspXCMCz8S2Xht",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-ogwn28t6f-roger947s-projects.vercel.app",
+            "created": 1791650376910,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "codex/rcap-spanish-launch-recovery",
+              "githubCommitSha": "2883f49fb88d7320d8bc05cf8e1c2b4aa788d4b7",
+              "githubRepo": "legalease-partner-dashboard-clean",
+              "githubOrg": "Roger-LegalEase"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/CLs2pM9yG7QKGPHspXCMCz8S2Xht",
+            "isRollbackCandidate": true
+          },
+          {
+            "id": "dpl_7z4CJnAo5HchYo5CEpuwq2dJdSJg",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-e117exlkc-roger947s-projects.vercel.app",
+            "created": 1791646683944,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "captain-release",
+              "githubCommitSha": "7d233f1fb02ba7e30dde89690ad6d4574e627447",
+              "githubRepo": "legalease-partner-dashboard-clean",
+              "githubOrg": "Roger-LegalEase"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/7z4CJnAo5HchYo5CEpuwq2dJdSJg",
+            "isRollbackCandidate": true
+          },
+          {
+            "id": "dpl_5Riwp42VY57X2y9GrPkMbg8G71B8",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-ffs11iy6p-roger947s-projects.vercel.app",
+            "created": 1791643590175,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "captain-release",
+              "githubCommitSha": "08f68583a3b41ef4b6fd7ef0533b7d0b793f0c45",
+              "githubRepo": "legalease-partner-dashboard-clean",
+              "githubOrg": "Roger-LegalEase"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/5Riwp42VY57X2y9GrPkMbg8G71B8",
+            "isRollbackCandidate": true
+          },
+          {
+            "id": "dpl_EHNd9i5VwDtKMN6AZMPMBjznB7No",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-envf0dvt3-roger947s-projects.vercel.app",
+            "created": 1791604996278,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "captain-release",
+              "githubCommitSha": "9cf86117b80966827b8bce71e446627c700e8830",
+              "githubRepo": "legalease-partner-dashboard-clean",
+              "githubOrg": "Roger-LegalEase"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/EHNd9i5VwDtKMN6AZMPMBjznB7No",
+            "isRollbackCandidate": true
+          },
+          {
+            "id": "dpl_Yv8bSuhLBbuV1cVtbGcSsj9x73GH",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-mbqrbqkjz-roger947s-projects.vercel.app",
+            "created": 1791597569236,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "captain-release",
+              "githubCommitSha": "98a82e43f222b4b8137c6eac17d90fe743a5e584",
+              "githubRepo": "legalease-partner-dashboard-clean",
+              "githubOrg": "Roger-LegalEase"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/Yv8bSuhLBbuV1cVtbGcSsj9x73GH",
+            "isRollbackCandidate": true
+          },
+          {
+            "id": "dpl_DnbxYZNVnp1jB2gYYSmt9HF3bQzK",
+            "name": "legalease-partner-dashboard-clean",
+            "url": "legalease-partner-dashboard-clean-308gho1dq-roger947s-projects.vercel.app",
+            "created": 1791592276996,
+            "state": "READY",
+            "target": "production",
+            "creator": {
+              "uid": "oYB0ZVm3vA5s9C5dRC008ksD",
+              "username": "roger947"
+            },
+            "meta": {
+              "githubCommitRef": "captain-release",
+              "githubCommitSha": "80a26e3b271ac0b7bcdfd856ecb2c21ed8e278ee",
+              "githubRepo": "legalease-partner-dashboard-clean",
+              "githubOrg": "Roger-LegalEase"
+            },
+            "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/DnbxYZNVnp1jB2gYYSmt9HF3bQzK",
+            "isRollbackCandidate": true
+          }
+        ]
+      }
+    }
+  },
+  "environmentMetadata": [
+    {
+      "id": "zfCkxjQD0tockdzj",
+      "key": "RCAP_PARTNER_LAUNCH_PUBLIC_ORIGIN",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1791494016956,
+      "value": "https://legaleasepartner.com"
+    },
+    {
+      "id": "t79H3SL3z6vIYK3g",
+      "key": "RCAP_PARTNER_LAUNCH_RELEASE_AUTHORIZATION",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1791576313068,
+      "value": "release:60b6cdb6092c83e256686bbeec21f3499437ad86"
+    },
+    {
+      "id": "UJHiSMp3xVepx1ME",
+      "key": "RCAP_PARTNER_LAUNCH_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1791494015158,
+      "value": "true"
+    },
+    {
+      "id": "hS4l9FR0d0VNSkoL",
+      "key": "RCAP_SYNTHETIC_LAUNCH_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1791494014245,
+      "value": "false"
+    },
+    {
+      "id": "ZiCLqVsoTw0qlrAW",
+      "key": "RCAP_LAUNCH_STUDIO_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1791494013347,
+      "value": "true"
+    },
+    {
+      "id": "XuR3i0qzPVKbtn1D",
+      "key": "RCAP_ONBOARDING_PREFILL_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1791494012428,
+      "value": "true"
+    },
+    {
+      "id": "OGMw8hHiGK7BXq16",
+      "key": "RCAP_ONBOARDING_LAUNCH_PREP_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1791417531762,
+      "value": "true"
+    },
+    {
+      "id": "n72g0KPiVBMWU4ai",
+      "key": "LEGAL_AID_RESTRICTED_FIELD_KEY",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1790726236128
+    },
+    {
+      "id": "kx9C8DD81ijkWWJC",
+      "key": "LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1790726236128,
+      "value": "v1"
+    },
+    {
+      "id": "P3NxdaoxWOvrEEoE",
+      "key": "PARTICIPANT_PRIVACY_PSEUDONYM_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1790726236128
+    },
+    {
+      "id": "ZVdxar7EbGqUBHaR",
+      "key": "NEXT_PUBLIC_SUPABASE_URL",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1787743084936
+    },
+    {
+      "id": "eXB5fHoZ6rUheDOl",
+      "key": "PARTNER_EMAIL_FROM",
+      "type": "encrypted",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1787396636470
+    },
+    {
+      "id": "rYwpgIdXDa842f6b",
+      "key": "PARTNER_EMAIL_PROVIDER",
+      "type": "encrypted",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1787396633153
+    },
+    {
+      "id": "sAZrbYAFfRkTKeMR",
+      "key": "ENABLE_PARTNER_EMAIL_DELIVERY",
+      "type": "encrypted",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1787396630004
+    },
+    {
+      "id": "U0HrOPF2WQgNHFBv",
+      "key": "RCAP_PARTNER_ONBOARDING_ENABLED",
+      "type": "encrypted",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1787396617974
+    },
+    {
+      "id": "XsSuGJuE8W3R2Jni",
+      "key": "VERCEL_SUPPORT_LARGE_FUNCTIONS",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1787603285948
+    },
+    {
+      "id": "g4Gso9zIdmtdub0R",
+      "key": "LEGALEASE_OS_EVENTS_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1783645528385
+    },
+    {
+      "id": "PBul6cHSmhfypbs6",
+      "key": "LEGALEASE_OS_EVENTS_ENABLED",
+      "type": "encrypted",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1783644569148
+    },
+    {
+      "id": "3P0FRS3vwH46fAcN",
+      "key": "LEGALEASE_OS_EVENTS_ENDPOINT",
+      "type": "encrypted",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1783644566026
+    },
+    {
+      "id": "hUM81mFQUQirldeF",
+      "key": "WEB_ANALYTICS_IP_SALT",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1783507815381
+    },
+    {
+      "id": "vuzxwiNZHmESGw8a",
+      "key": "RESEND_API_KEY",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1783303561439
+    },
+    {
+      "id": "fbLOtcNCqZRr1bq3",
+      "key": "EXPUNGEMENT_EMAIL_FROM",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1783304680555
+    },
+    {
+      "id": "v3VSN7De8wjyRz3r",
+      "key": "EXPUNGEMENT_EMAIL_PROVIDER",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1783303594940
+    },
+    {
+      "id": "bs8uAi8IJ3cDVjaE",
+      "key": "STRIPE_LEGACY_WEBHOOK_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1783271609254
+    },
+    {
+      "id": "UD2FZskBFDXVpZUU",
+      "key": "NEXT_PUBLIC_LEGALEASE_PARTNER_URL",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1782998868197
+    },
+    {
+      "id": "3PUXLJsSYTlQoGgV",
+      "key": "NEXT_PUBLIC_LEGALEASE_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1782663688733
+    },
+    {
+      "id": "PB8rHtbX1689XkGE",
+      "key": "COMMAND_CENTER_API_KEY",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1782421973257
+    },
+    {
+      "id": "7K8n6G0jt2sSmWTc",
+      "key": "WILMA_PUBLIC_DAILY_USD_CAP",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1782350591991
+    },
+    {
+      "id": "5yx3QVRRr66PInU7",
+      "key": "UPSTASH_REDIS_REST_TOKEN",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1782350550668
+    },
+    {
+      "id": "AZ14twl9rNTRyIKY",
+      "key": "UPSTASH_REDIS_REST_URL",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1782350482416
+    },
+    {
+      "id": "K1WhBbTWnGSalvXc",
+      "key": "TURNSTILE_SECRET_KEY",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1782350447840
+    },
+    {
+      "id": "cyveqp2QiKG39O5N",
+      "key": "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+      "type": "encrypted",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1782350438392
+    },
+    {
+      "id": "2DfRxvQpMxN7zhDQ",
+      "key": "OPENAI_API_KEY",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1782344988970
+    },
+    {
+      "id": "SRFEBxH24viUbZkm",
+      "key": "NEXT_PUBLIC_EXPUNGEMENT_AI_URL",
+      "type": "encrypted",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1782319674083
+    },
+    {
+      "id": "qTnOflT5KkWelkNN",
+      "key": "NEXT_PUBLIC_PARTNER_APP_URL",
+      "type": "encrypted",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1782319647040
+    },
+    {
+      "id": "JqgTonNWpFwuXtCg",
+      "key": "EXPUNGEMENT_AI_CHECKOUT_DRY_RUN",
+      "type": "encrypted",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1781959734965
+    },
+    {
+      "id": "GJJq0106Vk4c43uB",
+      "key": "STRIPE_SECRET_KEY",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1781959074838
+    },
+    {
+      "id": "eUF3HzNJWpAttIEU",
+      "key": "STRIPE_WEBHOOK_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1783270962552
+    },
+    {
+      "id": "QEohU0w0yq3y6gdG",
+      "key": "NEXT_PUBLIC_AUTH_CAPTCHA_REQUIRED",
+      "type": "encrypted",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1781328958241
+    },
+    {
+      "id": "kc1Z3x157WEMUHSK",
+      "key": "INTERNAL_ADMIN_ACCESS_TOKEN",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1781209588207
+    },
+    {
+      "id": "wztLVlzpj0Uyjzu7",
+      "key": "RATE_LIMIT_HASH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1781196439456
+    },
+    {
+      "id": "uhdlIVmRV7B0BofH",
+      "key": "ENABLE_SUPABASE_PARTNER_DATA",
+      "type": "sensitive",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "updatedAt": 1781195339807
+    },
+    {
+      "id": "8vDnGcBSyr6TNmQs",
+      "key": "NEXT_PUBLIC_APP_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "updatedAt": 1781960141341
+    },
+    {
+      "id": "dJb5oXbYXb8c4g1l",
+      "key": "SUPABASE_SERVICE_ROLE_KEY",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1781194878085
+    },
+    {
+      "id": "Sipi5Cb8iL0gng57",
+      "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "updatedAt": 1783006674346
+    }
+  ],
+  "publicReadback": {
+    "checkedAt": "2026-10-11T03:13:28.379258+00:00",
+    "host": "https://legaleasepartner.com",
+    "readOnly": true,
+    "results": [
+      {
+        "path": "/",
+        "status": 200,
+        "location": null,
+        "requestId": "iad1::dmntt-1791688405957-a661f76d4472"
+      },
+      {
+        "path": "/sign-in",
+        "status": 200,
+        "location": null,
+        "requestId": "iad1::iad1::jjkl9-1791688405958-b3e592f58564"
+      },
+      {
+        "path": "/api/rcap/release",
+        "status": 200,
+        "location": null,
+        "requestId": "iad1::iad1::mf7t6-1791688405955-ef836472d022",
+        "payload": {
+          "application": "RCAP 2.0",
+          "policyVersion": "rcap2.2",
+          "buildSha": "ba81792225d6d82ef57c104061e9d5eb9d7db395",
+          "runtimeSha": "ba81792225d6d82ef57c104061e9d5eb9d7db395",
+          "sourceBound": true
+        }
+      },
+      {
+        "path": "/partner/onboarding",
+        "status": 307,
+        "location": "/sign-in?next=/partner/onboarding",
+        "requestId": "iad1::iad1::7dzp9-1791688406015-240c4ac663b3"
+      },
+      {
+        "path": "/internal/rcap/programs",
+        "status": 404,
+        "location": null,
+        "requestId": "iad1::iad1::ndccc-1791688405957-0a70f9ba8af1"
+      },
+      {
+        "path": "/api/internal/partners/onboarding/phase1/fresh-start-network/configuration",
+        "status": 401,
+        "location": null,
+        "requestId": "iad1::iad1::28t7s-1791688405957-9cba4f30a2ae"
+      }
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "status": "BLOCKED BEFORE PUBLICATION: GitHub Actions dispatch denied",
+  "capturedAt": "2026-10-06T00:26:17.082586+00:00",
+  "continues": "control-preparation-result.json; preserved unchanged",
+  "settingsEvidence": "dashboard-push-safety-20261006.json (operator screenshot-derived, not API; no local images claimed)",
+  "pushSafety": {
+    "A_nativeAutomaticProductionDeployment": "No: screenshot shows Production tracks main, not captain-release. Auto-assign production domains remains enabled and unchanged.",
+    "B_previewCustomOrExplicitDeployment": "Preview branch tracking displayed Disabled. Explicit manual/API deployment remains possible; none invoked by the exact matching repository push path. No matching custom environment shown in supplied evidence. No deployment command dispatched by this task.",
+    "C_productionMutation": "Only matching push workflow is reviewed GET-only Fly inspector; actual native steps succeeded. No workflow_run/deployment_status/repository_dispatch subscribers on default main or reviewed release tip. Effective package build next build, no root lifecycle hooks or repository Vercel override. Prior static generator/config inspection reused; no build executed to discover effects.",
+    "dashboardChecks": "No dashboard checks configured does not waive repository controls or baseline failures."
+  },
+  "remote": {
+    "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+    "captainReleaseSha": "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+    "previousSha": "121c889e15ac872e8dfbdeff18256551d15642aa",
+    "update": "Successful normal forward-only push; no main push, merge into application, or force push.",
+    "originalSourceContained": true
+  },
+  "applicationSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "applicationParent": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+  "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "workerDigest": null,
+  "workerInputFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+  "reviewedControlSha": "bede772e9cf55b8ae2730a461f93e5ee8ae0a60b",
+  "workflowExecutionRef": "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+  "releaseRecordSha": "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+  "mergeSha": "cea24d73becc8c1d96485ad708b9411df8855a80",
+  "binding": "Verified pending binding, current:false, productionAuthorized:false, digest:null; records unchanged. All 39 canonical inputs equal unchanged source; only the two reviewed signup runtime paths differ from accepted worker. Completed tests/browser/control review reused.",
+  "publication": {
+    "dispatchAttemptedOnce": true,
+    "workflow": "publish-rcap-render-worker.yml",
+    "ref": "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+    "inputs": {
+      "integration_sha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+      "tag_replacement_authorization": ""
+    },
+    "error": "HTTP 403: Resource not accessible by integration (https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/332410995/dispatches)",
+    "exitCode": 1,
+    "nativeRunId": null,
+    "buildStarted": false,
+    "imagePublished": false,
+    "retries": 0,
+    "existingRunCheck": "Checked before dispatch; latest publication remains historical run 36440421128 for 5e04eafd. Checked after denial; no new publication run exists.",
+    "alternateConnectedCapability": "Available GitHub app capabilities are GET/read and rerun; no workflow-dispatch alternative is exposed. No workaround workflow, auth change, or new credential requested."
+  },
+  "imageAcceptance": {
+    "executed": false,
+    "reason": "No actual successor publication/digest exists; predecessor acceptance not copied."
+  },
+  "materials": {
+    "resolvedSuccessorMaterials": "Not measured: no build started.",
+    "baseTag": "node:22-slim (mutable)",
+    "dockerfileLockfileWorkerLogicRuntimeDataChanged": false,
+    "dependencyUpgradeApproved": false
+  },
+  "flyReadback": {
+    "runId": 37393401639,
+    "jobId": 112043548700,
+    "artifactId": 11381688723,
+    "nativeRunConclusion": "success",
+    "nativeSource": "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+    "evidence": "/workspaces/legalease-partner-dashboard-clean/artifacts/signup-hotfix-successor-20261005/fly-identity-37393401639",
+    "machine": {
+      "id": "d8de5e4f759278",
+      "state": "started",
+      "imageReference": "registry.fly.io/legalease-rcap-render-worker@sha256:490576906cba2f4f710372c39f81cdff0cfaabc684eb25e9a738b680957d34ea",
+      "imageDigest": "sha256:490576906cba2f4f710372c39f81cdff0cfaabc684eb25e9a738b680957d34ea",
+      "imageRegistry": "registry.fly.io",
+      "imageRepository": "legalease-rcap-render-worker",
+      "ociRevision": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+      "recordedSourceSha": null,
+      "acceptedDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1"
+    },
+    "rollbackImageIdentity": "registry.fly.io/legalease-rcap-render-worker@sha256:490576906cba2f4f710372c39f81cdff0cfaabc684eb25e9a738b680957d34ea",
+    "rollbackMachineIdentity": "d8de5e4f759278",
+    "rollbackStatus": "Current machine and immutable Fly image reference verified by actual GET. Registry pullability and Fly\u2194GHCR image-config/rootfs equivalence remain unverified; do not infer them from OCI label or acceptedDigest environment field.",
+    "mappingInspection": "Existing immutable config-ID comparison in scripts/rcap-production-worker-readiness.mjs and readWorkerImageProof in scripts/rcap-production-packet-canary-contract.mjs inspected. No matching native proof found in preserved current production artifact JSONs. No old production authorization reused and no deployment workflow invoked."
+  },
+  "productionApplication": {
+    "evidenceSource": "Authorized Vercel get_deployment(expungement.ai) after the preparation push and denied publication dispatch",
+    "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+    "state": "READY",
+    "target": "production",
+    "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+    "hostnameRead": "expungement.ai",
+    "reportedAliases": [
+      "legalease-partner-dashboard-clean-roger947s-projects.vercel.app",
+      "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app"
+    ],
+    "generatedUrl": "legalease-partner-dashboard-clean-24yyrv1ri-roger947s-projects.vercel.app",
+    "productionMutationPerformed": false
+  },
+  "applicationRollbackTarget": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc (still READY/current); rollback not used",
+  "allRemainingActivationRequirements": [
+    "Actions-write-authorized operator must dispatch existing publication exactly once at the recorded tooling ref, with fixed integration_sha and empty tag replacement authorization. Check existing run state first to avoid duplicates.",
+    "Actual successful immutable publication, native evidence and resolved base/dependency-material comparison; any material drift requires disposition without implicitly approving an upgrade.",
+    "Actual isolated image acceptance against returned digest, and evidence-driven advancement/verification of exact bindings.",
+    "Fly/GHCR immutable config/rootfs mapping and pullable worker rollback target verification; re-read current application AND worker immediately before any later activation.",
+    "Application/runtime publication/provider authority compatibility: fixed application retains historical publication/authority bytes; grade-a-admission.ts binds provider digest and exact publication hash. Any necessary authority transition is separately reviewed/authorized, not rewritten here.",
+    "Existing hosted/production caller source/digest pins and CURRENT admission require a separately reviewed successor release stage; preparation binding intentionally remains non-dispatchable.",
+    "Fresh exact tuple activation authorization and required hosted/release checks; never replay consumed historical authorization.",
+    "Three original signup verifier failures remain baseline FAIL and unwaived. Three older control-fixture failures also reproduce on untouched tooling. No inspected publication/acceptance workflow enforces the original three; any controlling later gate still must be satisfied."
+  ],
+  "smallestRequiredOperatorAction": [
+    "gh",
+    "workflow",
+    "run",
+    "publish-rcap-render-worker.yml",
+    "--repo",
+    "Roger-LegalEase/legalease-partner-dashboard-clean",
+    "--ref",
+    "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+    "-f",
+    "integration_sha=e3ac438da981c84987bd3172751e1a09e3f42309",
+    "-f",
+    "tag_replacement_authorization="
+  ],
+  "authorizationNeededNow": "No new production authorization requested; the existing preparation authorization covers this exact dispatch. An operator with Actions write permission must perform it or provide an already-authorized execution path; no credential values in chat.",
+  "productionActivation": false,
+  "workerDeployment": false,
+  "productionConfigurationOrCustomerDataChanged": false,
+  "realProductionEmailDelivery": "UNVERIFIED; no production authentication/email submission."
+}

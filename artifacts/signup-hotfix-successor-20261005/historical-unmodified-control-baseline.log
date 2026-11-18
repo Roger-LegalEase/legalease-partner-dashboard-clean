@@ -1,0 +1,81 @@
+current-generation refusals: 78
+✖ native acceptance, pending successor, release and exact hosted tools bind; forged identities, drift and execution authority refuse (15891.137744ms)
+✔ receipt-chain successor binds the current generation before and after one tools commit (161376.204264ms)
+✖ pending successor binds exact source/tools/full worker inputs and cannot authorize dispatch or reuse old digest (15379.303304ms)
+✖ published successor is current publication only; image acceptance and hosted execution remain held (18917.363283ms)
+✔ current pending generation preserves exact historical source and resume records (3457.529218ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 2
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 177659.248263
+
+✖ failing tests:
+
+test at scripts/grade-a-launch-control/accepted-successor-binding.test.mjs:16:1
+✖ native acceptance, pending successor, release and exact hosted tools bind; forged identities, drift and execution authority refuse (15891.137744ms)
+  AssertionError [ERR_ASSERTION]: {"current":false,"status":"STALE_APPLICATION_INPUTS","reasons":["data/rcap-render/worker-publication-evidence.json","hosted-acceptance-evidence/worker/image-acceptance-36247303667/job.json","hosted-acceptance-evidence/worker/image-acceptance-36247303667/native.log","hosted-acceptance-evidence/worker/image-acceptance-36247303667/run.json","hosted-acceptance-evidence/worker/publication-36219916209/publication.zip","hosted-acceptance-evidence/worker/publication-36219916209/rcap-render-worker-publication.json"]}
+  
+  false !== true
+  
+      at check (file:///tmp/rcap-control-baseline-kniiymsr/scripts/grade-a-launch-control/accepted-successor-binding.test.mjs:31:11)
+      at TestContext.<anonymous> (file:///tmp/rcap-control-baseline-kniiymsr/scripts/grade-a-launch-control/accepted-successor-binding.test.mjs:33:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:3:1
+✖ pending successor binds exact source/tools/full worker inputs and cannot authorize dispatch or reuse old digest (15379.303304ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'STALE_APPLICATION_INPUTS'
+  - 'AWAITING_WORKER_PUBLICATION'
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-control-baseline-kniiymsr/scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:14:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'STALE_APPLICATION_INPUTS',
+    expected: 'AWAITING_WORKER_PUBLICATION',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:22:1
+✖ published successor is current publication only; image acceptance and hosted execution remain held (18917.363283ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'STALE_APPLICATION_INPUTS'
+  - 'AWAITING_WORKER_ACCEPTANCE'
+  
+      at check (file:///tmp/rcap-control-baseline-kniiymsr/scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:37:11)
+      at TestContext.<anonymous> (file:///tmp/rcap-control-baseline-kniiymsr/scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:39:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'STALE_APPLICATION_INPUTS',
+    expected: 'AWAITING_WORKER_ACCEPTANCE',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,42 @@
+{
+  "sourceSHA": "3aa9045f8e15303d78cd551733d2529e57309753",
+  "onboardingVerifiers": {
+    "passed": 37,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "isolatedSSR": [
+    "legacy admin",
+    "RCAP2 admin",
+    "legacy partner onboarding",
+    "RCAP2 partner onboarding",
+    "page optional failure",
+    "nested history failure",
+    "missing preflight with Start disabled",
+    "anonymous/wrong-role/tenant/identity/database-permission refusal"
+  ],
+  "preparation": "Actual legacy save and correction PASS; lineage preserved; no policy upgrade",
+  "policyUpgrade": "Explicit administrator intent, current version, durable audit and replay tested",
+  "browserAuthentication": "NOT_RUN: no legitimate reusable staged session or verified credential source",
+  "sourceConveyor": {
+    "result": "FAIL",
+    "run": 38008776568,
+    "reason": "SOURCE_CORPUS_READ_TOKEN absent; corpus environment refused"
+  },
+  "scopeAdvisory": "Same pre-existing restricted worker-workflow path failure reproduced on accepted baseline efaa3f6c4 and corrective HEAD; this PR does not change that workflow.",
+  "cleanCheckoutLint": {
+    "errors": 0,
+    "warnings": 803
+  },
+  "mergedSHA": "80a26e3b271ac0b7bcdfd856ecb2c21ed8e278ee",
+  "pr": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/pull/260",
+  "onboardingCI": {
+    "result": "PASS",
+    "run": 38008776560
+  },
+  "workerImageAcceptance": {
+    "result": "PASS",
+    "run": 38008776563
+  }
+}

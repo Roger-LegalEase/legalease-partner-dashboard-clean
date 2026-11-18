@@ -1,0 +1,472 @@
+[
+  {
+    "gapId": "G-01",
+    "sourceEntry": "G-01",
+    "sourceLine": 1506,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P0**",
+      "Production owner Save succeeded but automatic Spanish preparation failed twice; UI only said provider unavailable. `draftProgramSpanish` catches provider/parse/validator errors together.",
+      "Diagnose exact production source using protected instrumentation; stage-specific error handling and successful exact-source end-to-end; no owner retry until server-side proof."
+    ],
+    "status": "IMPLEMENTED_EVIDENCE_PRESENT",
+    "before": "PR #265 allowed a string in retained serviceArea; real provider response rejected during validation.",
+    "after": "PR #266 enforces retained-null output and emits safe typed diagnostics.",
+    "evidence": [
+      "../../rcap-spanish-provider-incident/release/release-record.json",
+      "../../rcap-spanish-provider-incident/fresh-browser-results.json"
+    ],
+    "sourceSha": "ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "finalCampaign": "NOT_RUN",
+    "ownerProductionUX": "PENDING"
+  },
+  {
+    "gapId": "G-02",
+    "sourceEntry": "G-02",
+    "sourceLine": 1507,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P0**",
+      "Previously multiple \u201csucceeded\u201d Participant Page versions with missing seven Spanish fields.",
+      "Complete validation *before* marking ready/generating current; no redundant incomplete artifacts; current material readback."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Previously multiple \u201csucceeded\u201d Participant Page versions with missing seven Spanish fields.",
+    "after": "Preparation validates Spanish before generating a new current Page; readback distinguishes generated drafts from complete current materials.",
+    "evidence": [
+      "server/partner-settings-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/lib/partners/onboarding/program-spanish-service.ts",
+      "src/lib/partners/onboarding/program-experience-service.ts"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-03",
+    "sourceEntry": "G-03",
+    "sourceLine": 1508,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P0**",
+      "Start section had been hidden if current Participant Page missing; PR #265 now shows blocked Final Review heading, but actual owner launch remains unaccepted.",
+      "Prove actual authenticated current materials \u2192 one confirmation \u2192 enabled action and protected launch in isolated real application, then owner verifies Production."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Start section had been hidden if current Participant Page missing; PR #265 now shows blocked Final Review heading, but actual owner launch remains unaccepted.",
+    "after": "Final Review remains visible with a precise next action. Actual isolated current-material confirmation, publication and public-route readback completed for a managed fixture.",
+    "evidence": [
+      "server/live-clinic-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/internal/partners/onboarding/[partnerSlug]/ProgramOperations.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-04",
+    "sourceEntry": "G-04",
+    "sourceLine": 1509,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P0**",
+      "External-rights predicate previously counted Partner Admin membership/`not_required` metadata as third-party authority; PR #263 corrected that path.",
+      "Keep regression for legacy test workspace transition to LegalEase-managed without forged consent, preserve genuine external rights."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "External-rights predicate previously counted Partner Admin membership/`not_required` metadata as third-party authority; PR #263 corrected that path.",
+    "after": "PR263 operating-rights predicates retained; SQL regression still distinguishes membership/not_required metadata from external rights.",
+    "evidence": [],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "supabase/migrations/20261010074948_rcap_operating_responsibility_rights.sql"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-05",
+    "sourceEntry": "G-05",
+    "sourceLine": 1510,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P0**",
+      "Multi-state program permission and screening claim are separate backend boundaries; current policy requires cross-layer consistency.",
+      "Verify both ordinary and access-code sessions against entire effective approved jurisdiction set, and Clinic event state boundary."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Multi-state program permission and screening claim are separate backend boundaries; current policy requires cross-layer consistency.",
+    "after": "Canonical delegated jurisdiction set is enforced in configuration and atomic temporary-screening claims; no marketing-text authorization.",
+    "evidence": [
+      "server/jurisdiction-engineering-check.json",
+      "server/participant-entry-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "supabase/migrations/20261010190234_rcap_integrated_jurisdiction_scope.sql",
+      "supabase/migrations/20261010210100_rcap_integrated_screening_retries.sql"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-06",
+    "sourceEntry": "G-06",
+    "sourceLine": 1511,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Platform Admin editor exposes a large registry-driven form with many routine and exceptional values.",
+      "Progressive disclosure around operator, geography, services, languages; save once and direct to Preview."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Platform Admin editor exposes a large registry-driven form with many routine and exceptional values.",
+    "after": "Admin Configure uses progressive groups and a single CAS save/readback with direct Preview navigation.",
+    "evidence": [
+      "server/creation-development-check.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/partners/onboarding/ManagedProgramEditor.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-07",
+    "sourceEntry": "G-07",
+    "sourceLine": 1512,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Source retains both provisioning/new and onboarding/new creation UIs.",
+      "One canonical creation route, preserve underlying records and aliases, safe redirect other URL."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Source retains both provisioning/new and onboarding/new creation UIs.",
+    "after": "Creation has one canonical implementation; the former onboarding/new entry redirects.",
+    "evidence": [
+      "server/creation-development-check.json",
+      "server/partner-transition-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/internal/partners/provisioning/new/ProvisionPartnerForm.tsx",
+      "src/app/internal/partners/onboarding/new/page.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-08",
+    "sourceEntry": "G-08",
+    "sourceLine": 1513,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Admin diagnostics has numerous business/agreement forms that visually look like launch prerequisites.",
+      "Clearly advanced-only and directly resolve actual applicable contractual work, not required for LegalEase-managed screening-only."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Admin diagnostics has numerous business/agreement forms that visually look like launch prerequisites.",
+    "after": "Exceptional commercial/agreement controls remain in Diagnostics, outside ordinary managed screening launch.",
+    "evidence": [
+      "server/live-clinic-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/internal/partners/onboarding/[partnerSlug]/page.tsx",
+      "src/app/internal/partners/onboarding/[partnerSlug]/diagnostics/ProgramDiagnostics.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-09",
+    "sourceEntry": "G-09",
+    "sourceLine": 1514,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Partner five-step `ProgramOnboarding` currently offers a one-state picker while Platform Admin supports multistate.",
+      "Allow permitted multistate configuration and truthful readback within partner delegation, server-enforced."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Partner five-step `ProgramOnboarding` currently offers a one-state picker while Platform Admin supports multistate.",
+    "after": "Partner setup uses the same accessible state picker, bounded by the server-authorized delegated set.",
+    "evidence": [
+      "server/partner-transition-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/partner/onboarding/ProgramOnboarding.tsx",
+      "src/components/partners/onboarding/JurisdictionPicker.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-10",
+    "sourceEntry": "G-10",
+    "sourceLine": 1515,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Partner-managed Spanish step CURRENT presents seven required fields.",
+      "One source-matched bilingual preparation/review workflow respecting partner-specific claims and genuine partner sign-off where required."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Partner-managed Spanish step CURRENT presents seven required fields.",
+    "after": "Partner setup invokes the canonical source-bound bilingual preparation and one factual review; seven manual Spanish fields are absent.",
+    "evidence": [
+      "server/partner-settings-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/partner/onboarding/ProgramOnboarding.tsx",
+      "src/lib/partners/onboarding/program-spanish-service.ts"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-11",
+    "sourceEntry": "G-11",
+    "sourceLine": 1516,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Partner reporting and participants pages currently reuse aggregate dashboard; legacy reporting says export unavailable.",
+      "Accurate labels, role-safe dedicated views when actually implemented; no fake exports or private Briefcase."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Partner reporting and participants pages currently reuse aggregate dashboard; legacy reporting says export unavailable.",
+    "after": "Partner participant navigation resolves to truthful aggregate reporting; individual case access stays in consented event queues. Exports are not advertised as working.",
+    "evidence": [],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/partners/PartnerWorkspaceNav.tsx",
+      "src/app/partner/participants/page.tsx",
+      "src/app/partner/dashboard/ProgramDashboard.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-12",
+    "sourceEntry": "G-12",
+    "sourceLine": 1517,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Clinic assistance CURRENT label says \u201cnationwide\u201d even for event-fixed state; client-side options may list 50 states.",
+      "Label \u201cStart screening with assistance\u201d; UI options exactly event-authorized; DB rejects extras."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Clinic assistance CURRENT label says \u201cnationwide\u201d even for event-fixed state; client-side options may list 50 states.",
+    "after": "Assistance displays the exact event state and Start screening with assistance; crafted different-state requests are rejected.",
+    "evidence": [
+      "server/clinic-integration-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/clinic-mode/ClinicAssistanceClient.tsx",
+      "src/app/api/clinic/assistance/start/route.ts"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-13",
+    "sourceEntry": "G-13",
+    "sourceLine": 1518,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Shared-device reset is complex recovery-sensitive security flow.",
+      "Test server revocation, browser cache/BFCache, next-participant leakage, interrupted reset lock and staff recovery."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Shared-device reset is complex recovery-sensitive security flow.",
+    "after": "Fresh authenticated Clinic entry, real participant sign-up/consent, permission-specific queue/follow-up, revocation and interrupted reset passed development checks. A second verified participant completed fresh consent on the reset device with no inherited answers. Final frozen-source cross-browser campaign remains pending.",
+    "evidence": [
+      "server/clinic-integration-development.json",
+      "server/clinic-queue-reset-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/clinic-mode/ClinicPrivacyBoundary.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-14",
+    "sourceEntry": "G-14",
+    "sourceLine": 1519,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Clinic separate legal-aid registration and standard event access-code routes coexist.",
+      "Choose based on explicit event mode, never mix requirements or participant CTA."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Clinic separate legal-aid registration and standard event access-code routes coexist.",
+    "after": "Optional Legal Aid availability comes from approved module policy. Standard screening events do not enter registration/waitlist setup.",
+    "evidence": [],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/clinic-mode/ClinicAdminConsole.tsx",
+      "supabase/migrations/20261010194800_rcap_integrated_clinic_controls.sql"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-15",
+    "sourceEntry": "G-15",
+    "sourceLine": 1520,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Intake can be open/code-gated/partner-directed, while code manager lives separately.",
+      "Obvious link to access management only when code mode selected; code lifecycle tied to published program."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Intake can be open/code-gated/partner-directed, while code manager lives separately.",
+    "after": "Code mode is changed through canonical configuration. Code management is scoped to Admin roles and includes readback/retry recovery; no code can grant packet funding.",
+    "evidence": [],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+      "src/lib/partners/partner-access-codes.ts"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-16",
+    "sourceEntry": "G-16",
+    "sourceLine": 1521,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P1**",
+      "Events have capacity, optional sponsorship, staff and status controls with distinct services.",
+      "Do not treat capacity as entitlement or creation as opening; one event dashboard and accurate next action."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Events have capacity, optional sponsorship, staff and status controls with distinct services.",
+    "after": "Event draft creation, staff/code readiness, opening and intake capacity are separate protected operations with one event workspace.",
+    "evidence": [
+      "server/live-clinic-development.json",
+      "server/clinic-integration-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/clinic-mode/ClinicAdminConsole.tsx",
+      "supabase/migrations/20261010194800_rcap_integrated_clinic_controls.sql"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-17",
+    "sourceEntry": "G-17",
+    "sourceLine": 1522,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P2**",
+      "Source public CTA can be configured as arbitrarily long text.",
+      "Limit CTA to action-sized copy with preview and suggest concise default."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Source public CTA can be configured as arbitrarily long text.",
+    "after": "Changed public CTA text is limited to 60 characters in the canonical service and editor, with a concise default action.",
+    "evidence": [],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/partners/onboarding/ManagedProgramEditor.tsx",
+      "src/lib/partners/onboarding/program-configuration-service.ts"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-18",
+    "sourceEntry": "G-18",
+    "sourceLine": 1523,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P2**",
+      "Large native jurisdiction multiselect is not discoverable, especially with keyboard modifiers.",
+      "Searchable selected-state chips, add/remove controls, true selected-count indicator."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Large native jurisdiction multiselect is not discoverable, especially with keyboard modifiers.",
+    "after": "Searchable checkboxes, selected chips, remove controls and counts replace the native multiselect in both setup surfaces.",
+    "evidence": [
+      "server/creation-development-check.json",
+      "server/partner-transition-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/components/partners/onboarding/JurisdictionPicker.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-19",
+    "sourceEntry": "G-19",
+    "sourceLine": 1524,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P2**",
+      "Active dashboard shows status/aggregate counts but limited contextual actions.",
+      "One next action per program state with direct routes; no duplicate setup page."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Active dashboard shows status/aggregate counts but limited contextual actions.",
+    "after": "Dashboard derives its next action from current server state. Setup completion requires current materials, including after edits.",
+    "evidence": [
+      "server/partner-settings-development.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/partner/dashboard/ProgramDashboard.tsx",
+      "src/lib/partners/onboarding/program-experience-service.ts"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-20",
+    "sourceEntry": "G-20",
+    "sourceLine": 1525,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P2**",
+      "Some legacy views and route aliases remain after 2.0.",
+      "Remove normal navigation dependence after data parity verified; keep compatibility and deliberate rollback, not dual products."
+    ],
+    "status": "IMPLEMENTED_FINAL_CAMPAIGN_PENDING",
+    "before": "Some legacy views and route aliases remain after 2.0.",
+    "after": "Normal navigation uses current workspaces; legacy creation/participants aliases redirect compatibly, and policy upgrades remain explicit.",
+    "evidence": [],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "src/app/internal/partners/onboarding/new/page.tsx",
+      "src/app/partner/participants/page.tsx",
+      "src/app/partner/onboarding/ProgramOnboarding.tsx"
+    ],
+    "finalCampaign": "NOT_RUN"
+  },
+  {
+    "gapId": "G-21",
+    "sourceEntry": "G-21",
+    "sourceLine": 1526,
+    "section": "9. As-built versus target: tracked UX gaps and required closure",
+    "contract": [
+      "**P2**",
+      "Owner manually tests signed-in Production; predeployment synthetic provider and controlled browser tests do not prove live Production owner behavior.",
+      "Release record truthfully splits automated acceptance, actual provider probe, hosted routing and owner outcome."
+    ],
+    "status": "RELEASE_AND_OWNER_ACCEPTANCE_PENDING",
+    "before": "Owner manually tests signed-in Production; predeployment synthetic provider and controlled browser tests do not prove live Production owner behavior.",
+    "after": "Evidence explicitly separates development checks, final campaign, genuine provider execution, deployment and pending owner Production UX. No release or owner acceptance is claimed.",
+    "evidence": [
+      "manifest.json"
+    ],
+    "sourceSha": "WORKING_TREE_BASE_ba81792225d6d82ef57c104061e9d5eb9d7db395",
+    "sourceFiles": [
+      "scripts/rcap-grade-a/import-contract.mjs"
+    ],
+    "finalCampaign": "NOT_RUN"
+  }
+]

@@ -1,0 +1,125 @@
+{
+  "at": "2026-10-11T03:26:39.144Z",
+  "result": "PASS",
+  "functionDefinitionsMatchedRehearsal": 53,
+  "legacyClinicFundingFunctionUnchanged": true,
+  "aclDisposition": [
+    {
+      "signature": "consumer_matter_id_for_briefcase_item(uuid)",
+      "reason": "Unchanged Production ACL; same pre-existing local-versus-Production difference recorded in original reviewed Production comparison."
+    },
+    {
+      "signature": "clinic_guard_entry_lifecycle()",
+      "reason": "Reviewed SQL revokes PUBLIC, anon and authenticated; retained service_role EXECUTE follows existing Production postgres default privileges. Function is SECURITY INVOKER, returns trigger, and matches rehearsal definition. No unprivileged execute."
+    }
+  ],
+  "schemaReadback": {
+    "rls": [
+      {
+        "table": "clinic_event_access_redemptions",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "clinic_follow_ups",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "screening_sessions",
+        "forced": false,
+        "enabled": true
+      }
+    ],
+    "columns": [
+      {
+        "type": "uuid",
+        "table": "clinic_event_access_redemptions",
+        "column": "assisted_session_id",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "clinic_event_access_redemptions",
+        "column": "closed_at",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "uuid",
+        "table": "clinic_event_access_redemptions",
+        "column": "closed_by",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "boolean",
+        "table": "clinic_event_access_redemptions",
+        "column": "reset_binding_supported",
+        "default": "false",
+        "nullable": "NO"
+      },
+      {
+        "type": "text",
+        "table": "clinic_follow_ups",
+        "column": "creation_request_hash",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "uuid",
+        "table": "clinic_follow_ups",
+        "column": "creation_request_id",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "table": "screening_sessions",
+        "column": "entry_request_fingerprint",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "table": "screening_sessions",
+        "column": "entry_request_hash",
+        "default": null,
+        "nullable": "YES"
+      }
+    ],
+    "indexes": [
+      {
+        "name": "clinic_follow_up_creation_request",
+        "definition": "CREATE UNIQUE INDEX clinic_follow_up_creation_request ON public.clinic_follow_ups USING btree (created_by, creation_request_id) WHERE (creation_request_id IS NOT NULL)"
+      },
+      {
+        "name": "screening_sessions_entry_request_unique",
+        "definition": "CREATE UNIQUE INDEX screening_sessions_entry_request_unique ON public.screening_sessions USING btree (entry_request_hash) WHERE (entry_request_hash IS NOT NULL)"
+      }
+    ],
+    "trigger": "CREATE TRIGGER clinic_access_redemptions_append_only BEFORE DELETE OR UPDATE ON public.clinic_event_access_redemptions FOR EACH ROW EXECUTE FUNCTION clinic_guard_entry_lifecycle()",
+    "constraints": [
+      {
+        "name": "clinic_entry_close_pair",
+        "validated": true,
+        "definition": "CHECK (((closed_at IS NULL) = (closed_by IS NULL)))"
+      },
+      {
+        "name": "clinic_event_access_redemptions_assisted_session_id_fkey",
+        "validated": true,
+        "definition": "FOREIGN KEY (assisted_session_id) REFERENCES clinic_assisted_sessions(id) ON DELETE RESTRICT"
+      },
+      {
+        "name": "clinic_event_access_redemptions_closed_by_fkey",
+        "validated": true,
+        "definition": "FOREIGN KEY (closed_by) REFERENCES auth.users(id) ON DELETE RESTRICT"
+      }
+    ],
+    "trigger_unprivileged_execute": {
+      "anon": false,
+      "authenticated": false
+    }
+  }
+}

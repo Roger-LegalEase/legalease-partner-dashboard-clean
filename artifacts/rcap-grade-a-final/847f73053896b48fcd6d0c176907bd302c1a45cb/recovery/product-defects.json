@@ -1,0 +1,20 @@
+[
+  {
+    "sourceSha": "847f73053896b48fcd6d0c176907bd302c1a45cb",
+    "id": "CLINIC-PRECONSENT-RESET",
+    "classification": "PRODUCT_DEFECT",
+    "severity": "RELEASE_CRITICAL",
+    "controls": [
+      "C09-01",
+      "C09-02"
+    ],
+    "gap": "G-13",
+    "observed": "Authenticated participant declines assistance; End clinic session / Reset device enters handoff_identity_required because no assisted handoff was ever created; retry and original sign-in cannot provide that nonexistent handoff. Device stays locked; no participant data leak observed.",
+    "baseline": "Reset route and consent-page wrapper byte-identical to accepted ba81792225d6d82ef57c104061e9d5eb9d7db395; integrated acceptance exposed existing defect.",
+    "evidence": [
+      "clinic-fixture-recovery/server/clinic-boundaries-error.json",
+      "recovery/clinic-boundaries-attempt.log"
+    ],
+    "resolution": "Open. Preserve assisted recovery safeguards; close exact unassisted entry atomically against assistance start, without inventing consent or closing an unrelated handoff."
+  }
+]

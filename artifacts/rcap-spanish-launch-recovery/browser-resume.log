@@ -1,0 +1,25 @@
+PASS One Update Materials persists source-bound Spanish and produces a complete bilingual page
+PASS Both direct View actions focus exact versions and English/Español previews are coherent
+PASS Unchanged explicit preparation and fresh reload preserve versions without a provider call
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'Spanish preparation limit reached. Retry Update Materials in ten minutes.'
+- null
+
+    at file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-spanish-launch-browser.mjs:50:252
+    at async check (file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-spanish-launch-browser.mjs:10:30)
+    at async file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-spanish-launch-browser.mjs:49:2 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'Spanish preparation limit reached. Retry Update Materials in ten minutes.',
+  expected: null,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

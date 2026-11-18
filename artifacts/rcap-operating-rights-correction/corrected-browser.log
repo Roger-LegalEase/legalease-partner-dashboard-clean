@@ -1,0 +1,26 @@
+PASS Platform Admin signs in through the actual local authentication form
+PASS Existing workspace reproduces an active partner administrator and two recorded Not Required agreements without execution evidence
+PASS One save establishes LegalEase responsibility and preserves memberships, agreements, approvals and financial rows
+PASS Refresh persists the operating model, Not Required applicability and Screening Only without legacy launch actions
+PASS Save has one auditable operating-responsibility decision and retry does not duplicate it
+PASS Authenticated Program Setup refuses a workspace with verified signatures and external authority and explains why
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"success":false,"code":"invalid_input","error":"This entry could not be identified. Refresh the page and try again.","issues":[{"sectionKey":"support_referrals_reporting","fieldKey":"report_recipients[].stable_row_id","code":"invalid_format","message":"This entry could not be identified. Refresh the page and try again.","rowId":"r1000000-0000-4000-8000-000000000001"}]}
+
+400 !== 200
+
+    at file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-operating-rights-browser.mjs:127:89
+    at async check (file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-operating-rights-browser.mjs:46:30)
+    at async file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-operating-rights-browser.mjs:126:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 400,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

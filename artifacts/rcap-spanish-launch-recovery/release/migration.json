@@ -1,0 +1,61 @@
+{
+  "status": "APPLIED_AND_VERIFIED",
+  "project": "wwtwtsmywnckfkdaqqeg",
+  "reviewedMigration": "20261010161219_rcap_spanish_material_preparation.sql",
+  "sqlSha256": "2b9dd0c00b90830c4f87996f1fb41970b757b6bf587aff1008fcee1640a10ceb",
+  "productionLedgerVersion": "20261010164957",
+  "name": "rcap_spanish_material_preparation",
+  "verificationSource": "Production read-only pg_proc and schema_migrations query after successful apply_migration",
+  "functions": [
+    {
+      "function": "rcap_program_geography_consistent",
+      "identity": "p_workspace uuid",
+      "sourceSha256": "4cddb91d534a0b6a0f5ec73893ca551182b666bbdcff0a13b5c8fa1bed8ed483",
+      "serviceExecute": true,
+      "anonymousExecute": false,
+      "authenticatedExecute": false
+    },
+    {
+      "function": "rcap_program_public_copy_source",
+      "identity": "p_workspace uuid",
+      "sourceSha256": "0a3ca99547ab647fd7cc4bc25405b24672e5e4a924ede45ee8cefc2118157252",
+      "serviceExecute": true,
+      "anonymousExecute": false,
+      "authenticatedExecute": false
+    },
+    {
+      "function": "rcap_service_evaluate_program",
+      "identity": "p_slug text, p_actor uuid, p_action text",
+      "sourceSha256": "d2ce4fa5824df95701916121b90e3e693eefcccb4626d107c2cee1212fdfb9cb",
+      "serviceExecute": true,
+      "anonymousExecute": false,
+      "authenticatedExecute": false
+    },
+    {
+      "function": "rcap_service_generate_onboarding_artifact_version",
+      "identity": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_artifact_type text, p_request_id uuid, p_source_workspace_version bigint, p_source_section_revisions jsonb, p_source_asset_versions jsonb, p_normalized_snapshot jsonb, p_snapshot_hash text, p_generator_version text, p_rendered_content jsonb, p_generation_status text, p_generation_error_code text",
+      "sourceSha256": "099fd43f175c85b6555464536b6e462edbc203e474011965551f04bc91220ee5",
+      "serviceExecute": true,
+      "anonymousExecute": false,
+      "authenticatedExecute": false
+    },
+    {
+      "function": "rcap_service_reserve_program_translation",
+      "identity": "p_slug text, p_actor uuid, p_version bigint, p_source jsonb, p_request uuid",
+      "sourceSha256": "eed7dbf986aefe4f1822398fbd4924babd2a8de61ff19730188f3bac3a953697",
+      "serviceExecute": true,
+      "anonymousExecute": false,
+      "authenticatedExecute": false
+    },
+    {
+      "function": "rcap_service_save_program_translation",
+      "identity": "p_slug text, p_actor uuid, p_version bigint, p_source jsonb, p_copy jsonb, p_request uuid",
+      "sourceSha256": "e66fa8ca1445de8623e1e1799e4823de5bce3d05831f3c1c66ddd170811a2247",
+      "serviceExecute": true,
+      "anonymousExecute": false,
+      "authenticatedExecute": false
+    }
+  ],
+  "functionHashesMatchIsolatedAcceptance": true,
+  "productionBusinessRecordMutations": false
+}

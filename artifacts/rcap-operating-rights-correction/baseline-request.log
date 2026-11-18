@@ -1,0 +1,20 @@
+PASS Platform Admin signs in through the actual local authentication form
+PASS Existing workspace reproduces an active partner administrator and two recorded Not Required agreements without execution evidence
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"success":false,"code":"invalid_input","error":"Choose a contact saved in Organization and contacts.","issues":[{"sectionKey":"access_sponsorship_capacity","fieldKey":"overage_approver_contact_id","code":"invalid_reference","message":"Choose a contact saved in Organization and contacts."}]}
+
+400 !== 403
+
+    at file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-operating-rights-browser.mjs:82:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 400,
+  expected: 403,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

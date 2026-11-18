@@ -1,0 +1,15 @@
+{
+  "reviewed_utc": "2026-10-11T01:36:01.291364+00:00",
+  "scope": "Narrow proposed receipt-history RCAP attribution correction",
+  "source_sha256": "e47b4f47e18955b7cb8775e7cbac1b0bf47d8081f10c4541e269ce1678636588",
+  "security": "Owner/payment/provider/financial/HMAC/host checks remain intact; no new write/payment/render authority.",
+  "finding": {
+    "priority": "P2",
+    "status": "CURRENT_SCOPE_HELPER_INSUFFICIENT_FOR_DURABLE_HISTORY",
+    "observed_by_parent": "Genuine existing QA TEST-paid RCAP matter hides Payment history/receipt because blanket RCAP attribution is treated as sponsorship.",
+    "independent_source_assessment": "Proposed helper permits currently valid consumer-funded RCAP matter but depends on current live program publication/jurisdiction/service mode through rcap_consumer_packet_authorized. A paid/refunded receipt can disappear when program scope is paused or changes. Receipt history must use protected immutable financial identity rather than current packet entitlement.",
+    "contract": "docs/PRODUCT_CONTRACT.md:279-290; durable successful payment versus revocable generation authority.",
+    "smallest_responsible_repair": "Permit existing owner-bound settled/refunded Stripe financial evidence to authorize historical receipt independently of current fulfillment scope; keep payment recording, packet authorization and provider identity/amount/reference checks unchanged."
+  },
+  "test_limit": "Source review only; parent owns actual payment history/receipt UI and focused negative checks. No additional browser/SQL mutation or new charge."
+}

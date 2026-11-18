@@ -1,0 +1,24 @@
+{
+  "reviewed_utc": "2026-10-11T01:45:05.447Z",
+  "verdict": "PASS_SOURCE_REVIEW",
+  "head_plus_working_tree": "64fce11fb9e2548eae43398f68a34e59983e6a37",
+  "applicationTreeSha256": "f7bf13c831c7712c85c12c8ee838750957e8cf23b4f3dd04a4872c830bd0c268",
+  "checks": [
+    "Initial save uses DB-returned updateResumeDelivery flowMode, not request hints.",
+    "Confirm rotated resumeUrl uses stored rotated flow; resend uses stored token-lookup row.",
+    "Nudge read/claim/rotate selects include existing flow_mode, and generated link uses rotated row.",
+    "RCAP link uses configured canonical partner origin with explicit /expungement-ai/screening/resume mount. DTC URL construction unchanged.",
+    "Clinic association check suppresses ordinary anonymous RCAP capability, preserving existing resume response without adding a Clinic grant.",
+    "Browser proof script asserts emitted RCAP URL verbatim; earlier local path rewrite removed.",
+    "No new migration, schema, legal rules, auth grant, target domain, or cutover expansion."
+  ],
+  "source_sha256": {
+    "src/lib/expungement-ai/screening-resume-email.ts": "ad51b099752007006a75b0db1b2f9bba6c2d8f33dddee4af0209b6dda6999ece",
+    "src/lib/expungement-ai/screening-resume-service.ts": "5bec7a43fd36398c1eeb59e707debc4d333b0b7b2755a3bdfa500eed4d5608e8",
+    "src/lib/expungement-ai/screening-drop-point-nudge-service.ts": "835e87e55b9aab0dffaff05f25d3e4649e411e97a70cbd00e785259c6afd3952",
+    "src/app/api/expungement-ai/screening/resume/confirm/route.ts": "fe0341b8fa2da42e7151114b40f5ff00f38b592e4089486899262adfce362b24",
+    "scripts/rcap-grade-a/campaign-screening-continuity.mjs": "b69af60b743914f7083d7bdb6541bc9fba32eb4fdab66588d363b43fca612487",
+    "scripts/rcap-grade-a/test-screening-draft-capability.mjs": "d71ed458cf337c13d05f20d85ef2fdb531ad25b27b352a2f8ca53388f2cb5036"
+  },
+  "runtime_limit": "Parent reports existing resume/nudge PGlite suites and two-origin helper assertions PASS. Reviewer inspected test diff but did not run new tests. Actual email browser chain and final receipt build/runtime are parent-owned; exact final committed SHA pending."
+}

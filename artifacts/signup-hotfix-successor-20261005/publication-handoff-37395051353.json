@@ -1,0 +1,73 @@
+{
+  "outcome": "PUBLICATION EVIDENCE PUSHED; AWAITING OPERATOR IMAGE ACCEPTANCE",
+  "evidenceCommitSha": "3d9c2033bdaaecc29be41f06628094e95f2a1c98",
+  "pushedCaptainReleaseSha": "3d9c2033bdaaecc29be41f06628094e95f2a1c98",
+  "parent": "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+  "changedPaths": [
+    "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+    "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+    "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+    "data/rcap-render/worker-publication-evidence.json",
+    "hosted-acceptance-evidence/worker/publication-37395051353/jobs.json",
+    "hosted-acceptance-evidence/worker/publication-37395051353/native.log",
+    "hosted-acceptance-evidence/worker/publication-37395051353/publication.zip",
+    "hosted-acceptance-evidence/worker/publication-37395051353/rcap-render-worker-publication.json",
+    "hosted-acceptance-evidence/worker/publication-37395051353/run.json"
+  ],
+  "applicationSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
+  "workerInputFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+  "reviewedControlSha": "bede772e9cf55b8ae2730a461f93e5ee8ae0a60b",
+  "publicationWorkflowSourceSha": "e0d5adb502542c6cf8309abfe886a2dd27f37fed",
+  "publicationRunId": 37395051353,
+  "publicationArtifactId": 11383271623,
+  "publicationArchiveSha256": "sha256:1f09167e191719696bd8621de5c8b5148c8b2d9354c56d90c076b84fb7aac597",
+  "publicationAttempt": 1,
+  "publicationConclusion": "success",
+  "focusedTests": {
+    "passed": 4,
+    "failed": 0,
+    "syntheticNegativeRefusals": 57,
+    "log": "publication-transition-focused-tests.log"
+  },
+  "actualCommittedVerification": "publication-transition-verification-37395051353.json",
+  "remoteSubjectAndWorkflowVerified": true,
+  "runtimeAccepted": false,
+  "productionAuthorized": false,
+  "previewExecution": "held",
+  "worktreeClean": true,
+  "materials": "build-materials-37395051353/materials-summary.json",
+  "whitespaceCheck": {
+    "releaseRecordAndMetadataCheck": "PASS",
+    "completeStagedCheck": "Native log has trailing whitespace and EOF blank line, preserved as evidence; no record/code whitespace failures."
+  },
+  "baselineFailures": "Three signup verifier failures and three older historical tooling fixtures remain documented, failed, not waived; prior disposition unchanged.",
+  "productionApplicationReadback": {
+    "queriedHost": "expungement.ai",
+    "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "sourceSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+    "state": "READY",
+    "target": "production",
+    "rollbackUsed": false
+  },
+  "productionWorker": "Reused read-only identity run 37393401639: started machine d8de5e4f759278, Fly digest sha256:490576906cba2f4f710372c39f81cdff0cfaabc684eb25e9a738b680957d34ea; no worker mutation. Immutable GHCR/Fly equivalence and rollback pullability remain unverified.",
+  "remainingActivationRequirements": [
+    "Actual isolated image acceptance and evidence-driven accepted transition",
+    "Runtime publication/fulfillment authority compatibility: separate required authority review; no authority rewritten",
+    "Required hosted/currentness release controls and fresh exact-tuple production authorization",
+    "Historical material comparison/disposition; mutable base equivalence remains unknown",
+    "Worker rollback pullability and immutable GHCR/Fly mapping proof",
+    "Fresh app and worker identities immediately before activation; baseline failures remain unwaived"
+  ],
+  "operatorInstructions": [
+    "Open repository Actions > RCAP worker image acceptance",
+    "Choose Run workflow > Use workflow from: captain-release",
+    "There are no typed image inputs; verify latest branch is 3d9c2033bdaaecc29be41f06628094e95f2a1c98",
+    "Click Run workflow once and return its run ID; do not run publication or deployment workflows"
+  ],
+  "realProductionEmailDelivery": "UNVERIFIED; no production auth submission or email sent",
+  "dispatchAttempted": false,
+  "rebuildOrRepublishAttempted": false,
+  "productionActivationAttempted": false
+}

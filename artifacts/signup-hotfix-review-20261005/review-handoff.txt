@@ -1,0 +1,152 @@
+LOCAL SIGNUP HOTFIX CONTINUATION — October 5, 2026
+
+Preservation completed before edits:
+  /workspaces/legalease-partner-dashboard-clean/artifacts/signup-hotfix-review-20261005
+  reported-evidence/ contains the original complete four-file review.patch,
+  original evidence.txt and all recorded regression/verifier logs.
+  source-snapshot/ contains the original four source files, including the
+  previously untracked test. Initial SHA256.json verifies those preserved files.
+  reviewed-source/ and reviewed.patch contain the final reviewed correction.
+  No real credentials or production configuration were copied.
+
+Actual review:
+A separate read-only reviewer subagent inspected the diff, actual component,
+actual helpers and tests. Ordinary paths passed review: conditional EN/ES copy,
+explicit visible recovery, email state preservation, existing safe reset helper,
+no extra automatic auth/email requests, no claim without a session, unchanged
+exact-matter handoff, and unchanged submission/CAPTCHA protections.
+
+Concrete defect found and corrected:
+After guidance appeared, a URL/popstate mode change could retain it and keep
+the form hidden. Bind the displayed guidance to submittedSearch and create mode;
+existing clear paths discard that snapshot. Added one focused regression invoking
+the actual component handler then changing the browser-location test port.
+Reviewer rechecked the correction and found no additional concrete defect.
+
+Test evidence:
+Previously verified original-vs-patched evidence is preserved, not rerun:
+  Original: 8 failures / 3 passes.
+  Original hotfix: 11 passes / 0 failures.
+After the concrete correction:
+  node scripts/test-consumer-signup-next-steps.mjs — 12 passes / 0 failures.
+  node node_modules/typescript/bin/tsc --noEmit — exit 0.
+  node node_modules/eslint/bin/eslint.js src/components/expungement-ai/ConsumerSignInForm.tsx src/lib/expungement-ai/localization.ts scripts/test-consumer-signup-next-steps.mjs scripts/verify-expungement-auth-locale-conversion-hotfix.mjs — exit 0.
+  git diff --check — exit 0.
+Existing continuation, claim-boundary and redirect-security passing evidence
+remains applicable: no shared helper or success-path edits in the correction.
+The harness loads the actual TSX, calls its handlers, and loads the actual
+continuation/claim helpers. Hook-state/external ports are doubles and rendering
+is React SSR. This is behavioral component evidence, not real DOM/browser proof.
+
+Three existing failed checks:
+1. verify-expungement-auth-locale-conversion-hotfix.mjs — five obsolete source
+   markers: claimPendingResult(pendingId,next), inline response validation,
+   isExactBriefcaseMatterPath, old claim-error text, and screening mode marker.
+2. verify-expungement-forgot-password-domain.mjs — three raw next=/briefcase
+   URL expectations reject existing encoded next=%2Fbriefcase; fourth expects
+   a literal href instead of existing forgotPasswordHref continuation helper.
+3. verify-expungement-dtc-auth-payment-briefcase-flow.mjs — one unrelated
+   checkout/immutable-Ready source expectation.
+Existing baseline/current logs were compared byte-for-byte in the earlier run.
+These are baseline test-contract failures, not demonstrated hotfix regressions.
+They remain FAILED checks requiring explicit release-review disposition if used
+as required gates. They are not waived; no unrelated assertions were changed.
+
+Branch/base/release boundary:
+Worktree /tmp/expai-signup-hotfix; branch fix/signup-neutral-next-steps.
+HEAD/base 121c889e15ac872e8dfbdeff18256551d15642aa (last fetched captain-release).
+Release binding still names frozen application e312a5efa7b4882e0fbf61a5ff0ae7891ac23226.
+That is the historical investigated application, not proof of today's production.
+The base is 30 commits later. Full list is unrelated-base-commits.txt; changed
+base files are unrelated-base-files.txt. Do not include those unrelated release
+control, acceptance, canary, workflow/data changes as part of a hotfix deployment.
+The component, localization, continuation helper and claim helper are byte-identical
+between e312a5e and this base (git diff --name-only for those paths returned empty).
+This supports compatibility, not authority to deploy the whole branch. Release
+review must confirm then-current application base and transplant only this scoped
+commit/patch if that base differs. No remote release state was changed.
+
+Local commit: BLOCKED, no staged files/commit.
+Actual git directory:
+  /workspaces/legalease-partner-dashboard-clean/.git/worktrees/expai-signup-hotfix
+Common directory:
+  /workspaces/legalease-partner-dashboard-clean/.git
+Exact staging denial (exit 128):
+  fatal: Unable to create '.../.git/worktrees/expai-signup-hotfix/index.lock': Read-only file system
+No supported approval escalation is available in this session (approval policy
+never; sandbox override prohibited). No permissions, hooks or Git security
+configuration changed. The denied staging command was not repeated.
+
+Smallest Git operator action, in a session allowed to write those Git directories:
+  cd /tmp/expai-signup-hotfix
+  git diff --cached --name-only
+  # STOP if any pre-existing staged paths are present.
+  git add -- src/components/expungement-ai/ConsumerSignInForm.tsx src/lib/expungement-ai/localization.ts scripts/verify-expungement-auth-locale-conversion-hotfix.mjs scripts/test-consumer-signup-next-steps.mjs
+  git diff --cached --name-only
+  git diff --cached --check
+  git diff --cached
+  # Confirm exactly the four reviewed paths before committing.
+  git commit -m "fix(expungement-ai): give neutral signup recovery guidance"
+  git show --stat --oneline HEAD
+  # Record commit SHA. Do not push or bypass hooks.
+
+Browser errors/classification:
+- First local Turbopack attempt could not resolve a node_modules symlink outside
+  its configured filesystem root: preview tooling/root mismatch, not evidence
+  of an application behavior failure. Existing --webpack mode avoids that issue.
+- Subsequent Next --webpack failed to listen on 127.0.0.1:3199 with EPERM:
+  local server permission failure before serving the application.
+- Previous actual Chromium startup stderr: sandbox_host_linux.cc:41,
+  shutdown: Operation not permitted; browser exited SIGTRAP. Launch restriction,
+  not a rendered application failure. No application browser result exists.
+These denied startup operations were not repeated. No screenshots exist.
+The agent-browser CLI is absent. There is no supported escalation in this session.
+
+Prepared operator browser action (NOT EXECUTED):
+  bash /workspaces/legalease-partner-dashboard-clean/artifacts/signup-hotfix-review-20261005/start-local-preview.sh
+This runs the PATCHED /tmp worktree with --webpack, discards inherited env keys,
+refuses real .env files, and uses only a synthetic loopback Auth origin. It uses
+the existing development CAPTCHA defaults, not a security code change.
+Keep Codespaces port 3199 PRIVATE; do not make it public. First verify it is
+running and private in the existing Ports UI. Then, from a browser-capable local
+session using the existing installed Playwright:
+  node /workspaces/legalease-partner-dashboard-clean/artifacts/signup-hotfix-review-20261005/verify-browser.mjs
+The script intercepts all Auth/claim requests with local synthetic responses,
+blocks external browser network requests and records EN/ES 375px/1440px real
+screenshots/results only after actual execution. It is syntax checked only;
+DO NOT interpret its preparation as passing browser verification. Record the
+worktree commit and reviewed.patch SHA256 beside screenshots after execution.
+
+Manual alternative if Chromium automation remains unavailable:
+There is NO CURRENT WORKING ADDRESS: startup is blocked.
+After the operator starts the server and confirms private forwarding, the
+expected (not yet running/verified) address from this Codespace's environment is:
+  https://silver-succotash-vp66wg75pqv4h695g-3199.app.github.dev/expungement-ai/sign-in?mode=create
+Open only that private local preview. Paste manual-local-auth.js into DevTools;
+it refuses production hosts and mocks only local Auth and browser claim ports.
+Use synthetic@example.invalid and synthetic-noncredential only.
+- Create account: check conditional guidance and three visible actions; counters
+  localSignupCheck.claim/signin/reset must remain zero.
+- Edit email: form returns, notice clears; change the synthetic email and retry.
+- Sign in: email remains. Set localSignupCheck.failNext=true for one error,
+  then retry. Do not use real credentials.
+- Reset password: confirm the existing reset page/continuation query, with no
+  email/password prefill query. Do not send real emails.
+- For claim continuation, use only synthetic fixture parameters from the test
+  script; the mock confirms invocation. Inspect exact-matter navigation request,
+  not real ownership/database behavior. Destination rendering may require the
+  automated runner's mocked local destination; do not claim actual matter access.
+- Repeat EN/ES (existing locale controls or exp_lang local fixture setting) at
+  375px and desktop. Check Tab/Enter controls and no horizontal overflow.
+Capture only the page content, no address bar/credentials/claim-bearing URL.
+Label screenshots LOCAL / MOCKED AUTH / NOT EMAIL DELIVERY.
+Manual/automated browser checks remain PENDING until actually performed.
+
+Ready for code review: YES.
+Ready for release approval/deployment: NO — required browser proof and scoped
+commit pending; baseline failed-gate disposition and current release-base
+confirmation also pending. No production email verification was executed.
+Auth delivery provider remains NOT VERIFIED; missing access is separate.
+No push, merge, deployment, live configuration, migrations, users or emails.
+Rollback target/procedure must be confirmed against the current deployment at
+release time; historical incident IDs are not automatically current rollback.

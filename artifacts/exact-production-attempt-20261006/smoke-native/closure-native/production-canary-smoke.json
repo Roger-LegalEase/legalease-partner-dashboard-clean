@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "rcap-production-canary-smoke/v1",
+  "startedAt": "2026-10-06T14:00:21.482Z",
+  "applicationSha": "a9f02a89cac16e5b760e41acfccd0a685e8071b7",
+  "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "stagedDeploymentId": "dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY",
+  "rollbackDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+  "migrationHashes": [
+    "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
+    "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
+    "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010"
+  ],
+  "realParticipantRecordsCreated": false,
+  "realChargesCreated": false,
+  "checkoutCreated": false,
+  "workerRun": false,
+  "deploymentTriggered": false,
+  "aliasChanged": false,
+  "environmentVariableChanged": false,
+  "productionDatabasePersistentlyMutated": false,
+  "transactionalFixtureRolledBack": true,
+  "originPersisted": false,
+  "secretsPersisted": false,
+  "verdicts": [
+    {
+      "caseId": "exact_staged_application_worker_identity",
+      "passed": true,
+      "observed": "READY staged deployment carries exact application and worker metadata"
+    },
+    {
+      "caseId": "rollback_target_is_ready_and_still_active",
+      "passed": true,
+      "observed": "recorded rollback is READY and remains the sole active Production target"
+    },
+    {
+      "caseId": "runtime_supabase_origin_is_canonical",
+      "passed": true,
+      "observed": "one staged runtime origin maps to the authenticated canonical Production project"
+    },
+    {
+      "caseId": "staged_health_is_200",
+      "passed": true,
+      "observed": "status=200; structured checks=true"
+    },
+    {
+      "caseId": "production_clinic_schema_direct_readback",
+      "passed": true,
+      "observed": "RLS tables=10/10; functions=22/22"
+    },
+    {
+      "caseId": "save_claim_schema_read_back_exact",
+      "passed": true,
+      "observed": "consumer_pending_screening_results required columns present=[claim_token_hash,screening_correlation_id,anonymous_session_id,status,claimed_matter_id,candidate_route_context,locale,partner_slug,program_id,event_id,campaign_name,access_code_id,consent_grant_id] absent=[]; legacy columns present=[] absent=[matter_id,source_session_id,pending_token_hash]; function claim_pending_screening_result=present; table participant_claim_events=present"
+    },
+    {
+      "caseId": "transactional_synthetic_fixture_rolled_back",
+      "passed": true,
+      "observed": "users=0; events=0; sessions=0; matters=0"
+    },
+    {
+      "caseId": "colorado_juvenile_guidance_has_no_commerce",
+      "passed": true,
+      "observed": "exact-SHA Colorado verifier 56/56 plus rolled-back Production DB no-checkout/no-job/no-credit assertions"
+    },
+    {
+      "caseId": "clinic_negative_control_isolated",
+      "passed": true,
+      "observed": "authenticated negative control saw zero participant session, case, or follow-up rows under Production RLS"
+    },
+    {
+      "caseId": "clinic_reset_boundary_passed",
+      "passed": true,
+      "observed": "{\"passed\":true,\"resetPrepareStatus\":200,\"resetPrepared\":true,\"resetPrepareStateIsNoSession\":true,\"resetRecoveryCookieIssued\":true,\"resetCloseStatus\":200,\"resetCloseSuccess\":true,\"resetRevocationConfirmed\":true,\"resetSignOutConfirmed\":true,\"resetClearSiteDataStorage\":true,\"resetClinicCookiesCleared\":true,\"resetCompleteStatus\":200,\"resetCompleteSuccess\":true,\"resetCleanEntryPathSafe\":true,\"resetRecoveryRetired\":true}"
+    }
+  ],
+  "passed": true,
+  "resetPrepareStatus": 200,
+  "resetPrepared": true,
+  "resetPrepareStateIsNoSession": true,
+  "resetRecoveryCookieIssued": true,
+  "resetCloseStatus": 200,
+  "resetCloseSuccess": true,
+  "resetRevocationConfirmed": true,
+  "resetSignOutConfirmed": true,
+  "resetClearSiteDataStorage": true,
+  "resetClinicCookiesCleared": true,
+  "resetCompleteStatus": 200,
+  "resetCompleteSuccess": true,
+  "resetCleanEntryPathSafe": true,
+  "resetRecoveryRetired": true,
+  "runtime": {
+    "exactlyOneSupabaseOrigin": true,
+    "supabaseOriginSha256": "95a93681facc6145a7be36627c8e0bd9b1cf29c0c7fe08f6b2ec2b480a49ddbf",
+    "productionProjectMatch": true
+  },
+  "finishedAt": "2026-10-06T14:01:45.568Z",
+  "failure": null
+}

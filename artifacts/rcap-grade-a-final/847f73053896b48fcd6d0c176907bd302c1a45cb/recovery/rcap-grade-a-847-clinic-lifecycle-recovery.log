@@ -1,0 +1,13 @@
+{"cases":["C-T13"],"result":"PASS","observed":"The bounded event code cannot be redeemed again."}
+{"cases":["C-T08"],"result":"PASS","observed":"Paused clinics deny entry without consuming the valid code."}
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.waitForResponse: Timeout 45000ms exceeded while waiting for event "response"
+    at transition (/workspaces/legalease-partner-dashboard-clean/scripts/rcap-grade-a/campaign-clinic-lifecycle.mjs:8:58)
+    at /workspaces/legalease-partner-dashboard-clean/scripts/rcap-grade-a/campaign-clinic-lifecycle.mjs:18:8 {
+  name: 'TimeoutError'
+}
+
+Node.js v24.21.0

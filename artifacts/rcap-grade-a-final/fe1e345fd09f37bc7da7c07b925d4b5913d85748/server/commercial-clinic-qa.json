@@ -1,0 +1,39 @@
+{
+  "sourceSha": "fe1e345fd09f37bc7da7c07b925d4b5913d85748",
+  "sourceIdentity": {
+    "baseSha": "fe1e345fd09f37bc7da7c07b925d4b5913d85748",
+    "applicationTreeSha256": "c93c2227b82f144c0639648b4aaaacd8778374801afffe08c426b37d0c57d845",
+    "trackedWorktreeDeltaSha256": "8c2c3aa27eb9d562f7e71f0da67209962fe13cf25711bd60d2152cc38d99de97",
+    "cleanTrackedApplication": false
+  },
+  "environment": "http://127.0.0.1:3100",
+  "database": "loopback:54321",
+  "time": "2026-10-11T01:18:50.070Z",
+  "provenance": "Explicitly simulated owner-authorized QA fixture; no real agreement, sponsor or funds",
+  "checks": [
+    {
+      "name": "Legacy discovery reflects only its current allocation; absence and expiry deny; modern screening-only program remains unfunded",
+      "result": "PASS",
+      "slug": "qa-legacy-clinic-mv34wa4l",
+      "allocationId": "7d8a977b-db76-4ae2-9278-503d22293b1f"
+    },
+    {
+      "name": "Actual optional limit controls create one draft event with the saved ceiling, without creating funding or consuming credits",
+      "result": "PASS",
+      "controls": [
+        "C01-10",
+        "C01-11"
+      ],
+      "event": {
+        "id": "75404a48-8b06-41af-8e2c-09949517791a",
+        "partner_slug": "qa-legacy-clinic-mv34wa4l",
+        "status": "draft",
+        "jurisdiction": "MS",
+        "sponsorship_allocation": 2
+      },
+      "fixture": "Explicitly simulated isolated legacy program and 2 test-only credits"
+    }
+  ],
+  "result": "PASS",
+  "productionWrites": 0
+}

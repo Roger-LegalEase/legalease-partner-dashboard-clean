@@ -1,0 +1,63 @@
+✔ future explicit authorization reaches smoke while held predecessor remains unauthorized (3.270384ms)
+✔ only fresh native smoke enables activation; consumed activation enables worker/public checks (1.595378ms)
+✔ future approval rejects wrong applicationSha (1.042105ms)
+✔ future approval rejects wrong workerSourceSha (0.451874ms)
+✔ future approval rejects wrong workerDigest (0.437257ms)
+✔ future approval rejects wrong workerInputFingerprint (0.374058ms)
+✔ future approval rejects wrong toolsSha (0.430894ms)
+✔ future approval rejects wrong stagedDeploymentId (1.228713ms)
+✔ future approval rejects wrong rollbackDeploymentId (0.412159ms)
+✔ future approval rejects wrong productionAliases (0.475618ms)
+✔ future approval rejects wrong hostedRunId (0.391561ms)
+✔ future approval rejects wrong recordedBy (0.359621ms)
+✔ future approval rejects wrong note (0.343631ms)
+✔ future approval rejects wrong phases (0.362897ms)
+✔ future approval rejects wrong maxActivationAttempts (0.324787ms)
+✔ future approval rejects wrong recordedAt (0.211565ms)
+✔ future release refuses unrelated preflight (0.318655ms)
+✔ future release refuses unrelated restage (0.182872ms)
+✔ future release refuses unrelated clinic_migrate (0.182832ms)
+✔ future release refuses unrelated legal_aid_keys_create (0.174836ms)
+✔ future release refuses unrelated production_packet_canary (0.216925ms)
+✔ held acceptance and arbitrary flag flips cannot imply approval (0.721877ms)
+✔ native successful smoke binds workflow job archive and exact post-owner tuple (0.48732ms)
+✔ native wrong workflow refuses (0.467713ms)
+✔ native wrong job refuses (7.981488ms)
+✔ native wrong native digest refuses (0.28911ms)
+✔ native failed required step refuses (0.213078ms)
+✔ native old production receipt refuses (0.270315ms)
+✔ native stale receipt refuses (0.255507ms)
+✔ native live writes refuses (0.22466ms)
+✔ production alias scope rejects additional domains and redirect changes (0.367025ms)
+✔ first native activation attempt passes GET-only inventory (19.818041ms)
+✔ prior failure native activation consumes one attempt (0.918585ms)
+✔ prior success native activation consumes one attempt (0.778182ms)
+✔ prior in_progress native activation consumes one attempt (0.71217ms)
+✔ unavailable native attempt inventory fails closed (0.244827ms)
+✔ actual public-verification receipt schema closes without claiming mutation (0.500364ms)
+✔ worker startup supplies history and dependencies before the strict identity gate (0.328854ms)
+✔ activation and public executors enforce native one-attempt inventory before service reads (0.276476ms)
+✖ same-second failed dispatch cannot disappear behind millisecond owner timestamp (0.768435ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 39
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 372.841837
+
+✖ failing tests:
+
+test at scripts/grade-a-launch-control/forward-production-successor.test.mjs:31:1
+✖ same-second failed dispatch cannot disappear behind millisecond owner timestamp (0.768435ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }

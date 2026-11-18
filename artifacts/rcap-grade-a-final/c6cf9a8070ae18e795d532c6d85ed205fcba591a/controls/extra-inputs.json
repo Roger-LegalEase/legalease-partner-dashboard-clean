@@ -1,0 +1,109 @@
+{
+  "sourceIdentity": {
+    "baseSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+    "applicationTreeSha256": "b2f2eccb8e43ea8a4970072996ba12817fa7ffee43bfa3be4dba523e6c218cf5",
+    "trackedWorktreeDeltaSha256": "2da6ec98f2b4c5487e2617adedcba80c7220817eba76a024fc04eb153a2f332b",
+    "cleanTrackedApplication": false
+  },
+  "result": "PASS",
+  "proofs": [
+    {
+      "actor": "admin",
+      "controls": [
+        "Operator"
+      ],
+      "action": "Select actual program filter, submit Search, verify persisted URL and all rendered results",
+      "value": "legalease_managed",
+      "count": 30,
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "controls": [
+        "Jurisdiction"
+      ],
+      "action": "Select actual program filter, submit Search, verify persisted URL and all rendered results",
+      "value": "WA",
+      "count": 1,
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "controls": [
+        "Status"
+      ],
+      "action": "Select actual program filter, submit Search, verify persisted URL and all rendered results",
+      "value": "live",
+      "count": 21,
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "controls": [
+        "Next owner"
+      ],
+      "action": "Filter by canonical next owner and inspect all matching cards",
+      "value": "legalease",
+      "count": 29,
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "controls": [
+        "Search states and DC"
+      ],
+      "action": "Filter the actual jurisdiction choices, choose Washington, then clear filter without losing the draft selection",
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "controls": [
+        "Program purpose",
+        "Purpose"
+      ],
+      "action": "Expand optional purpose, edit draft text, collapse and retain its value; no program is created",
+      "result": "PASS_DRAFT_ONLY"
+    },
+    {
+      "actor": "admin",
+      "controls": [
+        "Sign out of LegalEase Internal"
+      ],
+      "action": "Actual sign-out removes the session and protected re-entry redirects to authentication",
+      "result": "PASS"
+    },
+    {
+      "actor": "partner_admin",
+      "controls": [
+        "Participant button label",
+        "Use Start free screening"
+      ],
+      "action": "Edit the public CTA, read the actual saved value, then use the standard-label action and read back the canonical default",
+      "result": "PASS"
+    },
+    {
+      "actor": "partner_admin",
+      "controls": [
+        "Contested matter procedure"
+      ],
+      "action": "Save a scoped non-promissory referral instruction, read canonical persistence, and restore the prior copy before any material preparation",
+      "result": "PASS"
+    },
+    {
+      "actor": "partner_admin",
+      "controls": [
+        "Español portal toggle"
+      ],
+      "action": "Switch actual partner portal locale to Spanish and back without changing canonical program languages",
+      "result": "PASS"
+    },
+    {
+      "actor": "partner_admin",
+      "controls": [
+        "Partner draft restoration"
+      ],
+      "action": "All changed public copy restored; no material preparation or provider request",
+      "result": "PASS"
+    }
+  ]
+}

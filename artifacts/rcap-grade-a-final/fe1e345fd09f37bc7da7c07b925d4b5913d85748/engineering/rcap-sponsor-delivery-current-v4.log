@@ -1,0 +1,144 @@
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-26-consumer-briefcase-items.sql:61: NOTICE:  policy "consumer briefcase select own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-26-consumer-briefcase-items.sql:67: NOTICE:  policy "consumer briefcase insert own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-26-consumer-briefcase-items.sql:73: NOTICE:  policy "consumer briefcase update own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-26-consumer-briefcase-items.sql:80: NOTICE:  policy "consumer briefcase delete own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-49-rcap-packet-render-jobs.sql:231: NOTICE:  trigger "packet_render_jobs_guard_transition" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-49-rcap-packet-render-jobs.sql:471: NOTICE:  policy "packet_render_jobs_service_role_all" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-49-rcap-packet-render-jobs.sql:477: NOTICE:  policy "rcap_packet_credit_consumptions_service_role_all" for relation "public.rcap_packet_credit_consumptions" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-49-rcap-packet-render-jobs.sql:483: NOTICE:  policy "rcap_partner_packet_allocation_service_role_all" for relation "public.rcap_partner_packet_allocation" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:72: NOTICE:  constraint "packet_render_jobs_max_attempts_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:78: NOTICE:  constraint "packet_render_jobs_failure_disposition_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:84: NOTICE:  constraint "packet_render_jobs_delivery_eligibility_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:93: NOTICE:  constraint "packet_render_jobs_accounting_result_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:100: NOTICE:  constraint "packet_render_jobs_partner_identity_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:112: NOTICE:  constraint "packet_render_jobs_eligible_requires_accounting_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:128: NOTICE:  constraint "packet_render_jobs_source_presence_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:288: NOTICE:  trigger "set_partner_packet_entitlement_updated_at" for relation "public.partner_packet_entitlement" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:307: NOTICE:  trigger "guard_packet_render_job_insert" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:433: NOTICE:  trigger "guard_packet_render_job_delete" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:455: NOTICE:  trigger "guard_packet_credit_ledger" for relation "public.packet_credit_ledger" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-50-rcap-packet-delivery-hardening.sql:477: NOTICE:  trigger "guard_packet_delivery_events" for relation "public.packet_delivery_events" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-52-rcap-consumer-payment-authority.sql:109: NOTICE:  constraint "consumer_briefcase_items_currency_check" of relation "consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-52-rcap-consumer-payment-authority.sql:109: NOTICE:  constraint "consumer_briefcase_items_payment_authority_check" of relation "consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-52-rcap-consumer-payment-authority.sql:109: NOTICE:  constraint "consumer_briefcase_items_paid_requires_server_evidence" of relation "consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-52-rcap-consumer-payment-authority.sql:365: NOTICE:  trigger "packet_render_jobs_consumer_binding_immutable_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-54-rcap-person-namespace-hardening.sql:71: NOTICE:  phase-54: pre-change grant on rcap_persons: postgres -> DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-54-rcap-person-namespace-hardening.sql:71: NOTICE:  phase-54: pre-change grant on rcap_persons: service_role -> DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-54-rcap-person-namespace-hardening.sql:71: NOTICE:  phase-54: pre-change rowsecurity on rcap_persons: f
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-54-rcap-person-namespace-hardening.sql:131: NOTICE:  policy "rcap_persons_service_role_all" for relation "public.rcap_persons" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-54-rcap-person-namespace-hardening.sql:172: NOTICE:  trigger "rcap_guard_reserved_partner_slug_trg" for relation "public.partner_records" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-54-rcap-person-namespace-hardening.sql:206: NOTICE:  constraint "rcap_persons_reserved_namespace_shape" of relation "rcap_persons" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-55-expungement-matter-payment-binding.sql:159: NOTICE:  constraint "consumer_briefcase_items_payment_product_check" of relation "consumer_briefcase_items" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger "packet_render_jobs_paid_matter_insert_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger "packet_render_jobs_paid_matter_finalize_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  trigger "consumer_payment_consumption_binding_trg" for relation "public.consumer_packet_payment_consumption" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint "consumer_payment_consumption_product_check" of relation "consumer_packet_payment_consumption" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint "consumer_payment_consumption_amount_check" of relation "consumer_packet_payment_consumption" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint "consumer_payment_consumption_currency_check" of relation "consumer_packet_payment_consumption" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql:201: NOTICE:  trigger "consumer_packet_artifact_provenance_immutable" for relation "public.consumer_packet_artifact_provenance" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:567: NOTICE:  trigger "consumer_render_job_verification_guard_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260901130000_consumer_private_delivery.sql:127: NOTICE:  trigger "publish_validated_consumer_render_artifact_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260906120000_sponsored_route_render_transaction.sql:139: NOTICE:  constraint "packet_render_jobs_sponsored_verification_hash_check" of relation "packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120000_consumer_checkout_replacement_evidence_guard.sql:13: NOTICE:  relation "consumer_briefcase_items_checkout_session_uk" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql:32: NOTICE:  function public.claim_packet_render_job(text,text[]) does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql:33: NOTICE:  function public.consume_rcap_packet_credit(text,text,uuid) does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql:34: NOTICE:  trigger "packet_render_jobs_guard_transition" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql:35: NOTICE:  function public.packet_render_jobs_guard_transition() does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql:36: NOTICE:  policy "packet_render_jobs_service_role_all" for relation "public.packet_render_jobs" does not exist, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:143: NOTICE:  relation "sponsored_packet_render_routes" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:171: NOTICE:  column "sponsored_route_key" of relation "packet_render_jobs" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:171: NOTICE:  column "sponsored_session_id" of relation "packet_render_jobs" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:171: NOTICE:  column "sponsored_clinic_event_id" of relation "packet_render_jobs" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:171: NOTICE:  column "sponsored_consumer_briefcase_item_id" of relation "packet_render_jobs" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:171: NOTICE:  column "sponsored_consumer_auth_user_id" of relation "packet_render_jobs" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:171: NOTICE:  column "sponsored_verification_hash" of relation "packet_render_jobs" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:198: NOTICE:  relation "packet_render_jobs_sponsored_participant_idx" already exists, skipping
+psql:/workspaces/legalease-partner-dashboard-clean/supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql:202: NOTICE:  column "superseded_artifacts" of relation "consumer_packet_artifact_provenance" already exists, skipping
+ok 1 - the committed registration carries no North Dakota route
+ok 2 - the committed registration carries no row for the fixture route either
+ok 3 - sponsored enqueue binds the job to the registered route
+ok 4 - current channel context refuses an unbounded event registration
+ok 5 - current channel context joins protected owner, partner, event and specification
+ok 6 - current channel context refuses a different owner
+ok 7 - current channel context refuses a different source session
+ok 8 - getRenderJob surfaces the binding for a non-Illinois partner job from the row, naming the route it was bound to
+ok 9 - the Illinois personalized binding is not invented for another route
+ok 10 - wrong route / nonpersonalized sponsored job: real finalizer refuses with credits 0 → 0
+ok 11 - nonpersonalized publication cannot bypass current authority
+ok 12 - historical SQL fixture seeds a formerly finalized sponsored job
+ok 13 - a validated sponsored artifact is refused until its scoped publication exists
+ok 14 - that refusal records no delivery authorization
+ok 15 - scoped finalization publishes the participant-owned provenance and counts one included unit
+ok 16 - the owner's download is authorized through the shared mechanism
+ok 17 - the owner receives the validated bytes
+ok 18 - a repeat download is authorized through the shared mechanism
+ok 19 - the repeat receives the validated bytes
+ok 20 - repeat bytes are identical
+ok 21 - repeat delivery consumes nothing
+ok 22 - delivery authorization and completed transmission are recorded
+ok 23 - another participant is refused on ownership
+ok 24 - a verification that changed after binding cannot authorize the older artifact
+ok 25 - an absent verification reader is its own refusal
+ok 26 - the sponsored transaction refuses the North Dakota route
+ok 27 - no North Dakota job or binding was created by the refusal
+ok 28 - the plain partner queue still validates the North Dakota artifact
+ok 29 - getRenderJob surfaces no sponsored binding for a partner job the transaction never bound
+ok 30 - with the verification reader present, the North Dakota job is refused for holding no authorized sponsored binding
+ok 31 - that is a different answer from an absent reader
+ok 32 - the North Dakota refusal records no delivery authorization and leaves the job undelivered
+ok 33 - the sponsored allowance was not touched by the North Dakota job
+ok 34 - application enqueue refuses absent data/rcap-grade-a/fulfillment-authority-registry.json
+ok 35 - application enqueue refuses absent data/rcap-grade-a/fulfillment-observation-snapshot.json
+ok 36 - application enqueue refuses absent data/rcap-render/worker-publication-evidence.json
+ok 37 - application enqueue succeeds with full commercial, publication and channel authority
+ok 38 - entire pre-worker closure passes on current-schema exact sponsored fixture
+ok 39 - every measurable closure class refuses wrong or missing inputs before worker
+ok 40 - current MS claimed fixture renders personalized PDF and passes local artifact validation
+ok 41 - missing static authority: real finalizer refuses before accounting (0 → 0)
+ok 42 - missing static authority: no deliverable artifact
+ok 43 - corrupt static authority: real finalizer refuses before accounting (0 → 0)
+ok 44 - corrupt static authority: no deliverable artifact
+ok 45 - revoked static packet authority: real finalizer refuses before accounting (0 → 0)
+ok 46 - revoked static packet authority: no deliverable artifact
+ok 47 - old published source/digest cannot authorize a different running worker: real finalizer refuses before accounting (0 → 0)
+ok 48 - old published source/digest cannot authorize a different running worker: no deliverable artifact
+ok 49 - absent current grant: real finalizer refuses before accounting (0 → 0)
+ok 50 - absent current grant: no deliverable artifact
+ok 51 - wrong specification: real finalizer refuses before accounting (0 → 0)
+ok 52 - wrong specification: no deliverable artifact
+ok 53 - wrong partner: real finalizer refuses before accounting (0 → 0)
+ok 54 - wrong partner: no deliverable artifact
+ok 55 - wrong event: real finalizer refuses before accounting (0 → 0)
+ok 56 - wrong event: no deliverable artifact
+ok 57 - wrong participant scope: real finalizer refuses before accounting (0 → 0)
+ok 58 - wrong participant scope: no deliverable artifact
+ok 59 - wrong acceptance project: real finalizer refuses before accounting (0 → 0)
+ok 60 - wrong acceptance project: no deliverable artifact
+ok 61 - wrong channel: real finalizer refuses before accounting (0 → 0)
+ok 62 - wrong channel: no deliverable artifact
+ok 63 - wrong Preview: real finalizer refuses before accounting (0 → 0)
+ok 64 - wrong Preview: no deliverable artifact
+ok 65 - Production: real finalizer refuses before accounting (0 → 0)
+ok 66 - Production: no deliverable artifact
+ok 67 - wrong protected verification: real finalizer refuses before accounting (0 → 0)
+ok 68 - wrong protected verification: no deliverable artifact
+ok 69 - worker finalization has no committed publication authority files
+ok 70 - missing entitlement reproduces unauthorized/accounting_blocked with no consumption and sticky replay
+ok 71 - expired entitlement reproduces unauthorized/accounting_blocked with no consumption and sticky replay
+ok 72 - packet cap reached reproduces cap_reached/accounting_blocked with no consumption and sticky replay
+ok 73 - wrong partner id reproduces unauthorized/accounting_blocked with no consumption and sticky replay
+ok 74 - positive raw full chain: current SQL transaction boundary proved and rolled back
+ok 75 - screening allowance exhausted: current SQL transaction boundary proved and rolled back
+ok 76 - event allocation exhausted: current SQL transaction boundary proved and rolled back
+ok 77 - wrong event: current SQL transaction boundary proved and rolled back
+ok 78 - wrong verification: current SQL guard refuses even before accounting
+ok 79 - wrong specification: current SQL transaction boundary proved and rolled back
+ok 80 - wrong entitlement scope is refused by pre-worker closure
+ok 81 - exact approved channel: real finalizer consumes and publishes once
+ok 82 - real finalizer replay adds no credit or publication
+ok 83 - MS finalized session consumed, case packet_ready and one packet_generated
+ok 84 - same current MS fixture owner/repeat delivery, anonymous/wrong-owner refusal and three-event completion preserve credits and bytes
+ok 85 - current server audit database-backed finalization/delivery checks are satisfiable by the same MS fixture
+ok 86 - post-success reseed preserves stable entitlement, history, other partners and one remaining credit without refill
+ok 87 - wrong participant refuses before accounting (0 → 0)
+Sponsored delivery binding: 87 checks PASS on the shipped job loader, publication check and delivery core (local ephemeral PostgreSQL; the non-Illinois registration is a test-only fixture row)

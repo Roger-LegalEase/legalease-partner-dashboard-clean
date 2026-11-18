@@ -1,0 +1,60 @@
+{
+  "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+  "sourceIdentity": {
+    "baseSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+    "trackedWorktreeDeltaSha256": "63e7e74091ca60b873e6fdb76ca2e75f56676dbfcf39b5197ef84dcaac1ca9d1",
+    "cleanTrackedApplication": false
+  },
+  "time": "2026-10-10T21:36:32.383Z",
+  "role": "participant",
+  "browser": "chromium",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "route": "/clinic/integrated-reset-clinic-mv2up2hf-41b1f034/assist",
+  "actions": [
+    "Leave assistance consent unchecked",
+    "Attempt Start screening",
+    "Observe required consent without server mutation",
+    "Attempt forged missing-consent request"
+  ],
+  "observed": "Declining consent grants no staff assistance; the shared-device End clinic session action remains available.",
+  "readback": {
+    "fixture": "152062da-5bc1-4dda-8a1e-a9c376ea650f",
+    "httpStatus": 400,
+    "automaticAssistanceRequests": 0
+  },
+  "status": "PASS",
+  "controls": [
+    {
+      "tag": "BUTTON",
+      "type": "button",
+      "name": "End clinic session / Reset device",
+      "href": null,
+      "disabled": false
+    },
+    {
+      "tag": "SELECT",
+      "type": null,
+      "name": "Assisting staff member",
+      "href": null,
+      "disabled": false
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "name": "I consent to assistance for this Clinic session. I understand I can end assistance at any time, and Clinic staff do not receive permanent access to my matter.",
+      "href": null,
+      "disabled": false
+    },
+    {
+      "tag": "BUTTON",
+      "type": null,
+      "name": "Start screening with assistance",
+      "href": null,
+      "disabled": false
+    }
+  ],
+  "browserErrors": []
+}

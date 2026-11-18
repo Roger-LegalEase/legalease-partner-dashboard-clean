@@ -1,0 +1,64 @@
+{
+  "pr": 263,
+  "acceptedHead": "e8ef8cdeff68d0b98c009f761abd860d5c7ffe51",
+  "mergedSha": "08f68583a3b41ef4b6fd7ef0533b7d0b793f0c45",
+  "mergeMethod": "normal squash; no bypass",
+  "migration": {
+    "file": "20261010074948_rcap_operating_responsibility_rights.sql",
+    "sha256": "6b293060e3bcf65e9b1264c6c150f25583192c4c5b902fdf44a89eb5e49d1c03",
+    "applied": true,
+    "ledger": [
+      {
+        "name": "rcap_operating_responsibility_rights",
+        "version": "20261010144221"
+      }
+    ],
+    "readback": "Three exact bodies and service-only privileges match"
+  },
+  "rollback": {
+    "deploymentId": "dpl_EHNd9i5VwDtKMN6AZMPMBjznB7No",
+    "state": "READY",
+    "sourceSha": "9cf86117b80966827b8bce71e446627c700e8830",
+    "postMigrationPublicChecks": "PASS, 11 routes including database health and original source identity",
+    "recovery": "Reassign only legaleasepartner.com and www.legaleasepartner.com to dpl_EHNd9i5VwDtKMN6AZMPMBjznB7No. Retain the additive function migration and all saved decisions/audit history.",
+    "finalState": "READY"
+  },
+  "productionOwnerAcceptance": "PENDING_OWNER_TEST; no authenticated Production session used or fabricated",
+  "status": "TECHNICALLY_VERIFIED",
+  "sourceTreeMatchesAcceptedHead": true,
+  "releaseWorktree": "/workspaces/rcap-rights-release-08f68583",
+  "deploymentId": "dpl_5Riwp42VY57X2y9GrPkMbg8G71B8",
+  "deploymentUrl": "https://legalease-partner-dashboard-clean-ffs11iy6p-roger947s-projects.vercel.app",
+  "automaticDomainAssignment": false,
+  "completedAt": "2026-10-10T14:50:07.249870+00:00",
+  "productionUrl": "https://legaleasepartner.com",
+  "domainAssignments": {
+    "legaleasepartner.com": "dpl_5Riwp42VY57X2y9GrPkMbg8G71B8",
+    "www.legaleasepartner.com": "dpl_5Riwp42VY57X2y9GrPkMbg8G71B8"
+  },
+  "unrelatedDomainMappingsUnchanged": true,
+  "stagedVerification": {
+    "status": "PASS",
+    "checks": 11,
+    "aliasesBeforeCutover": 0
+  },
+  "liveVerification": {
+    "passed": 22,
+    "total": 22,
+    "buildAndRuntimeShaMatch": true,
+    "databaseHealth": "ok",
+    "wwwBehavior": "Existing 308 canonical page redirects to matching apex paths preserved; API health and identity respond directly"
+  },
+  "postCutoverRuntimeErrors": "No error/fatal groups returned for this deployment in the queried 10-minute window",
+  "productionParticipantDataChanged": false,
+  "actualUnresolvedReleaseBlockers": [],
+  "rollbackInvoked": false,
+  "originalWorkspacePreserved": true,
+  "ci": {
+    "acceptedHead": "e8ef8cdeff68d0b98c009f761abd860d5c7ffe51",
+    "onboarding": "SUCCESS",
+    "workerImage": "SUCCESS",
+    "mergedTreeEquivalent": true
+  },
+  "probeDiagnostic": "Initial www probe incorrectly expected apex statuses; PR #262 evidence and unchanged src/proxy.ts established canonical 308 behavior. Initial results retained; corrected probe passed. No application change."
+}

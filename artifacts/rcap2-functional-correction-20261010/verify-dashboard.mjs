@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';import {chromium} from 'playwright';import {createClient} from '@supabase/supabase-js';
+const slug='practice-create-chromium-mv1a2dut',origin='http://127.0.0.1:3100';
+assert.equal(new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname,'127.0.0.1');
+const db=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+const members=await db.from('partner_users').select('auth_user_id,status,role').eq('partner_slug',slug).eq('role','partner_admin').eq('status','active').order('created_at',{ascending:false}).limit(1);assert.equal(members.error,null);const member=members.data[0];assert.ok(member);
+const user=await db.auth.admin.getUserById(member.auth_user_id);assert.equal(user.error,null);
+const access=JSON.parse(fs.readFileSync('/workspaces/training-modules-09-10/output/rcap-practice-access.json'));
+const tenant=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+const signedIn=await tenant.auth.signInWithPassword({email:user.data.user.email,password:access.owner.password});assert.equal(signedIn.error,null);
+const own=await tenant.from('partner_records').select('partner_slug');assert.equal(own.error,null);assert.deepEqual(own.data,[{partner_slug:slug}]);
+const outside=await tenant.from('partner_records').select('partner_slug').eq('partner_slug','practice-create-webkit-mv19x7cm');assert.equal(outside.error,null);assert.deepEqual(outside.data,[]);
+assert.equal((await tenant.from('partner_records').select('payment_status')).error?.code,'42501');
+assert.equal((await tenant.rpc('rcap_service_get_program_configuration',{p_slug:slug,p_actor:member.auth_user_id})).error?.code,'42501');
+await tenant.auth.signOut({scope:'local'});
+const browser=await chromium.launch(),page=await browser.newPage();page.setDefaultTimeout(60000);
+try{await page.goto(`${origin}/sign-in?next=/partner/onboarding`);await page.locator('input[type=email]').fill(user.data.user.email);await page.locator('input[type=password]').fill(access.owner.password);await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.waitForURL(u=>u.pathname==='/partner/dashboard');await page.getByRole('heading',{name:'Your program is live.',exact:true}).waitFor();
+const activity=page.getByLabel('Program activity');const values=await activity.locator('article').evaluateAll(cards=>cards.map(card=>({label:card.querySelector('h2').textContent,value:card.querySelector('p').textContent})));assert.equal(values.length,4);assert.ok(values.every(v=>/^\d+$/.test(v.value)));assert.equal(await page.getByText('Some activity data is temporarily unavailable. Refresh to retry.',{exact:true}).count(),0);
+await page.getByRole('main').getByRole('link',{name:'Clinics',exact:true}).click();await page.getByRole('heading',{name:'Clinic Mode administration',exact:true}).waitFor();await page.getByRole('link',{name:'Back to program',exact:true}).click();await page.getByRole('heading',{name:'Your program is live.',exact:true}).waitFor();
+fs.writeFileSync('artifacts/rcap2-functional-correction-20261010/dashboard-acceptance.json',JSON.stringify({status:'PASS',origin,slug,session:'Actual partner form sign-in, verified active membership',values,clinicNavigation:'PASS',tenantReadIsolation:'PASS',financialColumnRefusal:'PASS',directConfigurationRpcRefusal:'PASS',productionChanged:false},null,2));console.log('PASS actual authenticated dashboard totals and Clinic round trip',values);
+}finally{await browser.close();}

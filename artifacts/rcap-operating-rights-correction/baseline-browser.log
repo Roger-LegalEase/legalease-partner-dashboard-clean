@@ -1,0 +1,38 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"message":"<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>nginx/1.27.2</center>\r\n</body>\r\n</html>\r\n"}
++ actual - expected
+
++ {
++   message: '<html>\r\n' +
++     '<head><title>504 Gateway Time-out</title></head>\r\n' +
++     '<body>\r\n' +
++     '<center><h1>504 Gateway Time-out</h1></center>\r\n' +
++     '<hr><center>nginx/1.27.2</center>\r\n' +
++     '</body>\r\n' +
++     '</html>\r\n'
++ }
+- null
+
+    at checked (file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-operating-rights-browser.mjs:16:37)
+    at file:///workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-operating-rights-browser.mjs:28:66
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: {
+    message: '<html>\r\n' +
+      '<head><title>504 Gateway Time-out</title></head>\r\n' +
+      '<body>\r\n' +
+      '<center><h1>504 Gateway Time-out</h1></center>\r\n' +
+      '<hr><center>nginx/1.27.2</center>\r\n' +
+      '</body>\r\n' +
+      '</html>\r\n'
+  },
+  expected: null,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

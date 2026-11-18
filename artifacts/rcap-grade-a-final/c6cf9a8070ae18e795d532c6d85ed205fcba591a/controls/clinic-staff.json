@@ -1,0 +1,82 @@
+{
+  "sourceIdentity": {
+    "baseSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+    "applicationTreeSha256": "a82a9b3d95068381d40cc2f80f1ee9a77d59479fc35844013dabae5d04a10e06",
+    "trackedWorktreeDeltaSha256": "f15e1fd63ea9506e6483a2dbaae4afd8021c375eb94dd5d885823c79e807f2a9",
+    "cleanTrackedApplication": false
+  },
+  "result": "PASS",
+  "event": "152062da-5bc1-4dda-8a1e-a9c376ea650f",
+  "proofs": [
+    {
+      "ids": [
+        "C03-02",
+        "C03-04",
+        "C03-05",
+        "C03-06",
+        "C03-07",
+        "C03-08",
+        "C03-09",
+        "C03-10"
+      ],
+      "action": "Set suspended through event controls, read exact permissions and verify current-session denial",
+      "readback": {
+        "status": "suspended",
+        "permissions": [
+          "assist",
+          "queue",
+          "follow_up",
+          "reporting",
+          "incident"
+        ]
+      },
+      "httpStatus": 403
+    },
+    {
+      "ids": [
+        "C03-02",
+        "C03-04",
+        "C03-05",
+        "C03-06",
+        "C03-07",
+        "C03-08",
+        "C03-09",
+        "C03-10"
+      ],
+      "action": "Set revoked through event controls, read exact permissions and verify current-session denial",
+      "readback": {
+        "status": "revoked",
+        "permissions": [
+          "assist",
+          "queue",
+          "follow_up",
+          "reporting",
+          "incident"
+        ]
+      },
+      "httpStatus": 403
+    },
+    {
+      "ids": [
+        "C03-01",
+        "C03-10"
+      ],
+      "action": "Restore prior approved assignment through actual control and verify access returns without a new login",
+      "readback": {
+        "status": "approved",
+        "permissions": [
+          "assist",
+          "follow_up",
+          "queue",
+          "reporting"
+        ]
+      }
+    },
+    {
+      "ids": [
+        "C02-13"
+      ],
+      "action": "Inspect the actual event audit after authorization changes"
+    }
+  ]
+}

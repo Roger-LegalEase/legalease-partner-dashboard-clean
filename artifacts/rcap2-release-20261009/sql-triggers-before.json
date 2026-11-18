@@ -1,0 +1,41 @@
+[
+  {
+    "proname": "rcap_guard_commercial_authorization",
+    "signature": "rcap_guard_commercial_authorization()",
+    "definition": "CREATE OR REPLACE FUNCTION public.rcap_guard_commercial_authorization()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare w public.partner_onboarding%rowtype; r public.partner_records%rowtype; begin\n perform public.rcap_service_assert_internal_actor(new.actor_auth_user_id);\n select * into strict w from public.partner_onboarding where id=new.workspace_id for update;\n select * into strict r from public.partner_records where id=w.partner_record_id for update;\n if w.status='live' or w.agreement_status<>'signed' or new.expires_at<=now() then raise exception 'current signed agreement and unpublished program required'; end if;\n if not exists(select 1 from public.partner_onboarding_assets a where a.id=new.document_id and a.workspace_id=w.id and a.category='procurement_document' and a.sha256_hex=new.document_hash and a.lifecycle_status='active' and a.review_status='approved') then raise exception 'approved partner procurement evidence required'; end if;\n if not exists(select 1 from public.partner_onboarding_sections s where s.workspace_id=w.id and s.section_key='access_sponsorship_capacity' and s.status='approved' and s.response_data->>'participant_access_model'=new.access_mode) then raise exception 'canonical access scope required'; end if;\n if new.kind='verified_paid' and not coalesce((r.payment_status='paid' and r.stripe_payment_intent_id ~ '^pi_[A-Za-z0-9]+$' and r.paid_at<=now() and r.payment_amount>0),false) then raise exception 'verified payment required'; end if;\n if r.payment_status='demo_paid' then raise exception 'demo payment cannot authorize a real program';end if;\n if r.qualification_status is distinct from 'qualified' then raise exception 'qualification required'; end if;\n if not exists(select 1 from public.partner_packet_entitlement e where e.id=new.packet_entitlement_id and e.partner_id=r.id and e.entitlement_scope='sponsored_packets' and e.packet_cap>0 and e.effective_at<=now() and (e.expires_at is null or e.expires_at>=new.expires_at)) then raise exception 'current scoped packet allocation required'; end if;\n return new;\nend $function$\n",
+    "owner": "postgres",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{=X/postgres,postgres=X/postgres,service_role=X/postgres}",
+    "provolatile": "v",
+    "definition_md5": "ac38d2ecf4caa01b6661bb8fb1bf183a"
+  },
+  {
+    "proname": "rcap_onboarding_guard_section_mutation",
+    "signature": "rcap_onboarding_guard_section_mutation()",
+    "definition": "CREATE OR REPLACE FUNCTION public.rcap_onboarding_guard_section_mutation()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  if tg_op = 'UPDATE' then\n    if new.workspace_id <> old.workspace_id\n       or new.section_key <> old.section_key\n       or new.created_at <> old.created_at then\n      raise exception using\n        errcode = '23514',\n        message = 'Immutable onboarding section identity cannot be changed';\n    end if;\n\n    if new.revision <> old.revision + 1 then\n      raise exception using\n        errcode = '40001',\n        message = 'Onboarding section revision conflict';\n    end if;\n\n    if public.current_partner_role() = 'partner_admin'\n       and not public.is_internal_admin()\n       and (\n         new.status in ('approved', 'waived', 'not_applicable')\n         or new.approved_at is distinct from old.approved_at\n         or new.approved_by is distinct from old.approved_by\n         or new.waived_at is distinct from old.waived_at\n         or new.waived_by is distinct from old.waived_by\n         or new.waiver_reason is distinct from old.waiver_reason\n         or new.reviewed_at is distinct from old.reviewed_at\n         or new.reviewed_by is distinct from old.reviewed_by\n       ) then\n      raise exception using\n        errcode = '42501',\n        message = 'Partner actors cannot set internal section review fields';\n    end if;\n  end if;\n\n  new.updated_at := now();\n  return new;\nend;\n$function$\n",
+    "owner": "postgres",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+    "provolatile": "v",
+    "definition_md5": "6bf6e914320e25ae0f391344e018d2a2"
+  },
+  {
+    "proname": "rcap_require_documented_real_agreement",
+    "signature": "rcap_require_documented_real_agreement()",
+    "definition": "CREATE OR REPLACE FUNCTION public.rcap_require_documented_real_agreement()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  if new.rcap_launch_operation_id is not null\n      and new.status='live' and new.landing_page_ready\n      and (old.status is distinct from 'live' or old.landing_page_ready is distinct from true\n        or old.rcap_launch_operation_id is distinct from new.rcap_launch_operation_id)\n      and not public.rcap_agreement_clearance(new.id) then\n    raise exception 'Current executed agreement evidence and all required contract documents are required for real launch' using errcode='42501';\n  end if;\n  return new;\nend $function$\n",
+    "owner": "postgres",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "provolatile": "v",
+    "definition_md5": "fcf4a05df143c90635e05ca7f8cea540"
+  }
+]

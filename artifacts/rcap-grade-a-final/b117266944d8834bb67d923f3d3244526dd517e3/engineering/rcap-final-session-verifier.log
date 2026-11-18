@@ -1,0 +1,9 @@
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-screening-session-persistence
+> node scripts/verify-expungement-screening-session-persistence.mjs
+
+Expungement.ai screening session persistence verification passed.
+Real storage: migration executed in an isolated PGlite PostgreSQL database with jsonb answers.
+Round-trip identity covered string, number/range, date, yes/no/unsure, prefer-not-to-say, multi-select, unknown sentinel, null, and absent optional answers.
+Complete and partial resumed sessions re-evaluated through evaluateScreening with identical resultCode, paymentAllowed, and packetPlan.
+No resultCode, paymentAllowed, or packetPlan columns or answer values were persisted.

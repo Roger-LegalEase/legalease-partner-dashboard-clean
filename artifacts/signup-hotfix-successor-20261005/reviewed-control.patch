@@ -1,0 +1,511 @@
+diff --git a/.github/workflows/publish-rcap-render-worker.yml b/.github/workflows/publish-rcap-render-worker.yml
+index 9b9e71346..e37187eb7 100644
+--- a/.github/workflows/publish-rcap-render-worker.yml
++++ b/.github/workflows/publish-rcap-render-worker.yml
+@@ -245,6 +245,9 @@ jobs:
+           {
+             "schemaVersion": "rcap-worker-publication/v1",
+             "sourceSha": "${{ steps.resolve.outputs.sha }}",
++            "workflowSourceSha": "${{ github.sha }}",
++            "requestedIntegrationSha": "${{ inputs.integration_sha }}",
++            "tagReplacementAuthorization": "${{ inputs.tag_replacement_authorization }}",
+             "canonicalIntegrationBranch": "${CANONICAL_INTEGRATION_BRANCH}",
+             "releaseIntegrationBranch": "${RELEASE_INTEGRATION_BRANCH}",
+             "containedIn": "${{ steps.containment.outputs.contained_in }}",
+diff --git a/.github/workflows/rcap-worker-identity-readonly.yml b/.github/workflows/rcap-worker-identity-readonly.yml
+new file mode 100644
+index 000000000..9273c2270
+--- /dev/null
++++ b/.github/workflows/rcap-worker-identity-readonly.yml
+@@ -0,0 +1,28 @@
++name: RCAP worker read-only identity
++on:
++  workflow_dispatch:
++  # Lets the new GET-only inspector execute on the authorized release branch
++  # without requiring a definition or push on main. No mutation job exists.
++  push:
++    branches: [captain-release]
++    paths: [.github/workflows/rcap-worker-identity-readonly.yml]
++permissions:
++  contents: read
++jobs:
++  identity:
++    runs-on: ubuntu-latest
++    timeout-minutes: 5
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: 20
++      - name: GET sanitized existing Fly machine identities
++        env:
++          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
++        run: node scripts/rcap-worker-identity-readonly.mjs
++      - uses: actions/upload-artifact@v4
++        with:
++          name: rcap-worker-readonly-identity-${{ github.run_id }}
++          path: worker-identity-evidence/identity.json
++          if-no-files-found: error
+diff --git a/scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs b/scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs
+new file mode 100644
+index 000000000..20b47bc51
+--- /dev/null
++++ b/scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs
+@@ -0,0 +1,55 @@
++import fs from 'node:fs';
++import path from 'node:path';
++import {fileURLToPath} from 'node:url';
++import assert from 'node:assert/strict';
++import {execFileSync} from 'node:child_process';
++import {createHash} from 'node:crypto';
++import {createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
++import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedBinding,assertCommittedPredecessor} from './verify-pinned-worker-successor.mjs';
++const hash=b=>createHash('sha256').update(b).digest('hex');
++const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe',maxBuffer:64*1024*1024}).trim();
++const at=(root,sha,rel)=>JSON.parse(git(root,['show',`${sha}:${rel}`]));
++const read=(root,rel)=>JSON.parse(fs.readFileSync(path.join(root,rel)));
++const write=(root,rel,value)=>fs.writeFileSync(path.join(root,rel),JSON.stringify(value,null,2)+'\n');
++
++export function pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha}){
++ for(const sha of [sourceSha,releaseBaseSha,toolsSha])assert.match(sha,/^[a-f0-9]{40}$/);
++ assertCommittedPredecessor(root,releaseBaseSha);
++ const previous=at(root,releaseBaseSha,PUBLICATION);
++ const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:previous.sourceSha,acceptedDigest:previous.immutableRegistryDigest,candidateSha:sourceSha});
++ const parent=git(root,['rev-parse',`${sourceSha}^`]);
++ const files=Object.fromEntries(git(root,['diff','--name-only',parent,sourceSha]).split('\n').filter(Boolean).map(rel=>[rel,hash(execFileSync('git',['show',`${sourceSha}:${rel}`],{cwd:root}))]));
++ const supersededRecord=at(root,releaseBaseSha,PENDING);
++ const p={schemaVersion:supersededRecord.schemaVersion,status:'AWAITING_WORKER_PUBLICATION',releaseBaseSha,sourceCommit:sourceSha,parent,applicationSource:'pinned-source',workerSource:'sourceCommit',applicationSha:sourceSha,workerSourceSha:sourceSha,workerDigest:null,workerInputFingerprint:plan.aggregateInputSha256,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:git(root,['diff','--name-only',previous.sourceSha,sourceSha,'--',...plan.canonicalInputs]).split('\n').filter(Boolean).sort(),files,workerRebuildRequired:true,publication:'pending',acceptance:'pending',runtimeAccepted:false,previewExecution:'held',productionAuthorized:false,resume:null,historicalWorker:{sourceSha:previous.sourceSha,digest:previous.immutableRegistryDigest,fingerprint:previous.workerInputFingerprint},supersededRecord,supersededRecordSha256:hash(execFileSync('git',['show',`${releaseBaseSha}:${PENDING}`],{cwd:root}))};
++ const tuple={status:p.status,applicationSha:sourceSha,workerSourceSha:sourceSha,workerDigest:null,workerInputFingerprint:p.workerInputFingerprint,toolsSha,runtimeAccepted:false,previewExecution:'held',resume:null,productionAuthorized:false,productionAuthorization:null,deploymentAuthorized:false,clinicDispatchReady:false};
++ const controls=git(root,['diff','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(Boolean).filter(f=>!Object.hasOwn(files,f));
++ const tools={schemaVersion:'rcap-exact-hosted-tools-binding/v1',...tuple,successorTools:{schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root}))]))},supersededRecord:at(root,releaseBaseSha,TOOLS)};
++ const candidate={schemaVersion:at(root,releaseBaseSha,CANDIDATE).schemaVersion,...tuple,publication:null,readOnlyImageAcceptance:null,supersededRecord:at(root,releaseBaseSha,CANDIDATE)};
++ return {[PENDING]:p,[TOOLS]:tools,[CANDIDATE]:candidate};
++}
++// Advance only using evidence independently downloaded from successful native
++// runs. A failed validation restores the prior records; no partial acceptance.
++export function writePinnedRecords(root,records){
++ const before=Object.fromEntries(Object.keys(records).map(rel=>[rel,fs.readFileSync(path.join(root,rel))]));
++ try{
++  for(const [rel,value]of Object.entries(records))write(root,rel,value);
++  const pending=verifyPinnedSuccessor(root);assert.notEqual(pending.status,'INVALID_PENDING_PUBLICATION',pending.reasons.join('; '));
++  const binding=verifyPinnedBinding(root,read(root,CANDIDATE),pending);assert.notEqual(binding.status,'INVALID_PINNED_BINDING',binding.reasons.join('; '));
++  assert.equal(binding.productionAuthorized,false);return binding;
++ }catch(error){for(const [rel,bytes]of Object.entries(before))fs.writeFileSync(path.join(root,rel),bytes);throw error;}
++}
++export function advancePinnedRecords(root,evidence){
++ const p=read(root,PENDING),candidate=read(root,CANDIDATE),tools=read(root,TOOLS);
++ assert(['AWAITING_WORKER_PUBLICATION','AWAITING_WORKER_ACCEPTANCE'].includes(p.status),'accepted records cannot be replayed');
++ assert.equal(evidence.sourceSha,p.sourceCommit);
++ assert.equal(evidence.runtimeAccepted,p.status==='AWAITING_WORKER_ACCEPTANCE','one actual lifecycle transition at a time');
++ const status=evidence.runtimeAccepted?'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING':'AWAITING_WORKER_ACCEPTANCE';
++ const change={status,workerDigest:evidence.immutableRegistryDigest,runtimeAccepted:evidence.runtimeAccepted};
++ return writePinnedRecords(root,{[PUBLICATION]:evidence,[PENDING]:{...p,...change,workerRebuildRequired:false,publication:'complete',acceptance:evidence.runtimeAccepted?'complete':'pending'},[TOOLS]:{...tools,...change},[CANDIDATE]:{...candidate,...change,publication:{runId:evidence.workflowRunId,workflowSourceSha:evidence.workflowSourceSha,artifactId:evidence.publicationArtifactId,digest:evidence.immutableRegistryDigest},readOnlyImageAcceptance:evidence.runtimeAccepted?{runId:evidence.imageAcceptance.runId,jobId:evidence.imageAcceptance.jobId,workflowSourceSha:evidence.imageAcceptance.workflowSourceSha,digest:evidence.immutableRegistryDigest}:null}});
++}
++if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
++ try{
++  const [sourceSha,releaseBaseSha,toolsSha]=process.argv.slice(2);const root=process.cwd();
++  console.log(JSON.stringify(writePinnedRecords(root,pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha})),null,2));
++ }catch(error){console.error(error.message);process.exitCode=1;}
++}
+diff --git a/scripts/grade-a-launch-control/verify-pending-worker-successor.mjs b/scripts/grade-a-launch-control/verify-pending-worker-successor.mjs
+index 7ad246b73..935a3c6dc 100644
+--- a/scripts/grade-a-launch-control/verify-pending-worker-successor.mjs
++++ b/scripts/grade-a-launch-control/verify-pending-worker-successor.mjs
+@@ -6,12 +6,14 @@ import {HOSTED_BASE,HOSTED_STATUS,verifyHostedAcceptanceEvidence} from './verify
+ // commit which introduced this pending record, resolved through Git history;
+ // the recorded parent, exact delta and fingerprints make it non-floating.
+ import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {createWorkerInputPlan,aggregateCanonicalInputs} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
++import {verifyPinnedSuccessor,verifyPinnedPublication} from './verify-pinned-worker-successor.mjs';
+ export const PENDING='data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json';
+ export function verifyPendingWorkerSuccessor(root){
+  const file=path.join(root,PENDING);if(!fs.existsSync(file))return null;
+  const git=a=>execFileSync('git',a,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+  try{
+  const p=JSON.parse(fs.readFileSync(file));
++ if(p.applicationSource==='pinned-source')return verifyPinnedSuccessor(root,p);
+  if(p.releaseBaseSha)return verifyGenerationPending(root,p);
+  const accepted=p.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING';
+  const published=accepted||p.status==='AWAITING_WORKER_ACCEPTANCE';
+@@ -54,6 +56,7 @@ export function verifySuccessorPublication(root) {
+   const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+   const e=JSON.parse(read('data/rcap-render/worker-publication-evidence.json'));
++  if(JSON.parse(read(PENDING)).applicationSource==='pinned-source')return verifyPinnedPublication(root);
+   if(JSON.parse(read(PENDING)).releaseBaseSha)return verifyGenerationPublication(root,e);
+   const source='af638b61cc4b74afad972fa79c4c1ca3f6709540';
+   const digest='sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5';
+diff --git a/scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs b/scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs
+new file mode 100644
+index 000000000..a899db256
+--- /dev/null
++++ b/scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs
+@@ -0,0 +1,203 @@
++// Explicit source pins extend the existing successor lifecycle. Historical
++// generations continue through their original validators, at their own revision.
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import {execFileSync} from 'node:child_process';
++import {createHash} from 'node:crypto';
++import {createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
++
++export const PENDING='data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json';
++export const PUBLICATION='data/rcap-render/worker-publication-evidence.json';
++export const CANDIDATE='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
++export const TOOLS='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
++const hash=b=>createHash('sha256').update(b).digest('hex');
++const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe',maxBuffer:64*1024*1024}).trim();
++const at=(root,sha,rel)=>JSON.parse(git(root,['show',`${sha}:${rel}`]));
++const read=(root,rel)=>JSON.parse(fs.readFileSync(path.join(root,rel)));
++const validSha=s=>assert.match(s,/^[a-f0-9]{40}$/);
++const validDigest=s=>assert.match(s,/^sha256:[a-f0-9]{64}$/);
++const predecessorCache=new Set();
++
++export function assertCommittedPredecessor(root,base){
++ validSha(base);
++ const key=git(root,['rev-parse','--git-common-dir'])+base;
++ if(predecessorCache.has(key))return;
++ // Never validate an old record against the new source/worktree. Use the
++ // committed validator and evidence from its own clean historical snapshot.
++ const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-predecessor-'));
++ try{
++  execFileSync('git',['clone','--quiet','--shared','--no-checkout',root,snapshot],{stdio:'pipe'});
++  git(snapshot,['checkout','--quiet','--detach',base]);
++  const dependencies=path.join(root,'node_modules');
++  if(fs.existsSync(dependencies))fs.symlinkSync(fs.realpathSync(dependencies),path.join(snapshot,'node_modules'));
++  const code="import fs from 'node:fs';import {verifyReleaseCandidateBinding} from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';const r=verifyReleaseCandidateBinding(process.cwd(),JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')));if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));console.log('HISTORICAL_PREDECESSOR_VALID');";
++  const output=execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,encoding:'utf8',stdio:'pipe',maxBuffer:4*1024*1024});
++  assert(output.includes('HISTORICAL_PREDECESSOR_VALID'),'historical predecessor validation');
++  predecessorCache.add(key);
++ }finally{fs.rmSync(snapshot,{recursive:true,force:true});}
++}
++
++function native(root,ref){
++ assert(ref&&typeof ref.path==='string','native evidence required');
++ assert(ref.path.startsWith('hosted-acceptance-evidence/worker/')&&!ref.path.split('/').includes('..'),'scoped native evidence');
++ const bytes=fs.readFileSync(path.join(root,ref.path));
++ assert.equal(bytes.length,ref.bytes);assert.equal(hash(bytes),ref.sha256,ref.path);return bytes;
++}
++function held(record){
++ assert.equal(record.productionAuthorized,false,'new generation has no production authority');
++ assert.equal(record.previewExecution,'held');assert.equal(record.resume,null);
++ for(const flag of ['migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','deploymentAuthorized','clinicDispatchReady'])if(flag in record)assert.equal(record[flag],false,flag);
++ if(record.previewExecutionInstruction)assert.equal(record.previewExecutionInstruction.executionAuthorized,false);
++ if('productionAuthorization' in record)assert.equal(record.productionAuthorization,null);
++}
++function sourcePlan(root,p){
++ assert.equal(p.schemaVersion,'rcap-pending-worker-successor/v1');
++ validSha(p.releaseBaseSha);validSha(p.sourceCommit);validSha(p.parent);
++ assert.equal(p.applicationSource,'pinned-source');assert.equal(p.workerSource,'sourceCommit');
++ assert.equal(p.applicationSha,p.sourceCommit);assert.equal(p.workerSourceSha,p.sourceCommit);
++ git(root,['merge-base','--is-ancestor',p.releaseBaseSha,'HEAD']);
++ git(root,['merge-base','--is-ancestor',p.sourceCommit,'HEAD']);
++ assert.equal(git(root,['rev-list','--parents','-n','1',p.sourceCommit]),`${p.sourceCommit} ${p.parent}`,'exact sole source parent');
++ assert.deepEqual(p.supersededRecord,at(root,p.releaseBaseSha,PENDING),'entire committed predecessor');
++ assert.equal(p.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root})));
++ assertCommittedPredecessor(root,p.releaseBaseSha);
++ const previous=at(root,p.releaseBaseSha,PUBLICATION);
++ assert.deepEqual(p.historicalWorker,{sourceSha:previous.sourceSha,digest:previous.immutableRegistryDigest,fingerprint:previous.workerInputFingerprint});
++ const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:previous.sourceSha,acceptedDigest:previous.immutableRegistryDigest,candidateSha:p.sourceCommit});
++ assert.equal(plan.rebuildRequired,true);assert.deepEqual(plan.missingCanonicalInputs,[]);
++ assert.equal(p.workerInputFingerprint,plan.aggregateInputSha256);
++ assert.deepEqual(p.canonicalWorkerInputs,plan.canonicalInputs);
++ const changed=git(root,['diff','--name-only',previous.sourceSha,p.sourceCommit,'--',...plan.canonicalInputs]).split('\n').filter(Boolean).sort();
++ assert.deepEqual(p.workerChangedPaths,changed);
++ const reviewed=git(root,['diff','--name-only',p.parent,p.sourceCommit]).split('\n').filter(Boolean).sort();
++ assert.deepEqual(Object.keys(p.files).sort(),reviewed,'complete reviewed source delta');
++ for(const [rel,digest]of Object.entries(p.files))assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
++ assert.equal(git(root,['diff','--name-only',p.sourceCommit,'HEAD','--',...plan.canonicalInputs]),'','control history cannot change worker inputs');
++ assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...plan.canonicalInputs]),'','working worker inputs unchanged');
++ assert.equal(git(root,['ls-files','--others','--exclude-standard','--',...plan.canonicalInputs]),'','no untracked worker inputs');
++ held(p);return plan;
++}
++function runEvidence(root,e,workflowPath,runName){
++ const run=JSON.parse(native(root,e.nativeRunMetadata));
++ const jobs=JSON.parse(native(root,e.nativeJobMetadata));
++ const log=native(root,e.nativeLog).toString();
++ assert.equal(run.id,e.runId??e.workflowRunId);assert.equal(run.head_sha,e.workflowSourceSha);
++ assert.equal(run.run_attempt,e.runAttempt??e.workflowRunAttempt);assert.equal(run.name,runName);
++ assert.equal(run.path,workflowPath);assert.equal(run.event,'workflow_dispatch');
++ assert.equal(run.repository.full_name.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');
++ assert.equal(run.status,'completed');assert.equal(run.conclusion,'success');
++ const job=(jobs.jobs??[jobs]).find(j=>j.id===e.jobId);assert(job,'exact native job');
++ assert.equal(job.run_id,run.id);assert.equal(job.status,'completed');assert.equal(job.conclusion,'success');
++ assert(job.steps.every(s=>s.status==='completed'&&s.conclusion==='success'),'all native steps, including checkout/setup, must succeed');
++ const reviewed=read(root,TOOLS);
++ validSha(reviewed.toolsSha);
++ const workflowInputs=[workflowPath,...Object.keys(reviewed.successorTools.files).filter(f=>f.startsWith('scripts/')&& !f.endsWith('.test.mjs')),
++  'scripts/verify-rcap-worker-tag-integrity.mjs','scripts/verify-rcap-worker-source-binding-exception.mjs','scripts/verify-rcap-worker-image-revision.mjs'];
++ for(const rel of new Set(workflowInputs))assert.equal(git(root,['rev-parse',`${e.workflowSourceSha}:${rel}`]),git(root,['rev-parse',`${reviewed.toolsSha}:${rel}`]),`executed reviewed control ${rel}`);
++ const workflow=git(root,['show',`${e.workflowSourceSha}:${workflowPath}`]);
++ const required=[...workflow.matchAll(/^\s+- name: (.+)$/gm)].map(m=>m[1]);
++ assert(required.length>0);
++ for(const name of required){const step=job.steps.find(s=>s.name===name);assert(step,`missing native step ${name}`);assert.equal(step.status,'completed');assert.equal(step.conclusion,'success',name);}
++ return {run,job,log};
++}
++function publication(root,p){
++ const e=read(root,PUBLICATION),prior=at(root,p.releaseBaseSha,PUBLICATION);
++ assert.deepEqual(e.supersededPublication,prior,'full publication predecessor preserved');
++ assert.deepEqual(e.supersededChain,prior.supersededChain,'retired source-binding anchors preserved');
++ assert.equal(e.sourceSha,p.sourceCommit);assert.equal(e.imageTag,p.sourceCommit);validDigest(e.immutableRegistryDigest);
++ assert.equal(e.workerInputFingerprint,p.workerInputFingerprint);
++ assert.equal(e.imageRepository,'ghcr.io/roger-legalease/rcap-render-worker');
++ assert.equal(e.imageReference,`${e.imageRepository}:${e.sourceSha}`);
++ assert.equal(e.digestPinnedReference,`${e.imageRepository}@${e.immutableRegistryDigest}`);
++ validSha(e.workflowSourceSha);git(root,['merge-base','--is-ancestor',e.workflowSourceSha,'HEAD']);
++ git(root,['merge-base','--is-ancestor',e.sourceSha,e.workflowSourceSha]);
++ assert.equal(e.containedIn,'captain-release');assert.equal(e.releaseIntegrationBranch,'captain-release');assert.equal(e.canonicalIntegrationBranch,'main');
++ assert.equal(e.requestedIntegrationSha,p.sourceCommit);assert.equal(e.tagReplacementAuthorization,'');
++ // The publication guard runs after the pinned-source checkout. Its actual
++ // source bytes must be the same reviewed guard, not merely the tools copy.
++ assert.equal(git(root,['rev-parse',`${e.sourceSha}:scripts/verify-rcap-worker-tag-integrity.mjs`]),git(root,['rev-parse',`${read(root,TOOLS).toolsSha}:scripts/verify-rcap-worker-tag-integrity.mjs`]),'pinned build tag guard is reviewed');
++ for(const [k,v]of Object.entries({publishOnlyNoDeploy:true,mutableLatestTagCreated:false,workerClaimingStarted:false,stagingAndProductionUnchanged:true,workflowConclusion:'success'}))assert.equal(e[k],v,k);
++ const bytes=native(root,{path:e.originalPublicationPath,bytes:e.originalPublicationBytes,sha256:e.originalPublicationSha256});
++ const artifact=JSON.parse(bytes);
++ for(const [key,value]of Object.entries(artifact))assert.deepEqual(e[key],key==='workflowRunId'?Number(value):value,`native publication ${key}`);
++ assert.equal(artifact.workflowSourceSha,e.workflowSourceSha);assert.equal(artifact.requestedIntegrationSha,p.sourceCommit);assert.equal(artifact.tagReplacementAuthorization,'');
++ assert.equal(e.publicationArtifactName,`rcap-render-worker-publication-${p.sourceCommit}`);assert(Number.isSafeInteger(e.publicationArtifactId)&&e.publicationArtifactId>0);
++ const archive=native(root,e.nativeArchive);assert.equal(e.originalArchivePath,e.nativeArchive.path);
++ assert.equal(e.publicationArtifactSha256,'sha256:'+hash(archive));
++ assert.equal(execFileSync('unzip',['-p',path.join(root,e.originalArchivePath),'rcap-render-worker-publication.json']).toString(),bytes.toString(),'downloaded archive is actual native artifact');
++ const evidence=runEvidence(root,e,'.github/workflows/publish-rcap-render-worker.yml','Publish RCAP render worker');
++ assert(evidence.log.includes(e.sourceSha)&&evidence.log.includes(e.immutableRegistryDigest),'native build subject');
++ assert.equal(e.dockerfilePath,'deploy/rcap-render-worker/Dockerfile');
++ for(const [rel,digest]of [[e.dockerfilePath,e.dockerfileSha256],['package-lock.json',e.lockfileSha256]])assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
++ assert.equal(typeof e.runtimeAccepted,'boolean');
++ if(e.runtimeAccepted)acceptance(root,e);else assert.equal(e.imageAcceptance,undefined,'unaccepted image cannot inherit acceptance');
++ return e;
++}
++function acceptance(root,e){
++ const a=e.imageAcceptance;assert(a,'actual image acceptance required');
++ for(const [k,v]of Object.entries({sourceSha:e.sourceSha,tag:e.imageTag,digest:e.immutableRegistryDigest,readOnly:true,conclusion:'success'}))assert.equal(a[k],v,`acceptance ${k}`);
++ validSha(a.workflowSourceSha);git(root,['merge-base','--is-ancestor',a.workflowSourceSha,'HEAD']);
++ const prior=at(root,a.workflowSourceSha,PUBLICATION);
++ assert.equal(prior.sourceSha,e.sourceSha);assert.equal(prior.immutableRegistryDigest,e.immutableRegistryDigest);assert.equal(prior.runtimeAccepted,false);
++ assert.deepEqual(prior.supersededPublication,e.supersededPublication,'acceptance predecessor preserved');
++ const {log}=runEvidence(root,a,'.github/workflows/rcap-worker-image-acceptance.yml','RCAP worker image acceptance');
++ for(const marker of [`accepting ${e.digestPinnedReference} built from ${e.sourceSha}`,`tag currently resolves to: ${e.immutableRegistryDigest}`,'anonymous token refused with HTTP 401','SOURCE BINDING: PASS','OCI REVISION: PRESENT','config env matches: 0','layer history matches: 0','acceptance is read-only: no push, no deploy, no claim'])assert(log.includes(marker),marker);
++ const receipt=JSON.parse(native(root,a.verificationReceipt));
++ for(const [k,v]of Object.entries({runId:a.runId,jobId:a.jobId,workflowSourceSha:a.workflowSourceSha,sourceSha:e.sourceSha,digest:e.immutableRegistryDigest,readOnly:true,conclusion:'success'}))assert.equal(receipt[k],v,`receipt ${k}`);
++}
++export function verifyPinnedPublication(root){
++ try{const p=read(root,PENDING);sourcePlan(root,p);assert.notEqual(p.publication,'pending','publication absent');const e=publication(root,p);return {current:true,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,runtimeAccepted:e.runtimeAccepted,reasons:[]};}
++ catch(error){return {current:false,reasons:[error.message]};}
++}
++export function verifyPinnedSuccessor(root,p=read(root,PENDING)){
++ try{
++  sourcePlan(root,p);
++  const accepted=p.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',published=accepted||p.status==='AWAITING_WORKER_ACCEPTANCE';
++  assert(['AWAITING_WORKER_PUBLICATION','AWAITING_WORKER_ACCEPTANCE','SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'].includes(p.status));
++  assert.equal(p.publication,published?'complete':'pending');assert.equal(p.acceptance,accepted?'complete':'pending');
++  assert.equal(p.runtimeAccepted,accepted);assert.equal(p.workerRebuildRequired,!published);
++  if(published){const e=publication(root,p);assert.equal(e.runtimeAccepted,accepted);assert.equal(p.workerDigest,e.immutableRegistryDigest);}
++  else {assert.equal(p.workerDigest,null);assert.deepEqual(read(root,PUBLICATION),at(root,p.releaseBaseSha,PUBLICATION),'awaiting publication retains predecessor only');}
++  return {current:accepted,applicationSource:'pinned-source',status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:accepted,workerRebuildRequired:!published,releaseBaseSha:p.releaseBaseSha,previewExecution:'held',productionAuthorized:false,reasons:accepted?[]:['Publication and actual image acceptance are separate gates; all execution remains held.']};
++ }catch(error){return {current:false,applicationSource:'pinned-source',status:'INVALID_PENDING_PUBLICATION',reasons:[error.message]};}
++}
++
++export function verifyPinnedBinding(root,candidate,pending){
++ try{
++  assert.notEqual(pending.status,'INVALID_PENDING_PUBLICATION',pending.reasons.join('; '));
++  const p=read(root,PENDING),tools=read(root,TOOLS),base=p.releaseBaseSha;
++  for(const record of [candidate,tools]){
++   held(record);
++   assert.equal(record.status,p.status);assert.equal(record.productionAuthorization,null);
++   assert.equal(record.deploymentAuthorized,false);assert.equal(record.clinicDispatchReady,false);
++   assert.equal(record.runtimeAccepted,p.runtimeAccepted);
++   for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint'])assert.equal(record[key],p[key],key);
++  }
++  assert.deepEqual(candidate.supersededRecord,at(root,base,CANDIDATE));assert.deepEqual(tools.supersededRecord,at(root,base,TOOLS));
++  validSha(tools.toolsSha);assert.equal(candidate.toolsSha,tools.toolsSha);
++  git(root,['merge-base','--is-ancestor',tools.toolsSha,'HEAD']);git(root,['merge-base','--is-ancestor',p.sourceCommit,tools.toolsSha]);
++  const manifest=tools.successorTools;assert.equal(manifest.schemaVersion,'rcap-successor-resume-tools/v1');assert.equal(manifest.baseSha,base);
++  const controlDelta=git(root,['diff','--name-only',base,tools.toolsSha]).split('\n').filter(Boolean);
++  assert.deepEqual(Object.keys(manifest.files).sort(),controlDelta.filter(f=>!Object.keys(p.files).includes(f)).sort(),'entire control delta bound');
++  for(const [rel,digest]of Object.entries(manifest.files)){
++   assert(/^(scripts\/grade-a-launch-control\/|\.github\/workflows\/|scripts\/rcap-worker-identity)/.test(rel),'bounded control paths');
++   assert.equal(hash(execFileSync('git',['show',`${tools.toolsSha}:${rel}`],{cwd:root})),digest,rel);
++   assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'working control bytes');
++  }
++  const allowed=new Set([PENDING,PUBLICATION,CANDIDATE,TOOLS,...Object.keys(manifest.files)]);
++  const pub=p.publication==='complete'?read(root,PUBLICATION):null;
++  if(pub){for(const ref of [pub.nativeArchive,pub.nativeRunMetadata,pub.nativeJobMetadata,pub.nativeLog,{path:pub.originalPublicationPath},...Object.values(pub.imageAcceptance??{}).filter(v=>v?.path)])allowed.add(ref.path);}
++  const changes=git(root,['diff','--name-only',tools.toolsSha]).split('\n').filter(Boolean);
++  const untracked=git(root,['ls-files','--others','--exclude-standard']).split('\n').filter(Boolean);
++  assert([...changes,...untracked].every(f=>allowed.has(f)),'unbound post-tools changes');
++  if(pub){assert.deepEqual(candidate.publication,{runId:pub.workflowRunId,workflowSourceSha:pub.workflowSourceSha,artifactId:pub.publicationArtifactId,digest:pub.immutableRegistryDigest});}
++  else assert.equal(candidate.publication,null);
++  if(p.runtimeAccepted)assert.deepEqual(candidate.readOnlyImageAcceptance,{runId:pub.imageAcceptance.runId,jobId:pub.imageAcceptance.jobId,workflowSourceSha:pub.imageAcceptance.workflowSourceSha,digest:pub.immutableRegistryDigest});
++  else assert.equal(candidate.readOnlyImageAcceptance,null);
++  // Acceptance alone does not admit hosted dispatch. The existing hosted and
++  // authorization stages must still be completed by a separately reviewed record.
++  return {...pending,current:false,bindingVerified:true,status:p.status,toolsSha:tools.toolsSha,reasons:['Exact successor tuple is held; application/runtime publication compatibility, hosted acceptance and fresh scoped authorization are not granted by image acceptance.']};
++ }catch(error){return {current:false,status:'INVALID_PINNED_BINDING',reasons:[error.message]};}
++}
+diff --git a/scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs b/scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs
+new file mode 100644
+index 000000000..439f93d4f
+--- /dev/null
++++ b/scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs
+@@ -0,0 +1,85 @@
++// All newly created run IDs/digests below are SYNTHETIC LOCAL FIXTURES, never
++// publication or acceptance evidence for a real release.
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import {execFileSync} from 'node:child_process';
++import {createHash} from 'node:crypto';
++import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedBinding,assertCommittedPredecessor} from './verify-pinned-worker-successor.mjs';
++import {pinnedRecords,writePinnedRecords,advancePinnedRecords} from './prepare-pinned-worker-successor.mjs';
++import {verifyReleaseCandidateBinding,requireCurrentReleaseCandidate} from './verify-release-candidate-binding.mjs';
++const base='121c889e15ac872e8dfbdeff18256551d15642aa',source='e3ac438da981c84987bd3172751e1a09e3f42309';
++const digest='sha256:'+'a'.repeat(64);
++const hash=b=>createHash('sha256').update(b).digest('hex');
++
++test('historical accepted predecessor and full later pinned lifecycle preserve custody and refuse authority and altered evidence',()=>{
++ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-pinned-fixture-'));
++ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe',maxBuffer:64*1024*1024}).trim();
++ const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
++ const write=(rel,value)=>{fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.writeFileSync(path.join(root,rel),JSON.stringify(value,null,2)+'\n');};
++ const commit=message=>git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--quiet','-m',message]);
++ try{
++  execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
++  git(['checkout','--quiet','--detach','cea24d73becc8c1d96485ad708b9411df8855a80']);
++  fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
++  assertCommittedPredecessor(root,base);
++  const controls=['scripts/grade-a-launch-control/verify-pending-worker-successor.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','.github/workflows/publish-rcap-render-worker.yml'];
++  const extra=['scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs','scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs','scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs','scripts/rcap-worker-identity-readonly.mjs','scripts/rcap-worker-identity-readonly.test.mjs','.github/workflows/rcap-worker-identity-readonly.yml'];
++  for(const rel of [...new Set([...controls,...extra])]){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
++  git(['add','--',...new Set([...controls,...extra])]);commit('synthetic reviewed controls');const toolsSha=git(['rev-parse','HEAD']);
++  const initial=pinnedRecords(root,{sourceSha:source,releaseBaseSha:base,toolsSha});
++  const pending=writePinnedRecords(root,initial);assert.equal(pending.status,'AWAITING_WORKER_PUBLICATION');assert.equal(pending.current,false);assert.equal(pending.workerDigest,null);
++  assert.equal(verifyPinnedPublication(root).current,false,'predecessor is not new publication');
++  assert.throws(()=>requireCurrentReleaseCandidate(root));
++  git(['add','--',PENDING,CANDIDATE,TOOLS]);commit('synthetic pending records');
++  let refusals=0;
++  function mutate(rel,fn){const before=fs.readFileSync(path.join(root,rel)),value=JSON.parse(before);fn(value);write(rel,value);assert.equal(verifyReleaseCandidateBinding(root,read(CANDIDATE)).current,false);assert.match(verifyReleaseCandidateBinding(root,read(CANDIDATE)).status,/INVALID|STALE/);fs.writeFileSync(path.join(root,rel),before);refusals++;}
++  for(const fn of [p=>p.sourceCommit='0'.repeat(40),p=>p.parent=base,p=>p.files={},p=>p.workerInputFingerprint='sha256:'+'0'.repeat(64),p=>p.supersededRecord.status='forged',p=>p.workerChangedPaths=[],p=>p.productionAuthorized=true,p=>p.publication='complete',p=>p.workerDigest=digest,p=>p.runtimeAccepted=true])mutate(PENDING,fn);
++  for(const rel of [PENDING,CANDIDATE,TOOLS])for(const flag of ['migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','deploymentAuthorized','clinicDispatchReady'])mutate(rel,p=>p[flag]=true);
++  for(const rel of [PENDING,CANDIDATE,TOOLS])mutate(rel,p=>p.previewExecutionInstruction={executionAuthorized:true});
++  mutate(TOOLS,p=>p.toolsSha=base);mutate(TOOLS,p=>p.successorTools.files={});mutate(CANDIDATE,p=>p.productionAuthorization={approved:true});
++
++  const prefix='hosted-acceptance-evidence/worker/synthetic-pinned/';
++  function ref(rel,content){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.writeFileSync(path.join(root,rel),content);return {path:rel,bytes:Buffer.byteLength(content),sha256:hash(content)};}
++  function runEvidence(workflow,name,workflowSourceSha,id,log){
++   const text=git(['show',`${workflowSourceSha}:${workflow}`]);const names=[...text.matchAll(/^\s+- name: (.+)$/gm)].map(m=>m[1]);
++   const run={id,name,head_sha:workflowSourceSha,run_attempt:1,path:workflow,event:'workflow_dispatch',repository:{full_name:'Roger-LegalEase/legalease-partner-dashboard-clean'},status:'completed',conclusion:'success'};
++   const job={id:id+1,run_id:id,status:'completed',conclusion:'success',steps:[{name:'Set up job',number:1,status:'completed',conclusion:'success'},{name:'Run actions/checkout@v4',number:2,status:'completed',conclusion:'success'},...names.map((name,i)=>({name,number:i+3,status:'completed',conclusion:'success'}))]};
++   return {jobId:job.id,nativeRunMetadata:ref(prefix+id+'/run.json',JSON.stringify(run)),nativeJobMetadata:ref(prefix+id+'/jobs.json',JSON.stringify({jobs:[job]})),nativeLog:ref(prefix+id+'/native.log',log)};
++  }
++  const previous=read(PUBLICATION),workflowSourceSha=git(['rev-parse','HEAD']);
++  const artifact={schemaVersion:'rcap-worker-publication/v1',sourceSha:source,workflowSourceSha,requestedIntegrationSha:source,tagReplacementAuthorization:'',canonicalIntegrationBranch:'main',releaseIntegrationBranch:'captain-release',containedIn:'captain-release',dockerfilePath:'deploy/rcap-render-worker/Dockerfile',dockerfileSha256:hash(execFileSync('git',['show',`${source}:deploy/rcap-render-worker/Dockerfile`],{cwd:root})),lockfileSha256:hash(execFileSync('git',['show',`${source}:package-lock.json`],{cwd:root})),imageRepository:'ghcr.io/roger-legalease/rcap-render-worker',imageTag:source,imageReference:`ghcr.io/roger-legalease/rcap-render-worker:${source}`,immutableRegistryDigest:digest,digestPinnedReference:`ghcr.io/roger-legalease/rcap-render-worker@${digest}`,workflowRunId:'1001',workflowRunUrl:'https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/1001',mutableLatestTagCreated:false,publishOnlyNoDeploy:true,workerClaimingStarted:false,stagingAndProductionUnchanged:true};
++  const original=ref(prefix+'publication/rcap-render-worker-publication.json',JSON.stringify(artifact));
++  const archivePath=prefix+'publication/publication.zip';execFileSync('zip',['-q','-j',path.join(root,archivePath),path.join(root,original.path)]);
++  const archive=fs.readFileSync(path.join(root,archivePath));
++  const e={...artifact,workflowRunId:1001,workflowRunAttempt:1,workflowConclusion:'success',publicationArtifactId:1002,publicationArtifactName:`rcap-render-worker-publication-${source}`,originalPublicationPath:original.path,originalPublicationBytes:original.bytes,originalPublicationSha256:original.sha256,originalArchivePath:archivePath,nativeArchive:{path:archivePath,bytes:archive.length,sha256:hash(archive)},publicationArtifactSha256:'sha256:'+hash(archive),workerInputFingerprint:initial[PENDING].workerInputFingerprint,runtimeAccepted:false,supersededPublication:previous,supersededChain:previous.supersededChain,...runEvidence('.github/workflows/publish-rcap-render-worker.yml','Publish RCAP render worker',workflowSourceSha,1001,`SYNTHETIC BUILD ${source} ${digest}`)};
++  const published=advancePinnedRecords(root,e);assert.equal(published.status,'AWAITING_WORKER_ACCEPTANCE');assert.equal(published.current,false);assert.equal(verifyPinnedPublication(root).current,true);assert.equal(verifyPinnedPublication(root).runtimeAccepted,false);assert.notEqual(workflowSourceSha,source);
++  assert.equal(verifyReleaseCandidateBinding(root,read(CANDIDATE)).bindingVerified,true);
++  execFileSync(process.execPath,['scripts/verify-rcap-worker-source-binding-exception.mjs'],{cwd:root,stdio:'pipe'});
++  execFileSync(process.execPath,['scripts/verify-rcap-worker-source-binding-exception.mjs','--mutations'],{cwd:root,stdio:'pipe'});
++  for(const fn of [p=>p.sourceSha=base,p=>p.immutableRegistryDigest='sha256:'+'b'.repeat(64),p=>p.workflowSourceSha=source,p=>p.runtimeAccepted=true,p=>p.requestedIntegrationSha='',p=>p.tagReplacementAuthorization='invented',p=>p.supersededChain=[],p=>p.supersededPublication.status='altered',p=>p.nativeRunMetadata.sha256='0'.repeat(64)])mutate(PUBLICATION,fn);
++  const nativeRun=e.nativeRunMetadata.path;mutate(nativeRun,p=>p.head_sha=source);
++  mutate(e.nativeJobMetadata.path,p=>p.jobs[0].steps[1].conclusion='failure');
++  git(['add','-f','--',PENDING,CANDIDATE,TOOLS,PUBLICATION,prefix]);commit('synthetic real-publication fixture');
++  const acceptanceSha=git(['rev-parse','HEAD']);
++  const acceptance={sourceSha:source,tag:source,digest,readOnly:true,conclusion:'success',workflowSourceSha:acceptanceSha,runId:2001,runAttempt:1,...runEvidence('.github/workflows/rcap-worker-image-acceptance.yml','RCAP worker image acceptance',acceptanceSha,2001,[`accepting ${e.digestPinnedReference} built from ${source}`,`tag currently resolves to: ${digest}`,'anonymous token refused with HTTP 401','SOURCE BINDING: PASS','OCI REVISION: PRESENT','config env matches: 0','layer history matches: 0','acceptance is read-only: no push, no deploy, no claim'].join('\n'))};
++  acceptance.verificationReceipt=ref(prefix+'2001/receipt.json',JSON.stringify({runId:2001,jobId:2002,workflowSourceSha:acceptanceSha,sourceSha:source,digest,readOnly:true,conclusion:'success'}));
++  const accepted=advancePinnedRecords(root,{...e,runtimeAccepted:true,imageAcceptance:acceptance});assert.equal(accepted.status,'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING');assert.equal(accepted.runtimeAccepted,true);assert.equal(accepted.current,false);assert.equal(accepted.productionAuthorized,false);assert.throws(()=>requireCurrentReleaseCandidate(root));
++  assert.equal(verifyReleaseCandidateBinding(root,read(CANDIDATE)).bindingVerified,true);
++  for(const fn of [p=>delete p.imageAcceptance,p=>p.imageAcceptance.conclusion='failure',p=>p.imageAcceptance.sourceSha=base,p=>p.imageAcceptance.digest='sha256:'+'c'.repeat(64),p=>p.imageAcceptance.workflowSourceSha=source,p=>p.imageAcceptance.verificationReceipt.sha256='0'.repeat(64)])mutate(PUBLICATION,fn);
++  mutate(acceptance.verificationReceipt.path,p=>p.sourceSha=base);
++  mutate(acceptance.nativeJobMetadata.path,p=>p.jobs[0].steps[1].conclusion='failure');
++  mutate(acceptance.nativeRunMetadata.path,p=>p.conclusion='failure');
++  assert.throws(()=>advancePinnedRecords(root,e),/replayed/);
++  console.log(`SYNTHETIC pinned-lifecycle refusals: ${refusals}`);
++ }finally{fs.rmSync(root,{recursive:true,force:true});}
++});
++
++test('publication ancestry, exact checkout and immutable tag overwrite guards remain present',()=>{
++ const workflow=fs.readFileSync('.github/workflows/publish-rcap-render-worker.yml','utf8');
++ assert(workflow.includes('git merge-base --is-ancestor'));assert(workflow.includes('RELEASE_INTEGRATION_BRANCH: captain-release'));
++ assert(workflow.includes('git checkout --detach "$WORKER_BUILD_SHA"'));
++ assert.equal((workflow.match(/verify-rcap-worker-tag-integrity\.mjs --guard/g)??[]).length,2);
++});
+diff --git a/scripts/grade-a-launch-control/verify-release-candidate-binding.mjs b/scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
+index 3bfa2d8db..6a5728dd1 100644
+--- a/scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
++++ b/scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
+@@ -8,6 +8,7 @@ import {PREFLIGHT_BASE,PREFLIGHT_SCOPE,assertPreflightOnlyAuthorization} from '.
+ import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
+ import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
+ import {verifyPendingWorkerSuccessor,verifySuccessorPublication,assertSuccessorImageAcceptance} from './verify-pending-worker-successor.mjs';
++import {verifyPinnedBinding} from './verify-pinned-worker-successor.mjs';
+ import { execFileSync } from 'node:child_process';
+ import fs from 'node:fs';
+ import { createHash } from 'node:crypto';
+@@ -66,6 +67,17 @@ export function imageAcceptanceRefusals(publication, candidate) {
+ // A receipt's asserted candidate identity is not proof that current inputs still
+ // match that candidate. Only explicitly named acceptance evidence may follow it.
+ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
++  // A pinned preparation record is descriptive and NEVER current/dispatchable.
++  // Validate it before comparing the orchestration checkout to application
++  // runtime inputs: publication evidence is intentionally newer here, while
++  // the application build remains pinned to its unchanged source checkout.
++  const pinnedRecordPath=path.join(root,'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json');
++  if(fs.existsSync(pinnedRecordPath)){
++    try{
++      if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source')
++        return verifyPinnedBinding(root,candidate,verifyPendingWorkerSuccessor(root));
++    }catch(error){return {current:false,status:'INVALID_PINNED_BINDING',reasons:[error.message]};}
++  }
+   if(candidate?.applicationSha){
+     try {
+       const application = applicationInputEquivalence(root,candidate.applicationSha,'HEAD');
+diff --git a/scripts/rcap-worker-identity-readonly.mjs b/scripts/rcap-worker-identity-readonly.mjs
+new file mode 100644
+index 000000000..eebde4887
+--- /dev/null
++++ b/scripts/rcap-worker-identity-readonly.mjs
+@@ -0,0 +1,18 @@
++// GET-only Fly identity collector. No deployment authorization is consumed.
++// This deliberately does not import the mutation-capable production harness.
++import fs from 'node:fs';
++import path from 'node:path';
++import {fileURLToPath} from 'node:url';
++export const APP='legalease-rcap-render-worker';
++export async function readWorkerIdentity({token,fetchImpl=fetch}){
++ if(!token)throw Error('Existing runner Fly credential unavailable');
++ const response=await fetchImpl(`https://api.machines.dev/v1/apps/${APP}/machines`,{method:'GET',redirect:'error',headers:{Authorization:`Bearer ${token}`},signal:AbortSignal.timeout(20000)});
++ if(!response.ok)throw Error(`Fly identity GET HTTP ${response.status}`);
++ const machines=await response.json();
++ if(!Array.isArray(machines)||machines.some(m=>!m.id||!m.state))throw Error('Incomplete Fly machine identity');
++ return {schemaVersion:'rcap-worker-readonly-identity/v1',app:APP,capturedAt:new Date().toISOString(),readOnly:true,secretValuesIncluded:false,machines:machines.map(m=>({id:m.id,state:m.state,imageReference:m.config?.image??null,imageDigest:m.image_ref?.digest??null,imageRegistry:m.image_ref?.registry??null,imageRepository:m.image_ref?.repository??null,ociRevision:m.image_ref?.labels?.['org.opencontainers.image.revision']??null,recordedSourceSha:m.config?.metadata?.rcap_worker_source_sha??null,acceptedDigest:m.config?.env?.RCAP_WORKER_CONTAINER_DIGEST??null}))};
++}
++if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
++ try{const result=await readWorkerIdentity({token:process.env.FLY_API_TOKEN});fs.mkdirSync('worker-identity-evidence',{recursive:true});fs.writeFileSync('worker-identity-evidence/identity.json',JSON.stringify(result,null,2)+'\n');console.log('Fly machine identities recorded; GET only; no environment/configuration values emitted.');}
++ catch{console.error('Read-only Fly identity inspection failed; raw response and credential withheld.');process.exitCode=1;}
++}
+diff --git a/scripts/rcap-worker-identity-readonly.test.mjs b/scripts/rcap-worker-identity-readonly.test.mjs
+new file mode 100644
+index 000000000..7443e56b8
+--- /dev/null
++++ b/scripts/rcap-worker-identity-readonly.test.mjs
+@@ -0,0 +1,15 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {readWorkerIdentity,APP} from './rcap-worker-identity-readonly.mjs';
++test('Fly identity permits only the fixed GET and emits identities without raw environment or credentials',async()=>{
++ const calls=[];
++ const result=await readWorkerIdentity({token:'synthetic-token',fetchImpl:async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>[{id:'synthetic-machine',state:'started',config:{image:'registry.fly.io/example@sha256:synthetic',env:{SECRET:'synthetic-hidden',RCAP_WORKER_CONTAINER_DIGEST:'sha256:accepted'},metadata:{rcap_worker_source_sha:'source'},services:[{secret:'hidden'}]},image_ref:{digest:'sha256:fly',labels:{'org.opencontainers.image.revision':'revision'}}}]};}});
++ assert.equal(calls.length,1);assert.equal(calls[0].url,`https://api.machines.dev/v1/apps/${APP}/machines`);assert.equal(calls[0].options.method,'GET');assert.equal(calls[0].options.redirect,'error');
++ assert.equal(result.readOnly,true);assert.equal(result.machines[0].imageDigest,'sha256:fly');assert.equal(result.machines[0].ociRevision,'revision');
++ assert(!JSON.stringify(result).includes('hidden'));assert(!JSON.stringify(result).includes('synthetic-token'));
++});
++test('missing credential, failed GET and malformed identity fail closed',async()=>{
++ await assert.rejects(readWorkerIdentity({}),/credential/);
++ await assert.rejects(readWorkerIdentity({token:'synthetic',fetchImpl:async()=>({ok:false,status:403})}),/HTTP 403/);
++ await assert.rejects(readWorkerIdentity({token:'synthetic',fetchImpl:async()=>({ok:true,json:async()=>[{}]})}),/Incomplete/);
++});

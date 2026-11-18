@@ -1,0 +1,71 @@
+ok   reset protocol: old arbitrary-cookie default close is HTTP 409, never cleanup success
+ok   reset protocol: real anonymous prepare → close → complete succeeds with opaque issued receipt
+ok   reset protocol: close without prepare receipt is refused by the actual route
+ok   reset protocol: prepare HTTP 409 refuses
+ok   reset protocol: prepare prepared false refuses
+ok   reset protocol: prepare state not no_session refuses
+ok   reset protocol: prepare recovery absent refuses
+ok   reset protocol: prepare recovery expired refuses
+ok   reset protocol: close HTTP 409 refuses
+ok   reset protocol: close success false refuses
+ok   reset protocol: close revocationConfirmed false refuses
+ok   reset protocol: close signOutConfirmed false refuses
+ok   reset protocol: missing Clear-Site-Data refuses
+ok   reset protocol: wrong Clear-Site-Data token refuses
+ok   reset protocol: clinic_session deletion absent refuses
+ok   reset protocol: clinic_session present without deletion refuses
+ok   reset protocol: clinic_device deletion absent refuses
+ok   reset protocol: clinic_device present without deletion refuses
+ok   reset protocol: clinic_event deletion absent refuses
+ok   reset protocol: clinic_event present without deletion refuses
+ok   reset protocol: complete HTTP 409 refuses
+ok   reset protocol: complete success false refuses
+ok   reset protocol: unsafe/unassociated cleanEntryPath https://attacker.invalid refuses
+ok   reset protocol: unsafe/unassociated cleanEntryPath //attacker.invalid refuses
+ok   reset protocol: unsafe/unassociated cleanEntryPath /clinic/attacker refuses
+ok   reset protocol: unsafe/unassociated cleanEntryPath /clinic?next=https://attacker.invalid refuses
+ok   reset protocol: unsafe/unassociated cleanEntryPath /clinic/../admin refuses
+ok   reset protocol: unsafe/unassociated cleanEntryPath undefined refuses
+ok   reset protocol: clinic_reset_recovery retirement absent refuses
+ok   reset protocol: clinic_reset_pending retirement absent refuses
+ok   reset protocol: real route signout failure refuses before complete
+ok   reset protocol: combined-header fallback preserves Expires commas and opaque receipt
+ok   reset protocol: Max-Age=0 deletions work without Expires
+ok   reset protocol: positive Max-Age overrides past Expires (not a deletion)
+ok   reset protocol: close response updates pending cookie jar before complete
+ok   reset protocol: nondeleted Clinic cookie after deletion cannot certify cleanup
+ok   reset protocol: auth response cookie never joins reset requests or evidence
+ok   reset protocol: exception containing recovery/auth values is reduced to safe failure
+smoke reset behavioral regression passed: 38/38
+ok   separate phase authorization mutation is rejected
+ok   staged deployment mutation is rejected
+ok   rollback deployment mutation is rejected
+ok   Production project mutation is rejected
+ok   staged identity mutation is rejected
+ok   rollback readiness mutation is rejected
+ok   runtime project mutation is rejected
+ok   health mutation is rejected
+ok   Clinic readback mutation is rejected
+ok   save/claim readback mutation is rejected
+ok   Colorado commerce boundary mutation is rejected
+ok   Clinic isolation mutation is rejected
+ok   Clinic helper wiring mutation is rejected
+ok   Clinic staged redirect policy mutation is rejected
+ok   Clinic reset mutation is rejected
+ok   transaction rollback mutation is rejected
+ok   real participants mutation is rejected
+ok   real charges mutation is rejected
+test-rcap-production-smoke-mutations passed: 18/18
+ok   prepare authority behavioral mutation is rejected
+ok   prepare state behavioral mutation is rejected
+ok   close success behavioral mutation is rejected
+ok   revocation behavioral mutation is rejected
+ok   signout behavioral mutation is rejected
+ok   storage cleanup behavioral mutation is rejected
+ok   clinic_session deletion behavioral mutation is rejected
+ok   clinic_device deletion behavioral mutation is rejected
+ok   clinic_event deletion behavioral mutation is rejected
+ok   completion success behavioral mutation is rejected
+ok   trusted entry behavioral mutation is rejected
+ok   authority retirement behavioral mutation is rejected
+smoke reset behavioral mutations passed: 12/12

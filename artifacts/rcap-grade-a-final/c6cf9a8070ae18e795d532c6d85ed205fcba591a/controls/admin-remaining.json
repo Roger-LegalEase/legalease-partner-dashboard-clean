@@ -1,0 +1,55 @@
+{
+  "sourceIdentity": {
+    "baseSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+    "applicationTreeSha256": "42a4dd111d81dc381296c0631bda94faabb33fdd8c2e831711c73f2ed9058860",
+    "trackedWorktreeDeltaSha256": "f6a22da31cc8e9512304495366dcd7a369fcd2629eb819448c602336de44bb31",
+    "cleanTrackedApplication": false
+  },
+  "result": "PASS",
+  "fixture": "grade-a-scale-wa-mv2vjhbj",
+  "proofs": [
+    {
+      "ids": [
+        "A04-10",
+        "A04-20"
+      ],
+      "action": "Persist participant-paid service choice, restore screening-only, and record explicit no-referral/stop-and-notify policy; no payment or funding was created"
+    },
+    {
+      "ids": [
+        "A04-41"
+      ],
+      "action": "Abort the first Save at the transport boundary, verify unchanged canonical data, then click Retry saving and read the actual persisted result",
+      "fault": "Explicit browser transport failure; not a simulated successful server write"
+    },
+    {
+      "ids": [
+        "A03-06"
+      ],
+      "action": "Review invitation, Edit details preserves recipient, and Cancel creates no membership"
+    },
+    {
+      "ids": [
+        "A03-07",
+        "A03-13"
+      ],
+      "action": "Create one isolated unaccepted invitation, verify actual clipboard copy without logging the token, revoke it and read its immutable visible history; no email or membership was created"
+    },
+    {
+      "ids": [
+        "A09-27"
+      ],
+      "action": "Record only actual isolated no-procurement policy through its form and read canonical status; no executed agreement or funds invented",
+      "agreement": {
+        "id": "427c8b5d-93d4-475a-9ebf-ea639c8ca11f",
+        "type": "procurement_requirements",
+        "status": "not_required",
+        "required": false,
+        "partnerSafeDetail": "Owner-authorized isolated, internally operated screening-only acceptance has no external procurement arrangement. This records no signature, payment, funding or Production authority.",
+        "finalizedAssetId": null,
+        "effectiveDate": null,
+        "signedReceiptId": null
+      }
+    }
+  ]
+}

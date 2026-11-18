@@ -1,0 +1,74 @@
+Checkout binding-state regression: 48/48 passed (real SQL RPC, both gate predicates).
+✔ executed #341 adapter reproduces real SQL conflict, expires A and unbound B, leaves predecessor unchanged (266.850456ms)
+✔ A binds and reuses; unresolvable refuses; obsolete OPEN A expires; real RPC binds usable catalog B; retry reuses B (113.52468ms)
+✔ real RPC refuses wrong owner without changing any row field (50.667148ms)
+✔ real RPC refuses wrong item without changing any row field (49.486155ms)
+✔ real RPC refuses stale verification without changing any row field (49.584569ms)
+✔ real RPC refuses wrong product without changing any row field (63.28034ms)
+✔ real RPC refuses wrong person without changing any row field (46.812236ms)
+✔ real RPC refuses wrong matter without changing any row field (47.449315ms)
+✔ real RPC refuses wrong provider without changing any row field (52.134516ms)
+✔ real RPC refuses missing predecessor without changing any row field (46.375592ms)
+✔ real RPC refuses same Session without changing any row field (44.066814ms)
+✔ real RPC refuses blank successor without changing any row field (43.803674ms)
+✔ real RPC preserves/refuses payment_status=paid (52.468639ms)
+✔ real RPC preserves/refuses payment_status=refunded (44.944953ms)
+✔ real RPC preserves/refuses payment_status=null (44.26297ms)
+✔ real RPC preserves/refuses packet_status=pending (50.301827ms)
+✔ real RPC preserves/refuses packet_status=generating (44.221844ms)
+✔ real RPC preserves/refuses packet_status=ready (43.731068ms)
+✔ real RPC preserves/refuses packet_status=downloaded (43.979692ms)
+✔ real RPC preserves/refuses provider_event_id=evt_evidence (54.370929ms)
+✔ real RPC preserves/refuses payment_intent_id=pi_evidence (42.846858ms)
+✔ real RPC preserves/refuses payment_authority=stripe_webhook (43.520776ms)
+✔ real RPC preserves/refuses payment_recorded_at=2026-09-24T00:00:00Z (49.97118ms)
+✔ real RPC preserves/refuses payment_recorded_by=stripe (43.483426ms)
+✔ real RPC preserves/refuses receipt_url=https://example.invalid/receipt (42.126775ms)
+✔ real RPC preserves/refuses amount_cents=0 (41.916974ms)
+✔ real RPC preserves/refuses amount_cents=5000 (48.576398ms)
+✔ real RPC preserves/refuses payment_allowed=false (42.558801ms)
+✔ real RPC preserves/refuses payment_person_id=null (42.537541ms)
+✔ real RPC preserves/refuses payment_product_id=null (48.847454ms)
+✔ real RPC preserves/refuses payment_matter_id=null (42.78347ms)
+✔ real RPC refuses immutable consumer_packet_payment_consumption evidence (matter) (42.300108ms)
+✔ real RPC refuses immutable packet_render_jobs evidence (matter) (41.375744ms)
+✔ real RPC refuses immutable processed_stripe_events evidence (cs_test_A) (48.611704ms)
+✔ real RPC refuses immutable processed_stripe_events evidence (cs_test_B) (41.922755ms)
+✔ another item owns the new Session: refuses without moving either item (42.516211ms)
+✔ verification unverified refuses (40.345662ms)
+✔ verification invalidated refuses (47.722294ms)
+✔ completed Stripe order (paid) never expires, creates or rebinds (39.248114ms)
+✔ completed Stripe order (no_payment_required) never expires, creates or rebinds (39.31578ms)
+✔ verification changes after provider creation: real CAS refuses, B is never returned or bound (57.266962ms)
+✔ same idempotent replacement in two stale requests converges on B and never expires the winner (55.207029ms)
+✔ competing real CAS calls have exactly one winner; stale replay cannot displace it (44.418961ms)
+✔ concurrent adapter requests share one replacement and keep the CAS winner open (63.258239ms)
+✔ lost response after a committed CAS does not expire B; retry recovers B without duplication (58.047328ms)
+✔ expired idempotency replay is read back; one deterministic successor C binds through the real CAS (69.260949ms)
+✔ a stale snapshot with no Session reloads the bound A and reuses it (46.491799ms)
+✔ failed predecessor expiry leaves the binding unchanged and creates no replacement (49.870683ms)
+✔ missing protected verification cannot be accepted even with a null expected hash in direct SQL (41.296375ms)
+✔ anon cannot execute the security-definer replacement (41.418543ms)
+✔ authenticated cannot execute the security-definer replacement (40.073404ms)
+✔ hosted replacement http: stops before Checkout browser (1.540083ms)
+✔ hosted replacement missing: stops before Checkout browser (0.57935ms)
+✔ hosted replacement product: stops before Checkout browser (0.250217ms)
+✔ hosted replacement unexpired: stops before Checkout browser (0.221683ms)
+✔ hosted replacement unbound: stops before Checkout browser (0.238124ms)
+✔ hosted replacement expired: stops before Checkout browser (0.198249ms)
+✔ hosted replacement paid: stops before Checkout browser (0.18769ms)
+✔ hosted replacement url: stops before Checkout browser (0.204392ms)
+✔ hosted replacement valid: continues only on B (0.280844ms)
+ℹ tests 60
+ℹ suites 0
+ℹ pass 60
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5971.87414
+Expungement.ai matter-level checkout guard tests passed.
+- Final review gates Checkout and exact matter metadata is persisted before return.
+- An open legacy Session is patched and reused; mismatches fail closed without duplication.
+- Signed events reject sponsored or conflicting evidence and enqueue durable Phase 53 work.
+- Reviewed packet fields are snapshotted, hashed and persisted into the worker source row.

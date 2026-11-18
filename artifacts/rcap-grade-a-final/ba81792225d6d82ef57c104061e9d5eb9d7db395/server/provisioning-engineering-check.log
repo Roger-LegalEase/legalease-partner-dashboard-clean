@@ -1,0 +1,35 @@
+  ok  exactly one module calls the provisioning RPC
+  ok  every provisioning caller goes through provisionPartner
+  ok  provisioning is one database function, not a sequence of writes
+  ok  a replayed request returns the original result and writes nothing
+  ok  the idempotency record is written last, inside the same transaction
+  ok  exact slug uniqueness and ambiguity both fail closed
+  ok  the initial state is private, inactive, and not launched
+  ok  the operator preview states publication and activation separately
+  ok  no access code, allocation, or billing side effect is written
+  ok  no Auth user, membership, or invitation is created by provisioning
+  ok  the database refuses a non-internal actor
+  ok  execution is granted only to the server-side role
+  ok  the migration sets a fixed safe search_path and is not destructive
+  ok  the HTTP route denies everyone but an internal administrator
+  ok  no raw identifier, database error, or service-role detail is returned
+  ok  the account path is decided by count and confirmation
+  ok  an existing confirmed account triggers no Supabase Auth call
+  ok  password recovery is never used as membership authorization
+  ok  every matching Auth user is counted, not just the first
+  ok  the invitation survives sign-in in an HttpOnly, path-scoped cookie
+  ok  the email match is checked against the live session before any write
+  ok  a wrong signed-in email leaks nothing about the tenant
+  ok  exactly one membership is created and replay creates none
+  ok  expired and revoked invitations reach a designed recovery state
+  ok  delivery carries its own key and a retry sends nothing
+  ok  the canary defaults to dry-run
+  ok  the canary accepts exactly the reviewed options
+  ok  Production execution requires every exact confirmation
+  ok  the canary refuses localhost only when execution targets Production
+  ok  the canary is a wrapper with no writes of its own
+  ok  the canary never publishes, activates, or creates an access code
+  ok  the canary output carries no secret or complete identifier
+  ok  provisioning input validation rejects the unsafe shapes
+
+RCAP partner provisioning verification passed: 33 checks.

@@ -1,0 +1,91 @@
+{
+  "result": "LIVE",
+  "baselineSha": "60b6cdb6092c83e256686bbeec21f3499437ad86",
+  "branch": "codex/rcap2-commercial-experience",
+  "pullRequest": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/pull/259",
+  "testedHead": "df9a239f833a0fc7a8fa0264b61089d03ba11bc9",
+  "mergeSha": "efaa3f6c4ec37f4c8acf50c4fa011470951472fe",
+  "mergeTreeMatchesTestedHead": true,
+  "database": {
+    "projectId": "wwtwtsmywnckfkdaqqeg",
+    "appliedVersion": "20261009231248",
+    "name": "rcap2_program_policy_and_start",
+    "sourcePath": "supabase/migrations/20261009224252_rcap2_program_policy_and_start.sql",
+    "sha256": "b697646c0b026e60ced1e73644076e19eb0d89e45fddf358ca3537ac84dd7d31",
+    "verifiedFunctionDefinitions": 23,
+    "retainedExistingFunctionAcls": 10,
+    "newBrowserExecutePrivileges": 0,
+    "existingWorkspacesUnenrolled": 3,
+    "beforeDefinitions": "replaced-functions-before.json",
+    "productionDefinitions": "production-function-definitions.json",
+    "expectedDefinitions": "expected-function-definitions.json",
+    "invokerSemanticsRetained": true,
+    "productionHealth": "ACTIVE_HEALTHY",
+    "oldAppHealthAfterMigration": "PASS",
+    "workspacePolicyStatesUnchanged": true
+  },
+  "vercel": {
+    "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+    "teamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+    "stagedDeploymentId": "dpl_CT9AMBd6uMVkdvQsanWn9ovKZUqr",
+    "productionDeploymentId": "dpl_CT9AMBd6uMVkdvQsanWn9ovKZUqr",
+    "deploymentUrl": "https://legalease-partner-dashboard-clean-62r6qsxba-roger947s-projects.vercel.app",
+    "readyState": "READY",
+    "deployedSha": "efaa3f6c4ec37f4c8acf50c4fa011470951472fe",
+    "productionUrls": [
+      "https://legaleasepartner.com",
+      "https://www.legaleasepartner.com"
+    ],
+    "sourceBinding": "Build and runtime SHA independently read back on both Production domains",
+    "otherAliasesUnchanged": 74,
+    "domainRedirectsUnchanged": true,
+    "wwwBehavior": "Page routes redirect 308 to matching apex route; health and release APIs return 200 directly"
+  },
+  "rollback": {
+    "legaleasepartner.com": "dpl_H8VWi68AwbksZALZZTtifn4Ni3Li",
+    "www.legaleasepartner.com": "dpl_H8VWi68AwbksZALZZTtifn4Ni3Li"
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "changedSourceLint": "PASS",
+    "productionBuild": "PASS",
+    "onboardingLocalGroup": "37 PASS",
+    "programPolicyAndLegacyDatabase": "PASS",
+    "minimalMaterialGeneration": "PASS",
+    "clinicActorTenantDatabaseDenials": "PASS",
+    "clinicRealServiceOwnershipDenials": "9 weakened guards detected",
+    "clinicResetRouteRecovery": "10 PASS",
+    "clinicSharedDeviceReset": "PASS",
+    "artifactAgreementFinancialPacketRegressions": "PASS",
+    "githubOnboardingCI": "PASS (4m49s, tested head df9a239f833a0fc7a8fa0264b61089d03ba11bc9)",
+    "githubPublishedWorkerCI": "PASS",
+    "stagedRouteChecks": "18 PASS, including existing domain-specific public-page behavior",
+    "liveRouteChecks": "38 PASS",
+    "liveWriteDenials": "8 PASS",
+    "newDeploymentErrorFatalLogs": "0 records after cutover",
+    "otherBrandHomepageSigninRedirectComparison": "PASS",
+    "browserRendering": "NOT RUN: local browser launch timeout"
+  },
+  "exclusions": [
+    "No Production partner launches, payment transactions, or participant transactions",
+    "No full 33-scenario browser campaign or owner usability gate",
+    "Superseded Clinic reset static marker/handover fixtures are not the current reset protocol; current route, shared-device, real-service, and database checks passed",
+    "No Production admin session was available; supplied practice credentials are explicitly restricted to a local fictional account and were not used in Production.",
+    "Optional post-cutover browser smoke did not execute: both bundled Chromium launch attempts timed out in this container before page navigation. Live verification used actual HTTPS responses, provider state/logs and database readbacks."
+  ],
+  "observations": {
+    "preexistingDatabaseConflictStream": {
+      "sqlState": "40001",
+      "function": "rcap_service_save_onboarding_section",
+      "sixMinutePreMigrationCount": 35997,
+      "sixMinutePostMigrationCount": 35995,
+      "newDatabaseErrorClasses": 0,
+      "productionApiHttpErrorsInPostMigrationWindow": 0,
+      "postCutover35SecondCount": 3499
+    },
+    "preexistingWwwLegalEaseFailure": true
+  },
+  "rollbackUsed": false,
+  "blockers": [],
+  "verifiedAt": "2026-10-09T23:23:13.057843+00:00"
+}

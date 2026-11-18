@@ -1,0 +1,47 @@
+{
+  "completed_utc": "2026-10-11T01:34:22.117402+00:00",
+  "reviewer": "independent_acceptance",
+  "scope": "Only original P1 anonymous RCAP refresh recovery and P2 preliminary-result wording reproduced, plus narrow follow-up source authorization review. Historical full walkthrough remains in independent-review.json.",
+  "verdict": "PASS",
+  "build": {
+    "build_id": "NUoWxaPhWzSh9LEtVXobR",
+    "head_plus_working_tree": "fe1e345fd09f37bc7da7c07b925d4b5913d85748",
+    "exact_source_and_diff_hashes": "continuity-build-identity.json",
+    "app_bytes_unchanged_during_reproduction": true
+  },
+  "isolation": "Next server process environment reverified local app3100, Supabase54321 and development; fresh Chromium context blocked non-local hosts. No authentication credentials or raw cookies read for this reproduction.",
+  "browser": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "engine": "Playwright Chromium",
+    "entry": "Actual public program link previously copied in blind owner walkthrough; visible Start free screening, CA selector, Start free screening.",
+    "session_id": "a1c23ed1-d4ff-4350-b416-abaf1e76f8d2"
+  },
+  "findings": [
+    {
+      "id": "screening_refresh",
+      "old_verdict": "FAIL P1",
+      "current_verdict": "PASS",
+      "evidence": "delta-03-question-eleven-before-refresh.png, delta-04-question-eleven-after-refresh.png, delta-05-restored-first-answer.png, continuity-reproduction-actions.json, continuity-readback.txt",
+      "observed": "Answered ten questions using visible controls; at question11 reload retained exact session and question11. Back showed question10 5-7 years selected and question1 Yes selected. All ten prior answers advanced without re-entry. Completed screening and readback shows11 saved answers, final question id, no participant matter."
+    },
+    {
+      "id": "preauth_result_copy",
+      "old_verdict": "FAIL P2",
+      "current_verdict": "PASS",
+      "evidence": "delta-06-preliminary-result.png and .txt",
+      "observed": "Still-anonymous needs-review result displays Preliminary result and Save my result and continue. Old Continue to my Briefcase action absent. Screenshot visually inspected at390px."
+    },
+    {
+      "id": "draft_resume_write_boundary",
+      "old_verdict": "FAIL P1 during first source correction review",
+      "current_verdict": "PASS_SOURCE_REVIEW",
+      "observed": "Shared capability/live-scope guard protects existing RCAP save-resume writes. Clinic fallback binds actual authenticated participant handoff and exact session. Confirmed email resume returns separate server-selected screeningUrl, preserving rotated resumeUrl and DTC fallback.",
+      "runtime_limit": "Parent owns focused capability/origin/conflict/email-resume/claim negative and positive tests; not executed again by reviewer."
+    }
+  ],
+  "fixture_note": "One fresh fictional anonymous screening session created through actual local application entry; no SQL writes, no new account/matter, no payment, no app/source changes.",
+  "remaining_scope_limits": "Earlier unexercised full fresh-join and newly funded packet lifecycle rows remain distinct. Parent provides separately labeled Clinic Packet prepared fixture-composition UI proof. Baseline Clinic auth-first remains a nonblocking documented limitation for scoped PR."
+}

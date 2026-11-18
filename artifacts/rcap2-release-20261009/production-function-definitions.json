@@ -1,0 +1,255 @@
+[
+  {
+    "proname": "clinic_create_event",
+    "args": "p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer",
+    "definition_md5": "8bb52e39ca6bf3de2014f2caca7fb6d6",
+    "prosecdef": true,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "clinic_create_event",
+    "args": "p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer, p_jurisdiction text",
+    "definition_md5": "7a5604c6700c4f4bf9e02330619ce1ad",
+    "prosecdef": true,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "clinic_set_event_status",
+    "args": "p_event_id uuid, p_actor_user_id uuid, p_status text",
+    "definition_md5": "fb28e7f9c610c34b7b74f731bbbaa07e",
+    "prosecdef": true,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_guard_commercial_authorization",
+    "args": "",
+    "definition_md5": "43be36626c6194de3f5647a4e2c68f10",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{=X/postgres,postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_guard_launch_authority_event",
+    "args": "",
+    "definition_md5": "8dbfb75ab088b0241728b6ba18b0c800",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_partner_activation_for_launch",
+    "args": "p_slug text",
+    "definition_md5": "0998d52f43de9cae0df1fb37ceb6faed",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_program_clinic_scope",
+    "args": "p_slug text, p_actor uuid, p_action text, p_jurisdiction text, p_sponsorship integer",
+    "definition_md5": "c920c40d4f60e68751a8fbdd144abec8",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_program_commercial_valid",
+    "args": "p_workspace uuid",
+    "definition_md5": "382d4ddb552ae97461695b5139fc291a",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_program_dependency_hash",
+    "args": "p_workspace uuid, p_dependencies text[]",
+    "definition_md5": "718ffc788206081d87d81357764cd7e8",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_program_launch_scope",
+    "args": "p_workspace uuid",
+    "definition_md5": "b263cd600e30a43803185def5588599f",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_program_material_scope",
+    "args": "p_workspace uuid, p_type text",
+    "definition_md5": "b4079b978ca20f2565d7bc0b2e4b732f",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_program_policy_source",
+    "args": "p_workspace uuid",
+    "definition_md5": "e22578ea4f6149f6585ab5dff7158578",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_program_requirement_registry",
+    "args": "",
+    "definition_md5": "b1d66b992cf4851b813bf6c2f66c4f44",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_require_documented_real_agreement",
+    "args": "",
+    "definition_md5": "69d4d177b5671f126aa071b4a9699ac6",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_enable_program_policy",
+    "args": "p_slug text, p_actor uuid",
+    "definition_md5": "f129a2da75ea6a890aa81b31ed6297f9",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_evaluate_program",
+    "args": "p_slug text, p_actor uuid, p_action text",
+    "definition_md5": "89bd5c36dd3cbe1c76d2e5b8c292a7a9",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_generate_onboarding_artifact_version",
+    "args": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_artifact_type text, p_request_id uuid, p_source_workspace_version bigint, p_source_section_revisions jsonb, p_source_asset_versions jsonb, p_normalized_snapshot jsonb, p_snapshot_hash text, p_generator_version text, p_rendered_content jsonb, p_generation_status text, p_generation_error_code text",
+    "definition_md5": "07e89a13a9cdb0f5bbf8d6015ec0f189",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_record_limited_program_authority",
+    "args": "p_slug text, p_actor uuid, p_document uuid, p_reference text, p_basis jsonb, p_expires timestamp with time zone, p_screenings integer, p_version bigint, p_request uuid",
+    "definition_md5": "86b6b1c5e9a7d0efd21ac27eb02c85f9",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_record_program_decision",
+    "args": "p_slug text, p_actor uuid, p_type text, p_decision text, p_version bigint, p_details jsonb, p_request uuid",
+    "definition_md5": "50cbe56c60619ea3387af5016c2c0d2e",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_record_program_exception",
+    "args": "p_slug text, p_actor uuid, p_action text, p_keys text[], p_resolution text, p_reason text, p_version bigint, p_hashes jsonb, p_request uuid, p_expires timestamp with time zone, p_grant uuid",
+    "definition_md5": "53930dc69b4c4e9768545b2f25bf4a9b",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_save_onboarding_section",
+    "args": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_section_key text, p_expected_revision bigint, p_expected_workspace_version bigint, p_response_data jsonb, p_collections jsonb, p_mode text, p_section_completion integer, p_missing_required_keys text[], p_workspace_completion integer, p_blocker_code text, p_next_action_code text, p_next_action_owner text, p_request_id uuid, p_payload_hash text",
+    "definition_md5": "77696e75c8e99b7a3b60854d58a02185",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_stage_program_launch",
+    "args": "p_slug text, p_actor uuid, p_operation uuid, p_version bigint, p_hash text, p_versions jsonb, p_authority uuid",
+    "definition_md5": "5b34da63fbd2fd08e2115fececbaa3ef",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
+  {
+    "proname": "rcap_service_stage_real_launch",
+    "args": "p_slug text, p_actor uuid, p_operation uuid, p_version bigint, p_hash text, p_versions jsonb, p_authority uuid",
+    "definition_md5": "51a6292ab144592d9690a335fd76638c",
+    "prosecdef": false,
+    "proconfig": [
+      "search_path=\"\""
+    ],
+    "proacl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  }
+]

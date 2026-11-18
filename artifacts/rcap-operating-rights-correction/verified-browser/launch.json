@@ -1,0 +1,148 @@
+{
+  "workspace": {
+    "status": "live",
+    "operating_model": "legalease_managed",
+    "rcap_launch_operation_id": "da657a81-7a6a-488b-928c-f9db08cc7325"
+  },
+  "receipts": [
+    {
+      "step": "prepared"
+    },
+    {
+      "step": "publication_staged"
+    },
+    {
+      "step": "public_verified"
+    },
+    {
+      "step": "complete"
+    }
+  ],
+  "decision": {
+    "live": true,
+    "role": "internal_admin",
+    "actor": "5ddd55e0-634f-4a5e-ab98-c790d6bf1df8",
+    "action": "complete_setup",
+    "status": "live",
+    "allowed": true,
+    "blockers": [],
+    "delegated": false,
+    "scopeHash": "c218af4f5ef1fe1dd655c26db7c975b55d164a069ca88666952b7aaf7c7a68f3",
+    "authorityId": "3258c561-48da-4910-93c5-c2b07b1829c0",
+    "partnerSlug": "operating-rights-mv23t67r",
+    "serviceMode": "screening_only",
+    "workspaceId": "b50bc84e-b695-4304-908c-2daa799f669d",
+    "requirements": [
+      {
+        "key": "organization_facts",
+        "label": "Complete your organization information",
+        "actions": [
+          "complete_setup",
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Complete your organization information",
+        "dependencies": [
+          "organization_contacts.legal_organization_name",
+          "organization_contacts.public_organization_name",
+          "organization_contacts.public_program_name"
+        ],
+        "exception_id": null,
+        "owner_domain": "legal",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "a39556eba6ad901ed87ef337fbfdb77af8992ec879afdb383caad1efbf0bc7d1",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Complete your organization information",
+        "invalidation_triggers": [
+          "organization_contacts.legal_organization_name",
+          "organization_contacts.public_organization_name",
+          "organization_contacts.public_program_name"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "program_scope",
+        "label": "Choose the service area and participation settings",
+        "actions": [
+          "complete_setup",
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Choose the service area and participation settings",
+        "dependencies": [
+          "geography_audience_language_accessibility",
+          "access_sponsorship_capacity.participant_access_model",
+          "program_goals.participation_mode"
+        ],
+        "exception_id": null,
+        "owner_domain": "legal",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "9135bc70f08e45ec95215d74f14d2770c459e52c74df0f77a2364243c3cf0f48",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Choose the service area and participation settings",
+        "invalidation_triggers": [
+          "geography_audience_language_accessibility",
+          "access_sponsorship_capacity.participant_access_model",
+          "program_goals.participation_mode"
+        ],
+        "permitted_alternative": null
+      },
+      {
+        "key": "support_and_referral_contacts_configured",
+        "label": "Confirm the support and escalation route",
+        "actions": [
+          "complete_setup",
+          "publish_partner_page",
+          "accept_screenings",
+          "publish_clinic"
+        ],
+        "passing": true,
+        "effective": true,
+        "next_action": "Confirm the support and escalation route",
+        "dependencies": [
+          "support_referrals_reporting.referral_arrangement",
+          "support_referrals_reporting.participant_support_email",
+          "support_referrals_reporting.contested_matter_procedure"
+        ],
+        "exception_id": null,
+        "owner_domain": "legal",
+        "classification": "NON_OVERRIDABLE",
+        "default_applied": false,
+        "dependency_hash": "2ded20f167bfee032db363e9d9a2f454ce460d7021c7f685cbca21c00d90a799",
+        "exception_effects": [],
+        "permitted_default": null,
+        "required_evidence": "Confirm the support and escalation route",
+        "invalidation_triggers": [
+          "support_referrals_reporting.referral_arrangement",
+          "support_referrals_reporting.participant_support_email",
+          "support_referrals_reporting.contested_matter_procedure"
+        ],
+        "permitted_alternative": null
+      }
+    ],
+    "jurisdictions": [
+      "DC",
+      "MD",
+      "VA"
+    ],
+    "materialsHash": "19db32b41f68ef31df345b318090e565b98d64c1016c40234e26fbf890776aa9",
+    "policyVersion": "rcap2.2",
+    "setupComplete": true,
+    "sourceVersion": 3,
+    "operatingModel": "legalease_managed",
+    "activeExceptions": [],
+    "canAuthorizeStart": true,
+    "primaryNextAction": "Review your program",
+    "configurationComplete": true
+  }
+}

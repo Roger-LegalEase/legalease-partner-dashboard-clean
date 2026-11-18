@@ -1,0 +1,104 @@
+{
+  "host": "legaleasepartner.com",
+  "expectedSha": "98a82e43f222b4b8137c6eac17d90fe743a5e584",
+  "checkedAt": "2026-10-10T03:55:27.496003+00:00",
+  "authenticated": false,
+  "deploymentProtectionAccess": "public",
+  "status": "PASS",
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "location": null,
+      "requestId": "iad1::2lx88-1791604524859-635a8faae7bc",
+      "serverError": false,
+      "pass": true
+    },
+    {
+      "path": "/sign-in",
+      "status": 200,
+      "location": null,
+      "requestId": "iad1::iad1::sm7hn-1791604524804-92a269c98337",
+      "serverError": false,
+      "pass": true
+    },
+    {
+      "path": "/api/health",
+      "status": 200,
+      "location": null,
+      "requestId": "iad1::iad1::pmnlg-1791604524805-20a57caa64ce",
+      "serverError": false,
+      "health": {
+        "ok": true,
+        "timestamp": "2026-10-10T03:55:26.476Z",
+        "checks": {
+          "db": "ok"
+        }
+      },
+      "pass": true
+    },
+    {
+      "path": "/api/rcap/release",
+      "status": 200,
+      "location": null,
+      "requestId": "iad1::iad1::682hn-1791604524801-702b1738ed64",
+      "serverError": false,
+      "release": {
+        "application": "RCAP 2.0",
+        "policyVersion": "rcap2.2",
+        "buildSha": "98a82e43f222b4b8137c6eac17d90fe743a5e584",
+        "runtimeSha": "98a82e43f222b4b8137c6eac17d90fe743a5e584",
+        "sourceBound": true
+      },
+      "pass": true
+    },
+    {
+      "path": "/partner/onboarding",
+      "status": 307,
+      "location": "/sign-in?next=/partner/onboarding",
+      "requestId": "iad1::iad1::z7h5x-1791604524805-8a7c3c6061cc",
+      "serverError": false,
+      "pass": true
+    },
+    {
+      "path": "/internal/partners/onboarding/fresh-start-network",
+      "status": 307,
+      "location": "/sign-in?next=%2Finternal%2Fpartners%2Fonboarding%2Ffresh-start-network",
+      "requestId": "iad1::iad1::cvtqn-1791604525661-929ff066542a",
+      "serverError": false,
+      "pass": true
+    },
+    {
+      "path": "/clinic",
+      "status": 200,
+      "location": null,
+      "requestId": "iad1::iad1::bn6tp-1791604526242-ea8c97e399ca",
+      "serverError": false,
+      "pass": true
+    },
+    {
+      "path": "/partner/clinic",
+      "status": 307,
+      "location": "/sign-in?next=/partner/clinic",
+      "requestId": "iad1::iad1::7t24d-1791604526556-becee526446b",
+      "serverError": false,
+      "pass": true
+    },
+    {
+      "path": "/internal/clinic",
+      "status": 307,
+      "location": "/sign-in?next=%2Finternal%2Fclinic",
+      "requestId": "iad1::iad1::zmt76-1791604527036-66efe50380a2",
+      "serverError": false,
+      "pass": true
+    },
+    {
+      "path": "/api/internal/partners/onboarding/phase1/fresh-start-network/configuration",
+      "status": 401,
+      "location": null,
+      "requestId": "iad1::iad1::45pvt-1791604527166-e85e198d8ed0",
+      "serverError": false,
+      "pass": true
+    }
+  ]
+}

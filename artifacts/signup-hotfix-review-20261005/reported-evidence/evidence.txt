@@ -1,0 +1,111 @@
+LOCAL ONLY — October 5, 2026
+
+Root cause: successful-looking signup without an authenticated session was
+presented as an instruction to await an account-confirmation email. Supabase's
+privacy-preserving repeated-signup response does not establish email generation.
+
+Correction: conditional English/Spanish guidance, adjacent Sign in / Reset
+password / Edit email actions, and the existing form hidden until an explicit
+recovery choice. Email remains in component state; no credential URL/storage
+prefill. Existing reset continuation, secure claim handoff, authenticated path,
+submission lock, CAPTCHA and other authentication methods are unchanged.
+A small email/location snapshot guard prevents stale signup responses from
+attaching guidance after the form's context changes. No shared helpers changed.
+
+Worktree: /tmp/expai-signup-hotfix
+Branch: fix/signup-neutral-next-steps
+Integration base: captain-release, 121c889e15ac872e8dfbdeff18256551d15642aa
+Remote tip fetched and verified. Investigated e312a5e is an ancestor of this base.
+Original worktree remains on main a3d4587b0fbbbfa887c78372afbfdb8824906333;
+its unrelated artifacts/marketing/ directory was preserved.
+Local commit: NOT CREATED. The current environment grants read-only access to
+repository .git metadata and disables approval escalation. No files staged.
+review.patch contains all four code/test file changes, including the new test.
+
+Changed files:
+  src/components/expungement-ai/ConsumerSignInForm.tsx
+  src/lib/expungement-ai/localization.ts
+  scripts/verify-expungement-auth-locale-conversion-hotfix.mjs
+  scripts/test-consumer-signup-next-steps.mjs
+
+Actual validation commands (from this worktree):
+1. git show 121c889e15ac872e8dfbdeff18256551d15642aa:src/components/expungement-ai/ConsumerSignInForm.tsx > /tmp/signup-before.tsx
+   git show 121c889e15ac872e8dfbdeff18256551d15642aa:src/lib/expungement-ai/localization.ts > /tmp/signup-before-localization.ts
+   SIGNUP_BEFORE_FILE=/tmp/signup-before.tsx SIGNUP_BEFORE_LOCALIZATION=/tmp/signup-before-localization.ts node scripts/test-consumer-signup-next-steps.mjs
+   FAIL: 8 failures / 3 passes. Confirmed-repeat and new-unconfirmed cases in
+   both languages demonstrate obsolete misleading guidance; recovery/stale
+   response cases also fail. See regression-before.log.
+2. node scripts/test-consumer-signup-next-steps.mjs
+   PASS: 11 tests, 0 failures, 0 skips. See regression-after.log.
+   Executes actual component event handlers and renders React HTML using a
+   focused hook-state test double and controlled external auth/browser ports.
+   Both account variants return no error/no session with different user shapes.
+   Covers explicit recovery, email preservation, reset continuation/safety,
+   exact-matter claim once, errors/transport failures/retry, duplicate submit,
+   stale email/location response, and authenticated signup. No network traffic.
+3. node scripts/verify-consumer-auth-continuation.mjs — PASS.
+4. node scripts/verify-shared-claim-boundary-app.mjs — PASS.
+5. node scripts/security/test-auth-redirect-security.mjs — PASS:
+   20 malicious redirects rejected; 5 local deep links retained.
+6. node node_modules/typescript/bin/tsc --noEmit — PASS, exit 0.
+7. node node_modules/eslint/bin/eslint.js src/components/expungement-ai/ConsumerSignInForm.tsx src/lib/expungement-ai/localization.ts scripts/test-consumer-signup-next-steps.mjs scripts/verify-expungement-auth-locale-conversion-hotfix.mjs
+   PASS, exit 0, no warnings.
+8. git diff --check — PASS.
+
+Pre-existing verifier failures, unchanged by this patch:
+  node scripts/verify-expungement-auth-locale-conversion-hotfix.mjs
+    Five failures: obsolete pending-ID/exact-path/claim-copy markers and an
+    obsolete screening conversion marker. Only the email-copy expectation was
+    updated in this patch; no unrelated assertions were weakened.
+  node scripts/verify-expungement-forgot-password-domain.mjs
+    Four failures: encoded next-path and obsolete literal href expectations.
+  node scripts/verify-expungement-dtc-auth-payment-briefcase-flow.mjs
+    One failure: unrelated checkout/immutable-Ready marker expectation.
+Baseline comparison used a temporary readFileSync overlay for the original
+component/localization and the original locale-verifier source. All three
+failure outputs compare byte-for-byte identical before/after with cmp.
+Logs: preexisting-locale-verifier.log, preexisting-reset-verifier.log,
+preexisting-dtc-verifier.log. These checks are FAILED, not passed or skipped.
+
+Browser evidence: UNAVAILABLE. No screenshots produced.
+Attempted a local Next dev server with synthetic public config and no .env files.
+Initial Turbopack attempt rejected the worktree node_modules symlink root.
+Retry with --webpack failed at listen EPERM on 127.0.0.1:3199.
+Attempted installed Playwright Chromium: sandbox_host_linux.cc shutdown
+Operation not permitted; browser terminated. agent-browser CLI is unavailable.
+Do not interpret React HTML rendering as narrow-mobile/desktop visual proof.
+English/Spanish rendered component behavior is verified; mobile widths,
+desktop widths, keyboard focus transitions and actual browser layout remain
+for review in a browser-capable local environment.
+
+Auth delivery provider: NOT VERIFIED. Available connected Supabase capabilities
+do not expose a direct Auth SMTP/Send Email Hook configuration read. No provider
+configuration, credentials, users or production email were touched. The separate
+application Resend integration is not evidence of the Auth delivery mechanism.
+
+Statuses:
+  Code correction: implemented locally; review.patch ready.
+  Behavioral regression: PASS (11/11), failing-before evidence recorded.
+  Browser/localization: rendered EN/ES tests PASS; visual browser check NOT RUN.
+  Real production email verification: NOT RUN.
+  Production deployment: NOT RUN; production unchanged.
+
+Small remaining steps:
+Review this four-file patch; run the local browser check at 375px and desktop
+in EN/ES; create the scoped commit when git metadata is writable. Release
+approval must explicitly identify the then-current release base and permitted
+deployment action. Existing unrelated verifier failures need disposition by
+review, not silent weakening in this hotfix.
+
+Separately authorized production check — PROVIDED, NOT EXECUTED:
+One approved fresh synthetic identity and monitored inbox; ordinary customer
+screening/signup; observe actual confirmation-email receipt; follow that actual
+confirmation link; verify return to the correct pending result/exact matter.
+Stop there: no payments, packet generation or unrelated production activity.
+No existing Roger/customer identity or admin-created/preconfirmed account.
+
+Rollback path to confirm before deployment: restore the immediately preceding
+known-good deployment with the existing release rollback procedure, or revert
+this scoped code commit and release under explicit authorization. Confirm the
+actual prior deployment/SHA at release time; the incident deployment is a
+historical reference, not an assumed rollback target. No migrations to reverse.

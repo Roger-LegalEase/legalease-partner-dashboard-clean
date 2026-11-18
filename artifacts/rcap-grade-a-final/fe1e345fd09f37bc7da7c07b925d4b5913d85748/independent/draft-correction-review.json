@@ -1,0 +1,36 @@
+{
+  "reviewed_utc": "2026-10-11T01:27:49.730399+00:00",
+  "status": "FAIL_PENDING_NARROW_AUTHORIZATION_REPAIR",
+  "scope": "Working-tree RCAP automatic screening draft correction; source-only review, no new test or exploit, no application edits.",
+  "positive": [
+    "HMAC domain-separated session capability, timing-safe signature check, 30-minute renewal, HttpOnly Secure-in-production SameSite Strict cookie.",
+    "Progress endpoint rejects absent/expired/wrong-session capability, checks canonical RCAP benefit plus live published jurisdiction scope, excludes Clinic-associated and claimed sessions, uses no-store response headers.",
+    "PUT checks same origin, bounded JSON, current profile version and selected question membership; CAS and exact-retry handling avoid silent overwrites.",
+    "Client preserves page answers on save failure and waits for save before advancing; ordinary RCAP page only opts in. Existing DTC and Clinic props unchanged.",
+    "Actual reproduced needs-review result wording now uses Save my result and continue and Preliminary result; claim authority unchanged."
+  ],
+  "finding": {
+    "priority": "P1",
+    "title": "Existing resume writer bypasses the new RCAP draft capability",
+    "evidence": [
+      "src/app/api/expungement-ai/screening/save-resume/route.ts:59",
+      "src/lib/expungement-ai/screening-resume-service.ts:251",
+      "src/lib/expungement-ai/screening-resume-service.ts:280",
+      "src/lib/expungement-ai/screening-resume-service.ts:179"
+    ],
+    "mechanism": "save-resume accepts a requester-supplied existing sessionId with answers and email without authenticating the draft capability. Its storage upserts answers then installs the requester email/resume token. New automatic PUT saves retain those resume fields, so a requester who knows a victim URL session UUID can arrange a token capable of returning later automatically saved victim answers. Existing rate limits do not establish session authority.",
+    "classification": "Existing write authorization weakness becomes relevant to new automatic sensitive-answer persistence; new endpoint isolation alone is insufficient. Source-derived exploit path, not executed.",
+    "smallest_repair": "Authorize writes to existing RCAP sessions in save-resume with the same signed draft capability/live scope and appropriate same-origin boundary; preserve unrelated DTC and verified resume paths. Add focused negative coverage for a foreign/no-cookie save-resume request before accepting boundary."
+  },
+  "remaining_validation": "Parent typecheck/build and actual focused refresh/copy repro pending. This review does not mark runtime behavior PASS.",
+  "reviewed_bytes": {
+    "src/lib/expungement-ai/rcap-screening-draft.ts": "ee526a8efe9da4fb1cee701afe26d229373a91615a32a99b3fa35f208d38759c",
+    "src/app/api/expungement-ai/screening/progress/route.ts": "245a19a67db0eea90d92dd9d2a75826fc9f239db6a13db15589d3c50805cc29d",
+    "src/app/intake/[partnerSlug]/page.tsx": "37e49eb3831b141e618d2e8d99a5e4d3d1e91c5c47a2593548d554c9a54dd3d2",
+    "src/app/expungement-ai/screening/[state]/page.tsx": "5e6f9ad950b2cfc6cf60ab6d87273073042c1976424d2bca012fecf26df384f6",
+    "src/components/expungement-ai/screening/ScreeningFlow.tsx": "02ebb8bb73a56b80443e538a2b03511de25c7896aad7d8305356940bb5a69f2b",
+    "src/components/expungement-ai/screening/ScreeningResult.tsx": "0802ca499b73417d92752ac184c535b4a7d92e3c1f7b7439591019656bea62c5",
+    "src/app/api/expungement-ai/screening/save-resume/route.ts": "0d376fd9f642096b77b325aadb991f7a894d01d87db430531452f597b1cfd2ac",
+    "src/lib/expungement-ai/screening-resume-service.ts": "5ecb51d2d21f7a98a0e90204fb45ed37f1a600810f3f956d18ca7736f5e57088"
+  }
+}

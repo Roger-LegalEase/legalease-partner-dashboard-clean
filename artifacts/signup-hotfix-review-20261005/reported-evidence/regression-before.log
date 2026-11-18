@@ -1,0 +1,153 @@
+✖ en: confirmed-repeat has neutral guidance and explicit recovery (141.493892ms)
+✖ en: new-unconfirmed has neutral guidance and explicit recovery (60.354602ms)
+✖ es: confirmed-repeat has neutral guidance and explicit recovery (50.743951ms)
+✖ es: new-unconfirmed has neutral guidance and explicit recovery (48.04421ms)
+✖ returning customer retains email and claims exact matter once (40.260373ms)
+✖ edit email clears guidance and permits a corrected signup (42.747283ms)
+✔ errors and thrown failures clear loading and permit retry in both modes (85.084981ms)
+✖ submission lock prevents double requests; stale email response is ignored (42.741471ms)
+✖ mode/location change cannot receive stale signup guidance (29.913198ms)
+✔ authenticated signup preserves claim and exact matter continuation (33.598905ms)
+✔ unsafe reset destination is sanitized by existing helper (34.682296ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 3
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 621.865845
+
+✖ failing tests:
+
+test at scripts/test-consumer-signup-next-steps.mjs:73:3
+✖ en: confirmed-repeat has neutral guidance and explicit recovery (141.493892ms)
+  AssertionError [ERR_ASSERTION]: No-session signup must not tell the customer to wait for an email it may not generate
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:80:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/test-consumer-signup-next-steps.mjs:73:3
+✖ en: new-unconfirmed has neutral guidance and explicit recovery (60.354602ms)
+  AssertionError [ERR_ASSERTION]: No-session signup must not tell the customer to wait for an email it may not generate
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:80:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/test-consumer-signup-next-steps.mjs:73:3
+✖ es: confirmed-repeat has neutral guidance and explicit recovery (50.743951ms)
+  AssertionError [ERR_ASSERTION]: No-session signup must not tell the customer to wait for an email it may not generate
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:80:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/test-consumer-signup-next-steps.mjs:73:3
+✖ es: new-unconfirmed has neutral guidance and explicit recovery (48.04421ms)
+  AssertionError [ERR_ASSERTION]: No-session signup must not tell the customer to wait for an email it may not generate
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:80:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/test-consumer-signup-next-steps.mjs:95:1
+✖ returning customer retains email and claims exact matter once (40.260373ms)
+  AssertionError [ERR_ASSERTION]: Visible button: Sign in
+      at Object.button (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:61:92)
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:96:38)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-consumer-signup-next-steps.mjs:100:1
+✖ edit email clears guidance and permits a corrected signup (42.747283ms)
+  AssertionError [ERR_ASSERTION]: Visible button: Edit email
+      at Object.button (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:61:92)
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:101:38)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-consumer-signup-next-steps.mjs:114:1
+✖ submission lock prevents double requests; stale email response is ignored (42.741471ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /If this email needs verification|Check your email to finish creating your account/. Input:
+  
+  '<div data-auth-mode="create"><p class="text-xs font-bold uppercase text-[#00A99D]">Your Expungement.ai account</p><h1 class="mt-3 text-3xl font-extrabold">Create your account</h1><p class="mt-3 text-sm leading-6 text-[#5A6275]">Create an account to save this result in your free Briefcase, complete packet information, and return later.</p></div><div class="mt-6 rounded-md border border-[#00A99D]/30 bg-[#00A99D]/10 px-4 py-3 text-sm font-semibold text-[#0B6F68]">Check your email to finish creating your account.</div><form data-handler-ready="true" aria-busy="false" class="mt-6" action="/api/auth/sign-in-fallback" method="post"><fieldset class="grid gap-4"><noscript>Enable JavaScript to sign in securely.</noscript><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Email</span><input autoComplete="email" class="min-h-11 rounded-md border border-[#ECEFF4] bg-white px-3 text-sm text-[#0B1320] shadow-sm outline-none transition focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/25" required="" type="email" name="email"/></label><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Password</span><div class="flex min-h-11 overflow-hidden rounded-md border border-[#ECEFF4] bg-white shadow-sm transition focus-within:border-[#00A99D] focus-within:ring-2 focus-within:ring-[#00A99D]/25"><input autoComplete="new-password" class="min-w-0 flex-1 bg-transparent px-3 text-sm text-[#0B1320] outline-none" required="" type="password" name="password"/><button aria-label="Show password" class="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#00A99D] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60" type="button">Show</button></div></label><button class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white transition hover:bg-[#E63500] disabled:cursor-not-allowed disabled:opacity-60" type="submit">Create account and continue</button></fieldset></form><div class="my-5 flex items-center gap-3" aria-hidden="true"><span class="h-px flex-1 bg-[#ECEFF4]"></span><span class="text-xs font-bold uppercase text-[#5A6275]">or</span><span class="h-px flex-1 bg-[#ECEFF4]"></span></div><button class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-[#ECEFF4] bg-white px-5 text-sm font-bold text-[#0B1320] transition hover:border-[#00A99D] disabled:cursor-not-allowed disabled:opacity-60" type="button">Continue with Google</button><div class="mt-5 flex flex-col gap-3"><button class="text-left text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]" type="button">Already have an account? Sign in</button></div>'
+  
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:116:68)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 't.</div><form data-handler-ready="true" aria-busy="false" class="mt-6" action="/api/auth/sign-in-fallback" method="post"><fieldset class="grid gap-4"><noscript>Enable JavaScript to sign in securely.</noscript><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Email</span><input autoComplete="email" class="min-h-11 rounded-md border border-[#ECEFF4] bg-white px-3 text-sm text-[#0B1320] shadow-sm outline-none transition focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/25" required="" type="email" name="email"/></label><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Password</span><div class="flex min-h-11 overflow-hidden rounded-md border border-[#ECEFF4] bg-white shadow-sm transition focus-within:border-[#00A99D] focus-within:ring-2 focus-within:ring-[#00A99D]/25"><input autoComplete="new-password" class="min-w-0 flex-1 bg-transparent px-3 text-sm text-[#0B1320] outline-none" required="" type="password" name="password"/><button aria-label="Show password" class="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#00A99D] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60" type="button">Show</button></div></label><button class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white transition hover:bg-[#E63500] disabled:cursor-not-allowed disabled:opacity-60" type="submit">Create account and continue</button></fieldset></form><div class="my-5 flex items-center gap-3" aria-hidden="true"><span class="h-px flex-1 bg-[#ECEFF4]"></span><span class="text-xs font-bold uppercase text-[#5A6275]">or</span><span class="h-px flex-1 bg-[#ECEFF4]"></span></div><button class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-[#ECEFF4] bg-white px-5 text-sm font-bold text-[#0B1320] transition hover:border-[#00A99D] disabled:cursor-not-allowed disabled:opacity-60" type="button">Continue with Google</button><div class="mt-5 flex flex-col gap-3"><button class="text-left text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]" type="button">Already have an account? Sign in</button></div>...',
+    expected: /If this email needs verification|Check your email to finish creating your account/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at scripts/test-consumer-signup-next-steps.mjs:119:1
+✖ mode/location change cannot receive stale signup guidance (29.913198ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /If this email needs verification|Check your email to finish creating your account/. Input:
+  
+  '<div data-auth-mode="signin"><p class="text-xs font-bold uppercase text-[#00A99D]">Your Expungement.ai account</p><h1 class="mt-3 text-3xl font-extrabold">Sign in to continue</h1><p class="mt-3 text-sm leading-6 text-[#5A6275]">Sign in to return to your Briefcase and continue where you left off.</p></div><div class="mt-6 rounded-md border border-[#00A99D]/30 bg-[#00A99D]/10 px-4 py-3 text-sm font-semibold text-[#0B6F68]">Check your email to finish creating your account.</div><form data-handler-ready="true" aria-busy="false" class="mt-6" action="/api/auth/sign-in-fallback" method="post"><fieldset class="grid gap-4"><noscript>Enable JavaScript to sign in securely.</noscript><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Email</span><input autoComplete="email" class="min-h-11 rounded-md border border-[#ECEFF4] bg-white px-3 text-sm text-[#0B1320] shadow-sm outline-none transition focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/25" required="" type="email" name="email"/></label><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Password</span><div class="flex min-h-11 overflow-hidden rounded-md border border-[#ECEFF4] bg-white shadow-sm transition focus-within:border-[#00A99D] focus-within:ring-2 focus-within:ring-[#00A99D]/25"><input autoComplete="current-password" class="min-w-0 flex-1 bg-transparent px-3 text-sm text-[#0B1320] outline-none" required="" type="password" name="password"/><button aria-label="Show password" class="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#00A99D] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60" type="button">Show</button></div></label><button class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white transition hover:bg-[#E63500] disabled:cursor-not-allowed disabled:opacity-60" type="submit">Sign in</button><button class="inline-flex min-h-11 items-center justify-center rounded-md border border-[#00A99D] bg-white px-5 text-sm font-bold text-[#0B6F68] transition hover:bg-[#00A99D]/5 disabled:cursor-not-allowed disabled:opacity-60" type="button">Email me a secure sign-in link</button></fieldset></form><div class="my-5 flex items-center gap-3" aria-hidden="true"><span class="h-px flex-1 bg-[#ECEFF4]"></span><span class="text-xs font-bold uppercase text-[#5A6275]">or</span><span class="h-px flex-1 bg-[#ECEFF4]"></span></div><button class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-[#ECEFF4] bg-white px-5 text-sm font-bold text-[#0B1320] transition hover:border-[#00A99D] disabled:cursor-not-allowed disabled:opacity-60" type="button">Continue with Google</button><div class="mt-5 flex flex-col gap-3"><button class="text-left text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]" type="button">New here? Create account</button><a href="/auth/forgot-password?next=%2Fbriefcase&amp;product=expungement" class="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">Forgot your password?</a></div>'
+  
+      at TestContext.<anonymous> (file:///tmp/expai-signup-hotfix/scripts/test-consumer-signup-next-steps.mjs:121:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'aria-busy="false" class="mt-6" action="/api/auth/sign-in-fallback" method="post"><fieldset class="grid gap-4"><noscript>Enable JavaScript to sign in securely.</noscript><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Email</span><input autoComplete="email" class="min-h-11 rounded-md border border-[#ECEFF4] bg-white px-3 text-sm text-[#0B1320] shadow-sm outline-none transition focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/25" required="" type="email" name="email"/></label><label class="grid gap-1.5"><span class="text-sm font-bold text-[#0B1320]">Password</span><div class="flex min-h-11 overflow-hidden rounded-md border border-[#ECEFF4] bg-white shadow-sm transition focus-within:border-[#00A99D] focus-within:ring-2 focus-within:ring-[#00A99D]/25"><input autoComplete="current-password" class="min-w-0 flex-1 bg-transparent px-3 text-sm text-[#0B1320] outline-none" required="" type="password" name="password"/><button aria-label="Show password" class="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#00A99D] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60" type="button">Show</button></div></label><button class="inline-flex min-h-11 items-center justify-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white transition hover:bg-[#E63500] disabled:cursor-not-allowed disabled:opacity-60" type="submit">Sign in</button><button class="inline-flex min-h-11 items-center justify-center rounded-md border border-[#00A99D] bg-white px-5 text-sm font-bold text-[#0B6F68] transition hover:bg-[#00A99D]/5 disabled:cursor-not-allowed disabled:opacity-60" type="button">Email me a secure sign-in link</button></fieldset></form><div class="my-5 flex items-center gap-3" aria-hidden="true"><span class="h-px flex-1 bg-[#ECEFF4]"></span><span class="text-xs font-bold uppercase text-[#5A6275]">or</span><span class="h-px flex-1 bg-[#ECEFF4]"></span></div><button class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-[#ECEFF4] bg-white px-5 text-sm font-bold text-[#0B1320] transition hover:border-[#00A99D] disabled:cursor-not-allowed disabled:opacity-60" type="button">Continue with Google</button><div class="mt-5 flex flex-col gap-3"><button class="text-left text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]" type="button">New here? Create account</button><a href="/auth/forgot-password?next=%2Fbriefcase&amp;product=expungement" class="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">Forgot your password?</a></div>...',
+    expected: /If this email needs verification|Check your email to finish creating your account/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }

@@ -1,0 +1,32 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"code":"42703","details":null,"hint":null,"message":"column partner_access_codes.campaign does not exist"}
++ actual - expected
+
++ {
++   code: '42703',
++   details: null,
++   hint: null,
++   message: 'column partner_access_codes.campaign does not exist'
++ }
+- null
+
+    at checked (file:///workspaces/legalease-partner-dashboard-clean/scripts/rcap-grade-a/campaign-support.mjs:29:33)
+    at file:///workspaces/legalease-partner-dashboard-clean/artifacts/rcap-grade-a-final/847f73053896b48fcd6d0c176907bd302c1a45cb/recovery/partner-code-prepublication.mjs:5:842
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: {
+    code: '42703',
+    details: null,
+    hint: null,
+    message: 'column partner_access_codes.campaign does not exist'
+  },
+  expected: null,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

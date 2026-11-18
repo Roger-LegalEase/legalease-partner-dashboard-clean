@@ -1,0 +1,23 @@
+{
+  "status": "STAGED_READY_AUTHENTICATED_CUTOVER_BLOCKED",
+  "productionUrl": "https://legaleasepartner.com",
+  "wwwUrl": "https://www.legaleasepartner.com",
+  "pr": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/pull/260",
+  "mergedAndStagedSHA": "80a26e3b271ac0b7bcdfd856ecb2c21ed8e278ee",
+  "stagedDeploymentId": "dpl_DnbxYZNVnp1jB2gYYSmt9HF3bQzK",
+  "stagedUrl": "https://legalease-partner-dashboard-clean-308gho1dq-roger947s-projects.vercel.app",
+  "stagedProviderState": "READY",
+  "stagedHealth": "PASS: HTTP 200; database healthy",
+  "stagedSourceIdentity": "PASS: buildSha and runtimeSha match merged SHA",
+  "authenticatedStagedPlatformAdmin": "NOT_VERIFIED: no legitimate application session or verified credential source available",
+  "authenticatedStagedPartnerOnboarding": "NOT_VERIFIED: no legitimate application session or verified credential source available",
+  "stagedAnonymousAccess": "Both required routes and both Clinic entry routes redirect to sign-in (307); this is not authenticated rendering proof",
+  "productionSQL": "Applied and read back: 20261010002925_rcap_prefill_lineage_compatibility; original failing projection executes; stored records unchanged; RLS retained; all three workspaces remain legacy",
+  "liveDomainDeployment": "dpl_H8VWi68AwbksZALZZTtifn4Ni3Li",
+  "liveDomainSHA": "60b6cdb6092c83e256686bbeec21f3499437ad86",
+  "routing": "All 76 existing aliases unchanged; both RCAP aliases remain on restored deployment; no new cutover or rollback",
+  "remainingIssues": [
+    "Mandatory authenticated staged-browser verification unavailable for Platform Admin and partner routes. No credentials requested, reset or fabricated; no RCAP session minted.",
+    "Source Conveyor READY_TO_RUN failed at corpus environment setup because SOURCE_CORPUS_READ_TOKEN is absent. Onboarding CI and worker image acceptance passed; normal repository merge succeeded without admin bypass."
+  ]
+}

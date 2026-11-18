@@ -1,5 +1,41 @@
 # AGENTS.md - RCAP All-50 ASAP Build Discipline
 
+## Current Grade A execution — Roger, 2026-11-10
+
+The existing product scope is all 50 states plus D.C., all 346 existing families,
+and applicable consumer, RCAP-sponsored and Clinic-assisted experiences. The
+sprint's UI exclusion and build-only definition of completion are superseded.
+Use the existing Product Contract, Mission Lock, owner amendments and
+`data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json`; do not replace their
+population or create another nationwide inventory.
+
+Keep four outcomes distinct in the existing records: source acceptance;
+coherent integration; deployment with observed application/generation-service,
+worker, asset and database/configuration identities; and actual customer
+verification of the required packet, ownership, funding and return workflow.
+A component handoff ends that assignment, not Root's customer-outcome
+responsibility. Root integrates; V2 owns shared registration/assembly; S1/S2 own
+their existing family partitions; V1 executes coordinated customer/target checks;
+P2 supplies the applicable independent review.
+
+Before repeating accepted work, record its exact implementation/evidence, the
+changed input, demonstrated failure or uncovered requirement, and the smallest
+affected correction/check. Otherwise reuse it. Missing registration, a receipt or
+runtime asset binding does not justify rebuilding an accepted family. Group
+shared connections once; preserve approved guidance, handoff and held treatments.
+A required substantive packet cannot fall back to a generic PDF or checklist.
+
+Use current target-specific authorization and later owner amendments, including
+approved domain/sequence exceptions. Do not restore superseded generic gates or
+request the same permission again. A scoped authorized repair may be released
+while other product work remains open; it does not establish Grade A completion.
+Before publication verify the destination, exact intended changed content and
+history through the established reviewed path. Keep private engineering history,
+review artifacts, sources and credentials private; preserve the 9278 disposition.
+Results use exclusive, unique run paths; keep failures and corrections separately,
+and never direct controller output over an operation's result or author's final.
+
+
 ## Plan hierarchy
 
 **Controlling execution document:**
@@ -126,6 +162,10 @@ Do not ask Roger for permission for ordinary build work. If something fails, dia
 
 ## Roger Approval Required
 
+The list below identifies actions requiring authority when no applicable existing
+grant covers the exact target/effect. Reuse recorded authorization and later owner
+amendments; do not turn the list into a repeated approval ceremony.
+
 Ask Roger before any action that would:
 
 - deploy to production
@@ -183,7 +223,7 @@ route change.
 
 `private/Nationwide Record Clearing/` is the sprint source inventory and should be ingested first for every state plus DC. `src/lib/rcap/state-packs/<state>/` is coded research for states that already have state packs and may be used as build input. If a coded state pack conflicts with Nationwide, Nationwide wins and the discrepancy becomes a state-pack fidelity issue.
 
-Official PDFs / HTML / statutes inside Nationwide are used to create or refresh state packs, overlay drafts, pleading drafts, and guidance packets. If a state lacks a verified official form path during the buildout, produce a guidance packet fallback and mark the review status for post-build QA.
+Official PDFs / HTML / statutes inside Nationwide are used to create or refresh state packs, overlay drafts, pleading drafts, and guidance packets. For an unfinished draft, guidance may support internal review. It cannot replace a required customer packet. Preserve adopted guidance-only or held treatments and recover existing qualified sources before acquiring replacements.
 
 ## Build-First Review Model
 

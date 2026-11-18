@@ -1,0 +1,232 @@
+{
+  "reviewer": "independent_acceptance",
+  "completed_utc": "2026-10-11T01:22:31.840535+00:00",
+  "baseline": "ba81792225d6d82ef57c104061e9d5eb9d7db395",
+  "reviewed_head": "fe1e345fd09f37bc7da7c07b925d4b5913d85748",
+  "scope": "Independent first-time visible-UI walkthrough followed by bounded independent source review. Not comprehensive Product Contract certification.",
+  "overall": {
+    "blind_ux": "FAIL",
+    "pr_security_function_rollback_review": "FAIL acceptance until anonymous RCAP refresh continuity and pre-auth result copy are corrected and the legacy event-limit compatibility correction is validated; no additional critical security/rollback blocker identified in examined diff.",
+    "reason": "Actual answer loss on ordinary refresh violates required continuity in newly offered anonymous RCAP entry. Underlying persistence code predates PR; current integrated acceptance still fails. Clinic auth-first is a documented baseline limitation, nonblocking for this scoped correction. Unexercised full lifecycle paths remain BLOCKED."
+  },
+  "isolation": {
+    "app": "http://127.0.0.1:3100",
+    "database_api": "http://127.0.0.1:54321",
+    "mailbox": "http://127.0.0.1:54324",
+    "postgres": "legalease-hotfix-local-db-1 / localhost:55432 / rcap",
+    "server_environment_verified": "Next process environment showed development and local app/Supabase URLs before mutation.",
+    "browser_network": "All contexts blocked non-localhost/non-127.0.0.1 hosts.",
+    "writes": "Only visible application controls against fictional isolated QA records. No reviewer application/source edits, commits, SQL writes, Production writes, external invitations, new Stripe Checkout sessions, or charges.",
+    "credentials": "Read from supplied private QA files without printing passwords. Raw reveal-once code, private PDF and token-bearing screenshots remain untracked private evidence."
+  },
+  "method": {
+    "ordering": "Blind UX completed before implementation source review. No previous navigation scripts or raw proof were read to guide it.",
+    "entry_sources": "Owner supplied sign-in entry, visible app links, copied participant and event URLs, and actual partner invitation in local Mailpit UI.",
+    "display": "1365x950 desktop owner and 390x844 mobile participant/partner/Clinic contexts.",
+    "keyboard": "Admin Start and participant Clinic reset activated through keyboard focus and Enter.",
+    "recovery": "Actual invitation expired/used recovery, screening reload, Clinic reset plus Browser Back.",
+    "limits": "No screen-reader certification; screenshots are spot checks, not blanket accessibility PASS."
+  },
+  "journeys": [
+    {
+      "id": "admin",
+      "status": "PASS",
+      "observed": "Create fictional LegalEase-managed CA/DC screening-only program; configure online and in-person; save approved standard bilingual materials; inspect English and Spanish/mobile previews; confirm current operating scope; keyboard Start; dashboard published/routing verified; copy local participant link.",
+      "evidence": [
+        "04-create-program",
+        "05-create-review",
+        "06-created-configure",
+        "07-program-saved",
+        "08-spanish-mobile-preview",
+        "09-program-started",
+        "authoritative-readbacks.txt"
+      ],
+      "db": "Immutable final approval binds actor, exact CA/DC jurisdiction set, Spanish enabled, both v1 materials, scope/material hashes and screening-only capabilities."
+    },
+    {
+      "id": "partner_continuation",
+      "status": "PASS",
+      "observed": "Actual supplied partner invitation was already used; visible recovery preserved /partner/dashboard through sign-in. Traversed Organization, Program, optional Team, bilingual current previews and exact confirmation to legitimate terms-pending dashboard. No publication or funding asserted.",
+      "evidence": [
+        "38-partner-invitation-entry",
+        "39-partner-invitation-recovery",
+        "40-partner-dashboard-entry",
+        "42-partner-team-step",
+        "43-partner-program-step",
+        "44-partner-organization-step",
+        "45-partner-current",
+        "46-partner-spanish-review",
+        "47-partner-confirmed-terms-pending"
+      ]
+    },
+    {
+      "id": "fresh_join",
+      "status": "BLOCKED",
+      "observed": "Supplied invitation was already consumed. Recovery was tested; first use of a fresh invitation was not exercised. Existing staff add to a different tenant was correctly denied; no tenant reassignment performed.",
+      "evidence": [
+        "15-staff-invitation-result",
+        "38-partner-invitation-entry"
+      ]
+    },
+    {
+      "id": "participant_anonymous_claim",
+      "status": "PASS",
+      "observed": "Copied public program URL on mobile -> CA selector -> anonymous screening -> preliminary needs-review outcome -> actual account sign-in -> exact newly claimed matter. No checkout appeared before claim.",
+      "evidence": [
+        "17-participant-public-mobile",
+        "18-participant-jurisdiction",
+        "19-screening-start",
+        "20-screening-question-one",
+        "30-screening-question-eleven",
+        "32-screening-preliminary",
+        "33-participant-auth-handoff",
+        "35-participant-claimed",
+        "authoritative-readbacks.txt"
+      ],
+      "db": "CLAIMED pending result matches actual participant owner, original screening session and partner; payment not_applicable and packet not_started."
+    },
+    {
+      "id": "screening_refresh",
+      "status": "FAIL",
+      "classification": "Existing baseline defect, not introduced by this PR",
+      "observed": "Reload at unanswered question11 returned to question1 with prior Yes answer unchecked. Re-entered prior answers through visible controls to finish. Completed session readback has answer_count0 and no current_question_id.",
+      "contract": "docs/PRODUCT_CONTRACT.md:446 requires server-backed temporary continuity after refresh.",
+      "source": "ScreeningFlow.tsx persistence/resume behavior unchanged; sole PR delta in component is aria-hidden around decorative arrow.",
+      "smallest_responsible_repair": "Persist and recover temporary answers/current question for the same anonymous session, then repeat the demonstrated reload case. Preserve legal rules, participant ownership and atomic claim; no broad redesign.",
+      "evidence": [
+        "30-screening-question-eleven",
+        "31-screening-refresh-recovery",
+        "authoritative-readbacks.txt",
+        "baseline-compatibility.json"
+      ],
+      "severity": "P1 acceptance blocker for the new anonymous RCAP integration; not a newly introduced persistence-code regression"
+    },
+    {
+      "id": "preauth_result_copy",
+      "status": "FAIL",
+      "classification": "Existing component wording newly exposed by PR anonymous partner entry; bounded contract integration gap, not ownership bypass",
+      "observed": "Anonymous needs-review result primary action said Continue to my Briefcase, with no explicit Preliminary result certainty label. Clicking correctly required authentication and claimed into participant ownership.",
+      "contract": "docs/PRODUCT_CONTRACT.md:230-241,469-477",
+      "source": "ScreeningResult.tsx lines55-64 is byte-identical to baseline; intake/[partnerSlug]/page.tsx changed account-first to anonymous entry.",
+      "smallest_responsible_repair": "Use anonymous-result wording and certainty label before authentication; preserve existing claim/ownership path. No cosmetic redesign requested.",
+      "evidence": [
+        "32-screening-preliminary",
+        "33-participant-auth-handoff",
+        "baseline-compatibility.json"
+      ],
+      "severity": "P2 current anonymous-entry integration contract gap"
+    },
+    {
+      "id": "existing_paid_private_delivery",
+      "status": "PASS",
+      "observed": "From actual Briefcase selected existing QA paid MS matter; Packet ready without new purchase CTA; downloaded 69422-byte PDF; Review packet information displayed saved facts, current verification and preserved paid status.",
+      "evidence": [
+        "36-participant-existing-matters",
+        "37-existing-paid-matter",
+        "48-paid-packet-facts",
+        "existing-paid-packet.private.pdf",
+        "authoritative-readbacks.txt"
+      ],
+      "db": "Same owner matter paid5000usd via server_webhook, packet ready, one protected artifact. Parent separately revalidated genuine Stripe TEST payment; reviewer did not recreate or independently call Stripe."
+    },
+    {
+      "id": "new_packet_facts_correction_fulfillment",
+      "status": "BLOCKED",
+      "observed": "New CA needs-review matter did not offer a packet-information path. Existing paid matter facts were inspected without mutation. Fresh correction/reverification/funding/render journey was not executed by this reviewer; parent owns separate technical evidence."
+    },
+    {
+      "id": "clinic_operations",
+      "status": "PASS",
+      "observed": "Created fictional clinic under existing staff tenant; opening correctly blocked until approved staff and usable code existed; assigned supplied existing staff in same tenant, generated reveal-once code, opened event, copied entry URL; separate staff login -> assignments -> empty queue.",
+      "evidence": [
+        "49-existing-clinic-operations",
+        "51-staff-clinic-created",
+        "52-clinic-staff-save-result",
+        "53-staff-queue-entry",
+        "54-staff-clinic-list",
+        "55-staff-empty-queue",
+        "authoritative-readbacks.txt"
+      ]
+    },
+    {
+      "id": "clinic_anonymous_entry",
+      "status": "FAIL",
+      "classification": "Existing baseline behavior, not introduced by this PR",
+      "observed": "Anonymous event code entry followed by Continue to participant consent immediately required account sign-in, before screening.",
+      "contract": "docs/PRODUCT_CONTRACT.md:244-257 requires RCAP/Clinic account gate after preliminary result; earlier account creation may be a participant choice.",
+      "source": "src/app/clinic/[eventSlug]/assist/page.tsx:18 unauthenticated redirect; file byte-identical to baseline.",
+      "smallest_responsible_repair": "No anonymous Clinic architecture change requested in this correction; retain actual scoped participant consent and private access controls. Record current baseline limitation honestly.",
+      "evidence": [
+        "56-clinic-public-entry",
+        "57-clinic-consent",
+        "baseline-compatibility.json"
+      ],
+      "severity": "Documented baseline limitation; nonblocking for this scoped PR"
+    },
+    {
+      "id": "clinic_consent_queue_followup_reset",
+      "status": "PASS",
+      "observed": "Actual participant signed in and affirmatively checked explicit fictional QA assistance consent; assisted screening displayed; staff saw minimized active case; saved explicitly fictional follow-up draft, no message sent; participant keyboard End clinic session / Reset device -> clean entry; Browser Back remained clean; staff reload removed consented case/follow-up selector.",
+      "evidence": [
+        "58-clinic-participant-authenticated",
+        "59-clinic-assistance-active",
+        "60-staff-consented-queue",
+        "61-staff-followup",
+        "62-followup-saved",
+        "63-clinic-reset-complete",
+        "64-clinic-back-after-reset",
+        "65-staff-followup-after-reset",
+        "authoritative-readbacks.txt"
+      ],
+      "db": "One assistance consent, participant-owned session reset with ended timestamp and one end audit; event entry retains supported reset binding."
+    },
+    {
+      "id": "clinic_packet_prepared_positive",
+      "status": "BLOCKED",
+      "observed": "No newly claimed/generated ready packet linked through this blind Clinic journey, so positive staff Packet prepared transition not exercised here. Parent plans separate labeled fixture-composition UI proof; it may prove projection/transition but must not be called an independently observed new sponsored end-to-end journey."
+    }
+  ],
+  "pr_review": {
+    "examined": "Eight migrations; admin/partner/Clinic authority/service/API deltas; consumer funding and access; publication and provisioning; anonymous intake and reset; changed-files CI helper. Bounded review, not a formal security audit.",
+    "legacy_limit": {
+      "status": "FAIL at fe1e345; working-tree correction reviewed, final validation pending parent",
+      "source": "supabase/migrations/20261010194800_rcap_integrated_clinic_controls.sql:41",
+      "finding": "Program options canSponsor defaults false for every legacy program even when a valid old sponsored_packets entitlement exists; new UI therefore removes formerly available optional event sponsor limit. Baseline exposed it and legacy create function accepts it.",
+      "correction": "Current working-tree patch uses existing effective, unexpired sponsored_packets entitlement with positive cap for legacy display; rcap2.2 retains exact policy evaluator. It creates no allocation and changes no reservation, payment or fulfillment authority. Appropriately narrow for documented compatibility defect.",
+      "severity": "P2 demonstrated backward-compatibility defect"
+    },
+    "migration_count": 8,
+    "migration_names": [
+      "20261010190234_rcap_integrated_jurisdiction_scope.sql",
+      "20261010191500_rcap_integrated_program_creation.sql",
+      "20261010194800_rcap_integrated_clinic_controls.sql",
+      "20261010200800_rcap_integrated_publication_edits.sql",
+      "20261010210100_rcap_integrated_screening_retries.sql",
+      "20261010214500_rcap_integrated_consumer_funding.sql",
+      "20261010224000_rcap_integrated_supporting_documents.sql",
+      "20261010232754_rcap_clinic_preconsent_reset.sql"
+    ],
+    "legacy_function_preserved": {
+      "status": "PASS",
+      "function": "clinic_packet_dtc_authorized",
+      "baseline_and_current_db_body_sha256": "2a10170f9208a5c4041abf669f7f7d9ec0a95aa5aa09a36ceb6c52a1c14e87c2",
+      "comparison": "Original migration function body versus current isolated pg_proc.prosrc, outer whitespace ignored. Original migration unchanged; new general-purpose authorization separate.",
+      "evidence": "baseline-compatibility.json"
+    },
+    "sensitive_rpc_grants": {
+      "status": "PASS",
+      "observed": "Readback: seven inspected authority/reset/Clinic service functions executable only by service_role, not anon/authenticated.",
+      "evidence": "authoritative-readbacks.txt"
+    },
+    "rollback": "Wrappers retain previous entry points and older packet authorization. No destructive schema change or original provenance rewrite identified in reviewed migrations; rolling back UI must not discard new durable evidence. Full production rollback not executed."
+  },
+  "ci_disposition": {
+    "source_conveyor_applicability": "NOT_APPLICABLE to changed corpus/source inputs, with explicit retained failed job",
+    "source_conveyor_execution": "FAILED_ENVIRONMENT per parent actual run; not PASS",
+    "independent_basis": "Unchanged rcap-source-conveyor-ready workflow path filter scripts/lib/** matches helper and its test. Repository import search found only consumer adapter verifier imports helper; source conveyor scripts/tests do not. No corpus/source/workflow delta found for this scope.",
+    "external_evidence_limit": "Parent supplies same-repo PR and empty SOURCE_CORPUS_READ_TOKEN run evidence, no Environment, secret metadata API403, branch rule absence; reviewer did not independently access GitHub. Secret injection root cause remains unresolved; do not label it fork/Dependabot without evidence.",
+    "helper_test": "Independent node --test scripts/lib/changed-files-scope.test.mjs PASS: >1MiB inventory complete, git error fails closed."
+  },
+  "evidence_handling": "All evidence untracked under this independent directory. Paired NN .txt/.png files contain fictional QA UI, possibly private URLs; do not publish raw. No shared ledger edits.",
+  "handoff": "Parent handles commercial-positive proof, exact final patch validation, final SHA/build/CI and release decision. This independent report does not approve Production rollout or certify all Grade A rows."
+}

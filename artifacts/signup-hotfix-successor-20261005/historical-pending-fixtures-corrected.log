@@ -1,0 +1,57 @@
+✖ pending successor binds exact source/tools/full worker inputs and cannot authorize dispatch or reuse old digest (15400.003593ms)
+✖ published successor is current publication only; image acceptance and hosted execution remain held (19411.736024ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35241.79832
+
+✖ failing tests:
+
+test at scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:3:1
+✖ pending successor binds exact source/tools/full worker inputs and cannot authorize dispatch or reuse old digest (15400.003593ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'STALE_APPLICATION_INPUTS'
+  - 'AWAITING_WORKER_PUBLICATION'
+  
+      at TestContext.<anonymous> (file:///tmp/expai-signup-successor-controls-20261005/scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:14:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'STALE_APPLICATION_INPUTS',
+    expected: 'AWAITING_WORKER_PUBLICATION',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:22:1
+✖ published successor is current publication only; image acceptance and hosted execution remain held (19411.736024ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'STALE_APPLICATION_INPUTS'
+  - 'AWAITING_WORKER_ACCEPTANCE'
+  
+      at check (file:///tmp/expai-signup-successor-controls-20261005/scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:37:11)
+      at TestContext.<anonymous> (file:///tmp/expai-signup-successor-controls-20261005/scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs:39:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'STALE_APPLICATION_INPUTS',
+    expected: 'AWAITING_WORKER_ACCEPTANCE',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

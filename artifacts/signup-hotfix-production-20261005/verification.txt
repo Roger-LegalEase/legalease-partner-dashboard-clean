@@ -1,0 +1,59 @@
+Completed local signup hotfix — e3ac438da981c84987bd3172751e1a09e3f42309
+Production readback reconfirmed twice via authorized Vercel get_deployment(expungement.ai).
+Deployment dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc; application/base/parent e312a5efa7b4882e0fbf61a5ff0ae7891ac23226.
+Worktree /tmp/expai-signup-production-20261005; branch fix/signup-neutral-production-20261005.
+One commit, exactly four hotfix files, +195/-11 against production.
+Final preserved reviewed.patch applied cleanly. Manifest integrity and all four resulting file hashes match reviewed-source. No integration commits included.
+Complete candidate and staged diffs inspected; diff checks passed. No application adaptation or reimplementation.
+
+ACTUAL CANDIDATE CHECKS
+node scripts/test-consumer-signup-next-steps.mjs: 12 pass, 0 fail.
+node scripts/verify-consumer-auth-continuation.mjs: pass.
+node scripts/verify-shared-claim-boundary-app.mjs: pass.
+node scripts/security/test-auth-redirect-security.mjs: pass, 20 malicious values denied and 5 deep links preserved.
+node node_modules/typescript/bin/tsc --noEmit: exit 0.
+Scoped ESLint on all four hotfix files: exit 0.
+Git diff --check and staged diff --check: exit 0.
+Installed Next/React/ReactDOM/TypeScript/ESLint/Supabase client versions match production package-lock.json.
+
+ACTUAL BROWSER CHECKS
+Installed Playwright Chromium; real Next webpack server on 127.0.0.1:3199.
+PASS all four EN/ES x 375px/1440px runs, browser-results.json and real labeled PNGs.
+Neutral no-session guidance and all three recovery actions visible.
+Tab order through recovery controls, Enter on Edit email, corrected email retry.
+Sign-in and edit preserve email; reset preserves safe matter/claim/locale/product continuation without email/password query prefill.
+Reset page navigation executed; no reset email sent.
+No sign-in, reset, or claim request triggered automatically by no-session signup.
+Signup error recovery; double synchronous submission produces one signup request.
+Sign-in failure yields error, no claim; subsequent mocked success yields one exact-matter claim and mocked destination navigation.
+Claim request includes synthetic authenticated session cookie.
+No page errors in final successful run; all assertions passed.
+Screenshots inspected: guidance controls readable, mobile stack and desktop row visible.
+Existing mobile navbar is clipped at right in the screenshot; navbar code is unchanged by this patch. No unrelated navbar fix included.
+
+PREVIEW SAFETY AND RUNNER ADAPTATIONS
+Prepared artifacts copied to new evidence directory; originals untouched.
+Paths updated to production-based candidate; server bind narrowed to loopback.
+No real env files or inherited credentials: env -i, synthetic loopback Auth URL/key only.
+Browser interception blocks external origins, mocks all auth/claim/API requests, and intercepts exact destination before server access. Production services/accounts/emails untouched.
+Runner locale initializer now guards location.origin: prior opaque-document localStorage error was a test setup defect.
+An added bearer-header assertion was corrected to the application's existing cookie-based session protocol; application code unchanged.
+Historical failed browser attempt stack retained in browser-errors.log; it is not the final run's result.
+Server and browser stopped after checks. No public port forwarding created.
+
+THREE FAILED VERIFIERS — NOT WAIVED
+Production baseline extracted by git archive to /tmp/expai-signup-baseline-20261005 and checked directly.
+Locale/conversion: five obsolete source-marker assertions; exit 1 on base and candidate.
+Forgot-password domain: four encoded-next/helper source expectations; exit 1 on base and candidate.
+DTC auth/payment/Briefcase: one unrelated checkout/immutable-Ready source expectation; exit 1 on base and candidate.
+All three full stdout/stderr outputs are byte-identical base versus candidate; paired logs retained here.
+These are pre-existing production-base check-contract failures, not hotfix regressions.
+Each is a standalone package command. Recursive package-command/workflow inspection found no workflow invocation at production base; the persistence verifier merely allowlists the locale verifier path.
+External enforced/required-check configuration remains UNKNOWN: authorized gh read-only main branch-protection request returned HTTP 403 'Resource not accessible by integration'. Request was not retried after authorization failure.
+Smallest operator action: read GitHub main branch protection/rulesets and release gate requirements; explicitly disposition these three failures if required. No gate waivers made.
+
+PRESERVATION AND RELEASE BOUNDARY
+Original worktree, integration branch/30 unrelated commits, main checkout, uncommitted artifacts and review artifacts preserved.
+No push, merge, PR, deployment, promotion, alias/configuration change, migrations, production account changes, emails, or live canaries.
+Real production email delivery remains separate and unexecuted; mocks prove no delivery or actual database ownership.
+Release proposal: after explicit gate disposition and current-base/rollback confirmation, authorize release of only e3ac438da981c84987bd3172751e1a09e3f42309. If production moves, rebase/transplant and retest this scoped delta before release.

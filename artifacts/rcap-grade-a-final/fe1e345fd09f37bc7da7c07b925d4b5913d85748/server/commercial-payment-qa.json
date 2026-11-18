@@ -1,0 +1,31 @@
+{
+  "sourceSha": "fe1e345fd09f37bc7da7c07b925d4b5913d85748",
+  "environment": "http://127.0.0.1:3100",
+  "database": "loopback:54321",
+  "time": "2026-10-11T01:08:33.844Z",
+  "provenance": "Existing genuine Stripe TEST settlement; no live payment",
+  "checks": [
+    {
+      "name": "Existing genuine Stripe TEST settlement and exact provider event remain valid",
+      "result": "PASS",
+      "sessionId": "cs_test_b1LquhhEXyKWDeWUXNkEzav13ov52qbV7nyms0HTJDmidkqB4ceiohMimQ",
+      "eventId": "evt_1UP7Q8RWROAHlAKyvGoxUIIs",
+      "matterId": "4d1672bf-9d80-44b9-9700-019aa777d4e2",
+      "amountCents": 5000
+    },
+    {
+      "name": "Actual signed webhook accepts unchanged provider replay; invalid signature denied; payment and artifact preserved",
+      "result": "PASS",
+      "transport": "Unmodified real Stripe TEST event, signed and forwarded to isolated application; not a claim of public Stripe network delivery",
+      "newCharges": 0,
+      "newSessions": 0,
+      "newRenderJobs": 0
+    },
+    {
+      "name": "Authenticated paid owner sees ready private packet without another purchase action",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "productionWrites": 0
+}

@@ -1,0 +1,63 @@
+SET
+         partner_slug         | status | rcap_policy_version |  operating_model  | landing_page_ready | launched 
+------------------------------+--------+---------------------+-------------------+--------------------+----------
+ independent-qa-1791680881148 | live   | rcap2.2             | legalease_managed | t                  | t
+(1 row)
+
+     approval_type      | decision | has_actor |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             policy_details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+------------------------+----------+-----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ legalease_final_review | approve  | t         | {"scope_hash": "d8906efddce6e5ae4296e81f743bc577c847d1d463ef0eafda577912b2f3a928", "capabilities": ["publish_partner_page", "accept_screenings", "create_clinic", "publish_clinic"], "service_mode": "screening_only", "jurisdictions": ["CA", "DC"], "materials_hash": "e8d40dbd90d231efb6aab17317dac6733d69863484bf2ffda48ae0cfe54fa9df", "policy_version": "rcap2.2", "authority_basis": "LegalEase operates this program under its own internal business and publication authority.", "operating_model": "legalease_managed", "spanish_enabled": true, "material_versions": [{"id": "885e7e22-fb05-48cc-9828-429475519a0e", "hash": "610725e27030a33c5ee734d4f0a0be441ba79e3b8a8e3a8ae5539ce06cf323f1", "type": "implementation_brief", "version": 1}, {"id": "55429ff4-706a-4dc7-9549-120cfdb67635", "hash": "96f6a3499e82a44c80bd6676570ea550de62bed9a7fbbced12a83f011d4cb8ab", "type": "co_branded_page_configuration", "version": 1}], "operator_identity": "LegalEase", "publication_scope": "/p/independent-qa-1791680881148", "statement_version": "rcap-operating-confirmation-v1", "screening_profiles": {"CA": "2026-06-19-source-conversion-1", "DC": "2026-06-19-source-conversion-1"}}
+(1 row)
+
+              session_id              | jurisdiction | answer_count | current_question_id |  status   |         partner_slug         | partner_benefit_active 
+--------------------------------------+--------------+--------------+---------------------+-----------+------------------------------+------------------------
+ 69f4d217-bb94-41e2-b13b-2e9984b57279 | CA           |            0 |                     | completed | independent-qa-1791680881148 | t
+(1 row)
+
+ status  | jurisdiction |         partner_slug         |          claimed_matter_id           | same_owner | same_session | payment_status | amount_cents | packet_status 
+---------+--------------+------------------------------+--------------------------------------+------------+--------------+----------------+--------------+---------------
+ CLAIMED | CA           | independent-qa-1791680881148 | cfe217ac-171a-4379-a16f-a1085bed5fb2 | t          | t            | not_applicable |              | not_started
+(1 row)
+
+                  id                  | status | ended_reason | ended |   consent_version    | consented | matter_id | participant_owned 
+--------------------------------------+--------+--------------+-------+----------------------+-----------+-----------+-------------------
+ 92771fba-19f2-4e48-b934-c067c530d6c2 | reset  | staff_reset  | t     | clinic-assistance-v1 | t         |           | t
+(1 row)
+
+ reset_binding_supported | has_assistance | preconsent_closed 
+-------------------------+----------------+-------------------
+ t                       | t              | f
+(1 row)
+
+         action         | count 
+------------------------+-------
+ access_code_created    |     1
+ assistance_consented   |     1
+ assisted_session_ended |     1
+ event_created          |     1
+ event_status_changed   |     1
+ follow_up_saved        |     1
+ staff_status_changed   |     1
+(7 rows)
+
+                  id                  | payment_status | amount_cents | currency | packet_status | payment_authority 
+--------------------------------------+----------------+--------------+----------+---------------+-------------------
+ 4d1672bf-9d80-44b9-9700-019aa777d4e2 | paid           |         5000 | usd      | ready         | server_webhook
+(1 row)
+
+ protected_artifacts 
+---------------------
+                   1
+(1 row)
+
+                 proname                 | anon_execute | authenticated_execute | service_execute 
+-----------------------------------------+--------------+-----------------------+-----------------
+ clinic_close_unassisted_entry           | f            | f                     | t
+ clinic_redeem_event_code_with_reset     | f            | f                     | t
+ clinic_start_assisted_session_for_entry | f            | f                     | t
+ rcap_clinic_case_materials              | f            | f                     | t
+ rcap_consumer_packet_authorized         | f            | f                     | t
+ rcap_service_clinic_program_options     | f            | f                     | t
+ rcap_service_save_clinic_follow_up      | f            | f                     | t
+(7 rows)
+

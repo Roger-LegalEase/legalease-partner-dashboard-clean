@@ -1,0 +1,117 @@
+{
+  "outcome": "BLOCKED BEFORE ACTIVATION",
+  "candidate": "e3ac438da981c84987bd3172751e1a09e3f42309",
+  "soleParent": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+  "candidateClean": true,
+  "evidenceHashesVerified": true,
+  "localChecks": "Reused valid recorded passing evidence; not rerun.",
+  "newBuild": "Not attempted; release guard blocks first.",
+  "newDeploymentId": null,
+  "remoteWrites": false,
+  "aliases": [
+    {
+      "alias": "expungement.ai",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "www.expungement.ai",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease.com",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legaleasepartner.com",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "www.legaleasepartner.com",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean.vercel.app",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    },
+    {
+      "alias": "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app",
+      "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "readyState": "READY",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV"
+    }
+  ],
+  "rollback": {
+    "deploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "available": true,
+    "used": false,
+    "operation": "Existing scripts/rcap-production-activate.mjs uses POST /v9/projects/{projectId}/rollback/{deploymentId}, with recorded fallback POST /v10/projects/{projectId}/promote/{deploymentId}."
+  },
+  "blockingControls": [
+    {
+      "file": "scripts/rcap-production-migration-contract.mjs",
+      "requirement": "requireProductionMigrationRelease validates exact candidate/tools application identity, phase authorization, and deployment/smoke receipts.",
+      "existingBindingApplication": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+      "existingProductionAuthorized": false,
+      "existingProductionAuthorization": null
+    },
+    {
+      "file": "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+      "actualResult": {
+        "current": false,
+        "status": "INVALID_PENDING_PUBLICATION",
+        "reasons": [
+          "Expected values to be strictly equal:\n\ntrue !== false\n\n\nfalse !== true\n"
+        ]
+      }
+    },
+    {
+      "file": "scripts/rcap-hosted-acceptance-worker-input-plan.mjs",
+      "baseToHotfixComparison": {
+        "changedPaths": [
+          "src/components/expungement-ai/ConsumerSignInForm.tsx",
+          "src/lib/expungement-ai/localization.ts"
+        ],
+        "rebuildRequired": true,
+        "decision": "rebuild-required",
+        "missingCanonicalInputs": []
+      },
+      "note": "Comparison reference is production base; this does not assert a new image acceptance or repurpose any existing digest."
+    }
+  ],
+  "baselineFailures": {
+    "localeConversion": 5,
+    "forgotPasswordDomain": 4,
+    "dtcAuthPaymentBriefcase": 1,
+    "status": "Still FAILED, proved identical at production baseline and candidate; not waived. Not the blocking control here."
+  },
+  "githubProtection": "User supplied readbacks main unprotected/no rulesets accepted. Administrative protection endpoint not retried.",
+  "postReleaseVerification": "Not applicable; no activation.",
+  "emailDelivery": "Real production email delivery remains unverified.",
+  "smallestDecision": "Separately authorize the release-control successor/source-tools record and worker acceptance dependency required by the existing mechanism, or a reviewed control change establishing a truthful application-only path. Current authorization forbids those changes; no bypass was performed."
+}

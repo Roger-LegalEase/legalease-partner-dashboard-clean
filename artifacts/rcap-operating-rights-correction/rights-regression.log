@@ -1,0 +1,12 @@
+BEGIN
+        set_config         
+---------------------------
+ operating-rights-mv23jjo8
+(1 row)
+
+CREATE FUNCTION
+ERROR:  Asset object path is not server canonical
+CONTEXT:  PL/pgSQL function public.rcap_onboarding_validate_asset_metadata() line 26 at RAISE
+SQL statement "insert into public.partner_onboarding_assets(id,workspace_id,partner_record_id,category,object_path,original_filename,safe_filename,media_type,file_extension,byte_size,sha256_hex,uploaded_by)
+   values(asset,w.id,w.partner_record_id,'procurement_document','isolated-rights-test','isolated.pdf','isolated.pdf','application/pdf','pdf',100,repeat('a',64),actor)"
+PL/pgSQL function inline_code_block line 33 at SQL statement

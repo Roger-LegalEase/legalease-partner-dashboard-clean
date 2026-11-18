@@ -1,0 +1,28 @@
+{
+  "sourceSha": "b117266944d8834bb67d923f3d3244526dd517e3",
+  "sourceIdentity": {
+    "baseSha": "b117266944d8834bb67d923f3d3244526dd517e3",
+    "applicationTreeSha256": "806914acc65ccb1531de3219bf73c64571cf8cdb5d68013034b7ee3e30c02bc2",
+    "trackedWorktreeDeltaSha256": null,
+    "cleanTrackedApplication": true
+  },
+  "environment": "http://127.0.0.1:3100",
+  "database": "loopback:54321",
+  "time": "2026-10-11T01:37:52.948Z",
+  "provenance": "Existing genuine Stripe TEST settlement; no live payment",
+  "checks": [
+    {
+      "name": "Actual Payment history View receipt opens provider-hosted genuine $50 TEST receipt",
+      "result": "PASS",
+      "matterId": "4d1672bf-9d80-44b9-9700-019aa777d4e2",
+      "status": 303,
+      "providerHost": "pay.stripe.com"
+    },
+    {
+      "name": "Other authenticated account cannot resolve the owner-bound receipt",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "productionWrites": 0
+}

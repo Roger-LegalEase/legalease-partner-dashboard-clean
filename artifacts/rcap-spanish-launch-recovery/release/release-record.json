@@ -1,0 +1,247 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "recordedAt": "2026-10-10T16:56:19.302724+00:00",
+  "pr": {
+    "headRefOid": "b9576d8d7ae2f2fb7dbe1b6edf53ef6ed08958b0",
+    "mergeCommit": {
+      "oid": "a9015b66d6600f4e9df7375ac0914d94ab2f4bd8"
+    },
+    "mergedAt": "2026-10-10T16:49:47Z",
+    "state": "MERGED",
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/pull/265"
+  },
+  "deployedSha": "a9015b66d6600f4e9df7375ac0914d94ab2f4bd8",
+  "deployment": {
+    "id": "dpl_GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+    "url": "https://legalease-partner-dashboard-clean-89v7gfb4b-roger947s-projects.vercel.app",
+    "productionUrl": null,
+    "inspectorUrl": "https://vercel.com/roger947s-projects/legalease-partner-dashboard-clean/GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+    "readyState": "READY",
+    "target": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+    "buildMachine": {
+      "cores": 8,
+      "memory": 16384,
+      "machine": "enhanced",
+      "selectionType": "elastic",
+      "selectionSource": "elastic-algorithm"
+    },
+    "deploymentProtection": [
+      "vercel_authentication"
+    ]
+  },
+  "migration": {
+    "status": "APPLIED_AND_VERIFIED",
+    "project": "wwtwtsmywnckfkdaqqeg",
+    "reviewedMigration": "20261010161219_rcap_spanish_material_preparation.sql",
+    "sqlSha256": "2b9dd0c00b90830c4f87996f1fb41970b757b6bf587aff1008fcee1640a10ceb",
+    "productionLedgerVersion": "20261010164957",
+    "name": "rcap_spanish_material_preparation",
+    "verificationSource": "Production read-only pg_proc and schema_migrations query after successful apply_migration",
+    "functions": [
+      {
+        "function": "rcap_program_geography_consistent",
+        "identity": "p_workspace uuid",
+        "sourceSha256": "4cddb91d534a0b6a0f5ec73893ca551182b666bbdcff0a13b5c8fa1bed8ed483",
+        "serviceExecute": true,
+        "anonymousExecute": false,
+        "authenticatedExecute": false
+      },
+      {
+        "function": "rcap_program_public_copy_source",
+        "identity": "p_workspace uuid",
+        "sourceSha256": "0a3ca99547ab647fd7cc4bc25405b24672e5e4a924ede45ee8cefc2118157252",
+        "serviceExecute": true,
+        "anonymousExecute": false,
+        "authenticatedExecute": false
+      },
+      {
+        "function": "rcap_service_evaluate_program",
+        "identity": "p_slug text, p_actor uuid, p_action text",
+        "sourceSha256": "d2ce4fa5824df95701916121b90e3e693eefcccb4626d107c2cee1212fdfb9cb",
+        "serviceExecute": true,
+        "anonymousExecute": false,
+        "authenticatedExecute": false
+      },
+      {
+        "function": "rcap_service_generate_onboarding_artifact_version",
+        "identity": "p_partner_slug text, p_actor_user_id uuid, p_workspace_id uuid, p_artifact_type text, p_request_id uuid, p_source_workspace_version bigint, p_source_section_revisions jsonb, p_source_asset_versions jsonb, p_normalized_snapshot jsonb, p_snapshot_hash text, p_generator_version text, p_rendered_content jsonb, p_generation_status text, p_generation_error_code text",
+        "sourceSha256": "099fd43f175c85b6555464536b6e462edbc203e474011965551f04bc91220ee5",
+        "serviceExecute": true,
+        "anonymousExecute": false,
+        "authenticatedExecute": false
+      },
+      {
+        "function": "rcap_service_reserve_program_translation",
+        "identity": "p_slug text, p_actor uuid, p_version bigint, p_source jsonb, p_request uuid",
+        "sourceSha256": "eed7dbf986aefe4f1822398fbd4924babd2a8de61ff19730188f3bac3a953697",
+        "serviceExecute": true,
+        "anonymousExecute": false,
+        "authenticatedExecute": false
+      },
+      {
+        "function": "rcap_service_save_program_translation",
+        "identity": "p_slug text, p_actor uuid, p_version bigint, p_source jsonb, p_copy jsonb, p_request uuid",
+        "sourceSha256": "e66fa8ca1445de8623e1e1799e4823de5bce3d05831f3c1c66ddd170811a2247",
+        "serviceExecute": true,
+        "anonymousExecute": false,
+        "authenticatedExecute": false
+      }
+    ],
+    "functionHashesMatchIsolatedAcceptance": true,
+    "productionBusinessRecordMutations": false
+  },
+  "cutover": {
+    "at": "2026-10-10T16:55:14.544Z",
+    "deploymentId": "dpl_GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+    "hosts": [
+      "legaleasepartner.com",
+      "www.legaleasepartner.com"
+    ],
+    "rollback": "dpl_7z4CJnAo5HchYo5CEpuwq2dJdSJg"
+  },
+  "aliasesBefore": {
+    "checkedAt": "2026-10-10T16:51:43.409Z",
+    "aliases": [
+      {
+        "host": "legaleasepartner.com",
+        "deploymentId": "dpl_7z4CJnAo5HchYo5CEpuwq2dJdSJg",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "www.legaleasepartner.com",
+        "deploymentId": "dpl_7z4CJnAo5HchYo5CEpuwq2dJdSJg",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "legalease.com",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "www.legalease.com",
+        "redirect": null,
+        "errorStatus": 404
+      },
+      {
+        "host": "expungement.ai",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "www.expungement.ai",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": "expungement.ai"
+      },
+      {
+        "host": "legalease-partner-dashboard-clean.vercel.app",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "legalease-partner-dashboard-clean-roger947s-projects.vercel.app",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      }
+    ]
+  },
+  "aliasesAfter": {
+    "checkedAt": "2026-10-10T16:56:17.615Z",
+    "aliases": [
+      {
+        "host": "legaleasepartner.com",
+        "deploymentId": "dpl_GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "www.legaleasepartner.com",
+        "deploymentId": "dpl_GA7XeC5wrpVDfAaV4aFbLyUgTdqa",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "legalease.com",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "www.legalease.com",
+        "redirect": null,
+        "errorStatus": 404
+      },
+      {
+        "host": "expungement.ai",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "www.expungement.ai",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": "expungement.ai"
+      },
+      {
+        "host": "legalease-partner-dashboard-clean.vercel.app",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      },
+      {
+        "host": "legalease-partner-dashboard-clean-roger947s-projects.vercel.app",
+        "deploymentId": "dpl_EF6AQYazF1KRRbV8xvCAJp4zkS3X",
+        "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "redirect": null
+      }
+    ]
+  },
+  "checks": {
+    "github": "Both exact accepted-head checks passed",
+    "stagedRoutes": 12,
+    "publicRoutes": 24,
+    "allRoutesPassed": true,
+    "observedErrorFatalRuntimeGroups": 0,
+    "unrelatedDomainResponsesUnchanged": true
+  },
+  "acceptance": {
+    "isolatedAuthenticatedBrowser": "PASS: Save, automatic Spanish preparation, exact bilingual previews, one final confirmation, protected Start, verified publication and idempotent replay",
+    "providerBoundary": "Replay of separately verified genuine Vercel/OpenAI response through explicit local dependency injection",
+    "genuineProvider": {
+      "environment": "real server module executed inside Vercel build environment",
+      "request": {
+        "status": 200,
+        "requestId": "req_8580ea8e734f4b69956f14e6b09dffe3"
+      },
+      "fields": 7,
+      "databaseWrites": 0
+    },
+    "mergedBuildProvider": {
+      "environment": "real server module executed inside Vercel build environment",
+      "request": {
+        "status": 200,
+        "requestId": "req_4ba0decf6f184442840b8307d5085d53"
+      },
+      "fields": 7,
+      "databaseWrites": 0
+    },
+    "productionOwnerAuthenticatedAcceptance": "Not performed; pending owner",
+    "productionTestRecordsCreated": false
+  },
+  "rollback": {
+    "deploymentId": "dpl_7z4CJnAo5HchYo5CEpuwq2dJdSJg",
+    "sha": "7d233f1fb02ba7e30dde89690ad6d4574e627447",
+    "state": "READY",
+    "routeChecks": "PASS",
+    "action": "Reassign only the two RCAP aliases to the retained deployment if release-critical failure occurs"
+  },
+  "remainingReleaseBlockers": []
+}

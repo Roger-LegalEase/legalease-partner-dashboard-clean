@@ -1,0 +1,298 @@
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN READBACK REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN READBACK REFUSED — only the forward-chain readback and migration phases are enabled
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+PRODUCTION FORWARD-CHAIN MIGRATION REFUSED — exact Production forward-chain inputs are unavailable
+✖ committed gates exactly bind captured before and source-derived frozen after (78.57239ms)
+✖ actual migrate entrypoint issues exactly one reviewed transaction after immediate readback (9.64372ms)
+✖ exact corrected state is a no-write success (6.501345ms)
+▶ capture drift and concurrent prewrite change refuse before mutation
+  ✖ packet (7.604955ms)
+  ✖ canonical (7.716352ms)
+  ✖ full (7.719328ms)
+  ✖ immediate (7.60233ms)
+✖ capture drift and concurrent prewrite change refuse before mutation (31.641962ms)
+✔ partial repair cannot masquerade as captured or corrected state (7.626265ms)
+✖ read-only phase retains canonical drift refusal and never applies correction (6.662696ms)
+✔ unauthorized phase and missing prerequisites refuse (14.341138ms)
+▶ independent authorization binds owner timestamp tuple phase SQL and readback before service access
+  ✔ owner (6.474395ms)
+  ✔ timestamp (6.266377ms)
+  ✔ phase (5.851292ms)
+  ✔ status (7.43656ms)
+  ✔ fingerprint (6.730382ms)
+  ✔ sql (5.393267ms)
+  ✔ history (6.237252ms)
+  ✔ applicationSha (7.38294ms)
+  ✔ workerSourceSha (5.352721ms)
+  ✔ workerDigest (5.65183ms)
+  ✔ workerInputFingerprint (5.515485ms)
+  ✔ productionProjectRef (5.357149ms)
+✔ independent authorization binds owner timestamp tuple phase SQL and readback before service access (75.861228ms)
+✖ transaction refusal and postwrite drift never report a pass (5.693577ms)
+✔ historical authorization remains exact under supersededRecord and supplies no new permission (7.193147ms)
+✔ funding closure refuses missing state (9.906862ms)
+✔ funding closure refuses changed state (8.622103ms)
+✔ funding closure refuses extra state (8.380593ms)
+✔ funding closure refuses old-packet-only state (8.936109ms)
+✔ funding appearance between initial and immediate readback refuses before write (6.598316ms)
+✔ changed captured prerequisite refuses before write (7.903352ms)
+✔ native Acceptance funding source proof exactly matches the source-derived four-object catalog (0.944353ms)
+✔ Production successor tuple accepts exact identities and rejects each wrong identity or historical permission (1.847408ms)
+✖ Production deployment and smoke receipt binding has an exact successor success path and rejects a false receipt (0.67024ms)
+  ok   canonical_production_project_is_authenticated — authenticated project ref=wwtwtsmywnckfkdaqqeg
+  ok   frozen_candidate_migration_hashes_and_order_exact — 3/3 migration files match the authorized SHA-256 values in exact order
+  ok   baseline_phases_49_55_readback_passed — tables=6/6; payment columns=3/3; functions=6/6
+  ok   clinic_schema_initial_state_is_empty_or_complete — empty=false; complete=true; tables=10; RLS=10; functions=22
+  ok   clinic_migrations_applied_in_exact_order — already_exact_source_postconditions_no_write
+  ok   all_10_clinic_tables_exist_with_rls_enabled — tables=10/10; RLS=10/10
+  ok   all_22_clinic_functions_exist — functions=22/22; append-only triggers=2/2
+PRODUCTION CLINIC MIGRATE PASS — exact frozen Clinic sequence and direct readback are complete
+PRODUCTION LEGAL AID MIGRATE REFUSED — Command failed: /usr/local/share/nvm/versions/node/v24.21.0/bin/node --test scripts/rcap-hosted-legal-aid-actions.test.mjs
+PRODUCTION CLINIC MIGRATE REFUSED — production_release_tuple_mismatch:workerDigest
+  ok   canonical_production_project_is_authenticated — authenticated project ref=wwtwtsmywnckfkdaqqeg
+  ok   frozen_candidate_migration_hashes_and_order_exact — 3/3 migration files match the authorized SHA-256 values in exact order
+  ok   baseline_phases_49_55_readback_passed — tables=6/6; payment columns=3/3; functions=6/6
+  ok   clinic_schema_initial_state_is_empty_or_complete — empty=false; complete=true; tables=10; RLS=10; functions=22
+PRODUCTION CLINIC MIGRATE REFUSED — clinic_source_postconditions_failed:legal_aid:migration_not_certified: [{"name":"trigger:packet_render_jobs.clinic_sync_packet_reservation_after_job","expected":{"enabled":"O","definition":"CREATE TRIGGER clinic_sync_packet_reservation_after_job AFTER UPDATE OF status, accounting_result, credit_ledger_id ON public.packet_render_jobs FOR EACH ROW EXECUTE FUNCTION clinic_sync_packet_reservation()"},"actual":null}];clinic_jurisdiction:catalog_key_set_mismatch;clinic_base:catalog_key_set_mismatch
+  ok   canonical_production_project_is_authenticated — authenticated project ref=wwtwtsmywnckfkdaqqeg
+  ok   frozen_candidate_migration_hashes_and_order_exact — 3/3 migration files match the authorized SHA-256 values in exact order
+  ok   baseline_phases_49_55_readback_passed — tables=6/6; payment columns=3/3; functions=6/6
+  FAIL clinic_schema_initial_state_is_empty_or_complete — empty=false; complete=false; tables=10; RLS=9; functions=22
+PRODUCTION CLINIC MIGRATE REFUSED — clinic_schema_initial_state_is_empty_or_complete
+  ok   canonical_production_project_is_authenticated — authenticated project ref=wwtwtsmywnckfkdaqqeg
+  ok   frozen_candidate_migration_hashes_and_order_exact — 3/3 migration files match the authorized SHA-256 values in exact order
+  ok   baseline_phases_49_55_readback_passed — tables=6/6; payment columns=3/3; functions=6/6
+  ok   clinic_schema_initial_state_is_empty_or_complete — empty=false; complete=true; tables=10; RLS=10; functions=22
+PRODUCTION CLINIC MIGRATE REFUSED — clinic_source_postconditions_failed:legal_aid:migration_not_certified: [{"name":"function:clinic_actor_can_event(uuid,uuid,text)","expected":{"owner":"postgres","execute":{"anon":false,"service_role":true,"authenticated":false},"definition":"CREATE OR REPLACE FUNCTION public.clinic_actor_can_event(p_event_id uuid, p_actor_user_id uuid, p_permission text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select exists (\n    select 1 from public.clinic_events e\n    join public.partner_users pu on pu.auth_user_id=p_actor_user_id and pu.status='active'\n    where e.id=p_event_id and (\n      (pu.role='internal_admin' and pu.partner_slug is null)\n      or (pu.role='partner_admin' and pu.partner_slug=e.partner_slug)\n    )\n  ) or exists (\n    select 1 from public.clinic_event_staff s\n    join public.partner_users pu on pu.id=s.partner_user_id and pu.status='active'\n    join public.clinic_events e on e.id=s.event_id and e.partner_slug=pu.partner_slug\n    where s.event_id=p_event_id and s.status='approved'\n      and pu.auth_user_id=p_actor_user_id and p_permission=any(s.permissions)\n  )\n$function$\n","publicExecute":false},"actual":{"owner":"postgres","execute":{"anon":false,"service_role":false,"authenticated":false},"definition":"CREATE OR REPLACE FUNCTION public.clinic_actor_can_event(p_event_id uuid, p_actor_user_id uuid, p_permission text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select exists (\n    select 1 from public.clinic_events e\n    join public.partner_users pu on pu.auth_user_id=p_actor_user_id and pu.status='active'\n    where e.id=p_event_id and (\n      (pu.role='internal_admin' and pu.partner_slug is null)\n      or (pu.role='partner_admin' and pu.partner_slug=e.partner_slug)\n    )\n  ) or exists (\n    select 1 from public.clinic_event_staff s\n    join public.partner_users pu on pu.id=s.partner_user_id and pu.status='active'\n    join public.clinic_events e on e.id=s.event_id and e.partner_slug=pu.partner_slug\n    where s.event_id=p_event_id and s.status='approved'\n      and pu.auth_user_id=p_actor_user_id and p_permission=any(s.permissions)\n  )\n$function$\n","publicExecute":false}}];clinic_jurisdiction:catalog_key_set_mismatch;clinic_base:catalog_key_set_mismatch
+▶ actual Clinic and Legal Aid entrypoints accept complete source state without replay and reject partial state or false receipts
+  ✔ clinic_migrate: exact tuple and complete current state succeed with zero database writes (150.700844ms)
+  ✖ legal_aid_migrate: exact tuple and complete current state succeed with zero database writes (556.232435ms)
+  ✔ wrong tuple is refused before any service request (0.617753ms)
+  ✔ missing cross-table reservation trigger fails the actual Clinic no-write branch (95.224ms)
+  ✔ partial schema and a claimed successful receipt cannot substitute for current source postconditions (86.516608ms)
+  ✔ complete object names with drifted privileges still fail the real Clinic entrypoint (93.890009ms)
+✖ actual Clinic and Legal Aid entrypoints accept complete source state without replay and reject partial state or false receipts (5277.15515ms)
+✔ public verification uses current authorized deployment identities and cannot use a historical tuple (0.832083ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 30
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6119.496143
+
+✖ failing tests:
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:56:1
+✖ committed gates exactly bind captured before and source-derived frozen after (78.57239ms)
+  Error: independent_forward_correction_authorization_missing
+      at requireForwardCorrectionAuthorization (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-packet-forward-correction.mjs:131:87)
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:60:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:62:1
+✖ actual migrate entrypoint issues exactly one reviewed transaction after immediate readback (9.64372ms)
+  AssertionError [ERR_ASSERTION]: exact Production forward-chain inputs are unavailable
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:63:33)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:68:1
+✖ exact corrected state is a no-write success (6.501345ms)
+  AssertionError [ERR_ASSERTION]: exact Production forward-chain inputs are unavailable
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:69:46)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:73:70
+✖ packet (7.604955ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /before_state_exact/. Input:
+  
+  'exact Production forward-chain inputs are unavailable'
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:78:143)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:73:62)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'exact Production forward-chain inputs are unavailable',
+    expected: /before_state_exact/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:73:70
+✖ canonical (7.716352ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /before_state_exact/. Input:
+  
+  'exact Production forward-chain inputs are unavailable'
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:78:143)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:73:62)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'exact Production forward-chain inputs are unavailable',
+    expected: /before_state_exact/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:73:70
+✖ full (7.719328ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /before_state_exact/. Input:
+  
+  'exact Production forward-chain inputs are unavailable'
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:78:143)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:73:62)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'exact Production forward-chain inputs are unavailable',
+    expected: /before_state_exact/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:73:70
+✖ immediate (7.60233ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /before_state_exact/. Input:
+  
+  'exact Production forward-chain inputs are unavailable'
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:78:143)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:73:62)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'exact Production forward-chain inputs are unavailable',
+    expected: /before_state_exact/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:85:1
+✖ read-only phase retains canonical drift refusal and never applies correction (6.662696ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'exact Production forward-chain inputs are unavailable'
+  - 'current_canonical_matter_rpc_exact'
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:86:101)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'exact Production forward-chain inputs are unavailable',
+    expected: 'current_canonical_matter_rpc_exact',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-forward-chain-correction.test.mjs:99:1
+✖ transaction refusal and postwrite drift never report a pass (5.693577ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-forward-chain-correction.test.mjs:100:102)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/rcap-production-migration-contract.test.mjs:61:1
+✖ Production deployment and smoke receipt binding has an exact successor success path and rejects a false receipt (0.67024ms)
+  Error: production_phase_not_authorized_for_current_release
+      at requireProductionPhaseAuthorization (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/grade-a-launch-control/production-preflight-authorization.mjs:74:19)
+      at requireProductionDeploymentBinding (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-migration-contract.mjs:48:25)
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-migration-contract.test.mjs:77:84)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at scripts/rcap-production-migration-contract.test.mjs:130:69
+✖ legal_aid_migrate: exact tuple and complete current state succeed with zero database writes (556.232435ms)
+  AssertionError [ERR_ASSERTION]: Command failed: /usr/local/share/nvm/versions/node/v24.21.0/bin/node --test scripts/rcap-hosted-legal-aid-actions.test.mjs
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-migration-contract.test.mjs:132:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async TestContext.<anonymous> (file:///tmp/rcap-baseline-tests-zpni3uup/scripts/rcap-production-migration-contract.test.mjs:130:61)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

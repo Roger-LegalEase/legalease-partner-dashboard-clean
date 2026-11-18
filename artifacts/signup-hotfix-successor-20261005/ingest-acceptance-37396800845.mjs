@@ -1,0 +1,15 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import {advancePinnedRecords} from '/tmp/expai-signup-successor-controls-20261005/scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs';
+import {verifyPinnedPublication,verifyPinnedSuccessor,verifyPinnedBinding,PUBLICATION,CANDIDATE} from '/tmp/expai-signup-successor-controls-20261005/scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs';
+import {requireCurrentReleaseCandidate} from '/tmp/expai-signup-successor-controls-20261005/scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
+const root=process.cwd(),dir='hosted-acceptance-evidence/worker/acceptance-37396800845/',read=p=>JSON.parse(fs.readFileSync(p));
+const ref=f=>{const b=fs.readFileSync(dir+f);return {path:dir+f,bytes:b.length,sha256:createHash('sha256').update(b).digest('hex')};};
+const run=read(dir+'run.json'),jobs=read(dir+'jobs.json'),log=fs.readFileSync(dir+'native.log','utf8'),previous=read(PUBLICATION);
+assert.equal(run.id,37396800845);assert.equal(run.run_attempt,1);assert.equal(run.head_sha,'3d9c2033bdaaecc29be41f06628094e95f2a1c98');assert.equal(run.conclusion,'success');
+const job=jobs.jobs.find(j=>j.id===112054606663);assert(job);assert(job.steps.every(s=>s.conclusion==='success'));
+for(const marker of ['Supabase is not configured','worker_stop_requested','shutdown_complete','SOURCE BINDING: PASS','OCI REVISION: PRESENT','config env matches: 0','layer history matches: 0','acceptance is read-only: no push, no deploy, no claim'])assert(log.includes(marker),marker);
+const a={runId:run.id,jobId:job.id,runAttempt:run.run_attempt,workflowSourceSha:run.head_sha,sourceSha:previous.sourceSha,tag:previous.imageTag,digest:previous.immutableRegistryDigest,readOnly:true,conclusion:run.conclusion,nativeRunMetadata:ref('run.json'),nativeJobMetadata:ref('jobs.json'),nativeLog:ref('native.log')};
+fs.writeFileSync(dir+'verification-receipt.json',JSON.stringify({...a,receiptKind:'Local verification of downloaded native run/job/log; not a workflow-produced artifact'},null,2)+'\n');a.verificationReceipt=ref('verification-receipt.json');
+const binding=advancePinnedRecords(root,{...previous,runtimeAccepted:true,imageAcceptance:a});
+const publication=verifyPinnedPublication(root),pending=verifyPinnedSuccessor(root);assert(publication.current);assert(pending.current);assert(binding.bindingVerified);assert(!binding.current);assert(!binding.productionAuthorized);assert.throws(()=>requireCurrentReleaseCandidate(root));
+fs.writeFileSync('/workspaces/legalease-partner-dashboard-clean/artifacts/signup-hotfix-successor-20261005/acceptance-transition-37396800845.json',JSON.stringify({publication,pending,binding,nativeAcceptance:a,priorPublicationPreserved:true,dispatchRefused:true},null,2)+'\n');console.log(JSON.stringify({publication,pending,binding},null,2));

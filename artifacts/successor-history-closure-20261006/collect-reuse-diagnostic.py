@@ -1,0 +1,27 @@
+import os,json,pathlib,urllib.request,urllib.error,zipfile,io,hashlib
+out=pathlib.Path('artifacts/successor-history-closure-20261006/reuse-diagnostic');out.mkdir(exist_ok=True);runid=37458687384;base='https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean';headers={'Authorization':'Bearer '+os.environ['RCAP_ACTIONS_DISPATCH_TOKEN'],'Accept':'application/vnd.github+json'}
+def get(p):return urllib.request.urlopen(urllib.request.Request(base+p,headers=headers),timeout=30).read()
+def redirected(p):
+ class NoRedirect(urllib.request.HTTPRedirectHandler):
+  def redirect_request(self,*a):return None
+ try:
+  return urllib.request.build_opener(NoRedirect).open(urllib.request.Request(base+p,headers=headers),timeout=30).read()
+ except urllib.error.HTTPError as e:
+  if e.code!=302:raise
+  return urllib.request.urlopen(e.headers['Location'],timeout=60).read()
+run=json.loads(get('/actions/runs/'+str(runid)));jobs=json.loads(get('/actions/runs/'+str(runid)+'/jobs'));(out/'closure-run.json').write_text(json.dumps(run,indent=2));(out/'closure-jobs.json').write_text(json.dumps(jobs,indent=2));print({k:run[k] for k in ['id','status','conclusion']})
+for j in jobs['jobs']:
+ if j['name'].startswith('Exact successor'):
+  print({k:j[k] for k in ['id','status','conclusion']});print([(s['name'],s['status'],s['conclusion']) for s in j['steps']])
+if run['status']=='completed':
+ artifacts=json.loads(get('/actions/runs/'+str(runid)+'/artifacts'))['artifacts'];(out/'closure-artifacts.json').write_text(json.dumps(artifacts,indent=2));print([{k:a[k] for k in ['id','name','digest']} for a in artifacts])
+ for a in artifacts:
+  b=redirected('/actions/artifacts/'+str(a['id'])+'/zip');assert 'sha256:'+hashlib.sha256(b).hexdigest()==a['digest'];(out/'closure-native.zip').write_bytes(b);z=zipfile.ZipFile(io.BytesIO(b));assert all(not n.startswith('/') and '..' not in n.split('/') for n in z.namelist());z.extractall(out/'closure-native');(out/'closure-artifact.json').write_text(json.dumps(a,indent=2));
+  for name in ['worker-rollback.json','candidate-created.json','candidate-ready.json','admission.json']:
+   p=out/'closure-native'/name
+   if p.exists():print(name,p.read_text())
+ if run['conclusion']!='success':
+  for j in jobs['jobs']:
+   if j['name'].startswith('Exact successor'):
+    b=redirected('/actions/jobs/'+str(j['id'])+'/logs');(out/'closure-native-job.log').write_bytes(b)
+    lines=b.decode(errors='replace').splitlines();interesting=[s for s in lines if any(x in s for x in ['Error:','AssertionError','HTTP ','::error::','error:','Error ['])];print('\n'.join(interesting[-15:]))

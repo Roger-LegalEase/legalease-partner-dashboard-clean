@@ -1,0 +1,17 @@
+READY_TO_RUN	Establish verified corpus environment	﻿2026-10-11T00:36:15.7873450Z ##[group]Run set -euo pipefail
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7873716Z ^[[36;1mset -euo pipefail^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7874045Z ^[[36;1mcorpus="$GITHUB_WORKSPACE/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7874391Z ^[[36;1mif [ ! -d "$corpus" ]; then^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7874825Z ^[[36;1m  test -n "$GH_TOKEN" || { echo "CORPUS_ENVIRONMENT_REFUSED: SOURCE_CORPUS_READ_TOKEN must read the pinned private source-artifacts release"; exit 1; }^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7875312Z ^[[36;1m  bash scripts/rcap-corpus/bootstrap-private-corpus.sh^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7875553Z ^[[36;1mfi^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7875728Z ^[[36;1mexport MASTER_LIBRARY_SOURCE_DIR="$corpus"^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7875959Z ^[[36;1mexport RCAP_BUNDLE_EXTRACT="$corpus"^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7876492Z ^[[36;1mnode --input-type=module -e 'import { requireMasterLibraryEnvironment } from "./scripts/lib/corpus-index-paths.mjs"; requireMasterLibraryEnvironment({repoRoot:process.cwd()});'^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7877263Z ^[[36;1mprintf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"^[[0m
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7912671Z shell: /usr/bin/bash -e {0}
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7912895Z env:
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7913057Z   GH_TOKEN: 
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.7913232Z ##[endgroup]
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.8059468Z CORPUS_ENVIRONMENT_REFUSED: SOURCE_CORPUS_READ_TOKEN must read the pinned private source-artifacts release
+READY_TO_RUN	Establish verified corpus environment	2026-10-11T00:36:15.8066926Z ##[error]Process completed with exit code 1.
