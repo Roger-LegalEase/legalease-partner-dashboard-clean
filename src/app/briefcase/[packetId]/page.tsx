@@ -243,7 +243,7 @@ function SavedResultValue({ item }: { item: BriefcasePresentationItem }) {
           </li>
         ))}
       </ol>
-      <Link className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
+      <Link className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="#ask-wilma">
         <MessageCircle className="h-4 w-4" aria-hidden="true" /> <LocalizedRuntimeText text={"Ask Wilma to explain this"} />
       </Link>
     </div>
